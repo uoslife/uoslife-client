@@ -5,9 +5,10 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -16,7 +17,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import messaging from '@react-native-firebase/messaging';
+import {PermissionsAndroid} from 'react-native';
 import {
   Colors,
   DebugInstructions,
@@ -61,6 +63,22 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS === 'android') {
+        await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+        );
+      }
+
+      const authStatus = await messaging().requestPermission();
+      const fcmToken = await messaging().getToken();
+
+      console.debug(`FCM ${Platform.OS} status = ${authStatus}`);
+      console.debug(`FCM ${Platform.OS} token = ${fcmToken}`);
+    })();
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>
