@@ -17,7 +17,9 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
 import {PermissionsAndroid} from 'react-native';
 import {
   Colors,
@@ -26,6 +28,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import notifee from '@notifee/react-native';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -64,16 +67,46 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const onMessageReceived = async (
+    message: FirebaseMessagingTypes.RemoteMessage,
+  ) => {
+    if (!message.data) {
+      return;
+    }
+    return notifee.displayNotification(JSON.parse(message.data.notifee));
+  };
+
   useEffect(() => {
     (async () => {
+      messaging().onMessage(onMessageReceived);
+      messaging().setBackgroundMessageHandler(onMessageReceived);
+
       if (Platform.OS === 'android') {
         await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
         );
+
+        await notifee.createChannelGroup({
+          id: 'notification',
+          name: '알림',
+        });
+
+        await notifee.createChannel({
+          id: 'ETC',
+          name: '알림',
+          groupId: 'notification',
+        });
       }
 
       const authStatus = await messaging().requestPermission();
       const fcmToken = await messaging().getToken();
+
+      await notifee.displayNotification({
+        title: 'test',
+        body: 'test',
+        ios: {sound: 'default'},
+        android: {channelId: 'ETC'},
+      });
 
       console.debug(`FCM ${Platform.OS} status = ${authStatus}`);
       console.debug(`FCM ${Platform.OS} token = ${fcmToken}`);
