@@ -1,16 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useEffect} from 'react';
-import type {PropsWithChildren} from 'react';
 import {
+  Button,
   Platform,
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -21,58 +12,16 @@ import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
 import {PermissionsAndroid} from 'react-native';
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import notifee from '@notifee/react-native';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const onMessageReceived = async (
     message: FirebaseMessagingTypes.RemoteMessage,
   ) => {
-    if (!message.data) {
-      return;
-    }
+    if (!message.data) return;
     return notifee.displayNotification(JSON.parse(message.data.notifee));
   };
 
@@ -82,31 +31,24 @@ function App(): JSX.Element {
       messaging().setBackgroundMessageHandler(onMessageReceived);
 
       if (Platform.OS === 'android') {
-        await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-        );
-
-        await notifee.createChannelGroup({
-          id: 'notification',
-          name: '알림',
-        });
-
-        await notifee.createChannel({
-          id: 'ETC',
-          name: '알림',
-          groupId: 'notification',
-        });
+        await Promise.all([
+          PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+          ),
+          notifee.createChannelGroup({
+            id: 'notification',
+            name: '알림',
+          }),
+          notifee.createChannel({
+            id: 'ETC',
+            name: '알림',
+            groupId: 'notification',
+          }),
+        ]);
       }
 
       const authStatus = await messaging().requestPermission();
       const fcmToken = await messaging().getToken();
-
-      await notifee.displayNotification({
-        title: 'test',
-        body: 'test',
-        ios: {sound: 'default'},
-        android: {channelId: 'ETC'},
-      });
 
       console.debug(`FCM ${Platform.OS} status = ${authStatus}`);
       console.debug(`FCM ${Platform.OS} token = ${fcmToken}`);
@@ -114,55 +56,50 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        backgroundColor="transparent"
+        translucent
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+
+      <View style={StyleSheet.absoluteFillObject}>
+        <View style={styles.container}>
+          <Text style={styles.title}>UOSLIFE PoC</Text>
+          <Text style={styles.subtitle}>with React Native</Text>
+          <Button
+            title="Push Test"
+            onPress={() =>
+              notifee.displayNotification({
+                title: 'UOSLIFE PoC',
+                body: 'Push 권한 설정이 확인되었습니다.',
+                ios: {sound: 'default'},
+                android: {channelId: 'ETC'},
+              })
+            }
+          />
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: Colors.darker,
   },
-  sectionTitle: {
+  title: {color: Colors.light, fontSize: 32, fontWeight: '700'},
+  subtitle: {
+    color: Colors.light,
     fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
     fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+    marginBottom: 20,
   },
 });
 
