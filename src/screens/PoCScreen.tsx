@@ -3,9 +3,10 @@ import {Button, StyleSheet, Text, View} from 'react-native';
 import notifee from '@notifee/react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useConfigContext} from '../hooks/ConfigContext';
+import DeviceInfo from 'react-native-device-info';
 
 const PoCScreen: React.FC = () => {
-  const {isLoading, config} = useConfigContext();
+  const {isLoading, config, environment} = useConfigContext();
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
@@ -14,7 +15,12 @@ const PoCScreen: React.FC = () => {
         <Text style={styles.subtitle}>with React Native</Text>
 
         {!isLoading && (
-          <Text style={styles.appUrl}>APP_URL = {config?.APP_URL}</Text>
+          <>
+            <Text style={styles.bundleInfo}>
+              {DeviceInfo.getBundleId()} ({environment})
+            </Text>
+            <Text style={styles.appUrl}>WEBVIEW_URL = {config?.APP_URL}</Text>
+          </>
         )}
 
         <Button
@@ -47,6 +53,12 @@ const styles = StyleSheet.create({
   subtitle: {
     color: Colors.light,
     fontSize: 24,
+    fontWeight: '400',
+    marginBottom: 20,
+  },
+  bundleInfo: {
+    color: Colors.light,
+    fontSize: 16,
     fontWeight: '400',
   },
   appUrl: {
