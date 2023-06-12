@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import notifee from '@notifee/react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useConfigContext} from '../hooks/ConfigContext';
 import DeviceInfo from 'react-native-device-info';
+import codePush from 'react-native-code-push';
 
 const PoCScreen: React.FC = () => {
   const {isLoading, config, environment} = useConfigContext();
+  const [codePushVersion, setCodePushVersion] =
+    useState<string>('NO_CODE_PUSH');
+
+  useEffect(() => {
+    (async () => {
+      const metadata = await codePush.getUpdateMetadata();
+      if (metadata) setCodePushVersion(metadata.label);
+    })();
+  }, []);
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
@@ -18,6 +28,9 @@ const PoCScreen: React.FC = () => {
           <>
             <Text style={styles.bundleInfo}>
               {DeviceInfo.getBundleId()} ({environment})
+            </Text>
+            <Text style={styles.bundleInfo}>
+              CODE_PUSH_VERSION = {codePushVersion}
             </Text>
             <Text style={styles.appUrl}>WEBVIEW_URL = {config?.APP_URL}</Text>
           </>
