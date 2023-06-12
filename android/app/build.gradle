@@ -51,16 +51,18 @@ android {
         production {
             dimension 'uoslife'
             applicationId 'com.beyondconnect.uoslife'
+            resValue "string", "CodePushDeploymentKey", '"If7Mws80gp2jcVZPFFDxsJIszDrMlMmOOUOXM"'
         }
         alpha {
             dimension 'uoslife'
             applicationId 'com.beyondconnect.alpha.uoslife'
+            resValue "string", "CodePushDeploymentKey", '"ur1Tn5svNZAMrGxMdrKxKzbCO0cYf3c097pIK"'
         }
     }
 
     buildTypes {
         debug {
-
+            resValue "string", "CodePushDeploymentKey", '""'
         }
         release {
             signingConfig signingConfigs.debug
@@ -98,3 +100,4 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: file("../../node_modules/react-native-code-push/android/codepush.gradle")
