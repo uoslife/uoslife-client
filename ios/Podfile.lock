@@ -410,6 +410,8 @@ PODS:
     - React-jsi (= 0.71.10)
     - React-logger (= 0.71.10)
     - React-perflogger (= 0.71.10)
+  - RNDeviceInfo (10.6.0):
+    - React-Core
   - RNFBApp (18.0.0):
     - Firebase/CoreOnly (= 10.10.0)
     - React-Core
@@ -467,6 +469,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -558,6 +561,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -617,14 +622,15 @@ SPEC CHECKSUMS:
   React-RCTText: 7404fd01809244d79d456f92cfe6f9fbadf69209
   React-RCTVibration: d13cc2d63286c633393d3a7f6f607cc2a09ec011
   React-runtimeexecutor: a9a1cd79996c9a0846e3232ecb25c64e1cc0172e
-  ReactCommon: e7a0cdbb67f8da60677db83d693dea816780a6e9
-  RNFBApp: 10aa0ab560e30186c39a9756846945cac6499ea7
-  RNFBMessaging: a0cf20be8f41d89af98f5611d5db432c59371f68
+  ReactCommon: 65718685d4095d06b4b1af8042e12f1df2925c31
+  RNDeviceInfo: 475a4c447168d0ad4c807e48ef5e0963a0f4eb1b
+  RNFBApp: 7da45c10070789f5e4337a5534139976e8d74e0a
+  RNFBMessaging: fd543fa2aa4688fac4e88b1ce54e39cac4339b32
   RNGestureHandler: 026038a97d4c8649ce397a22e162ca58b4e6c230
   RNNotifee: 05692d7bb42b6c718a3906aeb8431c48ff2e8097
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   Yoga: e7ea9e590e27460d28911403b894722354d73479
 
-PODFILE CHECKSUM: d0106d4e76e0d48f457c653a2eb93637f26cc3ca
+PODFILE CHECKSUM: de0d01880b162498712d6bc46b7da97f991c35fb
 
 COCOAPODS: 1.12.1

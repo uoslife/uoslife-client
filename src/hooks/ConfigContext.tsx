@@ -8,8 +8,14 @@ import React, {
 } from 'react';
 import {ConfigAPI} from '../api';
 import {RemoteConfig} from '../api/Config.model';
+import DeviceInfo from 'react-native-device-info';
 
-type ConfigContextProps = {isLoading: boolean; config: RemoteConfig | null};
+type AppEnvironment = 'production' | 'alpha';
+type ConfigContextProps = {
+  isLoading: boolean;
+  config: RemoteConfig | null;
+  environment: AppEnvironment;
+};
 
 const ConfigContext = createContext<ConfigContextProps>(
   {} as ConfigContextProps,
@@ -17,7 +23,15 @@ const ConfigContext = createContext<ConfigContextProps>(
 
 const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
   const [config, setConfig] = useState<RemoteConfig | null>(null);
+
   const isLoading = useMemo<boolean>(() => !config, [config]);
+  const environment = useMemo<AppEnvironment>(
+    () =>
+      DeviceInfo.getBundleId().split('.').includes('alpha')
+        ? 'alpha'
+        : 'production',
+    [],
+  );
 
   const getRemoteConfig = async () => {
     return ConfigAPI.getRemoteConfig()
@@ -30,7 +44,7 @@ const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
   }, []);
 
   return (
-    <ConfigContext.Provider value={{isLoading, config}}>
+    <ConfigContext.Provider value={{isLoading, environment, config}}>
       {children}
     </ConfigContext.Provider>
   );
