@@ -1,6 +1,7 @@
 package com.beyondconnect.uoslife;
 
 import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
@@ -14,7 +15,8 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(null);
+    super.onCreate(savedInstanceState);
+    org.devio.rn.splashscreen.SplashScreen.show(this);
   }
 
   @Override
