@@ -1,12 +1,13 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
-import {StatusBar, useColorScheme} from 'react-native';
+import {StatusBar, Text, useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
+import codePush from 'react-native-code-push';
 
-const App: React.FC = () => {
+let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
@@ -30,4 +31,5 @@ const App: React.FC = () => {
   );
 };
 
+if (!__DEV__) App = codePush(App);
 export default App;
