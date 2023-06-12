@@ -2,13 +2,21 @@ import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import notifee from '@notifee/react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useConfigContext} from '../hooks/ConfigContext';
 
 const PoCScreen: React.FC = () => {
+  const {isLoading, config} = useConfigContext();
+
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <View style={styles.container}>
         <Text style={styles.title}>UOSLIFE PoC</Text>
         <Text style={styles.subtitle}>with React Native</Text>
+
+        {!isLoading && (
+          <Text style={styles.appUrl}>APP_URL = {config?.APP_URL}</Text>
+        )}
+
         <Button
           title="Push Test"
           onPress={() =>
@@ -39,6 +47,11 @@ const styles = StyleSheet.create({
   subtitle: {
     color: Colors.light,
     fontSize: 24,
+    fontWeight: '400',
+  },
+  appUrl: {
+    color: Colors.light,
+    fontSize: 16,
     fontWeight: '400',
     marginBottom: 20,
   },

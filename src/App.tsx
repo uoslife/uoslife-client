@@ -4,6 +4,7 @@ import {StatusBar, useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import {NotificationService} from './services/notification';
+import ConfigContext from './hooks/ConfigContext';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -16,14 +17,16 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <NavigationContainer>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor="transparent"
-        translucent
-      />
-      <RootStackNavigator />
-    </NavigationContainer>
+    <ConfigContext>
+      <NavigationContainer>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor="transparent"
+          translucent
+        />
+        <RootStackNavigator />
+      </NavigationContainer>
+    </ConfigContext>
   );
 };
 
