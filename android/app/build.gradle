@@ -40,10 +40,8 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('uoslife.keystore')
+            keyAlias 'android_key'
         }
     }
 
@@ -65,8 +63,9 @@ android {
             resValue "string", "CodePushDeploymentKey", '""'
         }
         release {
-            signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources true
+            minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
