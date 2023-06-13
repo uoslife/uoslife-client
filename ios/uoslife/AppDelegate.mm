@@ -1,19 +1,24 @@
 #import "AppDelegate.h"
 
+#import <React/RCTBundleURLProvider.h>
 #import <CodePush/CodePush.h>
 #import <Firebase.h>
-#import <React/RCTBundleURLProvider.h>
+#import <RNSplashScreen.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [FIRApp configure];
-
   self.moduleName = @"uoslife";
   self.initialProps = @{};
-
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  [FIRApp configure];
+  
+  bool didFinish = [super application:application didFinishLaunchingWithOptions:launchOptions];
+  
+  [RNSplashScreen show];
+  
+  return didFinish;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

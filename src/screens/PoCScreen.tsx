@@ -5,6 +5,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useConfigContext} from '../hooks/ConfigContext';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
+import SplashScreen from 'react-native-splash-screen';
 
 const PoCScreen: React.FC = () => {
   const {isLoading, config, environment} = useConfigContext();
@@ -17,6 +18,11 @@ const PoCScreen: React.FC = () => {
       if (metadata) setCodePushVersion(metadata.label);
     })();
   }, []);
+
+  useEffect(() => {
+    if (isLoading) return;
+    SplashScreen.hide();
+  }, [isLoading]);
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
@@ -40,8 +46,8 @@ const PoCScreen: React.FC = () => {
           title="Push Test"
           onPress={() =>
             notifee.displayNotification({
-              title: 'UOSLIFE PoC',
-              body: 'Push 권한 설정이 확인되었습니다.',
+              title: `시대생 ${environment.toUpperCase()}`,
+              body: `${DeviceInfo.getBundleId()}@${codePushVersion}`,
               ios: {sound: 'default'},
               android: {channelId: 'ETC'},
             })
@@ -58,7 +64,8 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    padding: 32,
     gap: 8,
     backgroundColor: Colors.darker,
   },
