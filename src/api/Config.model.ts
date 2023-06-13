@@ -1,4 +1,5 @@
-export type RemoteConfig = {
-  APP_URL: string;
-  ALLOWED_LIST: string[];
+export type SupabaseConfig = {
+  code: string;
+  production: string;
+  alpha: string | null;
 };

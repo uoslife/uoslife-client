@@ -38,7 +38,9 @@ const PoCScreen: React.FC = () => {
             <Text style={styles.bundleInfo}>
               CODE_PUSH_VERSION = {codePushVersion}
             </Text>
-            <Text style={styles.appUrl}>WEBVIEW_URL = {config?.APP_URL}</Text>
+            <Text style={styles.appUrl}>
+              WEBVIEW_URL = {config.get('webview.url')}
+            </Text>
           </>
         )}
 
