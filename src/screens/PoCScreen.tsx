@@ -5,7 +5,6 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useConfigContext} from '../hooks/ConfigContext';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
-import SplashScreen from 'react-native-splash-screen';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigators/RootStackNavigator';
 
@@ -22,11 +21,6 @@ const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
       if (metadata) setCodePushVersion(metadata.label);
     })();
   }, []);
-
-  useEffect(() => {
-    if (isLoading) return;
-    SplashScreen.hide();
-  }, [isLoading]);
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
