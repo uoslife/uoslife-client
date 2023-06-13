@@ -6,8 +6,12 @@ import {useConfigContext} from '../hooks/ConfigContext';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import SplashScreen from 'react-native-splash-screen';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../navigators/RootStackNavigator';
 
-const PoCScreen: React.FC = () => {
+const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
+  navigation,
+}) => {
   const {isLoading, config, environment} = useConfigContext();
   const [codePushVersion, setCodePushVersion] =
     useState<string>('NO_CODE_PUSH');
@@ -54,6 +58,10 @@ const PoCScreen: React.FC = () => {
               android: {channelId: 'ETC'},
             })
           }
+        />
+        <Button
+          title="Go WebView"
+          onPress={() => navigation.push('WebView', {})}
         />
       </View>
     </View>
