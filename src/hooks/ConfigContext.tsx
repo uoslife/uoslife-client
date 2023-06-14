@@ -14,7 +14,7 @@ type AppConfig = Map<string, string | string[]>;
 
 type ConfigContextProps = {
   isLoading: boolean;
-  isError: boolean;
+  hasNetworkError: boolean;
   config: AppConfig;
   environment: AppEnvironment;
 };
@@ -26,7 +26,7 @@ const ConfigContext = createContext<ConfigContextProps>(
 const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
   const [config, setConfig] = useState<AppConfig>(new Map());
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [hasNetworkError, setHasNetworkError] = useState<boolean>(false);
 
   const environment = useMemo<AppEnvironment>(
     () =>
@@ -56,7 +56,7 @@ const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
         setConfig(configs);
         console.info(`[Supabase] ${configs.size} Configs loaded.`);
       } catch (e) {
-        setIsError(true);
+        setHasNetworkError(true);
         console.error(e);
       } finally {
         setIsLoading(false);
@@ -65,7 +65,8 @@ const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
   }, [isProduction]);
 
   return (
-    <ConfigContext.Provider value={{isLoading, isError, environment, config}}>
+    <ConfigContext.Provider
+      value={{isLoading, hasNetworkError, environment, config}}>
       {children}
     </ConfigContext.Provider>
   );

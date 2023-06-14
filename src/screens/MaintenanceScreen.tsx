@@ -2,18 +2,16 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useConfigContext} from '../hooks/ConfigContext';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigators/RootStackNavigator';
 
-const BlockScreen: React.FC<StackScreenProps<RootStackParamList, 'Block'>> = ({
-  route,
-}) => {
+type Props = {hasNetworkError: boolean};
+
+const MaintenanceScreen: React.FC<Props> = ({hasNetworkError}) => {
   const {config} = useConfigContext();
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
       <View style={styles.container}>
-        {route.params.isError ? (
+        {hasNetworkError ? (
           <>
             <Text style={styles.title}>서비스에 접속할 수 없습니다.</Text>
             <Text style={styles.subtitle}>
@@ -59,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BlockScreen;
+export default MaintenanceScreen;
