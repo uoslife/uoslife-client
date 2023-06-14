@@ -6,6 +6,7 @@ prepare_react_native_project!
 
 flipper_config = FlipperConfiguration.disabled
 $RNFirebaseAsStaticFramework = false
+$RNFirebaseAnalyticsWithoutAdIdSupport=true
 
 use_modular_headers!
 config = use_native_modules!
