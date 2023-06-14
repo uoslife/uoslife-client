@@ -54,8 +54,10 @@ const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
         });
 
         setConfig(configs);
-      } catch {
+        console.info(`[Supabase] ${configs.size} Configs loaded.`);
+      } catch (e) {
         setIsError(true);
+        console.error(e);
       } finally {
         setIsLoading(false);
       }
