@@ -17,8 +17,8 @@
 		AB3DFD412A372F2D0011AA50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		AB3DFD452A372F2D0011AA50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		AB3DFD472A372F2D0011AA50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABF02DF72A353876008F8A34 /* GoogleService-Info.plist */; };
-		ABF02DF82A353876008F8A34 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABF02DF72A353876008F8A34 /* GoogleService-Info.plist */; };
+		ABDE44472A39CCD800516E94 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */; };
+		ABDE444A2A39CCE900516E94 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */; };
 		DA339272654D4557A552A635 /* libPods-uoslife-prod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC37DC8108585442E09AE3C /* libPods-uoslife-prod.a */; };
 		F6F813E94A89317C63ABBD50 /* libPods-uoslife-alpha.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69EBC36BEA9480AE674CBD27 /* libPods-uoslife-alpha.a */; };
 /* End PBXBuildFile section */
@@ -57,7 +57,8 @@
 		AAF4517D6DDDEED742224BB3 /* Pods-uoslife-alpha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-alpha.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-alpha/Pods-uoslife-alpha.debug.xcconfig"; sourceTree = "<group>"; };
 		AB3DFD4F2A372F2D0011AA50 /* uoslife-alpha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "uoslife-alpha.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3DFD502A372F2D0011AA50 /* AlphaInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = AlphaInfo.plist; path = uoslife/AlphaInfo.plist; sourceTree = SOURCE_ROOT; };
-		ABF02DF72A353876008F8A34 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "firebase/alpha/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "firebase/prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		ABF02DF92A353EDD008F8A34 /* uoslife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = uoslife.entitlements; path = uoslife/uoslife.entitlements; sourceTree = "<group>"; };
 		B42D456715BC620156916E20 /* Pods-uoslife-prod.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod.release.xcconfig"; path = "Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod.release.xcconfig"; sourceTree = "<group>"; };
 		BFC3F492FBD70B66EEF3A522 /* Pods-uoslife-prod-uoslifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod-uoslifeTests.release.xcconfig"; path = "Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -112,13 +113,13 @@
 		13B07FAE1A68108700A75B9A /* uoslife */ = {
 			isa = PBXGroup;
 			children = (
+				ABDE44442A39CC7600516E94 /* Firebase */,
 				ABF02DF92A353EDD008F8A34 /* uoslife.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AB3DFD502A372F2D0011AA50 /* AlphaInfo.plist */,
-				ABF02DF72A353876008F8A34 /* GoogleService-Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -166,6 +167,31 @@
 				AB3DFD4F2A372F2D0011AA50 /* uoslife-alpha.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		ABDE44442A39CC7600516E94 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE44482A39CCDF00516E94 /* Prod */,
+				ABDE44452A39CC7B00516E94 /* Alpha */,
+			);
+			name = Firebase;
+			sourceTree = "<group>";
+		};
+		ABDE44452A39CC7B00516E94 /* Alpha */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */,
+			);
+			name = Alpha;
+			sourceTree = "<group>";
+		};
+		ABDE44482A39CCDF00516E94 /* Prod */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */,
+			);
+			name = Prod;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -218,6 +244,7 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				ABDE44412A39CB2600516E94 /* GoogleService-Info.plist */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				C08F3705EF79B814BF5EC5FC /* [CP] Copy Pods Resources */,
@@ -240,6 +267,7 @@
 				AB3DFD3F2A372F2D0011AA50 /* Sources */,
 				AB3DFD422A372F2D0011AA50 /* Frameworks */,
 				AB3DFD442A372F2D0011AA50 /* Resources */,
+				ABDE44392A39CA2B00516E94 /* GoogleService-Info.plist */,
 				AB3DFD482A372F2D0011AA50 /* Bundle React Native code and images */,
 				AB3DFD492A372F2D0011AA50 /* [CP] Embed Pods Frameworks */,
 				E8EC53EEF66E19E0D35E19A5 /* [CP] Copy Pods Resources */,
@@ -304,7 +332,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				ABF02DF82A353876008F8A34 /* GoogleService-Info.plist in Resources */,
+				ABDE444A2A39CCE900516E94 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,7 +342,7 @@
 			files = (
 				AB3DFD452A372F2D0011AA50 /* LaunchScreen.storyboard in Resources */,
 				AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */,
-				AB3DFD472A372F2D0011AA50 /* GoogleService-Info.plist in Resources */,
+				ABDE44472A39CCD800516E94 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +494,42 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uoslife-alpha/Pods-uoslife-alpha-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		ABDE44392A39CA2B00516E94 /* GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\nGOOGLESERVICE_INFO=${PROJECT_DIR}/firebase/alpha/${GOOGLESERVICE_INFO_PLIST}\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\ncp \"${GOOGLESERVICE_INFO}\" \"${PLIST_DESTINATION}\"\n\necho \"Using ${GOOGLESERVICE_INFO}\"\n";
+		};
+		ABDE44412A39CB2600516E94 /* GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\nGOOGLESERVICE_INFO=${PROJECT_DIR}/firebase/prod/${GOOGLESERVICE_INFO_PLIST}\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\ncp \"${GOOGLESERVICE_INFO}\" \"${PLIST_DESTINATION}\"\n\necho \"Using ${GOOGLESERVICE_INFO}\"\n";
 		};
 		C08F3705EF79B814BF5EC5FC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
