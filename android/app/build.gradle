@@ -7,8 +7,10 @@ import com.android.build.OutputFile
 react {}
 
 def enableSeparateBuildPerCPUArchitecture = false
-def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 def reactNativeArchitectures() {
     def value = project.getProperties().get("reactNativeArchitectures")
@@ -41,7 +43,11 @@ android {
     signingConfigs {
         release {
             storeFile file('uoslife.keystore')
-            keyAlias 'android_key'
+            keyAlias 'uoslife'
+            // [1] uoslife.keystore 파일을 추가한 뒤,
+            // [2] local.properties에 store_password, key_password를 추가하세요.
+            storePassword properties.getProperty('store_password')
+            keyPassword properties.getProperty('key_password')
         }
     }
 
