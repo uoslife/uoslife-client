@@ -8,6 +8,7 @@ const config = {
     '@storybook/addon-interactions',
     '@storybook/addon-react-native-web',
     'storybook-addon-designs',
+    '@storybook/addon-styling',
   ],
   features: {
     storyStoreV7: false,
