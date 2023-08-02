@@ -2,10 +2,11 @@ import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import RootStackNavigator from './navigators/RootStackNavigator';
+// import RootStackNavigator from './navigators/RootStackNavigator';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
+import AccountStackNavigator from './navigators/AccountStackNavigator';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,7 +26,8 @@ let App: React.FC = () => {
           backgroundColor="transparent"
           translucent
         />
-        <RootStackNavigator />
+        {/* <RootStackNavigator /> */}
+        <AccountStackNavigator />
       </NavigationContainer>
     </ConfigContext>
   );
