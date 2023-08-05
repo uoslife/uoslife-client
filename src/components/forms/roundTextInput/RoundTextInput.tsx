@@ -3,10 +3,9 @@ import {Pressable, TextInput} from 'react-native';
 
 import styled from '@emotion/native';
 
-import RoundInputProps from './RoundInput.type';
-import roundInputType from './RoundInput.type';
+import RoundTextInputProps from './RoundTextInput.type';
 
-const RoundInput = ({
+const RoundTextInput = ({
   keyboardType = 'default',
   status = 'default',
   value,
@@ -14,7 +13,7 @@ const RoundInput = ({
   children,
   onChangeText,
   ...props
-}: RoundInputProps) => {
+}: RoundTextInputProps) => {
   return (
     <Pressable>
       <S.roundInputContainer status={status}>
@@ -31,7 +30,7 @@ const RoundInput = ({
   );
 };
 
-export default RoundInput;
+export default RoundTextInput;
 
 const getBorderColor = (status: string) => {
   switch (status) {
@@ -45,7 +44,7 @@ const getBorderColor = (status: string) => {
 };
 
 const S = {
-  roundInputContainer: styled.View<roundInputType>`
+  roundInputContainer: styled.View<RoundTextInputProps>`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
