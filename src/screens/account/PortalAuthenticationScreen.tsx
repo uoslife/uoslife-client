@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import Header from '../../components/header/Header';
 import RoundTextInput from '../../components/forms/roundTextInput/RoundTextInput';
 
@@ -19,7 +19,9 @@ const PortalAuthenticationScreen = () => {
         keyboardType="ascii-capable-number-pad"
       />
       <Text>포털 비밀번호</Text>
-      <RoundTextInput />
+      <RoundTextInput placeholder="비밀번호 입력" />
+      <Text>포털 연동 다음에 하기</Text>
+      <Button title={'확인'} />
     </View>
   );
 };
