@@ -1,6 +1,6 @@
 import {TouchableOpacityProps} from 'react-native';
 
-export type BtnProps = {
+export type ButtonProps = {
   label?: string;
   height?: number;
   justify?:

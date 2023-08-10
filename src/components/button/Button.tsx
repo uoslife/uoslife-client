@@ -1,6 +1,7 @@
 import {TouchableOpacityProps} from 'react-native';
+import React from 'react';
 import styled from '@emotion/native';
-import {BtnProps} from './Button.type';
+import {ButtonProps} from './Button.type';
 
 export const Button = ({
   label,
@@ -10,7 +11,7 @@ export const Button = ({
   justify = 'center',
   type,
   ...props
-}: BtnProps) => {
+}: ButtonProps) => {
   return (
     <S.buttonWrapper height={height}>
       <S.button type={type} justify={justify} onPress={onPress} {...props}>
@@ -22,12 +23,12 @@ export const Button = ({
 };
 
 const S = {
-  buttonWrapper: styled.View<BtnProps>`
+  buttonWrapper: styled.View<ButtonProps>`
     position: relative;
     width: 100%;
     height: ${({height}) => height};
   `,
-  button: styled.TouchableOpacity<BtnProps>`
+  button: styled.TouchableOpacity<ButtonProps>`
     height: 100%;
     width: 100%;
     display: flex;
@@ -39,7 +40,7 @@ const S = {
       type === 'primary' ? 'cornflowerblue' : 'grey'};
   `,
 
-  text: styled.Text<BtnProps>`
+  text: styled.Text<ButtonProps>`
     color: ${({type}) => (type === 'primary' ? 'white' : 'black')};
   `,
 };
