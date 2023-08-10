@@ -1,9 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import Header from '../../components/header/Header';
 import RoundTextInput from '../../components/forms/roundTextInput/RoundTextInput';
 
-const PortalAuthenticationScreen = () => {
+const PortalAuthenticationScreen = ({navigation}) => {
+  const [success, setSuccess] = useState(true);
+  const [inputId, setInputId] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+
+  // api fetching 하여 portal i
+
+  const submitHandler = () => {
+    if (api.id === inputId && api.password === inputPassword) {
+      navigation.navigate('portalAuthenticationSuccessScreen');
+    } else {
+      setSuccess(false);
+    }
+  };
+
+  const restrictSubmitHandler = () => {
+    alert('포털 아이디와 비밀번호를 입력해주세요');
+  };
+
   return (
     <View>
       <Header label="포털 계정 연동" />
@@ -16,12 +37,31 @@ const PortalAuthenticationScreen = () => {
       <Text>포털 아이디</Text>
       <RoundTextInput
         placeholder="아이디 입력"
-        keyboardType="ascii-capable-number-pad"
+        onChangeText={text => {
+          setInputId(text);
+          setSuccess(true);
+        }}
+        status={success ? 'default' : 'error'}
+        // keyboardType=""
       />
       <Text>포털 비밀번호</Text>
-      <RoundTextInput placeholder="비밀번호 입력" />
+      <RoundTextInput
+        placeholder="비밀번호 입력"
+        onChangeText={text => {
+          setInputPassword(text);
+          setSuccess(true);
+        }}
+        status={success ? 'default' : 'error'}
+        // keyboardType=""
+        secureTextEntry={true}
+      />
+      {success ? null : <Text>아이디 또는 비밀번호를 확인해주세요</Text>}
       <Text>포털 연동 다음에 하기</Text>
-      <Button title={'확인'} />
+      {inputId === '' && inputPassword === '' ? (
+        <Button title={'확인'} onPress={restrictSubmitHandler} color="grey" />
+      ) : (
+        <Button title={'확인'} onPress={submitHandler} color="#2196F3" />
+      )}
     </View>
   );
 };
