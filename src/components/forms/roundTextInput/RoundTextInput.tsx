@@ -10,6 +10,7 @@ const RoundTextInput = ({
   status = 'default',
   value,
   placeholder,
+  placeholderTextColor = 'grey',
   children,
   onChangeText,
   ...props
@@ -21,6 +22,7 @@ const RoundTextInput = ({
           keyboardType={keyboardType}
           placeholder={placeholder}
           value={value}
+          placeholderTextColor={placeholderTextColor}
           onChangeText={onChangeText}
           {...props}
         />
