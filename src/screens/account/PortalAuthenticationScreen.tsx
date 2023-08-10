@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Header from '../../components/header/Header';
 import RoundTextInput from '../../components/forms/roundTextInput/RoundTextInput';
+import {Button} from '../../components/button/Button';
 
 const PortalAuthenticationScreen = ({navigation}) => {
   const [success, setSuccess] = useState(true);
@@ -58,9 +59,9 @@ const PortalAuthenticationScreen = ({navigation}) => {
       {success ? null : <Text>아이디 또는 비밀번호를 확인해주세요</Text>}
       <Text>포털 연동 다음에 하기</Text>
       {inputId === '' && inputPassword === '' ? (
-        <Button title={'확인'} onPress={restrictSubmitHandler} color="grey" />
+        <Button label="확인" onPress={restrictSubmitHandler} />
       ) : (
-        <Button title={'확인'} onPress={submitHandler} color="#2196F3" />
+        <Button label="확인" onPress={submitHandler} type="primary" />
       )}
     </View>
   );
