@@ -1,29 +1,29 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 
 import Header from '../../components/header/Header';
 import RoundTextInput from '../../components/forms/roundTextInput/RoundTextInput';
 import {Button} from '../../components/button/Button';
+import {TextInput} from 'react-native-gesture-handler';
 
-const PortalAuthenticationScreen = ({navigation}) => {
-  const [success, setSuccess] = useState(true);
-  const [inputId, setInputId] = useState('');
-  const [inputPassword, setInputPassword] = useState('');
+const PortalAuthenticationScreen = () => {
+  const [submit, setSubmit] = useState(false);
+  const [error, setError] = useState(false);
+  const [input, setInput] = useState({id: '', password: ''});
 
-  // api fetching 하여 portal i
-
-  const submitHandler = () => {
-    if (api.id === inputId && api.password === inputPassword) {
-      navigation.navigate('portalAuthenticationSuccessScreen');
-    } else {
-      setSuccess(false);
-    }
+  const onChangeText = (text: string, target: string) => {
+    setSubmit(false);
+    setInput({...input, [target]: text});
   };
 
-  const restrictSubmitHandler = () => {
-    alert('포털 아이디와 비밀번호를 입력해주세요');
+  const submitHandler = () => {
+    setSubmit(true);
+    if (input.id === 'API.id' && input.password === 'API.password') {
+      setError(false);
+      // navigate to PortalAuthenticationSuccessScreen
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -38,28 +38,23 @@ const PortalAuthenticationScreen = ({navigation}) => {
       <Text>포털 아이디</Text>
       <RoundTextInput
         placeholder="아이디 입력"
-        onChangeText={text => {
-          setInputId(text);
-          setSuccess(true);
-        }}
-        status={success ? 'default' : 'error'}
-        // keyboardType=""
+        onChangeText={text => onChangeText(text, 'id')}
+        status={submit && error ? 'error' : 'default'}
       />
       <Text>포털 비밀번호</Text>
+      <TextInput placeholder="비밀번호" />
       <RoundTextInput
         placeholder="비밀번호 입력"
-        onChangeText={text => {
-          setInputPassword(text);
-          setSuccess(true);
-        }}
-        status={success ? 'default' : 'error'}
-        // keyboardType=""
+        onChangeText={text => onChangeText(text, 'password')}
+        status={submit && error ? 'error' : 'default'}
         secureTextEntry={true}
       />
-      {success ? null : <Text>아이디 또는 비밀번호를 확인해주세요</Text>}
+      {submit && error ? (
+        <Text>아이디 또는 비밀번호를 확인해주세요</Text>
+      ) : null}
       <Text>포털 연동 다음에 하기</Text>
-      {inputId === '' && inputPassword === '' ? (
-        <Button label="확인" onPress={restrictSubmitHandler} />
+      {input.id === '' || input.password === '' ? (
+        <Button label="확인" disabled={true} />
       ) : (
         <Button label="확인" onPress={submitHandler} type="primary" />
       )}
