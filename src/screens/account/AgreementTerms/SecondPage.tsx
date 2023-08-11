@@ -70,6 +70,22 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         setInput({ text, isChecked })
     }
 
+    const openModal = () => {
+        setIsModalOpened(true);
+    }
+
+    const openBottomSheet = () => {
+        setIsBottomSheetOpened(true);
+    }
+
+    const closeBottomSheet = () => {
+        setIsBottomSheetOpened(false);
+    }
+
+    const closeModal = () => {
+        setIsModalOpened(false);
+    }
+
     return (
         <>
             <S.pageWrapper>
@@ -88,19 +104,17 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
                 </S.contentsContainer>
                 <Button
                     label={"확인"}
-                    onPress={() => { setIsBottomSheetOpened(true) }}
+                    onPress={openBottomSheet}
                     type={input.isChecked ? "primary" : "default"}
                 />
             </S.pageWrapper>
-            {isBottomSheetOpened && <BottomSheet>
-                <>
+            {isBottomSheetOpened && <BottomSheet zIndex={1} onBackgroundPress={closeBottomSheet} darkBackground={!isModalOpened}>
                     <BaseButton><Text>약관에 모두 동의</Text></BaseButton>
                     <BaseButton><Text>(필수) 개인정보처리방침</Text></BaseButton>
                     <BaseButton><Text>(필수) 시대생 이용약관</Text></BaseButton>
-                    <BaseButton><Text>(선택) 광고 및 마케팅 수신 동의 알림</Text></BaseButton>
-                </>
+                <BaseButton onPress={openModal}><Text>(선택) 광고 및 마케팅 수신 동의 알림</Text></BaseButton>
             </BottomSheet>}
-            {isModalOpened && <PopUp><AgreementProcessResult /></PopUp>}
+            {isModalOpened && <PopUp onClose={closeModal} zIndex={3} darkBackground><AgreementProcessResult /></PopUp>}
         </>
     );
 }
