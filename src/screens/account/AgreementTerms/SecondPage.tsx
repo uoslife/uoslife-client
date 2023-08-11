@@ -3,8 +3,9 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import { View, Text, NativeSyntheticEvent, TextInputChangeEventData, Modal } from 'react-native';
 import { BaseButton, TextInput } from 'react-native-gesture-handler';
 import { Button } from '../../../components/button/Button';
-import BottomSheet from '../../../components/modal/BottomSheet';
-import PopUp from '../../../components/modal/PopUp';
+import BottomSheet from '../../../components/modals/BottomSheet';
+import PopUp from '../../../components/modals/PopUp';
+
 
 // 약관 동의: 하단 팝업에 들어갈 내용
 const AgreementToTerms = () => (
