@@ -7,14 +7,14 @@ import SecondPage from './AgreementTerms/SecondPage';
 
 const AgreementTermsScreen = () => {
   // 임시
-  const [page, setPage] = useState<1 | 2>(2);
+  const [page, setPage] = useState<number>(1);
 
   const PageComponent = () => {
     switch (page) {
       case 1:
-        return <FirstPage />
+        return <FirstPage setPage={setPage} />
       case 2:
-        return <SecondPage />
+        return <SecondPage setPage={setPage} />
     }
   }
 

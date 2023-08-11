@@ -1,10 +1,18 @@
 import styled from '@emotion/native';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Text } from 'react-native';
 import { FlatList, TextInput, BaseButton } from 'react-native-gesture-handler';
+import { Button } from '../../../components/button/Button';
 
-const FirstPage = () => {
-    const [isSelected, setIsSelected] = useState<boolean>(false);
+const DUMMY_ID_LIST = ['dbmean', "minminmin", "헬로우헬로우", "ㅁㄴㅇ라ㅓㄴㅁ와러ㅗㄴㅇㄹ"]
+
+interface FirstPageProps {
+    setPage: Dispatch<SetStateAction<number>>
+}
+
+const FirstPage = ({ setPage }: FirstPageProps) => {
+    const [selected, setSelected] = useState<string | null>(null);
+    const [idList, setIdList] = useState<string[]>(DUMMY_ID_LIST);
 
     return (
         <S.pageWrapper>
@@ -19,14 +27,11 @@ const FirstPage = () => {
                         <S.description2>&#8226; 선택한 계정을 제외한 기존 계정은 삭제됩니다.</S.description2>
                     </View>
                 </S.descriptionContainer>
-                <S.inputContainer>
-                    <TextInput>Temp</TextInput>
-                    <TextInput>Temp</TextInput>
-                    <TextInput>Temp</TextInput>
-                    <TextInput>Temp</TextInput>
-                </S.inputContainer>
+                <S.idContainer>
+                    {idList.map(id => <Button type={id === selected ? 'primary' : "default"} key={id} onPress={() => { setSelected(id) }} label={id} />)}
+                </S.idContainer>
             </S.contentsContainer>
-            <BaseButton><Text>다음</Text></BaseButton>
+            <Button label={"다음"} type={selected ? 'primary' : "default"} onPress={() => { setPage(2) }} />
         </S.pageWrapper>
     )
 }
@@ -64,7 +69,7 @@ const S = {
         flex-direction: column;
         gap: 8px;
     `,
-    inputContainer: styled.View`
+    idContainer: styled.View`
         display: flex;
         flex-direction: column;
         gap: 28px;

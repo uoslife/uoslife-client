@@ -1,7 +1,5 @@
 import styled from '@emotion/native'
 import React from 'react'
-import { Dimensions, Modal, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 
 interface BottomSheetProps {
   children: React.JSX.Element
@@ -9,25 +7,34 @@ interface BottomSheetProps {
 
 const BottomSheet = ({ children }: BottomSheetProps) => {
   return (
-    <S.bottomSheetWrapper>
-      <S.bottomSheet>{children}</S.bottomSheet>
-    </S.bottomSheetWrapper>
+    <S.background>
+      <S.bottomSheetContainer>
+        <S.bottomSheetContent>{children}</S.bottomSheetContent>
+      </S.bottomSheetContainer>
+    </S.background>
   )
 }
 
 export default BottomSheet;
 
 const S = {
-  bottomSheetWrapper: styled.View`
+  background: styled.View`
     position: absolute;
-    height: 100%;
     width: 100%;
-    justify-content: center;
-    align-items: center;
-    border: black;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.32);
   `,
-  bottomSheet: styled.View`
-    border: black;
+  bottomSheetContainer: styled.View`
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
     background-color: blue;
+  `,
+  bottomSheetContent: styled.View`
+    padding-top: 32px;
+    padding-left: 15px;
+    padding-right: 15px;
   `
 };
