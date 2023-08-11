@@ -1,21 +1,78 @@
 import styled from '@emotion/native';
-import React, { Dispatch, SetStateAction, useState } from 'react'
-import { View, Text, NativeSyntheticEvent, TextInputChangeEventData, Modal } from 'react-native';
-import { BaseButton, TextInput } from 'react-native-gesture-handler';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { View, Text, NativeSyntheticEvent, TextInputChangeEventData, Image } from 'react-native';
+import { BaseButton, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from '../../../components/button/Button';
 import BottomSheet from '../../../components/modals/BottomSheet';
 import PopUp from '../../../components/modals/PopUp';
 
-
 // 약관 동의: 하단 팝업에 들어갈 내용
-const AgreementToTerms = () => (
-    <View>
-        <BaseButton><Text>약관에 모두 동의</Text></BaseButton>
-        <BaseButton><Text>(필수) 개인정보처리방침</Text></BaseButton>
-        <BaseButton><Text>(필수) 시대생 이용약관</Text></BaseButton>
-        <BaseButton><Text>(선택) 광고 및 마케팅 수신 동의 알림</Text></BaseButton>
+const AgreementToTerms = ({ openPopUp }: { openPopUp: () => void }) => {
+    const [checked, setChecked] = useState<boolean[]>([false, false, false]);
+    const checkedAll = checked[0] && checked[1] && checked[2];
+
+    // const checkCheckedPath = "../../../assets/images/check_checked.png";
+    // const checkUncheckedPath = "../../../assets/images/check_unchecked.png";
+    // const checkCircleCheckedPath = "../../../assets/images/check_circle_checked.png";
+    // const checkCircleUncheckedPath = "../../../assets/images/check_circle_unchecked.png";
+
+    const CheckCheckedImage = () => <Image source={require("../../../assets/images/check_checked.png")} />
+    const CheckUncheckedImage = () => <Image source={require("../../../assets/images/check_unchecked.png")} />
+    const CheckCircleCheckedImage = () => <Image source={require("../../../assets/images/check_circle_checked.png")} />
+    const CheckCircleUncheckedImage = () => <Image source={require("../../../assets/images/check_circle_unchecked.png")} />
+
+    useEffect(() => { if (checked[2]) openPopUp() }, [checked[2]]);
+
+    const toggleAll = () => {
+        if (checkedAll) {
+            setChecked([false, false, false]);
+        }
+        else
+            setChecked([true, true, true]);
+    }
+
+    const toggleSingle = (num: number) => {
+        const copied = [...checked];
+        copied[num] = !copied[num];
+
+        setChecked(copied);
+    };
+
+    return <View>
+        <View>
+            <S.checkAllBtn onPress={toggleAll}>
+                {
+                    (checkedAll)
+                        ? <CheckCircleCheckedImage />
+                        : <CheckCircleUncheckedImage />
+                }
+                <Text>약관에 모두 동의</Text>
+            </S.checkAllBtn>
+            <S.checkSingleContainer>
+                <TouchableOpacity onPress={() => { toggleSingle(0) }}>
+                    {checked[0] ? <CheckCheckedImage /> : <CheckUncheckedImage />}
+                </TouchableOpacity>
+                <Text onPress={() => { }}>[필수] 개인정보처리방침</Text>
+            </S.checkSingleContainer>
+            <S.checkSingleContainer>
+                <TouchableOpacity onPress={() => { toggleSingle(1) }}>
+                    {checked[1] ? <CheckCheckedImage /> : <CheckUncheckedImage />}
+                </TouchableOpacity>
+                <Text onPress={() => { }}>[필수] 시대생 이용약관</Text>
+            </S.checkSingleContainer>
+            <S.checkSingleContainer>
+                <TouchableOpacity onPress={() => { toggleSingle(2) }}>
+                    {checked[2] ? <CheckCheckedImage /> : <CheckUncheckedImage />}
+                </TouchableOpacity>
+                <View>
+                    <Text>[선택] 광고 및 마케팅 수신 동의 알림</Text>
+                    <Text>각종 시대생 소식 및 이벤트에 대한 정보를 제공합니다.</Text>
+                </View>
+            </S.checkSingleContainer>
+        </View>
+        <Button label='확인' type={checkedAll ? "primary" : "default"} />
     </View>
-)
+}
 
 // 광고성 정보 수신동의 처리 결과: 모달에 들어갈 내용
 const AgreementProcessResult = () => (
@@ -49,7 +106,7 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         isChecked: false,
     });
     const [isBottomSheetOpened, setIsBottomSheetOpened] = useState<boolean>(false);
-    const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+    const [isPopUpOpened, setIsPopUpOpened] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -71,8 +128,8 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         setInput({ text, isChecked })
     }
 
-    const openModal = () => {
-        setIsModalOpened(true);
+    const openPopUp = () => {
+        setIsPopUpOpened(true);
     }
 
     const openBottomSheet = () => {
@@ -83,8 +140,8 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         setIsBottomSheetOpened(false);
     }
 
-    const closeModal = () => {
-        setIsModalOpened(false);
+    const closePopUp = () => {
+        setIsPopUpOpened(false);
     }
 
     return (
@@ -109,13 +166,10 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
                     type={input.isChecked ? "primary" : "default"}
                 />
             </S.pageWrapper>
-            {isBottomSheetOpened && <BottomSheet zIndex={1} onBackgroundPress={closeBottomSheet} darkBackground={!isModalOpened}>
-                    <BaseButton><Text>약관에 모두 동의</Text></BaseButton>
-                    <BaseButton><Text>(필수) 개인정보처리방침</Text></BaseButton>
-                    <BaseButton><Text>(필수) 시대생 이용약관</Text></BaseButton>
-                <BaseButton onPress={openModal}><Text>(선택) 광고 및 마케팅 수신 동의 알림</Text></BaseButton>
+            {isBottomSheetOpened && <BottomSheet zIndex={1} onBackgroundPress={closeBottomSheet} darkBackground={!isPopUpOpened}>
+                <AgreementToTerms openPopUp={openPopUp} />
             </BottomSheet>}
-            {isModalOpened && <PopUp onClose={closeModal} zIndex={3} darkBackground><AgreementProcessResult /></PopUp>}
+            {isPopUpOpened && <PopUp onClose={closePopUp} zIndex={3} darkBackground><AgreementProcessResult /></PopUp>}
         </>
     );
 }
@@ -162,5 +216,21 @@ const S = {
         padding-left: 12px;
         padding-right: 12px
         color: black;
-    `
+    `,
+    checkSingleContainer: styled.View`
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
+        padding: 12px;
+    `,
+    checkAllBtn: styled.TouchableOpacity`
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: #A19F9D
+    `,
 };
