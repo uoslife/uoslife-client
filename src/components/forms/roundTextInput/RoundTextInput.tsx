@@ -10,6 +10,7 @@ const RoundTextInput = ({
   status = 'default',
   value,
   placeholder,
+  placeholderTextColor = 'grey',
   children,
   onChangeText,
   ...props
@@ -17,10 +18,11 @@ const RoundTextInput = ({
   return (
     <Pressable>
       <S.roundInputContainer status={status}>
-        <TextInput
+        <S.textInput
           keyboardType={keyboardType}
           placeholder={placeholder}
           value={value}
+          placeholderTextColor={placeholderTextColor}
           onChangeText={onChangeText}
           {...props}
         />
@@ -45,14 +47,15 @@ const getBorderColor = (status: string) => {
 
 const S = {
   roundInputContainer: styled.View<RoundTextInputProps>`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
     width: 100%;
     height: 62px;
-    border-radius: 15px;
     border: 1px solid ${({status}) => getBorderColor(status!)};
+    border-radius: 15px;
+  `,
+  textInput: styled.TextInput<RoundTextInputProps>`
     padding: 19px;
+    height: 100%;
+    width: 100%;
   `,
 };
