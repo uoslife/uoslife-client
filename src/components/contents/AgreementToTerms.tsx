@@ -14,10 +14,10 @@ const AgreementToTerms = ({ openModal }: { openModal: () => void }) => {
   // const checkCircleCheckedPath = "../../../assets/images/check_circle_checked.png";
   // const checkCircleUncheckedPath = "../../../assets/images/check_circle_unchecked.png";
 
-  const CheckCheckedImage = () => <Image source={require("../../../assets/images/check_checked.png")} />
-  const CheckUncheckedImage = () => <Image source={require("../../../assets/images/check_unchecked.png")} />
-  const CheckCircleCheckedImage = () => <Image source={require("../../../assets/images/check_circle_checked.png")} />
-  const CheckCircleUncheckedImage = () => <Image source={require("../../../assets/images/check_circle_unchecked.png")} />
+  const CheckCheckedImage = () => <Image source={require("../../assets/images/check_checked.png")} />
+  const CheckUncheckedImage = () => <Image source={require("../../assets/images/check_unchecked.png")} />
+  const CheckCircleCheckedImage = () => <Image source={require("../../assets/images/check_circle_checked.png")} />
+  const CheckCircleUncheckedImage = () => <Image source={require("../../assets/images/check_circle_unchecked.png")} />
 
   useEffect(() => { if (checked[2]) openModal() }, [checked[2]]);
 
