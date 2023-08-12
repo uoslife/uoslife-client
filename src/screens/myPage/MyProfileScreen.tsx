@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import Header from '../../components/header/Header';
-import styled, {css} from '@emotion/native';
+import styled from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 
@@ -29,10 +29,10 @@ const MyProfileScreen = ({
     <S.screenContainer>
       <Header label={'MY Page'} />
       <S.myProfileContainer>
-        <S.circlePhotoContainer>
-          <S.circlePhoto>
+        <S.myProfileBox>
+          <S.circleImageWrapper>
             <S.userImage source={require('../../assets/images/user.png')} />
-          </S.circlePhoto>
+          </S.circleImageWrapper>
           <Text>한유민짱짱</Text>
           <Text style={{paddingBottom: 64}}>포털 계정을 이용해주세요.</Text>
           {myPageNavigatorItems.map((value, index) => {
@@ -62,11 +62,10 @@ const MyProfileScreen = ({
 };
 
 const S = {
-  screenContainer: styled.View`
+  screenContainer: styled.ScrollView`
     height: 100%;
     width: 100%;
   `,
-
   myProfileContainer: styled.View`
     display: flex;
     flex: 1;
@@ -74,16 +73,14 @@ const S = {
     justify-content: space-between;
     padding: 52px 54px 39px 54px;
   `,
-
-  circlePhotoContainer: styled.View`
+  myProfileBox: styled.View`
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 14px;
   `,
-
-  circlePhoto: styled.View`
+  circleImageWrapper: styled.View`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,7 +89,6 @@ const S = {
     border: 1px solid #a6a6a6;
     border-radius: 80px;
   `,
-
   userImage: styled.Image`
     width: 60px;
     height: 60px;
@@ -104,10 +100,9 @@ const S = {
     align-items: center;
     width: 100%;
   `,
-
   arrowButtonImage: styled.Image`
-    width: 14px;
-    height: 9px;
+    width: 9px;
+    height: 14px;
     transform: rotate(180deg);
   `,
   navigateContainer: styled.View`
@@ -133,4 +128,5 @@ const style = StyleSheet.create({
     paddingBottom: 176,
   },
 });
+
 export default MyProfileScreen;
