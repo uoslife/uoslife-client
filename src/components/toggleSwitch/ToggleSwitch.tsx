@@ -1,38 +1,38 @@
 import React from 'react';
 import {useState} from 'react';
 import ToggleSwitchProps from './ToggleSwitch.type';
-import {Animated, StyleSheet, Pressable, Easing} from 'react-native';
+import {Animated, StyleSheet, Pressable} from 'react-native';
 import styled from '@emotion/native';
 
-const ToggleSwitch = ({
-  isOn,
-  onColor,
-  offColor,
-  onToggle,
-}: ToggleSwitchProps) => {
-  const [aniValue, setAniValue] = useState(new Animated.Value(0));
-  const color = isOn ? onColor : offColor;
+const ToggleSwitch = ({size}: ToggleSwitchProps) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const animatedValue = new Animated.Value(isEnabled ? 1 : 0);
 
-  const moveSwitchToggle = aniValue.interpolate({
+  const onToggle = () => {
+    setIsEnabled(!isEnabled);
+    Animated.timing(animatedValue, {
+      toValue: isEnabled ? 0 : 1,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const switchTranslateX = animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 20],
   });
 
-  Animated.timing(aniValue, {
-    toValue: isOn ? 1 : 0,
-    duration: 200,
-    easing: Easing.linear,
-    useNativeDriver: true,
-  }).start();
-
   return (
-    <Wrap>
+    <Wrap size={size}>
       <Pressable onPress={onToggle}>
-        <ToggleContainer style={{backgroundColor: color}}>
+        <ToggleContainer
+          style={{
+            backgroundColor: isEnabled ? 'green' : 'gray',
+          }}>
           <ToggleWheel
             style={[
               styles.toggleWheel,
-              {transform: [{translateX: moveSwitchToggle}]},
+              {transform: [{translateX: switchTranslateX}]},
             ]}
           />
         </ToggleContainer>
@@ -43,36 +43,8 @@ const ToggleSwitch = ({
 
 export default ToggleSwitch;
 
-// const getSize = (size: 'string') => {
-//   switch (size) {
-//     case 'small':
-//       return {
-//         width: 40,
-//         padding: 10,
-//         circleWidth: 15,
-//         circleHeight: 15,
-//         translateX: 22,
-//       };
-//     case 'large':
-//       return {
-//         width: 70,
-//         padding: 20,
-//         circleWidth: 30,
-//         circleHeight: 30,
-//         translateX: 38,
-//       };
-//     default:
-//       return {
-//         width: 46,
-//         padding: 12,
-//         circleWidth: 18,
-//         circleHeight: 18,
-//         translateX: 26,
-//       };
-//   }
-// };
-
 const Wrap = styled.View`
+  transform: ${props => (props.size === 'small' ? 'scale(1)' : 'scale(2)')};
   flex-direction: row;
   align-items: center;
 `;
