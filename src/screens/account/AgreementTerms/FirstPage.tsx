@@ -1,7 +1,6 @@
 import styled from '@emotion/native';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { View, Text } from 'react-native';
-import { FlatList, TextInput, BaseButton } from 'react-native-gesture-handler';
+import { View } from 'react-native';
 import { Button } from '../../../components/button/Button';
 
 const DUMMY_ID_LIST = ['dbmean', "minminmin", "헬로우헬로45s우", "ㅁㄴㅇ라ㅓㄴㅁ와러ㅗㄴㅇㄹ"]
@@ -11,13 +10,13 @@ interface FirstPageProps {
 }
 
 const FirstPage = ({ setPage }: FirstPageProps) => {
-    const [selected, setSelected] = useState<string | null>(null);
+    const [selected, setSelected] = useState<string>();
     const [idList, setIdList] = useState<string[]>(DUMMY_ID_LIST);
 
     return (
         <S.pageWrapper>
             <S.contentsContainer>
-                <S.descriptionContainer>
+                <S.descriptionsContainer>
                     <View>
                         <S.description1>통합하고자 하는 아이디를</S.description1>
                         <S.description1>선택해주세요.</S.description1>
@@ -27,7 +26,7 @@ const FirstPage = ({ setPage }: FirstPageProps) => {
                         {/* <S.description2>&#8226; 선택한 계정을 제외한 기존 계정은 삭제됩니다.</S.description2> */}
                         <S.description2>선택한 계정을 제외한 기존 계정은 삭제됩니다.</S.description2>
                     </View>
-                </S.descriptionContainer>
+                </S.descriptionsContainer>
                 <S.idContainer>
                     {idList.map(id => (id === selected ?
                         <S.idButtonSelected key={id} onPress={() => { setSelected(id) }}
@@ -72,7 +71,7 @@ const S = {
         font-size: 18px;
         color: black;
     `,
-    descriptionContainer: styled.View`
+    descriptionsContainer: styled.View`
         display: flex;
         flex-direction: column;
         gap: 8px;
