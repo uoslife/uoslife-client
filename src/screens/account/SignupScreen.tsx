@@ -35,8 +35,8 @@ const SignupScreen = ({
           onPress={() => navigation.push('portalAuthentication')}
         />
         <Button
-          title="go MyAccountScreen"
-          onPress={() => navigation.push('myAccount')}
+          title="go MyPageScreen"
+          onPress={() => navigation.push('myPage')}
         />
       </View>
     </View>

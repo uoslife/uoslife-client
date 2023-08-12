@@ -8,10 +8,10 @@ import {
   AgreementTermsScreen,
   VerificationScreen,
   SignupScreen,
-  MyAccountScreen,
 } from '../screens/account';
 import SplashScreen from 'react-native-splash-screen';
 import MaintenanceScreen from '../screens/MaintenanceScreen';
+import MyPageStackNavigator from './MyPageStackNavigator';
 
 export type AccountStackParamList = {
   signup: undefined;
@@ -19,7 +19,7 @@ export type AccountStackParamList = {
   setNickname: undefined;
   agreementTerms: undefined;
   portalAuthentication: undefined;
-  myAccount: undefined;
+  myPage: undefined;
 };
 
 const Stack = createStackNavigator<AccountStackParamList>();
@@ -53,7 +53,7 @@ const AccountStackNavigator = () => {
         name="portalAuthentication"
         component={PortalAuthenticationScreen}
       />
-      <Stack.Screen name="myAccount" component={MyAccountScreen} />
+      <Stack.Screen name="myPage" component={MyPageStackNavigator} />
     </Stack.Navigator>
   );
 };
