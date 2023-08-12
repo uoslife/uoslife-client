@@ -125,10 +125,12 @@ const S = {
 };
 
 const style = StyleSheet.create({
-  contentBoxBorder: {
+  bottomBorder: {
     borderBottomColor: '#A6A6A6',
     borderBottomWidth: 1,
-    width: 100,
+  },
+  marginBottom: {
+    paddingBottom: 176,
   },
 });
 export default MyProfileScreen;
