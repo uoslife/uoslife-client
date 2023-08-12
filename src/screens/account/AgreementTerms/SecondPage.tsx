@@ -7,9 +7,9 @@ import BottomSheet from '../../../components/modals/BottomSheet';
 import PopUp from '../../../components/modals/PopUp';
 
 // 약관 동의: 하단 팝업에 들어갈 내용
+// 재사용성은 고려하지 않고 짬, 리팩토링 굳이 필요하려나?
 const AgreementToTerms = ({ openPopUp }: { openPopUp: () => void }) => {
     const [checked, setChecked] = useState<boolean[]>([false, false, false]);
-    const checkedAll = checked[0] && checked[1] && checked[2];
 
     // const checkCheckedPath = "../../../assets/images/check_checked.png";
     // const checkUncheckedPath = "../../../assets/images/check_unchecked.png";
@@ -22,6 +22,9 @@ const AgreementToTerms = ({ openPopUp }: { openPopUp: () => void }) => {
     const CheckCircleUncheckedImage = () => <Image source={require("../../../assets/images/check_circle_unchecked.png")} />
 
     useEffect(() => { if (checked[2]) openPopUp() }, [checked[2]]);
+
+    const checkedAll = checked[0] && checked[1] && checked[2];
+    const checkedRequired = checked[0] && checked[1];
 
     const toggleAll = () => {
         if (checkedAll) {
@@ -70,7 +73,7 @@ const AgreementToTerms = ({ openPopUp }: { openPopUp: () => void }) => {
                 </View>
             </S.checkSingleContainer>
         </View>
-        <Button label='확인' type={checkedAll ? "primary" : "default"} />
+        <Button label='확인' type={checkedRequired ? "primary" : "default"} />
     </View>
 }
 
@@ -87,7 +90,6 @@ const AgreementProcessResult = () => (
             <Text>광고성 정보 수신 동의는</Text>
             <Text>MY Page &lt; [앱 설정]에서 변경 가능합니다.</Text>
         </View>
-        <BaseButton><Text>닫기</Text></BaseButton>
     </View>
 );
 
