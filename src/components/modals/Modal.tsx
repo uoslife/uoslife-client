@@ -1,7 +1,7 @@
 import styled from '@emotion/native'
 import React from 'react'
 
-interface PopUpProps {
+interface ModalProps {
   children: React.JSX.Element | React.JSX.Element[]
   darkBackground?: boolean; // 배경 어두워짐
   onBackgroundPress?: () => void;
@@ -9,17 +9,17 @@ interface PopUpProps {
   zIndex: number;
 }
 
-const PopUp = ({ children, darkBackground, onBackgroundPress, zIndex, onClose }: PopUpProps) => {
+const Modal = ({ children, darkBackground, onBackgroundPress, zIndex, onClose }: ModalProps) => {
   return (
-    <S.popUpWrapper>
+    <S.ModalWrapper>
       <S.background zIndex={zIndex} onPress={onBackgroundPress} darkBackground={darkBackground} />
-      <S.popUpContainer zIndex={zIndex + 1}>
-        <S.popUpContent>{children}</S.popUpContent>
+      <S.ModalContainer zIndex={zIndex + 1}>
+        <S.ModalContent>{children}</S.ModalContent>
         <S.closeBtn onPress={onClose}>
           닫기
         </S.closeBtn>
-      </S.popUpContainer>
-    </S.popUpWrapper>
+      </S.ModalContainer>
+    </S.ModalWrapper>
   )
 }
 
@@ -32,10 +32,10 @@ interface ContainerProps {
   zIndex: number;
 }
 
-export default PopUp;
+export default Modal;
 
 const S = {
-  popUpWrapper: styled.View`
+  ModalWrapper: styled.View`
     position: absolute;
     height: 100%;
     width: 100%;
@@ -53,11 +53,11 @@ const S = {
     background-color: ${({ darkBackground }) => (darkBackground ? "rgba(0, 0, 0, 0.32)" : "rgba(0,0,0,0)")};
     z-index: ${({ zIndex }) => zIndex};
   `,
-  popUpContainer: styled.View<ContainerProps>`
+  ModalContainer: styled.View<ContainerProps>`
     background-color: white;    
     border-radius: 20px;
   `,
-  popUpContent: styled.View`
+  ModalContent: styled.View`
     padding-top: 24px;
     padding-right: 20px;
     padding-left: 20px;

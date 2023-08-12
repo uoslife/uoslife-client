@@ -6,7 +6,7 @@ import styled from "@emotion/native";
 
 // 약관 동의: 하단 팝업에 들어갈 내용
 // 재사용성은 고려하지 않고 짬, 리팩토링 굳이 필요하려나?
-const AgreementToTerms = ({ openPopUp }: { openPopUp: () => void }) => {
+const AgreementToTerms = ({ openModal }: { openModal: () => void }) => {
   const [checked, setChecked] = useState<boolean[]>([false, false, false]);
 
   // const checkCheckedPath = "../../../assets/images/check_checked.png";
@@ -19,7 +19,7 @@ const AgreementToTerms = ({ openPopUp }: { openPopUp: () => void }) => {
   const CheckCircleCheckedImage = () => <Image source={require("../../../assets/images/check_circle_checked.png")} />
   const CheckCircleUncheckedImage = () => <Image source={require("../../../assets/images/check_circle_unchecked.png")} />
 
-  useEffect(() => { if (checked[2]) openPopUp() }, [checked[2]]);
+  useEffect(() => { if (checked[2]) openModal() }, [checked[2]]);
 
   const checkedAll = checked[0] && checked[1] && checked[2];
   const checkedRequired = checked[0] && checked[1];

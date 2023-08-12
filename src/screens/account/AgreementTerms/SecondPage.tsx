@@ -4,7 +4,7 @@ import { View, NativeSyntheticEvent, TextInputChangeEventData, Image } from 'rea
 import { TextInput } from 'react-native-gesture-handler';
 import { Button } from '../../../components/button/Button';
 import BottomSheet from '../../../components/modals/BottomSheet';
-import PopUp from '../../../components/modals/PopUp';
+import Modal from '../../../components/modals/Modal';
 import AgreementToTerms from '../../../components/contents/AgreementToTerms';
 import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
 
@@ -23,7 +23,7 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         isChecked: false,
     });
     const [isBottomSheetOpened, setIsBottomSheetOpened] = useState<boolean>(false);
-    const [isPopUpOpened, setIsPopUpOpened] = useState<boolean>(false);
+    const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -45,8 +45,8 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         setInput({ text, isChecked })
     }
 
-    const openPopUp = () => {
-        setIsPopUpOpened(true);
+    const openModal = () => {
+        setIsModalOpened(true);
     }
 
     const openBottomSheet = () => {
@@ -57,8 +57,8 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
         setIsBottomSheetOpened(false);
     }
 
-    const closePopUp = () => {
-        setIsPopUpOpened(false);
+    const closeModal = () => {
+        setIsModalOpened(false);
     }
 
     return (
@@ -83,12 +83,12 @@ const SecondPage = ({ setPage }: SecondPageProps) => {
                     type={input.isChecked ? "primary" : "default"}
                 />
             </S.pageWrapper>
-            {isBottomSheetOpened && <BottomSheet zIndex={1} onBackgroundPress={closeBottomSheet} darkBackground={!isPopUpOpened}>
-                <AgreementToTerms openPopUp={openPopUp} />
+            {isBottomSheetOpened && <BottomSheet zIndex={1} onBackgroundPress={closeBottomSheet} darkBackground={!isModalOpened}>
+                <AgreementToTerms openModal={openModal} />
             </BottomSheet>}
-            {isPopUpOpened && <PopUp onClose={closePopUp} zIndex={3} darkBackground>
+            {isModalOpened && <Modal onClose={closeModal} zIndex={3} darkBackground>
                 <AgreementProcessResult />
-            </PopUp>}
+            </Modal>}
         </>
     );
 }
