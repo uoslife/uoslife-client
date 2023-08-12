@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {Text} from 'react-native';
 import Header from '../../components/header/Header';
 import styled from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
+import NavigationList from '../../components/navigations/navigationList/NavigationList';
 
 type MyPageNavigatorItem = {
   name: string;
@@ -37,21 +38,12 @@ const MyProfileScreen = ({
           <Text style={{paddingBottom: 64}}>포털 계정을 이용해주세요.</Text>
           {myPageNavigatorItems.map((value, index) => {
             return (
-              <S.navigateContainer>
-                <S.navigateContent key={index}>
-                  <Text>{value.name}</Text>
-                  <Pressable
-                    onPress={() => navigation.push(value.navigateDestination)}>
-                    <S.arrowButtonImage
-                      source={require('../../assets/images/backButton.png')}
-                    />
-                  </Pressable>
-                </S.navigateContent>
-                <View
-                  style={
-                    value.hasBorder ? style.bottomBorder : style.marginBottom
-                  }></View>
-              </S.navigateContainer>
+              <NavigationList
+                key={index}
+                label={value.name}
+                hasBorder={value.hasBorder}
+                onPress={() => navigation.push(value.navigateDestination)}
+              />
             );
           })}
         </S.myProfileBox>
@@ -93,40 +85,11 @@ const S = {
     width: 60px;
     height: 60px;
   `,
-  navigateContent: styled.View`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  `,
-  arrowButtonImage: styled.Image`
-    width: 9px;
-    height: 14px;
-    transform: rotate(180deg);
-  `,
-  navigateContainer: styled.View`
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    gap: 24px;
-    padding-bottom: 10px;
-  `,
   logout: styled.Text`
     text-align: center;
     color: #7b7b7b;
     text-decoration-line: underline;
   `,
 };
-
-const style = StyleSheet.create({
-  bottomBorder: {
-    borderBottomColor: '#A6A6A6',
-    borderBottomWidth: 1,
-  },
-  marginBottom: {
-    paddingBottom: 176,
-  },
-});
 
 export default MyProfileScreen;
