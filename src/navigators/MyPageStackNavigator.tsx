@@ -20,7 +20,7 @@ export type MyPageStackParamList = {
 
 const Stack = createStackNavigator<MyPageStackParamList>();
 
-const AccountStackNavigator = () => {
+const MyPageStackNavigator = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
 
   const isMaintenance = useMemo(
@@ -52,4 +52,4 @@ const AccountStackNavigator = () => {
   );
 };
 
-export default AccountStackNavigator;
+export default MyPageStackNavigator;
