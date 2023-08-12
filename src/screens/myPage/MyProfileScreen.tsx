@@ -5,9 +5,26 @@ import styled, {css} from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 
+type MyPageNavigatorItem = {
+  name: string;
+  navigateDestination: keyof MyPageStackParamList;
+  hasBorder: boolean;
+};
+
 const MyProfileScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
+  const myPageNavigatorItems: MyPageNavigatorItem[] = [
+    {name: '계정', navigateDestination: 'myAccount', hasBorder: true},
+    {name: '앱 설정', navigateDestination: 'myAppSetting', hasBorder: true},
+    {
+      name: '앱 정보',
+      navigateDestination: 'myAppInformation',
+      hasBorder: true,
+    },
+    {name: '문의하기', navigateDestination: 'myProfile', hasBorder: false},
+  ];
+
   return (
     <S.screenContainer>
       <Header label={'MY Page'} />
@@ -17,37 +34,28 @@ const MyProfileScreen = ({
             <S.userImage source={require('../../assets/images/user.png')} />
           </S.circlePhoto>
           <Text>한유민짱짱</Text>
-          <Text>포털 계정을 이용해주세요.</Text>
-          <S.contentBox>
-            <Text>계정</Text>
-            <Pressable onPress={() => navigation.push('myAccount')}>
-              <S.arrowButtonImage
-                source={require('../../assets/images/backButton.png')}
-              />
-            </Pressable>
-          </S.contentBox>
-          <S.contentBox>
-            <Text>앱 설정</Text>
-            <S.arrowButtonImage
-              source={require('../../assets/images/backButton.png')}
-            />
-          </S.contentBox>
-          <S.contentBox>
-            <Text>앱 정보</Text>
-            <S.arrowButtonImage
-              source={require('../../assets/images/backButton.png')}
-            />
-          </S.contentBox>
-          <S.contentBox>
-            <Text>문의하기</Text>
-            <S.arrowButtonImage
-              source={require('../../assets/images/backButton.png')}
-            />
-          </S.contentBox>
-        </S.circlePhotoContainer>
-        <View>
-          <Text>로그아웃</Text>
-        </View>
+          <Text style={{paddingBottom: 64}}>포털 계정을 이용해주세요.</Text>
+          {myPageNavigatorItems.map((value, index) => {
+            return (
+              <S.navigateContainer>
+                <S.navigateContent key={index}>
+                  <Text>{value.name}</Text>
+                  <Pressable
+                    onPress={() => navigation.push(value.navigateDestination)}>
+                    <S.arrowButtonImage
+                      source={require('../../assets/images/backButton.png')}
+                    />
+                  </Pressable>
+                </S.navigateContent>
+                <View
+                  style={
+                    value.hasBorder ? style.bottomBorder : style.marginBottom
+                  }></View>
+              </S.navigateContainer>
+            );
+          })}
+        </S.myProfileBox>
+        <S.logout>로그아웃</S.logout>
       </S.myProfileContainer>
     </S.screenContainer>
   );
@@ -89,8 +97,7 @@ const S = {
     width: 60px;
     height: 60px;
   `,
-
-  contentBox: styled.View`
+  navigateContent: styled.View`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -102,6 +109,18 @@ const S = {
     width: 14px;
     height: 9px;
     transform: rotate(180deg);
+  `,
+  navigateContainer: styled.View`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 24px;
+    padding-bottom: 10px;
+  `,
+  logout: styled.Text`
+    text-align: center;
+    color: #7b7b7b;
+    text-decoration-line: underline;
   `,
 };
 
