@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput} from 'react-native';
-import Header from '../../components/header/Header';
+import Header from '../../../components/header/Header';
 import styled, {css} from '@emotion/native';
 
 const VerificationScreen = () => {
