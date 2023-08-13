@@ -34,6 +34,10 @@ const SignupScreen = ({
           title="go PortalAuthenticationScreen"
           onPress={() => navigation.push('portalAuthentication')}
         />
+        <Button
+          title="go MyPageScreen"
+          onPress={() => navigation.push('myPage')}
+        />
       </View>
     </View>
   );
