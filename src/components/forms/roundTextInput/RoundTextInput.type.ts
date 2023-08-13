@@ -6,6 +6,7 @@ export type RoundTextInputProps = TextInputProps & {
   placeholder?: string;
   placeholderTextColor?: string;
   status?: 'default' | 'error' | 'success';
+  statusMessage?: string;
   value?: string;
   children?: React.ReactNode;
 };
