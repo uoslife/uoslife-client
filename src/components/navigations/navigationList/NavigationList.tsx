@@ -7,6 +7,7 @@ const NavigationList = ({
   label,
   onPress,
   hasBorder = true,
+  navigationButton,
   children,
 }: NavigationListProps) => {
   return (
@@ -14,14 +15,15 @@ const NavigationList = ({
       <S.navigateContent>
         <Text>{label}</Text>
         <Pressable onPress={onPress}>
-          {children ?? (
+          {navigationButton ?? (
             <S.arrowButtonImage
               source={require('../../../assets/images/backButton.png')}
             />
           )}
         </Pressable>
       </S.navigateContent>
-      <View style={hasBorder ? style.bottomBorder : style.marginBottom}></View>
+      {children}
+      <View style={hasBorder ? style.bottomBorder : style.marginBottom} />
     </S.navigateContainer>
   );
 };
