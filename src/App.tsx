@@ -8,9 +8,13 @@ import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
 import AccountStackNavigator from './navigators/AccountStackNavigator';
 import NotificationStackNavigator from './navigators/NotifacationStackNavigator';
+import useModal from './hooks/useModal';
+import useBottomSheet from './hooks/useBottomSheet';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const {Modal} = useModal();
+  const {BottomSheet} = useBottomSheet();
 
   useEffect(() => {
     (async () => {
@@ -30,6 +34,8 @@ let App: React.FC = () => {
         {/* <RootStackNavigator /> */}
         {/* <AccountStackNavigator /> */}
         <NotificationStackNavigator />
+        <Modal />
+        <BottomSheet />
       </NavigationContainer>
     </ConfigContext>
   );
