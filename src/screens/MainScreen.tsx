@@ -2,57 +2,13 @@ import styled, {css} from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 import React from 'react';
 
+import {Platform, NativeModules, StatusBar, View} from 'react-native';
 import {
-  Platform,
-  NativeModules,
-  StatusBar,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-
-const Banner = () => {
-  return (
-    <TouchableOpacity
-      style={css`
-        width: 100%;
-        height: 148px;
-        border-radius: 24px;
-      `}>
-      <Image source={require('../assets/images/banner_sample_img.png')} />
-    </TouchableOpacity>
-  );
-};
-
-const CardLayout = ({children}: {children: React.ReactNode}) => {
-  return (
-    <View
-      style={css`
-        padding: 20px;
-        border-radius: 20px;
-        border: 1px solid ${colors.grey};
-        background: #fff;
-      `}>
-      {children}
-    </View>
-  );
-};
-
-const MainServiceBox = ({label}: {label: string}) => {
-  return (
-    <View
-      style={css`
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      `}>
-      <Txt label={label} color={'primaryStrong'} typograph={'body1'} />
-      <CardLayout>
-        <></>
-      </CardLayout>
-    </View>
-  );
-};
+  Banner,
+  BottomNavigation,
+  CardLayout,
+  MainServiceBox,
+} from '../components/molecules';
 
 const MainScreen = () => {
   const {StatusBarManager} = NativeModules;
@@ -61,43 +17,60 @@ const MainScreen = () => {
       ? StatusBar.currentHeight
       : StatusBarManager.HEIGHT;
   return (
-    <S.mainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
-      <S.mainWaveBg source={require('../assets/images/main_wave_bg.png')} />
-      <S.mainWrapper>
-        <S.topWrapper>
-          <View
-            style={css`
-              display: flex;
-              flex-direction: column;
-              gap: 8px;
-              margin-top: 40px;
-              padding-left: 16px;
-            `}>
-            <View>
+    <>
+      <S.mainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
+        <S.mainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+        <S.mainWrapper>
+          <S.topWrapper>
+            <View
+              style={css`
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 40px;
+                padding-left: 16px;
+              `}>
+              <View>
+                <Txt
+                  label={`${'시대인'} 님`}
+                  color={'white'}
+                  typograph={'headlineMedium'}
+                />
+                <Txt
+                  label={'환영합니다'}
+                  color={'white'}
+                  typograph={'headlineMedium'}
+                />
+              </View>
               <Txt
-                label={`${'시대생'} 님`}
+                label={'OO아 힘을 내, 파이팅 넌 할 수 있어!'}
                 color={'white'}
-                typograph={'headline1'}
-              />
-              <Txt
-                label={'환영합니다'}
-                color={'white'}
-                typograph={'headline1'}
+                typograph={'headlineSmall'}
               />
             </View>
-            <Txt
-              label={'OO아 힘을 내, 파이팅 넌 할 수 있어'}
-              color={'white'}
-              typograph={'label1'}
-            />
-          </View>
-          <Banner />
-        </S.topWrapper>
-        <S.bottomWrapper>
-          <MainServiceBox label={'오늘의 학식'}></MainServiceBox>
-        </S.bottomWrapper>
-      </S.mainWrapper>
-    </S.mainContainer>
+            <Banner />
+          </S.topWrapper>
+          <S.bottomWrapper>
+            <MainServiceBox label={'오늘의 학식'}>
+              <CardLayout>
+                <></>
+              </CardLayout>
+            </MainServiceBox>
+            <MainServiceBox label={'도서관'}>
+              <CardLayout>
+                <></>
+              </CardLayout>
+            </MainServiceBox>
+            <MainServiceBox label={'공지사항'}>
+              <CardLayout>
+                <></>
+              </CardLayout>
+            </MainServiceBox>
+          </S.bottomWrapper>
+        </S.mainWrapper>
+      </S.mainContainer>
+      <BottomNavigation />
+    </>
   );
 };
 
@@ -113,8 +86,12 @@ const S = {
     left: 0;
     width: 100%;
   `,
-  mainWrapper: styled.ScrollView`
+  mainWrapper: styled.View`
     margin: 0 16px;
+    margin-bottom: 132px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
   `,
   topWrapper: styled.View`
     display: flex;
