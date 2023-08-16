@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
-import Header from '../../components/header/Header';
+import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import RoundTextInput from '../../components/forms/roundTextInput/RoundTextInput';
-import {Button} from '../../components/button/Button';
+import RoundTextInput from '../../../components/forms/roundTextInput/RoundTextInput';
+import {Button} from '../../../components/button/Button';
+import {useSetAtom} from 'jotai';
+import {accountStatusAtom} from '..';
 
 const VerificationScreen = () => {
+  const setAccountStatus = useSetAtom(accountStatusAtom);
   const [inputValue, setInputValue] = useState('');
   const [warningStatus, setWarningStatus] = useState('');
   const [isVerificationCodeSent, setIsVerificationCodeSent] = useState(false);
@@ -35,7 +38,17 @@ const VerificationScreen = () => {
     setIsVerificationCodeSent(true);
     setInputValue('');
   };
-  const handleVerifyIdentify = () => {};
+  const handleVerifyIdentify = () => {
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        stepStatus: {
+          userType: 'EXISTED',
+          step: 0,
+        },
+      };
+    });
+  };
 
   return (
     <S.screenContainer>
