@@ -1,15 +1,19 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Pressable, Text} from 'react-native';
 
 import styled from '@emotion/native';
 
 import HeaderProps from './Header.type';
+import {Txt, colors} from '@uoslife/design-system';
 
-const Header = ({label}: HeaderProps) => {
+const Header = ({label, onPressButton}: HeaderProps) => {
   return (
     <S.headerContainter>
-      <S.backButton source={require('../../assets/images/backButton.png')} />
-      <Text>{label}</Text>
+      <Pressable onPress={onPressButton} style={{padding: 10}}>
+        {/* TODO: 이후 Icon button으로 교체 */}
+        <S.backButton source={require('../../assets/images/backButton.png')} />
+      </Pressable>
+      <Txt label={label} color={'grey190'} typograph="titleLarge" />
     </S.headerContainter>
   );
 };
@@ -19,24 +23,18 @@ export default Header;
 const S = {
   headerContainter: styled.View`
     width: 100%;
-    height: 70px;
-    padding: 12px 20px;
-    padding-top: 32px;
+    height: 44px;
     display: flex;
     flex-direction: row;
-    gap: 17px;
+    align-items: center;
+    gap: 8px;
     border-bottom-width: 1px;
-    border-color: black;
+    border-color: ${colors.grey40};
     border-style: solid;
   `,
   backButton: styled.Image`
-    width: 29px;
-    height: 17px;
-  `,
-  button: styled.View`
-    border-radius: 16px;
-    background: #d0d0d0;
-    padding: 4px 10px;
-    font-size: 10px;
+    padding: 8px 16px;
+    width: 16px;
+    height: 32px;
   `,
 };
