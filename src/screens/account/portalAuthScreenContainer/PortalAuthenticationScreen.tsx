@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 
-import Header from '../../components/header/Header';
-import RoundTextInput from '../../components/forms/roundTextInput/RoundTextInput';
-import {Button} from '../../components/button/Button';
+import Header from '../../../components/header/Header';
+import RoundTextInput from '../../../components/forms/roundTextInput/RoundTextInput';
+import {Button} from '../../../components/button/Button';
 import {TextInput} from 'react-native-gesture-handler';
 
 const PortalAuthenticationScreen = () => {
