@@ -16,8 +16,8 @@ import NewUserScreen from './newUserScreenContainer';
 import ExistedUserScreen from './existedUserScreenContainer';
 import PortalAuthScreenContainer from './portalAuthScreenContainer';
 
-type UserType = 'NONE' | 'NEW' | 'EXISTED';
 type BaseStatusType = 'DEFAULT' | 'ONPROGRESS';
+type UserType = 'NONE' | 'NEW' | 'EXISTED';
 type StepStatusType<T extends UserType> = {
   userType: T;
   step: number;

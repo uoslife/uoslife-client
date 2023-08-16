@@ -1,21 +1,53 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text} from 'react-native';
 import Header from '../../../components/header/Header';
-import styled, {css} from '@emotion/native';
+import styled from '@emotion/native';
+import RoundTextInput from '../../../components/forms/roundTextInput/RoundTextInput';
+import {Button} from '../../../components/button/Button';
+import {useSetAtom} from 'jotai';
+import {accountStatusAtom} from '..';
 
 const VerificationScreen = () => {
-  const [value, setValue] = useState({
-    name: '',
-  });
-  const onChangeText = (text: string, target: string) => {
-    setValue({
-      ...value,
-      [target]: text,
-    });
+  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const [inputValue, setInputValue] = useState('');
+  const [warningStatus, setWarningStatus] = useState('');
+  const [isVerificationCodeSent, setIsVerificationCodeSent] = useState(false);
+
+  const handleWarningMessage = (status: string) => {
+    switch (status) {
+      case 'codeError':
+        return '입력하신 인증번호가 일치하지 않습니다.';
+      case 'requestExceed':
+        return '1일 인증 요청 가능 횟수를 초과하였습니다.';
+      case 'timeExpired':
+        return '요청된 시간이 만료되었습니다.';
+    }
   };
 
-  const handleWarningMessage = () => {
-    //   switch 문으로 각 상태에 따른 메시지를 return 해주기.
+  const onChangeText = (text: string) => {
+    setInputValue(
+      text
+        .replace(/[^0-9]/g, '')
+        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
+        .replace(/(\-{1,2})$/g, ''),
+    );
+  };
+
+  const handleRequestVerifyCode = () => {
+    if (inputValue.length < 13) return;
+    setIsVerificationCodeSent(true);
+    setInputValue('');
+  };
+  const handleVerifyIdentify = () => {
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        stepStatus: {
+          userType: 'EXISTED',
+          step: 0,
+        },
+      };
+    });
   };
 
   return (
@@ -23,14 +55,41 @@ const VerificationScreen = () => {
       <Header label="전화번호 본인인증" />
       <S.verificationContainer>
         <View>
-          <Text>전 화번호를 입력해주세요</Text>
+          <Text>전화번호를 입력해주세요</Text>
           <Text>* 인증번호 전송은 1일 5회로 제한됩니다.</Text>
-          <Text>휴대폰 번호 입력 컴포넌트 영역</Text>
-          <Text>경고 메시지 영역</Text>
-          <Text>인증번호 재전송 영역</Text>
+          <RoundTextInput
+            onChangeText={text => onChangeText(text)}
+            keyboardType={'numeric'}
+            value={inputValue}
+            status={warningStatus ? 'error' : 'default'}
+            placeholder={
+              isVerificationCodeSent ? '인증번호 입력' : '핸드폰 번호 입력'
+            }
+          />
+          {isVerificationCodeSent && (
+            <View>
+              {warningStatus && (
+                <Text style={{color: 'red'}}>
+                  {handleWarningMessage(warningStatus)}
+                </Text>
+              )}
+              <S.retryCodeRequestContainer>
+                <Text>인증번호가 오지 않나요?</Text>
+                <Text>재전송</Text>
+              </S.retryCodeRequestContainer>
+            </View>
+          )}
         </View>
         <View>
-          <Text>인증번호 받기 컴포넌트 영역</Text>
+          <Button
+            type={inputValue.length > 12 ? 'primary' : 'default'}
+            label={isVerificationCodeSent ? '인증번호 받기' : '본인인증 하기'}
+            onPress={
+              isVerificationCodeSent
+                ? handleVerifyIdentify
+                : handleRequestVerifyCode
+            }
+          />
         </View>
       </S.verificationContainer>
     </S.screenContainer>
@@ -48,7 +107,13 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 27px 12px;
+    padding: 42px 28px;
+  `,
+
+  retryCodeRequestContainer: styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   `,
 };
 
