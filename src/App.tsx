@@ -24,20 +24,20 @@ let App: React.FC = () => {
   }, []);
 
   return (
-    <ConfigContext>
-      <NavigationContainer>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor="transparent"
-          translucent
-        />
-        {/* <RootStackNavigator /> */}
-        {/* <AccountStackNavigator /> */}
-        <NotificationStackNavigator />
-        <Modal />
-        <BottomSheet />
-      </NavigationContainer>
-    </ConfigContext>
+    <>
+      <ConfigContext>
+        <NavigationContainer>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor="transparent"
+            translucent
+          />
+          {/* <RootStackNavigator /> */}
+          <AccountStackNavigator />
+          {/* <NotificationStackNavigator /> */}
+        </NavigationContainer>
+      </ConfigContext>
+    </>
   );
 };
 
