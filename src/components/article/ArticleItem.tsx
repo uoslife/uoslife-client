@@ -14,9 +14,7 @@ const ArticleItem = ({article}: {article: Article}) => {
     <Image source={require('../../assets/images/bookmark_toggle_on.png')} />
   );
   const BookmarkToggleOff = (
-    <Image
-      source={require('../../assets/images/bookmark_toggle_off.png.png')}
-    />
+    <Image source={require('../../assets/images/bookmark_toggle_off.png')} />
   );
 
   return <View></View>;
