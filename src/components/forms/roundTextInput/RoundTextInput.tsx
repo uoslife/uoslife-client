@@ -22,6 +22,7 @@ const RoundTextInput = ({
       <Pressable>
         <S.roundInputContainer value={value} status={status}>
           <S.textInput
+            style={Styles.paddingVertical}
             keyboardType={keyboardType}
             placeholder={placeholder}
             value={value}
@@ -85,3 +86,10 @@ const S = {
     width: 24px;
   `,
 };
+
+const Styles = StyleSheet.create({
+  // android input hidden padding prevent.
+  paddingVertical: {
+    paddingVertical: 0,
+  },
+});
