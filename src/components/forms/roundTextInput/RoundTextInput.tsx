@@ -4,6 +4,7 @@ import {Pressable, Text, TextInput, View} from 'react-native';
 import styled from '@emotion/native';
 
 import RoundTextInputProps from './RoundTextInput.type';
+import {colors, typographs} from '@uoslife/design-system';
 
 const RoundTextInput = ({
   keyboardType = 'default',
@@ -11,7 +12,7 @@ const RoundTextInput = ({
   statusMessage,
   value,
   placeholder,
-  placeholderTextColor = 'grey',
+  placeholderTextColor = colors.grey60,
   onChangeText,
   children,
   ...props
@@ -45,11 +46,11 @@ export default RoundTextInput;
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'success':
-      return 'blue';
+      return colors.primaryBrand;
     case 'error':
-      return 'red';
+      return colors.red;
     default:
-      return 'black';
+      return colors.grey130;
   }
 };
 
@@ -62,9 +63,7 @@ const S = {
     border-radius: 15px;
   `,
   textInput: styled.TextInput<RoundTextInputProps>`
-    padding: 19px;
-    height: 100%;
-    width: 100%;
+    ${() => typographs.titleSmall}
   `,
   statusMessageWrapper: styled.View<RoundTextInputProps>`
     padding-top: 7px;
