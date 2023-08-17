@@ -1,6 +1,6 @@
 import {TextInputProps, KeyboardTypeOptions} from 'react-native';
 
-export type RoundTextInputProps = TextInputProps & {
+export type InputProps = TextInputProps & {
   keyboardType?: KeyboardTypeOptions;
   onChangeText?: (value: string, target?: string) => void;
   onPress?: () => void;
@@ -13,4 +13,4 @@ export type RoundTextInputProps = TextInputProps & {
   children?: React.ReactNode;
 };
 
-export default RoundTextInputProps;
+export default InputProps;

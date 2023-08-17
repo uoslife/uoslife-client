@@ -1,10 +1,10 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
-import RoundTextInputProps from './RoundTextInput.type';
+import InputProps from './Input.type';
 import {colors, typographs} from '@uoslife/design-system';
 
-const RoundTextInput = ({
+const Input = ({
   keyboardType = 'default',
   status = 'default',
   label,
@@ -16,7 +16,7 @@ const RoundTextInput = ({
   onPress,
   children,
   ...props
-}: RoundTextInputProps) => {
+}: InputProps) => {
   return (
     <View>
       <S.label status={status}>{label}</S.label>
@@ -50,7 +50,7 @@ const RoundTextInput = ({
   );
 };
 
-export default RoundTextInput;
+export default Input;
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -64,12 +64,12 @@ const getStatusColor = (status: string) => {
 };
 
 const S = {
-  label: styled.Text<RoundTextInputProps>`
+  label: styled.Text<InputProps>`
     padding-left: 12px;
     color: ${({status}) => getStatusColor(status!)};
     ${() => typographs.bodyMedium}
   `,
-  roundInputContainer: styled.View<RoundTextInputProps>`
+  roundInputContainer: styled.View<InputProps>`
     position: relative;
     display: flex;
     flex-direction: row;
@@ -80,18 +80,18 @@ const S = {
     border-bottom-width: ${({value}) => (value! ? '2px' : '1px')};
     border-bottom-color: ${({status}) => getStatusColor(status!)};
   `,
-  textInput: styled.TextInput<RoundTextInputProps>`
+  textInput: styled.TextInput<InputProps>`
     ${() => typographs.titleSmall}
   `,
-  statusMessageWrapper: styled.View<RoundTextInputProps>`
+  statusMessageWrapper: styled.View<InputProps>`
     padding-top: 7px;
     padding-left: 8px;
   `,
-  statusMessage: styled.Text<RoundTextInputProps>`
+  statusMessage: styled.Text<InputProps>`
     color: ${({status}) => getStatusColor(status!)};
     ${() => typographs.labelMedium}
   `,
-  deleteTextIcon: styled.Image<RoundTextInputProps>`
+  deleteTextIcon: styled.Image<InputProps>`
     height: 24px;
     width: 24px;
   `,
