@@ -12,30 +12,7 @@ type Article = {
   uploadTime: Date;
 };
 
-const ArticleList = () => {
-  // 페이지네이션 적용해야하나??
-  const [articles, setArticles] = useState<Article[]>([]);
-
-  useEffect(() => {
-    // 임시
-    try {
-      const DUMMY_DATA: Article[] = new Array(15);
-
-      for (let i = 0; i < 15; i++)
-        DUMMY_DATA.push({
-          bookmarkCnt: i % 5,
-          category: `category${i}`,
-          title: `title${i}`,
-          uploadTime: new Date(),
-          bookmarkByMe: !!(i % 5) && !!(i % 2),
-        });
-
-      setArticles(DUMMY_DATA);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
+const ArticleList = ({articles}: {articles: Article[]}) => {
   return (
     <S.listContainer>
       {articles.map(article => (
