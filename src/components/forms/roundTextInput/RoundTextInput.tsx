@@ -20,7 +20,7 @@ const RoundTextInput = ({
   return (
     <View>
       <Pressable>
-        <S.roundInputContainer status={status}>
+        <S.roundInputContainer value={value} status={status}>
           <S.textInput
             keyboardType={keyboardType}
             placeholder={placeholder}
@@ -65,9 +65,9 @@ const S = {
   roundInputContainer: styled.View<RoundTextInputProps>`
     position: relative;
     width: 100%;
-    height: 62px;
-    border: 1px solid ${({status}) => getStatusColor(status!)};
-    border-radius: 15px;
+    padding: 5px 12px 8px 12px;
+    border-bottom-width: ${({value}) => (value! ? '2px' : '1px')};
+    border-bottom-color: ${({status}) => getStatusColor(status!)};
   `,
   textInput: styled.TextInput<RoundTextInputProps>`
     ${() => typographs.titleSmall}
