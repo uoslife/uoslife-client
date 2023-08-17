@@ -30,6 +30,13 @@ const RoundTextInput = ({
             {...props}
           />
           {children}
+          {value && (
+            <Pressable onPress={onPress}>
+              <S.deleteTextIcon
+                source={require('../../../assets/images/deleteButton.png')}
+              />
+            </Pressable>
+          )}
         </S.roundInputContainer>
       </Pressable>
       {status && (
@@ -71,5 +78,10 @@ const S = {
   `,
   statusMessage: styled.Text<RoundTextInputProps>`
     color: ${({status}) => getStatusColor(status!)};
+    ${() => typographs.labelMedium}
+  `,
+  deleteTextIcon: styled.Image<RoundTextInputProps>`
+    height: 24px;
+    width: 24px;
   `,
 };
