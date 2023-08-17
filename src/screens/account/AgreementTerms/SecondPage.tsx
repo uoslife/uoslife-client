@@ -133,8 +133,8 @@ const SecondPage = ({setPage}: SecondPageProps) => {
         />
       </S.pageWrapper>
 
-      <BottomSheet />
-      <Modal />
+      {BottomSheet()}
+      {Modal()}
     </>
   );
 };
