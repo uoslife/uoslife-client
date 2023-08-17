@@ -1,1 +1,1 @@
-export {default as NoticeMainScreen} from './NoticeMainScreen';
+export {default as NoticeMainScreen} from './NoticeMainScreenContainer';

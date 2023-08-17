@@ -7,7 +7,7 @@ import SplashScreen from 'react-native-splash-screen';
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 
 export type NoticeStackParamList = {
-  main: undefined;
+  Notice: undefined;
 };
 
 const Stack = createStackNavigator<NoticeStackParamList>();
@@ -31,9 +31,9 @@ const NoticeStackNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="main"
+      initialRouteName="Notice"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="main" component={NoticeMainScreen} />
+      <Stack.Screen name="Notice" component={NoticeMainScreen} />
     </Stack.Navigator>
   );
 };
