@@ -1,4 +1,4 @@
-import React, {FC, useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import BottomSheet from '../components/overlay/BottomSheet';
 import styled from '@emotion/native';
 
@@ -32,31 +32,8 @@ const useBottomSheet = () => {
     setBottomSheetBgOnpress(() => closeBottomSheet);
   }, []);
 
-  const BottomSheetComponent = useMemo(
-    () => () =>
-      bottomSheetOpened && (
-        <S.bottomSheetWrapper>
-          <S.bottomSheetBg
-            bgDark={bottomSheetBgDark}
-            zIndex={bottomSheetZIndex}
-            onPress={bottomSheetBgOnpress}
-          />
-          <BottomSheet zIndex={bottomSheetZIndex}>
-            {bottomSheetContent}
-          </BottomSheet>
-        </S.bottomSheetWrapper>
-      ),
-    [
-      bottomSheetOpened,
-      bottomSheetBgDark,
-      bottomSheetZIndex,
-      bottomSheetBgOnpress,
-      bottomSheetContent,
-    ],
-  );
-
   return {
-    BottomSheet: () =>
+    renderBottomSheet: () =>
       bottomSheetOpened && (
         <S.bottomSheetWrapper>
           <S.bottomSheetBg

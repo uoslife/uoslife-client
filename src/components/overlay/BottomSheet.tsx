@@ -7,18 +7,6 @@ interface BottomSheetProps {
 }
 
 const BottomSheet = ({children, zIndex}: BottomSheetProps) => {
-  useEffect(() => {
-    console.log('BottomSheet mounted');
-
-    return () => {
-      console.log('BottomSheet unmounted');
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log('BottomSheet rendered');
-  });
-
   return <S.bottomContent zIndex={zIndex}>{children}</S.bottomContent>;
 };
 

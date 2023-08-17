@@ -1,11 +1,5 @@
 import styled from '@emotion/native';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {Button} from '../../../components/button/Button';
@@ -31,16 +25,13 @@ const SecondPage = ({setPage}: SecondPageProps) => {
     isChecked: false,
   });
   const {
-    BottomSheet,
+    renderBottomSheet,
     setBottomSheetContent,
     openBottomSheet,
     activateBottomSheetBgDark,
     deactivateBottomSheetBgDark,
   } = useBottomSheet();
-  const {Modal, setModalContent, openModal, closeModal} = useModal();
-
-  const ModalMemo = useMemo(() => () => <Modal />, []);
-  const BottomSheetMemo = useMemo(() => () => <BottomSheet />, []);
+  const {renderModal, setModalContent, openModal, closeModal} = useModal();
 
   // Modal, BottomSheet의 content요소들 preset
   useEffect(() => {
@@ -133,8 +124,8 @@ const SecondPage = ({setPage}: SecondPageProps) => {
         />
       </S.pageWrapper>
 
-      {BottomSheet()}
-      {Modal()}
+      {renderBottomSheet()}
+      {renderModal()}
     </>
   );
 };

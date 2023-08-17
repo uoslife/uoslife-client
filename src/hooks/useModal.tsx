@@ -23,22 +23,8 @@ const useModal = () => {
     setModalBgDark(false);
   };
 
-  const ModalComponent = useMemo(
-    () => () =>
-      modalOpened && (
-        <S.modalWrapper>
-          <S.modalBg
-            bgDark={modalBgDark}
-            zIndex={modalZIndex}
-            onPress={modalBgOnpress}></S.modalBg>
-          <Modal zIndex={modalZIndex}>{modalContent}</Modal>
-        </S.modalWrapper>
-      ),
-    [modalOpened, modalBgDark, modalZIndex, modalBgOnpress, modalContent],
-  );
-
   return {
-    Modal: modalOpened
+    renderModal: modalOpened
       ? () => (
           <S.modalWrapper>
             <S.modalBg
