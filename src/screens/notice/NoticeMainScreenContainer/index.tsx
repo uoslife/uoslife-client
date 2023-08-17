@@ -29,6 +29,7 @@ export default NoticeMainScreen;
 
 const S = {
   screenWrapper: styled.ScrollView`
+    width: 100%;
     height: 100%;
     display: flex;
   `,
@@ -36,10 +37,13 @@ const S = {
     padding: 14px 16px;
   `,
   menuTapAndContents: styled.View`
+    width: 100%;
     display: flex;
     gap: 4px;
   `,
   menuTabContainer: styled.View``,
   menuBtnContainer: styled.View``,
-  contents: styled.View``,
+  contents: styled.View`
+    width: 100%;
+  `,
 };
