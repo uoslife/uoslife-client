@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, Text } from "react-native";
 
-const MainScreen = () => {
+const NoticeMainScreen = () => {
   return (
     <View>
-      <Text>MainScreen</Text>
+      <Text>NoticeMainScreen</Text>
     </View>
   )
 }
 
-export default MainScreen
+export default NoticeMainScreen
