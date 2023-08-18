@@ -5,7 +5,7 @@ import NoticeBookmarkScreenContainer from './NoticeBookmarkScreenContainer';
 import NoticeDetailScreenContainer from './NoticeDetailScreenContainer';
 import NoticeSearchResultScreencontainer from './NoticeSearchResultScreencontainer';
 
-export type StepTypeTemp = 'main' | 'detail' | 'bookmark' | 'search-result';
+export type StepTypeTemp = 'main' | 'detail' | 'bookmark-box' | 'search-result';
 
 const NoticeTempScreen = () => {
   const [step, setStep] = useState<StepTypeTemp>('detail');
@@ -16,7 +16,7 @@ const NoticeTempScreen = () => {
         return <NoticeMainScreen setStep={setStep} />;
       case 'detail':
         return <NoticeDetailScreenContainer setStep={setStep} />;
-      case 'bookmark':
+      case 'bookmark-box':
         return <NoticeBookmarkScreenContainer setStep={setStep} />;
       case 'search-result':
         return <NoticeSearchResultScreencontainer setStep={setStep} />;

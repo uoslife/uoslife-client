@@ -1,7 +1,6 @@
 import React, {Dispatch} from 'react';
 import {View} from 'react-native';
-
-type StepTypeTemp = 'main' | 'detail' | 'bookmark' | 'search-result';
+import {StepTypeTemp} from '../NoticeTempScreen';
 
 const NoticeSearchResultScreencontainer = ({
   setStep,
