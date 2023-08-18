@@ -26,12 +26,7 @@ const VerificationScreen = () => {
   };
 
   const onChangeText = (text: string) => {
-    setInputValue(
-      text
-        .replace(/[^0-9]/g, '')
-        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
-        .replace(/(\-{1,2})$/g, ''),
-    );
+    setInputValue(text);
   };
 
   const handleRequestVerifyCode = () => {
@@ -60,6 +55,7 @@ const VerificationScreen = () => {
           <Text>* 인증번호 전송은 1일 5회로 제한됩니다.</Text>
           <Input
             onChangeText={text => onChangeText(text)}
+            maxLength={11}
             onPress={() => setInputValue('')}
             keyboardType={'numeric'}
             value={inputValue}
@@ -67,7 +63,7 @@ const VerificationScreen = () => {
             statusMessage={handleWarningMessage(warningStatus)}
             status={warningStatus ? 'error' : 'default'}
             placeholder={
-              isVerificationCodeSent ? '인증번호 입력' : '핸드폰 번호 입력'
+              isVerificationCodeSent ? '인증번호 입력' : '01012345678'
             }
           />
         </View>
