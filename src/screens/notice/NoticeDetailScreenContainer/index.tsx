@@ -5,6 +5,7 @@ import {Txt} from '@uoslife/design-system';
 import {Image, View, Text} from 'react-native';
 import {StepTypeTemp} from '../NoticeTempScreen';
 import {Article} from '../NoticeMainScreenContainer';
+import {getUploadTimeString} from '../../../utils/handle-date';
 
 const NoticeDetailScreenContainer = ({
   setStep,
@@ -28,6 +29,7 @@ const NoticeDetailScreenContainer = ({
         uploadTime: new Date(),
       };
 
+      console.log(DUMMY_ARTICLE.uploadTime);
       setArticle(DUMMY_ARTICLE);
     } catch (err) {
       console.log(err);
@@ -43,6 +45,7 @@ const NoticeDetailScreenContainer = ({
 
   // API 달기
   const onPressBookmark = () => {};
+  const processedUploadTimeString = getUploadTimeString(article!.uploadTime!);
 
   // 디자인 확정시 padding, typography(아무거나막해놈) 등 반영 필요
   return !!article ? (
@@ -53,7 +56,7 @@ const NoticeDetailScreenContainer = ({
         <S.categoryAndDateAndBookmarkWrapper>
           {/* date handler 완성되면 바꾸기 */}
           <Txt
-            label={`${article.category} | article.date`}
+            label={`${article.category} | ${processedUploadTimeString}`}
             color="grey60"
             typograph="bodySmall"
           />
