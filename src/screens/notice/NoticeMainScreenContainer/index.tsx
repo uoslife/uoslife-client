@@ -83,9 +83,7 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
       </S.inputContainer>
       <S.menuTapAndContents>
         <MenuTab menuTapProps={articleMenuTapProps} selectMenu={selectMenu} />
-        <S.contents>
-          <ArticleList articles={articles} />
-        </S.contents>
+        <ArticleList articles={articles} />
       </S.menuTapAndContents>
     </S.screenWrapper>
   );
@@ -106,8 +104,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 4px;
-  `,
-  contents: styled.View`
-    width: 100%;
   `,
 };
