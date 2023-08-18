@@ -1,14 +1,16 @@
 import React, {useEffect, useMemo} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import PoCScreen from '../screens/PoCScreen';
-import WebViewScreen from '../screens/WebViewScreen';
 import {useConfigContext} from '../hooks/ConfigContext';
 import SplashScreen from 'react-native-splash-screen';
+
 import MaintenanceScreen from '../screens/MaintenanceScreen';
+import AccountScreen from '../screens/account';
+import VerificationScreen from '../screens/account/common/VerificationScreen';
 
 export type RootStackParamList = {
-  PoC: undefined;
-  WebView: {url?: string};
+  Account: undefined;
+  AccountVerification: undefined;
+  // Main: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -32,10 +34,11 @@ const RootStackNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="PoC"
+      initialRouteName="Account"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="PoC" component={PoCScreen} />
-      <Stack.Screen name="WebView" component={WebViewScreen} />
+      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen name="AccountVerification" component={VerificationScreen} />
+      {/* <Stack.Screen name="Main" component={MainScreen} /> */}
     </Stack.Navigator>
   );
 };
