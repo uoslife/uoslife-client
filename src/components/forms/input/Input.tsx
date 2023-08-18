@@ -32,7 +32,7 @@ const Input = ({
             {...props}
           />
           {children}
-          {value && (
+          {!!value && (
             <Pressable onPress={onPress}>
               <S.deleteTextIcon
                 source={require('../../../assets/images/deleteButton.png')}
@@ -41,7 +41,7 @@ const Input = ({
           )}
         </S.roundInputContainer>
       </Pressable>
-      {status && (
+      {!!statusMessage && (
         <S.statusMessageWrapper>
           <S.statusMessage status={status}>{statusMessage}</S.statusMessage>
         </S.statusMessageWrapper>
@@ -52,12 +52,14 @@ const Input = ({
 
 export default Input;
 
-const getStatusColor = (status: string) => {
+const getStatusColor = (status: InputProps['status']) => {
   switch (status) {
     case 'success':
       return colors.primaryBrand;
     case 'error':
       return colors.red;
+    case 'default':
+      return colors.grey130;
     default:
       return colors.grey130;
   }
@@ -66,7 +68,7 @@ const getStatusColor = (status: string) => {
 const S = {
   label: styled.Text<InputProps>`
     padding-left: 12px;
-    color: ${({status}) => getStatusColor(status!)};
+    color: ${({status}) => getStatusColor(status)};
     ${() => typographs.bodyMedium}
   `,
   roundInputContainer: styled.View<InputProps>`
@@ -77,7 +79,7 @@ const S = {
     justify-content: space-between;
     width: 100%;
     padding: 5px 12px 8px 12px;
-    border-bottom-width: ${({value}) => (value! ? '2px' : '1px')};
+    border-bottom-width: ${({value}) => (!!value ? '2px' : '1px')};
     border-bottom-color: ${({status}) => getStatusColor(status!)};
   `,
   textInput: styled.TextInput<InputProps>`
