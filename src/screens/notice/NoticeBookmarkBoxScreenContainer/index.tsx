@@ -2,7 +2,7 @@ import React, {Dispatch} from 'react';
 import {View} from 'react-native';
 import {StepTypeTemp} from '../NoticeTempScreen';
 
-const NoticeBookmarkScreenContainer = ({
+const NoticeBookmarkBoxScreenContainer = ({
   setStep,
 }: {
   setStep: Dispatch<StepTypeTemp>;
@@ -10,4 +10,4 @@ const NoticeBookmarkScreenContainer = ({
   return <View></View>;
 };
 
-export default NoticeBookmarkScreenContainer;
+export default NoticeBookmarkBoxScreenContainer;

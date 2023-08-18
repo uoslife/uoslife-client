@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {View} from 'react-native';
 import NoticeMainScreen from './NoticeMainScreenContainer';
-import NoticeBookmarkScreenContainer from './NoticeBookmarkScreenContainer';
+import NoticeBookmarkBoxScreenContainer from './NoticeBookmarkBoxScreenContainer';
 import NoticeDetailScreenContainer from './NoticeDetailScreenContainer';
 import NoticeSearchResultScreencontainer from './NoticeSearchResultScreencontainer';
 
@@ -17,7 +17,7 @@ const NoticeTempScreen = () => {
       case 'detail':
         return <NoticeDetailScreenContainer setStep={setStep} />;
       case 'bookmark-box':
-        return <NoticeBookmarkScreenContainer setStep={setStep} />;
+        return <NoticeBookmarkBoxScreenContainer setStep={setStep} />;
       case 'search-result':
         return <NoticeSearchResultScreencontainer setStep={setStep} />;
     }
