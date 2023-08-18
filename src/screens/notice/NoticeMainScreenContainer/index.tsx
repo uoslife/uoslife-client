@@ -81,9 +81,7 @@ const NoticeMainScreen = () => {
         <Input placeholder="몰?루" />
       </S.inputContainer>
       <S.menuTapAndContents>
-        <S.menuTabContainer>
-          <MenuTab menuTapProps={articleMenuTapProps} selectMenu={selectMenu} />
-        </S.menuTabContainer>
+        <MenuTab menuTapProps={articleMenuTapProps} selectMenu={selectMenu} />
         <S.contents>
           <ArticleList articles={articles} />
         </S.contents>
@@ -108,8 +106,6 @@ const S = {
     display: flex;
     gap: 4px;
   `,
-  menuTabContainer: styled.View``,
-  menuBtnContainer: styled.View``,
   contents: styled.View`
     width: 100%;
   `,

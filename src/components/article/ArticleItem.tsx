@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import React from 'react';
-import {Image, View, Text} from 'react-native';
+import {Image, Text} from 'react-native';
 
 // 임시타입이라 따로 빼놓지는 않겠습니다
 type Article = {

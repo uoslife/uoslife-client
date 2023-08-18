@@ -2,7 +2,7 @@
 
 import styled from '@emotion/native';
 import React from 'react';
-import {Input, Txt, colors} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 
 type MenuTapProps = {
   list: string[];
