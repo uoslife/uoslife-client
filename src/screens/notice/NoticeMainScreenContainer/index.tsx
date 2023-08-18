@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Dispatch} from 'react';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {Input} from '@uoslife/design-system';
@@ -6,6 +6,7 @@ import ArticleList from '../../../components/article/ArticleList';
 import MenuTab from '../../../components/menu-tab/MenuTab';
 
 type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
+type StepTypeTemp = 'main' | 'detail' | 'bookmark';
 
 // MenuTap 컴포넌트로 넘겨줄것
 type ArticleMenuTapProps = {
@@ -23,7 +24,7 @@ type Article = {
   id: string;
 };
 
-const NoticeMainScreen = () => {
+const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
   // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleMenuTapProps, setArticleMenuTapProps] =
