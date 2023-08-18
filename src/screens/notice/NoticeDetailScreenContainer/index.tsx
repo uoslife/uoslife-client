@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import React, {Dispatch, useEffect, useState} from 'react';
 import Header from '../../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
-import {Image, View} from 'react-native';
+import {Image, View, Text} from 'react-native';
 import {StepTypeTemp} from '../NoticeTempScreen';
 import {Article} from '../NoticeMainScreenContainer';
 
@@ -44,37 +44,39 @@ const NoticeDetailScreenContainer = ({
   // API 달기
   const onPressBookmark = () => {};
 
-  // 디자인 확정시 반영 필요(아무거나막해놈)
-  return (
-    !!article && (
-      <S.screenWrapper>
-        <Header label={`${article.menu}공지`} />
-        <S.detailTopWrapper>
-          <Txt label={article.title} color="black" typograph="bodyLarge" />
-          <S.categoryAndDateAndBookmarkWrapper>
-            {/* date handler 완성되면 바꾸기 */}
+  // 디자인 확정시 padding, typography(아무거나막해놈) 등 반영 필요
+  return !!article ? (
+    <S.screenWrapper>
+      <Header label={`${article.menu}공지`} />
+      <S.detailTopWrapper>
+        <Txt label={article.title} color="black" typograph="bodyLarge" />
+        <S.categoryAndDateAndBookmarkWrapper>
+          {/* date handler 완성되면 바꾸기 */}
+          <Txt
+            label={`${article.category} | article.date`}
+            color="grey60"
+            typograph="bodySmall"
+          />
+          <S.bookmarkContainer onPress={onPressBookmark}>
+            {article.bookmarkByMe ? (
+              <BookmarkToggleOn />
+            ) : (
+              <BookmarkToggleOff />
+            )}
             <Txt
-              label={`${article.category} | article.date`}
-              color="grey60"
+              label={`${article.bookmarkCnt}`}
+              color="grey130"
               typograph="bodySmall"
             />
-            <S.bookmarkContainer onPress={onPressBookmark}>
-              {article.bookmarkByMe ? (
-                <BookmarkToggleOn />
-              ) : (
-                <BookmarkToggleOff />
-              )}
-              <Txt
-                label={`${article.bookmarkCnt}`}
-                color="grey130"
-                typograph="bodySmall"
-              />
-            </S.bookmarkContainer>
-          </S.categoryAndDateAndBookmarkWrapper>
-        </S.detailTopWrapper>
-        <Txt label={article.body!} color="black" typograph="bodySmall" />
-      </S.screenWrapper>
-    )
+          </S.bookmarkContainer>
+        </S.categoryAndDateAndBookmarkWrapper>
+      </S.detailTopWrapper>
+      <Txt label={article.body!} color="black" typograph="bodySmall" />
+    </S.screenWrapper>
+  ) : (
+    <View>
+      <Text>로딩스피너?</Text>
+    </View>
   );
 };
 
