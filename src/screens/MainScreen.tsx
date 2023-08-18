@@ -1,12 +1,15 @@
 import styled, {css} from '@emotion/native';
-import {Txt, colors} from '@uoslife/design-system';
+import {Icon, Txt, colors} from '@uoslife/design-system';
 import React from 'react';
 
 import {Platform, NativeModules, StatusBar, View} from 'react-native';
 import {
+  AnnounceContents,
   Banner,
   BottomNavigation,
+  CafeteriaContents,
   CardLayout,
+  LibraryContents,
   MainServiceBox,
 } from '../components/molecules';
 
@@ -18,57 +21,52 @@ const MainScreen = () => {
       : StatusBarManager.HEIGHT;
   return (
     <>
-      <S.mainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
-        <S.mainWaveBg source={require('../assets/images/main_wave_bg.png')} />
-        <S.mainWrapper>
-          <S.topWrapper>
-            <View
-              style={css`
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                margin-top: 40px;
-                padding-left: 16px;
-              `}>
-              <View>
-                <Txt
-                  label={`${'시대인'} 님`}
-                  color={'white'}
-                  typograph={'headlineMedium'}
-                />
-                <Txt
-                  label={'환영합니다'}
-                  color={'white'}
-                  typograph={'headlineMedium'}
-                />
-              </View>
+      <S.MainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
+        <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+        <S.MainWrapper>
+          <S.MypageButton>
+            <Icon name={'person_white'} width={24} height={24} />
+          </S.MypageButton>
+          <View
+            style={css`
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+              margin-top: 40px;
+              padding-left: 16px;
+            `}>
+            <View>
               <Txt
-                label={'OO아 힘을 내, 파이팅 넌 할 수 있어!'}
+                label={`${'시대인'} 님`}
                 color={'white'}
-                typograph={'headlineSmall'}
+                typograph={'headlineMedium'}
+              />
+              <Txt
+                label={'환영합니다'}
+                color={'white'}
+                typograph={'headlineMedium'}
               />
             </View>
-            <Banner />
-          </S.topWrapper>
-          <S.bottomWrapper>
-            <MainServiceBox label={'오늘의 학식'}>
-              <CardLayout>
-                <></>
-              </CardLayout>
-            </MainServiceBox>
-            <MainServiceBox label={'도서관'}>
-              <CardLayout>
-                <></>
-              </CardLayout>
-            </MainServiceBox>
-            <MainServiceBox label={'공지사항'}>
-              <CardLayout>
-                <></>
-              </CardLayout>
-            </MainServiceBox>
-          </S.bottomWrapper>
-        </S.mainWrapper>
-      </S.mainContainer>
+            <Txt
+              label={'OO아 힘을 내, 파이팅 넌 할 수 있어!'}
+              color={'white'}
+              typograph={'headlineSmall'}
+            />
+          </View>
+          <Banner />
+          <MainServiceBox
+            label={'오늘의 학식'}
+            icon={'cafeteria_primaryDarker'}>
+            <CafeteriaContents />
+          </MainServiceBox>
+          <MainServiceBox label={'도서관'} icon={'library_primaryDarker'}>
+            <LibraryContents />
+          </MainServiceBox>
+          <MainServiceBox label={'공지사항'} icon={'campaign_primaryDarker'}>
+            <AnnounceContents />
+          </MainServiceBox>
+        </S.MainWrapper>
+      </S.MainContainer>
       <BottomNavigation />
     </>
   );
@@ -77,30 +75,27 @@ const MainScreen = () => {
 export default MainScreen;
 
 const S = {
-  mainContainer: styled.ScrollView`
+  MainContainer: styled.ScrollView`
     position: relative;
   `,
-  mainWaveBg: styled.Image`
+  MainWaveBg: styled.Image`
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
   `,
-  mainWrapper: styled.View`
+  MainWrapper: styled.View`
+    position: relative;
     margin: 0 16px;
     margin-bottom: 132px;
     display: flex;
     flex-direction: column;
     gap: 48px;
   `,
-  topWrapper: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  `,
-  bottomWrapper: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 48px;
+
+  MypageButton: styled.Pressable`
+    position: absolute;
+    top: 16px;
+    right: 0;
   `,
 };

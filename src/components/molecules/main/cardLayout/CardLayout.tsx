@@ -1,16 +1,20 @@
 import styled from '@emotion/native';
 
 import {colors} from '@uoslife/design-system';
+import {ViewProps} from 'react-native';
 
-const CardLayout = ({children}: {children: React.ReactNode}) => {
-  return <S.CardLayoutWrapper>{children}</S.CardLayoutWrapper>;
+type Props = {
+  children: React.ReactNode;
+} & ViewProps;
+
+const CardLayout = ({children, ...props}: Props) => {
+  return <S.CardLayoutWrapper {...props}>{children}</S.CardLayoutWrapper>;
 };
 
 export default CardLayout;
 
 const S = {
   CardLayoutWrapper: styled.View`
-    padding: 20px;
     border-radius: 20px;
     border: 1px solid ${colors.grey40};
     background: ${colors.white};

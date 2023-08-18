@@ -1,10 +1,13 @@
 import styled from '@emotion/native';
-import {Image} from 'react-native';
+import {Txt} from '@uoslife/design-system';
 
 const Banner = () => {
   return (
     <S.BannerWrapper>
-      <Image
+      <S.BannerOrderMarker>
+        <Txt label={`1 / 5`} color={'white'} typograph={'labelSmall'} />
+      </S.BannerOrderMarker>
+      <S.BannerImage
         source={require('../../../../assets/images/banner_sample_img.png')}
       />
     </S.BannerWrapper>
@@ -14,9 +17,26 @@ const Banner = () => {
 export default Banner;
 
 const S = {
-  BannerWrapper: styled.TouchableOpacity`
+  BannerWrapper: styled.Pressable`
+    position: relative;
+  `,
+  BannerImage: styled.Image`
     width: 100%;
     height: 148px;
+    border-radius: 20px;
+    object-fit: cover;
+  `,
+  BannerOrderMarker: styled.View`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 11px;
+    right: 12px;
+    width: 35px;
+    height: 24px;
     border-radius: 24px;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 3;
   `,
 };
