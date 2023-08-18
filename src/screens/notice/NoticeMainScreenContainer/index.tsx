@@ -5,24 +5,46 @@ import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import MenuTab from '../../../components/menu-tab/MenuTab';
 
-// 임시타입이라 따로 빼놓지는 않겠습니다
+type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
+
+// MenuTap 컴포넌트로 넘겨줄것
+type ArticleMenuTapProps = {
+  list: ArticleMenuName[];
+  selected: ArticleMenuName;
+};
+
 type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
   title: string;
+  menu: ArticleMenuName;
   category: string; // XX과
   uploadTime: Date;
+  id: string;
 };
 
 const NoticeMainScreen = () => {
-  // 페이지네이션 적용해야하나??
+  // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
+  const [articleMenuTapProps, setArticleMenuTapProps] =
+    useState<ArticleMenuTapProps>({
+      list: ['일반', '학사', '채용', '창업'],
+      selected: '일반',
+    });
+
+  const selectMenu = (menuName: string) => {
+    setArticleMenuTapProps({
+      ...articleMenuTapProps,
+      selected: menuName as ArticleMenuName,
+    });
+  };
 
   useEffect(() => {
-    // 임시
+    // 임시: 나중에 글 불러오는 API로 교체
     try {
-      const DUMMY_DATA: Article[] = new Array(15);
+      const DUMMY_DATA: Article[] = new Array();
 
+      // 더미 만들어주는 코드 <- 나중에 삭제 예정
       for (let i = 0; i < 15; i++)
         DUMMY_DATA.push({
           bookmarkCnt: i % 5,
@@ -30,13 +52,26 @@ const NoticeMainScreen = () => {
           title: `title${i}`,
           uploadTime: new Date(),
           bookmarkByMe: !!(i % 5) && !!(i % 2),
+          id: `id${i}`,
+          menu:
+            i % 4 === 0
+              ? '일반'
+              : i % 4 === 1
+              ? '학사'
+              : i % 4 === 2
+              ? '채용'
+              : '창업',
         });
 
-      setArticles(DUMMY_DATA);
+      setArticles(
+        DUMMY_DATA.filter(
+          article => article.menu === articleMenuTapProps.selected,
+        ),
+      );
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [articleMenuTapProps]);
 
   return (
     <S.screenWrapper>
@@ -47,7 +82,7 @@ const NoticeMainScreen = () => {
       </S.inputContainer>
       <S.menuTapAndContents>
         <S.menuTabContainer>
-          <MenuTab />
+          <MenuTab menuTapProps={articleMenuTapProps} selectMenu={selectMenu} />
         </S.menuTabContainer>
         <S.contents>
           <ArticleList articles={articles} />
