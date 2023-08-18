@@ -4,7 +4,6 @@ import styled from '@emotion/native';
 
 // 임시타입이라 따로 빼놓지는 않겠습니다
 type MenuName = '일반' | '학사' | '채용' | '창업';
-
 type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
