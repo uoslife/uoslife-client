@@ -49,7 +49,7 @@ const NoticeMainScreen = () => {
         DUMMY_DATA.push({
           bookmarkCnt: i % 5,
           category: `category${i}`,
-          title: `title${i}`,
+          title: `titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle${i}`,
           uploadTime: new Date(),
           bookmarkByMe: !!(i % 5) && !!(i % 2),
           id: `id${i}`,

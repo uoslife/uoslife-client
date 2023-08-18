@@ -1,4 +1,5 @@
 import styled from '@emotion/native';
+import {Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, View, Text} from 'react-native';
 
@@ -43,8 +44,12 @@ const ArticleItem = ({article}: {article: Article}) => {
   return (
     <S.articleItemWrapper>
       <S.description onPress={onPressArticleLink}>
-        <Text>{title}</Text>
-        <Text>{processedCategoryAndDate}</Text>
+        <Txt color="black" typograph="bodyMedium" label={title} />
+        <Txt
+          color="grey90"
+          typograph="labelSmall"
+          label={processedCategoryAndDate}
+        />
       </S.description>
 
       <S.bookmarkContainer onPress={onPressBookmark}>
@@ -70,11 +75,16 @@ const S = {
   `,
   description: styled.Pressable`
     flex: 1;
+
+    display: flex;
+    gap: 4px;
   `,
   bookmarkContainer: styled.Pressable`
     display: flex;
     align-items: center;
     justify-contents: center;
+    width: 48px;
+    height: 60px;
   `,
   textContainer: styled.View``,
 };
