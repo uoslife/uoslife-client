@@ -4,21 +4,19 @@ import styled from '@emotion/native';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import MenuTab from '../../../components/menu-tab/MenuTab';
+import {StepTypeTemp} from '../NoticeTempScreen';
 
-type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
-type StepTypeTemp = 'main' | 'detail' | 'bookmark';
-
-// MenuTap 컴포넌트로 넘겨줄것
-type ArticleMenuTapProps = {
+export type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
+export type ArticleMenuTapProps = {
   list: ArticleMenuName[];
   selected: ArticleMenuName;
 };
-
-type Article = {
+export type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
   title: string;
   menu: ArticleMenuName;
+  body?: string;
   category: string; // XX과
   uploadTime: Date;
   id: string;
