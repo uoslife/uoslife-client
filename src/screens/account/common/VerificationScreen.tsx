@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import RoundTextInput from '../../../components/forms/roundTextInput/RoundTextInput';
+
+import Input from '../../../components/forms/input/Input';
 import {Button} from '../../../components/button/Button';
 import {useSetAtom} from 'jotai';
 import {accountStatusAtom} from '..';
@@ -10,7 +11,7 @@ import {accountStatusAtom} from '..';
 const VerificationScreen = () => {
   const setAccountStatus = useSetAtom(accountStatusAtom);
   const [inputValue, setInputValue] = useState('');
-  const [warningStatus, setWarningStatus] = useState('');
+  const [warningStatus, setWarningStatus] = useState('codeError');
   const [isVerificationCodeSent, setIsVerificationCodeSent] = useState(false);
 
   const handleWarningMessage = (status: string) => {
@@ -57,28 +58,18 @@ const VerificationScreen = () => {
         <View>
           <Text>전화번호를 입력해주세요</Text>
           <Text>* 인증번호 전송은 1일 5회로 제한됩니다.</Text>
-          <RoundTextInput
+          <Input
             onChangeText={text => onChangeText(text)}
+            onPress={() => setInputValue('')}
             keyboardType={'numeric'}
             value={inputValue}
+            label={'안녕'}
+            statusMessage={handleWarningMessage(warningStatus)}
             status={warningStatus ? 'error' : 'default'}
             placeholder={
               isVerificationCodeSent ? '인증번호 입력' : '핸드폰 번호 입력'
             }
           />
-          {isVerificationCodeSent && (
-            <View>
-              {warningStatus && (
-                <Text style={{color: 'red'}}>
-                  {handleWarningMessage(warningStatus)}
-                </Text>
-              )}
-              <S.retryCodeRequestContainer>
-                <Text>인증번호가 오지 않나요?</Text>
-                <Text>재전송</Text>
-              </S.retryCodeRequestContainer>
-            </View>
-          )}
         </View>
         <View>
           <Button

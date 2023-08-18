@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 
 import Header from '../../../components/header/Header';
-import RoundTextInput from '../../../components/forms/roundTextInput/RoundTextInput';
+import Input from '../../../components/forms/input/Input';
 import {Button} from '../../../components/button/Button';
+
 import {TextInput} from 'react-native-gesture-handler';
 
 const PortalAuthenticationScreen = () => {
@@ -36,14 +37,14 @@ const PortalAuthenticationScreen = () => {
       </Text>
       <Text>ᆞ계정 정보는 서버에 안전한 암호화 방식으로 저장돼요.</Text>
       <Text>포털 아이디</Text>
-      <RoundTextInput
+      <Input
         placeholder="아이디 입력"
         onChangeText={text => onChangeText(text, 'id')}
         status={submit && error ? 'error' : 'default'}
       />
       <Text>포털 비밀번호</Text>
       <TextInput placeholder="비밀번호" />
-      <RoundTextInput
+      <Input
         placeholder="비밀번호 입력"
         onChangeText={text => onChangeText(text, 'password')}
         status={submit && error ? 'error' : 'default'}
