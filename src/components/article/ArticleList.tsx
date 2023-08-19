@@ -3,7 +3,11 @@ import ArticleItem from './ArticleItem';
 import styled from '@emotion/native';
 import {Article} from '../../screens/notice/NoticeMainScreenContainer';
 
-const ArticleList = ({articles}: {articles: Article[]}) => {
+type ArticleListProps = {
+  articles: Article[];
+  showMenu?: true;
+};
+const ArticleList = ({articles, showMenu}: ArticleListProps) => {
   return (
     <S.listContainer>
       {articles.map(article => (

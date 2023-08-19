@@ -5,7 +5,7 @@ import Header from '../../../components/header/Header';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import styled from '@emotion/native';
-import {Article, ArticleMenuTapProps} from '../NoticeMainScreenContainer';
+import {Article, ArticleMenuTapState} from '../NoticeMainScreenContainer';
 
 const NoticeBookmarkBoxScreenContainer = ({
   setStep,
@@ -13,7 +13,7 @@ const NoticeBookmarkBoxScreenContainer = ({
   setStep: Dispatch<StepTypeTemp>;
 }) => {
   const [articles, setArticles] = useState<Article[]>([]);
-  useState<ArticleMenuTapProps>({
+  useState<ArticleMenuTapState>({
     list: ['일반', '학사', '채용', '창업'],
     selected: '일반',
   });

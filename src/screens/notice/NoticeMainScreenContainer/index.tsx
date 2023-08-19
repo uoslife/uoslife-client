@@ -7,7 +7,7 @@ import MenuTab from '../../../components/menu-tab/MenuTab';
 import {StepTypeTemp} from '../NoticeTempScreen';
 
 export type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
-export type ArticleMenuTapProps = {
+export type ArticleMenuTapState = {
   list: ArticleMenuName[];
   selected: ArticleMenuName;
 };
@@ -26,7 +26,7 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
   // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleMenuTapProps, setArticleMenuTapProps] =
-    useState<ArticleMenuTapProps>({
+    useState<ArticleMenuTapState>({
       list: ['일반', '학사', '채용', '창업'],
       selected: '일반',
     });

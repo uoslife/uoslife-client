@@ -5,7 +5,12 @@ import {Image, Text} from 'react-native';
 import {Article} from '../../screens/notice/NoticeMainScreenContainer';
 import {getUploadTimeString} from '../../utils/handle-date';
 
-const ArticleItem = ({article}: {article: Article}) => {
+type ArticleItemProps = {
+  article: Article;
+  showMenu?: true;
+};
+
+const ArticleItem = ({article, showMenu}: ArticleItemProps) => {
   const {bookmarkCnt, department, title, uploadTime, bookmarkByMe} = article;
 
   const BookmarkToggleOn = () => (
