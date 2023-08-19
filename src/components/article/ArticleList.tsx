@@ -11,7 +11,11 @@ const ArticleList = ({articles, showCategory}: ArticleListProps) => {
   return (
     <S.listContainer>
       {articles.map(article => (
-        <ArticleItem article={article} key={article.id} />
+        <ArticleItem
+          article={article}
+          key={article.id}
+          showCategory={showCategory}
+        />
       ))}
     </S.listContainer>
   );

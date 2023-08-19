@@ -11,7 +11,8 @@ type ArticleItemProps = {
 };
 
 const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
-  const {bookmarkCnt, department, title, uploadTime, bookmarkByMe} = article;
+  const {bookmarkCnt, department, title, uploadTime, bookmarkByMe, category} =
+    article;
 
   const BookmarkToggleOn = () => (
     <Image source={require('../../assets/images/bookmark_toggle_on.png')} />
@@ -29,7 +30,15 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
   const processedUploadTimeString = getUploadTimeString(uploadTime);
 
   return (
+    // 디자인 미확정.. 대충 냅둠..
     <S.articleItemWrapper>
+      {showCategory && (
+        <Txt
+          color={'black'}
+          label={`${category}공지`}
+          typograph={'bodyLarge'}
+        />
+      )}
       <S.description onPress={onPressArticleLink}>
         <Txt color="black" typograph="bodyMedium" label={title} />
         <Txt

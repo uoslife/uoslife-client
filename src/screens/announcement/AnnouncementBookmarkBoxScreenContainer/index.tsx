@@ -55,7 +55,7 @@ const AnnouncementBookmarkBoxScreenContainer = ({
     <S.screenWrapper>
       <Header label="북마크함" />
       <S.categoryTapAndContents>
-        <ArticleList articles={articles} />
+        <ArticleList articles={articles} showCategory />
       </S.categoryTapAndContents>
     </S.screenWrapper>
   );
