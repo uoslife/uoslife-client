@@ -6,7 +6,7 @@ import {Article} from '../../screens/notice/NoticeMainScreenContainer';
 import {getUploadTimeString} from '../../utils/handle-date';
 
 const ArticleItem = ({article}: {article: Article}) => {
-  const {bookmarkCnt, category, title, uploadTime, bookmarkByMe} = article;
+  const {bookmarkCnt, department, title, uploadTime, bookmarkByMe} = article;
 
   const BookmarkToggleOn = () => (
     <Image source={require('../../assets/images/bookmark_toggle_on.png')} />
@@ -30,7 +30,7 @@ const ArticleItem = ({article}: {article: Article}) => {
         <Txt
           color="grey90"
           typograph="labelSmall"
-          label={`${category} | ${processedUploadTimeString}`}
+          label={`${department} | ${processedUploadTimeString}`}
         />
       </S.description>
 

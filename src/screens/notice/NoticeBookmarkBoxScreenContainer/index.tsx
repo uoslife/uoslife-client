@@ -26,7 +26,7 @@ const NoticeBookmarkBoxScreenContainer = ({
       for (let i = 0; i < 15; i++)
         DUMMY_DATA.push({
           bookmarkCnt: i % 5,
-          category: `category${i}`,
+          department: `category${i}`,
           title: `titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle${i}`,
           uploadTime: new Date(),
           bookmarkByMe: !!(i % 5) && !!(i % 2),
