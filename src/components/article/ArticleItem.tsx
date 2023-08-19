@@ -7,10 +7,10 @@ import {getUploadTimeString} from '../../utils/handle-date';
 
 type ArticleItemProps = {
   article: Article;
-  showMenu?: true;
+  showCategory?: true;
 };
 
-const ArticleItem = ({article, showMenu}: ArticleItemProps) => {
+const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
   const {bookmarkCnt, department, title, uploadTime, bookmarkByMe} = article;
 
   const BookmarkToggleOn = () => (

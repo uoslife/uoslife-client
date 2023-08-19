@@ -3,19 +3,19 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
-import MenuTab from '../../../components/menu-tab/MenuTab';
+import CategoryTab from '../../../components/category-tab/CategoryTab';
 import {StepTypeTemp} from '../NoticeTempScreen';
 
-export type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
-export type ArticleMenuTapState = {
-  list: ArticleMenuName[];
-  selected: ArticleMenuName;
+export type ArticleCategoryName = '일반' | '학사' | '채용' | '창업';
+export type ArticleCategoryTapState = {
+  list: ArticleCategoryName[];
+  selected: ArticleCategoryName;
 };
 export type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
   title: string;
-  menu: ArticleMenuName;
+  category: ArticleCategoryName;
   body?: string;
   department: string; // XX과
   uploadTime: Date;
@@ -25,16 +25,16 @@ export type Article = {
 const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
   // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
-  const [articleMenuTapProps, setArticleMenuTapProps] =
-    useState<ArticleMenuTapState>({
+  const [articleCategoryTapProps, setArticleCategoryTapProps] =
+    useState<ArticleCategoryTapState>({
       list: ['일반', '학사', '채용', '창업'],
       selected: '일반',
     });
 
-  const selectMenu = (menuName: string) => {
-    setArticleMenuTapProps({
-      ...articleMenuTapProps,
-      selected: menuName as ArticleMenuName,
+  const selectCategory = (categoryName: string) => {
+    setArticleCategoryTapProps({
+      ...articleCategoryTapProps,
+      selected: categoryName as ArticleCategoryName,
     });
   };
 
@@ -51,7 +51,7 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
           uploadTime: new Date(),
           bookmarkByMe: !!(i % 5) && !!(i % 2),
           id: `id${i}`,
-          menu:
+          category:
             i % 4 === 0
               ? '일반'
               : i % 4 === 1
@@ -64,13 +64,13 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
       // 선택한 메뉴에 해당되는 글만
       setArticles(
         DUMMY_DATA.filter(
-          article => article.menu === articleMenuTapProps.selected,
+          article => article.category === articleCategoryTapProps.selected,
         ),
       );
     } catch (err) {
       console.log(err);
     }
-  }, [articleMenuTapProps]);
+  }, [articleCategoryTapProps]);
 
   return (
     <S.screenWrapper>
@@ -79,10 +79,13 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
         {/* 디자인에 맞는 input으로 수정 필요!! */}
         <Input placeholder="몰?루" />
       </S.inputContainer>
-      <S.menuTapAndContents>
-        <MenuTab menuTapProps={articleMenuTapProps} selectMenu={selectMenu} />
+      <S.categoryTapAndContents>
+        <CategoryTab
+          categoryTabProps={articleCategoryTapProps}
+          selectCategory={selectCategory}
+        />
         <ArticleList articles={articles} />
-      </S.menuTapAndContents>
+      </S.categoryTapAndContents>
     </S.screenWrapper>
   );
 };
@@ -98,7 +101,7 @@ const S = {
   inputContainer: styled.View`
     padding: 14px 16px;
   `,
-  menuTapAndContents: styled.View`
+  categoryTapAndContents: styled.View`
     width: 100%;
     display: flex;
     gap: 4px;

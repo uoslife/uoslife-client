@@ -5,9 +5,9 @@ import {Article} from '../../screens/notice/NoticeMainScreenContainer';
 
 type ArticleListProps = {
   articles: Article[];
-  showMenu?: true;
+  showCategory?: true;
 };
-const ArticleList = ({articles, showMenu}: ArticleListProps) => {
+const ArticleList = ({articles, showCategory}: ArticleListProps) => {
   return (
     <S.listContainer>
       {articles.map(article => (

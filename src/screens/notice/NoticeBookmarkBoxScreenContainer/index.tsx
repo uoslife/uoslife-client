@@ -5,7 +5,7 @@ import Header from '../../../components/header/Header';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import styled from '@emotion/native';
-import {Article, ArticleMenuTapState} from '../NoticeMainScreenContainer';
+import {Article, ArticleCategoryTapState} from '../NoticeMainScreenContainer';
 
 const NoticeBookmarkBoxScreenContainer = ({
   setStep,
@@ -13,7 +13,7 @@ const NoticeBookmarkBoxScreenContainer = ({
   setStep: Dispatch<StepTypeTemp>;
 }) => {
   const [articles, setArticles] = useState<Article[]>([]);
-  useState<ArticleMenuTapState>({
+  useState<ArticleCategoryTapState>({
     list: ['일반', '학사', '채용', '창업'],
     selected: '일반',
   });
@@ -31,7 +31,7 @@ const NoticeBookmarkBoxScreenContainer = ({
           uploadTime: new Date(),
           bookmarkByMe: !!(i % 5) && !!(i % 2),
           id: `id${i}`,
-          menu:
+          category:
             i % 4 === 0
               ? '일반'
               : i % 4 === 1
@@ -51,9 +51,9 @@ const NoticeBookmarkBoxScreenContainer = ({
   return (
     <S.screenWrapper>
       <Header label="북마크함" />
-      <S.menuTapAndContents>
+      <S.categoryTapAndContents>
         <ArticleList articles={articles} />
-      </S.menuTapAndContents>
+      </S.categoryTapAndContents>
     </S.screenWrapper>
   );
 };
@@ -65,7 +65,7 @@ const S = {
     height: 100%;
     display: flex;
   `,
-  menuTapAndContents: styled.View`
+  categoryTapAndContents: styled.View`
     width: 100%;
     display: flex;
     gap: 4px;

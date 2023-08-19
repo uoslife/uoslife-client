@@ -3,25 +3,21 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {Txt, colors} from '@uoslife/design-system';
-
-type MenuTapProps = {
-  list: string[];
-  selected: string;
-};
+import {ArticleCategoryTapState} from '../../screens/notice/NoticeMainScreenContainer';
 
 type TapBtnProps = {
   isSelected: boolean;
   selectedBottomColor: string;
 };
 
-const MenuTab = ({
-  menuTapProps,
-  selectMenu,
+const CategoryTab = ({
+  categoryTabProps,
+  selectCategory,
 }: {
-  menuTapProps: MenuTapProps;
-  selectMenu: (menuName: string) => void;
+  categoryTabProps: ArticleCategoryTapState;
+  selectCategory: (categoryName: string) => void;
 }) => {
-  const {list, selected} = menuTapProps;
+  const {list, selected} = categoryTabProps;
 
   return (
     <S.tapWrapper>
@@ -30,7 +26,7 @@ const MenuTab = ({
           isSelected={item === selected}
           selectedBottomColor={colors.primaryBrand}
           onPress={() => {
-            selectMenu(item);
+            selectCategory(item);
           }}>
           <Txt
             typograph={'bodyMedium'}
@@ -43,7 +39,7 @@ const MenuTab = ({
   );
 };
 
-export default MenuTab;
+export default CategoryTab;
 
 const S = {
   tapWrapper: styled.View`
