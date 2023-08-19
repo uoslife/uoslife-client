@@ -39,11 +39,10 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
   };
 
   useEffect(() => {
-    // 임시: 나중에 글 불러오는 API로 교체
     try {
       const DUMMY_DATA: Article[] = new Array();
 
-      // 더미 만들어주는 코드 <- 나중에 삭제 예정
+      // 더미 만들어주는 코드 <- 나중에 제대로 된 API로 교체 예정
       for (let i = 0; i < 15; i++)
         DUMMY_DATA.push({
           bookmarkCnt: i % 5,
@@ -62,6 +61,7 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
               : '창업',
         });
 
+      // 선택한 메뉴에 해당되는 글만
       setArticles(
         DUMMY_DATA.filter(
           article => article.menu === articleMenuTapProps.selected,

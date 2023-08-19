@@ -8,7 +8,7 @@ import NoticeSearchResultScreencontainer from './NoticeSearchResultScreencontain
 export type StepTypeTemp = 'main' | 'detail' | 'bookmark-box' | 'search-result';
 
 const NoticeTempScreen = () => {
-  const [step, setStep] = useState<StepTypeTemp>('detail');
+  const [step, setStep] = useState<StepTypeTemp>('bookmark-box');
 
   const handleNoticeStep = (step: StepTypeTemp) => {
     switch (step) {
