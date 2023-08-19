@@ -7,9 +7,14 @@ import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
 import AccountStackNavigator from './navigators/AccountStackNavigator';
+import NotificationStackNavigator from './navigators/NotifacationStackNavigator';
+import useModal from './hooks/useModal';
+import useBottomSheet from './hooks/useBottomSheet';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const {Modal} = useModal();
+  const {BottomSheet} = useBottomSheet();
 
   useEffect(() => {
     (async () => {
@@ -19,17 +24,20 @@ let App: React.FC = () => {
   }, []);
 
   return (
-    <ConfigContext>
-      <NavigationContainer>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor="transparent"
-          translucent
-        />
-        {/* <RootStackNavigator /> */}
-        <AccountStackNavigator />
-      </NavigationContainer>
-    </ConfigContext>
+    <>
+      <ConfigContext>
+        <NavigationContainer>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor="transparent"
+            translucent
+          />
+          {/* <RootStackNavigator /> */}
+          <AccountStackNavigator />
+          {/* <NotificationStackNavigator /> */}
+        </NavigationContainer>
+      </ConfigContext>
+    </>
   );
 };
 
