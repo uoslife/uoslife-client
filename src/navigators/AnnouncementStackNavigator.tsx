@@ -4,15 +4,15 @@ import {useConfigContext} from '../hooks/ConfigContext';
 
 import SplashScreen from 'react-native-splash-screen';
 import MaintenanceScreen from '../screens/MaintenanceScreen';
-import NoticeTempScreen from '../screens/notice/NoticeTempScreen';
+import AnnouncementTempScreen from '../screens/announcement/AnnouncementTempScreen';
 
-export type NoticeStackParamList = {
-  Notice: undefined;
+export type AnnouncementStackParamList = {
+  Announcement: undefined;
 };
 
-const Stack = createStackNavigator<NoticeStackParamList>();
+const Stack = createStackNavigator<AnnouncementStackParamList>();
 
-const NoticeStackNavigator = () => {
+const AnnouncementStackNavigator = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
 
   const isMaintenance = useMemo(
@@ -31,11 +31,11 @@ const NoticeStackNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="Notice"
+      initialRouteName="Announcement"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Notice" component={NoticeTempScreen} />
+      <Stack.Screen name="Announcement" component={AnnouncementTempScreen} />
     </Stack.Navigator>
   );
 };
 
-export default NoticeStackNavigator;
+export default AnnouncementStackNavigator;

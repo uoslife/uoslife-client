@@ -3,11 +3,11 @@ import React, {Dispatch, useEffect, useState} from 'react';
 import Header from '../../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
 import {Image, View, Text} from 'react-native';
-import {StepTypeTemp} from '../NoticeTempScreen';
-import {Article} from '../NoticeMainScreenContainer';
+import {StepTypeTemp} from '../AnnouncementTempScreen';
+import {Article} from '../AnnouncementMainScreenContainer';
 import {getUploadTimeString} from '../../../utils/handle-date';
 
-const NoticeDetailScreenContainer = ({
+const AnnouncementDetailScreenContainer = ({
   setStep,
 }: {
   setStep: Dispatch<StepTypeTemp>;
@@ -83,7 +83,7 @@ const NoticeDetailScreenContainer = ({
   );
 };
 
-export default NoticeDetailScreenContainer;
+export default AnnouncementDetailScreenContainer;
 
 const S = {
   screenWrapper: styled.ScrollView`

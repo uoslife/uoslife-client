@@ -1,13 +1,16 @@
 import React, {Dispatch, useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {StepTypeTemp} from '../NoticeTempScreen';
+import {StepTypeTemp} from '../AnnouncementTempScreen';
 import Header from '../../../components/header/Header';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import styled from '@emotion/native';
-import {Article, ArticleCategoryTapState} from '../NoticeMainScreenContainer';
+import {
+  Article,
+  ArticleCategoryTapState,
+} from '../AnnouncementMainScreenContainer';
 
-const NoticeBookmarkBoxScreenContainer = ({
+const AnnouncementBookmarkBoxScreenContainer = ({
   setStep,
 }: {
   setStep: Dispatch<StepTypeTemp>;
@@ -58,7 +61,7 @@ const NoticeBookmarkBoxScreenContainer = ({
   );
 };
 
-export default NoticeBookmarkBoxScreenContainer;
+export default AnnouncementBookmarkBoxScreenContainer;
 const S = {
   screenWrapper: styled.ScrollView`
     width: 100%;

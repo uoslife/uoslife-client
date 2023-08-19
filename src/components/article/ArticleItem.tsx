@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, Text} from 'react-native';
-import {Article} from '../../screens/notice/NoticeMainScreenContainer';
+import {Article} from '../../screens/announcement/AnnouncementMainScreenContainer';
 import {getUploadTimeString} from '../../utils/handle-date';
 
 type ArticleItemProps = {

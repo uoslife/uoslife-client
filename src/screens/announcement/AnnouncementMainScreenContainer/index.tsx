@@ -4,7 +4,7 @@ import styled from '@emotion/native';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
-import {StepTypeTemp} from '../NoticeTempScreen';
+import {StepTypeTemp} from '../AnnouncementTempScreen';
 
 export type ArticleCategoryName = '일반' | '학사' | '채용' | '창업';
 export type ArticleCategoryTapState = {
@@ -22,7 +22,11 @@ export type Article = {
   id: string;
 };
 
-const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
+const AnnouncementMainScreen = ({
+  setStep,
+}: {
+  setStep: Dispatch<StepTypeTemp>;
+}) => {
   // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTapProps, setArticleCategoryTapProps] =
@@ -90,7 +94,7 @@ const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
   );
 };
 
-export default NoticeMainScreen;
+export default AnnouncementMainScreen;
 
 const S = {
   screenWrapper: styled.ScrollView`
