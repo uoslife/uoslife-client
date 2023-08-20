@@ -5,11 +5,12 @@ import styled from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageAccountStackParamList} from '../../navigators/MyPageAccountStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import useModal from '../../hooks/useModal';
 
-type MyPageNavigatorItem = {
+type MyAccountNavigatorItem = {
   name: string;
-  navigateDestination: keyof MyPageAccountStackParamList;
+  handleOnPress: ()=>void;
   hasBorder: boolean;
   hasArrowButton?: boolean;
   navigationButton?: any;
@@ -57,11 +58,31 @@ const PortalAccountInformationList = ({
 const MyAccountScreen = ({
   navigation,
 }: StackScreenProps<MyPageAccountStackParamList>) => {
-  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
-  const myPageNavigatorItems: MyPageNavigatorItem[] = [
+  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
+  const {openModal, closeModal, renderModal, setModalContent} = useModal();
+  const handlePortalAccountPress=()=>{
+    if(isPortalAuthenticated){
+      setModalContent(
+        <View>
+          <Text>포털 계정 연동을 해지하시겠습니까?</Text>
+          <TouchableOpacity onPress={()=>{setIsPortalAuthenticated(false); closeModal()}}>
+            <Text>확인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={closeModal}>
+            <Text>취소</Text>
+          </TouchableOpacity>
+        </View>
+      );
+      openModal();
+    } else{
+      setIsPortalAuthenticated(true); 
+      navigation.push('portalAuthentication');
+    }
+  }
+  const myAccountNavigatorItems: MyAccountNavigatorItem[] = [
     {
       name: '닉네임 변경',
-      navigateDestination: 'setNickname',
+      handleOnPress: () => navigation.push('setNickname'),
       hasBorder: true,
       hasArrowButton: false,
       navigationButton: (
@@ -75,7 +96,7 @@ const MyAccountScreen = ({
     },
     {
       name: '포털 계정 연동',
-      navigateDestination: !isPortalAuthenticated && 'portalAuthentication',
+      handleOnPress: handlePortalAccountPress,
       hasBorder: true,
       hasArrowButton: false,
       navigationButton: isPortalAuthenticated ? (
@@ -97,12 +118,12 @@ const MyAccountScreen = ({
     },
     {
       name: '전화번호 변경',
-      navigateDestination: 'verification',
+      handleOnPress: () => navigation.push('verification'),
       hasBorder: true,
     },
     {
       name: '회원탈퇴',
-      navigateDestination: 'accountCancellation',
+      handleOnPress: () => navigation.push('accountCancellation'),
       hasBorder: false,
     },
   ];
@@ -122,13 +143,14 @@ const MyAccountScreen = ({
               />
             </S.cameraCircleImageWrapper>
           </Pressable>
-          {myPageNavigatorItems.map((value, index) => {
+         
+          {myAccountNavigatorItems.map((value, index) => {
             return (
               <NavigationList
                 key={index}
                 label={value.name}
                 hasBorder={value.hasBorder}
-                onPress={() => navigation.push(value.navigateDestination)}
+                onPress={value.handleOnPress}
                 navigationButton={value.navigationButton}
                 children={value.children}
               />
@@ -137,6 +159,7 @@ const MyAccountScreen = ({
         </S.myProfileBox>
         <S.logout>로그아웃</S.logout>
       </S.myProfileContainer>
+      {renderModal()}
     </S.screenContainer>
   );
 };
