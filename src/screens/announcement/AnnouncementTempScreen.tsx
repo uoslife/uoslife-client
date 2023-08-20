@@ -8,7 +8,7 @@ import AnnouncementSearchResultScreencontainer from './AnnouncementSearchResultS
 export type StepTypeTemp = 'main' | 'detail' | 'bookmark-box' | 'search-result';
 
 const AnnouncementTempScreen = () => {
-  const [step, setStep] = useState<StepTypeTemp>('bookmark-box');
+  const [step, setStep] = useState<StepTypeTemp>('search-result');
 
   const handleAnnouncementStep = (step: StepTypeTemp) => {
     switch (step) {
