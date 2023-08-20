@@ -7,6 +7,7 @@ import {MyPageAccountStackParamList} from '../../navigators/MyPageAccountStackNa
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../hooks/useModal';
+import { Txt } from '@uoslife/design-system';
 
 type MyAccountNavigatorItem = {
   name: string;
@@ -63,15 +64,18 @@ const MyAccountScreen = ({
   const handlePortalAccountPress=()=>{
     if(isPortalAuthenticated){
       setModalContent(
-        <View>
-          <Text>포털 계정 연동을 해지하시겠습니까?</Text>
+        <S.modalWrapper>
+          <Txt label={"포털 계정 연동을 해지하시겠습니까?"} color='grey190' typograph='titleMedium'/>
+          <Txt label={"연동 해지 시 일부 서비스가 제한될 수 있습니다."} color='grey130' typograph='bodySmall'/>
+          <S.separator/>
           <TouchableOpacity onPress={()=>{setIsPortalAuthenticated(false); closeModal()}}>
-            <Text>확인</Text>
+          <Txt label={"연동 해지"} color='red' typograph='bodyMedium' />
           </TouchableOpacity>
-          <TouchableOpacity onPress={closeModal}>
-            <Text>취소</Text>
-          </TouchableOpacity>
-        </View>
+          <S.separator/>
+          <TouchableOpacity onPress={closeModal} >
+          <Txt label={"취소"} color='grey90' typograph='bodyMedium'/>
+          </TouchableOpacity>  
+        </S.modalWrapper>
       );
       openModal();
     } else{
@@ -129,42 +133,55 @@ const MyAccountScreen = ({
   ];
 
   return (
+    <View>
     <S.screenContainer>
-      <Header label={'MY Page'} />
-      <S.myProfileContainer>
-        <S.myProfileBox>
-          <Pressable onPress={addProfileImage} style={{paddingBottom: 64}}>
-            <S.userCircleImageWrapper>
-              <S.userImage source={require('../../assets/images/user.png')} />
-            </S.userCircleImageWrapper>
-            <S.cameraCircleImageWrapper style={styles.cameraImage}>
-              <S.cameraImage
-                source={require('../../assets/images/camera.png')}
-              />
-            </S.cameraCircleImageWrapper>
-          </Pressable>
-         
-          {myAccountNavigatorItems.map((value, index) => {
-            return (
-              <NavigationList
-                key={index}
-                label={value.name}
-                hasBorder={value.hasBorder}
-                onPress={value.handleOnPress}
-                navigationButton={value.navigationButton}
-                children={value.children}
-              />
-            );
-          })}
-        </S.myProfileBox>
-        <S.logout>로그아웃</S.logout>
-      </S.myProfileContainer>
-      {renderModal()}
-    </S.screenContainer>
+    <Header label={'MY Page'} />
+    <S.myProfileContainer>
+      <S.myProfileBox>
+        <Pressable onPress={addProfileImage} style={{paddingBottom: 64}}>
+          <S.userCircleImageWrapper>
+            <S.userImage source={require('../../assets/images/user.png')} />
+          </S.userCircleImageWrapper>
+          <S.cameraCircleImageWrapper style={styles.cameraImage}>
+            <S.cameraImage
+              source={require('../../assets/images/camera.png')}
+            />
+          </S.cameraCircleImageWrapper>
+        </Pressable>
+        {myAccountNavigatorItems.map((value, index) => {
+          return (
+            <NavigationList
+              key={index}
+              label={value.name}
+              hasBorder={value.hasBorder}
+              onPress={value.handleOnPress}
+              navigationButton={value.navigationButton}
+              children={value.children}
+            />
+          );
+        })}
+      </S.myProfileBox>
+      <S.logout>로그아웃</S.logout>
+    </S.myProfileContainer>
+  </S.screenContainer>
+  {renderModal()}
+  </View>
   );
 };
 
 const S = {
+  modalWrapper: styled.View`
+    justify-content: center;
+    align-items: center;
+    width:300px;
+    height:153px;
+  `,
+  separator: styled.View`
+    width: 100%;
+    height: 1px;
+    background-color: #e1dfdd;
+    margin: 10px 0;
+  `,
   portalAccountInformationWrapper: styled.View`
     gap: 10px;
   `,
