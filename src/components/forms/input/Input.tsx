@@ -69,7 +69,7 @@ const S = {
   label: styled.Text<InputProps>`
     padding-left: 12px;
     color: ${({status}) => getStatusColor(status)};
-    ${() => typographs.bodyMedium}
+    ${() => typographs.labelLarge}
   `,
   roundInputContainer: styled.View<InputProps>`
     position: relative;
@@ -83,7 +83,8 @@ const S = {
     border-bottom-color: ${({status}) => getStatusColor(status!)};
   `,
   textInput: styled.TextInput<InputProps>`
-    ${() => typographs.titleSmall}
+    ${() => typographs.titleMedium};
+    width: 100%;
   `,
   statusMessageWrapper: styled.View<InputProps>`
     padding-top: 7px;
