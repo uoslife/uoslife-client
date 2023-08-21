@@ -19,7 +19,9 @@ const ExistedUserScreenContainer = () => {
         return <AccountIntegrationScreen />;
     }
   };
-  return <View>{handleExistedUserScreen(accountStatus)}</View>;
+  return (
+    <View style={{flex: 1}}>{handleExistedUserScreen(accountStatus)}</View>
+  );
 };
 
 export default ExistedUserScreenContainer;
