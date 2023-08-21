@@ -1,5 +1,5 @@
-import {supabaseClient} from './client';
-import {SupabaseConfig} from './Config.model';
+import {supabaseClient} from '../../core/client';
+import {SupabaseConfig} from './Config.type';
 
 const getSupabaseConfig = async (): Promise<SupabaseConfig[]> => {
   const {data, error} = await supabaseClient.from('app_config').select('*');
@@ -7,6 +7,8 @@ const getSupabaseConfig = async (): Promise<SupabaseConfig[]> => {
   return data as SupabaseConfig[];
 };
 
-export default {
+const ConfigAPI = {
   getSupabaseConfig,
 };
+
+export default ConfigAPI;
