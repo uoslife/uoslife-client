@@ -84,7 +84,7 @@ const S = {
   `,
   textInput: styled.TextInput<InputProps>`
     ${() => typographs.titleMedium};
-    width: 100%;
+    width: 90%;
   `,
   statusMessageWrapper: styled.View<InputProps>`
     padding-top: 7px;
