@@ -83,6 +83,22 @@ const MyAccountScreen = ({
       navigation.push('portalAuthentication');
     }
   }
+  const handleAccountCancellation=()=>{
+    setModalContent(
+      <S.accountCancellationModalWrapper>
+        <Txt label={"시대생 회원을 탈퇴하시겠습니까?"} color='grey190' typograph='titleMedium'/>
+        <S.separator/>
+        <TouchableOpacity onPress={()=>{navigation.navigate('accountCancellation');}}>
+        <Txt label={"회원탈퇴"} color='red' typograph='bodyMedium' />
+        </TouchableOpacity>
+        <S.separator/>
+        <TouchableOpacity onPress={closeModal} >
+        <Txt label={"취소"} color='grey90' typograph='bodyMedium'/>
+        </TouchableOpacity>  
+      </S.accountCancellationModalWrapper>
+      );
+      openModal();
+  }
   const myAccountNavigatorItems: MyAccountNavigatorItem[] = [
     {
       name: '닉네임 변경',
@@ -127,7 +143,7 @@ const MyAccountScreen = ({
     },
     {
       name: '회원탈퇴',
-      handleOnPress: () => navigation.push('accountCancellation'),
+      handleOnPress: handleAccountCancellation, 
       hasBorder: false,
     },
   ];
@@ -165,6 +181,7 @@ const MyAccountScreen = ({
     </S.myProfileContainer>
   </S.screenContainer>
   {renderModal()}
+  {renderModal()}
   </View>
   );
 };
@@ -175,6 +192,12 @@ const S = {
     align-items: center;
     width:300px;
     height:153px;
+  `,
+  accountCancellationModalWrapper: styled.View`
+    justify-content: center;
+    align-items: center;
+    width:300px;
+    height:144px;
   `,
   separator: styled.View`
     width: 100%;

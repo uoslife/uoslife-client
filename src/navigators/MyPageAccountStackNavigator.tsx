@@ -49,7 +49,6 @@ const MyPageAccountStackNavigator = () => {
         name="portalAuthentication"
         component={PortalAuthenticationScreen}
       />
-
       <Stack.Screen name="verification" component={VerificationScreen} />
       <Stack.Screen
         name="accountCancellation"
