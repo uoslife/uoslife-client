@@ -1,8 +1,10 @@
 import React, {Dispatch, useEffect, useState} from 'react';
 import {
   View,
+  Alert,
   NativeSyntheticEvent,
   TextInputChangeEventData,
+  Pressable,
 } from 'react-native';
 import {StepTypeTemp} from '../AnnouncementTempScreen';
 import {
@@ -13,6 +15,7 @@ import ArticleList from '../../../components/article/ArticleList';
 import {Input, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 
 const DUMMY_DATA: Article[] = new Array();
 
@@ -48,34 +51,48 @@ const AnnouncementSearchResultScreencontainer = ({
     selected: '일반',
   });
 
-  const [searchWord, setSearchWord] = useState<string>('검색어');
-
-  const onChangeSearchWord = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>,
-  ) => {
-    const {text} = e.nativeEvent;
-    setSearchWord(text);
-
-    setArticles(
-      DUMMY_DATA.filter(
-        item => item.title.includes(text) || item.body?.includes(text),
-      ),
-    );
-  };
+  // 수정 필요:  props든, searchUrl이든 searchWord 자리에 동적으로 검색어가 들어가야함
+  const searchWord = '1';
 
   useEffect(() => {
     try {
-      setArticles(DUMMY_DATA.filter(article => article.bookmarkByMe));
+      setArticles(
+        DUMMY_DATA.filter(
+          item =>
+            item.title.includes(searchWord) || item.body?.includes(searchWord),
+        ),
+      );
     } catch (err) {
       console.log(err);
     }
   }, []);
 
-  // 디자인 확정시 반영 필요
+  // 디자인: 확정시 반영 필요
   return (
     <S.screenWrapper>
       <Header label={'검색창'} />
-      <Input value={searchWord} onChangeInput={onChangeSearchWord} />
+      <TouchableOpacity
+        style={{
+          backgroundColor: 'black',
+          zIndex: 100000,
+          elevation: 100000,
+        }}
+        onPress={() => {
+          Alert.alert('asfd');
+          console.log(12312312);
+        }}>
+        {/* 해결 필요: Parent의 onPress 씹힘 이슈.. TextInput 등은 잘 됨.. */}
+        <Input
+          style={{
+            backgroundColor: 'red',
+            zIndex: -9999999,
+
+            elevation: -9999999,
+          }}
+          value={searchWord}
+        />
+      </TouchableOpacity>
+
       <S.categoryTapAndContents>
         {articles.length === 0 ? (
           <Txt
@@ -98,14 +115,20 @@ const S = {
     width: 100%;
     height: 100%;
     display: flex;
+
+    z-index: 10;
+  `,
+  subScreenWrapper: styled.ScrollView`
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    background-color: blue;
+    z-index: 100;
   `,
   categoryTapAndContents: styled.View`
     width: 100%;
     display: flex;
     gap: 4px;
-  `,
-  decriptionContainer: styled.View`
-    display: flex;
-    flex-direction: row;
   `,
 };

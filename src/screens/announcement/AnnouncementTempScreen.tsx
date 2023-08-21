@@ -4,11 +4,17 @@ import AnnouncementMainScreen from './AnnouncementMainScreenContainer';
 import AnnouncementBookmarkBoxScreenContainer from './AnnouncementBookmarkBoxScreenContainer';
 import AnnouncementDetailScreenContainer from './AnnouncementDetailScreenContainer';
 import AnnouncementSearchResultScreencontainer from './AnnouncementSearchResultScreencontainer';
+import AnnoucementSearchContainerScreen from './AnnoucementSearchContainerScreen';
 
-export type StepTypeTemp = 'main' | 'detail' | 'bookmark-box' | 'search-result';
+export type StepTypeTemp =
+  | 'main'
+  | 'detail'
+  | 'bookmark-box'
+  | 'search-result'
+  | 'serach-window';
 
 const AnnouncementTempScreen = () => {
-  const [step, setStep] = useState<StepTypeTemp>('search-result');
+  const [step, setStep] = useState<StepTypeTemp>('serach-window');
 
   const handleAnnouncementStep = (step: StepTypeTemp) => {
     switch (step) {
@@ -20,6 +26,8 @@ const AnnouncementTempScreen = () => {
         return <AnnouncementBookmarkBoxScreenContainer setStep={setStep} />;
       case 'search-result':
         return <AnnouncementSearchResultScreencontainer setStep={setStep} />;
+      case 'serach-window':
+        return <AnnoucementSearchContainerScreen setStep={setStep} />;
     }
   };
 
