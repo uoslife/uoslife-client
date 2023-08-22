@@ -6,7 +6,6 @@ import SplashScreen from 'react-native-splash-screen';
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 import AccountScreen from '../screens/account';
 import VerificationScreen from '../screens/account/common/VerificationScreen';
-import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
 export type RootStackParamList = {
   Account: undefined;
@@ -37,7 +36,7 @@ const RootStackNavigator: React.FC = () => {
     <Stack.Navigator
       initialRouteName="Account"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Account" component={CafeteriaScreen} />
+      <Stack.Screen name="Account" component={AccountScreen} />
       <Stack.Screen name="AccountVerification" component={VerificationScreen} />
       {/* <Stack.Screen name="Main" component={MainScreen} /> */}
     </Stack.Navigator>
