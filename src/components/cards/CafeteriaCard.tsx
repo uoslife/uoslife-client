@@ -5,8 +5,8 @@ import {Txt} from '@uoslife/design-system';
 import {View} from 'react-native';
 
 const CafeteriaCard = ({
-  title,
-  caption,
+  place,
+  time,
   cafeteriaItems,
   isEmpty,
 }: CafeteriaCardProps) => {
@@ -14,8 +14,8 @@ const CafeteriaCard = ({
     <S.cardContainer>
       <S.cardHeader>
         <S.inlineWrapper>
-          <Txt label={title} color={'grey160'} typograph={'titleMedium'} />
-          <Txt label={caption} color={'grey150'} typograph={'caption'} />
+          <Txt label={place} color={'grey160'} typograph={'titleMedium'} />
+          <Txt label={time} color={'grey150'} typograph={'caption'} />
         </S.inlineWrapper>
       </S.cardHeader>
       <S.cardBody>
@@ -33,37 +33,37 @@ const CafeteriaCard = ({
               return (
                 <View key={index}>
                   <S.cardContent>
-                    {value.label && (
+                    {value.corner && (
                       <Txt
-                        label={value.label}
+                        label={value.corner}
                         color={'grey190'}
                         typograph={'labelLarge'}
                       />
                     )}
                     <S.inlineWrapper>
                       <Txt
-                        label={value.item}
+                        label={value.dish}
                         color={'grey190'}
                         typograph={'bodyLarge'}
                       />
                       <Txt
-                        label={value.largeSubText}
+                        label={value.price}
                         color={'grey130'}
                         typograph={'bodyLarge'}
                       />
                     </S.inlineWrapper>
 
                     <S.inlineWrapper>
-                      {value.subItem && (
+                      {value.subDish && (
                         <Txt
-                          label={value.subItem}
+                          label={value.subDish}
                           color={'grey90'}
                           typograph={'bodyMedium'}
                         />
                       )}
-                      {value.smallSubText && (
+                      {value.extraPrice && (
                         <Txt
-                          label={value.smallSubText}
+                          label={value.extraPrice}
                           color={'grey90'}
                           typograph={'bodyMedium'}
                         />
