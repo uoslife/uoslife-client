@@ -36,9 +36,6 @@ const VerificationScreen = () => {
     setInputValue('');
   };
 
-  const handleButtonIsEnable = () => {
-    if (!isVerificationCodeSent) return inputValue.length === 11;
-  };
   const handleVerifyIdentify = async () => {
     setAccountStatus(prev => {
       return {
@@ -49,6 +46,11 @@ const VerificationScreen = () => {
         },
       };
     });
+  };
+
+  const handleButtonIsEnable = () => {
+    if (isVerificationCodeSent && inputValue.length === 6) return true;
+    return inputValue.length === 11;
   };
 
   return (
@@ -113,7 +115,7 @@ const VerificationScreen = () => {
               ? handleVerifyIdentify
               : handleRequestVerifyCode
           }
-          isEnabled={!isVerificationCodeSent && inputValue.length === 11}
+          isEnabled={handleButtonIsEnable()}
           isFullWidth={true}
         />
       </S.verificationContainer>
