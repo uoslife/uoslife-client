@@ -7,7 +7,7 @@ const NavigationList = ({
   label,
   onPress,
   hasBorder = true,
-  navigationButton,
+  navigationButton, // TODO: type 수정필요
   children,
 }: NavigationListProps) => {
   return (

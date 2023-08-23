@@ -1,22 +1,19 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useEffect} from 'react';
 import ToggleSwitchProps from './ToggleSwitch.type';
 import {Animated, StyleSheet, Pressable, Easing} from 'react-native';
 import styled from '@emotion/native';
 
 const ToggleSwitch = ({isOn, size, onToggle}: ToggleSwitchProps) => {
-  const [isEnabled, setIsEnabled] = useState(isOn);
-  const animatedValue = new Animated.Value(isEnabled ? 1 : 0);
-
-  const toggleSwitch = () => {
-    setIsEnabled(!isEnabled);
+  useEffect(() => {
     Animated.timing(animatedValue, {
-      toValue: isEnabled ? 0 : 1,
+      toValue: isOn ? 0 : 1,
       duration: 200,
       easing: Easing.linear,
       useNativeDriver: true,
     }).start();
-  };
+  }, [isOn]);
+
+  const animatedValue = new Animated.Value(isOn ? 1 : 0);
 
   const switchTranslateX = animatedValue.interpolate({
     inputRange: [0, 1],
@@ -26,27 +23,23 @@ const ToggleSwitch = ({isOn, size, onToggle}: ToggleSwitchProps) => {
   return (
     <Wrap size={size}>
       <Pressable onPress={onToggle}>
-        <Pressable onPress={toggleSwitch}>
-          <ToggleContainer
-            style={{
-              backgroundColor: isEnabled ? '#3A88F5' : '#B2B2B2',
-            }}>
-            <ToggleWheel
-              style={[
-                styles.toggleWheel,
-                {transform: [{translateX: switchTranslateX}]},
-              ]}
-            />
-          </ToggleContainer>
-        </Pressable>
+        <ToggleContainer
+          style={{
+            backgroundColor: isOn ? '#3A88F5' : '#B2B2B2',
+          }}>
+          <ToggleWheel
+            style={[
+              styles.toggleWheel,
+              {transform: [{translateX: switchTranslateX}]},
+            ]}
+          />
+        </ToggleContainer>
       </Pressable>
     </Wrap>
   );
 };
 
-export default ToggleSwitch;
-
-const Wrap = styled.View<ToggleSwitchProps>`
+const Wrap = styled.View<Pick<ToggleSwitchProps, 'size'>>`
   transform: ${props => (props.size === 'small' ? 'scale(1)' : 'scale(1.4)')};
   flex-direction: row;
   align-items: center;
@@ -79,3 +72,5 @@ const styles = StyleSheet.create({
     elevation: 1.5,
   },
 });
+
+export default ToggleSwitch;
