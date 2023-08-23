@@ -60,7 +60,12 @@ const AnnounceContents = () => {
             color={'primaryBrand'}
             typograph={'bodySmall'}
           />
-          <Icon name={'openInNew_primaryBrand'} width={24} height={24} />
+          <Icon
+            name={'openInNew'}
+            width={24}
+            height={24}
+            color={'primaryBrand'}
+          />
         </S.LinkButton>
       </S.Wrapper>
     </CardLayout>

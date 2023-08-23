@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {ConfigAPI} from '../api';
+import {ConfigAPI} from '../api/services';
 import DeviceInfo from 'react-native-device-info';
 
 type AppEnvironment = 'production' | 'alpha';
