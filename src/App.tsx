@@ -10,6 +10,8 @@ import NoticeStackNavigator from './navigators/NoticeStackNavigator';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const {Modal} = useModal();
+  const {BottomSheet} = useBottomSheet();
 
   useEffect(() => {
     (async () => {
