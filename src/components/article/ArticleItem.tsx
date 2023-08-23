@@ -4,15 +4,6 @@ import React from 'react';
 import {Image, Text} from 'react-native';
 import {Article} from '../../screens/notice/NoticeMainScreenContainer';
 
-// 임시타입이라 따로 빼놓지는 않겠습니다
-type Article = {
-  bookmarkCnt: number;
-  bookmarkByMe: boolean;
-  title: string;
-  category: string; // XX과
-  uploadTime: Date;
-};
-
 const ArticleItem = ({article}: {article: Article}) => {
   const {bookmarkCnt, category, title, uploadTime, bookmarkByMe} = article;
 
