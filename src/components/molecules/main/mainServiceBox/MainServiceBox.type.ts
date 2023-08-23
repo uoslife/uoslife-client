@@ -1,8 +1,9 @@
-import {IconsNameType} from '@uoslife/design-system';
+import {IconsNameType, colorsType} from '@uoslife/design-system';
 
 export type MainServiceBoxType = {
   label: string;
-  icon: IconsNameType;
+  iconName: IconsNameType;
+  iconColor: colorsType;
   children: React.ReactNode;
 };
 
