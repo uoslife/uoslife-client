@@ -1,15 +1,18 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Pressable, Text} from 'react-native';
 
 import styled from '@emotion/native';
 
 import HeaderProps from './Header.type';
+import {Icon, Txt, colors} from '@uoslife/design-system';
 
-const Header = ({label}: HeaderProps) => {
+const Header = ({label, onPressBackButton}: HeaderProps) => {
   return (
     <S.headerContainter>
-      <S.backButton source={require('../../assets/images/backButton.png')} />
-      <Text>{label}</Text>
+      <Pressable onPress={onPressBackButton}>
+        <Icon name={'backArrow'} width={24} height={24} color="grey130" />
+      </Pressable>
+      <Txt label={label} color={'grey190'} typograph="titleLarge" />
     </S.headerContainter>
   );
 };
@@ -19,24 +22,14 @@ export default Header;
 const S = {
   headerContainter: styled.View`
     width: 100%;
-    height: 70px;
-    padding: 12px 20px;
-    padding-top: 32px;
+    height: 56px;
     display: flex;
+    padding: 8px 16px;
     flex-direction: row;
-    gap: 17px;
+    align-items: center;
+    gap: 16px;
     border-bottom-width: 1px;
-    border-color: black;
+    border-color: ${colors.grey40};
     border-style: solid;
-  `,
-  backButton: styled.Image`
-    width: 29px;
-    height: 17px;
-  `,
-  button: styled.View`
-    border-radius: 16px;
-    background: #d0d0d0;
-    padding: 4px 10px;
-    font-size: 10px;
   `,
 };
