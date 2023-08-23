@@ -1,29 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Dispatch} from 'react';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import MenuTab from '../../../components/menu-tab/MenuTab';
+import {StepTypeTemp} from '../NoticeTempScreen';
 
-type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
-
-// MenuTap 컴포넌트로 넘겨줄것
-type ArticleMenuTapProps = {
+export type ArticleMenuName = '일반' | '학사' | '채용' | '창업';
+export type ArticleMenuTapProps = {
   list: ArticleMenuName[];
   selected: ArticleMenuName;
 };
-
-type Article = {
+export type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
   title: string;
   menu: ArticleMenuName;
+  body?: string;
   category: string; // XX과
   uploadTime: Date;
   id: string;
 };
 
-const NoticeMainScreen = () => {
+const NoticeMainScreen = ({setStep}: {setStep: Dispatch<StepTypeTemp>}) => {
   // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleMenuTapProps, setArticleMenuTapProps] =
@@ -82,9 +81,7 @@ const NoticeMainScreen = () => {
       </S.inputContainer>
       <S.menuTapAndContents>
         <MenuTab menuTapProps={articleMenuTapProps} selectMenu={selectMenu} />
-        <S.contents>
-          <ArticleList articles={articles} />
-        </S.contents>
+        <ArticleList articles={articles} />
       </S.menuTapAndContents>
     </S.screenWrapper>
   );
@@ -105,8 +102,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 4px;
-  `,
-  contents: styled.View`
-    width: 100%;
   `,
 };
