@@ -14,7 +14,7 @@ export type StepTypeTemp =
   | 'serach-window';
 
 const AnnouncementTempScreen = () => {
-  const [step, setStep] = useState<StepTypeTemp>('serach-window');
+  const [step, setStep] = useState<StepTypeTemp>('main');
 
   const handleAnnouncementStep = (step: StepTypeTemp) => {
     switch (step) {

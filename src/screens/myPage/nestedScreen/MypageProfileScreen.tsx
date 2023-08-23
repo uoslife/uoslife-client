@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {Pressable, Text} from 'react-native';
-import Header from '../../components/header/Header';
+import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MyPageAccountStackParamList} from '../../navigators/MyPageAccountStackNavigator';
-import NavigationList from '../../components/navigations/navigationList/NavigationList';
+import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
+import NavigationList from '../../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import useModal from '../../hooks/useModal';
+import useModal from '../../../hooks/useModal';
 import {Txt} from '@uoslife/design-system';
+import {useNavigation} from '@react-navigation/core';
 
 type MyAccountNavigatorItem = {
   name: string;
@@ -56,9 +57,8 @@ const PortalAccountInformationList = ({
   );
 };
 
-const MyAccountScreen = ({
-  navigation,
-}: StackScreenProps<MyPageAccountStackParamList>) => {
+const MypageProfileScreen = () => {
+  const navigation = useNavigation<MyPageNestedStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
   const handlePortalAccountPress = () => {
@@ -92,7 +92,9 @@ const MyAccountScreen = ({
       openModal();
     } else {
       setIsPortalAuthenticated(true);
-      navigation.push('portalAuthentication');
+      navigation.navigate('Mypage_profile', {
+        screen: 'Mypage_portalAuthentication',
+      });
     }
   };
   const handleAccountCancellation = () => {
@@ -106,7 +108,7 @@ const MyAccountScreen = ({
         <S.separator />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('accountCancellation');
+            // 회원 탈퇴 페이지
           }}>
           <Txt label={'회원탈퇴'} color="red" typograph="bodyMedium" />
         </TouchableOpacity>
@@ -121,14 +123,17 @@ const MyAccountScreen = ({
   const myAccountNavigatorItems: MyAccountNavigatorItem[] = [
     {
       name: '닉네임 변경',
-      handleOnPress: () => navigation.push('setNickname'),
+      handleOnPress: () =>
+        navigation.navigate('Mypage_profile', {
+          screen: 'Mypage_changeNickname',
+        }),
       hasBorder: true,
       hasArrowButton: false,
       navigationButton: (
         <S.navigationButton>
           <Text style={{marginRight: 10}}>한유민짱짱</Text>
           <S.arrowButtonImage
-            source={require('../../assets/images/backButton.png')}
+            source={require('../../../assets/images/backButton.png')}
           />
         </S.navigationButton>
       ),
@@ -157,7 +162,10 @@ const MyAccountScreen = ({
     },
     {
       name: '전화번호 변경',
-      handleOnPress: () => navigation.push('verification'),
+      handleOnPress: () =>
+        navigation.navigate('Mypage_profile', {
+          screen: 'Mypage_changeNumber',
+        }),
       hasBorder: true,
     },
     {
@@ -175,11 +183,13 @@ const MyAccountScreen = ({
           <S.myProfileBox>
             <Pressable onPress={addProfileImage} style={{paddingBottom: 64}}>
               <S.userCircleImageWrapper>
-                <S.userImage source={require('../../assets/images/user.png')} />
+                <S.userImage
+                  source={require('../../../assets/images/user.png')}
+                />
               </S.userCircleImageWrapper>
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
                 <S.cameraImage
-                  source={require('../../assets/images/camera.png')}
+                  source={require('../../../assets/images/camera.png')}
                 />
               </S.cameraCircleImageWrapper>
             </Pressable>
@@ -239,7 +249,7 @@ const S = {
   `,
   navigationButton: styled.View`
     flex-direction: row;
-    align-item: center;
+    align-items: center;
   `,
   screenContainer: styled.ScrollView`
     height: 100%;
@@ -309,4 +319,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyAccountScreen;
+export default MypageProfileScreen;

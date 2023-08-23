@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {Button} from '../../../components/button/Button';
-import BottomSheet from '../../../components/modals/BottomSheet';
-import Modal from '../../../components/modals/Modal';
 import AgreementToTerms from '../../../components/contents/AgreementToTerms';
 import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
 import {useSetAtom} from 'jotai';
@@ -110,7 +108,7 @@ const SetNicknameScreen = () => {
           type={input.isChecked ? 'primary' : 'default'}
         />
       </S.pageWrapper>
-      {isBottomSheetOpened && (
+      {/* {isBottomSheetOpened && (
         <BottomSheet
           zIndex={1}
           onBackgroundPress={closeBottomSheet}
@@ -125,7 +123,7 @@ const SetNicknameScreen = () => {
         <Modal onClose={closeModal} zIndex={3} darkBackground>
           <AgreementProcessResult />
         </Modal>
-      )}
+      )} */}
     </>
   );
 };
