@@ -6,10 +6,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
-import AnnouncementStackNavigator from './navigators/AnnouncementStackNavigator';
+import NoticeStackNavigator from './navigators/NoticeStackNavigator';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const {Modal} = useModal();
+  const {BottomSheet} = useBottomSheet();
 
   useEffect(() => {
     (async () => {
@@ -27,7 +29,7 @@ let App: React.FC = () => {
           translucent
         />
         {/* <RootStackNavigator /> */}
-        <AnnouncementStackNavigator />
+        <NoticeStackNavigator />
       </NavigationContainer>
     </ConfigContext>
   );
