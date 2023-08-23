@@ -62,7 +62,9 @@ const AccountScreenContainer = () => {
     }
   };
   return (
-    <S.AccountContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
+    <S.AccountContainer
+      style={{paddingTop: STATUS_BAR_HEIGHT}}
+      contentContainerStyle={{flexGrow: 1}}>
       {handleAccountScreen(accountStatus)}
     </S.AccountContainer>
   );
