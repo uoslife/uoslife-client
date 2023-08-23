@@ -1,5 +1,4 @@
 import {useState, useEffect, useMemo} from 'react';
-// import Modal from '../components/overlay/Modal';
 import styled from '@emotion/native';
 import {Txt, colors, colorsType} from '@uoslife/design-system';
 import {Image} from 'react-native';
@@ -9,31 +8,32 @@ type ModalBtn = {
   onPress?: () => void;
 };
 
-type ModalCommon = {
+type UseModalParams = {
   title: string;
-};
+  buttons: ModalBtn[];
 
-type ModalInner = {
   modalType: 'standard' | 'menu';
   description?: string;
-  buttons: ModalBtn[];
   informationBox?: {key: string; value: string}[];
 };
 
-type Modal = ModalCommon & ModalInner;
-
+// 모달은 항상 바텀시트보다 위에 있습니다.
+// 배경을 눌러도 사라지지 않습니다(기본값). setModalBgOnpress를 통해 수정 가능합니다.
 const useModal = ({
   title,
   modalType,
   description,
   buttons,
   informationBox,
-}: Modal) => {
+}: UseModalParams) => {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
-  const [modalZIndex, setModalZIndex] = useState<number>(10);
   const [modalBgDark, setModalBgDark] = useState<boolean>(true);
-  // parameter를 고차함수로 넘겨줘야 하니 주의하세요..
+  // parameter를 고차함수로 넘겨줘야 하니 주의하세요.
   const [modalBgOnpress, setModalBgOnpress] = useState<() => void>(() => {});
+
+  const RightArrowIcon = () => (
+    <Image source={require('../assets/images/right_arrow.png')} />
+  );
 
   const Modalcontent = () => {
     switch (modalType) {
@@ -56,7 +56,7 @@ const useModal = ({
                       <Txt
                         style={{width: 36}}
                         label={item.key}
-                        color="primaryBrand" // 이상한데?
+                        color="primaryBrand" // Figma대로 색상 적용 안되는 문제
                         typograph="labelMedium"
                       />
                       <Txt
@@ -95,10 +95,6 @@ const useModal = ({
           </>
         );
       case 'menu':
-        const RightArrowIcon = () => (
-          <Image source={require('../assets/images/right_arrow.png')} />
-        );
-
         return (
           <>
             <S.menu.top>
@@ -137,10 +133,10 @@ const useModal = ({
           <S.modalWrapper>
             <S.modalBg
               bgDark={modalBgDark}
-              zIndex={modalZIndex}
+              zIndex={10}
               onPress={modalBgOnpress}
             />
-            <S.modalContainer zIndex={modalZIndex}>
+            <S.modalContainer zIndex={10}>
               <Modalcontent />
             </S.modalContainer>
           </S.modalWrapper>
@@ -158,7 +154,6 @@ const useModal = ({
     deactivateBgDark: () => {
       setModalBgDark(false);
     },
-    setModalZIndex,
     setModalBgOnpress,
   };
 };
@@ -166,10 +161,6 @@ const useModal = ({
 type StyledBgProps = {
   zIndex: number;
   bgDark: boolean;
-};
-
-type Container = {
-  zIndex: number;
 };
 
 const S = {
@@ -192,7 +183,9 @@ const S = {
       bgDark ? 'rgba(0, 0, 0, 0.32)' : 'rgba(0, 0, 0, 0)'};
     z-index: ${({zIndex}) => zIndex};
   `,
-  modalContainer: styled.View<Container>`
+  modalContainer: styled.View<{
+    zIndex: number;
+  }>`
     width: 300px;
 
     background-color: white;
@@ -205,10 +198,7 @@ const S = {
       justify-content: center;
       align-items: center;
 
-      padding-top: 24px;
-      padding-bottom: 16px;
-      padding-left: 16px;
-      padding-right: 16px;
+      padding: 24px 16px 16px;
     `,
     informationBox: styled.View<{bgColor: string}>`
       background-color: ${({bgColor}) => bgColor};
