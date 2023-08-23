@@ -1,21 +1,13 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
+import IconWithText from '../../iconWithText/IconWithText';
 
 const BottomNavigation = () => {
   return (
     <S.BottomNavigationWrapper>
-      <S.NavigationButton>
-        <Icon name={'menu'} width={24} height={24} color={'primaryBrand'} />
-        <Txt label={'시대생활'} color={'primaryBrand'} typograph={'caption'} />
-      </S.NavigationButton>
-      <S.NavigationButton>
-        <Icon name={'studentId'} width={24} height={24} color={'grey190'} />
-        <Txt label={'학생증'} color={'grey160'} typograph={'caption'} />
-      </S.NavigationButton>
-      <S.NavigationButton>
-        <Icon name={'person'} width={24} height={24} color={'grey190'} />
-        <Txt label={'채팅'} color={'grey160'} typograph={'caption'} />
-      </S.NavigationButton>
+      <IconWithText iconName={'menu'} text={'시대생활'} isClick={true} />
+      <IconWithText iconName={'studentId'} text={'학생증'} isClick={false} />
+      <IconWithText iconName={'person'} text={'채팅'} isClick={false} />
     </S.BottomNavigationWrapper>
   );
 };
