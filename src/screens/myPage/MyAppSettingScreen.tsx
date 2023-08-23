@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-const SetNicknameScreen = () => {
+const MyAppSettingScreen = () => {
   return (
     <View>
-      <Text>SetNicknameScreen</Text>
+      <Text>MyAppSettingScreen</Text>
     </View>
   );
 };
 
-export default SetNicknameScreen;
+export default MyAppSettingScreen;

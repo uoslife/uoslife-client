@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react"
-import { View, Text, Image } from 'react-native';
-import { Button } from "../button/Button";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import styled from "@emotion/native";
+import {useState, useEffect} from 'react';
+import {View, Text, Image} from 'react-native';
+import {Button} from '../button/Button';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import styled from '@emotion/native';
 
 // 약관 동의: 하단 팝업에 들어갈 내용
 // 재사용성은 고려하지 않고 짬, 리팩토링 굳이 필요하려나?
 const AgreementToTerms = ({
-  handlePromotionTermChecked,
+  openModal,
+  handleBottomSheetButton,
 }: {
-  handlePromotionTermChecked: () => void;
+  openModal: () => void;
+  handleBottomSheetButton: () => void;
 }) => {
   const [checked, setChecked] = useState<boolean[]>([false, false, false]);
 
@@ -32,7 +34,7 @@ const AgreementToTerms = ({
   );
 
   useEffect(() => {
-    if (!!checked[2]) handlePromotionTermChecked();
+    if (checked[2]) openModal();
   }, [checked[2]]);
 
   const checkedAll = checked[0] && checked[1] && checked[2];
@@ -93,7 +95,11 @@ const AgreementToTerms = ({
           </View>
         </S.checkSingleContainer>
       </View>
-      <Button label="확인" type={checkedRequired ? 'primary' : 'default'} />
+      <Button
+        label="확인"
+        type={checkedRequired ? 'primary' : 'default'}
+        onPress={checkedRequired ? handleBottomSheetButton : undefined}
+      />
     </View>
   );
 };

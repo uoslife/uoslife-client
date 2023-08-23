@@ -1,75 +1,38 @@
 import styled from '@emotion/native';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import React, {Dispatch, SetStateAction, useState} from 'react';
+import {
+  View,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+  Image,
+} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {Button} from '../../../components/button/Button';
-
+import BottomSheet from '../../../components/modals/BottomSheet';
+import Modal from '../../../components/modals/Modal';
 import AgreementToTerms from '../../../components/contents/AgreementToTerms';
 import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
-
-import useModal from '../../../hooks/useModal';
-import useBottomSheet from '../../../hooks/useBottomSheet';
-
-interface SecondPageProps {
-  setPage: Dispatch<SetStateAction<number>>;
-}
+import {useSetAtom} from 'jotai';
+import {accountStatusAtom} from '..';
 
 interface InputProps {
   text: string;
   isChecked: boolean;
 }
 
-const SecondPage = ({setPage}: SecondPageProps) => {
+const SetNicknameScreen = () => {
   const [input, setInput] = useState<InputProps>({
     text: '',
     isChecked: false,
   });
-  const {
-    renderBottomSheet,
-    setBottomSheetContent,
-    openBottomSheet,
-    activateBottomSheetBgDark,
-    deactivateBottomSheetBgDark,
-  } = useBottomSheet();
-  const {renderModal, setModalContent, openModal, closeModal} = useModal();
+  const [isBottomSheetOpened, setIsBottomSheetOpened] =
+    useState<boolean>(false);
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Modal, BottomSheet의 content요소들 preset
-  useEffect(() => {
-    // BottomSheet에서 광고성 정보 수신 동의 시 실행됨
-    const handlePromotionTermChecked = () => {
-      // 모달 띄우고, 바텀시트의 까만배경 비활성화
-      openModal();
-      deactivateBottomSheetBgDark();
-    };
+  const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    const text = e.nativeEvent.text;
 
-    setBottomSheetContent(
-      <AgreementToTerms
-        handlePromotionTermChecked={handlePromotionTermChecked}
-      />,
-    );
-
-    // 모달 닫을 시 실행됨
-    const modalCloseHandler = () => {
-      // 모달 닫고, 바텀시트의 까만배경 활성화
-      closeModal();
-      activateBottomSheetBgDark();
-    };
-
-    setModalContent(
-      <>
-        <AgreementProcessResult />
-        <S.modalCloseButton onPress={modalCloseHandler}>
-          닫기
-        </S.modalCloseButton>
-      </>,
-    );
-  }, []);
-
-  const handlePressConfirm = () => {
-    openBottomSheet();
-  };
-
-  const onChangeNickname = (text: string) => {
     const regex = /^[가-힣a-zA-Z0-9!@#$%^&*()-_+=~]{1,8}$/;
 
     const isValid = regex.test(text); // 정규표현식 일치 여부 확인
@@ -86,6 +49,30 @@ const SecondPage = ({setPage}: SecondPageProps) => {
     setInput({text, isChecked});
   };
 
+  const openModal = () => {
+    setIsModalOpened(true);
+  };
+
+  const openBottomSheet = () => {
+    setIsBottomSheetOpened(true);
+  };
+
+  const closeBottomSheet = () => {
+    setIsBottomSheetOpened(false);
+  };
+
+  const closeModal = () => {
+    setIsModalOpened(false);
+  };
+  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const handleBottomSheetButton = () => {
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        portalStatus: {isPortalStep: true, step: 0},
+      };
+    });
+  };
   return (
     <>
       <S.pageWrapper>
@@ -106,7 +93,7 @@ const SecondPage = ({setPage}: SecondPageProps) => {
             <S.nicknameAndCheck>
               <TextInput
                 value={input.text}
-                onChangeText={onChangeNickname}
+                onChange={onChange}
                 style={{
                   borderColor: 'black',
                   borderStyle: 'solid',
@@ -119,18 +106,31 @@ const SecondPage = ({setPage}: SecondPageProps) => {
         </S.contentsContainer>
         <Button
           label={'확인'}
-          onPress={handlePressConfirm}
+          onPress={openBottomSheet}
           type={input.isChecked ? 'primary' : 'default'}
         />
       </S.pageWrapper>
-
-      {renderBottomSheet()}
-      {renderModal()}
+      {isBottomSheetOpened && (
+        <BottomSheet
+          zIndex={1}
+          onBackgroundPress={closeBottomSheet}
+          darkBackground={!isModalOpened}>
+          <AgreementToTerms
+            openModal={openModal}
+            handleBottomSheetButton={handleBottomSheetButton}
+          />
+        </BottomSheet>
+      )}
+      {isModalOpened && (
+        <Modal onClose={closeModal} zIndex={3} darkBackground>
+          <AgreementProcessResult />
+        </Modal>
+      )}
     </>
   );
 };
 
-export default SecondPage;
+export default SetNicknameScreen;
 
 const S = {
   pageWrapper: styled.View`
@@ -170,18 +170,7 @@ const S = {
   `,
   literalNickname: styled.Text`
     padding-left: 12px;
-    padding-right: 12px
+    padding-right: 12px;
     color: black;
-  `,
-  modalCloseButton: styled.Text`
-    display: flex;
-
-    padding-top: 12px;
-    padding-bottom: 12px;
-
-    border-top-width: 1px;
-    border-color: #e1dfdd;
-
-    text-align: center;
   `,
 };
