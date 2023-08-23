@@ -5,15 +5,15 @@ const BottomNavigation = () => {
   return (
     <S.BottomNavigationWrapper>
       <S.NavigationButton>
-        <Icon name={'menu_primaryBrand'} width={24} height={24} />
+        <Icon name={'menu'} width={24} height={24} color={'primaryBrand'} />
         <Txt label={'시대생활'} color={'primaryBrand'} typograph={'caption'} />
       </S.NavigationButton>
       <S.NavigationButton>
-        <Icon name={'studentId_grey190'} width={24} height={24} />
+        <Icon name={'studentId'} width={24} height={24} color={'grey190'} />
         <Txt label={'학생증'} color={'grey160'} typograph={'caption'} />
       </S.NavigationButton>
       <S.NavigationButton>
-        <Icon name={'person_grey190'} width={24} height={24} />
+        <Icon name={'person'} width={24} height={24} color={'grey190'} />
         <Txt label={'채팅'} color={'grey160'} typograph={'caption'} />
       </S.NavigationButton>
     </S.BottomNavigationWrapper>
