@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {Button} from '../../../components/button/Button';
-import BottomSheet from '../../../components/modals/BottomSheet';
-import Modal from '../../../components/modals/Modal';
 import AgreementToTerms from '../../../components/contents/AgreementToTerms';
 import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
 import {useSetAtom} from 'jotai';
 import {accountStatusAtom} from '..';
+import BottomSheet from '../../../components/overlay/BottomSheet';
+import Modal from '../../../components/overlay/Modal';
 
 interface InputProps {
   text: string;
@@ -74,59 +74,60 @@ const SetNicknameScreen = () => {
     });
   };
   return (
-    <>
-      <S.pageWrapper>
-        <S.contentsContainer>
-          <S.description1>사용하실 닉네임을 입력해주세요.</S.description1>
-          <View>
-            <S.description2>
-              닉네임은 최대 8자로 설정 가능합니다.
-            </S.description2>
-            <S.description2>
-              한글, 영문, 숫자, 특수기호를 이용해주세요.
-            </S.description2>
-          </View>
-          <View>
-            <View>
-              <S.literalNickname>닉네임</S.literalNickname>
-            </View>
-            <S.nicknameAndCheck>
-              <TextInput
-                value={input.text}
-                onChange={onChange}
-                style={{
-                  borderColor: 'black',
-                  borderStyle: 'solid',
-                  borderWidth: 5,
-                  flex: 1,
-                }}
-              />
-            </S.nicknameAndCheck>
-          </View>
-        </S.contentsContainer>
-        <Button
-          label={'확인'}
-          onPress={openBottomSheet}
-          type={input.isChecked ? 'primary' : 'default'}
-        />
-      </S.pageWrapper>
-      {isBottomSheetOpened && (
-        <BottomSheet
-          zIndex={1}
-          onBackgroundPress={closeBottomSheet}
-          darkBackground={!isModalOpened}>
-          <AgreementToTerms
-            openModal={openModal}
-            handleBottomSheetButton={handleBottomSheetButton}
-          />
-        </BottomSheet>
-      )}
-      {isModalOpened && (
-        <Modal onClose={closeModal} zIndex={3} darkBackground>
-          <AgreementProcessResult />
-        </Modal>
-      )}
-    </>
+    // <>
+    //   <S.pageWrapper>
+    //     <S.contentsContainer>
+    //       <S.description1>사용하실 닉네임을 입력해주세요.</S.description1>
+    //       <View>
+    //         <S.description2>
+    //           닉네임은 최대 8자로 설정 가능합니다.
+    //         </S.description2>
+    //         <S.description2>
+    //           한글, 영문, 숫자, 특수기호를 이용해주세요.
+    //         </S.description2>
+    //       </View>
+    //       <View>
+    //         <View>
+    //           <S.literalNickname>닉네임</S.literalNickname>
+    //         </View>
+    //         <S.nicknameAndCheck>
+    //           <TextInput
+    //             value={input.text}
+    //             onChange={onChange}
+    //             style={{
+    //               borderColor: 'black',
+    //               borderStyle: 'solid',
+    //               borderWidth: 5,
+    //               flex: 1,
+    //             }}
+    //           />
+    //         </S.nicknameAndCheck>
+    //       </View>
+    //     </S.contentsContainer>
+    //     <Button
+    //       label={'확인'}
+    //       onPress={openBottomSheet}
+    //       type={input.isChecked ? 'primary' : 'default'}
+    //     />
+    //   </S.pageWrapper>
+    //   {isBottomSheetOpened && (
+    //     <BottomSheet
+    //       zIndex={1}
+    //       onBackgroundPress={closeBottomSheet}
+    //       darkBackground={!isModalOpened}>
+    //       <AgreementToTerms
+    //         openModal={openModal}
+    //         handleBottomSheetButton={handleBottomSheetButton}
+    //       />
+    //     </BottomSheet>
+    //   )}
+    //   {isModalOpened && (
+    //     // <Modal onClose={closeModal} zIndex={3} darkBackground>
+    //       <AgreementProcessResult />
+    //     // {/* </Modal> */}
+    //   )}
+    // </>
+    <></>
   );
 };
 
