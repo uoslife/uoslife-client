@@ -12,23 +12,27 @@ type MyPageNavigatorItem = {
   hasBorder: boolean;
 };
 
-const MyProfileScreen = ({
+const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const myPageNavigatorItems: MyPageNavigatorItem[] = [
-    {name: '계정', navigateDestination: 'myAccount', hasBorder: true},
-    {name: '앱 설정', navigateDestination: 'myAppSetting', hasBorder: true},
+    {name: '계정', navigateDestination: 'Mypage_profile', hasBorder: true},
     {
-      name: '앱 정보',
-      navigateDestination: 'myAppInformation',
+      name: '앱 설정',
+      navigateDestination: 'Mypage_appSetting',
       hasBorder: true,
     },
-    {name: '문의하기', navigateDestination: 'myProfile', hasBorder: false},
+    {
+      name: '앱 정보',
+      navigateDestination: 'Mypage_appInformation',
+      hasBorder: true,
+    },
+    {name: '문의하기', navigateDestination: 'Mypage_inquiry', hasBorder: false},
   ];
 
   return (
     <S.screenContainer>
-      <Header label={'MY Page'} />
+      <Header label={'MY Page'} onPressBackButton={() => console.log('hi')} />
       <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
@@ -42,7 +46,11 @@ const MyProfileScreen = ({
                 key={index}
                 label={value.name}
                 hasBorder={value.hasBorder}
-                onPress={() => navigation.push(value.navigateDestination)}
+                onPress={() =>
+                  navigation.navigate('MyPage', {
+                    screen: value.navigateDestination,
+                  })
+                }
               />
             );
           })}
@@ -92,4 +100,4 @@ const S = {
   `,
 };
 
-export default MyProfileScreen;
+export default MypageMainScreen;

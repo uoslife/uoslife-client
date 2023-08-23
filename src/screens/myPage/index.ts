@@ -1,4 +1,5 @@
-export {default as MyProfileScreen} from './MyProfileScreen';
-export {default as MyAccountScreen} from './MyAccountScreen';
-export {default as MyAppSettingScreen} from './MyAppSettingScreen';
-export {default as MyAppInformationScreen} from './MyAppInformationScreen';
+export {default as MypageMainScreen} from './MypageMainScreen';
+export {default as MypageAppSettingScreen} from './MypageAppSettingScreen';
+export {default as MypageAppInformationScreen} from './MypageAppInformationScreen';
+
+export {default as MypageProfileScreen} from './nestedScreen/MypageProfileScreen';

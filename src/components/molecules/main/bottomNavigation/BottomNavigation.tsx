@@ -1,8 +1,11 @@
 import styled from '@emotion/native';
-import {Icon, Txt} from '@uoslife/design-system';
 import IconWithText from '../../iconWithText/IconWithText';
+import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
+import {Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const BottomNavigation = () => {
+  const {navigate} = useNavigation<RootNavigationProps>();
   return (
     <S.BottomNavigationWrapper>
       <IconWithText iconName={'menu'} text={'시대생활'} isClick={true} />
