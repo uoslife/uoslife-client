@@ -6,10 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
-import AccountStackNavigator from './navigators/AccountStackNavigator';
-import NotificationStackNavigator from './navigators/NotifacationStackNavigator';
-import useModal from './hooks/useModal';
-import useBottomSheet from './hooks/useBottomSheet';
+import AnnouncementStackNavigator from './navigators/AnnouncementStackNavigator';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,20 +21,17 @@ let App: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <ConfigContext>
-        <NavigationContainer>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor="transparent"
-            translucent
-          />
-          {/* <RootStackNavigator /> */}
-          <AccountStackNavigator />
-          {/* <NotificationStackNavigator /> */}
-        </NavigationContainer>
-      </ConfigContext>
-    </>
+    <ConfigContext>
+      <NavigationContainer>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor="transparent"
+          translucent
+        />
+        {/* <RootStackNavigator /> */}
+        <AnnouncementStackNavigator />
+      </NavigationContainer>
+    </ConfigContext>
   );
 };
 
