@@ -4,18 +4,23 @@ import React from 'react';
 
 type Props = {
   iconName: IconsNameType;
-  iconColor: colorsType;
   text: string;
-  isClick: boolean;
+  color?: colorsType;
+  isClick?: boolean;
 };
 
-const IconWithText = ({iconName, iconColor, text, isClick}: Props) => {
+const IconWithText = ({iconName, color, text, isClick}: Props) => {
   return (
     <S.Wrapper>
-      <Icon name={iconName} width={24} height={24} color={iconColor} />
+      <Icon
+        name={iconName}
+        width={24}
+        height={24}
+        color={isClick ? 'primaryBrand' : 'grey190' ?? color}
+      />
       <Txt
         label={text}
-        color={isClick ? 'primaryBrand' : 'grey160'}
+        color={isClick ? 'primaryBrand' : 'grey160' ?? color}
         typograph={'caption'}
       />
     </S.Wrapper>
