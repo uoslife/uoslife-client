@@ -1,28 +1,27 @@
 import React, {useEffect, useMemo} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useConfigContext} from '../hooks/ConfigContext';
-
+import SplashScreen from 'react-native-splash-screen';
+import MaintenanceScreen from '../screens/MaintenanceScreen';
 import {
   PortalAuthenticationScreen,
   SetNicknameScreen,
-  AgreementTermsScreen,
   VerificationScreen,
-  SignupScreen,
 } from '../screens/account';
-import SplashScreen from 'react-native-splash-screen';
-import MaintenanceScreen from '../screens/MaintenanceScreen';
+import AccountCancellationScreen from '../screens/myPage/AccountCancellationScreen';
+import {MyAccountScreen} from '../screens/myPage';
 
-export type AccountStackParamList = {
-  signup: undefined;
-  verification: undefined;
-  setNickname: undefined;
-  agreementTerms: undefined;
+export type MyPageAccountStackParamList = {
+  myAccount: undefined;
+  sestNickname: undefined;
   portalAuthentication: undefined;
+  verification: undefined;
+  accountCancellation: undefined;
 };
 
-const Stack = createStackNavigator<AccountStackParamList>();
+const Stack = createStackNavigator<MyPageAccountStackParamList>();
 
-const AccountStackNavigator = () => {
+const MyPageAccountStackNavigator = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
 
   const isMaintenance = useMemo(
@@ -41,18 +40,22 @@ const AccountStackNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="signup"
+      initialRouteName="myAccount"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="signup" component={SignupScreen} />
-      <Stack.Screen name="verification" component={VerificationScreen} />
+      <Stack.Screen name="myAccount" component={MyAccountScreen} />
       <Stack.Screen name="setNickname" component={SetNicknameScreen} />
-      <Stack.Screen name="agreementTerms" component={AgreementTermsScreen} />
       <Stack.Screen
         name="portalAuthentication"
         component={PortalAuthenticationScreen}
+      />
+
+      <Stack.Screen name="verification" component={VerificationScreen} />
+      <Stack.Screen
+        name="accountCancellation"
+        component={AccountCancellationScreen}
       />
     </Stack.Navigator>
   );
 };
 
-export default AccountStackNavigator;
+export default MyPageAccountStackNavigator;

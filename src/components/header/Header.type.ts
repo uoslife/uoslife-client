@@ -1,6 +1,6 @@
 export type HeaderProps = {
   label: string;
-  onPressButton?: () => void;
+  onPressBackButton?: () => void;
 };
 
 export default HeaderProps;

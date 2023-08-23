@@ -5,13 +5,19 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {CardLayout} from '../..';
 
 import MainServiceBoxType from './MainServiceBox.type';
+import {Image} from 'react-native';
 
-const MainServiceBox = ({label, icon, children}: MainServiceBoxType) => {
+const MainServiceBox = ({
+  label,
+  iconName,
+  iconColor,
+  children,
+}: MainServiceBoxType) => {
   return (
     <S.Wrapper>
       <S.TopWrapper>
         <S.TitleWrapper>
-          <Icon name={icon} width={15} height={16} />
+          <Icon name={iconName} width={15} height={16} color={iconColor} />
           <Txt
             label={label}
             color={'primaryDarker'}
@@ -20,7 +26,7 @@ const MainServiceBox = ({label, icon, children}: MainServiceBoxType) => {
         </S.TitleWrapper>
         <S.MoreButton>
           <Txt label={'더보기'} color={'grey90'} typograph={'labelMedium'} />
-          <Icon name={'forwardArrow_grey90'} width={10} height={10} />
+          <Icon name={'forwardArrow'} width={10} height={10} color={'grey90'} />
         </S.MoreButton>
       </S.TopWrapper>
       {children}

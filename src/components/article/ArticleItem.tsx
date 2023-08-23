@@ -3,7 +3,15 @@ import {Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, Text} from 'react-native';
 import {Article} from '../../screens/notice/NoticeMainScreenContainer';
-import {getUploadTimeString} from '../../utils/handle-date';
+
+// 임시타입이라 따로 빼놓지는 않겠습니다
+type Article = {
+  bookmarkCnt: number;
+  bookmarkByMe: boolean;
+  title: string;
+  category: string; // XX과
+  uploadTime: Date;
+};
 
 const ArticleItem = ({article}: {article: Article}) => {
   const {bookmarkCnt, category, title, uploadTime, bookmarkByMe} = article;
@@ -15,13 +23,24 @@ const ArticleItem = ({article}: {article: Article}) => {
     <Image source={require('../../assets/images/bookmark_toggle_off.png')} />
   );
 
+  const pad = (num: number) => (num < 10 ? `0${num}` : num);
+  const uploadYear = uploadTime.getFullYear();
+  const uploadMonth = pad(uploadTime.getMonth());
+  const uploadDay = pad(uploadTime.getDay());
+  const uploadHours = pad(uploadTime.getHours());
+  const uploadMinutes = pad(uploadTime.getMinutes());
+  const uploadDate = pad(uploadTime.getDate());
+  const processedDateString =
+    uploadDate == new Date().getDate()
+      ? `${uploadHours}:${uploadMinutes}`
+      : `${uploadYear}.${uploadMonth}.${uploadDay}`;
+  const processedCategoryAndDate = `${category} | ${processedDateString}`;
+
   //  bookmark toggle
   const onPressBookmark = () => {};
 
   // 링크 클릭시 페이지 이동
   const onPressArticleLink = () => {};
-
-  const processedUploadTimeString = getUploadTimeString(uploadTime);
 
   return (
     <S.articleItemWrapper>
@@ -30,7 +49,7 @@ const ArticleItem = ({article}: {article: Article}) => {
         <Txt
           color="grey90"
           typograph="labelSmall"
-          label={`${category} | ${processedUploadTimeString}`}
+          label={processedCategoryAndDate}
         />
       </S.description>
 

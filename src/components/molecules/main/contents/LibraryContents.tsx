@@ -9,7 +9,7 @@ const LibraryContents = () => {
       <S.Wrapper>
         <S.LeftArea>
           <S.TimerBackground>
-            <Icon name={'time_primaryBrand'} width={24} height={24} />
+            <Icon name={'time'} width={24} height={24} color={'primaryBrand'} />
           </S.TimerBackground>
           <Txt
             label={'이용 중'}
