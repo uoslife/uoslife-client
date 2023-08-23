@@ -1,13 +1,21 @@
 import React from 'react';
 import ArticleItem from './ArticleItem';
 import styled from '@emotion/native';
-import {Article} from '../../screens/notice/NoticeMainScreenContainer';
+import {Article} from '../../screens/announcement/AnnouncementMainScreenContainer';
 
-const ArticleList = ({articles}: {articles: Article[]}) => {
+type ArticleListProps = {
+  articles: Article[];
+  showCategory?: true;
+};
+const ArticleList = ({articles, showCategory}: ArticleListProps) => {
   return (
     <S.listContainer>
       {articles.map(article => (
-        <ArticleItem article={article} key={article.id} />
+        <ArticleItem
+          article={article}
+          key={article.id}
+          showCategory={showCategory}
+        />
       ))}
     </S.listContainer>
   );
