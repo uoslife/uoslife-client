@@ -1,17 +1,20 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import styled from '@emotion/native';
-import {Txt, colors} from '@uoslife/design-system';
+import {Txt, colors, colorsType} from '@uoslife/design-system';
+import {pad} from '../../../utils/handle-date';
 
-type LibraryTimerProps = {
-  state: '이용 중' | '외출 중' | '비이용';
+type LibraryUsingStatus = {
+  // 3: 비이용        0: 이용, 미외출
+  // 1: 이용, 외출, 남은시간 30분 초과
+  // 2: 이용, 외출, 남은시간 30분 미만
+  usingStatus: 3 | 0 | 1 | 2;
   timerTime?: number; // 초 단위로
 };
 
 // 시간줄어드는거 구현 필요
-// 리팩토링 예정
-const LibraryTimer = ({state, timerTime}: LibraryTimerProps) => {
-  if (state === '비이용' || !timerTime)
+const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
+  if (usingStatus === 3 || !timerTime)
     return (
       <S.containerCircle style={{borderColor: colors.grey40}}>
         <Txt
@@ -22,52 +25,51 @@ const LibraryTimer = ({state, timerTime}: LibraryTimerProps) => {
       </S.containerCircle>
     );
 
-  // 문자열 처리 로직 수정 필요
   const hour = Math.floor(timerTime / 3600);
-  const minute = Math.floor((timerTime - hour * 3600) / 60);
-  const second = timerTime % 60;
+  const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
+  const second = pad(timerTime % 60);
 
-  const processedRemainingTimeString =
-    `${hour}시간 ${minute}분` +
-    (state === '외출 중' && !!hour ? ` ${second}초` : ``);
+  const processedTimeString = (function () {
+    switch (usingStatus) {
+      case 0:
+        return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
+      default: // 1, 2
+        return `${!!hour ? `${hour}시간 ` : ``}${
+          !hour && !!minute ? `${minute}분 ` : ``
+        }${second}초`;
+    }
+  })();
 
-  switch (state) {
-    case '이용 중':
-      return (
-        <S.containerCircle style={{borderColor: colors.primaryBrand}}>
-          <Txt color={'grey130'} label={'남은 시간'} typograph="titleSmall" />
-          <View style={{paddingTop: 4}}>
-            <Txt
-              color={'grey190'}
-              label={processedRemainingTimeString}
-              typograph="headlineMedium"
-            />
-          </View>
-          <View style={{paddingTop: 24}}>
-            <Txt color={'primaryBrand'} label={'시간'} typograph="titleSmall" />
-          </View>
-        </S.containerCircle>
-      );
-    case '외출 중':
-      const borderColor = timerTime > 1800 ? colors.secondaryUi : colors.red;
-      const txtColor = timerTime > 1800 ? 'secondaryUi' : 'red';
+  const borderColors: string[] = [
+    colors.primaryBrand,
+    colors.secondaryUi,
+    colors.red,
+  ];
+  const txtColors: colorsType[] = ['primaryBrand', 'secondaryUi', 'red'];
 
-      return (
-        <S.containerCircle style={{borderColor}}>
-          <Txt color={'grey130'} label={'남은 시간'} typograph="titleSmall" />
-          <View style={{paddingTop: 4}}>
-            <Txt
-              color={'grey190'}
-              label={processedRemainingTimeString}
-              typograph="headlineMedium"
-            />
-          </View>
-          <View style={{paddingTop: 24}}>
-            <Txt color={txtColor} label={'시간'} typograph="titleSmall" />
-          </View>
-        </S.containerCircle>
-      );
-  }
+  return (
+    <S.containerCircle style={{borderColor: borderColors[usingStatus]}}>
+      <Txt
+        color={'grey130'}
+        label={usingStatus === 0 ? '학슴 시간' : '남은 시간'}
+        typograph="titleSmall"
+      />
+      <View style={{paddingTop: 4}}>
+        <Txt
+          color={'grey190'}
+          label={processedTimeString}
+          typograph="headlineMedium"
+        />
+      </View>
+      <View style={{paddingTop: 24}}>
+        <Txt
+          color={txtColors[usingStatus]}
+          label={usingStatus === 0 ? '이용 중' : '외출 중'}
+          typograph="titleSmall"
+        />
+      </View>
+    </S.containerCircle>
+  );
 };
 
 export default LibraryTimer;
