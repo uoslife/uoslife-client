@@ -6,7 +6,7 @@ import {
   MypageAppSettingScreen,
   MypageMainScreen,
   MypageProfileScreen,
-} from '../screens/mypage';
+} from '../screens/myPage';
 import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
 import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
 import VerificationScreen from '../screens/account/common/VerificationScreen';
