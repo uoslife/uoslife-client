@@ -1,6 +1,6 @@
 import styled from '@emotion/native';
 import Header from '../../components/header/Header';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import LibraryTimer from '../../components/molecules/library/LibraryTimer';
 import {Txt} from '@uoslife/design-system';
 import {CardLayout} from '../../components/molecules';
@@ -31,13 +31,16 @@ const LibraryScreen = () => {
     extended: 0,
   });
 
+  // API 붙이기
+  useEffect(() => {}, []);
+
   const UserInfo = () => {
     switch (libraryUserInfo.state) {
       case '비이용':
         return (
           <S.userInfoWrapper>
             <S.timerContainer>
-              <LibraryTimer />
+              <LibraryTimer state={libraryUserInfo.state} />
             </S.timerContainer>
           </S.userInfoWrapper>
         );
@@ -64,7 +67,10 @@ const LibraryScreen = () => {
               />
             </S.sayingContainer>
             <S.timerContainer>
-              <LibraryTimer />
+              <LibraryTimer
+                state={libraryUserInfo.state}
+                timerTime={libraryUserInfo.timerTime}
+              />
             </S.timerContainer>
             <S.userInfoDescription>
               {processedDescriptionArray.map((item, i) => (
