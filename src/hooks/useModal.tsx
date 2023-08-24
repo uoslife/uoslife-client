@@ -6,10 +6,12 @@ import {Image} from 'react-native';
 type ModalBtn = {
   text: string;
   onPress?: () => void;
+  closeAfterPressed?: boolean;
 };
 
 type UseModalParams = {
   title: string;
+  // modalType이 "standard"건 "menu"건, 디자인상으로만 다르고 로직은 사실상 같은 관계로 button 주입은 동일하게 합니다.
   buttons: ModalBtn[];
 
   modalType: 'standard' | 'menu';
@@ -19,6 +21,7 @@ type UseModalParams = {
 
 // 모달은 항상 바텀시트보다 위에 있습니다.
 // 배경을 눌러도 사라지지 않습니다(기본값). setModalBgOnpress를 통해 수정 가능합니다.
+// 배경은 까맣게 처리됩니다(기본값). setModalBgDark를 통해 수정 가능합니다.
 const useModal = ({
   title,
   modalType,
@@ -111,7 +114,7 @@ const useModal = ({
               <S.menu.btn
                 onPress={() => {
                   if (btn.onPress) btn.onPress();
-                  setModalOpened(false);
+                  if (btn.closeAfterPressed) setModalOpened(false);
                 }}>
                 <Txt
                   style={{paddingTop: 12, paddingBottom: 12, paddingLeft: 8}}
