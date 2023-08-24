@@ -8,10 +8,11 @@ import {
   Banner,
   BottomNavigation,
   CafeteriaContents,
-  CardLayout,
   LibraryContents,
   MainServiceBox,
 } from '../components/molecules';
+import {useNavigation} from '@react-navigation/core';
+import {RootNavigationProps} from '../navigators/RootStackNavigator';
 
 const MainScreen = () => {
   const {StatusBarManager} = NativeModules;
@@ -19,13 +20,14 @@ const MainScreen = () => {
     Platform.OS === 'android'
       ? StatusBar.currentHeight
       : StatusBarManager.HEIGHT;
+  const navigation = useNavigation<RootNavigationProps>();
   return (
     <>
       <S.MainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
         <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
         <S.MainWrapper>
-          <S.MypageButton>
-            <Icon name={'person_white'} width={24} height={24} />
+          <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
+            <Icon name={'person'} width={24} height={24} color={'white'} />
           </S.MypageButton>
           <View
             style={css`
@@ -56,13 +58,20 @@ const MainScreen = () => {
           <Banner />
           <MainServiceBox
             label={'오늘의 학식'}
-            icon={'cafeteria_primaryDarker'}>
+            iconName={'cafeteria'}
+            iconColor={'primaryDarker'}>
             <CafeteriaContents />
           </MainServiceBox>
-          <MainServiceBox label={'도서관'} icon={'library_primaryDarker'}>
+          <MainServiceBox
+            label={'도서관'}
+            iconName={'library'}
+            iconColor={'primaryDarker'}>
             <LibraryContents />
           </MainServiceBox>
-          <MainServiceBox label={'공지사항'} icon={'campaign_primaryDarker'}>
+          <MainServiceBox
+            label={'공지사항'}
+            iconName={'campaign'}
+            iconColor={'primaryDarker'}>
             <AnnounceContents />
           </MainServiceBox>
         </S.MainWrapper>

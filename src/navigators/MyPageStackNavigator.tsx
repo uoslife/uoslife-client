@@ -1,52 +1,77 @@
-import React, {useEffect, useMemo} from 'react';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useConfigContext} from '../hooks/ConfigContext';
 
 import {
-  MyProfileScreen,
-  MyAccountScreen,
-  MyAppInformationScreen,
-  MyAppSettingScreen,
-} from '../screens/myPage';
-import SplashScreen from 'react-native-splash-screen';
-import MaintenanceScreen from '../screens/MaintenanceScreen';
+  MypageAppInformationScreen,
+  MypageAppSettingScreen,
+  MypageMainScreen,
+  MypageProfileScreen,
+} from '../screens/mypage';
+import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
+import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
+import VerificationScreen from '../screens/account/common/VerificationScreen';
 
 export type MyPageStackParamList = {
-  myProfile: undefined;
-  myAccount: undefined;
-  myAppSetting: undefined;
-  myAppInformation: undefined;
+  Mypage_main: undefined;
+  Mypage_profile: undefined;
+  Mypage_appSetting: undefined;
+  Mypage_appInformation: undefined;
+  Mypage_inquiry: undefined;
+};
+
+export type MyPageNestedStackParamList = {
+  Mypage_nestedMain: undefined;
+  Mypage_changeNickname: undefined;
+  Mypage_portalAuthentication: undefined;
+  Mypage_changeNumber: undefined;
 };
 
 const Stack = createStackNavigator<MyPageStackParamList>();
+const NestedStack = createStackNavigator<MyPageNestedStackParamList>();
+
+const MypageNestedNavigator = () => {
+  return (
+    <NestedStack.Navigator
+      initialRouteName="Mypage_nestedMain"
+      screenOptions={{headerShown: false}}>
+      <NestedStack.Screen
+        name="Mypage_nestedMain"
+        component={MypageProfileScreen}
+      />
+      <NestedStack.Screen
+        name="Mypage_changeNickname"
+        component={SetNicknameScreen}
+      />
+      <NestedStack.Screen
+        name="Mypage_portalAuthentication"
+        component={PortalAuthenticationScreen}
+      />
+      <NestedStack.Screen
+        name="Mypage_changeNumber"
+        component={VerificationScreen}
+      />
+    </NestedStack.Navigator>
+  );
+};
 
 const MyPageStackNavigator = () => {
-  const {config, isLoading, hasNetworkError} = useConfigContext();
-
-  const isMaintenance = useMemo(
-    () => config.get('app.block') !== 'NO',
-    [config],
-  );
-
-  useEffect(() => {
-    if (isLoading) return;
-    SplashScreen.hide();
-  }, [isLoading]);
-
-  if (isMaintenance) {
-    return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
-  }
-
   return (
     <Stack.Navigator
-      initialRouteName="myProfile"
+      initialRouteName="Mypage_main"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="myProfile" component={MyProfileScreen} />
-      <Stack.Screen name="myAccount" component={MyAccountScreen} />
-      <Stack.Screen name="myAppSetting" component={MyAppSettingScreen} />
+      <Stack.Screen name="Mypage_main" component={MypageMainScreen} />
+      <Stack.Screen name="Mypage_profile" component={MypageNestedNavigator} />
       <Stack.Screen
-        name="myAppInformation"
-        component={MyAppInformationScreen}
+        name="Mypage_appSetting"
+        component={MypageAppSettingScreen}
+      />
+      <Stack.Screen
+        name="Mypage_appInformation"
+        component={MypageAppInformationScreen}
+      />
+      <Stack.Screen
+        name="Mypage_inquiry"
+        component={MypageAppInformationScreen}
       />
     </Stack.Navigator>
   );
