@@ -23,7 +23,7 @@ type LibraryUserInfo =
 const LibraryScreen = () => {
   const [libraryUserInfo, setLibraryUserInfo] = useState<LibraryUserInfo>({
     userName: '한유민',
-    state: '외출 중',
+    state: '이용 중',
     timerTime: 1000,
     room: '쏼라쏼라',
     seatNum: 21,
