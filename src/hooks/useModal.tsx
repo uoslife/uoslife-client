@@ -8,7 +8,7 @@ type ModalBtn = {
   closeAfterPressed?: boolean;
 };
 
-type UseModalParams = {
+type ModalHookParams = {
   title: string;
   // modalType이 "standard"건 "menu"건, 디자인상으로만 다르고 로직은 사실상 같은 관계로 button 주입은 동일하게 합니다.
   buttons: ModalBtn[];
@@ -27,7 +27,7 @@ const useModal = ({
   description,
   buttons,
   informationBox,
-}: UseModalParams) => {
+}: ModalHookParams) => {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   const [modalBgDark, setModalBgDark] = useState<boolean>(true);
   const [modalCloseOnBgPress, setModalCloseOnBgPress] =
@@ -163,11 +163,6 @@ const useModal = ({
   };
 };
 
-type StyledBgProps = {
-  zIndex: number;
-  bgDark: boolean;
-};
-
 const S = {
   modalWrapper: styled.View`
     position: absolute;
@@ -179,7 +174,10 @@ const S = {
     justify-content: center;
     align-items: center;
   `,
-  modalBg: styled.Pressable<StyledBgProps>`
+  modalBg: styled.Pressable<{
+    zIndex: number;
+    bgDark: boolean;
+  }>`
     position: absolute;
     width: 100%;
     height: 100%;
