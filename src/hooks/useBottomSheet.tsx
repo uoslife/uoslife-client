@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import styled from '@emotion/native';
-import {Image, View} from 'react-native';
-import {Button, Txt, colors} from '@uoslife/design-system';
+import {View} from 'react-native';
+import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import ToggleSwitch from '../components/toggleSwitch/ToggleSwitch';
 
 type CheckOption = {
@@ -36,17 +36,6 @@ type BottomSheetHookParams = {
       title: string;
       toggleOptions: ToggleOption[];
     }
-);
-
-// 아이콘: 라이브러리의 것으로 대체 필요
-const RightArrowIcon = () => (
-  <Image source={require('../assets/images/right_arrow.png')} />
-);
-const CheckUncheckedImage = () => (
-  <Image source={require('../assets/images/check_unchecked.png')} />
-);
-const CheckCheckedImage = () => (
-  <Image source={require('../assets/images/check_checked.png')} />
 );
 
 const CheckboxContent = ({
@@ -87,7 +76,12 @@ const CheckboxContent = ({
             if (entireSelectOption.checkBtnAdditionalHandler)
               entireSelectOption.checkBtnAdditionalHandler();
           }}>
-          {checkedAll ? <CheckCheckedImage /> : <CheckUncheckedImage />}
+          <Icon
+            width={24}
+            height={24}
+            name="check"
+            color={checkedAll ? 'primaryBrand' : 'grey60'}
+          />
         </S.checkbox.checkIconContainer>
         <S.checkbox.itemBody
           onPress={() => {
@@ -107,7 +101,7 @@ const CheckboxContent = ({
               />
             )}
           </S.checkbox.textContainer>
-          <RightArrowIcon />
+          <Icon name="forwardArrow" color="grey130" height={24} width={24} />
         </S.checkbox.itemBody>
       </S.checkbox.itemContainer>
       {checkOptions.map((option, i) => (
@@ -121,11 +115,12 @@ const CheckboxContent = ({
               if (option.checkBtnAdditionalHandler)
                 option.checkBtnAdditionalHandler();
             }}>
-            {isCheckedArray[i] ? (
-              <CheckCheckedImage />
-            ) : (
-              <CheckUncheckedImage />
-            )}
+            <Icon
+              width={24}
+              height={24}
+              name="check"
+              color={isCheckedArray[i] ? 'primaryBrand' : 'grey60'}
+            />
           </S.checkbox.checkIconContainer>
           <S.checkbox.itemBody onPress={option.bodyAreaPressHandler}>
             <S.checkbox.textContainer>
@@ -138,7 +133,7 @@ const CheckboxContent = ({
                 />
               )}
             </S.checkbox.textContainer>
-            <RightArrowIcon />
+            <Icon name="forwardArrow" color="grey130" height={24} width={24} />
           </S.checkbox.itemBody>
         </S.checkbox.itemContainer>
       ))}

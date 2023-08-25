@@ -1,7 +1,6 @@
-import {useState, useEffect, useMemo} from 'react';
+import {useState} from 'react';
 import styled from '@emotion/native';
-import {Txt, colors, colorsType} from '@uoslife/design-system';
-import {Image} from 'react-native';
+import {Icon, Txt, colors, colorsType} from '@uoslife/design-system';
 
 type ModalBtn = {
   text: string;
@@ -33,11 +32,6 @@ const useModal = ({
   const [modalBgDark, setModalBgDark] = useState<boolean>(true);
   const [modalCloseOnBgPress, setModalCloseOnBgPress] =
     useState<boolean>(false);
-
-  // 라이브러리의 아이콘 컴포넌트로 수정 필요
-  const RightArrowIcon = () => (
-    <Image source={require('../assets/images/right_arrow.png')} />
-  );
 
   const Modalcontent = () => {
     switch (modalType) {
@@ -123,7 +117,12 @@ const useModal = ({
                   label={btn.text}
                   typograph="bodyLarge"
                 />
-                <RightArrowIcon />
+                <Icon
+                  name="forwardArrow"
+                  color="grey130"
+                  height={24}
+                  width={24}
+                />
               </S.menu.btn>
             ))}
           </>
