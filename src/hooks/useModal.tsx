@@ -20,7 +20,7 @@ type UseModalParams = {
 };
 
 // 모달은 항상 바텀시트보다 위에 있습니다.
-// 배경을 눌러도 사라지지 않습니다(기본값). setModalBgOnpress를 통해 수정 가능합니다.
+// 배경을 눌러도 사라지지 않습니다(기본값). setModalCloseOnBgPress를 통해 수정 가능합니다.
 // 배경은 까맣게 처리됩니다(기본값). setModalBgDark를 통해 수정 가능합니다.
 const useModal = ({
   title,
@@ -31,9 +31,10 @@ const useModal = ({
 }: UseModalParams) => {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   const [modalBgDark, setModalBgDark] = useState<boolean>(true);
-  // parameter를 고차함수로 넘겨줘야 하니 주의하세요.
-  const [modalBgOnpress, setModalBgOnpress] = useState<() => void>(() => {});
+  const [modalCloseOnBgPress, setModalCloseOnBgPress] =
+    useState<boolean>(false);
 
+  // 라이브러리의 아이콘 컴포넌트로 수정 필요
   const RightArrowIcon = () => (
     <Image source={require('../assets/images/right_arrow.png')} />
   );
@@ -85,7 +86,7 @@ const useModal = ({
                 borderColor={colors.grey40}
                 onPress={() => {
                   if (btn.onPress) btn.onPress();
-                  setModalOpened(false);
+                  if (btn.closeAfterPressed) setModalOpened(false);
                 }}
                 key={i}>
                 <Txt
@@ -137,7 +138,9 @@ const useModal = ({
             <S.modalBg
               bgDark={modalBgDark}
               zIndex={10}
-              onPress={modalBgOnpress}
+              onPress={() => {
+                if (modalCloseOnBgPress) setModalOpened(false);
+              }}
             />
             <S.modalContainer zIndex={10}>
               <Modalcontent />
@@ -157,7 +160,7 @@ const useModal = ({
     deactivateBgDark: () => {
       setModalBgDark(false);
     },
-    setModalBgOnpress,
+    setModalCloseOnBgPress,
   };
 };
 
