@@ -4030,7 +4030,7 @@
   dependencies:
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
-    
+
 "@uoslife/design-system@^1.0.25":
   version "1.0.25"
   resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.25/4c7be8fbb89aaed887b7a4dae256643e853f17a3"
