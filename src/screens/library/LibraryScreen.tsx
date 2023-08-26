@@ -33,7 +33,7 @@ const LibraryScreen = () => {
     extended: 0,
   });
 
-  // API 붙이기
+  // 정보 불러오는 API 붙이기
   useEffect(() => {}, []);
 
   const UserInfo = () => {
@@ -45,7 +45,7 @@ const LibraryScreen = () => {
       ? 1 // 1: 사용, 외출, 30분 초과 남음
       : 2; // 2: 사용, 외출, 30분 이하 남음
 
-    if (!libraryUserInfo.using)
+    if (usingStatus === 3 || !libraryUserInfo.using)
       return (
         <S.userInfoWrapper>
           <S.timerContainer>
@@ -56,26 +56,12 @@ const LibraryScreen = () => {
 
     const {room, seatNum, timeOfUse, extended, userName} = libraryUserInfo;
 
-    const sayingArray = [
-      '잘하고 있어요!',
-      '조심히 다녀오세요!',
-      '시간이 얼마 남지 않았어요!',
-    ];
-    const processedSaying = `${userName}님 ` + sayingArray[usingStatus];
-
-    const processedDescriptionArray = [
-      ['열람실', room],
-      ['좌석번호', `${seatNum}번`],
-      ['이용시간', timeOfUse],
-      ['연장횟수', `${extended}회 / 3회`],
-    ];
-
     return (
       <S.userInfoWrapper>
         <S.sayingContainer>
           <Txt
             color={'grey190'}
-            label={processedSaying}
+            label={getSaying({userName, usingStatus})}
             typograph={'titleLarge'}
           />
         </S.sayingContainer>
@@ -86,17 +72,23 @@ const LibraryScreen = () => {
           />
         </S.timerContainer>
         <S.userInfoDetails>
-          {processedDescriptionArray.map((item, i) => (
-            <S.detailItem key={i}>
-              <Txt
-                style={{width: 56}}
-                color={'grey90'}
-                label={item[0]}
-                typograph="titleSmall"
-              />
-              <Txt color={'grey190'} label={item[1]} typograph="bodyLarge" />
-            </S.detailItem>
-          ))}
+          {getDescriptions({extended, room, seatNum, timeOfUse}).map(
+            (item, i) => (
+              <S.detailItem key={i}>
+                <Txt
+                  style={{width: 56}}
+                  color={'grey90'}
+                  label={item.key}
+                  typograph="titleSmall"
+                />
+                <Txt
+                  color={'grey190'}
+                  label={item.value}
+                  typograph="bodyLarge"
+                />
+              </S.detailItem>
+            ),
+          )}
         </S.userInfoDetails>
       </S.userInfoWrapper>
     );
@@ -121,6 +113,39 @@ const LibraryScreen = () => {
 };
 
 export default LibraryScreen;
+
+const getSaying = ({
+  userName,
+  usingStatus,
+}: {
+  userName: string;
+  usingStatus: 0 | 1 | 2;
+}) => {
+  return `${userName}님 ${
+    ['잘하고 있어요!', '조심히 다녀오세요!', '시간이 얼마 남지 않았어요!'][
+      usingStatus
+    ]
+  }`;
+};
+
+const getDescriptions = ({
+  room,
+  seatNum,
+  timeOfUse,
+  extended,
+}: {
+  room: string;
+  seatNum: number;
+  timeOfUse: string;
+  extended: number;
+}) => {
+  return [
+    {key: '열람실', value: room},
+    {key: '좌석번호', value: `${seatNum}번`},
+    {key: '이용시간', value: timeOfUse},
+    {key: '연장횟수', value: `${extended}회 / 3회`},
+  ];
+};
 
 const S = {
   screenContainer: styled.View`

@@ -25,45 +25,31 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
       </S.containerCircle>
     );
 
-  const hour = Math.floor(timerTime / 3600);
-  const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
-  const second = pad(timerTime % 60);
-
-  const processedTimeString = (function () {
-    switch (usingStatus) {
-      case 0:
-        return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
-      default: // 1, 2
-        return `${!!hour ? `${hour}시간 ` : ``}${
-          !hour && !!minute ? `${minute}분 ` : ``
-        }${second}초`;
-    }
-  })();
-
-  const borderColors: string[] = [
-    colors.primaryBrand,
-    colors.secondaryUi,
-    colors.red,
-  ];
-  const txtColors: colorsType[] = ['primaryBrand', 'secondaryUi', 'red'];
+  const {circleColor, bottomTxtColor} = getTimerDesigns({
+    timerTime,
+    usingStatus,
+  });
 
   return (
-    <S.containerCircle style={{borderColor: borderColors[usingStatus]}}>
+    <S.containerCircle style={{borderColor: circleColor}}>
       <Txt
         color={'grey130'}
-        label={usingStatus === 0 ? '학슴 시간' : '남은 시간'}
+        label={usingStatus === 0 ? '학습시간' : '남은 시간'}
         typograph="titleSmall"
       />
       <View style={{paddingTop: 4}}>
         <Txt
           color={'grey190'}
-          label={processedTimeString}
+          label={getProcessedTimeString({
+            timerTime,
+            usingStatus,
+          })}
           typograph="headlineMedium"
         />
       </View>
       <View style={{paddingTop: 24}}>
         <Txt
-          color={txtColors[usingStatus]}
+          color={bottomTxtColor}
           label={usingStatus === 0 ? '이용 중' : '외출 중'}
           typograph="titleSmall"
         />
@@ -73,6 +59,47 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
 };
 
 export default LibraryTimer;
+
+const getTimerDesigns = ({
+  usingStatus,
+  timerTime,
+}: {
+  usingStatus: 0 | 1 | 2;
+  timerTime: number;
+}): {
+  circleColor: any;
+  bottomTxtColor: colorsType;
+} => {
+  return {
+    circleColor: [colors.primaryBrand, colors.secondaryUi, colors.red][
+      usingStatus
+    ],
+    bottomTxtColor: ['primaryBrand', 'secondaryUi', 'red'][
+      usingStatus
+    ] as colorsType, // 배열 내 요소들이 colorsType을 만족시킴에도 as ~ 지우면 오류가 발생. 더 좋은 방법이 없을까요?
+  };
+};
+
+const getProcessedTimeString = ({
+  usingStatus,
+  timerTime,
+}: {
+  usingStatus: 0 | 1 | 2;
+  timerTime: number;
+}) => {
+  const hour = Math.floor(timerTime / 3600);
+  const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
+  const second = pad(timerTime % 60);
+
+  switch (usingStatus) {
+    case 0:
+      return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
+    default: // 1, 2
+      return `${!!hour ? `${hour}시간 ` : ``}${
+        !hour && !!minute ? `${minute}분 ` : ``
+      }${second}초`;
+  }
+};
 
 const S = {
   containerCircle: styled.View`
