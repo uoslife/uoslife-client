@@ -124,12 +124,10 @@ export default SetNicknameScreen;
 const S = {
   screenContainer: styled.View`
     flex: 1;
-    padding: 28px 16px;
-    justify-content: space-between;
   `,
   setNicknameContainer: styled.View`
     flex: 1;
     justify-content: space-between;
-    padding: 42px 16px;
+    padding: 28px 16px;
   `,
 };
