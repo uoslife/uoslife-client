@@ -3,8 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import AgreementToTerms from '../../../components/contents/AgreementToTerms';
 import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
-import BottomSheet from '../../../components/modals/BottomSheet';
-import Modal from '../../../components/modals/Modal';
 import {useSetAtom} from 'jotai';
 import {accountStatusAtom} from '..';
 import {Button, Txt} from '@uoslife/design-system';
@@ -99,22 +97,6 @@ const SetNicknameScreen = () => {
           />
         </S.setNicknameContainer>
       </S.screenContainer>
-      {isBottomSheetOpened && (
-        <BottomSheet
-          zIndex={1}
-          onBackgroundPress={closeBottomSheet}
-          darkBackground={!isModalOpened}>
-          <AgreementToTerms
-            openModal={openModal}
-            handleBottomSheetButton={handleBottomSheetButton}
-          />
-        </BottomSheet>
-      )}
-      {isModalOpened && (
-        <Modal onClose={closeModal} zIndex={3} darkBackground>
-          <AgreementProcessResult />
-        </Modal>
-      )}
     </>
   );
 };
