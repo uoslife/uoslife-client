@@ -1,8 +1,6 @@
 import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import AgreementToTerms from '../../../components/contents/AgreementToTerms';
-import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
 import {useSetAtom} from 'jotai';
 import {accountStatusAtom} from '..';
 import {Button, Txt} from '@uoslife/design-system';
@@ -11,28 +9,10 @@ import Input from '../../../components/forms/input/Input';
 
 const SetNicknameScreen = () => {
   const [inputValue, setInputValue] = useState('');
-  const [isBottomSheetOpened, setIsBottomSheetOpened] =
-    useState<boolean>(false);
-  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
   const [statusMessage, setStatusMessage] = useState<string>('');
 
-  const openModal = () => {
-    setIsModalOpened(true);
-  };
-
-  const openBottomSheet = () => {
-    setIsBottomSheetOpened(true);
-  };
-
-  const closeBottomSheet = () => {
-    setIsBottomSheetOpened(false);
-  };
-
-  const closeModal = () => {
-    setIsModalOpened(false);
-  };
   const setAccountStatus = useSetAtom(accountStatusAtom);
-  const handleBottomSheetButton = () => {
+  const handleButton = () => {
     setAccountStatus(prev => {
       return {
         ...prev,
@@ -91,7 +71,7 @@ const SetNicknameScreen = () => {
           </View>
           <Button
             label={'설정하기'}
-            onPress={openBottomSheet}
+            onPress={handleButton}
             isEnabled={!!inputValue}
             isFullWidth={true}
           />
