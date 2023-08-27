@@ -1,13 +1,21 @@
 import styled from '@emotion/native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 import {useSetAtom} from 'jotai';
 import {accountStatusAtom} from '..';
 import {Button, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
+import {StackScreenProps} from '@react-navigation/stack';
+import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
 
-const SetNicknameScreen = () => {
+export type SetNickNameScreenProps = StackScreenProps<
+  MyPageNestedStackParamList,
+  'Mypage_changeNickname'
+>;
+
+const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+  const isMyPage = route?.params.isMyPage;
   const [inputValue, setInputValue] = useState('');
   const [statusMessage, setStatusMessage] = useState<string>('');
 
@@ -34,19 +42,19 @@ const SetNicknameScreen = () => {
     }
   };
 
-  useEffect(() => {
-    // 기존 유저일 시, input의 status 변경 로직 추가.
-  }, []);
-
   return (
     <>
       <S.screenContainer>
-        <Header label={'닉네임 설정'} />
+        <Header label={isMyPage ? '닉네임 변경' : '닉네임 설정'} />
         <S.setNicknameContainer>
           <View style={{gap: 32}}>
             <View style={{gap: 8}}>
               <Txt
-                label={'사용하실 닉네임을 입력해주세요.'}
+                label={
+                  isMyPage
+                    ? '변경하실 닉네임을 입력해주세요.'
+                    : '사용하실 닉네임을 입력해주세요.'
+                }
                 color={'grey190'}
                 typograph={'headlineMedium'}
               />

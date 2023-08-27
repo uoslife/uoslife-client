@@ -124,8 +124,8 @@ const MypageProfileScreen = () => {
     {
       name: '닉네임 변경',
       handleOnPress: () =>
-        navigation.navigate('Mypage_profile', {
-          screen: 'Mypage_changeNickname',
+        navigation.navigate('Mypage_changeNickname', {
+          isMyPage: true,
         }),
       hasBorder: true,
       hasArrowButton: false,

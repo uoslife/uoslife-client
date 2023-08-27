@@ -21,7 +21,7 @@ export type MyPageStackParamList = {
 
 export type MyPageNestedStackParamList = {
   Mypage_nestedMain: undefined;
-  Mypage_changeNickname: undefined;
+  Mypage_changeNickname: {isMyPage: boolean};
   Mypage_portalAuthentication: undefined;
   Mypage_changeNumber: undefined;
 };
