@@ -26,7 +26,7 @@ const LibraryScreen = () => {
     userName: '한유민',
     using: true,
     leave: false,
-    timerTime: 1000,
+    timerTime: 1805,
     room: '쏼라쏼라열람실',
     seatNum: 21,
     timeOfUse: '14:00 - 20:00',
