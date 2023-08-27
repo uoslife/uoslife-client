@@ -2,6 +2,7 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import styled from '@emotion/native';
 import NavigationListProps from './NavigationList.type';
+import {Icon, Txt} from '@uoslife/design-system';
 
 const NavigationList = ({
   label,
@@ -12,11 +13,14 @@ const NavigationList = ({
   return (
     <S.navigateContainer>
       <S.navigateContent>
-        <Text>{label}</Text>
+        <Txt label={label!} color={'grey190'} typograph={'bodyLarge'} />
         <Pressable onPress={onPress}>
           {navigationButton ?? (
-            <S.arrowButtonImage
-              source={require('../../../assets/images/backButton.png')}
+            <Icon
+              name={'forwardArrow'}
+              width={24}
+              height={24}
+              color={'grey130'}
             />
           )}
         </Pressable>
