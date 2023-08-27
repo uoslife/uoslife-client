@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  NativeModules,
-  Platform,
-  StatusBar,
-  Button,
-} from 'react-native';
+import {NativeModules, Platform, StatusBar} from 'react-native';
 import {atom, useAtomValue} from 'jotai';
 
 import VerificationScreen from './common/VerificationScreen';
@@ -62,7 +55,9 @@ const AccountScreenContainer = () => {
     }
   };
   return (
-    <S.AccountContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
+    <S.AccountContainer
+      contentContainerStyle={{flex: 1}}
+      style={{paddingTop: STATUS_BAR_HEIGHT}}>
       {handleAccountScreen(accountStatus)}
     </S.AccountContainer>
   );

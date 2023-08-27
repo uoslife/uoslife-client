@@ -1,6 +1,5 @@
 export type ToggleSwitchProps = {
-  isOn: boolean;
-  size: 'small' | 'medium';
+  isOn?: boolean;
   onToggle?: () => void;
 };
 

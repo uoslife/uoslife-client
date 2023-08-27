@@ -9,12 +9,13 @@ import MainScreen from '../screens/MainScreen';
 import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import MyPageStackNavigator from './MyPageStackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
+import LibraryScreen from '../screens/library/LibraryScreen';
 
 export type RootStackParamList = {
   Main: undefined;
   MyPage: undefined;
   Announcement: undefined;
-  // Library: undefined;
+  Library: undefined;
   // Cafeteria: undefined;
 };
 
@@ -54,8 +55,8 @@ const RootStackNavigator: React.FC = () => {
         name="Announcement"
         component={AnnouncementStackNavigator}
       />
-      {/* <Stack.Screen name="Library" component={Library} />
-      <Stack.Screen name="Cafeteria" component={Cafeteria} /> */}
+      <Stack.Screen name="Library" component={LibraryScreen} />
+      {/* <Stack.Screen name="Cafeteria" component={Cafeteria} /> */}
     </Stack.Navigator>
   );
 };
