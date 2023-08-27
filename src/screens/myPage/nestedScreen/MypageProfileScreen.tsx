@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import {Pressable, Text} from 'react-native';
+import {Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
-import {Txt} from '@uoslife/design-system';
+import {Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 
 type MyAccountNavigatorItem = {
@@ -23,7 +22,6 @@ type PortalAccountInformationListProps = {
   value: string;
 };
 
-// portal account information API fetching
 const PORTAL_ACCOUNT_DUMMY_DATA = [
   {
     이름: '한유민',
@@ -47,12 +45,10 @@ const PortalAccountInformationList = ({
   value,
 }: PortalAccountInformationListProps) => {
   return (
-    <S.portalAccountInformationWrapper>
-      <S.portalAccountInformation>
-        <Text>{name}</Text>
-        <Text>{value}</Text>
-      </S.portalAccountInformation>
-    </S.portalAccountInformationWrapper>
+    <S.portalAccountInformation>
+      <Txt label={name} typograph={'labelLarge'} color={'grey130'} />
+      <Txt label={value} typograph={'bodyMedium'} color={'grey130'} />
+    </S.portalAccountInformation>
   );
 };
 
@@ -129,9 +125,16 @@ const MypageProfileScreen = () => {
       hasArrowButton: false,
       navigationButton: (
         <S.navigationButton>
-          <Text style={{marginRight: 10}}>한유민짱짱</Text>
-          <S.arrowButtonImage
-            source={require('../../../assets/images/backButton.png')}
+          <Txt
+            label={'한유민짱짱'}
+            color={'grey130'}
+            typograph={'bodyMedium'}
+          />
+          <Icon
+            name={'forwardArrow'}
+            width={24}
+            height={24}
+            color={'grey130'}
           />
         </S.navigationButton>
       ),
@@ -141,21 +144,32 @@ const MypageProfileScreen = () => {
       handleOnPress: handlePortalAccountPress,
       hasArrowButton: false,
       navigationButton: isPortalAuthenticated ? (
-        <Text>연동 해지하기</Text>
+        <Txt
+          label={'연동 해지하기'}
+          color={'grey60'}
+          typograph={'bodyMedium'}
+        />
       ) : (
-        <Text>연동하기</Text>
+        <Txt
+          label={'연동하기'}
+          color={'primaryBrand'}
+          typograph={'bodyMedium'}
+        />
       ),
-      children:
-        isPortalAuthenticated &&
-        portalAccountInformationKeyArray.map((key, index) => {
-          return (
-            <PortalAccountInformationList
-              key={index}
-              name={key}
-              value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
-            />
-          );
-        }),
+      children: (
+        <S.portalAccountInformationWrapper>
+          {isPortalAuthenticated &&
+            portalAccountInformationKeyArray.map((key, index) => {
+              return (
+                <PortalAccountInformationList
+                  key={index}
+                  name={key}
+                  value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
+                />
+              );
+            })}
+        </S.portalAccountInformationWrapper>
+      ),
     },
     {
       name: '전화번호 변경',
@@ -200,7 +214,6 @@ const MypageProfileScreen = () => {
               );
             })}
           </S.myProfileBox>
-          <S.logout>로그아웃</S.logout>
         </S.myProfileContainer>
       </S.screenContainer>
       {renderModal()}
@@ -243,6 +256,7 @@ const S = {
   `,
   navigationButton: styled.View`
     flex-direction: row;
+    gap: 8px;
     align-items: center;
   `,
   screenContainer: styled.ScrollView`
@@ -254,7 +268,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 52px 54px 39px 54px;
+    padding: 48px 24px;
   `,
   myProfileBox: styled.View`
     width: 100%;
@@ -292,11 +306,6 @@ const S = {
   cameraImage: styled.Image`
     width: 13px;
     height: 10.56px;
-  `,
-  logout: styled.Text`
-    text-align: center;
-    color: #7b7b7b;
-    text-decoration-line: underline;
   `,
 };
 
