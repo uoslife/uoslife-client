@@ -1,6 +1,10 @@
-export type CardProps = {
-  title?: string;
-  time?: string;
-};
+import { ReactNode } from "react";
 
-export default CardProps;
+export type CardProps = {
+    title:string;
+    caption?:string;
+    children:ReactNode;
+  };
+  
+  export default CardProps ;
+  
