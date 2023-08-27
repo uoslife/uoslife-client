@@ -25,7 +25,7 @@ type PortalAccountInformationListProps = {
 };
 
 // portal account information API fetching
-const portalAccountInformation = [
+const PORTAL_ACCOUNT_DUMMY_DATA = [
   {
     이름: '한유민',
     학과: '경제학부',
@@ -36,7 +36,7 @@ const portalAccountInformation = [
 ];
 
 const portalAccountInformationKeyArray: string[] = Object.keys(
-  portalAccountInformation[0],
+  PORTAL_ACCOUNT_DUMMY_DATA[0],
 );
 
 const addProfileImage = () => {
@@ -155,7 +155,7 @@ const MypageProfileScreen = () => {
             <PortalAccountInformationList
               key={index}
               name={key}
-              value={portalAccountInformation[0][key]}
+              value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
             />
           );
         }),
