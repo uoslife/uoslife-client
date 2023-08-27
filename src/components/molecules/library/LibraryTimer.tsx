@@ -1,8 +1,9 @@
 import {View} from 'react-native';
 import React from 'react';
 import styled from '@emotion/native';
-import {Txt, colors, colorsType} from '@uoslife/design-system';
+import {Txt, colorsType} from '@uoslife/design-system';
 import {pad} from '../../../utils/handle-date';
+import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 
 type LibraryUsingStatus = {
   // 3: 비이용        0: 이용, 미외출
@@ -16,74 +17,136 @@ type LibraryUsingStatus = {
 const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
   if (usingStatus === 3 || !timerTime)
     return (
-      <S.containerCircle style={{borderColor: colors.grey40}}>
-        <Txt
-          color={'grey130'}
-          label={'이용 중인 좌석이 없어요.'}
-          typograph="titleSmall"
-        />
-      </S.containerCircle>
+      <CountdownCircleTimer
+        colors={['#F9B000', '#E5212A', '#E5212A']}
+        duration={0}
+        trailColor={'#E1DFDD'}
+        colorsTime={[1000, 1000]}
+        size={240}
+        strokeWidth={2}>
+        {({}) => (
+          <>
+            <Txt
+              color={'grey130'}
+              label={'이용 중인 좌석이'}
+              typograph="titleLarge"
+            />
+            <Txt color={'grey130'} label={'없어요.'} typograph="titleLarge" />
+          </>
+        )}
+      </CountdownCircleTimer>
     );
 
-  const hour = Math.floor(timerTime / 3600);
-  const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
-  const second = pad(timerTime % 60);
-
-  const processedTimeString = (function () {
-    switch (usingStatus) {
-      case 0:
-        return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
-      default: // 1, 2
-        return `${!!hour ? `${hour}시간 ` : ``}${
-          !hour && !!minute ? `${minute}분 ` : ``
-        }${second}초`;
-    }
-  })();
-
-  const borderColors: string[] = [
-    colors.primaryBrand,
-    colors.secondaryUi,
-    colors.red,
-  ];
-  const txtColors: colorsType[] = ['primaryBrand', 'secondaryUi', 'red'];
+  const {timerColors, duration, initialRemainingTime, trailColor} =
+    getTimerDesigns({
+      timerTime,
+      usingStatus,
+    });
 
   return (
-    <S.containerCircle style={{borderColor: borderColors[usingStatus]}}>
-      <Txt
-        color={'grey130'}
-        label={usingStatus === 0 ? '학슴 시간' : '남은 시간'}
-        typograph="titleSmall"
-      />
-      <View style={{paddingTop: 4}}>
-        <Txt
-          color={'grey190'}
-          label={processedTimeString}
-          typograph="headlineMedium"
-        />
-      </View>
-      <View style={{paddingTop: 24}}>
-        <Txt
-          color={txtColors[usingStatus]}
-          label={usingStatus === 0 ? '이용 중' : '외출 중'}
-          typograph="titleSmall"
-        />
-      </View>
-    </S.containerCircle>
+    <>
+      <CountdownCircleTimer
+        isPlaying
+        size={240}
+        rotation={'counterclockwise'}
+        duration={duration}
+        initialRemainingTime={initialRemainingTime}
+        colors={timerColors}
+        colorsTime={[5400, 1800, 0]} // usingStatus === 1 || usingStatus === 2일 때
+        trailColor={trailColor}
+        strokeWidth={2}
+        isSmoothColorTransition={false}>
+        {({remainingTime, elapsedTime}) => (
+          <>
+            <Txt
+              color={'grey130'}
+              label={usingStatus === 0 ? '학습시간' : '남은 시간'}
+              typograph="titleSmall"
+            />
+            <View style={{paddingTop: 4}}>
+              <Txt
+                color={'grey190'}
+                label={getDisplayTimeString({
+                  timerTime: usingStatus === 0 ? elapsedTime : remainingTime,
+                  usingStatus,
+                })}
+                typograph="headlineMedium"
+              />
+            </View>
+            <View style={{paddingTop: 24}}>
+              <Txt
+                color={getBottomTxtColor({usingStatus, remainingTime})}
+                label={usingStatus === 0 ? '이용 중' : '외출 중'}
+                typograph="titleSmall"
+              />
+            </View>
+          </>
+        )}
+      </CountdownCircleTimer>
+    </>
   );
 };
 
 export default LibraryTimer;
 
-const S = {
-  containerCircle: styled.View`
-    width: 240px;
-    height: 240px;
+const getBottomTxtColor = ({
+  usingStatus,
+  remainingTime,
+}: {
+  usingStatus: 0 | 1 | 2;
+  remainingTime: number;
+}) => {
+  if (usingStatus === 0) return 'primaryBrand';
+  if (remainingTime > 1800) return 'secondaryUi';
+  return 'red';
+};
 
-    border: 2px;
-    border-radius: 120px;
+const getTimerDesigns = ({
+  usingStatus,
+  timerTime,
+}: {
+  usingStatus: 0 | 1 | 2;
+  timerTime: number;
+}): {
+  timerColors: any;
+  bottomTxtColor: colorsType;
+  duration: number;
+  initialRemainingTime: number;
+  trailColor: any;
+} => {
+  return {
+    timerColors: ['#4686FF', ['#F9B000', '#E5212A'], ['#F9B000', '#E5212A']][
+      usingStatus
+    ],
+    bottomTxtColor: ['primaryBrand', 'secondaryUi', 'red'][
+      usingStatus
+    ] as colorsType, // 배열 내 요소들이 colorsType을 만족시킴에도 as ~ 지우면 오류가 발생. 더 좋은 방법이 없을까요?
+    // usingStatus === 0일때, elapsedTime = duration - remainingTime이기 때문에 이런식으로 짰습니다.
+    duration: [100000, 5400, 5400][usingStatus],
+    initialRemainingTime: [100000 - timerTime, timerTime, timerTime][
+      usingStatus
+    ],
+    trailColor: ['#4686FF', '#E1DFDD', '#E1DFDD'][usingStatus],
+  };
+};
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `,
+const getDisplayTimeString = ({
+  usingStatus,
+  timerTime,
+}: {
+  usingStatus: 0 | 1 | 2;
+  timerTime: number;
+}) => {
+  const hour = Math.floor(timerTime / 3600);
+  const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
+  const second = pad(timerTime % 60);
+
+  switch (usingStatus) {
+    case 0:
+      return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
+    default: // 1, 2
+      return `${!!hour ? `${hour}시간 ` : ``}${
+        !hour && !!minute ? `${minute}분 ` : ``
+      }${second}초`;
+  }
 };
