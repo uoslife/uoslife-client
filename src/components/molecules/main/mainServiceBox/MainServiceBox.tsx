@@ -19,10 +19,10 @@ const MainServiceBox = ({
   const handleMoreButton = () => {
     switch (iconName) {
       case 'library':
-        // navigation.navigate('Library');
+        navigation.navigate('Library');
         break;
       case 'cafeteria':
-        // navigation.navigate('Cafeteria');
+        navigation.navigate('Cafeteria');
         break;
       case 'campaign':
         navigation.navigate('Announcement');
