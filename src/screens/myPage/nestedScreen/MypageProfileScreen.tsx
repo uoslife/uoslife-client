@@ -13,7 +13,6 @@ import {useNavigation} from '@react-navigation/core';
 type MyAccountNavigatorItem = {
   name: string;
   handleOnPress: () => void;
-  hasBorder: boolean;
   hasArrowButton?: boolean;
   navigationButton?: any;
   children?: any;
@@ -127,7 +126,6 @@ const MypageProfileScreen = () => {
         navigation.navigate('Mypage_changeNickname', {
           isMyPage: true,
         }),
-      hasBorder: true,
       hasArrowButton: false,
       navigationButton: (
         <S.navigationButton>
@@ -141,7 +139,6 @@ const MypageProfileScreen = () => {
     {
       name: '포털 계정 연동',
       handleOnPress: handlePortalAccountPress,
-      hasBorder: true,
       hasArrowButton: false,
       navigationButton: isPortalAuthenticated ? (
         <Text>연동 해지하기</Text>
@@ -166,12 +163,10 @@ const MypageProfileScreen = () => {
         navigation.navigate('Mypage_profile', {
           screen: 'Mypage_changeNumber',
         }),
-      hasBorder: true,
     },
     {
       name: '회원탈퇴',
       handleOnPress: handleAccountCancellation,
-      hasBorder: false,
     },
   ];
 
@@ -198,7 +193,6 @@ const MypageProfileScreen = () => {
                 <NavigationList
                   key={index}
                   label={value.name}
-                  hasBorder={value.hasBorder}
                   onPress={value.handleOnPress}
                   navigationButton={value.navigationButton}
                   children={value.children}

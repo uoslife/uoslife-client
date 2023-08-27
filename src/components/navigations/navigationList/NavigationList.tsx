@@ -6,7 +6,6 @@ import NavigationListProps from './NavigationList.type';
 const NavigationList = ({
   label,
   onPress,
-  hasBorder = true,
   navigationButton, // TODO: type 수정필요
   children,
 }: NavigationListProps) => {
@@ -23,7 +22,6 @@ const NavigationList = ({
         </Pressable>
       </S.navigateContent>
       {children}
-      <View style={hasBorder ? style.bottomBorder : style.marginBottom} />
     </S.navigateContainer>
   );
 };
@@ -51,13 +49,3 @@ const S = {
     padding-bottom: 10px;
   `,
 };
-
-const style = StyleSheet.create({
-  bottomBorder: {
-    borderBottomColor: '#A6A6A6',
-    borderBottomWidth: 1,
-  },
-  marginBottom: {
-    paddingBottom: 176,
-  },
-});
