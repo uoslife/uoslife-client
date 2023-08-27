@@ -22,7 +22,7 @@ const MainServiceBox = ({
         navigation.navigate('Library');
         break;
       case 'cafeteria':
-        // navigation.navigate('Cafeteria');
+        navigation.navigate('Cafeteria');
         break;
       case 'campaign':
         navigation.navigate('Announcement');
