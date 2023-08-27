@@ -16,7 +16,7 @@ const NewUserScreenContainer = () => {
         return <SetNicknameScreen />;
     }
   };
-  return <View>{handleNewUserScreen(accountStatus)}</View>;
+  return <View style={{flex: 1}}>{handleNewUserScreen(accountStatus)}</View>;
 };
 
 export default NewUserScreenContainer;

@@ -1,4 +1,4 @@
-export const pad = (num: number) => (num < 10 ? `0${num}` : num);
+export const pad = (num: number) => (num < 10 ? `0${num}` : `${num}`);
 
 export const getUploadTimeString = (uploadTime: Date) => {
   const uploadYear = uploadTime.getFullYear();
@@ -8,7 +8,7 @@ export const getUploadTimeString = (uploadTime: Date) => {
   const uploadMinutes = pad(uploadTime.getMinutes());
   const uploadDate = pad(uploadTime.getDate());
 
-  const todayDate = new Date().getDate();
+  const todayDate = pad(new Date().getDate());
   const isToday = uploadDate === todayDate;
 
   const processedUploadTimeString = isToday

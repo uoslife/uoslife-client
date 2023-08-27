@@ -18,7 +18,7 @@ const portalAuthScreenContainer = () => {
         return <PortalAuthenticationScreen />;
     }
   };
-  return <View>{handlePortalAuthScreen(accountStatus)}</View>;
+  return <View style={{flex: 1}}>{handlePortalAuthScreen(accountStatus)}</View>;
 };
 
 export default portalAuthScreenContainer;
