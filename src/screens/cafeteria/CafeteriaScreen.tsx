@@ -5,7 +5,7 @@ import styled from '@emotion/native';
 import Card from '../../components/card/Card';
 import CafeteriaCard from '../../components/molecules/cafeteria/card/CafeteriaCard';
 import {Icon, Txt} from '@uoslife/design-system';
-import {Pressable, View} from 'react-native';
+import {Pressable} from 'react-native';
 import DatePaginationBar from '../../components/molecules/cafeteria/pagination/DatePaginationBar';
 
 export type CafeteriaItem = {
@@ -80,48 +80,58 @@ const CafeteriaScreen = () => {
     <S.screenContainer>
       <Header label={'학식'} />
       <ScrollView>
-        <S.cafeteriaPaginationBarWrapper>
-          <DatePaginationBar
-            totalPages={3}
-            datePaginationItems={datePaginationItems}
-          />
-        </S.cafeteriaPaginationBarWrapper>
-        <View style={{alignItems:'center'}}>
-        <S.iconWrapper>
-          <Pressable onPress={() => handleIconPress('lunch')}>
-            <S.iconContainer>
-              {activeIcon === 'lunch' ? (
-                <Icon name={'backArrow'} color='black' width={24} height={24} />
-              ) : (
-                <Icon name={'backArrow'} color='black' width={24} height={24} />
-              )}
-              <Txt
-                label={'중식'}
-                color={activeIcon === 'lunch' ? 'primaryBrand' : 'grey90'}
-                typograph={'labelLarge'}
-              />
-            </S.iconContainer>
-          </Pressable>
-          <Pressable onPress={() => handleIconPress('dinner')}>
-            <S.iconContainer>
-              {activeIcon === 'dinner' ? (
-                <Icon name={'backArrow'} color='grey190' width={24} height={24} />
-              ) : (
-                <Icon name={'backArrow'} color='black' width={24} height={24} />
-              )}
-              <Txt
-                label={'석식'}
-                color={activeIcon === 'dinner' ? 'primaryBrand' : 'grey90'}
-                typograph={'labelLarge'}
-              />
-            </S.iconContainer>
-          </Pressable>
-        </S.iconWrapper>
-        </View>
-        <S.menuContainer>
-          <Card title="학생회관" caption="17:00 ~ 18:30" children={<CafeteriaCard cafeteriaItems={cafeteriaItems} />} />
-          <Card title="자연과학관" caption="17:00 ~ 18:30" children={<CafeteriaCard isEmpty/>} />
-        </S.menuContainer>
+        <S.bodyContainer>
+          <S.selectorWrapper>
+            <DatePaginationBar
+              totalPages={3}
+              datePaginationItems={datePaginationItems}
+            />
+            <S.iconWrapper>
+              <Pressable onPress={() => handleIconPress('lunch')}>
+                <S.iconContainer>
+                  <Icon
+                    name={'lunch'}
+                    color={activeIcon === 'lunch' ? 'primaryBrand' : 'grey90'}
+                    width={24}
+                    height={24}
+                  />
+                  <Txt
+                    label={'중식'}
+                    color={activeIcon === 'lunch' ? 'primaryBrand' : 'grey90'}
+                    typograph={'labelLarge'}
+                  />
+                </S.iconContainer>
+              </Pressable>
+              <Pressable onPress={() => handleIconPress('dinner')}>
+                <S.iconContainer>
+                  <Icon
+                    name={'dinner'}
+                    color={activeIcon === 'dinner' ? 'primaryBrand' : 'grey90'}
+                    width={24}
+                    height={24}
+                  />
+                  <Txt
+                    label={'석식'}
+                    color={activeIcon === 'dinner' ? 'primaryBrand' : 'grey90'}
+                    typograph={'labelLarge'}
+                  />
+                </S.iconContainer>
+              </Pressable>
+            </S.iconWrapper>
+          </S.selectorWrapper>
+          <S.menuContainer>
+            <Card
+              title="학생회관"
+              caption="17:00 ~ 18:30"
+              children={<CafeteriaCard cafeteriaItems={cafeteriaItems} />}
+            />
+            <Card
+              title="자연과학관"
+              caption="17:00 ~ 18:30"
+              children={<CafeteriaCard isEmpty />}
+            />
+          </S.menuContainer>
+        </S.bodyContainer>
       </ScrollView>
     </S.screenContainer>
   );
@@ -132,20 +142,32 @@ const S = {
     flex: 1;
     background-color: #ffffff;
   `,
+  bodyContainer: styled.View`
+    gap: 24px;
+  `,
   menuContainer: styled.View`
-    align-items: center;
     justify-content: center;
-    margin: 24px 16px;
+    padding: 0px 16px;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
   `,
   iconContainer: styled.View`
     width: 56px;
     height: 56px;
+    padding: 6px 0px 4px 0px;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
   `,
   iconWrapper: styled.View`
     flex-direction: row;
     gap: 16px;
+  `,
+  selectorWrapper: styled.View`
+    align-items: center;
+    gap: 8px;
   `,
   cafeteriaPaginationBarWrapper: styled.View`
     algin-items: center;
