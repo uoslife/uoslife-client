@@ -19,14 +19,12 @@ const SearchInput = ({
     <View>
       <Pressable>
         <S.roundInputContainer value={value} status={status}>
-          <S.searchIcon
-            source={
-              !!value
-                ? require('../../../assets/images/search/search_grey190.png')
-                : require('../../../assets/images/search/search_grey60.png')
-            }
+          <Icon
+            name={'search'}
+            width={24}
+            height={24}
+            color={!!value ? 'grey190' : 'grey60'}
           />
-
           <S.textInput
             style={Styles.paddingVertical}
             value={value}
