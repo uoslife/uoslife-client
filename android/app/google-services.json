@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "373133861380",
+    "project_id": "uoslife-client",
+    "storage_bucket": "uoslife-client.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373133861380:android:ab224ddcb59d68dbd1cb51",
+        "android_client_info": {
+          "package_name": "com.beyondconnect.uoslife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373133861380-asou36mt6r2vlm2b8c2g0a1lqtf36nnn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdU41lqhu1ee2sMnACjhoS0s8jh2BO3SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373133861380-asou36mt6r2vlm2b8c2g0a1lqtf36nnn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "373133861380-crbign2ph65vod6bjtndr5s5eelsvv7j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.beyondconnect.uoslife",
+                "app_store_id": "1514073192"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

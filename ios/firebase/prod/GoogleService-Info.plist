@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>289004485783-9uu01ud6g8luhf0vdvh266gjkrkf3si9.apps.googleusercontent.com</string>
+	<string>373133861380-crbign2ph65vod6bjtndr5s5eelsvv7j.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.289004485783-9uu01ud6g8luhf0vdvh266gjkrkf3si9</string>
+	<string>com.googleusercontent.apps.373133861380-crbign2ph65vod6bjtndr5s5eelsvv7j</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDfSkxsdpoPzgqs4boGcEqDzQbV6DRrAVs</string>
+	<string>AIzaSyBO1LSEaFVZBlm1T8_wIG2U6KOdxuhA9a0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>289004485783</string>
+	<string>373133861380</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.beyondconnect.uoslife</string>
 	<key>PROJECT_ID</key>
-	<string>uoslife-app</string>
+	<string>uoslife-client</string>
 	<key>STORAGE_BUCKET</key>
-	<string>uoslife-app.appspot.com</string>
+	<string>uoslife-client.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:289004485783:ios:e2803c09fd4e0e6f70fdd2</string>
+	<string>1:373133861380:ios:52ca000705dad0bcd1cb51</string>
 </dict>
 </plist>
