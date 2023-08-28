@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
+import {MyPageAccountStackParamList} from '../../../navigators/MyPageStackNavigator';
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
@@ -53,7 +53,7 @@ const PortalAccountInformationList = ({
 };
 
 const MypageProfileScreen = () => {
-  const navigation = useNavigation<MyPageNestedStackParamList>();
+  const navigation = useNavigation<MyPageAccountStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
   const handlePortalAccountPress = () => {
