@@ -7,7 +7,8 @@ import {View} from 'react-native';
 export type LibraryCardProps = {libraryName: string; rooms: RoomProps[]};
 
 const LibraryCard = ({libraryName, rooms}: LibraryCardProps) => {
-  // emotion/native 라이브러리의 border 관련 버그로 인해 style prop으로 구현하였습니다.
+  // emotion/native 라이브러리의 border-[direction] 관련 버그로 인해 style prop으로 구현하였습니다.
+  // 구현 방식상 도서관당 열람실이 2개 이상 있어야 한다는 점 참고 바랍니다.
   const firstItemStyle = {
     paddingBottom: 12,
     borderBottomWidth: 1,
