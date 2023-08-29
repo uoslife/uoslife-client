@@ -15,7 +15,7 @@ const MainTitle = ({mainTitle}: MianTitleProp) => {
 };
 
 const TitleContainer = styled.View`
-  width: 328px;
+  width: 100%;
   padding: 20px 0px 28px 0px;
   align-items: center;
   flex-shrink: 0;
