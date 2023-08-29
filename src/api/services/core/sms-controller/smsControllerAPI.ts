@@ -1,8 +1,8 @@
 import {post} from '../../../core/methods';
-import NotificationService from './smsControllerAPI.interface';
+import SmsControllerService from './smsControllerAPI.interface';
 import * as Type from './smsControllerAPI.type';
 
-const SmsControllerAPI: NotificationService = {
+const SmsControllerAPI: SmsControllerService = {
   sendSmsVerification: body =>
     post<Type.sendSmsVerificationRes>('core/sms/verification', body),
 

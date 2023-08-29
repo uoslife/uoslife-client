@@ -1,7 +1,7 @@
 import {ServiceFunc} from '../../type';
 import * as Type from './smsControllerAPI.type';
 
-export default interface NotificationService {
+export default interface SmsControllerService {
   sendSmsVerification: ServiceFunc<
     Type.sendSmsVerificationParams,
     Type.sendSmsVerificationRes
