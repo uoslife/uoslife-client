@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, Text} from 'react-native';
-import {Article} from '../../screens/announcement/AnnouncementMainScreenContainer';
+import {Article} from '../../screens/announcement/AnnouncementMainScreen';
 import {getUploadTimeString} from '../../utils/handle-date';
 
 type ArticleItemProps = {
@@ -40,7 +40,7 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
         />
       )}
       <S.description onPress={onPressArticleLink}>
-        <Txt color="black" typograph="bodyMedium" label={title} />
+        <Txt color="grey190" typograph="bodyLarge" label={title} />
         <Txt
           color="grey90"
           typograph="labelSmall"

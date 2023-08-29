@@ -1,23 +1,10 @@
 import {Input, Txt} from '@uoslife/design-system';
-import {Dispatch, useEffect, useState} from 'react';
-import {
-  Alert,
-  GestureResponderEvent,
-  Image,
-  Pressable,
-  Touchable,
-  View,
-} from 'react-native';
+import {useEffect, useState} from 'react';
+import {Alert, Image, Pressable, View} from 'react-native';
 import Header from '../../../components/header/Header';
-import {StepTypeTemp} from '../AnnouncementTempScreen';
 import styled from '@emotion/native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const AnnoucementSearchContainerScreen = ({
-  setStep,
-}: {
-  setStep: Dispatch<StepTypeTemp>;
-}) => {
+const AnnouncementSearchWindowScreen = () => {
   const [history, setHistory] = useState<string[]>([]);
 
   // API: 히스토리 블러오기 기능 붙이기
@@ -92,7 +79,7 @@ const AnnoucementSearchContainerScreen = ({
   );
 };
 
-export default AnnoucementSearchContainerScreen;
+export default AnnouncementSearchWindowScreen;
 
 const S = {
   searchInputRow: styled.View`

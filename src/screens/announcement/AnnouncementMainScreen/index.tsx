@@ -4,7 +4,6 @@ import styled from '@emotion/native';
 import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
-import {StepTypeTemp} from '../AnnouncementTempScreen';
 
 export type ArticleCategoryName = '일반' | '학사' | '채용' | '창업';
 export type ArticleCategoryTapState = {
@@ -22,11 +21,7 @@ export type Article = {
   id: string;
 };
 
-const AnnouncementMainScreen = ({
-  setStep,
-}: {
-  setStep: Dispatch<StepTypeTemp>;
-}) => {
+const AnnouncementMainScreen = () => {
   // 나중에 페이지네이션 적용해야하나?? 일단은 1차원배열로 둠
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTapProps, setArticleCategoryTapProps] =
@@ -78,11 +73,8 @@ const AnnouncementMainScreen = ({
 
   return (
     <S.screenWrapper>
+      {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
       <Header label="공지사항" />
-      <S.inputContainer>
-        {/* 디자인에 맞는 input으로 수정 필요!! */}
-        <Input placeholder="몰?루" />
-      </S.inputContainer>
       <S.categoryTapAndContents>
         <CategoryTab
           categoryTabProps={articleCategoryTapProps}
@@ -101,9 +93,6 @@ const S = {
     width: 100%;
     height: 100%;
     display: flex;
-  `,
-  inputContainer: styled.View`
-    padding: 14px 16px;
   `,
   categoryTapAndContents: styled.View`
     width: 100%;

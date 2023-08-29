@@ -3,7 +3,7 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {Txt, colors} from '@uoslife/design-system';
-import {ArticleCategoryTapState} from '../../screens/announcement/AnnouncementMainScreenContainer';
+import {ArticleCategoryTapState} from '../../screens/announcement/AnnouncementMainScreen';
 
 type TapBtnProps = {
   isSelected: boolean;

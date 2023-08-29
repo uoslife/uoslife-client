@@ -1,12 +1,13 @@
 import React from 'react';
 import ArticleItem from './ArticleItem';
 import styled from '@emotion/native';
-import {Article} from '../../screens/announcement/AnnouncementMainScreenContainer';
+import {Article} from '../../screens/announcement/AnnouncementMainScreen';
 
 type ArticleListProps = {
   articles: Article[];
   showCategory?: true;
 };
+
 const ArticleList = ({articles, showCategory}: ArticleListProps) => {
   return (
     <S.listContainer>

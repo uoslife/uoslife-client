@@ -1,16 +1,6 @@
 import React, {Dispatch, useEffect, useState} from 'react';
-import {
-  View,
-  Alert,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-  Pressable,
-} from 'react-native';
-import {StepTypeTemp} from '../AnnouncementTempScreen';
-import {
-  Article,
-  ArticleCategoryTapState,
-} from '../AnnouncementMainScreenContainer';
+import {Alert} from 'react-native';
+import {Article, ArticleCategoryTapState} from '../AnnouncementMainScreen';
 import ArticleList from '../../../components/article/ArticleList';
 import {Input, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
@@ -40,11 +30,7 @@ for (let i = 0; i < 15; i++)
 
 // 내가 북마크한 글만
 
-const AnnouncementSearchResultScreencontainer = ({
-  setStep,
-}: {
-  setStep: Dispatch<StepTypeTemp>;
-}) => {
+const AnnouncementSearchResultScreencontainer = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   useState<ArticleCategoryTapState>({
     list: ['일반', '학사', '채용', '창업'],

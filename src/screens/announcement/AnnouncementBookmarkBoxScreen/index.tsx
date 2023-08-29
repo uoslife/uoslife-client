@@ -1,20 +1,12 @@
 import React, {Dispatch, useEffect, useState} from 'react';
 import {View, Image} from 'react-native';
-import {StepTypeTemp} from '../AnnouncementTempScreen';
 import Header from '../../../components/header/Header';
 import {Input, Txt} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import styled from '@emotion/native';
-import {
-  Article,
-  ArticleCategoryTapState,
-} from '../AnnouncementMainScreenContainer';
+import {Article, ArticleCategoryTapState} from '../AnnouncementMainScreen';
 
-const AnnouncementBookmarkBoxScreenContainer = ({
-  setStep,
-}: {
-  setStep: Dispatch<StepTypeTemp>;
-}) => {
+const AnnouncementBookmarkBoxScreen = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   useState<ArticleCategoryTapState>({
     list: ['일반', '학사', '채용', '창업'],
@@ -91,7 +83,7 @@ const AnnouncementBookmarkBoxScreenContainer = ({
   );
 };
 
-export default AnnouncementBookmarkBoxScreenContainer;
+export default AnnouncementBookmarkBoxScreen;
 const S = {
   screenWrapper: styled.ScrollView`
     width: 100%;
