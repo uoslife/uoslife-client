@@ -24,7 +24,20 @@ const AccountIntegrationScreen = () => {
 
   return (
     <S.screenContainer>
-      <Header label={'계정 통합'} />
+      <Header
+        label={'계정 통합'}
+        onPressBackButton={() =>
+          setAccountStatus(prev => {
+            return {
+              ...prev,
+              stepStatus: {
+                userType: 'NONE',
+                step: 0,
+              },
+            };
+          })
+        }
+      />
       <S.accountIntegrationContainer>
         <View style={{gap: 24}}>
           <View style={{gap: 8}}>
