@@ -5,7 +5,7 @@ import styled from '@emotion/native';
 import Input from '../../../components/forms/input/Input';
 import {Button, Txt, Timer, colors} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
-import {accountStatusAtom} from '..';
+import {UserType, accountStatusAtom} from '..';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
 
@@ -63,6 +63,16 @@ const VerificationScreen = () => {
     });
   };
 
+  const checkUserTypeBeforeRedirect = async (): Promise<UserType> => {
+    const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
+    if (loginRes.statusCode === 201) return 'NONE';
+    const res = await CoreAPI.getExistedAccountInfo({
+      mobile: storedPhoneNumber,
+    });
+    if (!!res) return 'EXISTED';
+    return 'NEW';
+  };
+
   // 전화번호 입력 페이지
   const handleOnPressRequestCode = async () => {
     if (inputValue.length < MAX_PHONE_NUMBER_LENGTH) return;
@@ -89,13 +99,15 @@ const VerificationScreen = () => {
         code: inputValue,
       });
       if (smsVerificationRes.isVerified) {
-        setIsVerificationCodeSent(false);
-        setStoredPhoneNumber('');
+        const userType = await checkUserTypeBeforeRedirect();
+        setIsVerificationCodeSent(false); // state 초기화
+        setStoredPhoneNumber(''); // state 초기화
+        if (userType === 'NONE') return; // TODO: 메인페이지로 redirect
         setAccountStatus(prev => {
           return {
             ...prev,
             stepStatus: {
-              userType: 'EXISTED',
+              userType: userType,
               step: 0,
             },
           };
