@@ -18,13 +18,13 @@ const TableHeader: React.FC<TableHeaderProps>  = ({title, leftOpen, topOpen, lef
 }
 
 const HeaderContainer = styled.View<Pick<TableHeaderProps, 'leftOpen'|'topOpen'|'leftandTopOpen'>>`
-border-top-width: ${(props) => (props.topOpen || props.leftandTopOpen ? '0' : '1px')};
+border-top-width: ${(props) => (props.topOpen || props.leftandTopOpen ? '0px' : '1px')};
 border-top-color: #e1dfdd;
 border-right-width: 1px;
 border-right-color: #e1dfdd;
 border-bottom-width: 1px;
 border-bottom-color: #e1dfdd;
-border-left-width: ${(props) => (props.leftOpen || props.leftandTopOpen ? '0' : '1px')};
+border-left-width: ${(props) => (props.leftOpen || props.leftandTopOpen ? '0px' : '1px')};
 border-left-color: #e1dfdd;
 background-color: #f3f2f1;
 width: 164px;
