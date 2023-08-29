@@ -5,6 +5,7 @@ import {useAtomValue} from 'jotai';
 import {AccountStatusType, accountStatusAtom} from '..';
 
 import PortalAuthenticationScreen from './PortalAuthenticationScreen';
+import AccountFinishInfoScreen from './AccountFinishInfoScreen';
 
 const portalAuthScreenContainer = () => {
   const accountStatus = useAtomValue(accountStatusAtom);
@@ -13,7 +14,7 @@ const portalAuthScreenContainer = () => {
       case 0:
         return <PortalAuthenticationScreen />;
       case 1:
-        return; // 회원가입 완료 안내 페이지
+        return <AccountFinishInfoScreen />;
       default:
         return <PortalAuthenticationScreen />;
     }
