@@ -33,15 +33,12 @@ const Paragraph = ({header, subHeader, paragraph}: ParagraphProps) => {
 
 const S = {
   headerContainer: styled.View`
-    width: 100%;
     padding: 16px 0px;
   `,
   subHeaderContainer: styled.View`
-    margin-bottom: 12,
-    width: 100%,
+    padding: 0px 0px 12px 0px,
  `,
   paragraphWrapper: styled.View`
-    width: 100%;
   `,
 };
 
