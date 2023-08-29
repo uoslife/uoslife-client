@@ -3,11 +3,11 @@ import * as Type from './userAPI.type';
 
 export default interface UserService {
   checkDuplicateUserNickname: ServiceFunc<
-    Type.checkDuplicateUserNicknameParams,
-    Type.checkDuplicateUserNicknameRes
+    Type.CheckDuplicateUserNicknameParams,
+    Type.CheckDuplicateUserNicknameRes
   >;
   getExistedAccountInfo: ServiceFunc<
-    Type.getExistedAccountInfoParams,
-    Type.getExistedAccountInfoRes
+    Type.GetExistedAccountInfoParams,
+    Type.GetExistedAccountInfoRes
   >;
 }

@@ -1,7 +1,7 @@
-export type sendSmsVerificationParams = {
+export type SendSmsVerificationParams = {
   mobile: string;
 };
-export type sendSmsVerificationRes = {
+export type SendSmsVerificationRes = {
   trialCount: number;
   mobile: string;
   smsServerResponse: {
@@ -11,11 +11,11 @@ export type sendSmsVerificationRes = {
   };
 };
 
-export type checkSmsVerificationParams = {
+export type CheckSmsVerificationParams = {
   mobile: string;
   code: string;
 };
-export type checkSmsVerificationRes = {
+export type CheckSmsVerificationRes = {
   mobile: string;
   isVerified: boolean;
 };

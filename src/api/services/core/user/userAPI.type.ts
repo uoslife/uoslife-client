@@ -1,14 +1,14 @@
-export type checkDuplicateUserNicknameParams = {
+export type CheckDuplicateUserNicknameParams = {
   nickname: string;
 };
-export type checkDuplicateUserNicknameRes = {
+export type CheckDuplicateUserNicknameRes = {
   duplicated: boolean;
 };
 
-export type getExistedAccountInfoParams = {
+export type GetExistedAccountInfoParams = {
   mobile: string;
 };
-export type getExistedAccountInfoRes = Array<{
+export type GetExistedAccountInfoRes = Array<{
   id: string;
   nickname: string;
   username: string;

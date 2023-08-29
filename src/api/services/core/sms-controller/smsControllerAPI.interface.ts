@@ -3,11 +3,11 @@ import * as Type from './smsControllerAPI.type';
 
 export default interface SmsControllerService {
   sendSmsVerification: ServiceFunc<
-    Type.sendSmsVerificationParams,
-    Type.sendSmsVerificationRes
+    Type.SendSmsVerificationParams,
+    Type.SendSmsVerificationRes
   >;
   checkSmsVerification: ServiceFunc<
-    Type.checkSmsVerificationParams,
-    Type.checkSmsVerificationRes
+    Type.CheckSmsVerificationParams,
+    Type.CheckSmsVerificationRes
   >;
 }
