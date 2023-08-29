@@ -6,7 +6,7 @@ import {useSetAtom} from 'jotai';
 import Header from '../../../components/header/Header';
 import {Txt, Button, colors} from '@uoslife/design-system';
 
-const DUMMY_ID_LIST = ['아이디1', '아이디2', '아이디3', '아이디4'];
+const DUMMY_ID_LIST = ['아이디1', '아이디2', '아이디3', '아이디4']; // TODO: ATOM으로 관리
 
 const AccountIntegrationScreen = () => {
   const [selectedId, setSelectedId] = useState<string>('아이디1');
