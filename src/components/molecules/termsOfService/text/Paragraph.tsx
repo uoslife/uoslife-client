@@ -22,11 +22,11 @@ const Paragraph = ({header, subHeader, paragraph}: ParagraphProps) => {
           <Txt label={subHeader} color={'grey190'} typograph={'titleSmall'} />
         )}
       </S.subHeaderContainer>
-      <S.paragraphWrapper>
+      <View>
         {paragraph && (
           <Txt label={paragraph} color={'grey130'} typograph={'bodyLarge'} />
         )}
-      </S.paragraphWrapper>
+      </View>
     </View>
   );
 };
@@ -37,9 +37,7 @@ const S = {
   `,
   subHeaderContainer: styled.View`
     padding: 0px 0px 12px 0px,
- `,
-  paragraphWrapper: styled.View`
-  `,
+  `
 };
 
 export default Paragraph;
