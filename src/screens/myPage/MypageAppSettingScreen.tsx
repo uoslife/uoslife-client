@@ -5,38 +5,49 @@ import styled from '@emotion/native/dist/emotion-native.cjs';
 import {Txt} from '@uoslife/design-system';
 import ToggleSwitch from '../../components/toggleSwitch/ToggleSwitch';
 
+const UOSLIFE_NOTIFICATION_SETTING = [
+  {
+    title: '시대생 서비스 알림',
+    isToggleOn: false,
+  },
+  {
+    title: '광고 및 마케팅 수신 동의 알림',
+    isToggleOn: false,
+  },
+];
+
+const ANNOUNCEMENT_NOTIFICATION_SETTING = [
+  {
+    title: '일반공지',
+    isToggleOn: false,
+  },
+  {
+    title: '학사공지',
+    isToggleOn: false,
+  },
+  {
+    title: '창업공지',
+    isToggleOn: false,
+  },
+  {
+    title: '직원채용',
+    isToggleOn: false,
+  },
+];
+
+type toggleValueType = {
+  title: string;
+  isToggleOn: boolean;
+};
+
 const MypageAppSettingScreen = () => {
-  const [toggleValues, setToggleValues] = useState(Array(6).fill(false));
-
-  const UOSLIFE_NOTIFICATION_SETTING = [
-    {
-      title: '시대생 서비스 알림',
-      isToggleOn: false,
-    },
-    {
-      title: '광고 및 마케팅 수신 동의 알림',
-      isToggleOn: false,
-    },
+  const initialValues = [
+    ...UOSLIFE_NOTIFICATION_SETTING,
+    ...ANNOUNCEMENT_NOTIFICATION_SETTING,
   ];
 
-  const ANNOUNCEMENT_NOTIFICATION_SETTING = [
-    {
-      title: '일반공지',
-      isToggleOn: false,
-    },
-    {
-      title: '학사공지',
-      isToggleOn: false,
-    },
-    {
-      title: '창업공지',
-      isToggleOn: false,
-    },
-    {
-      title: '직원채용',
-      isToggleOn: false,
-    },
-  ];
+  const [toggleValues, setToggleValues] =
+    useState<toggleValueType[]>(initialValues);
 
   const handleOnToggle = (index: number) => {
     setToggleValues(prevState =>
@@ -62,7 +73,7 @@ const MypageAppSettingScreen = () => {
                 typograph={'bodyLarge'}
               />
               <ToggleSwitch
-                isOn={toggleValues[i]}
+                isOn={toggleValues[i].isToggleOn}
                 onToggle={() => handleOnToggle(i)}
               />
             </S.notificationSettingContainer>
@@ -82,7 +93,10 @@ const MypageAppSettingScreen = () => {
                 typograph={'bodyLarge'}
               />
               <ToggleSwitch
-                isOn={toggleValues[i + UOSLIFE_NOTIFICATION_SETTING.length]}
+                isOn={
+                  toggleValues[i + UOSLIFE_NOTIFICATION_SETTING.length]
+                    .isToggleOn
+                }
                 onToggle={() =>
                   handleOnToggle(i + UOSLIFE_NOTIFICATION_SETTING.length)
                 }
