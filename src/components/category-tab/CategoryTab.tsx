@@ -3,7 +3,10 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {Txt, colors} from '@uoslife/design-system';
-import {ArticleCategoryTapState} from '../../screens/announcement/AnnouncementMainScreen';
+import {
+  ArticleCategoryName,
+  ArticleCategoryTapState,
+} from '../../screens/announcement/AnnouncementMainScreen';
 
 type TapBtnProps = {
   isSelected: boolean;
@@ -15,7 +18,7 @@ const CategoryTab = ({
   selectCategory,
 }: {
   categoryTabProps: ArticleCategoryTapState;
-  selectCategory: (categoryName: string) => void;
+  selectCategory: (categoryName: ArticleCategoryName) => void;
 }) => {
   const {list, selected} = categoryTabProps;
 
@@ -30,7 +33,7 @@ const CategoryTab = ({
           }}>
           <Txt
             typograph={'bodyMedium'}
-            label={item}
+            label={item.slice(0, 2)}
             color={item === selected ? 'primaryBrand' : 'black'}
           />
         </S.tapBtn>

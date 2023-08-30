@@ -1,49 +1,32 @@
 import React, {Dispatch, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
-import {Article, ArticleCategoryTapState} from '../AnnouncementMainScreen';
+import {
+  ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
+  Article,
+  ArticleCategoryTapState,
+} from '../AnnouncementMainScreen';
 import ArticleList from '../../../components/article/ArticleList';
 import {Input, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 
-const DUMMY_DATA: Article[] = new Array();
-
-// 더미 만들어주는 코드 <- 나중에 제대로 된 API로 교체 예정
-for (let i = 0; i < 15; i++)
-  DUMMY_DATA.push({
-    bookmarkCnt: i % 5,
-    department: `category${i}`,
-    title: `titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle${i}`,
-    uploadTime: new Date(),
-    bookmarkByMe: !!(i % 5) && !!(i % 2),
-    id: `id${i}`,
-    category:
-      i % 4 === 0
-        ? '일반'
-        : i % 4 === 1
-        ? '학사'
-        : i % 4 === 2
-        ? '채용'
-        : '창업',
-  });
-
 // 내가 북마크한 글만
 
 const AnnouncementSearchResultScreencontainer = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   useState<ArticleCategoryTapState>({
-    list: ['일반', '학사', '채용', '창업'],
-    selected: '일반',
+    list: ['일반공지', '학사공지', '채용공고', '창업공지'],
+    selected: '일반공지',
   });
 
-  // 수정 필요:  props든, searchUrl이든 searchWord 자리에 동적으로 검색어가 들어가야함
+  // 수정 필요: props든, searchUrl이든 searchWord 자리에 동적으로 검색어가 들어가야함
   const searchWord = '1';
 
   useEffect(() => {
     try {
       setArticles(
-        DUMMY_DATA.filter(
+        ANNOUNCEMENT_ARTICLE_DUMMY_DATA.filter(
           item =>
             item.title.includes(searchWord) || item.body?.includes(searchWord),
         ),

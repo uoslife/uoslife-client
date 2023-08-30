@@ -1,5 +1,8 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  StackNavigationProp,
+  createStackNavigator,
+} from '@react-navigation/stack';
 
 import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScreen';
 import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
@@ -15,12 +18,15 @@ export type AnnouncementStackParamList = {
   AnnouncementSearchResult: undefined;
 };
 
+export type AnnouncementNavigationProps =
+  StackNavigationProp<AnnouncementStackParamList>;
+
 const Stack = createStackNavigator<AnnouncementStackParamList>();
 
 const AnnouncementStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="AnnouncementDetail"
+      initialRouteName="AnnouncementMain"
       screenOptions={{headerShown: false}}>
       <Stack.Screen
         name="AnnouncementMain"
