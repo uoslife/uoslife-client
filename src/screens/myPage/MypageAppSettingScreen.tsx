@@ -49,9 +49,21 @@ const MypageAppSettingScreen = () => {
   const [toggleValues, setToggleValues] =
     useState<toggleValueType[]>(initialValues);
 
-  const handleOnToggle = (index: number) => {
-    setToggleValues(prevState =>
-      prevState.map((value, i) => (i === index ? !value : value)),
+  const updateIsToggleOnState = (
+    state: toggleValueType,
+    stateIndex: number,
+    targetIndex: number,
+  ) => {
+    return stateIndex === targetIndex
+      ? {...state, isToggleOn: !state.isToggleOn}
+      : state;
+  };
+
+  const handleOnToggle = (toggleSwitchIndex: number) => {
+    setToggleValues(prevToggleValues =>
+      prevToggleValues.map((stateValue, stateIndex) =>
+        updateIsToggleOnState(stateValue, stateIndex, toggleSwitchIndex),
+      ),
     );
   };
 
