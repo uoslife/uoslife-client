@@ -369,6 +369,8 @@ PODS:
   - React-jsinspector (0.71.10)
   - React-logger (0.71.10):
     - glog
+  - react-native-image-picker (5.6.1):
+    - React-Core
   - react-native-safe-area-context (4.5.3):
     - RCT-Folly
     - RCTRequired
@@ -494,6 +496,8 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
+  - RNSVG (13.13.0):
+    - React-Core
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
 
@@ -521,6 +525,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -546,6 +551,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -614,6 +620,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -664,6 +672,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@notifee/react-native"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -708,6 +718,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 4bb480a183a354e4dbfb1012936b1a2bb9357de7
   React-jsinspector: cdc854f8b13abd202afa54bc12578e5afb9cfae1
   React-logger: ef2269b3afa6ba868da90496c3e17a4ec4f4cee0
+  react-native-image-picker: 5fcac5a5ffcb3737837f0617d43fd767249290de
   react-native-safe-area-context: b8979f5eda6ed5903d4dbc885be3846ea3daa753
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 289700225ad0377cc6897b59724dfee8af515bf9
@@ -733,6 +744,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 026038a97d4c8649ce397a22e162ca58b4e6c230
   RNNotifee: 05692d7bb42b6c718a3906aeb8431c48ff2e8097
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  RNSVG: ed492aaf3af9ca01bc945f7a149d76d62e73ec82
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: e7ea9e590e27460d28911403b894722354d73479
 

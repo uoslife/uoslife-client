@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, Alert} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
@@ -8,6 +8,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 type MyAccountNavigatorItem = {
   name: string;
@@ -36,10 +37,6 @@ const portalAccountInformationKeyArray: string[] = Object.keys(
   PORTAL_ACCOUNT_DUMMY_DATA[0],
 );
 
-const addProfileImage = () => {
-  // add profile image
-};
-
 const PortalAccountInformationList = ({
   name,
   value,
@@ -55,7 +52,35 @@ const PortalAccountInformationList = ({
 const MypageProfileScreen = () => {
   const navigation = useNavigation<MyPageNestedStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
+  const [selectedImage, setSelectedImage] = useState('');
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
+
+  const handleAddProfileImage = () => {
+    Alert.alert('사진 변경', '', [
+      {
+        text: '사진 보관함',
+        onPress: async () => {
+          await launchImageLibrary({mediaType: 'photo'}, res => {
+            if (res.didCancel) return;
+          });
+        },
+      },
+      {
+        text: '사진 찍기',
+        onPress: async () => {
+          await launchCamera(
+            {
+              mediaType: 'photo',
+              cameraType: 'back',
+            },
+            res => {
+              if (res.didCancel) return;
+            },
+          );
+        },
+      },
+    ]);
+  };
   const handlePortalAccountPress = () => {
     if (isPortalAuthenticated) {
       setModalContent(
@@ -115,6 +140,7 @@ const MypageProfileScreen = () => {
     );
     openModal();
   };
+
   const myAccountNavigatorItems: MyAccountNavigatorItem[] = [
     {
       name: '닉네임 변경',
@@ -190,7 +216,9 @@ const MypageProfileScreen = () => {
         <Header label={'MY Page'} />
         <S.myProfileContainer>
           <S.myProfileBox>
-            <Pressable onPress={addProfileImage} style={{paddingBottom: 64}}>
+            <Pressable
+              onPress={handleAddProfileImage}
+              style={{paddingBottom: 64}}>
               <S.userCircleImageWrapper>
                 <S.userImage
                   source={require('../../../assets/images/user.png')}
