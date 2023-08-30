@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {Txt} from '@uoslife/design-system';
+import {Icon, Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, Text} from 'react-native';
 import {Article} from '../../screens/announcement/AnnouncementMainScreen';
@@ -14,13 +14,6 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
   const {bookmarkCnt, department, title, uploadTime, bookmarkByMe, category} =
     article;
 
-  const BookmarkToggleOn = () => (
-    <Image source={require('../../assets/images/bookmark_toggle_on.png')} />
-  );
-  const BookmarkToggleOff = () => (
-    <Image source={require('../../assets/images/bookmark_toggle_off.png')} />
-  );
-
   //  bookmark toggle
   const onPressBookmark = () => {};
 
@@ -32,15 +25,15 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
   return (
     // 디자인 미확정.. 대충 냅둠..
     <S.articleItemWrapper>
-      {showCategory && (
-        <Txt
-          color={'black'}
-          label={`${category}공지`}
-          typograph={'bodyLarge'}
-        />
-      )}
       <S.description onPress={onPressArticleLink}>
-        <Txt color="grey190" typograph="bodyLarge" label={title} />
+        {showCategory && (
+          <Txt
+            color={'primaryBrand'}
+            label={category}
+            typograph="labelMedium"
+          />
+        )}
+        <Txt color="grey190" typograph="bodyMedium" label={title} />
         <Txt
           color="grey90"
           typograph="labelSmall"
@@ -49,7 +42,12 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
       </S.description>
 
       <S.bookmarkContainer onPress={onPressBookmark}>
-        {bookmarkByMe ? <BookmarkToggleOn /> : <BookmarkToggleOff />}
+        <Icon
+          width={24}
+          height={24}
+          name="bookmark"
+          color={bookmarkByMe ? 'primaryBrand' : 'grey60'}
+        />
         <Text>{bookmarkCnt}</Text>
       </S.bookmarkContainer>
     </S.articleItemWrapper>
@@ -67,6 +65,7 @@ const S = {
 
     display: flex;
     flex-direction: row;
+
     align-items: center;
   `,
   description: styled.Pressable`
@@ -78,7 +77,8 @@ const S = {
   bookmarkContainer: styled.Pressable`
     display: flex;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
+
     width: 48px;
     height: 60px;
   `,
