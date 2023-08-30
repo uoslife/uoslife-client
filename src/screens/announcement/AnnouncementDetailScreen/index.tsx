@@ -1,10 +1,11 @@
 import styled from '@emotion/native';
-import React, {Dispatch, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../../../components/header/Header';
-import {Icon, Txt, colors} from '@uoslife/design-system';
-import {Image, View, Text} from 'react-native';
+import {Button, Icon, Txt, colors} from '@uoslife/design-system';
+import {View, Text} from 'react-native';
 import {Article} from '../AnnouncementMainScreen';
 import {getUploadTimeString} from '../../../utils/handle-date';
+import IconWithText from '../../../components/molecules/iconWithText/IconWithText';
 
 const AnnouncementDetailScreen = () => {
   const [article, setArticle] = useState<Article>();
@@ -17,6 +18,7 @@ const AnnouncementDetailScreen = () => {
         bookmarkByMe: false,
         bookmarkCnt: 13,
         id: '으아아아악',
+        attachments: ['신구조문대비표.hwp', '첨부파일2', '첨부파일3'],
         category: '일반',
         title:
           '서울시립대학교 모듈형 교육과정 운영 시행세칙 일부개정(안) 사전예고(기간연장)',
@@ -31,14 +33,24 @@ const AnnouncementDetailScreen = () => {
   // API 달기
   const onPressBookmark = () => {};
 
-  // 디자인 확정시 padding, typography(아무거나막해놈) 등 반영 필요
+  const Bookmark = ({article}: {article: Article}) => (
+    <S.bookmarkContainer onPress={onPressBookmark}>
+      <IconWithText
+        color={article.bookmarkByMe ? 'grey90' : 'primaryBrand'}
+        flexDirection="row"
+        isClick
+        iconName={'bookmark'}
+        text={`${article.bookmarkCnt}`}
+      />
+    </S.bookmarkContainer>
+  );
+
   return !!article ? (
     <S.screenWrapper>
       <Header label={`${article.category}공지`} />
       <S.detailTopWrapper>
         <Txt label={article.title} color="black" typograph="titleLarge" />
         <S.categoryAndDateAndBookmarkWrapper>
-          {/* date handler 완성되면 바꾸기 */}
           <Txt
             label={`${article.category} | ${getUploadTimeString(
               article!.uploadTime!,
@@ -46,22 +58,34 @@ const AnnouncementDetailScreen = () => {
             color="grey90"
             typograph="bodySmall"
           />
-          <S.bookmarkContainer onPress={onPressBookmark}>
-            <Icon
-              height={24}
-              width={24}
-              name={'bookmark'}
-              color={article.bookmarkByMe ? 'grey90' : 'primaryBrand'}
-            />
-            <Txt
-              label={`${article.bookmarkCnt}`}
-              color="grey130"
-              typograph="bodySmall"
-            />
-          </S.bookmarkContainer>
+          <Bookmark article={article} />
         </S.categoryAndDateAndBookmarkWrapper>
       </S.detailTopWrapper>
-      <Txt label={article.body!} color="grey190" typograph="bodyLarge" />
+      <S.divider />
+      {article?.attachments && (
+        <S.attachmentsContainer>
+          {article.attachments.map((item, i) => (
+            <S.attachmentItem>
+              {/* 아이콘 교체 필요 */}
+              <Icon
+                height={18}
+                width={18}
+                name={'backArrow'}
+                color={'primaryBrand'}
+                key={i}
+              />
+              <Txt
+                label={`${i + 1}. ${item}`}
+                color={'primaryBrand'}
+                typograph="bodyMedium"
+              />
+            </S.attachmentItem>
+          ))}
+        </S.attachmentsContainer>
+      )}
+      <S.articleBody>
+        <Txt label={article.body!} color="grey190" typograph="bodyLarge" />
+      </S.articleBody>
     </S.screenWrapper>
   ) : (
     <View>
@@ -76,11 +100,12 @@ const S = {
   screenWrapper: styled.ScrollView`
     width: 100%;
     height: 100%;
-
-    padding: 12px 16px 80px 16px;
+    background: #fff; // 수정 필요
   `,
   detailTopWrapper: styled.View`
-    padding-bottom: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px;
+    border-color: ${() => colors.grey150};
   `,
   categoryAndDateAndBookmarkWrapper: styled.View`
     display: flex;
@@ -96,9 +121,35 @@ const S = {
     align-items: center;
     justify-contents: center;
 
-    padding: 6px 12px 6px 8px;
+    padding: 6px 2px 6px 2px;
     border-radius: 10px;
 
     border: 1px ${() => colors.grey40};
+  `,
+  attachmentsContainer: styled.View`
+    padding: 24px 16px;
+
+    display: flex;
+    gap: 4px;
+  `,
+  attachmentItem: styled.View`
+    display: flex;
+    gap: 2px;
+    flex-direction: row;
+    align-items: center;
+
+    border-radius: 10px;
+    border: 1px ${() => colors.grey40};
+
+    padding: 8px 16px;
+  `,
+  articleBody: styled.View`
+    padding: 0px 16px;
+  `,
+  divider: styled.View`
+    width: 100%;
+    height: 1px;
+    margin: 0px 16px;
+    background: ${() => colors.grey20};
   `,
 };

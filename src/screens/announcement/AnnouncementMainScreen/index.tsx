@@ -1,7 +1,6 @@
 import React, {useState, useEffect, Dispatch} from 'react';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import {Input} from '@uoslife/design-system';
 import ArticleList from '../../../components/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
 
@@ -19,6 +18,7 @@ export type Article = {
   department: string; // XX과
   uploadTime: Date;
   id: string;
+  attachments?: string[]; // 첨부파일
 };
 
 const AnnouncementMainScreen = () => {
