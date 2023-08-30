@@ -13,9 +13,9 @@ import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementB
 export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
-  AnnouncementDetail: undefined;
-  AnnouncementSearchWindow: undefined;
-  AnnouncementSearchResult: undefined;
+  AnnouncementDetail: {id: string};
+  AnnouncementSearchWindow: {prevSearchWord?: string};
+  AnnouncementSearchResult: {searchWord: string};
 };
 
 export type AnnouncementNavigationProps =

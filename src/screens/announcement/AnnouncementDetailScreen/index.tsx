@@ -9,19 +9,27 @@ import {
 } from '../AnnouncementMainScreen';
 import {getUploadTimeString} from '../../../utils/handle-date';
 import IconWithText from '../../../components/molecules/iconWithText/IconWithText';
+import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const AnnouncementDetailScreen = () => {
+type AnnouncementDetailScreenProps = NativeStackScreenProps<
+  AnnouncementStackParamList,
+  'AnnouncementDetail'
+>;
+
+const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
   const [article, setArticle] = useState<Article>();
+
+  // 이게 맞나..? 일단 구현만..
+  const id = route.params.id;
 
   // article 불러오는 API 달기
   useEffect(() => {
-    try {
-      const found = ANNOUNCEMENT_ARTICLE_DUMMY_DATA.find(
-        article => article.id === 'id1',
-      );
+    const found = ANNOUNCEMENT_ARTICLE_DUMMY_DATA.find(
+      article => article.id === id,
+    );
 
-      setArticle(found);
-    } catch (err) {}
+    setArticle(found);
   }, []);
 
   // API 달기

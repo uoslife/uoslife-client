@@ -1,11 +1,14 @@
-import {Input, Txt} from '@uoslife/design-system';
+import {Icon, Input, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {Alert, Image, Pressable, View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/core';
+import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
 
 const AnnouncementSearchWindowScreen = () => {
   const [history, setHistory] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
 
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
@@ -22,9 +25,12 @@ const AnnouncementSearchWindowScreen = () => {
     <Image source={require('../../../assets/images/x.png')} />
   );
 
+  const navigation = useNavigation<AnnouncementNavigationProps>();
+
   // API 붙이기: 히스토리 새로 등록, 페이지 이동
   const searchEnterHandler = () => {
     // 히스토리 등록 API
+    navigation.navigate('AnnouncementSearchResult', {searchWord: inputValue});
     // 페이지 이동
   };
 
@@ -44,7 +50,13 @@ const AnnouncementSearchWindowScreen = () => {
     <View>
       <Header label={''} />
       <S.searchInputRow>
-        <Input placeholder={'검색어를 입력해주세요'} />
+        <Input
+          value={inputValue}
+          onChangeText={text => {
+            setInputValue(text);
+          }}
+          placeholder={'검색어를 입력해주세요'}
+        />
         <View>
           <Txt
             onPress={deleteHistoryAllHandler}

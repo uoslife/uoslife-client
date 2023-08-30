@@ -10,10 +10,18 @@ import {Input, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+type AnnouncementSearchResultProps = NativeStackScreenProps<
+  AnnouncementStackParamList,
+  'AnnouncementSearchResult'
+>;
 
 // 내가 북마크한 글만
-
-const AnnouncementSearchResultScreencontainer = () => {
+const AnnouncementSearchResultScreencontainer = ({
+  route,
+}: AnnouncementSearchResultProps) => {
   const [articles, setArticles] = useState<Article[]>([]);
   useState<ArticleCategoryTapState>({
     list: ['일반공지', '학사공지', '채용공고', '창업공지'],
@@ -21,7 +29,7 @@ const AnnouncementSearchResultScreencontainer = () => {
   });
 
   // 수정 필요: props든, searchUrl이든 searchWord 자리에 동적으로 검색어가 들어가야함
-  const searchWord = '1';
+  const searchWord = route.params.searchWord;
 
   useEffect(() => {
     try {

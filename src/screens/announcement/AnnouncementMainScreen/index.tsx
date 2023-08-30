@@ -1,8 +1,12 @@
-import React, {useState, useEffect, Dispatch} from 'react';
+import React, {useState, useEffect} from 'react';
+import {View, Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../../components/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
+import {Icon, Txt} from '@uoslife/design-system';
+import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
+import {useNavigation} from '@react-navigation/native';
 
 export type ArticleCategoryName =
   | '일반공지'
@@ -60,6 +64,8 @@ const AnnouncementMainScreen = () => {
     });
   };
 
+  const navigation = useNavigation<AnnouncementNavigationProps>();
+
   useEffect(() => {
     console.log(ANNOUNCEMENT_ARTICLE_DUMMY_DATA);
     try {
@@ -76,8 +82,31 @@ const AnnouncementMainScreen = () => {
 
   return (
     <S.screenWrapper>
-      {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
       <Header label="공지사항" />
+      {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
+      <View>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('AnnouncementBookmark');
+          }}>
+          <Icon name={'bookmark'} color={'grey150'} height={32} width={32} />
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('AnnouncementSearchWindow', {});
+          }}>
+          <Icon name={'search'} color={'grey150'} height={32} width={32} />
+        </Pressable>
+        <Pressable>
+          {/* 알림 아이콘으로 대체 */}
+          <Icon name={'studentId'} color={'grey150'} height={32} width={32} />
+          <Txt
+            label="위에거알람으로대체해야함"
+            color="black"
+            typograph="bodyLarge"
+          />
+        </Pressable>
+      </View>
       <S.categoryTapAndContents>
         <CategoryTab
           categoryTabProps={articleCategoryTapProps}
