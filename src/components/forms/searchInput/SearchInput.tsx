@@ -9,9 +9,11 @@ const SearchInput = ({
   value,
   placeholder,
   placeholderTextColor = colors.grey60,
+  onFocus,
   onChangeText,
-  onPress,
+  onPressClear,
   onSubmitEditing,
+  inputRef,
   children,
   ...props
 }: SearchInputProps) => {
@@ -31,6 +33,8 @@ const SearchInput = ({
             onChangeText={onChangeText}
             onSubmitEditing={onSubmitEditing}
             placeholder={placeholder}
+            onFocus={onFocus}
+            ref={inputRef}
             placeholderTextColor={placeholderTextColor}
             multiline={false}
             returnKeyType={'search'}
@@ -39,7 +43,7 @@ const SearchInput = ({
           {children}
           {!!value && (
             <S.deleteTextWrapper>
-              <Pressable onPress={onPress}>
+              <Pressable onPress={onPressClear}>
                 <Icon name={'clear'} width={24} height={24} color={'grey90'} />
               </Pressable>
             </S.deleteTextWrapper>
@@ -66,7 +70,7 @@ const getStatusColor = (status: SearchInputProps['status']) => {
 };
 
 const S = {
-  roundInputContainer: styled.View<SearchInputProps>`
+  roundInputContainer: styled.Pressable<SearchInputProps>`
     position: relative;
     flex-direction: row;
     align-items: center;

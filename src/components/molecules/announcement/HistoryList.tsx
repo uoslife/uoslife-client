@@ -2,20 +2,22 @@ import React from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import {Alert, Pressable} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
-import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
 
-const HistoryList = ({histories}: {histories: string[]}) => {
-  const navigate = useNavigation<AnnouncementNavigationProps>();
-
+const HistoryList = ({
+  histories,
+  executeSearch,
+}: {
+  histories: string[];
+  executeSearch: (searchWord: string) => void;
+}) => {
   return (
     <S.listContainer>
       {histories.map(item => (
         <S.historyItemContainer
-          key={item}
           onPress={() => {
-            navigate.navigate('AnnouncementSearchResult', {searchWord: item});
-          }}>
+            executeSearch(item);
+          }}
+          key={item}>
           <S.iconAndTxt>
             <Icon color={'grey130'} name={'history'} height={24} width={24} />
             <Txt label={item} color={'grey130'} typograph={'bodyLarge'} />
