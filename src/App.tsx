@@ -6,10 +6,10 @@ import RootStackNavigator from './navigators/RootStackNavigator';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
+import customBackgroundTheme from './styles/customBackgroundTheme';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
   useEffect(() => {
     (async () => {
       NotificationService.registerMessageHandler();
@@ -19,7 +19,7 @@ let App: React.FC = () => {
 
   return (
     <ConfigContext>
-      <NavigationContainer>
+      <NavigationContainer theme={customBackgroundTheme}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor="transparent"
