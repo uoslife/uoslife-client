@@ -1,5 +1,5 @@
 import React, {Dispatch, useEffect, useState} from 'react';
-import {Alert, View} from 'react-native';
+import {Alert, View, Pressable} from 'react-native';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
@@ -9,9 +9,13 @@ import ArticleList from '../../../components/molecules/announcement/article/Arti
 import {Icon, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
+import {
+  AnnouncementNavigationProps,
+  AnnouncementStackParamList,
+} from '../../../navigators/AnnouncementStackNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import SearchInput from '../../../components/forms/searchInput/SearchInput';
+import {useNavigation} from '@react-navigation/native';
 
 type AnnouncementSearchResultProps = NativeStackScreenProps<
   AnnouncementStackParamList,
@@ -27,7 +31,7 @@ const AnnouncementSearchResultScreencontainer = ({
     list: ['일반공지', '학사공지', '채용공고', '창업공지'],
     selected: '일반공지',
   });
-
+  const navigation = useNavigation<AnnouncementNavigationProps>();
   const searchWord = route.params.searchWord;
 
   useEffect(() => {
@@ -51,9 +55,23 @@ const AnnouncementSearchResultScreencontainer = ({
         <View style={{padding: 4}}>
           <Icon color="grey150" height={24} width={24} name={'backArrow'} />
         </View>
-        <View style={{position: 'relative'}}>
-          <SearchInput value={searchWord} />
-        </View>
+        <Pressable
+          onPress={() => {
+            () => {
+              navigation.navigate('AnnouncementSearchWindow', {
+                prevSearchWord: searchWord,
+              });
+            };
+          }}>
+          <SearchInput
+            value={searchWord}
+            onPress={() => {
+              navigation.navigate('AnnouncementSearchWindow', {
+                prevSearchWord: searchWord,
+              });
+            }}
+          />
+        </Pressable>
       </S.searchInputRow>
 
       <S.categoryTapAndContents>

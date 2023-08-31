@@ -4,13 +4,26 @@ import {Alert, Image, Pressable, View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
-import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
+import {
+  AnnouncementNavigationProps,
+  AnnouncementStackParamList,
+} from '../../../navigators/AnnouncementStackNavigator';
 import SearchInput from '../../../components/forms/searchInput/SearchInput';
 import HistoryList from '../../../components/molecules/announcement/HistoryList';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const AnnouncementSearchWindowScreen = () => {
+type AnnouncementSearchWindowScreenProps = NativeStackScreenProps<
+  AnnouncementStackParamList,
+  'AnnouncementSearchWindow'
+>;
+
+const AnnouncementSearchWindowScreen = ({
+  route,
+}: AnnouncementSearchWindowScreenProps) => {
   const [histories, setHistory] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>(
+    route.params.prevSearchWord || '',
+  );
 
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
@@ -29,16 +42,9 @@ const AnnouncementSearchWindowScreen = () => {
     // 페이지 이동
   };
 
-  // API 붙이기: 단일 히스토리 삭제
-  const deleteHistorySingleHandler = (id: string) => {
-    setHistory(histories.filter(item => item !== id));
-  };
-
   // API 붙이기: 전체 히스토리 삭제
   const deleteHistoryAllHandler = () => {
-    Alert.alert('에베베베베벡');
-
-    setHistory([]);
+    Alert.alert('전체 히스토리 삭제 API를 달아주세요.');
   };
 
   return (
@@ -57,7 +63,7 @@ const AnnouncementSearchWindowScreen = () => {
               setInputValue(text);
             }}
             onSubmitEditing={() => {
-              Alert.alert(inputValue);
+              searchEnterHandler();
             }}
           />
         </View>
