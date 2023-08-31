@@ -13,18 +13,20 @@ import {
 } from '../components/molecules';
 import {useNavigation} from '@react-navigation/core';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const MainScreen = () => {
-  const {StatusBarManager} = NativeModules;
-  const STATUS_BAR_HEIGHT =
-    Platform.OS === 'android'
-      ? StatusBar.currentHeight
-      : StatusBarManager.HEIGHT;
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
   return (
     <>
-      <S.MainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
-        <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+      <S.MainContainer>
+        <View
+          style={{height: insets.top, backgroundColor: colors.primaryBrand}}
+        />
+        <View>
+          <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+        </View>
         <S.MainWrapper>
           <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
             <Icon name={'person'} width={24} height={24} color={'white'} />
