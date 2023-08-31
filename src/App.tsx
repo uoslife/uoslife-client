@@ -6,6 +6,7 @@ import RootStackNavigator from './navigators/RootStackNavigator';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import customBackgroundTheme from './styles/customBackgroundTheme';
 
 let App: React.FC = () => {
@@ -19,14 +20,16 @@ let App: React.FC = () => {
 
   return (
     <ConfigContext>
-      <NavigationContainer theme={customBackgroundTheme}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor="transparent"
-          translucent
-        />
-        <RootStackNavigator />
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer theme={customBackgroundTheme}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor="black"
+            translucent
+          />
+          <RootStackNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </ConfigContext>
   );
 };
