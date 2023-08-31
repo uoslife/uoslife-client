@@ -46,7 +46,7 @@ const AnnouncementSearchResultScreencontainer = ({
   // 디자인: 확정시 반영 필요
   return (
     <S.screenWrapper>
-      <Header label={'검색창'} />
+      <Header label={'검색결과'} />
       <TouchableOpacity
         style={{
           backgroundColor: 'black',
@@ -58,11 +58,18 @@ const AnnouncementSearchResultScreencontainer = ({
           console.log(12312312);
         }}>
         {/* 해결 필요: Parent의 onPress 씹힘 이슈.. TextInput 등은 잘 됨.. */}
-        <Input
+        <TextInput
           style={{
             backgroundColor: 'red',
-            zIndex: -9999999,
-
+            elevation: -9999999,
+          }}
+        />
+        <Input
+          onPressIn={() => {
+            Alert.alert('asdf');
+          }}
+          style={{
+            backgroundColor: 'red',
             elevation: -9999999,
           }}
           value={searchWord}

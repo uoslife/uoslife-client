@@ -55,7 +55,17 @@ const VerificationScreen = () => {
 
   return (
     <S.screenContainer>
-      <Header label={'전화번호 본인인증'} />
+      <Header
+        label={'전화번호 본인인증'}
+        onPressBackButton={() =>
+          setAccountStatus(prev => {
+            return {
+              ...prev,
+              baseStatus: 'DEFAULT',
+            };
+          })
+        }
+      />
       <S.verificationContainer>
         <View style={{gap: 32}}>
           <View style={{gap: 8}}>
