@@ -26,6 +26,7 @@ const CategoryTab = ({
     <S.tapWrapper>
       {list.map(item => (
         <S.tapBtn
+          key={item}
           isSelected={item === selected}
           selectedBottomColor={colors.primaryBrand}
           onPress={() => {

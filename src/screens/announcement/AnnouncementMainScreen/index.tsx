@@ -26,7 +26,7 @@ export type Article = {
   department: string; // XX과
   uploadTime: Date;
   id: string;
-  attachments?: string[]; // 첨부파일
+  attachments: string[]; // 첨부파일
 };
 
 export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
@@ -47,6 +47,7 @@ export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
         : i % 4 === 2
         ? '채용공고'
         : '창업공지',
+    attachments: i % 3 === 0 ? [] : ['첨부파일 1', '첨부파일 2'],
   }));
 
 const AnnouncementMainScreen = () => {
@@ -67,7 +68,6 @@ const AnnouncementMainScreen = () => {
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
   useEffect(() => {
-    console.log(ANNOUNCEMENT_ARTICLE_DUMMY_DATA);
     try {
       // 선택한 메뉴에 해당되는 글만
       setArticles(
