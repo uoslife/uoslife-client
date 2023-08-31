@@ -75,7 +75,7 @@ const AnnouncementSearchWindowScreen = () => {
       {history.map(item => (
         <S.historyItemContainer key={item}>
           <S.clockAndTxt>
-            <ClockIcon />
+            <Icon color="grey130" height={24} width={24} name="history" />
             <Txt label={item} color="black" typograph="bodyLarge" />
           </S.clockAndTxt>
           <Pressable

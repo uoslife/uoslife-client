@@ -28,7 +28,6 @@ const AnnouncementSearchResultScreencontainer = ({
     selected: '일반공지',
   });
 
-  // 수정 필요: props든, searchUrl이든 searchWord 자리에 동적으로 검색어가 들어가야함
   const searchWord = route.params.searchWord;
 
   useEffect(() => {

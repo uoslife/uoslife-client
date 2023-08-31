@@ -98,12 +98,11 @@ const AnnouncementMainScreen = () => {
           <Icon name={'search'} color={'grey150'} height={32} width={32} />
         </Pressable>
         <Pressable>
-          {/* 알림 아이콘으로 대체 */}
-          <Icon name={'studentId'} color={'grey150'} height={32} width={32} />
-          <Txt
-            label="위에거알람으로대체해야함"
-            color="black"
-            typograph="bodyLarge"
+          <Icon
+            name={'notification'}
+            color={'grey150'}
+            height={32}
+            width={32}
           />
         </Pressable>
       </View>
