@@ -19,12 +19,12 @@ const HistoryList = ({histories}: {histories: string[]}) => {
             <Icon color={'grey130'} name={'history'} height={24} width={24} />
             <Txt label={item} color={'grey130'} typograph={'bodyLarge'} />
           </S.iconAndTxt>
-          {/* X 아이콘으로 변경, 히스토리 삭제 리스너 달기 */}
           <Pressable
             onPress={e => {
               e.stopPropagation();
+              Alert.alert('삭제');
             }}>
-            <Icon name="backArrow" color="grey90" width={24} height={24} />
+            <Icon name="clear" color="grey90" width={24} height={24} />
           </Pressable>
         </S.historyItemContainer>
       ))}
