@@ -93,7 +93,7 @@ const AnnouncementMainScreen = () => {
         </Pressable>
         <Pressable
           onPress={() => {
-            navigation.navigate('AnnouncementSearchWindow', {});
+            navigation.navigate('AnnouncementSearch');
           }}>
           <Icon name={'search'} color={'grey150'} height={32} width={32} />
         </Pressable>

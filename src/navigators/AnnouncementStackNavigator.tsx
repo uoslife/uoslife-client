@@ -6,9 +6,8 @@ import {
 
 import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScreen';
 import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
-import AnnoucementSearchContainerScreen from '../screens/announcement/AnnouncementSearchWindowScreen';
-import AnnouncementSearchResultScreen from '../screens/announcement/AnnouncementSearchResultScreen';
 import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
+import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
 
 export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
@@ -16,6 +15,7 @@ export type AnnouncementStackParamList = {
   AnnouncementDetail: {id: string};
   AnnouncementSearchWindow: {prevSearchWord?: string};
   AnnouncementSearchResult: {searchWord: string};
+  AnnouncementSearch: undefined;
 };
 
 export type AnnouncementNavigationProps =
@@ -37,16 +37,12 @@ const AnnouncementStackNavigator = () => {
         component={AnnouncementDetailScreen}
       />
       <Stack.Screen
-        name="AnnouncementSearchWindow"
-        component={AnnoucementSearchContainerScreen}
-      />
-      <Stack.Screen
-        name="AnnouncementSearchResult"
-        component={AnnouncementSearchResultScreen}
-      />
-      <Stack.Screen
         name="AnnouncementBookmark"
         component={AnnouncementBookmarkBoxScreen}
+      />
+      <Stack.Screen
+        name="AnnouncementSearch"
+        component={AnnouncementSearchScreen}
       />
     </Stack.Navigator>
   );
