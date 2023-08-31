@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import ArticleList from '../../../components/article/ArticleList';
+import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
 import {Icon, Txt} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Header from '../../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../../../components/article/ArticleList';
+import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
 import styled from '@emotion/native';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,

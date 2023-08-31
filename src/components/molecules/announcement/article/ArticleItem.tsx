@@ -2,13 +2,13 @@ import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, Text} from 'react-native';
-import {Article} from '../../screens/announcement/AnnouncementMainScreen';
-import {getUploadTimeString} from '../../utils/handle-date';
+import {Article} from '../../../../screens/announcement/AnnouncementMainScreen';
+import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
 import {
   AnnouncementNavigationProps,
   AnnouncementStackParamList,
-} from '../../navigators/AnnouncementStackNavigator';
+} from '../../../../navigators/AnnouncementStackNavigator';
 
 type ArticleItemProps = {
   article: Article;

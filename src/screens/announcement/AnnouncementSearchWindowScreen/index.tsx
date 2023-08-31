@@ -5,9 +5,11 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
 import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
+import SearchInput from '../../../components/forms/searchInput/SearchInput';
+import HistoryList from '../../../components/molecules/announcement/HistoryList';
 
 const AnnouncementSearchWindowScreen = () => {
-  const [history, setHistory] = useState<string[]>([]);
+  const [histories, setHistory] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
 
   // API: 히스토리 블러오기 기능 붙이기
@@ -17,13 +19,6 @@ const AnnouncementSearchWindowScreen = () => {
 
     setHistory(DUMMY_HISTORY);
   }, []);
-
-  const ClockIcon = () => (
-    <Image source={require('../../../assets/images/clock.png')} />
-  );
-  const XIcon = () => (
-    <Image source={require('../../../assets/images/x.png')} />
-  );
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
@@ -36,7 +31,7 @@ const AnnouncementSearchWindowScreen = () => {
 
   // API 붙이기: 단일 히스토리 삭제
   const deleteHistorySingleHandler = (id: string) => {
-    setHistory(history.filter(item => item !== id));
+    setHistory(histories.filter(item => item !== id));
   };
 
   // API 붙이기: 전체 히스토리 삭제
@@ -48,45 +43,35 @@ const AnnouncementSearchWindowScreen = () => {
 
   return (
     <View>
+      {/* 헤더에 검색창 넣기 */}
       <Header label={''} />
       <S.searchInputRow>
-        <Input
-          value={inputValue}
-          onChangeText={text => {
-            setInputValue(text);
-          }}
-          placeholder={'검색어를 입력해주세요'}
-        />
-        <View>
-          <Txt
-            onPress={deleteHistoryAllHandler}
-            color={'black'}
-            label={'모두 지우기'}
-            typograph={'bodyLarge'}
-          />
-          <Txt
-            onPress={searchEnterHandler}
-            color={'black'}
-            label={'검색'}
-            typograph={'bodyLarge'}
+        <View style={{padding: 4}}>
+          <Icon color="grey150" height={24} width={24} name={'backArrow'} />
+        </View>
+        <View style={{position: 'relative'}}>
+          <SearchInput
+            placeholder={'검색어를 입력해주세요'}
+            value={inputValue}
+            onChangeText={text => {
+              setInputValue(text);
+            }}
+            onSubmitEditing={() => {
+              Alert.alert(inputValue);
+            }}
           />
         </View>
       </S.searchInputRow>
-      {history.map(item => (
-        <S.historyItemContainer key={item}>
-          <S.clockAndTxt>
-            <Icon color="grey130" height={24} width={24} name="history" />
-            <Txt label={item} color="black" typograph="bodyLarge" />
-          </S.clockAndTxt>
-          <Pressable
-            key={item}
-            onPress={() => {
-              deleteHistorySingleHandler(item);
-            }}>
-            <XIcon />
-          </Pressable>
-        </S.historyItemContainer>
-      ))}
+      <S.rowReversed>
+        <S.eraseAllTxtWrapper onPress={deleteHistoryAllHandler}>
+          <Txt
+            color={'grey90'}
+            label={'모두 지우기'}
+            typograph={'bodyMedium'}
+          />
+        </S.eraseAllTxtWrapper>
+      </S.rowReversed>
+      <HistoryList histories={histories} />
     </View>
   );
 };
@@ -97,20 +82,21 @@ const S = {
   searchInputRow: styled.View`
     display: flex;
     flex-direction: row;
-    width: 100%;
-  `,
-  historyItemContainer: styled.View`
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-
-    padding: 8px;
-    width: 100%;
+    gap: 16px;
   `,
   clockAndTxt: styled.View`
     displayd: flex;
     flex-direction: row;
     align-items: center;
+  `,
+  rowReversed: styled.View`
+    width: 100%;
+
+    display: flex;
+    flex-direction: row-reverse;
+  `,
+  eraseAllTxtWrapper: styled.Pressable`
+    padding: 10px 20px;
   `,
 };

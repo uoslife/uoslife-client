@@ -1,17 +1,17 @@
 import React, {Dispatch, useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
   ArticleCategoryTapState,
 } from '../AnnouncementMainScreen';
-import ArticleList from '../../../components/article/ArticleList';
-import {Input, Txt} from '@uoslife/design-system';
+import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
+import {Icon, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import SearchInput from '../../../components/forms/searchInput/SearchInput';
 
 type AnnouncementSearchResultProps = NativeStackScreenProps<
   AnnouncementStackParamList,
@@ -47,42 +47,24 @@ const AnnouncementSearchResultScreencontainer = ({
   return (
     <S.screenWrapper>
       <Header label={'검색결과'} />
-      <TouchableOpacity
-        style={{
-          backgroundColor: 'black',
-          zIndex: 100000,
-          elevation: 100000,
-        }}
-        onPress={() => {
-          Alert.alert('asfd');
-          console.log(12312312);
-        }}>
-        {/* 해결 필요: Parent의 onPress 씹힘 이슈.. TextInput 등은 잘 됨.. */}
-        <TextInput
-          style={{
-            backgroundColor: 'red',
-            elevation: -9999999,
-          }}
-        />
-        <Input
-          onPressIn={() => {
-            Alert.alert('asdf');
-          }}
-          style={{
-            backgroundColor: 'red',
-            elevation: -9999999,
-          }}
-          value={searchWord}
-        />
-      </TouchableOpacity>
+      <S.searchInputRow>
+        <View style={{padding: 4}}>
+          <Icon color="grey150" height={24} width={24} name={'backArrow'} />
+        </View>
+        <View style={{position: 'relative'}}>
+          <SearchInput value={searchWord} />
+        </View>
+      </S.searchInputRow>
 
       <S.categoryTapAndContents>
         {articles.length === 0 ? (
-          <Txt
-            color={'black'}
-            label={'자신이 북마크한 공지사항을 확인할 수 있어요'}
-            typograph={'bodyLarge'}
-          />
+          <View style={{paddingTop: 48, display: 'flex', alignItems: 'center'}}>
+            <Txt
+              color={'grey150'}
+              label={'검색 결과가 없어요.'}
+              typograph={'bodyMedium'}
+            />
+          </View>
         ) : (
           <ArticleList articles={articles} showCategory />
         )}
@@ -113,5 +95,11 @@ const S = {
     width: 100%;
     display: flex;
     gap: 4px;
+  `,
+  searchInputRow: styled.View`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
   `,
 };
