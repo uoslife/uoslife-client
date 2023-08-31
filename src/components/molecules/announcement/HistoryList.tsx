@@ -12,6 +12,7 @@ const HistoryList = ({histories}: {histories: string[]}) => {
     <S.listContainer>
       {histories.map(item => (
         <S.historyItemContainer
+          key={item}
           onPress={() => {
             navigate.navigate('AnnouncementSearchResult', {searchWord: item});
           }}>
