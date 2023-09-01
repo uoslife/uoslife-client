@@ -24,7 +24,7 @@ let App: React.FC = () => {
         <NavigationContainer theme={customBackgroundTheme}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor="black"
+            backgroundColor="transparent"
             translucent
           />
           <RootStackNavigator />
