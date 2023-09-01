@@ -1,0 +1,50 @@
+import {useState} from 'react';
+import {Alert} from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+type PhotoHookReturnType = [string, () => void];
+
+const usePhoto = (initialValue: string): PhotoHookReturnType => {
+  const [photoValue, setPhotoValue] = useState(initialValue);
+
+  const imagePickerType = {
+    launchImageLibrary: {
+      text: '사진 보관함',
+      onPress: async () => {
+        try {
+          const result = await launchImageLibrary({
+            mediaType: 'photo',
+          });
+          setPhotoValue(result.assets![0].uri ?? '');
+        } catch (e) {
+          console.log(e, '에러');
+        }
+      },
+    },
+    launchCamera: {
+      text: '사진 찍기',
+      onPress: async () => {
+        try {
+          const result = await launchCamera({
+            mediaType: 'photo',
+            cameraType: 'back',
+          });
+          setPhotoValue(result.assets![0].uri ?? '');
+        } catch (e) {
+          console.log(e, '에러');
+        }
+      },
+    },
+  };
+
+  const selectPhoto = () => {
+    Alert.alert('사진 변경', '', [
+      imagePickerType.launchImageLibrary,
+      imagePickerType.launchCamera,
+    ]);
+  };
+
+  return [photoValue, selectPhoto];
+};
+
+export default usePhoto;
