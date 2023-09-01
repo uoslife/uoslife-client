@@ -1,18 +1,17 @@
 import styled from '@emotion/native';
 import Header from '../../components/header/Header';
 import {useEffect, useState} from 'react';
-import LibraryTimer from '../../components/molecules/library/LibraryTimer';
-import {Txt, colors} from '@uoslife/design-system';
+import {colors} from '@uoslife/design-system';
 import {LibrarySeatStatus} from '../../components/molecules/library/LibararySeatStatus';
 import {ScrollView} from 'react-native-gesture-handler';
 import {LibraryCardProps} from '../../components/molecules/library/LibraryCard';
 import LibraryUserInfo, {
-  LibraryUserInfoProps,
+  LibraryUserInfoType,
 } from '../../components/molecules/library/LibraryUserInfo';
 
 // Header 상단바에 겹침 이슈 해결 필요
 const LibraryScreen = () => {
-  const [libraryUserInfo, setLibraryUserInfo] = useState<LibraryUserInfoProps>({
+  const [libraryUserInfo, setLibraryUserInfo] = useState<LibraryUserInfoType>({
     userName: '한유민',
     using: true,
     leave: false,

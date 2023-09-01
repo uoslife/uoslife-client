@@ -2,7 +2,8 @@ import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import LibraryTimer from './LibraryTimer';
 
-export type LibraryUserInfoProps =
+
+export type LibraryUserInfoType =
   | {
       userName: string;
       using: true; // 사용여부
@@ -10,27 +11,36 @@ export type LibraryUserInfoProps =
       timerTime: number; // 타이머에 표시될 시간: 초 단위
       room: string; // 열람실: 가능하면 type을 나중에 더 specific하게 변경하기
       seatNum: number; // 좌석번호
-      timeOfUse: string; // 이용시간: 가능하면 type을 나중에 더 specific하게 변경하기
+      timeOfUse: string; // 이용 가능 시간: 가능하면 type을 나중에 더 specific하게 변경하기(정규표현식 등 이용)
       extended: number; // 연장 횟수: 0 - 3회
     }
   | {
       using: false;
     };
+// Driven by LibraryUserInfo
+export type UsingStatus = 'IN-USE' | 'OUTGO' | 'BE-CLOSED' | 'NOT-USED';
+export type UsingStatusWithoutNotUsed = Exclude<UsingStatus, 'NOT-USED'>;
 
 const LibraryUserInfo = ({
   libraryUserInfo,
 }: {
-  libraryUserInfo: LibraryUserInfoProps;
+  libraryUserInfo: LibraryUserInfoType;
 }) => {
-  const usingStatus = !libraryUserInfo.using
-    ? 3 // 3: 미사용
-    : !libraryUserInfo.leave
-    ? 0 // 0: 사용, 도서관 내부
-    : libraryUserInfo.timerTime > 1800
-    ? 1 // 1: 사용, 외출, 30분 초과 남음
-    : 2; // 2: 사용, 외출, 30분 이하 남음
+  const usingStatus: UsingStatus = (function () {
+    // 사용 X
+    if (!libraryUserInfo.using) return 'NOT-USED';
 
-  if (usingStatus === 3 || !libraryUserInfo.using)
+    // 사용 O, 외출 X
+    if (!libraryUserInfo.leave) return 'IN-USE';
+
+    // 외출 O, 외출시간 > 30분
+    if (libraryUserInfo.timerTime > 1800) return 'OUTGO';
+
+    // 외출 O, 외출시간 <= 30분
+    return 'BE-CLOSED';
+  })();
+
+  if (usingStatus === 'NOT-USED' || !libraryUserInfo.using)
     return (
       <S.userInfoWrapper>
         <S.timerContainer>
@@ -40,6 +50,41 @@ const LibraryUserInfo = ({
     );
 
   const {room, seatNum, timeOfUse, extended, userName} = libraryUserInfo;
+
+  const getSaying = ({
+    userName,
+    usingStatus,
+  }: {
+    userName: string;
+    usingStatus: UsingStatusWithoutNotUsed;
+  }) => {
+    const additionalSaying: {[key in UsingStatusWithoutNotUsed]: string} = {
+      'IN-USE': '잘하고 있어요!',
+      OUTGO: '조심히 다져오세요!',
+      'BE-CLOSED': '',
+    };
+
+    return `${userName}님 ${additionalSaying[usingStatus]}`;
+  };
+
+  const getDescriptions = ({
+    room,
+    seatNum,
+    timeOfUse,
+    extended,
+  }: {
+    room: string;
+    seatNum: number;
+    timeOfUse: string;
+    extended: number;
+  }) => {
+    return [
+      {key: '열람실', value: room},
+      {key: '좌석번호', value: `${seatNum}번`},
+      {key: '이용시간', value: timeOfUse},
+      {key: '연장횟수', value: `${extended}회 / 3회`},
+    ];
+  };
 
   return (
     <S.userInfoWrapper>
@@ -73,39 +118,6 @@ const LibraryUserInfo = ({
       </S.userInfoDetails>
     </S.userInfoWrapper>
   );
-};
-
-const getSaying = ({
-  userName,
-  usingStatus,
-}: {
-  userName: string;
-  usingStatus: 0 | 1 | 2;
-}) => {
-  return `${userName}님 ${
-    ['잘하고 있어요!', '조심히 다녀오세요!', '시간이 얼마 남지 않았어요!'][
-      usingStatus
-    ]
-  }`;
-};
-
-const getDescriptions = ({
-  room,
-  seatNum,
-  timeOfUse,
-  extended,
-}: {
-  room: string;
-  seatNum: number;
-  timeOfUse: string;
-  extended: number;
-}) => {
-  return [
-    {key: '열람실', value: room},
-    {key: '좌석번호', value: `${seatNum}번`},
-    {key: '이용시간', value: timeOfUse},
-    {key: '연장횟수', value: `${extended}회 / 3회`},
-  ];
 };
 
 export default LibraryUserInfo;
