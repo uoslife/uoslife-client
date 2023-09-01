@@ -28,6 +28,7 @@ const TableBody: React.FC<TableBodyProps> = ({subTitle, bodyText, leftOpen, topO
 const BodyContainer = styled.View<
   Pick<TableBodyProps, 'leftOpen' | 'topOpen' | 'leftandTopOpen'>
 >`
+  flex:1;
   border-top-width: ${props =>
     props.topOpen || props.leftandTopOpen ? '0' : '1px'};
   border-top-color: #e1dfdd;
@@ -39,10 +40,11 @@ const BodyContainer = styled.View<
     props.leftOpen || props.leftandTopOpen ? '0' : '1px'};
   border-left-color: #e1dfdd;
   background-color: #FFFFFF;
-  width: 164px;
-  padding: 16px 12px;
+  // width: 164px;
+  padding: 16px 12px 16px 12px;
   flex-direction: column;
   align-items: flex-start;
+  align-self: stretch;
 `;
 
 export default TableBody;
