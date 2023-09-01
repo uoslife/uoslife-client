@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable, Alert} from 'react-native';
+import {Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
@@ -8,7 +8,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import usePhoto from '../../../hooks/usePhoto';
 
 type MyAccountNavigatorItem = {
   name: string;
@@ -52,34 +52,11 @@ const PortalAccountInformationList = ({
 const MypageProfileScreen = () => {
   const navigation = useNavigation<MyPageNestedStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, selectImage] = usePhoto('');
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
 
-  const handleAddProfileImage = () => {
-    Alert.alert('사진 변경', '', [
-      {
-        text: '사진 보관함',
-        onPress: async () => {
-          await launchImageLibrary({mediaType: 'photo'}, res => {
-            if (res.didCancel) return;
-          });
-        },
-      },
-      {
-        text: '사진 찍기',
-        onPress: async () => {
-          await launchCamera(
-            {
-              mediaType: 'photo',
-              cameraType: 'back',
-            },
-            res => {
-              if (res.didCancel) return;
-            },
-          );
-        },
-      },
-    ]);
+  const handleUpdateProfileImage = async () => {
+    selectImage();
   };
   const handlePortalAccountPress = () => {
     if (isPortalAuthenticated) {
@@ -217,11 +194,16 @@ const MypageProfileScreen = () => {
         <S.myProfileContainer>
           <S.myProfileBox>
             <Pressable
-              onPress={handleAddProfileImage}
+              onPress={handleUpdateProfileImage}
               style={{paddingBottom: 64}}>
               <S.userCircleImageWrapper>
                 <S.userImage
-                  source={require('../../../assets/images/user.png')}
+                  source={
+                    selectedImage
+                      ? {uri: selectedImage}
+                      : require('../../../assets/images/user.png')
+                  }
+                  selectedImage={!!selectedImage}
                 />
               </S.userCircleImageWrapper>
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
@@ -314,6 +296,7 @@ const S = {
     border: 1px solid #a6a6a6;
     border-radius: 80px;
     position: relative;
+    overflow: hidden;
   `,
   cameraCircleImageWrapper: styled.View`
     background-color: #d9d9d9;
@@ -327,9 +310,9 @@ const S = {
     top: 120px;
     left: 120px;
   `,
-  userImage: styled.Image`
-    width: 60px;
-    height: 60px;
+  userImage: styled.Image<{selectedImage: boolean}>`
+    width: ${({selectedImage}) => (selectedImage ? '100%' : '60px')};
+    height: ${({selectedImage}) => (selectedImage ? '100%' : '60px')};
   `,
   cameraImage: styled.Image`
     width: 13px;
