@@ -18,29 +18,6 @@ export type PrivacyPoliciesItem = {
 const PrivacyPoliciesScreen = () => {
   const privacyPoliciesItems: PrivacyPoliciesItem[] = [
     {
-      table: (
-        <View style={{flexDirection: 'row'}}>
-          <ScrollView horizontal={true}>
-            <TableContainer>
-              <TableRow>
-                <TableHeader title="수탁업체" />
-                <TableHeader leftOpen title="위탁업무 내용" />
-                <TableHeader leftOpen title="개인정보의 보유 및 이용 기간" />
-              </TableRow>
-              <TableRow>
-                <TableBody topOpen bodyText="삼정데이타서비스(주)" />
-                <TableBody leftandTopOpen bodyText="문자 전송 서비스 제공" />
-                <TableBody
-                  leftandTopOpen
-                  bodyText="개인정보의 이용 목적 달성 시 또는 위탁 계약 종료 시"
-                />
-              </TableRow>
-            </TableContainer>
-          </ScrollView>
-        </View>
-      ),
-    },
-    {
       paragraph: `단체 UOSLIFE(이하 “단체”)는 개인정보보호법, 전자서명법, 정보통신망법, 정보통신망 이용촉진 및 정보보호 등에 관한 법령에 따라 이용자의 개인정보를 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 개인정보 처리방침에 따라 개인정보를 처리하고 있습니다. 단체가 개인정보 처리방침을 개정하는 경우에는 홈페이지 또는 시대생앱에 게시하거나 개별적으로 공지할 것입니다.`,
     },
     {
@@ -232,8 +209,76 @@ const PrivacyPoliciesScreen = () => {
     
 단체에서 제공하는 핵심 서비스와 직접 관련된 경우만을 선별하여 신규 가입 시에 필수적인 동의로 처리하고 있습니다. 하지만, 가입과 동시에 개인정보가 곧바로 처리되는 것이 아니라, 정보주체가 특정 메뉴를 선택하고 추가적인 정보를 입력한 후에 비로소 개인정보의 처리가 시작됩니다.`,
     },
-    {table: <View></View>},
-    {header: `제5조 (개인정보의 국외 이전)`, table: <View></View>},
+    {
+      table: (
+        <View style={{flexDirection: 'row'}}>
+          <ScrollView horizontal={true}>
+            <View>
+              <TableRow>
+                <TableHeader title="개인정보를 제공받는 자" />
+                <TableHeader leftOpen title="제공 목적" />
+                <TableHeader leftOpen title="제공 항목" />
+                <TableHeader leftOpen title="보유 및 이용 기간" />
+              </TableRow>
+              <TableRow>
+                <TableBody topOpen bodyText="친구 관계의 사용자" />
+                <TableBody
+                  leftandTopOpen
+                  bodyText="- 친구 여부 제공
+- 도서관 좌석 예약 자동 채우기
+- 시간표 정보 제공"
+                />
+                <TableBody leftandTopOpen bodyText="이름, 학번, 학과, 학년" />
+                <TableBody
+                  leftandTopOpen
+                  bodyText="서비스 회원 탈퇴 또는 친구 관계 파기 시까지
+                  (또는 관련 법령에 따른 보존 기간)"
+                />
+              </TableRow>
+            </View>
+          </ScrollView>
+        </View>
+      ),
+    },
+   
+    {header: `제5조 (개인정보의 국외 이전)`,
+      table: (
+        <View style={{flexDirection: 'row'}}>
+          <ScrollView horizontal={true}>
+            <View>
+              <TableRow>
+                <TableHeader title="수탁업체" />
+                <TableHeader leftOpen title="국가" />
+                <TableHeader leftOpen title="이전 일시 및 방법" />
+                <TableHeader leftOpen title="이전되는 개인정보 항목" />
+                <TableHeader leftOpen title="위탁 업무 내용" />
+                <TableHeader leftOpen title="개인정보의 보유 및 이용 기간" />
+              </TableRow>
+              <TableRow>
+                <TableBody topOpen bodyText="Amazon Web Services Inc." />
+                <TableBody leftandTopOpen bodyText="미국" />
+                <TableBody
+                  leftandTopOpen
+                  bodyText="서비스 이용 시점에 네트워크 통한 전송"
+                />
+                <TableBody
+                  leftandTopOpen
+                  bodyText="서비스 이용 중 수집되는 개인정보 및 로그"
+                />
+                <TableBody
+                  leftandTopOpen
+                  bodyText="개인정보 처리를 위한 인프라 관리"
+                />
+                <TableBody
+                  leftandTopOpen
+                  bodyText="개인정보의 이용 목적 달성 또는 위탁계약 종료 시"
+                />
+              </TableRow>
+            </View>
+          </ScrollView>
+        </View>
+      ),
+    },
     {
       header: `제6조 (정보주체와 법정대리인의 권리ㆍ의무 및 행사방법)`,
       paragraph: `(1) 정보주체는 단체에 대해 언제든지 다음 각 호의 개인신용정보 보호 관련 권리를 행사할 수 있습니다.
@@ -263,10 +308,43 @@ const PrivacyPoliciesScreen = () => {
 
 단, 개인신용정보 처리 기록은 처리 구분에 따라 분류하여 기록이 발생한 날로부터 3년간 보존합니다.`,
     },
-    {subHeader: `법령에 따라 보존하여야 하는 경우`, table: <View></View>},
+    {
+      subHeader: `법령에 따라 보존하여야 하는 경우`,
+      table: (
+        <View>
+          <TableRow>
+            <TableHeader title="보존근거" />
+            <TableHeader leftOpen title="처리항목" />
+          </TableRow>
+          <TableRow>
+            <TableBody topOpen bodyText="전자상거래법 제6조" />
+            <TableBody
+              leftandTopOpen
+              bodyText="· 소비자 불만 또는 분쟁처리에 관한 기록: 3년
+· 표시ㆍ 광고에 관한 기록: 6개월
+· 계약 또는 청약철회, 대금결제, 재화 등의 공급기록: 5년"
+            />
+          </TableRow>
+        </View>
+      ),
+    },
     {
       subHeader: `단체 내부 방침에 따라 보존하여야 하는 경우`,
-      table: <View></View>,
+      table: (
+        <View>
+          <TableRow>
+            <TableHeader title="보존근거" />
+            <TableHeader leftOpen title="처리항목" />
+          </TableRow>
+          <TableRow>
+            <TableBody topOpen bodyText="서비스 부정사용 방지" />
+            <TableBody
+              leftandTopOpen
+              bodyText="부정 이용 기록(부정가입, 규정 위반 기록, 비정상적인 서비스 이용 기록, 보이스피싱 조회/확인 등): 10년"
+            />
+          </TableRow>
+        </View>
+      ),
     },
     {
       paragraph: `(2) 개인정보 파기의 절차 및 방법은 다음과 같습니다.
@@ -297,8 +375,53 @@ const PrivacyPoliciesScreen = () => {
       header: `제10조 (개인정보보호책임자)`,
       paragraph: `회사는 개인신용정보 처리에 관한 업무를 총괄해서 책임지고, 개인신용정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보보호책임자 겸 신용정보관리ㆍ보호인을 지정하고 있습니다.`,
     },
-    {table: <View></View>},
-    {table: <View></View>},
+    {
+      table: (
+        <View>
+          <TableRow>
+            <TableHeader />
+            <TableHeader leftOpen title="개인정보보호책임자" />
+          </TableRow>
+          <TableRow>
+            <TableHeader topOpen title="이름" />
+            <TableBody leftandTopOpen bodyText="박진희" />
+          </TableRow>
+          <TableRow>
+            <TableHeader topOpen title="직책" />
+            <TableBody leftandTopOpen bodyText="대표" />
+          </TableRow>
+          <TableRow>
+            <TableHeader topOpen title="이메일" />
+            <TableBody leftandTopOpen bodyText="support@uoslife.team" />
+          </TableRow>
+        </View>
+      ),
+    },
+    {
+      table: (
+        <View>
+          <TableRow>
+            <TableHeader />
+            <TableHeader
+              leftOpen
+              title="개인정보 열람 청구 및 개인정보 관련 고충처리 담당부서"
+            />
+          </TableRow>
+          <TableRow>
+            <TableHeader topOpen title="부서명" />
+            <TableBody leftandTopOpen bodyText="운영팀" />
+          </TableRow>
+          <TableRow>
+            <TableHeader topOpen title="담당자" />
+            <TableBody leftandTopOpen bodyText="운영팀, 운영팀장" />
+          </TableRow>
+          <TableRow>
+            <TableHeader topOpen title="연락처" />
+            <TableBody leftandTopOpen bodyText="support@uoslife.team" />
+          </TableRow>
+        </View>
+      ),
+    },
     {
       header: `제11조 (권익침해 구제방법)`,
       paragraph: `정보주체는 아래의 기관을 통해 개인신용정보 침해에 대한 피해구제, 상담 등을 문의하실 수 있습니다.
@@ -361,13 +484,6 @@ const S = {
 
 const TableRow = styled.View`
   flex-direction: row;
-`;
-
-const TableContainer = styled.View`
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  flex: 3; /* 추가: 부모 컨테이너에 꽉 차도록 확장 */
 `;
 
 export default PrivacyPoliciesScreen;
