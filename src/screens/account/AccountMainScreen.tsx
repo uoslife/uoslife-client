@@ -2,10 +2,10 @@ import React from 'react';
 import {View, Button} from 'react-native';
 
 import {useSetAtom} from 'jotai';
-import {accountStatusAtom} from '.';
+import {accountFlowStatusAtom} from '../../atoms/account';
 
 const AccountMainScreen = () => {
-  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setAccountStatus = useSetAtom(accountFlowStatusAtom);
   const handleClickAccountButton = () => {
     setAccountStatus(prev => {
       return {...prev, baseStatus: 'ONPROGRESS'};
