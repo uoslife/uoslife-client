@@ -1,33 +1,43 @@
 import React, {useState} from 'react';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import Input from '../../../components/forms/input/Input';
-import {Button, Txt, Timer, colors} from '@uoslife/design-system';
+import {Button, Txt, Timer} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
-import {UserType, accountStatusAtom} from '..';
+import {
+  UserType,
+  accountFlowStatusAtom,
+  accountStatusAtom,
+  existedAccountInfoAtom,
+  existedAccountInfoType,
+} from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
+import setTokenWhenLogin from '../../../utils/setTokenWhenLogin';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
 const MAX_VERIFICATION_CODE_LENGTH = 6;
 
-type WarningStatus =
+type InputStatusMessageType =
   | 'DEFAULT'
   | 'NOT_MATCHING_CODE'
   | 'REQUEST_EXCEED'
   | 'TIME_EXPIRED';
 
 const VerificationScreen = () => {
+  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
   const [inputValue, setInputValue] = useState('');
   const [storedPhoneNumber, setStoredPhoneNumber] = useState('');
-  const [warningStatus, setWarningStatus] = useState<WarningStatus>('DEFAULT');
+  const [inputMessageStatus, setInputMessageStatus] =
+    useState<InputStatusMessageType>('DEFAULT');
   const [isVerificationCodeSent, setIsVerificationCodeSent] = useState(false);
 
   // 공통
-  const handleWarningMessage = (status: WarningStatus) => {
+  const handleInputStatusMessage = (status: InputStatusMessageType) => {
     switch (status) {
       case 'DEFAULT':
         return '인증번호가 오지 않나요?';
@@ -42,6 +52,7 @@ const VerificationScreen = () => {
 
   const onChangeText = (text: string) => {
     setInputValue(text);
+    setInputMessageStatus('DEFAULT');
   };
 
   const handleButtonIsEnable = () => {
@@ -55,7 +66,7 @@ const VerificationScreen = () => {
 
   const handleHeaderBackButton = () => {
     if (isVerificationCodeSent) setIsVerificationCodeSent(false);
-    setAccountStatus(prev => {
+    setAccountFlowStatus(prev => {
       return {
         ...prev,
         baseStatus: 'DEFAULT',
@@ -65,11 +76,24 @@ const VerificationScreen = () => {
 
   const checkUserTypeBeforeRedirect = async (): Promise<UserType> => {
     const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
-    if (loginRes.statusCode === 201) return 'NONE';
+    if (loginRes.statusCode === 201) {
+      setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+      return 'NONE';
+    }
+
     const res = await CoreAPI.getExistedAccountInfo({
       mobile: storedPhoneNumber,
     });
-    if (!!res) return 'EXISTED';
+    if (!!res) {
+      // TODO: refactoring 필요
+      const existedAccountInfo = res.map(data => {
+        return {id: data.id, nickname: data.nickname, isSelected: false};
+      }) as existedAccountInfoType;
+      setExistedAccountInfo(() => {
+        return existedAccountInfo;
+      });
+      return 'EXISTED';
+    }
     return 'NEW';
   };
 
@@ -98,36 +122,41 @@ const VerificationScreen = () => {
         mobile: storedPhoneNumber,
         code: inputValue,
       });
-      if (smsVerificationRes.isVerified) {
-        const userType = await checkUserTypeBeforeRedirect();
-        setIsVerificationCodeSent(false); // state 초기화
-        setStoredPhoneNumber(''); // state 초기화
-        if (userType === 'NONE') return; // TODO: 메인페이지로 redirect
+      if (!smsVerificationRes.isVerified)
+        setInputMessageStatus('NOT_MATCHING_CODE');
+
+      const userType = await checkUserTypeBeforeRedirect();
+      setIsVerificationCodeSent(false); // state 초기화
+      setStoredPhoneNumber(''); // state 초기화
+      if (userType === 'NONE') {
         setAccountStatus(prev => {
-          return {
-            ...prev,
-            stepStatus: {
-              userType: userType,
-              step: 0,
-            },
-          };
+          return {...prev, isLogin: true};
         });
-      } else {
-        setWarningStatus('NOT_MATCHING_CODE');
+        return;
       }
+      setAccountFlowStatus(prev => {
+        return {
+          ...prev,
+          stepStatus: {
+            userType: userType,
+            step: 0,
+          },
+        };
+      });
     } catch (error) {
       showErrorMessage(error);
-      // setIsVerificationCodeSent(false);
-      // setStoredPhoneNumber('');
-      // setAccountStatus(prev => {
-      //   return {
-      //     ...prev,
-      //     stepStatus: {
-      //       userType: 'EXISTED',
-      //       step: 0,
-      //     },
-      //   };
-      // });
+      // TODO: 아래 코드는 api 연결 완료시 삭제
+      setIsVerificationCodeSent(false);
+      setStoredPhoneNumber('');
+      setAccountFlowStatus(prev => {
+        return {
+          ...prev,
+          stepStatus: {
+            userType: 'EXISTED',
+            step: 0,
+          },
+        };
+      });
     }
   };
 
@@ -163,7 +192,7 @@ const VerificationScreen = () => {
             />
           </View>
           <Input
-            onChangeText={text => onChangeText(text)}
+            onChangeText={onChangeText}
             maxLength={
               isVerificationCodeSent
                 ? MAX_VERIFICATION_CODE_LENGTH
@@ -175,10 +204,10 @@ const VerificationScreen = () => {
             label={isVerificationCodeSent ? '인증번호' : '전화번호'}
             statusMessage={
               isVerificationCodeSent
-                ? handleWarningMessage(warningStatus)
+                ? handleInputStatusMessage(inputMessageStatus)
                 : undefined
             }
-            status={warningStatus === 'DEFAULT' ? 'default' : 'error'}
+            status={inputMessageStatus === 'DEFAULT' ? 'default' : 'error'}
             placeholder={isVerificationCodeSent ? '000000' : '01012345678'}>
             {isVerificationCodeSent && (
               <>
