@@ -11,6 +11,9 @@ import MyPageStackNavigator from './MyPageStackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
+import {useAtomValue} from 'jotai';
+import {accountStatusAtom} from '../atoms/account';
+import useUserInfo from '../hooks/useUserInfo';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -25,7 +28,9 @@ export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
+  const accountStatus = useAtomValue(accountStatusAtom);
   const {config, isLoading, hasNetworkError} = useConfigContext();
+  useUserInfo();
 
   const isMaintenance = useMemo(
     () => config.get('app.block') !== 'NO',
@@ -41,8 +46,7 @@ const RootStackNavigator: React.FC = () => {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
 
-  const LOGIN_STATUS = false;
-  if (LOGIN_STATUS) {
+  if (!accountStatus.isLogin) {
     return <AccountScreen />;
   }
 
