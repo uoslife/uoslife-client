@@ -9,6 +9,7 @@ import Input from '../../../components/forms/input/Input';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
@@ -16,6 +17,7 @@ export type SetNickNameScreenProps = StackScreenProps<
 >;
 
 const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   const isMyPage = route?.params.isMyPage;
@@ -47,7 +49,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
 
   return (
     <>
-      <S.screenContainer>
+      <S.screenContainer style={{paddingTop: insets.top}}>
         <Header
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {

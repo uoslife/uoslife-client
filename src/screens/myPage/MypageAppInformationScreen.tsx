@@ -4,12 +4,15 @@ import NavigationList from '../../components/navigations/navigationList/Navigati
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
 import {MypageAppInformationScreenRouteProp} from '../../navigators/MyPageStackNavigator';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {View} from 'react-native';
 
 const MypageAppInformationScreen = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<MypageAppInformationScreenRouteProp>();
 
   return (
-    <>
+    <View style={{paddingTop: insets.top}}>
       <Header label={'앱 정보'} />
       <S.Container>
         <NavigationList
@@ -27,7 +30,7 @@ const MypageAppInformationScreen = () => {
           }
         />
       </S.Container>
-    </>
+    </View>
   );
 };
 const S = {

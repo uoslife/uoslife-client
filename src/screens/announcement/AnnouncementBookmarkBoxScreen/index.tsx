@@ -9,8 +9,10 @@ import {
   Article,
   ArticleCategoryTapState,
 } from '../AnnouncementMainScreen';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const AnnouncementBookmarkBoxScreen = () => {
+  const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<Article[]>([]);
   useState<ArticleCategoryTapState>({
     list: ['일반공지', '학사공지', '채용공고', '창업공지'],
@@ -29,7 +31,7 @@ const AnnouncementBookmarkBoxScreen = () => {
   }, []);
 
   return (
-    <S.screenWrapper>
+    <S.screenWrapper style={{paddingTop: insets.top}}>
       <Header label="북마크함" />
       <S.categoryTapAndContents>
         {articles.length === 0 ? (

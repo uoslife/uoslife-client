@@ -4,6 +4,7 @@ import Header from '../../components/header/Header';
 import styled from '@emotion/native/dist/emotion-native.cjs';
 import {Txt} from '@uoslife/design-system';
 import ToggleSwitch from '../../components/toggleSwitch/ToggleSwitch';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const UOSLIFE_NOTIFICATION_SETTING = [
   {
@@ -41,6 +42,7 @@ type toggleValueType = {
 };
 
 const MypageAppSettingScreen = () => {
+  const insets = useSafeAreaInsets();
   const initialValues = [
     ...UOSLIFE_NOTIFICATION_SETTING,
     ...ANNOUNCEMENT_NOTIFICATION_SETTING,
@@ -68,7 +70,7 @@ const MypageAppSettingScreen = () => {
   };
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'알림 설정'} />
       <S.mypageAppSettingContainer>
         <View style={{gap: 16}}>
