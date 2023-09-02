@@ -84,30 +84,37 @@ const AnnouncementMainScreen = () => {
 
   return (
     <S.screenWrapper style={{paddingTop: insets.top}}>
-      <Header label="공지사항" />
+      <Header label="공지사항">
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}>
+          <S.iconWrapper
+            onPress={() => {
+              navigation.navigate('AnnouncementSearch');
+            }}>
+            <Icon name={'search'} color={'grey150'} height={24} width={24} />
+          </S.iconWrapper>
+          <S.iconWrapper
+            onPress={() => {
+              navigation.navigate('AnnouncementBookmark');
+            }}>
+            <Icon name={'bookmark'} color={'grey150'} height={24} width={24} />
+          </S.iconWrapper>
+          <S.iconWrapper>
+            <Icon
+              name={'notification'}
+              color={'grey150'}
+              height={32}
+              width={32}
+            />
+          </S.iconWrapper>
+        </View>
+      </Header>
       {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
-      <View>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('AnnouncementBookmark');
-          }}>
-          <Icon name={'bookmark'} color={'grey150'} height={32} width={32} />
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('AnnouncementSearch');
-          }}>
-          <Icon name={'search'} color={'grey150'} height={32} width={32} />
-        </Pressable>
-        <Pressable>
-          <Icon
-            name={'notification'}
-            color={'grey150'}
-            height={32}
-            width={32}
-          />
-        </Pressable>
-      </View>
       <S.categoryTapAndContents>
         <CategoryTab
           categoryTabProps={articleCategoryTapProps}
@@ -131,5 +138,8 @@ const S = {
     width: 100%;
     display: flex;
     gap: 4px;
+  `,
+  iconWrapper: styled.Pressable`
+    padding: 4px;
   `,
 };
