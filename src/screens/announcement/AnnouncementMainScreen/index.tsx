@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {View, Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
-import {Icon, Txt} from '@uoslife/design-system';
+import {Icon, IconsNameType, Txt} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -82,37 +81,43 @@ const AnnouncementMainScreen = () => {
     }
   }, [articleCategoryTapProps]);
 
+  const icons: {iconName: IconsNameType; onPress: () => void}[] = [
+    {
+      iconName: 'search',
+      onPress: () => {
+        navigation.navigate('AnnouncementSearch');
+      },
+    },
+    {
+      iconName: 'bookmark',
+      onPress: () => {
+        navigation.navigate('AnnouncementBookmark');
+      },
+    },
+    // 아이콘 작게 뜨는 이슈? 라이브러리에서 수정..
+    {
+      iconName: 'notification',
+      onPress: () => {
+        // 바텀시트 열기
+      },
+    },
+  ];
+
   return (
     <S.screenWrapper style={{paddingTop: insets.top}}>
       <Header label="공지사항">
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-          }}>
-          <S.iconWrapper
-            onPress={() => {
-              navigation.navigate('AnnouncementSearch');
-            }}>
-            <Icon name={'search'} color={'grey150'} height={24} width={24} />
-          </S.iconWrapper>
-          <S.iconWrapper
-            onPress={() => {
-              navigation.navigate('AnnouncementBookmark');
-            }}>
-            <Icon name={'bookmark'} color={'grey150'} height={24} width={24} />
-          </S.iconWrapper>
-          <S.iconWrapper>
-            <Icon
-              name={'notification'}
-              color={'grey150'}
-              height={32}
-              width={32}
-            />
-          </S.iconWrapper>
-        </View>
+        <S.headerIcons>
+          {icons.map((item, i) => (
+            <S.iconWrapper key={i} onPress={item.onPress}>
+              <Icon
+                name={item.iconName}
+                color={'grey150'}
+                height={24}
+                width={24}
+              />
+            </S.iconWrapper>
+          ))}
+        </S.headerIcons>
       </Header>
       {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
       <S.categoryTapAndContents>
@@ -139,6 +144,15 @@ const S = {
     display: flex;
     gap: 4px;
   `,
+  headerIcons: styled.View`
+    // 헤더에서 backArrow, Label 외 영역 전부 사용
+    flex: 1;
+
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  `,
+
   iconWrapper: styled.Pressable`
     padding: 4px;
   `,
