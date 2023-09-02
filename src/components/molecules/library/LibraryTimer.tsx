@@ -1,21 +1,19 @@
 import {View} from 'react-native';
 import React from 'react';
-import styled from '@emotion/native';
 import {Txt, colorsType} from '@uoslife/design-system';
 import {pad} from '../../../utils/handle-date';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
+import {UsingStatus, UsingStatusWithoutNotUsed} from './LibraryUserInfo';
 
 type LibraryUsingStatus = {
-  // 3: 비이용        0: 이용, 미외출
-  // 1: 이용, 외출, 남은시간 30분 초과
-  // 2: 이용, 외출, 남은시간 30분 미만
-  usingStatus: 3 | 0 | 1 | 2;
+  usingStatus: UsingStatus;
   timerTime?: number; // 초 단위로
 };
 
 // 시간줄어드는거 구현 필요
 const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
-  if (usingStatus === 3 || !timerTime)
+  // early return: "NOT-USED" case
+  if (usingStatus === 'NOT-USED' || !timerTime)
     return (
       <CountdownCircleTimer
         colors={['#F9B000', '#E5212A', '#E5212A']}
@@ -36,6 +34,78 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
         )}
       </CountdownCircleTimer>
     );
+
+  const getBottomTxtColor = ({
+    usingStatus,
+  }: {
+    usingStatus: UsingStatusWithoutNotUsed;
+  }): colorsType => {
+    return {
+      'IN-USE': 'primaryBrand',
+      OUTGO: 'secondaryUi',
+      'BE-CLOSED': 'red',
+    }[usingStatus] as colorsType;
+  };
+
+  const getTimerDesigns = ({
+    usingStatus,
+    timerTime,
+  }: {
+    usingStatus: UsingStatusWithoutNotUsed;
+    timerTime: number;
+  }): {
+    timerColors: any;
+    bottomTxtColor: colorsType;
+    duration: number;
+    initialRemainingTime: number;
+    trailColor: any;
+  } => {
+    return {
+      timerColors: {
+        'IN-USE': '#4686FF',
+        OUTGO: ['#F9B000', '#E5212A'],
+        'BE-CLOSED': ['#F9B000', '#E5212A'],
+      }[usingStatus],
+      bottomTxtColor: {
+        'IN-USE': 'primaryBrand',
+        OUTGO: 'secondaryUi',
+        'BE-CLOSED': 'red',
+      }[usingStatus] as colorsType,
+      // 라이브러리가 카운트다운 형식밖에 지원하지 않습니다. usingStatus가 IN-USE일때, elapsedTime = duration - remainingTime이기 때문에 이런식으로 짰습니다.
+      duration: {'IN-USE': 100000, OUTGO: 5400, 'BE-CLOSED': 5400}[usingStatus],
+      initialRemainingTime: {
+        'IN-USE': 100000 - timerTime,
+        OUTGO: timerTime,
+        'BE-CLOSED': timerTime,
+      }[usingStatus],
+      trailColor: {
+        'IN-USE': '#4686FF',
+        OUTGO: '#E1DFDD',
+        'BE-CLOSED': '#E1DFDD',
+      }[usingStatus],
+    };
+  };
+
+  const getDisplayTimeString = ({
+    usingStatus,
+    timerTime,
+  }: {
+    usingStatus: UsingStatusWithoutNotUsed;
+    timerTime: number;
+  }) => {
+    const hour = Math.floor(timerTime / 3600);
+    const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
+    const second = pad(timerTime % 60);
+
+    switch (usingStatus) {
+      case 'IN-USE':
+        return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
+      default: // 1, 2
+        return `${!!hour ? `${hour}시간 ` : ``}${
+          !hour && !!minute ? `${minute}분 ` : ``
+        }${second}초`;
+    }
+  };
 
   const {timerColors, duration, initialRemainingTime, trailColor} =
     getTimerDesigns({
@@ -60,24 +130,25 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
           <>
             <Txt
               color={'grey130'}
-              label={usingStatus === 0 ? '학습시간' : '남은 시간'}
+              label={usingStatus === 'IN-USE' ? '학습시간' : '남은 시간'}
               typograph="titleSmall"
             />
             <View style={{paddingTop: 4}}>
               <Txt
                 color={'grey190'}
                 label={getDisplayTimeString({
-                  timerTime: usingStatus === 0 ? elapsedTime : remainingTime,
+                  timerTime:
+                    usingStatus === 'IN-USE' ? elapsedTime : remainingTime,
                   usingStatus,
                 })}
-                typograph="headlineMedium"
+                typograph={'headlineMedium'}
               />
             </View>
             <View style={{paddingTop: 24}}>
               <Txt
-                color={getBottomTxtColor({usingStatus, remainingTime})}
-                label={usingStatus === 0 ? '이용 중' : '외출 중'}
-                typograph="titleSmall"
+                color={getBottomTxtColor({usingStatus})}
+                label={usingStatus === 'IN-USE' ? '이용 중' : '외출 중'}
+                typograph={'titleSmall'}
               />
             </View>
           </>
@@ -89,64 +160,3 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
 
 export default LibraryTimer;
 
-const getBottomTxtColor = ({
-  usingStatus,
-  remainingTime,
-}: {
-  usingStatus: 0 | 1 | 2;
-  remainingTime: number;
-}) => {
-  if (usingStatus === 0) return 'primaryBrand';
-  if (remainingTime > 1800) return 'secondaryUi';
-  return 'red';
-};
-
-const getTimerDesigns = ({
-  usingStatus,
-  timerTime,
-}: {
-  usingStatus: 0 | 1 | 2;
-  timerTime: number;
-}): {
-  timerColors: any;
-  bottomTxtColor: colorsType;
-  duration: number;
-  initialRemainingTime: number;
-  trailColor: any;
-} => {
-  return {
-    timerColors: ['#4686FF', ['#F9B000', '#E5212A'], ['#F9B000', '#E5212A']][
-      usingStatus
-    ],
-    bottomTxtColor: ['primaryBrand', 'secondaryUi', 'red'][
-      usingStatus
-    ] as colorsType, // 배열 내 요소들이 colorsType을 만족시킴에도 as ~ 지우면 오류가 발생. 더 좋은 방법이 없을까요?
-    // usingStatus === 0일때, elapsedTime = duration - remainingTime이기 때문에 이런식으로 짰습니다.
-    duration: [100000, 5400, 5400][usingStatus],
-    initialRemainingTime: [100000 - timerTime, timerTime, timerTime][
-      usingStatus
-    ],
-    trailColor: ['#4686FF', '#E1DFDD', '#E1DFDD'][usingStatus],
-  };
-};
-
-const getDisplayTimeString = ({
-  usingStatus,
-  timerTime,
-}: {
-  usingStatus: 0 | 1 | 2;
-  timerTime: number;
-}) => {
-  const hour = Math.floor(timerTime / 3600);
-  const minute = pad(Math.floor((timerTime - hour * 3600) / 60));
-  const second = pad(timerTime % 60);
-
-  switch (usingStatus) {
-    case 0:
-      return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
-    default: // 1, 2
-      return `${!!hour ? `${hour}시간 ` : ``}${
-        !hour && !!minute ? `${minute}분 ` : ``
-      }${second}초`;
-  }
-};
