@@ -12,8 +12,10 @@ import {
 import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
 import Header from '../../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const AnnouncementSearchScreen = () => {
+  const insets = useSafeAreaInsets();
   const [histories, setHistories] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   // articles === null일때 ? 검색창이 열리고, 히스토리가 보임 : 검색 결과가 보임
@@ -54,7 +56,7 @@ const AnnouncementSearchScreen = () => {
   };
 
   return (
-    <View>
+    <View style={{paddingTop: insets.top}}>
       <Header label={'a'} />
       <S.searchInputRow>
         <View style={{padding: 4}}>

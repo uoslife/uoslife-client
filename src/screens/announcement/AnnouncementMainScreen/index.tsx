@@ -7,6 +7,7 @@ import CategoryTab from '../../../components/category-tab/CategoryTab';
 import {Icon, Txt} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type ArticleCategoryName =
   | '일반공지'
@@ -51,6 +52,7 @@ export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
   }));
 
 const AnnouncementMainScreen = () => {
+  const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTapProps, setArticleCategoryTapProps] =
     useState<ArticleCategoryTapState>({
@@ -81,7 +83,7 @@ const AnnouncementMainScreen = () => {
   }, [articleCategoryTapProps]);
 
   return (
-    <S.screenWrapper>
+    <S.screenWrapper style={{paddingTop: insets.top}}>
       <Header label="공지사항" />
       {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
       <View>
