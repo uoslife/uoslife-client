@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
 import CategoryTab from '../../../components/category-tab/CategoryTab';
-import {Icon, Txt} from '@uoslife/design-system';
+import {Icon, IconsNameType, Txt} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../../navigators/AnnouncementStackNavigator';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type ArticleCategoryName =
   | '일반공지'
@@ -51,6 +51,7 @@ export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
   }));
 
 const AnnouncementMainScreen = () => {
+  const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTapProps, setArticleCategoryTapProps] =
     useState<ArticleCategoryTapState>({
@@ -80,32 +81,45 @@ const AnnouncementMainScreen = () => {
     }
   }, [articleCategoryTapProps]);
 
+  const icons: {iconName: IconsNameType; onPress: () => void}[] = [
+    {
+      iconName: 'search',
+      onPress: () => {
+        navigation.navigate('AnnouncementSearch');
+      },
+    },
+    {
+      iconName: 'bookmark',
+      onPress: () => {
+        navigation.navigate('AnnouncementBookmark');
+      },
+    },
+    // 아이콘 작게 뜨는 이슈? 라이브러리에서 수정..
+    {
+      iconName: 'notification',
+      onPress: () => {
+        // 바텀시트 열기
+      },
+    },
+  ];
+
   return (
-    <S.screenWrapper>
-      <Header label="공지사항" />
+    <S.screenWrapper style={{paddingTop: insets.top}}>
+      <Header label="공지사항">
+        <S.headerIcons>
+          {icons.map((item, i) => (
+            <S.iconWrapper key={i} onPress={item.onPress}>
+              <Icon
+                name={item.iconName}
+                color={'grey150'}
+                height={24}
+                width={24}
+              />
+            </S.iconWrapper>
+          ))}
+        </S.headerIcons>
+      </Header>
       {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
-      <View>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('AnnouncementBookmark');
-          }}>
-          <Icon name={'bookmark'} color={'grey150'} height={32} width={32} />
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('AnnouncementSearch');
-          }}>
-          <Icon name={'search'} color={'grey150'} height={32} width={32} />
-        </Pressable>
-        <Pressable>
-          <Icon
-            name={'notification'}
-            color={'grey150'}
-            height={32}
-            width={32}
-          />
-        </Pressable>
-      </View>
       <S.categoryTapAndContents>
         <CategoryTab
           categoryTabProps={articleCategoryTapProps}
@@ -129,5 +143,17 @@ const S = {
     width: 100%;
     display: flex;
     gap: 4px;
+  `,
+  headerIcons: styled.View`
+    // 헤더에서 backArrow, Label 외 영역 전부 사용
+    flex: 1;
+
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  `,
+
+  iconWrapper: styled.Pressable`
+    padding: 4px;
   `,
 };

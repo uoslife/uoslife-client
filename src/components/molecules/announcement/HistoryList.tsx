@@ -38,7 +38,7 @@ const HistoryList = ({
 export default HistoryList;
 
 const S = {
-  listContainer: styled.View`
+  listContainer: styled.ScrollView`
     padding: 0 16px;
   `,
   historyItemContainer: styled.Pressable`

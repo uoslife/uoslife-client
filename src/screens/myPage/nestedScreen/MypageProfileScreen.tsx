@@ -8,6 +8,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type MyAccountNavigatorItem = {
   name: string;
@@ -53,6 +54,7 @@ const PortalAccountInformationList = ({
 };
 
 const MypageProfileScreen = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<MyPageAccountStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
@@ -185,7 +187,7 @@ const MypageProfileScreen = () => {
   ];
 
   return (
-    <View>
+    <View style={{paddingTop: insets.top}}>
       <S.screenContainer>
         <Header label={'MY Page'} />
         <S.myProfileContainer>

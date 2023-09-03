@@ -11,6 +11,7 @@ import {getUploadTimeString} from '../../../utils/handle-date';
 import IconWithText from '../../../components/molecules/iconWithText/IconWithText';
 import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type AnnouncementDetailScreenProps = NativeStackScreenProps<
   AnnouncementStackParamList,
@@ -18,6 +19,7 @@ type AnnouncementDetailScreenProps = NativeStackScreenProps<
 >;
 
 const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
+  const insets = useSafeAreaInsets();
   const [article, setArticle] = useState<Article>();
 
   const id = route.params.id;
@@ -51,7 +53,7 @@ const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
   );
 
   return !!article ? (
-    <S.screenWrapper>
+    <S.screenWrapper style={{paddingTop: insets.top}}>
       <Header label={article.category} />
       <S.exceptHeader>
         {/* emotion의 border-{direction} 버그로 인해 style prop 이용 */}

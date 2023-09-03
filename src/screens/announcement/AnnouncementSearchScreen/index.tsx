@@ -12,8 +12,10 @@ import {
 import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
 import Header from '../../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const AnnouncementSearchScreen = () => {
+  const insets = useSafeAreaInsets();
   const [histories, setHistories] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   // articles === null일때 ? 검색창이 열리고, 히스토리가 보임 : 검색 결과가 보임
@@ -23,7 +25,7 @@ const AnnouncementSearchScreen = () => {
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
     const DUMMY_HISTORY = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       DUMMY_HISTORY.push(`히스토리 ${i}`);
       DUMMY_HISTORY.push(`${i}`);
     }
@@ -54,12 +56,8 @@ const AnnouncementSearchScreen = () => {
   };
 
   return (
-    <View>
-      <Header label={'a'} />
-      <S.searchInputRow>
-        <View style={{padding: 4}}>
-          <Icon color="grey150" height={24} width={24} name={'backArrow'} />
-        </View>
+    <View style={{paddingTop: insets.top}}>
+      <Header>
         {/* Focus가 사라져야 될 때 사라지지 않는 이슈 있음 */}
         <SearchInput
           inputRef={inputRef}
@@ -81,7 +79,8 @@ const AnnouncementSearchScreen = () => {
           }}
           value={searchWord}
         />
-      </S.searchInputRow>
+      </Header>
+
       {!!articles ? (
         <ArticleList articles={articles} showCategory />
       ) : (
