@@ -25,7 +25,7 @@ const AnnouncementSearchScreen = () => {
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
     const DUMMY_HISTORY = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       DUMMY_HISTORY.push(`히스토리 ${i}`);
       DUMMY_HISTORY.push(`${i}`);
     }
@@ -57,11 +57,7 @@ const AnnouncementSearchScreen = () => {
 
   return (
     <View style={{paddingTop: insets.top}}>
-      <Header label={'a'} />
-      <S.searchInputRow>
-        <View style={{padding: 4}}>
-          <Icon color="grey150" height={24} width={24} name={'backArrow'} />
-        </View>
+      <Header>
         {/* Focus가 사라져야 될 때 사라지지 않는 이슈 있음 */}
         <SearchInput
           inputRef={inputRef}
@@ -83,7 +79,8 @@ const AnnouncementSearchScreen = () => {
           }}
           value={searchWord}
         />
-      </S.searchInputRow>
+      </Header>
+
       {!!articles ? (
         <ArticleList articles={articles} showCategory />
       ) : (
