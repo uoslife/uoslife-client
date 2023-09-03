@@ -34,5 +34,5 @@ let App: React.FC = () => {
   );
 };
 
-if (!__DEV__) App = codePush(App);
+// if (!__DEV__) App = codePush(App);
 export default App;

@@ -14,7 +14,6 @@ import {
 } from '../../atoms/account';
 
 const AccountScreenContainer = () => {
-  const insets = useSafeAreaInsets();
   const accountStatus = useAtomValue(accountFlowStatusAtom);
 
   const handleAccountScreen = (accountStatus: AccountFlowStatusType) => {
@@ -34,9 +33,7 @@ const AccountScreenContainer = () => {
     }
   };
   return (
-    <S.AccountContainer
-      contentContainerStyle={{flex: 1}}
-      style={{paddingTop: insets.top}}>
+    <S.AccountContainer contentContainerStyle={{flex: 1}}>
       {handleAccountScreen(accountStatus)}
     </S.AccountContainer>
   );
