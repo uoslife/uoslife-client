@@ -8,11 +8,13 @@ import {useSetAtom} from 'jotai';
 import {accountFlowStatusAtom} from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
+  const insets = useSafeAreaInsets();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
   const [messageStatus, setMessageStatus] =
@@ -84,7 +86,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
         label="포털 계정 연동"
         onPressBackButton={() =>

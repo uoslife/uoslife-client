@@ -14,6 +14,7 @@ import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigat
 import {useNavigation} from '@react-navigation/native';
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
@@ -27,6 +28,7 @@ type NicknameStatusMessageType =
   | 'DUPLICATED';
 
 const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
   const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
@@ -96,7 +98,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
 
   return (
     <>
-      <S.screenContainer>
+      <S.screenContainer style={{paddingTop: insets.top}}>
         <Header
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {

@@ -6,13 +6,16 @@ import styled from '@emotion/native';
 import HeaderProps from './Header.type';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 
-const Header = ({label, onPressBackButton}: HeaderProps) => {
+const Header = ({label, onPressBackButton, children}: HeaderProps) => {
   return (
     <S.headerContainter>
       <Pressable onPress={onPressBackButton}>
         <Icon name={'backArrow'} width={24} height={24} color="grey130" />
       </Pressable>
-      <Txt label={label} color={'grey190'} typograph="titleLarge" />
+      {!!label && (
+        <Txt label={label} color={'grey190'} typograph="titleLarge" />
+      )}
+      {children}
     </S.headerContainter>
   );
 };

@@ -15,6 +15,7 @@ import {
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
 import setTokenWhenLogin from '../../../utils/setTokenWhenLogin';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -27,6 +28,7 @@ type InputStatusMessageType =
   | 'TIME_EXPIRED';
 
 const VerificationScreen = () => {
+  const insets = useSafeAreaInsets();
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setAccountStatus = useSetAtom(accountStatusAtom);
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
@@ -168,7 +170,7 @@ const VerificationScreen = () => {
   };
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
         label={'전화번호 본인인증'}
         onPressBackButton={handleHeaderBackButton}
