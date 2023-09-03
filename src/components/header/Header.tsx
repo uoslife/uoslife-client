@@ -12,7 +12,9 @@ const Header = ({label, onPressBackButton, children}: HeaderProps) => {
       <Pressable onPress={onPressBackButton}>
         <Icon name={'backArrow'} width={24} height={24} color="grey130" />
       </Pressable>
-      {label && <Txt label={label} color={'grey190'} typograph="titleLarge" />}
+      {!!label && (
+        <Txt label={label} color={'grey190'} typograph="titleLarge" />
+      )}
       {children}
     </S.headerContainter>
   );
