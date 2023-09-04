@@ -5,12 +5,12 @@ import SplashScreen from 'react-native-splash-screen';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 import AccountScreen from '../screens/account';
-import MainScreen from '../screens/MainScreen';
 import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import MyPageStackNavigator from './MyPageStackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
+import RootBottomTapNavigator from './RootBottomTapNavigator';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -50,7 +50,7 @@ const RootStackNavigator: React.FC = () => {
     <Stack.Navigator
       initialRouteName="Main"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Main" component={MainScreen} />
+      <Stack.Screen name="Main" component={RootBottomTapNavigator} />
       <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
       <Stack.Screen
         name="Announcement"
