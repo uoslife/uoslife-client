@@ -14,35 +14,35 @@ export type RootTabParamList = {
   SetNickname: undefined;
 };
 
-export type RootTabNavigationProps = BottomTabNavigationProp<RootTabParamList>;
-
-const Tab = createBottomTabNavigator<RootTabParamList>();
-
-type bottomTabNavigateDataType = {
+type TabScreenItemType = {
   label: string;
   icon: 'menu' | 'studentId';
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
 };
 
-const BOTTOM_TAB_NAVIGATE_DATA: bottomTabNavigateDataType[] = [
+export type RootTabNavigationProps = BottomTabNavigationProp<RootTabParamList>;
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
   {
+    component: MainScreen,
+    screenName: 'Main',
     label: '시대생활',
     icon: 'menu',
-    screenName: 'Main',
-    component: MainScreen,
   },
   {
+    component: StudentIdScreen,
+    screenName: 'StudentId',
     label: '학생증',
     icon: 'studentId',
-    screenName: 'StudentId',
-    component: StudentIdScreen,
   },
   {
+    component: StudentIdScreen,
+    screenName: 'SetNickname',
     label: '시대팅',
     icon: 'menu',
-    screenName: 'SetNickname',
-    component: StudentIdScreen,
   },
 ];
 
@@ -54,69 +54,30 @@ const RootBottomTabNavigation = () => {
         headerShown: false,
         tabBarStyle: {...Style.bottomTapLayout, ...Style.bottomTapShadow},
       }}>
-      <Tab.Screen
-        name="Main"
-        component={MainScreen}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <Icon
-              color={focused ? 'primaryBrand' : 'grey90'}
-              name={'menu'}
-              width={24}
-              height={24}
-            />
-          ),
-          tabBarLabel: ({focused}) => (
-            <Txt
-              label={'시대생활'}
-              color={focused ? 'primaryBrand' : 'grey90'}
-              typograph={'labelMedium'}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="StudentId"
-        component={StudentIdScreen}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <Icon
-              color={focused ? 'primaryBrand' : 'grey90'}
-              name={'studentId'}
-              width={24}
-              height={24}
-            />
-          ),
-          tabBarLabel: ({focused}) => (
-            <Txt
-              label={'학생증'}
-              color={focused ? 'primaryBrand' : 'grey90'}
-              typograph={'labelMedium'}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="SetNickname"
-        component={StudentIdScreen}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <Icon
-              color={focused ? 'primaryBrand' : 'grey90'}
-              name={'studentId'}
-              width={24}
-              height={24}
-            />
-          ),
-          tabBarLabel: ({focused}) => (
-            <Txt
-              label={'채팅'}
-              color={focused ? 'primaryBrand' : 'grey90'}
-              typograph={'labelMedium'}
-            />
-          ),
-        }}
-      />
+      {TAB_SCREEN_ITEMS.map((item, index) => (
+        <Tab.Screen
+          key={index}
+          name={item.screenName}
+          component={item.component}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <Icon
+                color={focused ? 'primaryBrand' : 'grey90'}
+                name={item.icon}
+                width={24}
+                height={24}
+              />
+            ),
+            tabBarLabel: ({focused}) => (
+              <Txt
+                label={item.label}
+                color={focused ? 'primaryBrand' : 'grey90'}
+                typograph={'labelMedium'}
+              />
+            ),
+          }}
+        />
+      ))}
     </Tab.Navigator>
   );
 };
