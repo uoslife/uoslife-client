@@ -15,6 +15,7 @@ const PortalUnauthorizedComponent = () => {
     Dimensions.get('window').width - SCREEN_SIDE_PADDING;
   const HEIGHT_RATIO = RESPONSIVE_IMAGE_WIDTH / IMAGE_WIDTH;
   const RESPONSIVE_IMAGE_HEIGHT = IMAGE_HEIGHT * HEIGHT_RATIO;
+  // 핸드폰 크기에 따른 로고 크기 설정
 
   const handleNavigatePortalAuthenticate = async () => {};
 
@@ -85,12 +86,14 @@ const StudentIdComponent = () => {
           <S.uoslifeLogoWrapper>
             <S.uoslifeBrandLogo
               source={require('../assets/images/uoslifeBrandLogo.png')}
+              // TODO 디자인시스템에서 로고 가져오기.
               style={Style.imageScale}
             />
           </S.uoslifeLogoWrapper>
           <S.iroomaeCharacterImageWrapper>
             <S.iroomaeCharacterImage
               source={require('../assets/images/iroomae_character.png')}
+              // TODO 디자인시스템에서 로고 가져오기
             />
           </S.iroomaeCharacterImageWrapper>
           <S.infoContainer>
@@ -109,6 +112,7 @@ const StudentIdComponent = () => {
               </View>
               <S.uosLogoImage
                 source={require('../assets/images/uos_logo_grey.png')}
+                // TODO 디자인 시스템에서 로고 가져오기
               />
             </View>
             <View style={{gap: 8}}>

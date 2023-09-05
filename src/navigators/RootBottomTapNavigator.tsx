@@ -44,6 +44,7 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     screenName: 'UoslifeMeeting',
     label: '시대팅',
     icon: 'menu',
+    // TODO menu 아이콘 heart 아이콘으로 바꾸기.
   },
 ];
 
