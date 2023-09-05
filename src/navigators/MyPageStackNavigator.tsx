@@ -10,6 +10,10 @@ import {
 import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
 import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
 import VerificationScreen from '../screens/account/common/VerificationScreen';
+import ToSandPoliciesScreen from '../screens/myPage/appInformationScreens/ToSandPolicies';
+import PrivacyPoliciesScreen from '../screens/myPage/appInformationScreens/PrivacyandPolicies';
+import AdvertisingandMarketingConsentScreen from '../screens/myPage/appInformationScreens/AdvertisingandMarketingConsentScreen';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;
@@ -19,38 +23,78 @@ export type MyPageStackParamList = {
   Mypage_inquiry: undefined;
 };
 
-export type MyPageNestedStackParamList = {
-  Mypage_nestedMain: undefined;
+export type MyPageAccountStackParamList = {
+  Mypage_profileMain: undefined;
   Mypage_changeNickname: {isMyPage: boolean};
   Mypage_portalAuthentication: undefined;
   Mypage_changeNumber: undefined;
 };
 
-const Stack = createStackNavigator<MyPageStackParamList>();
-const NestedStack = createStackNavigator<MyPageNestedStackParamList>();
+export type MyPageAppInformationStackParamList = {
+  Mypage_appInformation: undefined;
+  Mypage_ToSandPolicies: undefined;
+  Mypage_privacyPolicies: undefined;
+  Mypage_dvertisingandMarketing: undefined;
+  Mypage_advertisingandMarketingConsent: undefined;
+};
 
-const MypageNestedNavigator = () => {
+export type MypageAppInformationScreenRouteProp = NativeStackNavigationProp<
+  MyPageAppInformationStackParamList,
+  'Mypage_appInformation'
+>;
+
+const Stack = createStackNavigator<MyPageStackParamList>();
+const AccountStack = createStackNavigator<MyPageAccountStackParamList>();
+const AppInformationStack =
+  createStackNavigator<MyPageAppInformationStackParamList>();
+
+const MypageAccountNavigator = () => {
   return (
-    <NestedStack.Navigator
-      initialRouteName="Mypage_nestedMain"
+    <AccountStack.Navigator
+      initialRouteName="Mypage_profileMain"
       screenOptions={{headerShown: false}}>
-      <NestedStack.Screen
-        name="Mypage_nestedMain"
+      <AccountStack.Screen
+        name="Mypage_profileMain"
         component={MypageProfileScreen}
       />
-      <NestedStack.Screen
+      <AccountStack.Screen
         name="Mypage_changeNickname"
         component={SetNicknameScreen}
       />
-      <NestedStack.Screen
+      <AccountStack.Screen
         name="Mypage_portalAuthentication"
         component={PortalAuthenticationScreen}
       />
-      <NestedStack.Screen
+      <AccountStack.Screen
         name="Mypage_changeNumber"
         component={VerificationScreen}
       />
-    </NestedStack.Navigator>
+    </AccountStack.Navigator>
+  );
+};
+
+const MyPageAppInformationStackNavigator = () => {
+  return (
+    <AppInformationStack.Navigator
+      initialRouteName="Mypage_appInformation"
+      screenOptions={{headerShown: false}}>
+      <AppInformationStack.Screen
+        name="Mypage_appInformation"
+        component={MypageAppInformationScreen}
+      />
+      <AppInformationStack.Screen
+        name="Mypage_ToSandPolicies"
+        component={ToSandPoliciesScreen}
+      />
+      <AppInformationStack.Screen
+        name="Mypage_privacyPolicies"
+        component={PrivacyPoliciesScreen}
+      />
+      <AppInformationStack.Screen
+        name="Mypage_advertisingandMarketingConsent"
+        component={AdvertisingandMarketingConsentScreen}
+      />
+    </AppInformationStack.Navigator>
   );
 };
 
@@ -60,14 +104,14 @@ const MyPageStackNavigator = () => {
       initialRouteName="Mypage_main"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Mypage_main" component={MypageMainScreen} />
-      <Stack.Screen name="Mypage_profile" component={MypageNestedNavigator} />
+      <Stack.Screen name="Mypage_profile" component={MypageAccountNavigator} />
       <Stack.Screen
         name="Mypage_appSetting"
         component={MypageAppSettingScreen}
       />
       <Stack.Screen
         name="Mypage_appInformation"
-        component={MypageAppInformationScreen}
+        component={MyPageAppInformationStackNavigator}
       />
       <Stack.Screen
         name="Mypage_inquiry"

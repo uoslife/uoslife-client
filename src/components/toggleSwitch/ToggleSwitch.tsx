@@ -9,7 +9,7 @@ const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
       toValue: isOn ? 1 : 0,
       duration: 200,
       easing: Easing.linear,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   }, [isOn]);
 

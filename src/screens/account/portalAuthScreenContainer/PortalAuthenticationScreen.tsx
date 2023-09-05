@@ -4,8 +4,14 @@ import Input from '../../../components/forms/input/Input';
 import styled from '@emotion/native';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {Pressable, View} from 'react-native';
+import {useSetAtom} from 'jotai';
+import {accountStatusAtom} from '..';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const PortalAuthenticationScreen = () => {
+  const insets = useSafeAreaInsets();
+  const setAccountStatus = useSetAtom(accountStatusAtom);
+
   const [status, setStatus] = useState('');
   const [inputValue, setInputValue] = useState({id: '', password: ''});
 
@@ -25,7 +31,15 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePostponePortalAuth = () => {
-    // 포탈 인증 다음에 하기 관련 기능 추가
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        portalStatus: {
+          isPortalStep: prev.portalStatus.isPortalStep,
+          step: 1,
+        },
+      };
+    });
   };
 
   const handleSubmit = () => {
@@ -33,8 +47,21 @@ const PortalAuthenticationScreen = () => {
   };
 
   return (
-    <S.screenContainer>
-      <Header label="포털 계정 연동" />
+    <S.screenContainer style={{paddingTop: insets.top}}>
+      <Header
+        label="포털 계정 연동"
+        onPressBackButton={() =>
+          setAccountStatus(prev => {
+            return {
+              ...prev,
+              portalStatus: {
+                isPortalStep: false,
+                step: 0,
+              },
+            };
+          })
+        }
+      />
       <S.portalAuthenticationContainer>
         <View style={{gap: 32}}>
           <View style={{gap: 8}}>
@@ -47,7 +74,7 @@ const PortalAuthenticationScreen = () => {
               typograph={'bodyMedium'}
               color={'grey190'}
               label={
-                '포털 계정 연동을 통해 다양한 편의 기능(ex. 시대팅)을 이용할 수 있어요.\n계정 정보는 서버에 안전한 암호화 방식으로 저장돼요.'
+                '포털 계정 연동을 통해 다양한 편의 기능(ex. 시대팅)을 이용할 수 있습니다.\n계정 정보는 서버에 안전한 암호화 방식으로 저장됩니다.'
               }
             />
           </View>
@@ -71,27 +98,23 @@ const PortalAuthenticationScreen = () => {
             placeholder={'비밀번호'}
           />
         </View>
-        <View>
+        <S.bottomContainer>
+          <S.postponePortalAuthButton>
+            <Pressable onPress={handlePostponePortalAuth}>
+              <Txt
+                label={'포털 연동 다음에 하기'}
+                color={'grey130'}
+                typograph={'bodySmall'}
+              />
+            </Pressable>
+          </S.postponePortalAuthButton>
           <Button
             label={'확인'}
             onPress={handleSubmit}
             isEnabled={!!(inputValue.id && inputValue.password)}
             isFullWidth={true}
           />
-        </View>
-        <S.postponePortalAuthButton
-          style={{
-            borderBottomColor: colors.grey190,
-            borderBottomWidth: 1,
-          }}>
-          <Pressable onPress={handlePostponePortalAuth}>
-            <Txt
-              label={'포털 연동 다음에 하기'}
-              color={'grey190'}
-              typograph={'labelMedium'}
-            />
-          </Pressable>
-        </S.postponePortalAuthButton>
+        </S.bottomContainer>
       </S.portalAuthenticationContainer>
     </S.screenContainer>
   );
@@ -103,17 +126,22 @@ const S = {
   screenContainer: styled.View`
     flex: 1;
   `,
-
   portalAuthenticationContainer: styled.View`
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 42px 28px;
+    padding: 28px 16px;
+  `,
+  bottomContainer: styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   `,
   postponePortalAuthButton: styled.View`
-    position: absolute;
-    top: 93%;
-    left: 42%;
     padding-bottom: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
   `,
 };

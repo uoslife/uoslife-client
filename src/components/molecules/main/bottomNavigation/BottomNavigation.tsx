@@ -1,13 +1,14 @@
 import styled from '@emotion/native';
 import IconWithText from '../../iconWithText/IconWithText';
 import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
-import {Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const BottomNavigation = () => {
+  const insets = useSafeAreaInsets();
   const {navigate} = useNavigation<RootNavigationProps>();
   return (
-    <S.BottomNavigationWrapper>
+    <S.BottomNavigationWrapper bottomInsets={insets.bottom}>
       <IconWithText iconName={'menu'} text={'시대생활'} isClick={true} />
       <IconWithText iconName={'studentId'} text={'학생증'} isClick={false} />
       <IconWithText iconName={'person'} text={'채팅'} isClick={false} />
@@ -18,13 +19,13 @@ const BottomNavigation = () => {
 export default BottomNavigation;
 
 const S = {
-  BottomNavigationWrapper: styled.View`
+  BottomNavigationWrapper: styled.View<{bottomInsets: number}>`
     display: flex;
     flex-direction: row;
     position: absolute;
     left: 50%;
     margin-left: -150px;
-    bottom: 12px;
+    bottom: ${({bottomInsets}) => `${bottomInsets + 12}px`};
     width: 300px;
     height: 60px;
     padding: 10px 40px;

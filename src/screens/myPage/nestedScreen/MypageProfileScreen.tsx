@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import {Pressable} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
+import {MyPageAccountStackParamList} from '../../../navigators/MyPageStackNavigator';
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import usePhoto from '../../../hooks/usePhoto';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type MyAccountNavigatorItem = {
   name: string;
@@ -50,7 +51,8 @@ const PortalAccountInformationList = ({
 };
 
 const MypageProfileScreen = () => {
-  const navigation = useNavigation<MyPageNestedStackParamList>();
+  const insets = useSafeAreaInsets();
+  const navigation = useNavigation<MyPageAccountStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
   const [selectedImage, selectImage] = usePhoto('');
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
@@ -188,7 +190,7 @@ const MypageProfileScreen = () => {
   ];
 
   return (
-    <View>
+    <View style={{paddingTop: insets.top}}>
       <S.screenContainer>
         <Header label={'MY Page'} />
         <S.myProfileContainer>

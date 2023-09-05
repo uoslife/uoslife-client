@@ -9,7 +9,9 @@ const Card = ({title, caption, children}: CardProps) => {
       <S.cardHeader>
         <S.inlineWrapper>
           <Txt label={title} color={'grey160'} typograph={'titleMedium'} />
-          <Txt label={caption} color={'grey150'} typograph={'caption'} />
+          {caption && (
+            <Txt label={caption} color={'grey150'} typograph={'caption'} />
+          )}
         </S.inlineWrapper>
       </S.cardHeader>
       <S.cardBody>{children}</S.cardBody>
