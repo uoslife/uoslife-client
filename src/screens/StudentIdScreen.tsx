@@ -2,12 +2,8 @@ import styled from '@emotion/native';
 import {StyleSheet, View, Dimensions, Platform} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/core';
-import {MyPageAccountStackParamList} from '../navigators/MyPageStackNavigator';
 
 const PortalUnauthorizedComponent = () => {
-  const navigation = useNavigation<MyPageAccountStackParamList>();
-
   const SCREEN_SIDE_PADDING = 32;
   const IMAGE_WIDTH = 328;
   const IMAGE_HEIGHT = 160;
@@ -17,7 +13,9 @@ const PortalUnauthorizedComponent = () => {
   const RESPONSIVE_IMAGE_HEIGHT = IMAGE_HEIGHT * HEIGHT_RATIO;
   // 핸드폰 크기에 따른 로고 크기 설정
 
-  const handleNavigatePortalAuthenticate = async () => {};
+  const handleNavigatePortalAuthenticate = async () => {
+    // TODO bottomTab 포탈 인증 페이지를 stack으로 만든 navigator 추가 필요.
+  };
 
   return (
     <S.portalUnauthorizedScreen>
