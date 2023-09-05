@@ -18,6 +18,6 @@ export const setAuthorizationHeader: BeforeRequestHook = (
   _options,
 ) => {
   const accessToken = getData('access_token');
-  request.headers.set('Authorization', `Bearer ${accessToken}`);
-  return ky(request);
+  if (accessToken)
+    request.headers.set('Authorization', `Bearer ${accessToken}`);
 };
