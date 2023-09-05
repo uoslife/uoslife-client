@@ -5,13 +5,14 @@ import {
 } from '@react-navigation/bottom-tabs';
 import MainScreen from '../screens/MainScreen';
 import StudentIdScreen from '../screens/StudentIdScreen';
+import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
 import {Icon, Txt} from '@uoslife/design-system';
 import {Platform, StyleSheet} from 'react-native';
 
 export type RootTabParamList = {
   Main: undefined;
   StudentId: undefined;
-  SetNickname: undefined;
+  UoslifeMeeting: undefined;
 };
 
 type TabScreenItemType = {
@@ -39,8 +40,8 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     icon: 'studentId',
   },
   {
-    component: StudentIdScreen,
-    screenName: 'SetNickname',
+    component: UoslifeMeetingScreen,
+    screenName: 'UoslifeMeeting',
     label: '시대팅',
     icon: 'menu',
   },
