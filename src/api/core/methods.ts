@@ -4,24 +4,28 @@ import apiClient from './client';
 export const get = async <T extends unknown>(
   url: string,
 ): KyJsonResponse<T> => {
-  return await apiClient.get(url).json();
+  const getRes = await apiClient.get(url);
+  return await getRes.json();
 };
 
 export const post = async <T extends unknown>(
   url: string,
   body: unknown,
 ): KyJsonResponse<T> => {
-  return await apiClient.post(url, {json: body}).json();
+  const postRes = await apiClient.post(url, {json: body});
+  return await postRes.json();
 };
 export const patch = async <T extends unknown>(
   url: string,
   body: unknown,
 ): KyJsonResponse<T> => {
-  return await apiClient.patch(url, {json: body}).json();
+  const patchRes = await apiClient.patch(url, {json: body});
+  return await patchRes.json();
 };
 
 export const del = async <T extends unknown>(
   url: string,
 ): KyJsonResponse<T> => {
-  return await apiClient.delete(url).json();
+  const deleteRes = await apiClient.delete(url);
+  return await deleteRes.json();
 };
