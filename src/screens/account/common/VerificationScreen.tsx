@@ -21,6 +21,9 @@ const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
 const MAX_VERIFICATION_CODE_LENGTH = 6;
 
+// TODO: unable되었을 때 눌리는 문제 해결필요
+// TODO: Time Expired되었을 때 에러 대응
+
 type InputStatusMessageType =
   | 'DEFAULT'
   | 'NOT_MATCHING_CODE'
@@ -57,6 +60,10 @@ const VerificationScreen = () => {
     setInputMessageStatus('DEFAULT');
   };
 
+  const onPressInputDelete = () => {
+    setInputValue('');
+    setInputMessageStatus('DEFAULT');
+  };
   const handleButtonIsEnable = () => {
     if (
       isVerificationCodeSent &&
@@ -77,16 +84,18 @@ const VerificationScreen = () => {
   };
 
   const checkUserTypeBeforeRedirect = async (): Promise<UserType> => {
-    const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
-    if (loginRes.statusCode === 201) {
-      setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
-      return 'NONE';
-    }
-
-    const res = await CoreAPI.getExistedAccountInfo({
-      mobile: storedPhoneNumber,
-    });
-    if (!!res) {
+    try {
+      const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
+      if (loginRes.statusCode === 201) {
+        setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+        return 'NONE';
+      }
+    } catch {}
+    try {
+      const res = await CoreAPI.getExistedAccountInfo({
+        mobile: storedPhoneNumber,
+      });
+      console.log(res);
       // TODO: refactoring 필요
       const existedAccountInfo = res.map(data => {
         return {id: data.id, nickname: data.nickname, isSelected: false};
@@ -95,71 +104,80 @@ const VerificationScreen = () => {
         return existedAccountInfo;
       });
       return 'EXISTED';
+    } catch {
+      return 'NEW';
     }
-    return 'NEW';
   };
 
   // 전화번호 입력 페이지
   const handleOnPressRequestCode = async () => {
-    if (inputValue.length < MAX_PHONE_NUMBER_LENGTH) return;
+    const currentInputLength = inputValue.length;
+    if (currentInputLength < MAX_PHONE_NUMBER_LENGTH) return;
     try {
       const smsVerificationRes = await CoreAPI.sendSmsVerification({
         mobile: inputValue,
       });
+      console.info(smsVerificationRes);
       setStoredPhoneNumber(inputValue);
       setIsVerificationCodeSent(true);
       setInputValue('');
     } catch (error) {
       showErrorMessage(error);
-      setStoredPhoneNumber(inputValue);
-      setIsVerificationCodeSent(true);
-      setInputValue('');
+      // setStoredPhoneNumber(inputValue);
+      // setIsVerificationCodeSent(true);
+      // setInputValue('');
     }
   };
 
   // 인증번호 입력 페이지
   const handleOnPressVerifyIdentify = async () => {
+    const currentInputLength = inputValue.length;
+    if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
     try {
       const smsVerificationRes = await CoreAPI.checkSmsVerification({
         mobile: storedPhoneNumber,
         code: inputValue,
       });
-      if (!smsVerificationRes.isVerified)
-        setInputMessageStatus('NOT_MATCHING_CODE');
-
-      const userType = await checkUserTypeBeforeRedirect();
-      setIsVerificationCodeSent(false); // state 초기화
-      setStoredPhoneNumber(''); // state 초기화
-      if (userType === 'NONE') {
-        setAccountStatus(prev => {
-          return {...prev, isLogin: true};
-        });
-        return;
-      }
-      setAccountFlowStatus(prev => {
-        return {
-          ...prev,
-          stepStatus: {
-            userType: userType,
-            step: 0,
-          },
-        };
-      });
+      console.info(smsVerificationRes);
     } catch (error) {
-      showErrorMessage(error);
-      // TODO: 아래 코드는 api 연결 완료시 삭제
-      setIsVerificationCodeSent(false);
-      setStoredPhoneNumber('');
-      setAccountFlowStatus(prev => {
-        return {
-          ...prev,
-          stepStatus: {
-            userType: 'EXISTED',
-            step: 0,
-          },
-        };
-      });
+      console.info(error);
+      setInputMessageStatus('NOT_MATCHING_CODE');
+      return;
     }
+    const userType = await checkUserTypeBeforeRedirect();
+
+    setIsVerificationCodeSent(false); // state 초기화
+    setStoredPhoneNumber(''); // state 초기화
+    if (userType === 'NONE') {
+      setAccountStatus(prev => {
+        return {...prev, isLogin: true};
+      });
+      return;
+    }
+    setAccountFlowStatus(prev => {
+      return {
+        ...prev,
+        stepStatus: {
+          userType: userType,
+          step: 0,
+        },
+      };
+    });
+    // } catch (error) {
+    //   showErrorMessage(error);
+    // TODO: 아래 코드는 api 연결 완료시 삭제
+    // setIsVerificationCodeSent(false);
+    // setStoredPhoneNumber('');
+    // setAccountFlowStatus(prev => {
+    //   return {
+    //     ...prev,
+    //     stepStatus: {
+    //       userType: 'EXISTED',
+    //       step: 0,
+    //     },
+    //   };
+    // });
+    // }
   };
 
   const handleOnPressRetryButton = async () => {
@@ -200,7 +218,7 @@ const VerificationScreen = () => {
                 ? MAX_VERIFICATION_CODE_LENGTH
                 : MAX_PHONE_NUMBER_LENGTH
             }
-            onPress={() => setInputValue('')}
+            onPress={onPressInputDelete}
             keyboardType={'numeric'}
             value={inputValue}
             label={isVerificationCodeSent ? '인증번호' : '전화번호'}
