@@ -12,7 +12,7 @@ const OnboardingSlideGuide = ({currentImageLocation}: Props) => {
       {Array(3)
         .fill(undefined)
         .map((_value, index) => (
-          <S.Dot isEnabled={switchIsEnabledStatus(index)} />
+          <S.Dot key={index} isEnabled={switchIsEnabledStatus(index)} />
         ))}
     </S.Wrapper>
   );
