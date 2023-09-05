@@ -17,7 +17,7 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
           });
           setPhotoValue(result.assets![0].uri ?? '');
         } catch (e) {
-          console.log(e, '에러');
+          console.error(e);
         }
       },
     },
@@ -31,7 +31,7 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
           });
           setPhotoValue(result.assets![0].uri ?? '');
         } catch (e) {
-          console.log(e, '에러');
+          console.error(e);
         }
       },
     },
