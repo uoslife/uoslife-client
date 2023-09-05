@@ -4,7 +4,7 @@ import {createClient} from '@supabase/supabase-js';
 import supabase from '../../configs/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {handleToken, logging} from './afterResponse';
+import {handleToken} from './afterResponse';
 import {setAuthorizationHeader} from './beforeRequest';
 
 export const apiClient = ky.create({
@@ -12,7 +12,7 @@ export const apiClient = ky.create({
   prefixUrl: 'https://api.uoslife.com',
   hooks: {
     beforeRequest: [setAuthorizationHeader],
-    afterResponse: [logging, handleToken],
+    afterResponse: [handleToken],
   },
 });
 
