@@ -8,13 +8,21 @@ import styled from '@emotion/native';
 import OnboardingSlideGuide from '../../components/molecules/account/onboarding/OnboardingSlideGuide';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {NativeSyntheticEvent, NativeScrollEvent, View} from 'react-native';
+import {CoreAPI} from '../../api/services';
+import setTokenWhenLogin from '../../utils/setTokenWhenLogin';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
-  const handleClickAccountButton = () => {
+  const handleClickAccountButton = async () => {
+    // 임시 코드
+    const loginRes = await CoreAPI.login({phone: '01012345678'});
+    console.log(loginRes);
+    if (loginRes.statusCode === 201) {
+      setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+    }
     setAccountStatus(prev => {
       return {...prev, baseStatus: 'ONPROGRESS'};
     });
