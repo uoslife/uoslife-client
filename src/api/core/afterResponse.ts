@@ -14,12 +14,13 @@ export const handleToken: AfterResponseHook = async (
   _options,
   response,
 ) => {
+  console.info(await response.json());
   if (response.status !== 401) return ky(request);
   const res = await CoreAPI.getRefreshToken({});
-  if (res.statusCode === 401) {
-    // TODO: 로그인 초기화시키는 로직 추가
+  if (res.statusCode === 201) {
+    setTokenWhenLogin(res.accessToken, res.refreshToken);
     return ky(request);
   }
-  setTokenWhenLogin(res.accessToken, res.refreshToken);
+  await CoreAPI.logout({});
   return ky(request);
 };
