@@ -36,12 +36,16 @@ const useModal = ({
   const Modalcontent = () => {
     switch (modalType) {
       case 'standard':
-        const buttonTxtColor: colorsType[] =
-          buttons.length === 1
-            ? ['grey130']
-            : buttons.length === 2
-            ? ['primaryBrand', 'grey90']
-            : ['primaryBrand', 'grey130', 'grey90'];
+        const buttonTxtColor: colorsType[] = (function () {
+          switch (buttons.length) {
+            case 1:
+              return ['grey130'];
+            case 2:
+              return ['primaryBrand', 'grey90'];
+            default:
+              return ['primaryBrand', 'grey130', 'grey90'];
+          }
+        })();
 
         return (
           <>
@@ -254,7 +258,6 @@ const S = {
       align-items: center;
     `,
   },
-
   menuModalContainer: styled.View``,
 };
 
