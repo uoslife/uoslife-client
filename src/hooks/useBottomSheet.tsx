@@ -4,14 +4,14 @@ import {View} from 'react-native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import ToggleSwitch from '../components/toggleSwitch/ToggleSwitch';
 
-type CheckOption = {
+type CheckOptionType = {
   text: string;
   supportingText?: string;
   checkBtnAdditionalHandler?: () => void; // 체크박스 영역 터치시 추가로 실행
   bodyAreaPressHandler: () => void; // 텍스트 + 화살표 영역 터치시 실행
 };
 
-type ToggleOption = {
+type ToggleOptionType = {
   text: string;
   initialIsOn: boolean; // toggle의 경우 isOn의 초깃값을 필요로 함
   pressAdditionalHandler?: () => void;
@@ -28,13 +28,13 @@ type BottomSheetHookParams = {
   | {
       bottomSheetType: 'checkbox';
       title?: undefined;
-      entireSelectOption: CheckOption; // "전체 선택"을 위한 옵션
-      checkOptions: CheckOption[]; // 이외 약관들
+      entireSelectOption: CheckOptionType; // "전체 선택"을 위한 옵션
+      checkOptions: CheckOptionType[]; // 이외 약관들
     }
   | {
       bottomSheetType: 'toggle';
       title: string;
-      toggleOptions: ToggleOption[];
+      toggleOptions: ToggleOptionType[];
     }
 );
 
@@ -43,8 +43,8 @@ const CheckboxContent = ({
   checkOptions,
   setStatesToExport,
 }: {
-  entireSelectOption: CheckOption;
-  checkOptions: CheckOption[];
+  entireSelectOption: CheckOptionType;
+  checkOptions: CheckOptionType[];
   setStatesToExport: React.Dispatch<React.SetStateAction<StatesToExport>>;
 }) => {
   const optionLength = checkOptions.length;
@@ -146,7 +146,7 @@ const ToggleContent = ({
   title,
   setStatesToExport,
 }: {
-  toggleOptions: ToggleOption[];
+  toggleOptions: ToggleOptionType[];
   title: string;
   setStatesToExport: React.Dispatch<React.SetStateAction<StatesToExport>>;
 }) => {
