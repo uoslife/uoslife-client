@@ -64,6 +64,7 @@ const CheckboxContent = ({
   return (
     <S.checkbox.wrapper>
       <S.checkbox.itemContainer
+        paddingTop={8}
         borderColor={checkedAll ? colors.primaryBrand : colors.grey40}
         borderBottomWidth={checkedAll ? 2 : 1}
         isFirst>
@@ -141,15 +142,17 @@ const CheckboxContent = ({
   );
 };
 
+type ToggleContentType = {
+  toggleOptions: ToggleOptionType[];
+  title: string;
+  setStatesToExport: React.Dispatch<React.SetStateAction<StatesToExport>>;
+};
+
 const ToggleContent = ({
   toggleOptions,
   title,
   setStatesToExport,
-}: {
-  toggleOptions: ToggleOptionType[];
-  title: string;
-  setStatesToExport: React.Dispatch<React.SetStateAction<StatesToExport>>;
-}) => {
+}: ToggleContentType) => {
   const [isOnArray, setIsOnArray] = useState<boolean[]>(
     toggleOptions.map(option => option.initialIsOn),
   );
@@ -187,9 +190,9 @@ const ToggleContent = ({
 };
 
 type StatesToExport = {
-  isCheckedArray?: any;
-  checkedAll?: any;
-  isOnArray?: any;
+  checkedAll?: boolean;
+  isCheckedArray?: boolean[];
+  isOnArray?: boolean[];
 };
 
 // 모달은 항상 바텀시트보다 위에 있습니다.
@@ -321,37 +324,34 @@ const S = {
           isFirst: true;
           borderColor: string;
           borderBottomWidth: number;
+          paddingTop: number;
         }
       | {
           isFirst?: false;
           borderColor?: unknown;
           borderBottomWidth?: unknown;
+          paddingTop?: unknown;
         }
     >`
-      display: flex;
       flex-direction: row;
       gap: 4px;
 
-      padding-left: 8px;
-      padding-right: 16px;
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding: 8px 16px 8px 8px;
 
       width: 100%;
 
-      ${({isFirst, borderColor, borderBottomWidth}) =>
+      ${({isFirst, borderColor, borderBottomWidth, paddingTop}) =>
         isFirst
-          ? // 레이아웃 가라앉음 방지를 위한 border에 따라 margin 조정
-            `margin-bottom: ${
-              8 - borderBottomWidth
-            }px; border-bottom-width: ${borderBottomWidth}px; border-color: ${borderColor};`
+          ? // 레이아웃 가라앉음 방지를 위해 border에 따라 margin 조정
+            `margin-bottom: ${paddingTop - borderBottomWidth}px; 
+            border-bottom-width: ${borderBottomWidth}px; 
+            border-color: ${borderColor};`
           : ''}
     `,
     checkIconContainer: styled.Pressable`
       padding: 8px;
     `,
     itemBody: styled.Pressable`
-      display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;

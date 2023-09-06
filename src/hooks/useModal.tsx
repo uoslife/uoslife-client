@@ -33,7 +33,7 @@ const useModal = ({
   const [modalCloseOnBgPress, setModalCloseOnBgPress] =
     useState<boolean>(false);
 
-  const Modalcontent = () => {
+  const ModalcontentComponent = () => {
     switch (modalType) {
       case 'standard':
         const buttonTxtColor: colorsType[] = (function () {
@@ -79,21 +79,25 @@ const useModal = ({
                 typograph={'bodySmall'}
               />
             </S.standard.top>
-            {buttons.map((btn, i) => (
-              <S.standard.btn
-                borderColor={colors.grey40}
-                onPress={() => {
-                  if (btn.onPress) btn.onPress();
-                  if (btn.closeAfterPressed) setModalOpened(false);
-                }}
-                key={i}>
-                <Txt
-                  color={buttonTxtColor[i]}
-                  label={btn.text}
-                  typograph={'bodyMedium'}
-                />
-              </S.standard.btn>
-            ))}
+            {buttons.map((btn, i) => {
+              const onPressBtn = () => {
+                if (btn.onPress) btn.onPress();
+                if (btn.closeAfterPressed) setModalOpened(false);
+              };
+
+              return (
+                <S.standard.btn
+                  borderColor={colors.grey40}
+                  onPress={onPressBtn}
+                  key={i}>
+                  <Txt
+                    color={buttonTxtColor[i]}
+                    label={btn.text}
+                    typograph={'bodyMedium'}
+                  />
+                </S.standard.btn>
+              );
+            })}
           </>
         );
       case 'menu':
@@ -146,7 +150,7 @@ const useModal = ({
               }}
             />
             <S.modalContainer zIndex={10}>
-              <Modalcontent />
+              <ModalcontentComponent />
             </S.modalContainer>
           </S.modalWrapper>
         )
