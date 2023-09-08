@@ -6,7 +6,7 @@ import {useSetAtom} from 'jotai';
 import Header from '../../../components/header/Header';
 import {Txt, Button, colors} from '@uoslife/design-system';
 
-const DUMMY_ID_LIST = ['아이디1', '아이디2', '아이디3', '아이디4'];
+const DUMMY_ID_LIST = ['아이디1', '아이디2', '아이디3', '아이디4']; // TODO: ATOM으로 관리
 
 const AccountIntegrationScreen = () => {
   const [selectedId, setSelectedId] = useState<string>('아이디1');
@@ -24,7 +24,20 @@ const AccountIntegrationScreen = () => {
 
   return (
     <S.screenContainer>
-      <Header label={'계정 통합'} />
+      <Header
+        label={'계정 통합'}
+        onPressBackButton={() =>
+          setAccountStatus(prev => {
+            return {
+              ...prev,
+              stepStatus: {
+                userType: 'NONE',
+                step: 0,
+              },
+            };
+          })
+        }
+      />
       <S.accountIntegrationContainer>
         <View style={{gap: 24}}>
           <View style={{gap: 8}}>

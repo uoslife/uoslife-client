@@ -5,6 +5,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Txt} from '@uoslife/design-system';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type MyPageNavigatorItem = {
   name: string;
@@ -14,6 +15,7 @@ type MyPageNavigatorItem = {
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
+  const insets = useSafeAreaInsets();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
 
   const MY_PAGE_NAVIGATION_ITEM: MyPageNavigatorItem[] = [
@@ -30,7 +32,7 @@ const MypageMainScreen = ({
   ];
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'MY Page'} onPressBackButton={() => console.log('hi')} />
       <S.myProfileContainer>
         <S.myProfileBox>

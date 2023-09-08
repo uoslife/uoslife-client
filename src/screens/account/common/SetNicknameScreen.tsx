@@ -1,13 +1,15 @@
 import styled from '@emotion/native';
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {useSetAtom} from 'jotai';
+import {useAtom} from 'jotai';
 import {accountStatusAtom} from '..';
 import {Button, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
@@ -15,11 +17,14 @@ export type SetNickNameScreenProps = StackScreenProps<
 >;
 
 const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+  const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
+
   const isMyPage = route?.params.isMyPage;
   const [inputValue, setInputValue] = useState('');
   const [statusMessage, setStatusMessage] = useState<string>('');
 
-  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const [accountStatus, setAccountStatus] = useAtom(accountStatusAtom);
   const handleButton = () => {
     setAccountStatus(prev => {
       return {
@@ -44,8 +49,36 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
 
   return (
     <>
-      <S.screenContainer>
-        <Header label={isMyPage ? '닉네임 변경' : '닉네임 설정'} />
+      <S.screenContainer style={{paddingTop: insets.top}}>
+        <Header
+          label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
+          onPressBackButton={() => {
+            if (isMyPage) return navigation.goBack();
+            switch (accountStatus.stepStatus.userType) {
+              case 'EXISTED':
+                setAccountStatus(prev => {
+                  return {
+                    ...prev,
+                    stepStatus: {
+                      userType: 'EXISTED',
+                      step: 0,
+                    },
+                  };
+                });
+                break;
+              case 'NEW':
+                setAccountStatus(prev => {
+                  return {
+                    ...prev,
+                    stepStatus: {
+                      userType: 'NONE',
+                      step: 0,
+                    },
+                  };
+                });
+            }
+          }}
+        />
         <S.setNicknameContainer>
           <View style={{gap: 32}}>
             <View style={{gap: 8}}>
