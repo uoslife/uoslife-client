@@ -15,6 +15,7 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
           const result = await launchImageLibrary({
             mediaType: 'photo',
           });
+          if (result.didCancel) return null;
           setPhotoValue(result.assets![0].uri ?? '');
         } catch (e) {
           console.error(e);
@@ -29,6 +30,7 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
             mediaType: 'photo',
             cameraType: 'back',
           });
+          if (result.didCancel) return null;
           setPhotoValue(result.assets![0].uri ?? '');
         } catch (e) {
           console.error(e);
