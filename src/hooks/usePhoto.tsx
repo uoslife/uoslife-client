@@ -40,11 +40,16 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
   };
 
   const selectPhoto = () => {
-    Alert.alert('사진 변경', '', [
-      {text: '취소', style: 'cancel'},
-      imagePickerType.launchImageLibrary,
-      imagePickerType.launchCamera,
-    ]);
+    Alert.alert(
+      '사진 변경',
+      '',
+      [
+        {text: '취소', style: 'cancel'},
+        imagePickerType.launchImageLibrary,
+        imagePickerType.launchCamera,
+      ],
+      {cancelable: true},
+    );
   };
 
   return [photoValue, selectPhoto];
