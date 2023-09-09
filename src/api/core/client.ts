@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {handleToken} from './afterResponse';
 import {setAuthorizationHeader} from './beforeRequest';
+import {beforeError} from './beforeError';
 
 export const apiClient = ky.create({
   timeout: 10 * 1000,
@@ -13,6 +14,7 @@ export const apiClient = ky.create({
   hooks: {
     beforeRequest: [setAuthorizationHeader],
     afterResponse: [handleToken],
+    beforeError: [beforeError],
   },
 });
 
