@@ -16,6 +16,7 @@ import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
 import setTokenWhenLogin from '../../../utils/setTokenWhenLogin';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ErrorResponseType} from '../../../api/services/type';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -123,9 +124,6 @@ const VerificationScreen = () => {
       setInputValue('');
     } catch (error) {
       showErrorMessage(error);
-      // setStoredPhoneNumber(inputValue);
-      // setIsVerificationCodeSent(true);
-      // setInputValue('');
     }
   };
 
@@ -139,13 +137,22 @@ const VerificationScreen = () => {
         code: inputValue,
       });
       console.info(smsVerificationRes);
-    } catch (error) {
-      console.info(error);
-      setInputMessageStatus('NOT_MATCHING_CODE');
-      return;
+    } catch (err) {
+      const error = err as ErrorResponseType;
+      const {code} = error;
+      switch (code) {
+        case 'S02':
+          setInputMessageStatus('REQUEST_EXCEED');
+          return;
+        case 'S03':
+          setInputMessageStatus('NOT_MATCHING_CODE');
+          return;
+        default:
+          return;
+      }
     }
     const userType = await checkUserTypeBeforeRedirect();
-
+    console.log(userType);
     setIsVerificationCodeSent(false); // state 초기화
     setStoredPhoneNumber(''); // state 초기화
     if (userType === 'NONE') {
@@ -163,8 +170,8 @@ const VerificationScreen = () => {
         },
       };
     });
-    // } catch (error) {
-    //   showErrorMessage(error);
+    return;
+
     // TODO: 아래 코드는 api 연결 완료시 삭제
     // setIsVerificationCodeSent(false);
     // setStoredPhoneNumber('');
