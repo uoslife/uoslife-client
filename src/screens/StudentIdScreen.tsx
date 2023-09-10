@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {StyleSheet, View, Dimensions, Platform} from 'react-native';
+import {StyleSheet, View, Platform} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 
@@ -79,14 +79,12 @@ const StudentIdComponent = () => {
           <S.uoslifeLogoWrapper>
             <S.uoslifeBrandLogo
               source={require('../assets/images/uoslifeBrandLogo.png')}
-              // TODO 디자인시스템에서 로고 가져오기.
               style={Style.imageScale}
             />
           </S.uoslifeLogoWrapper>
           <S.iroomaeCharacterImageWrapper>
             <S.iroomaeCharacterImage
               source={require('../assets/images/iroomae_character.png')}
-              // TODO 디자인시스템에서 로고 가져오기
             />
           </S.iroomaeCharacterImageWrapper>
           <S.infoContainer>
@@ -105,7 +103,6 @@ const StudentIdComponent = () => {
               </View>
               <S.uosLogoImage
                 source={require('../assets/images/uos_logo_grey.png')}
-                // TODO 디자인 시스템에서 로고 가져오기
               />
             </View>
             <View style={{gap: 8}}>
