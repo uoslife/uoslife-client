@@ -54,7 +54,7 @@ const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MyPageAccountStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
-  const [selectedPhoto, openPhotoSelectionAlert] = usePhoto('');
+  const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
 
   const handleUpdateProfileImage = async () => {
@@ -201,11 +201,11 @@ const MypageProfileScreen = () => {
               <S.userCircleImageWrapper>
                 <S.userImage
                   source={
-                    selectedPhoto
-                      ? {uri: selectedPhoto}
+                    selectedPhotoUri
+                      ? {uri: selectedPhotoUri}
                       : require('../../../assets/images/user.png')
                   }
-                  selectedPhoto={!!selectedPhoto}
+                  selectedPhotoUri={!!selectedPhotoUri}
                 />
               </S.userCircleImageWrapper>
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
@@ -312,9 +312,9 @@ const S = {
     top: 120px;
     left: 120px;
   `,
-  userImage: styled.Image<{selectedPhoto: boolean}>`
-    width: ${({selectedPhoto}) => (selectedPhoto ? '100%' : '60px')};
-    height: ${({selectedPhoto}) => (selectedPhoto ? '100%' : '60px')};
+  userImage: styled.Image<{selectedPhotoUri: boolean}>`
+    width: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
+    height: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
   `,
   cameraImage: styled.Image`
     width: 13px;

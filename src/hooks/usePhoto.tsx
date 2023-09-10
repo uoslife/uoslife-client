@@ -4,13 +4,13 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 type PhotoHookReturnType = [string, () => void];
 
-const usePhoto = (initialValue: string): PhotoHookReturnType => {
-  const [photoValue, setPhotoValue] = useState(initialValue);
+const usePhoto = (initUri: string): PhotoHookReturnType => {
+  const [selectedPhotoUri, setPhotoUri] = useState(initUri);
 
   const selectPhotoFromLibrary = async () => {
     try {
       const result = await launchImageLibrary({mediaType: 'photo'});
-      if (!result.didCancel) setPhotoValue(result.assets![0].uri ?? '');
+      if (!result.didCancel) setPhotoUri(result.assets![0].uri ?? '');
     } catch (e) {
       console.error(e);
     }
@@ -22,7 +22,7 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
         mediaType: 'photo',
         cameraType: 'back',
       });
-      if (!result.didCancel) setPhotoValue(result.assets![0].uri ?? '');
+      if (!result.didCancel) setPhotoUri(result.assets![0].uri ?? '');
     } catch (e) {
       console.error(e);
     }
@@ -37,7 +37,7 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
   const openPhotoSelectionAlert = () =>
     Alert.alert('사진 변경', '', selectPhotoOptions, {cancelable: true});
 
-  return [photoValue, openPhotoSelectionAlert];
+  return [selectedPhotoUri, openPhotoSelectionAlert];
 };
 
 export default usePhoto;
