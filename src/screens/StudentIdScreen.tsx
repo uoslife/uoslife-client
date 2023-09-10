@@ -42,27 +42,32 @@ const PortalUnauthorizedComponent = () => {
 };
 
 const StudentIdComponent = () => {
-  const [time, setTime] = useState('');
-  const currentTime = () => {
+  const [currentTime, setCurrentTime] = useState('');
+
+  const getCurrentTime = () => {
     let today = new Date();
     let hours = ('0' + today.getHours()).slice(-2);
     let minutes = ('0' + today.getMinutes()).slice(-2);
     let seconds = ('0' + today.getSeconds()).slice(-2);
     let timeString = hours + ':' + minutes + ':' + seconds;
 
-    setTime(timeString);
+    setCurrentTime(timeString);
   };
 
   useEffect(() => {
-    setInterval(currentTime);
-  }, [time, setTime]);
+    setInterval(getCurrentTime);
+  }, [currentTime, setCurrentTime]);
 
   return (
     <S.studentIdScreen>
       <View style={{gap: 24}}>
         <S.qrWrapper>
           <S.qrImage source={require('../assets/images/qr_example.png')} />
-          <Txt label={time} color={'grey190'} typograph={'titleMedium'} />
+          <Txt
+            label={currentTime}
+            color={'grey190'}
+            typograph={'titleMedium'}
+          />
         </S.qrWrapper>
         <S.paycoButton>
           <Txt label={'PAYCO'} color={'red'} typograph={'titleSmall'} />
