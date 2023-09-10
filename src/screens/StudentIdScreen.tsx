@@ -4,15 +4,6 @@ import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 
 const PortalUnauthorizedComponent = () => {
-  const SCREEN_SIDE_PADDING = 32;
-  const IMAGE_WIDTH = 328;
-  const IMAGE_HEIGHT = 160;
-  const RESPONSIVE_IMAGE_WIDTH =
-    Dimensions.get('window').width - SCREEN_SIDE_PADDING;
-  const HEIGHT_RATIO = RESPONSIVE_IMAGE_WIDTH / IMAGE_WIDTH;
-  const RESPONSIVE_IMAGE_HEIGHT = IMAGE_HEIGHT * HEIGHT_RATIO;
-  // 핸드폰 크기에 따른 로고 크기 설정
-
   const handleNavigatePortalAuthenticate = async () => {
     // TODO bottomTab 포탈 인증 페이지를 stack으로 만든 navigator 추가 필요.
   };
@@ -21,7 +12,6 @@ const PortalUnauthorizedComponent = () => {
     <S.portalUnauthorizedScreen>
       <S.uoslifeBrandLogo
         source={require('../assets/images/uoslifeBrandLogo.png')}
-        style={{width: RESPONSIVE_IMAGE_WIDTH, height: RESPONSIVE_IMAGE_HEIGHT}}
       />
       <View style={{gap: 8, alignItems: 'center'}}>
         <Txt
@@ -162,13 +152,11 @@ const StudentIdScreen = () => {
 
   return (
     <>
-      <S.screenContainer>
-        {isPortalAuthenticated ? (
-          <StudentIdComponent />
-        ) : (
-          <PortalUnauthorizedComponent />
-        )}
-      </S.screenContainer>
+      {isPortalAuthenticated ? (
+        <StudentIdComponent />
+      ) : (
+        <PortalUnauthorizedComponent />
+      )}
     </>
   );
 };
@@ -184,8 +172,11 @@ const S = {
     gap: 24px;
     padding: 160px 16px 0 16px;
   `,
-  uoslifeBrandLogo: styled.Image``,
-  studentIdScreen: styled.View`
+  uoslifeBrandLogo: styled.Image`
+    width: 100%;
+    height: 25%;
+  `,
+  studentIdScreen: styled.ScrollView`
     flex: 1;
     gap: 32px;
     padding: 40px 16px 0 16px;
