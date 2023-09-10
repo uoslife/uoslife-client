@@ -7,7 +7,7 @@ type PhotoHookReturnType = [string, () => void];
 const usePhoto = (initialValue: string): PhotoHookReturnType => {
   const [photoValue, setPhotoValue] = useState(initialValue);
 
-  const selectImageFromLibrary = async () => {
+  const selectPhotoFromLibrary = async () => {
     try {
       const result = await launchImageLibrary({mediaType: 'photo'});
       if (!result.didCancel) setPhotoValue(result.assets![0].uri ?? '');
@@ -30,14 +30,14 @@ const usePhoto = (initialValue: string): PhotoHookReturnType => {
 
   const selectPhotoOptions: AlertButton[] = [
     {text: '취소', style: 'cancel'},
-    {text: '사진 보관함', onPress: selectImageFromLibrary},
+    {text: '사진 보관함', onPress: selectPhotoFromLibrary},
     {text: '사진 찍기', onPress: takePhotoWithCamera},
   ];
 
-  const selectPhoto = () =>
+  const openPhotoSelectionAlert = () =>
     Alert.alert('사진 변경', '', selectPhotoOptions, {cancelable: true});
 
-  return [photoValue, selectPhoto];
+  return [photoValue, openPhotoSelectionAlert];
 };
 
 export default usePhoto;
