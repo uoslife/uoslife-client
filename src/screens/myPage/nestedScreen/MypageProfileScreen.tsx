@@ -8,6 +8,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
+import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type MyAccountNavigatorItem = {
@@ -37,10 +38,6 @@ const portalAccountInformationKeyArray: string[] = Object.keys(
   PORTAL_ACCOUNT_DUMMY_DATA[0],
 );
 
-const addProfileImage = () => {
-  // add profile image
-};
-
 const PortalAccountInformationList = ({
   name,
   value,
@@ -57,7 +54,12 @@ const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MyPageAccountStackParamList>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
+  const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const {openModal, closeModal, renderModal, setModalContent} = useModal();
+
+  const handleUpdateProfileImage = async () => {
+    openPhotoSelectionAlert();
+  };
   const handlePortalAccountPress = () => {
     if (isPortalAuthenticated) {
       setModalContent(
@@ -117,6 +119,7 @@ const MypageProfileScreen = () => {
     );
     openModal();
   };
+
   const myAccountNavigatorItems: MyAccountNavigatorItem[] = [
     {
       name: '닉네임 변경',
@@ -192,10 +195,17 @@ const MypageProfileScreen = () => {
         <Header label={'MY Page'} />
         <S.myProfileContainer>
           <S.myProfileBox>
-            <Pressable onPress={addProfileImage} style={{paddingBottom: 64}}>
+            <Pressable
+              onPress={handleUpdateProfileImage}
+              style={{paddingBottom: 64}}>
               <S.userCircleImageWrapper>
                 <S.userImage
-                  source={require('../../../assets/images/user.png')}
+                  source={
+                    selectedPhotoUri
+                      ? {uri: selectedPhotoUri}
+                      : require('../../../assets/images/user.png')
+                  }
+                  selectedPhotoUri={!!selectedPhotoUri}
                 />
               </S.userCircleImageWrapper>
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
@@ -288,6 +298,7 @@ const S = {
     border: 1px solid #a6a6a6;
     border-radius: 80px;
     position: relative;
+    overflow: hidden;
   `,
   cameraCircleImageWrapper: styled.View`
     background-color: #d9d9d9;
@@ -301,9 +312,9 @@ const S = {
     top: 120px;
     left: 120px;
   `,
-  userImage: styled.Image`
-    width: 60px;
-    height: 60px;
+  userImage: styled.Image<{selectedPhotoUri: boolean}>`
+    width: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
+    height: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
   `,
   cameraImage: styled.Image`
     width: 13px;
