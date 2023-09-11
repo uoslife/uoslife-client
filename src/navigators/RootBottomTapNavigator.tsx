@@ -4,7 +4,7 @@ import {
   BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
 import MainScreen from '../screens/MainScreen';
-import StudentIdScreen from '../screens/StudentIdScreen';
+import StudentIdStackNavigator from '../navigators/StudentIdStackNavigator';
 import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
 import {Icon, Txt} from '@uoslife/design-system';
 import {Platform, StyleSheet} from 'react-native';
@@ -34,7 +34,7 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     icon: 'menu',
   },
   {
-    component: StudentIdScreen,
+    component: StudentIdStackNavigator,
     screenName: 'StudentId',
     label: '학생증',
     icon: 'studentId',
@@ -44,7 +44,6 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     screenName: 'UoslifeMeeting',
     label: '시대팅',
     icon: 'heart',
-    // TODO menu 아이콘 heart 아이콘으로 바꾸기.
   },
 ];
 

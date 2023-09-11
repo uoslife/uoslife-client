@@ -2,10 +2,14 @@ import styled from '@emotion/native';
 import {StyleSheet, View, Platform, ScrollView} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/core';
+import {StudentIdStackParamList} from '../navigators/StudentIdStackNavigator';
 
 const PortalUnauthorizedComponent = () => {
+  const navigation = useNavigation<StudentIdStackParamList>();
+
   const handleNavigatePortalAuthenticate = async () => {
-    // TODO bottomTab 포탈 인증 페이지를 stack으로 만든 navigator 추가 필요.
+    return navigation.navigate('StudentId_portalAuthentication');
   };
 
   return (
