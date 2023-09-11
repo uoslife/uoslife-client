@@ -17,7 +17,7 @@ export type RootTabParamList = {
 
 type TabScreenItemType = {
   label: string;
-  icon: 'menu' | 'studentId';
+  icon: 'menu' | 'studentId' | 'heart';
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
 };
@@ -43,7 +43,7 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     component: UoslifeMeetingScreen,
     screenName: 'UoslifeMeeting',
     label: '시대팅',
-    icon: 'menu',
+    icon: 'heart',
     // TODO menu 아이콘 heart 아이콘으로 바꾸기.
   },
 ];
