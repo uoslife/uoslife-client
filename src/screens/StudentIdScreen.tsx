@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {StyleSheet, View, Platform} from 'react-native';
+import {StyleSheet, View, Platform, ScrollView} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 
@@ -59,88 +59,94 @@ const StudentIdComponent = () => {
   }, [currentTime, setCurrentTime]);
 
   return (
-    <S.studentIdScreen>
-      <View style={{gap: 24}}>
-        <S.qrWrapper>
-          <S.qrImage source={require('../assets/images/qr_example.png')} />
-          <Txt
-            label={currentTime}
-            color={'grey190'}
-            typograph={'titleMedium'}
-          />
-        </S.qrWrapper>
-        <S.paycoButton>
-          <Txt label={'PAYCO'} color={'red'} typograph={'titleSmall'} />
-          <Txt label={' 바로가기'} color={'grey190'} typograph={'bodyLarge'} />
-        </S.paycoButton>
-      </View>
-      <View style={Style.boxShadow}>
-        <S.studentInformationWrapper>
-          <S.uoslifeLogoWrapper>
-            <S.uoslifeBrandLogo
-              source={require('../assets/images/uoslifeBrandLogo.png')}
-              style={Style.imageScale}
+    <ScrollView>
+      <S.studentIdScreen>
+        <View style={{gap: 24}}>
+          <S.qrWrapper>
+            <S.qrImage source={require('../assets/images/qr_example.png')} />
+            <Txt
+              label={currentTime}
+              color={'grey190'}
+              typograph={'titleMedium'}
             />
-          </S.uoslifeLogoWrapper>
-          <S.iroomaeCharacterImageWrapper>
-            <S.iroomaeCharacterImage
-              source={require('../assets/images/iroomae_character.png')}
+          </S.qrWrapper>
+          <S.paycoButton>
+            <Txt label={'PAYCO'} color={'red'} typograph={'titleSmall'} />
+            <Txt
+              label={' 바로가기'}
+              color={'grey190'}
+              typograph={'bodyLarge'}
             />
-          </S.iroomaeCharacterImageWrapper>
-          <S.infoContainer>
-            <View style={{gap: 16}}>
-              <View style={{gap: 4}}>
-                <Txt
-                  label={'한유민'}
-                  color={'grey190'}
-                  typograph={'headlineMedium'}
-                />
-                <Txt
-                  label={'2022280085'}
-                  color={'grey190'}
-                  typograph={'titleMedium'}
-                />
-              </View>
-              <S.uosLogoImage
-                source={require('../assets/images/uos_logo_grey.png')}
+          </S.paycoButton>
+        </View>
+        <View style={Style.boxShadow}>
+          <S.studentInformationWrapper>
+            <S.uoslifeLogoWrapper>
+              <S.uoslifeBrandLogo
+                source={require('../assets/images/uoslifeBrandLogo.png')}
+                style={Style.imageScale}
               />
-            </View>
-            <View style={{gap: 8}}>
-              <View>
-                <Txt
-                  label={'소속대학'}
-                  color={'grey130'}
-                  typograph={'bodyMedium'}
-                />
-                <Txt
-                  label={'정경대학'}
-                  color={'grey190'}
-                  typograph={'bodyLarge'}
+            </S.uoslifeLogoWrapper>
+            <S.iroomaeCharacterImageWrapper>
+              <S.iroomaeCharacterImage
+                source={require('../assets/images/iroomae_character.png')}
+              />
+            </S.iroomaeCharacterImageWrapper>
+            <S.infoContainer>
+              <View style={{gap: 16}}>
+                <View style={{gap: 4}}>
+                  <Txt
+                    label={'한유민'}
+                    color={'grey190'}
+                    typograph={'headlineMedium'}
+                  />
+                  <Txt
+                    label={'2022280085'}
+                    color={'grey190'}
+                    typograph={'titleMedium'}
+                  />
+                </View>
+                <S.uosLogoImage
+                  source={require('../assets/images/uos_logo_grey.png')}
                 />
               </View>
-              <View>
-                <Txt
-                  label={'소속학과'}
-                  color={'grey130'}
-                  typograph={'bodyMedium'}
-                />
+              <View style={{gap: 8}}>
+                <View>
+                  <Txt
+                    label={'소속대학'}
+                    color={'grey130'}
+                    typograph={'bodyMedium'}
+                  />
+                  <Txt
+                    label={'정경대학'}
+                    color={'grey190'}
+                    typograph={'bodyLarge'}
+                  />
+                </View>
+                <View>
+                  <Txt
+                    label={'소속학과'}
+                    color={'grey130'}
+                    typograph={'bodyMedium'}
+                  />
 
-                <Txt
-                  label={'전기전자컴퓨터공학부'}
-                  color={'grey190'}
-                  typograph={'bodyLarge'}
-                />
+                  <Txt
+                    label={'전기전자컴퓨터공학부'}
+                    color={'grey190'}
+                    typograph={'bodyLarge'}
+                  />
+                </View>
               </View>
-            </View>
-          </S.infoContainer>
-        </S.studentInformationWrapper>
-      </View>
-      <Txt
-        label={'위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다.'}
-        color={'grey90'}
-        typograph={'caption'}
-      />
-    </S.studentIdScreen>
+            </S.infoContainer>
+          </S.studentInformationWrapper>
+        </View>
+        <Txt
+          label={'위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다.'}
+          color={'grey90'}
+          typograph={'caption'}
+        />
+      </S.studentIdScreen>
+    </ScrollView>
   );
 };
 
@@ -148,7 +154,7 @@ const StudentIdScreen = () => {
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsPortalAuthenticated(true);
+    setIsPortalAuthenticated(false);
     // api 또는 전역에서 학생증 인증 여부 확인
   }, []);
 
@@ -178,7 +184,7 @@ const S = {
     width: 100%;
     height: 25%;
   `,
-  studentIdScreen: styled.ScrollView`
+  studentIdScreen: styled.View`
     flex: 1;
     gap: 32px;
     padding: 40px 16px 0 16px;
