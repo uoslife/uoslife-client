@@ -45,11 +45,15 @@ const MainScreen = () => {
                 color={'white'}
                 typograph={'headlineMedium'}
               />
-              <Txt
-                label={'환영합니다'}
-                color={'white'}
-                typograph={'headlineMedium'}
-              />
+              <S.WelcomeMessage
+                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                <Txt
+                  label={'환영합니다'}
+                  color={'white'}
+                  typograph={'headlineMedium'}
+                />
+                <Icon name={'uoslife'} width={20} height={6} color={'white'} />
+              </S.WelcomeMessage>
             </View>
             <Txt
               label={'OO아 힘을 내, 파이팅 넌 할 수 있어!'}
@@ -103,7 +107,11 @@ const S = {
     flex-direction: column;
     gap: 48px;
   `,
-
+  WelcomeMessage: styled.View`
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+  `,
   MypageButton: styled.Pressable`
     position: absolute;
     top: 16px;
