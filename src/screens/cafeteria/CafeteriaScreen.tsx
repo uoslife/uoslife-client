@@ -7,6 +7,7 @@ import CafeteriaCard from '../../components/molecules/cafeteria/card/CafeteriaCa
 import {Icon, Txt} from '@uoslife/design-system';
 import {Pressable} from 'react-native';
 import DatePaginationBar from '../../components/molecules/cafeteria/pagination/DatePaginationBar';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type CafeteriaItem = {
   corner?: string;
@@ -20,6 +21,7 @@ export type CafeteriaItem = {
 export type DatePaginationItem = {};
 
 const CafeteriaScreen = () => {
+  const insets = useSafeAreaInsets();
   const [activeIcon, setActiveIcon] = useState('lunch');
 
   // api example
@@ -77,7 +79,7 @@ const CafeteriaScreen = () => {
   ];
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'학식'} />
       <ScrollView>
         <S.bodyContainer>

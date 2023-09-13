@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {NativeModules, Platform, StatusBar} from 'react-native';
+import React from 'react';
 import {atom, useAtomValue} from 'jotai';
 
 import VerificationScreen from './common/VerificationScreen';
@@ -8,6 +7,7 @@ import AccountMainScreen from './AccountMainScreen';
 import NewUserScreen from './newUserScreenContainer';
 import ExistedUserScreen from './existedUserScreenContainer';
 import PortalAuthScreenContainer from './portalAuthScreenContainer';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type BaseStatusType = 'DEFAULT' | 'ONPROGRESS';
 export type UserType = 'NONE' | 'NEW' | 'EXISTED';
@@ -29,13 +29,6 @@ export const accountStatusAtom = atom<AccountStatusType>({
 });
 
 const AccountScreenContainer = () => {
-  const {StatusBarManager} = NativeModules;
-  const STATUS_BAR_HEIGHT =
-    Platform.OS === 'android'
-      ? StatusBar.currentHeight
-      : StatusBarManager.HEIGHT;
-  // TODO: status bar height 구하는 로직 hook으로 뺴기
-
   const accountStatus = useAtomValue(accountStatusAtom);
 
   const handleAccountScreen = (accountStatus: AccountStatusType) => {
@@ -55,9 +48,7 @@ const AccountScreenContainer = () => {
     }
   };
   return (
-    <S.AccountContainer
-      contentContainerStyle={{flex: 1}}
-      style={{paddingTop: STATUS_BAR_HEIGHT}}>
+    <S.AccountContainer contentContainerStyle={{flex: 1}}>
       {handleAccountScreen(accountStatus)}
     </S.AccountContainer>
   );

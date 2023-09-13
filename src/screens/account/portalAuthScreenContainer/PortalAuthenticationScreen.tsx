@@ -6,8 +6,10 @@ import {Txt, Button, colors} from '@uoslife/design-system';
 import {Pressable, View} from 'react-native';
 import {useSetAtom} from 'jotai';
 import {accountStatusAtom} from '..';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const PortalAuthenticationScreen = () => {
+  const insets = useSafeAreaInsets();
   const setAccountStatus = useSetAtom(accountStatusAtom);
 
   const [status, setStatus] = useState('');
@@ -45,7 +47,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
         label="포털 계정 연동"
         onPressBackButton={() =>

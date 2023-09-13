@@ -8,6 +8,7 @@ import {useSetAtom} from 'jotai';
 import {UserType, accountStatusAtom} from '..';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -20,6 +21,7 @@ type WarningStatus =
   | 'TIME_EXPIRED';
 
 const VerificationScreen = () => {
+  const insets = useSafeAreaInsets();
   const setAccountStatus = useSetAtom(accountStatusAtom);
   const [inputValue, setInputValue] = useState('');
   const [storedPhoneNumber, setStoredPhoneNumber] = useState('');
@@ -139,7 +141,7 @@ const VerificationScreen = () => {
   };
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
         label={'전화번호 본인인증'}
         onPressBackButton={handleHeaderBackButton}
