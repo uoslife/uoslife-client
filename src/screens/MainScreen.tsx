@@ -45,8 +45,7 @@ const MainScreen = () => {
                 color={'white'}
                 typograph={'headlineMedium'}
               />
-              <S.WelcomeMessage
-                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+              <S.WelcomeMessage>
                 <Txt
                   label={'환영합니다'}
                   color={'white'}
