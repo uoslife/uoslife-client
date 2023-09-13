@@ -7,13 +7,13 @@ const UoslifeMeetingScreen = () => {
         source={require('../assets/images/uoslifeBrandLogo.png')}
       />
       <S.titleContainer>
-        <S.confettiEmoticon>🎉</S.confettiEmoticon>
+        <S.confettiImage source={require('../assets/images/confetti.png')} />
         <Txt
           label={'시대팅 준비중에 있어요'}
           color={'grey190'}
           typograph={'headlineLarge'}
         />
-        <S.confettiEmoticon>🎉</S.confettiEmoticon>
+        <S.confettiImage source={require('../assets/images/confetti.png')} />
       </S.titleContainer>
     </S.screenContainer>
   );
@@ -36,9 +36,10 @@ const S = {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 7px;
+    gap: 8px;
   `,
-  confettiEmoticon: styled.Text`
-    font-size: 25px;
+  confettiImage: styled.Image`
+    width: 24px;
+    height: 24px;
   `,
 };
