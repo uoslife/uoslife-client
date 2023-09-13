@@ -81,7 +81,6 @@ const MainScreen = () => {
           </MainServiceBox>
         </S.MainWrapper>
       </S.MainContainer>
-      <BottomNavigation />
     </>
   );
 };
