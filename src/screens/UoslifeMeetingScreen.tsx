@@ -4,7 +4,7 @@ const UoslifeMeetingScreen = () => {
   return (
     <S.screenContainer>
       <S.uoslifeBrandLogo
-        source={require('../assets/images/uoslifeBrand작Logo.png')}
+        source={require('../assets/images/uoslifeBrandLogo.png')}
       />
       <S.titleContainer>
         <S.confettiEmoticon>🎉</S.confettiEmoticon>
