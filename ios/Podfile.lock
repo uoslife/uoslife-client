@@ -369,6 +369,8 @@ PODS:
   - React-jsinspector (0.71.10)
   - React-logger (0.71.10):
     - glog
+  - react-native-image-picker (5.6.1):
+    - React-Core
   - react-native-safe-area-context (4.7.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
@@ -519,6 +521,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -613,6 +616,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -709,6 +714,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 4bb480a183a354e4dbfb1012936b1a2bb9357de7
   React-jsinspector: cdc854f8b13abd202afa54bc12578e5afb9cfae1
   React-logger: ef2269b3afa6ba868da90496c3e17a4ec4f4cee0
+  react-native-image-picker: 5fcac5a5ffcb3737837f0617d43fd767249290de
   react-native-safe-area-context: 9697629f7b2cda43cf52169bb7e0767d330648c2
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 289700225ad0377cc6897b59724dfee8af515bf9
