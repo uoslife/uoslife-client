@@ -14,6 +14,7 @@ let App: React.FC = () => {
   useEffect(() => {
     (async () => {
       NotificationService.registerMessageHandler();
+      await NotificationService.onAppRunning();
       await NotificationService.requestNotificationPermissions();
     })();
   }, []);
@@ -24,7 +25,7 @@ let App: React.FC = () => {
         <NavigationContainer theme={customBackgroundTheme}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor="black"
+            backgroundColor="transparent"
             translucent
           />
           <RootStackNavigator />

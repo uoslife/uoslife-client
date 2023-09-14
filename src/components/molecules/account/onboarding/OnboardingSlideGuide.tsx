@@ -5,13 +5,15 @@ import React from 'react';
 type Props = {currentImageLocation: number};
 
 const OnboardingSlideGuide = ({currentImageLocation}: Props) => {
-  const switchIsEnabledStatus = (order: number) =>
-    currentImageLocation === order;
+  const switchIsEnabledStatus = (index: number) =>
+    currentImageLocation === index;
   return (
     <S.Wrapper>
-      <S.Dot isEnabled={switchIsEnabledStatus(0)} />
-      <S.Dot isEnabled={switchIsEnabledStatus(1)} />
-      <S.Dot isEnabled={switchIsEnabledStatus(2)} />
+      {Array(3)
+        .fill(undefined)
+        .map((_value, index) => (
+          <S.Dot key={index} isEnabled={switchIsEnabledStatus(index)} />
+        ))}
     </S.Wrapper>
   );
 };

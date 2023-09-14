@@ -9,6 +9,7 @@ export class NotificationService {
     message: FirebaseMessagingTypes.RemoteMessage,
   ): Promise<string | undefined> {
     if (!message.data) return;
+    // console.log(message.notification);
     return notifee.displayNotification(JSON.parse(message.data.notifee));
   }
 
@@ -41,5 +42,12 @@ export class NotificationService {
 
   static async getNotificationToken(): Promise<string> {
     return messaging().getToken();
+  }
+
+  static async onAppRunning(): Promise<void> {
+    if (Platform.OS === 'ios') messaging().setAPNSToken('app');
+    const token = await NotificationService.getNotificationToken();
+    console.info(token);
+    // TODO: Storage에 token 저장 및 일치하지 않으면 서버로 보내는 로직
   }
 }

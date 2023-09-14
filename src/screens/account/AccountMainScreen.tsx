@@ -3,19 +3,34 @@ import React, {useState} from 'react';
 import {Button} from '@uoslife/design-system';
 
 import {useSetAtom} from 'jotai';
-import {accountStatusAtom} from '.';
+import {accountFlowStatusAtom, accountStatusAtom} from '../../atoms/account';
 import styled from '@emotion/native';
 import OnboardingSlideGuide from '../../components/molecules/account/onboarding/OnboardingSlideGuide';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {NativeSyntheticEvent, NativeScrollEvent, View} from 'react-native';
+import {CoreAPI} from '../../api/services';
+import setTokenWhenLogin from '../../utils/setTokenWhenLogin';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
   const setAccountStatus = useSetAtom(accountStatusAtom);
-  const handleClickAccountButton = () => {
+  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
+
+  const handleTemporaryLoginButtonClick = async () => {
+    const loginRes = await CoreAPI.login({phone: '01012345678'});
+    console.log(loginRes);
+    if (loginRes.statusCode === 201) {
+      setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+    }
     setAccountStatus(prev => {
+      return {...prev, isLogin: true};
+    });
+  };
+
+  const handleClickAccountButton = async () => {
+    setAccountFlowStatus(prev => {
       return {...prev, baseStatus: 'ONPROGRESS'};
     });
   };
@@ -50,12 +65,12 @@ const AccountMainScreen = () => {
       </S.TopWrapper>
       <S.BottomWrapper>
         <Button
-          label={'로그인'}
+          label={'로그인(임시)'}
           isFullWidth
-          onPress={handleClickAccountButton}
+          onPress={handleTemporaryLoginButtonClick}
         />
         <Button
-          label={'회원가입'}
+          label={'시작하기'}
           isFullWidth
           variant="outline"
           onPress={handleClickAccountButton}
