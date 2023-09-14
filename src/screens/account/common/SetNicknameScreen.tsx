@@ -1,29 +1,64 @@
 import styled from '@emotion/native';
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {useAtom} from 'jotai';
-import {accountStatusAtom} from '..';
+import {useAtom, useAtomValue} from 'jotai';
+import {
+  accountFlowStatusAtom,
+  existedAccountInfoAtom,
+} from '../../../atoms/account';
 import {Button, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {useNavigation} from '@react-navigation/native';
+import {CoreAPI} from '../../../api/services';
+import InputProps from '../../../components/forms/input/Input.type';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ErrorResponseType} from '../../../api/services/type';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
   'Mypage_changeNickname'
 >;
 
+type NicknameStatusMessageType =
+  | 'BEFORE_CHECK'
+  | 'CAN_USE'
+  | 'CANNOT_USE'
+  | 'DUPLICATED';
+
 const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const isMyPage = route?.params.isMyPage;
-  const [inputValue, setInputValue] = useState('');
-  const [statusMessage, setStatusMessage] = useState<string>('');
+  const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
+  const [accountStatus, setAccountStatus] = useAtom(accountFlowStatusAtom);
 
-  const [accountStatus, setAccountStatus] = useAtom(accountStatusAtom);
-  const handleButton = () => {
+  const isMyPage = route?.params.isMyPage;
+  const existedNickname = existedAccountInfo.find(
+    item => item.isSelected === true,
+  )?.nickname;
+  const [inputValue, setInputValue] = useState(existedNickname ?? '');
+  const [statusMessage, setStatusMessage] =
+    useState<NicknameStatusMessageType>('BEFORE_CHECK');
+
+  const handleSetNicknameButton = async () => {
+    // TODO: 사용 불가능 닉네임 로직 추가
+    // setStatusMessage('CANNOT_USE');
+
+    try {
+      const res = await CoreAPI.checkDuplicateUserNickname({
+        nickname: inputValue,
+      });
+    } catch (err) {
+      const error = err as ErrorResponseType;
+    }
+    // if (!res.duplicated) {
+    //   setStatusMessage('DUPLICATED');
+    //   return;
+    // }
+    setStatusMessage('CAN_USE');
     setAccountStatus(prev => {
       return {
         ...prev,
@@ -32,22 +67,43 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
     });
   };
 
-  const handleStatusMessage = (status: string) => {
+  const onChangeText = (text: string) => {
+    setInputValue(text);
+    setStatusMessage('BEFORE_CHECK');
+  };
+  const onPressInputDelete = () => {
+    setInputValue('');
+  };
+
+  const handleInputStatusMessage = (status: NicknameStatusMessageType) => {
     switch (status) {
-      case 'codeError':
-        return '사용할 수 없는 닉네임입니다.';
-      case 'successNickname':
-        return '사용 가능한 닉네임입니다.';
-      case 'duplicateedNickname':
-        return '중복되는 닉네임입니다.';
-      default:
+      case 'BEFORE_CHECK':
         return '';
+      case 'CANNOT_USE':
+        return '사용할 수 없는 닉네임입니다.';
+      case 'CAN_USE':
+        return '사용 가능한 닉네임입니다.';
+      case 'DUPLICATED':
+        return '중복되는 닉네임입니다.';
+    }
+  };
+  const handleInputStatus = (
+    status: NicknameStatusMessageType,
+  ): InputProps['status'] => {
+    switch (status) {
+      case 'BEFORE_CHECK':
+        return 'default';
+      case 'CANNOT_USE':
+      case 'DUPLICATED':
+        return 'error';
+      case 'CAN_USE':
+        return 'success';
     }
   };
 
   return (
     <>
-      <S.screenContainer>
+      <S.screenContainer style={{paddingTop: insets.top}}>
         <Header
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
@@ -98,19 +154,19 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
               />
             </View>
             <Input
-              onChangeText={text => setInputValue(text)}
+              onChangeText={onChangeText}
               maxLength={8}
-              onPress={() => setInputValue('')}
+              onPress={onPressInputDelete}
               value={inputValue}
               label={'닉네임'}
-              statusMessage={handleStatusMessage(statusMessage)}
-              status={'default'}
+              statusMessage={handleInputStatusMessage(statusMessage)}
+              status={handleInputStatus(statusMessage)}
               placeholder={'여기에 입력하세요.'}
             />
           </View>
           <Button
             label={'설정하기'}
-            onPress={handleButton}
+            onPress={handleSetNicknameButton}
             isEnabled={!!inputValue}
             isFullWidth={true}
           />

@@ -6,30 +6,34 @@ import RootStackNavigator from './navigators/RootStackNavigator';
 import {NotificationService} from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import codePush from 'react-native-code-push';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import customBackgroundTheme from './styles/customBackgroundTheme';
 
 let App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
   useEffect(() => {
     (async () => {
       NotificationService.registerMessageHandler();
+      await NotificationService.onAppRunning();
       await NotificationService.requestNotificationPermissions();
     })();
   }, []);
 
   return (
     <ConfigContext>
-      <NavigationContainer>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor="transparent"
-          translucent
-        />
-        <RootStackNavigator />
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer theme={customBackgroundTheme}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor="transparent"
+            translucent
+          />
+          <RootStackNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </ConfigContext>
   );
 };
 
-if (!__DEV__) App = codePush(App);
+// if (!__DEV__) App = codePush(App);
 export default App;
