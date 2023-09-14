@@ -268,7 +268,7 @@ useEffect(()=>{
       const dayOfWeek = dayString[today.getDay()]; // 요일 (일요일 0 ~ 토요일 6)
     
       const dateStr = `${year}.${month}.${day}(${dayOfWeek})`;
-      // setDate(year + '-' + month  + '-' + day);
+      setDate(year + '-' + month  + '-' + day);
     
       setDatePaginationItmes(datePaginationItems=>[...datePaginationItems, dateStr]);
   
