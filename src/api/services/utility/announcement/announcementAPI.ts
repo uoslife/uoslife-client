@@ -3,15 +3,15 @@ import AnnouncementService from './announcementAPI.interface';
 import * as Type from './announcementAPI.type';
 
 const AnnouncementAPI: AnnouncementService = {
-  getAnnouncementsAll: params =>
+  getAllAnnouncements: params =>
     get<Type.GetAnnouncementsGeneralRes>(
       `utility/announcement?${getQueryStringFromParams(params)}`,
     ),
-  getAnnouncementsBySearch: params =>
+  searchAnnouncements: params =>
     get<Type.GetAnnouncementsGeneralRes>(
       `utility/announcement/search?${getQueryStringFromParams(params)}`,
     ),
-  getAnnouncementsByOptionalSearch: params =>
+  opitonallySearchAnnouncements: params =>
     get<Type.GetAnnouncementsGeneralRes>(
       `utility/announcement/search/option?${getQueryStringFromParams(params)}`,
     ),
