@@ -13,6 +13,7 @@ import VerificationScreen from '../screens/account/common/VerificationScreen';
 import ToSandPoliciesScreen from '../screens/myPage/appInformationScreens/ToSandPolicies';
 import PrivacyPoliciesScreen from '../screens/myPage/appInformationScreens/PrivacyandPolicies';
 import AdvertisingandMarketingConsentScreen from '../screens/myPage/appInformationScreens/AdvertisingandMarketingConsentScreen';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;
@@ -36,6 +37,11 @@ export type MyPageAppInformationStackParamList = {
   Mypage_dvertisingandMarketing: undefined;
   Mypage_advertisingandMarketingConsent: undefined;
 };
+
+export type MypageAppInformationScreenRouteProp = NativeStackNavigationProp<
+  MyPageAppInformationStackParamList,
+  'Mypage_appInformation'
+>;
 
 const Stack = createStackNavigator<MyPageStackParamList>();
 const AccountStack = createStackNavigator<MyPageAccountStackParamList>();
@@ -67,29 +73,6 @@ const MypageAccountNavigator = () => {
   );
 };
 
-const MyPageStackNavigator = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Mypage_main"
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Mypage_main" component={MypageMainScreen} />
-      <Stack.Screen name="Mypage_profile" component={MypageAccountNavigator} />
-      <Stack.Screen
-        name="Mypage_appSetting"
-        component={MypageAppSettingScreen}
-      />
-      <Stack.Screen
-        name="Mypage_appInformation"
-        component={MypageAppInformationScreen}
-      />
-      <Stack.Screen
-        name="Mypage_inquiry"
-        component={MypageAppInformationScreen}
-      />
-    </Stack.Navigator>
-  );
-};
-
 const MyPageAppInformationStackNavigator = () => {
   return (
     <AppInformationStack.Navigator
@@ -112,6 +95,29 @@ const MyPageAppInformationStackNavigator = () => {
         component={AdvertisingandMarketingConsentScreen}
       />
     </AppInformationStack.Navigator>
+  );
+};
+
+const MyPageStackNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Mypage_main"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Mypage_main" component={MypageMainScreen} />
+      <Stack.Screen name="Mypage_profile" component={MypageAccountNavigator} />
+      <Stack.Screen
+        name="Mypage_appSetting"
+        component={MypageAppSettingScreen}
+      />
+      <Stack.Screen
+        name="Mypage_appInformation"
+        component={MyPageAppInformationStackNavigator}
+      />
+      <Stack.Screen
+        name="Mypage_inquiry"
+        component={MypageAppInformationScreen}
+      />
+    </Stack.Navigator>
   );
 };
 

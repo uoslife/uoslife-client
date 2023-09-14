@@ -29,7 +29,6 @@ export const accountStatusAtom = atom<AccountStatusType>({
 });
 
 const AccountScreenContainer = () => {
-  const insets = useSafeAreaInsets();
   const accountStatus = useAtomValue(accountStatusAtom);
 
   const handleAccountScreen = (accountStatus: AccountStatusType) => {
@@ -49,9 +48,7 @@ const AccountScreenContainer = () => {
     }
   };
   return (
-    <S.AccountContainer
-      contentContainerStyle={{flex: 1}}
-      style={{paddingTop: insets.top}}>
+    <S.AccountContainer contentContainerStyle={{flex: 1}}>
       {handleAccountScreen(accountStatus)}
     </S.AccountContainer>
   );

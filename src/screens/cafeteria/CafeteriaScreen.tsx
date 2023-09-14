@@ -22,6 +22,7 @@ export type Api={
 };
 
 const CafeteriaScreen = () => {
+  const insets = useSafeAreaInsets();
   const [activeIcon, setActiveIcon] = useState('lunch');
   const [today, setToday]=useState(new Date());
   const [datePaginationItems, setDatePaginationItmes]=useState([]);
@@ -288,7 +289,7 @@ useEffect(()=>{
     }},[activeIcon])
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'학식'} />
       <ScrollView>
         <S.bodyContainer>
