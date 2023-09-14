@@ -16,13 +16,19 @@ const ONBOARDING_IMAGE_WIDTH = 328;
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
-  const handleClickAccountButton = async () => {
-    // 임시 코드
+
+  const handleTemporaryLoginButtonClick = async () => {
     const loginRes = await CoreAPI.login({phone: '01012345678'});
     console.log(loginRes);
     if (loginRes.statusCode === 201) {
       setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
     }
+    setAccountStatus(prev => {
+      return {...prev, baseStatus: 'ONPROGRESS'};
+    });
+  };
+
+  const handleClickAccountButton = async () => {
     setAccountStatus(prev => {
       return {...prev, baseStatus: 'ONPROGRESS'};
     });
@@ -58,12 +64,12 @@ const AccountMainScreen = () => {
       </S.TopWrapper>
       <S.BottomWrapper>
         <Button
-          label={'로그인'}
+          label={'로그인(임시)'}
           isFullWidth
-          onPress={handleClickAccountButton}
+          onPress={handleTemporaryLoginButtonClick}
         />
         <Button
-          label={'회원가입'}
+          label={'시작하기'}
           isFullWidth
           variant="outline"
           onPress={handleClickAccountButton}
