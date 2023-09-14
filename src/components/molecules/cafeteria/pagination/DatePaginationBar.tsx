@@ -28,7 +28,7 @@ const DatePaginationBar = ({
       </TabBarButton>
 
       <Txt
-        label={datePaginationItems[currentPage - 1].date}
+        label={datePaginationItems[currentPage - 1]}
         color={'grey150'}
         typograph={'titleMedium'}
       />
