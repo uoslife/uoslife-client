@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ErrorResponseType} from '../../../api/services/type';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
@@ -46,9 +47,13 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
     // TODO: 사용 불가능 닉네임 로직 추가
     // setStatusMessage('CANNOT_USE');
 
-    // const res = await CoreAPI.checkDuplicateUserNickname({
-    //   nickname: inputValue,
-    // });
+    try {
+      const res = await CoreAPI.checkDuplicateUserNickname({
+        nickname: inputValue,
+      });
+    } catch (err) {
+      const error = err as ErrorResponseType;
+    }
     // if (!res.duplicated) {
     //   setStatusMessage('DUPLICATED');
     //   return;
