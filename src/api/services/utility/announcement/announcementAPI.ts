@@ -5,15 +5,15 @@ import * as Type from './announcementAPI.type';
 const AnnouncementAPI: AnnouncementService = {
   getAllAnnouncements: params =>
     get<Type.GetAnnouncementsGeneralRes>(
-      `utility/announcement?${getQueryStringFromParams(params)}`,
+      `utility/announcement?${generateQueryString(params)}`,
     ),
   searchAnnouncements: params =>
     get<Type.GetAnnouncementsGeneralRes>(
-      `utility/announcement/search?${getQueryStringFromParams(params)}`,
+      `utility/announcement/search?${generateQueryString(params)}`,
     ),
   opitonallySearchAnnouncements: params =>
     get<Type.GetAnnouncementsGeneralRes>(
-      `utility/announcement/search/option?${getQueryStringFromParams(params)}`,
+      `utility/announcement/search/option?${generateQueryString(params)}`,
     ),
 };
 
