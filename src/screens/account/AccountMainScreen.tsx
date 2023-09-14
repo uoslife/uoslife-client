@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {Button} from '@uoslife/design-system';
 
 import {useSetAtom} from 'jotai';
-import {accountFlowStatusAtom} from '../../atoms/account';
+import {accountFlowStatusAtom, accountStatusAtom} from '../../atoms/account';
 import styled from '@emotion/native';
 import OnboardingSlideGuide from '../../components/molecules/account/onboarding/OnboardingSlideGuide';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -15,7 +15,8 @@ const ONBOARDING_IMAGE_WIDTH = 328;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
-  const setAccountStatus = useSetAtom(accountFlowStatusAtom);
+  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
 
   const handleTemporaryLoginButtonClick = async () => {
     const loginRes = await CoreAPI.login({phone: '01012345678'});
@@ -24,12 +25,12 @@ const AccountMainScreen = () => {
       setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
     }
     setAccountStatus(prev => {
-      return {...prev, baseStatus: 'ONPROGRESS'};
+      return {...prev, isLogin: true};
     });
   };
 
   const handleClickAccountButton = async () => {
-    setAccountStatus(prev => {
+    setAccountFlowStatus(prev => {
       return {...prev, baseStatus: 'ONPROGRESS'};
     });
   };
