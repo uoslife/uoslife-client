@@ -1,3 +1,4 @@
+// TODO: 백엔드 스펙 확인 후 수정
 type GetAnnoucementsParamsDefaultType = {
   page?: number;
   size?: number;
