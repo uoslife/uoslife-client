@@ -59,7 +59,11 @@ const StudentIdComponent = () => {
   };
 
   useEffect(() => {
-    setInterval(getCurrentTime);
+    let getCurrentTimeInterval = setInterval(getCurrentTime);
+
+    return () => {
+      clearInterval(getCurrentTimeInterval);
+    };
   }, [currentTime, setCurrentTime]);
 
   return (
@@ -158,7 +162,7 @@ const StudentIdScreen = () => {
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsPortalAuthenticated(false);
+    setIsPortalAuthenticated(true);
     // api 또는 전역에서 학생증 인증 여부 확인
   }, []);
 
