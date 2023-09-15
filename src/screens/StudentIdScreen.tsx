@@ -80,7 +80,11 @@ const StudentIdComponent = () => {
   };
 
   useEffect(() => {
-    setInterval(getCurrentTime);
+    let getCurrentTimeInterval = setInterval(getCurrentTime);
+
+    return () => {
+      clearInterval(getCurrentTimeInterval);
+    };
   }, [currentTime, setCurrentTime]);
 
   return (
