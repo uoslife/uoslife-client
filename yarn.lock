@@ -4135,10 +4135,10 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@uoslife/design-system@^1.0.35":
-  version "1.0.35"
-  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.35/cb2e5ea0b0249d44fc3f452f39d7776524062783#cb2e5ea0b0249d44fc3f452f39d7776524062783"
-  integrity sha512-OLN9F2/o1ednD8DB3P6jz7y4Jhx5JfygwzVZOk6yrap7e9hTbVLkssZYUK1DW7RbOM8r1b1W9qWpOfy/b7bNRA==
+"@uoslife/design-system@^1.0.38":
+  version "1.0.38"
+  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.38/1e46e0024d2353283d59a244042b92668658f6b9#1e46e0024d2353283d59a244042b92668658f6b9"
+  integrity sha512-s6+/hxQm6P5FfgzK9lxcBwAhdZ5rAKehmBo7kE1vAuf/LfTP7QhtS/uiXObXgCwfekGbNO91mX2a89w4X5nMSg==
   dependencies:
     "@emotion/native" "^11.11.0"
     "@emotion/react" "^11.11.1"
