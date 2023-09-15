@@ -26,6 +26,10 @@
 	<string>gGM90S18oar9THPjDGwUnCZPtr_XhTgz9Z9kA</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+    	<string>payco</string>
+    </array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
