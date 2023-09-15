@@ -10,10 +10,13 @@ import {View} from 'react-native';
 const MypageAppInformationScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MypageAppInformationScreenRouteProp>();
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
 
   return (
     <View style={{paddingTop: insets.top}}>
-      <Header label={'앱 정보'} />
+      <Header label={'앱 정보'} onPressBackButton={handleGoBack} />
       <S.Container>
         <NavigationList
           label={'이용악관 및 정책'}

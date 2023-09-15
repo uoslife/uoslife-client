@@ -8,6 +8,8 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {Pressable} from 'react-native';
 import DatePaginationBar from '../../components/molecules/cafeteria/pagination/DatePaginationBar';
 import { UtilAPI } from '../../api/services';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 export type Api={
     "name": string,
@@ -32,6 +34,11 @@ const CafeteriaScreen = () => {
     const response = await UtilAPI.getCafeteriasWithDate({date});
   }, []);
 
+  const navigation=useNavigation();
+
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
 
   // api example
   const response: Api[] = [
@@ -290,7 +297,7 @@ useEffect(()=>{
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'학식'} />
+      <Header label={'학식'} onPressBackButton={handleGoBack}/>
       <ScrollView>
         <S.bodyContainer>
           <S.selectorWrapper>

@@ -9,6 +9,7 @@ import LibraryUserInfo, {
   LibraryUserInfoType,
 } from '../../components/molecules/library/LibraryUserInfo';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const LibraryScreen = () => {
   const insets = useSafeAreaInsets();
@@ -56,13 +57,19 @@ const LibraryScreen = () => {
     },
   ]);
 
+  const navigation=useNavigation();
+
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
+
   // 정보 불러오는 API 붙이기
   useEffect(() => {}, []);
 
   return (
     <ScrollView style={{paddingTop: insets.top}}>
       <S.screenContainer>
-        <Header label="도서관" />
+        <Header label="도서관" onPressBackButton={handleGoBack} />
         <LibraryUserInfo libraryUserInfo={libraryUserInfo} />
         <LibrarySeatStatus libraries={seatStatus} />
       </S.screenContainer>

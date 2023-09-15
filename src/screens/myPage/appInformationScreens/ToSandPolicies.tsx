@@ -6,6 +6,7 @@ import {View} from 'react-native';
 import MainTitle from '../../../components/molecules/termsOfService/text/MainTitle';
 import Paragraph from '../../../components/molecules/termsOfService/text/Paragraph';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 export type ToSandPoliciesItem = {
   header?: string;
@@ -16,6 +17,11 @@ export type ToSandPoliciesItem = {
 
 const ToSandPoliciesScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation=useNavigation();
+
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
   const ToSandPoliciesItems: ToSandPoliciesItem[] = [
     {
       header: `제1조 (목적)`,
@@ -240,7 +246,7 @@ const ToSandPoliciesScreen = () => {
   ];
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'이용 약관 및 정책'} />
+      <Header label={'이용 약관 및 정책'} onPressBackButton={handleGoBack} />
       <ScrollView>
         <S.contentsWrapper>
           <MainTitle mainTitle="이용약관 및 정책" />

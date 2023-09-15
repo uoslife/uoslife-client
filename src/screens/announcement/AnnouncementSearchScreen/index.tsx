@@ -13,6 +13,7 @@ import ArticleList from '../../../components/molecules/announcement/article/Arti
 import Header from '../../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const AnnouncementSearchScreen = () => {
   const insets = useSafeAreaInsets();
@@ -21,6 +22,12 @@ const AnnouncementSearchScreen = () => {
   // articles === null일때 ? 검색창이 열리고, 히스토리가 보임 : 검색 결과가 보임
   const [articles, setArticles] = useState<null | Article[]>(null);
   const inputRef = useRef<TextInput>(null);
+
+  const navigation=useNavigation();
+  
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
 
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
@@ -57,7 +64,7 @@ const AnnouncementSearchScreen = () => {
 
   return (
     <View style={{paddingTop: insets.top}}>
-      <Header>
+      <Header onPressBackButton={handleGoBack}>
         {/* Focus가 사라져야 될 때 사라지지 않는 이슈 있음 */}
         <SearchInput
           inputRef={inputRef}

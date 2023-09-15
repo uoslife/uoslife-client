@@ -6,6 +6,7 @@ import MainTitle from '../../../components/molecules/termsOfService/text/MainTit
 import {View} from 'react-native';
 import Paragraph from '../../../components/molecules/termsOfService/text/Paragraph';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 export type advertisingandMarketingItem = {
   header?: string;
@@ -39,9 +40,15 @@ const AdvertisingandMarketingConsentScreen = () => {
     },
   ];
 
+  const navigation=useNavigation();
+
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
+
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'광고 및 마케팅 수신 동의'} />
+      <Header label={'광고 및 마케팅 수신 동의'} onPressBackButton={handleGoBack} />
       <ScrollView>
         <S.contentsWrapper>
           <MainTitle mainTitle="광고 및 마케팅 수신 동의 약관" />
