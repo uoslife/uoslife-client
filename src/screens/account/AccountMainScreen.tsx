@@ -19,11 +19,15 @@ const AccountMainScreen = () => {
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
 
   const handleTemporaryLoginButtonClick = async () => {
-    const loginRes = await CoreAPI.login({phone: '01012345678'});
-    console.log(loginRes);
-    if (loginRes.statusCode === 201) {
-      setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
-    }
+    // try {
+    //   const loginRes = await CoreAPI.login({phone: '01012345678'});
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // console.log(loginRes);
+    // if (loginRes.statusCode === 201) {
+    //   setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+    // }
     setAccountStatus(prev => {
       return {...prev, isLogin: true};
     });
