@@ -29,7 +29,7 @@ const LibraryScreen = () => {
         {roomName: '0 데시벨 1', remainingSeatCnt: 228, totalSeatCnt: 266},
         {roomName: '0 데시벨 2', remainingSeatCnt: 80, totalSeatCnt: 243},
         {roomName: '0 ZONE 1', remainingSeatCnt: 228, totalSeatCnt: 266},
-        {roomName: '0 ZONE 2', remainingSeatCnt: 3420940239, totalSeatCnt: 266},
+        {roomName: '0 ZONE 2', remainingSeatCnt: 11, totalSeatCnt: 266},
       ],
     },
     {
@@ -38,8 +38,8 @@ const LibraryScreen = () => {
         {roomName: '제1 열람실', remainingSeatCnt: 40, totalSeatCnt: 50},
         {
           roomName: '제2 열람실',
-          remainingSeatCnt: 1234123412234,
-          totalSeatCnt: 234321234121343,
+          remainingSeatCnt: 33,
+          totalSeatCnt: 123,
         },
       ],
     },
@@ -49,8 +49,8 @@ const LibraryScreen = () => {
         {roomName: '멀티미디어실', remainingSeatCnt: 40, totalSeatCnt: 180},
         {
           roomName: 'ㅇㅇ',
-          remainingSeatCnt: 12341234124234,
-          totalSeatCnt: 234321232341343,
+          remainingSeatCnt: 1,
+          totalSeatCnt: 133,
         },
       ],
     },

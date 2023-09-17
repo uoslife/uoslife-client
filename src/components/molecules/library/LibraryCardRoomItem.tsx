@@ -47,6 +47,7 @@ const S = {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   `,
   progressBarConatiner: styled.View`
     margin-top: 8px;

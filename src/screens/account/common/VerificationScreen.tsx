@@ -124,6 +124,9 @@ const VerificationScreen = () => {
       setInputValue('');
     } catch (error) {
       showErrorMessage(error);
+      setStoredPhoneNumber(inputValue);
+      setIsVerificationCodeSent(true);
+      setInputValue('');
     }
   };
 

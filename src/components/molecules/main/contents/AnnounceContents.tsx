@@ -55,16 +55,16 @@ const AnnounceContents = () => {
         </S.AnnounceTextWrapper>
         <S.Border />
         <S.LinkButton>
+          <Icon
+            name={'openInNew'}
+            width={18}
+            height={18}
+            color={'primaryBrand'}
+          />
           <Txt
             label={'UOStory 바로가기'}
             color={'primaryBrand'}
             typograph={'bodySmall'}
-          />
-          <Icon
-            name={'openInNew'}
-            width={24}
-            height={24}
-            color={'primaryBrand'}
           />
         </S.LinkButton>
       </S.Wrapper>
@@ -109,8 +109,9 @@ const S = {
   LinkButton: styled.Pressable`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: space-between;
     justify-content: center;
     padding: 16px 0;
+    gap: 2px;
   `,
 };

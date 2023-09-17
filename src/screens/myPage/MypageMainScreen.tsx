@@ -33,7 +33,7 @@ const MypageMainScreen = ({
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'MY Page'} onPressBackButton={() => console.log('hi')} />
+      <Header label={'MY Page'} />
       <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
