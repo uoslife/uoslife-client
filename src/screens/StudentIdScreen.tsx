@@ -1,9 +1,18 @@
 import styled from '@emotion/native';
-import {StyleSheet, View, Platform, ScrollView} from 'react-native';
+import {StyleSheet, View, Platform, ScrollView, Linking} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {StudentIdStackParamList} from '../navigators/StudentIdStackNavigator';
+
+const PAYCO_URL_SCHEME = {
+  PAYCO_PAYMENT: 'payco://open/home/widgetPayment',
+  PAYCO_INSTALL: Platform.select({
+    ios: 'https://apps.apple.com/kr/app/%ED%8E%98%EC%9D%B4%EC%BD%94-payco-%ED%98%9C%ED%83%9D%EA%B9%8C%EC%A7%80-%EB%98%91%EB%98%91%ED%95%9C-%EA%B0%84%ED%8E%B8%EA%B2%B0%EC%A0%9C/id924292102',
+    android:
+      'https://play.google.com/store/apps/details?id=com.nhnent.payapp&hl=ko-KR',
+  }),
+};
 
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdStackParamList>();
@@ -48,6 +57,18 @@ const PortalUnauthorizedComponent = () => {
 const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
 
+  const openPayco = async () => {
+    const isPaycoInstalled = await Linking.canOpenURL(
+      PAYCO_URL_SCHEME.PAYCO_PAYMENT,
+    );
+
+    return Linking.openURL(
+      isPaycoInstalled
+        ? PAYCO_URL_SCHEME.PAYCO_PAYMENT
+        : PAYCO_URL_SCHEME.PAYCO_INSTALL!,
+    );
+  };
+
   const getCurrentTime = () => {
     let today = new Date();
     let hours = ('0' + today.getHours()).slice(-2);
@@ -59,7 +80,11 @@ const StudentIdComponent = () => {
   };
 
   useEffect(() => {
-    setInterval(getCurrentTime);
+    let getCurrentTimeInterval = setInterval(getCurrentTime);
+
+    return () => {
+      clearInterval(getCurrentTimeInterval);
+    };
   }, [currentTime, setCurrentTime]);
 
   return (
@@ -74,7 +99,7 @@ const StudentIdComponent = () => {
               typograph={'titleMedium'}
             />
           </S.qrWrapper>
-          <S.paycoButton>
+          <S.paycoButton onPress={openPayco}>
             <Txt label={'PAYCO'} color={'red'} typograph={'titleSmall'} />
             <Txt
               label={' 바로가기'}
@@ -158,7 +183,7 @@ const StudentIdScreen = () => {
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsPortalAuthenticated(false);
+    setIsPortalAuthenticated(true);
     // api 또는 전역에서 학생증 인증 여부 확인
   }, []);
 
