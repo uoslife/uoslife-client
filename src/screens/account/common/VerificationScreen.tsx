@@ -200,7 +200,7 @@ const VerificationScreen = () => {
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
-        label={'전화번호 본인인증'}
+        label={'휴대폰 본인인증'}
         onPressBackButton={handleHeaderBackButton}
       />
       <S.verificationContainer>
