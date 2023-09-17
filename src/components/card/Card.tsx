@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import React from 'react';
 import CardProps from './Card.type';
-import {Txt} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 
 const Card = ({title, caption, children}: CardProps) => {
   return (
@@ -24,12 +24,12 @@ const S = {
     width: 100%;
     border-radius: 20px;
     border-width: 1px;
-    border-color: #e1dfdd;
+    border-color: ${colors.grey40};
     background-color: #ffffff;
     overflow: hidden;
   `,
   cardHeader: styled.View`
-    background-color: #f2f2f2;
+    background-color: ${colors.grey10};
     padding: 20px 16px 12px 16px;
   `,
   cardBody: styled.View`
@@ -40,7 +40,6 @@ const S = {
     flex-direction: row;
     justify-content: space-between;
   `,
-
 };
 
 export default Card;

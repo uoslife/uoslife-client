@@ -94,7 +94,6 @@ const AnnouncementMainScreen = () => {
         navigation.navigate('AnnouncementBookmark');
       },
     },
-    // 아이콘 작게 뜨는 이슈? 라이브러리에서 수정..
     {
       iconName: 'notification',
       onPress: () => {
@@ -151,6 +150,7 @@ const S = {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    gap: 8px;
   `,
 
   iconWrapper: styled.Pressable`

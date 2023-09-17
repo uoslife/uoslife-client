@@ -124,7 +124,7 @@ const CafeteriaScreen = () => {
           <S.menuContainer>
             <Card
               title="학생회관"
-              caption="17:00 ~ 18:30"
+              caption={`코너 A, B ,C 11:00 ~ 14:00\n코너 E 11:00 ~ 13:30`}
               children={<CafeteriaCard cafeteriaItems={cafeteriaItems} />}
             />
             <Card
