@@ -59,9 +59,9 @@ const getStatusColor = (status: InputProps['status']) => {
     case 'error':
       return colors.red;
     case 'default':
-      return colors.grey130;
+      return colors.grey190;
     default:
-      return colors.grey130;
+      return colors.grey190;
   }
 };
 
