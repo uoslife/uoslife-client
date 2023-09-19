@@ -37,7 +37,7 @@ const MypageMainScreen = ({
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'MY Page'} />
+      <Header label={'마이페이지'} />
       <S.myProfileContainer style={{height: height - HEADER_HEIGHT}}>
         <S.myProfileBox>
           <S.circleImageWrapper>

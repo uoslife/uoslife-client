@@ -192,7 +192,7 @@ const MypageProfileScreen = () => {
   return (
     <View style={{paddingTop: insets.top}}>
       <S.screenContainer>
-        <Header label={'MY Page'} />
+        <Header label={'마이페이지'} />
         <S.myProfileContainer>
           <S.myProfileBox>
             <Pressable
