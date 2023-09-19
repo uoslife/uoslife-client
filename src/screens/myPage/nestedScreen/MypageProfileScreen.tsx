@@ -161,18 +161,17 @@ const MypageProfileScreen = () => {
           typograph={'bodyMedium'}
         />
       ),
-      children: (
+      children: isPortalAuthenticated && (
         <S.portalAccountInformationWrapper>
-          {isPortalAuthenticated &&
-            portalAccountInformationKeyArray.map((key, index) => {
-              return (
-                <PortalAccountInformationList
-                  key={index}
-                  name={key}
-                  value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
-                />
-              );
-            })}
+          {portalAccountInformationKeyArray.map((key, index) => {
+            return (
+              <PortalAccountInformationList
+                key={index}
+                name={key}
+                value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
+              />
+            );
+          })}
         </S.portalAccountInformationWrapper>
       ),
     },
