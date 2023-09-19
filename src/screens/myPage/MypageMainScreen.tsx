@@ -6,6 +6,7 @@ import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Dimensions} from 'react-native';
 
 type MyPageNavigatorItem = {
   name: string;
@@ -31,10 +32,13 @@ const MypageMainScreen = ({
     {name: '문의하기', navigateDestination: 'Mypage_inquiry'},
   ];
 
+  const {height} = Dimensions.get('window');
+  const HEADER_HEIGHT = 56;
+
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'MY Page'} />
-      <S.myProfileContainer>
+      <S.myProfileContainer style={{height: height - HEADER_HEIGHT}}>
         <S.myProfileBox>
           <S.circleImageWrapper>
             <S.userImage source={require('../../assets/images/user.png')} />
@@ -79,20 +83,13 @@ const MypageMainScreen = ({
 
 const S = {
   screenContainer: styled.ScrollView`
-    height: 100%;
-    width: 100%;
+    flex: 1;
   `,
   myProfileContainer: styled.View`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
     justify-content: space-between;
     padding: 52px 24px;
   `,
   myProfileBox: styled.View`
-    width: 100%;
-    display: flex;
-    justify-content: center;
     align-items: center;
     gap: 14px;
   `,
@@ -114,7 +111,6 @@ const S = {
     height: 60px;
   `,
   logout: styled.Text`
-    padding-top: 50px;
     text-align: center;
   `,
 };
