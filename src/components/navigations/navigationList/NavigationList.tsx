@@ -8,6 +8,8 @@ const NavigationList = ({
   label,
   onPress,
   navigationButton, // TODO: type 수정필요
+  width = 24,
+  height = 24,
   children,
 }: NavigationListProps) => {
   return (
@@ -18,8 +20,8 @@ const NavigationList = ({
           {navigationButton ?? (
             <Icon
               name={'forwardArrow'}
-              width={24}
-              height={24}
+              width={width}
+              height={height}
               color={'grey130'}
             />
           )}

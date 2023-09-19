@@ -51,8 +51,8 @@ const MypageAppInformationScreen = () => {
 };
 const S = {
   Container: styled.View`
-    display: flex;
-    padding: 0 16px;
+    padding: 12px 24px;
+    gap: 24px;
   `,
 };
 
