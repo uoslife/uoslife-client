@@ -21,8 +21,8 @@ const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
   });
 
   return (
-    <Wrap>
-      <Pressable onPress={onToggle}>
+    <Pressable onPress={onToggle}>
+      <Wrap>
         <ToggleContainerWrapper style={styles.toggleContainer}>
           <ToggleContainer
             style={{
@@ -36,14 +36,16 @@ const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
             />
           </ToggleContainer>
         </ToggleContainerWrapper>
-      </Pressable>
-    </Wrap>
+      </Wrap>
+    </Pressable>
   );
 };
 
 const Wrap = styled.View`
   flex-direction: row;
   align-items: center;
+  width: 36px;
+  height: 36px;
 `;
 
 const ToggleContainer = styled.View`
