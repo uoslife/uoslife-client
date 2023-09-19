@@ -6,7 +6,7 @@ import {MyPageAccountStackParamList} from '../../../navigators/MyPageStackNaviga
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
-import {Icon, Txt} from '@uoslife/design-system';
+import {colors, Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -204,6 +204,7 @@ const MypageProfileScreen = () => {
                     selectedPhotoUri
                       ? {uri: selectedPhotoUri}
                       : require('../../../assets/images/user.png')
+                    // TODO: 디자인 시스템으로 유저 아이콘 이전하기
                   }
                   selectedPhotoUri={!!selectedPhotoUri}
                 />
@@ -211,6 +212,7 @@ const MypageProfileScreen = () => {
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
                 <S.cameraImage
                   source={require('../../../assets/images/camera.png')}
+                  // TODO: 디자인 시스템에서 카메라 아이콘 가져오기
                 />
               </S.cameraCircleImageWrapper>
             </Pressable>
@@ -295,7 +297,7 @@ const S = {
     align-items: center;
     width: 160px;
     height: 160px;
-    border: 1px solid #a6a6a6;
+    border: 1px solid ${colors.grey60};
     border-radius: 80px;
     position: relative;
     overflow: hidden;
