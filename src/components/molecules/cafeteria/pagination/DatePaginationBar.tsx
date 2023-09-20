@@ -4,13 +4,12 @@ import {Icon, Txt} from '@uoslife/design-system';
 import DatePaginationProps from './DatePaginationBar.type';
 
 const DatePaginationBar = ({
-  totalPages,
   datePaginationItems,
 }): DatePaginationProps => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
+    if (newPage >= 1 && newPage <= 7) {
       setCurrentPage(newPage);
     }
   };
@@ -35,8 +34,8 @@ const DatePaginationBar = ({
 
       <TabBarButton
         onPress={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}>
-        {currentPage === totalPages ? (
+        disabled={currentPage === 7}>
+        {currentPage === 7 ? (
           <Icon name={'forward'} color='grey40' width={24} height={24} />
         ) : (
           <Icon name={'forward'} color='grey190' width={24} height={24} />

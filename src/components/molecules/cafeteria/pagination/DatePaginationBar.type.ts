@@ -1,5 +1,4 @@
 type DatePaginationProps = {
-  totalPages: number;
   datePaginationItems?: string[];
 };
 
