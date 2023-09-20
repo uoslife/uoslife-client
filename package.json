@@ -27,7 +27,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
     "@supabase/supabase-js": "^2.25.0",
-    "@uoslife/design-system": "^1.0.44",
+    "@uoslife/design-system": "^1.0.46",
     "@uoslife/react": "^1.0.2",
     "jotai": "^2.3.1",
     "ky": "^0.33.3",

@@ -4135,14 +4135,14 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@uoslife/design-system@^1.0.44":
-  version "1.0.44"
-  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.44/5ee13b6b4d703baf4b6fd40a38fdc68698447523#5ee13b6b4d703baf4b6fd40a38fdc68698447523"
-  integrity sha512-EFNCDksbtGyIIgtoANYbftFttX15Gqhbrd0w4W59UrM12t9VR5YL+l5SggMx7Ij9Uhd7r/8+wkieiN758T+9qA==
+"@uoslife/design-system@^1.0.46":
+  version "1.0.46"
+  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.46/9d8e25cd0284a26d370d575f1fa8075a7fc1563c#9d8e25cd0284a26d370d575f1fa8075a7fc1563c"
+  integrity sha512-pMcWyrkx4/HIzOzhxBIz2SEF/riNx9t4OKL9L+P0ecFX4J70k6P7LotDcXchkSPTkZBrxxv/22FuU31a29DAzg==
   dependencies:
     "@emotion/native" "^11.11.0"
     "@emotion/react" "^11.11.1"
-    "@uoslife/react" "^1.0.3"
+    "@uoslife/react" "^1.0.5"
     react "^18.2.0"
     react-dom "^18.2.0"
     react-native "^0.72.2"
@@ -4156,10 +4156,10 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
-"@uoslife/react@^1.0.3":
-  version "1.0.3"
-  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.0.3/6cd1d08316832bd6cd6e3589a05a60a6ed41907e"
-  integrity sha512-/xV6DO8CrWzbiTNgEQAbkBwLGIEjMZ9R3DqSBLK+9re2uqoxoUtRwe3IcJrH9ugw9zD3aWMUgz8x5uR/wnLeog==
+"@uoslife/react@^1.0.5":
+  version "1.0.5"
+  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.0.5/3eef65f4b476a57d489c1ddcf78a59c57dbaf163#3eef65f4b476a57d489c1ddcf78a59c57dbaf163"
+  integrity sha512-jV4PKXhsrt4htYj8bR6NQYarrnJRfKV6EwjKYlIhPK8hPAo5kK1ASmMqTgetMMf7tcwBNHk74hbJ7YUy+Q7fzw==
   dependencies:
     react "^18.2.0"
     react-dom "^18.2.0"

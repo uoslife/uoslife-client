@@ -209,9 +209,11 @@ const MypageProfileScreen = () => {
                 />
               </S.userCircleImageWrapper>
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
-                <S.cameraImage
-                  source={require('../../../assets/images/camera.png')}
-                  // TODO: 디자인 시스템에서 카메라 아이콘 가져오기
+                <Icon
+                  name={'camera'}
+                  width={24}
+                  height={24}
+                  color={'grey190'}
                 />
               </S.cameraCircleImageWrapper>
             </Pressable>
@@ -291,27 +293,25 @@ const S = {
     gap: 14px;
   `,
   userCircleImageWrapper: styled.View`
-    display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     width: 160px;
     height: 160px;
     border: 1px solid ${colors.grey60};
     border-radius: 80px;
-    position: relative;
     overflow: hidden;
   `,
   cameraCircleImageWrapper: styled.View`
-    background-color: #d9d9d9;
-    display: flex;
+    position: absolute;
+    top: 116px;
+    left: 116px;
+    padding: 8px;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    position: absolute;
-    top: 120px;
-    left: 120px;
+    background-color: ${colors.white};
+    border: 1px solid ${colors.grey130};
+    border-radius: 100px;
   `,
   userImage: styled.Image<{selectedPhotoUri: boolean}>`
     width: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
