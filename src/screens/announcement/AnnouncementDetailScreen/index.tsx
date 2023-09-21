@@ -151,7 +151,7 @@ const S = {
   `,
   attachmentItem: styled.View`
     display: flex;
-    gap: 2px;
+    gap: 6px;
     flex-direction: row;
     align-items: center;
 
