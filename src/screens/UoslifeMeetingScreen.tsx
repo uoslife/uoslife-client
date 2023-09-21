@@ -29,8 +29,8 @@ const S = {
     gap: 30px;
   `,
   uoslifeBrandLogo: styled.Image`
-    width: 85%;
-    height: 20%;
+    width: 80%;
+    height: 18%;
   `,
   titleContainer: styled.View`
     flex-direction: row;

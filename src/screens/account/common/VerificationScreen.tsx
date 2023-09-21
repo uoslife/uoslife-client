@@ -211,7 +211,7 @@ const VerificationScreen = () => {
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
-        label={'전화번호 본인인증'}
+        label={'휴대폰 본인인증'}
         onPressBackButton={handleHeaderBackButton}
       />
       <S.verificationContainer>
@@ -274,7 +274,7 @@ const VerificationScreen = () => {
           </Input>
         </View>
         <Button
-          label={isVerificationCodeSent ? '본인인증 하기' : '인증번호 받기'}
+          label={isVerificationCodeSent ? '본인 인증하기' : '인증번호 받기'}
           onPress={
             isVerificationCodeSent
               ? handleOnPressVerifyIdentify
