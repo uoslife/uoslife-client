@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {View} from 'react-native';
 
 import {Button} from '@uoslife/design-system';
 
 import {useSetAtom} from 'jotai';
-import {accountFlowStatusAtom, accountStatusAtom} from '../../atoms/account';
 import styled from '@emotion/native';
-import OnboardingSlideGuide from '../../components/molecules/account/onboarding/OnboardingSlideGuide';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {NativeSyntheticEvent, NativeScrollEvent, View} from 'react-native';
+
+import Carousel from '../../components/molecules/carousel/Carousel';
+import {accountFlowStatusAtom, accountStatusAtom} from '../../atoms/account';
+
 import {CoreAPI} from '../../api/services';
 import storeToken from '../../utils/storeToken';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
+const ONBOARDING_IMAGE_HEIGHT = 493;
+const ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME = 4 * 1000;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
@@ -39,35 +43,19 @@ const AccountMainScreen = () => {
     });
   };
 
-  // image scrolling
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const currentContentOffset = e.nativeEvent.contentOffset.x;
-    setCurrentIndex(currentContentOffset / ONBOARDING_IMAGE_WIDTH);
-  };
-
   return (
     <View style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
       <S.Container>
         <S.TopWrapper>
           <View style={{width: ONBOARDING_IMAGE_WIDTH}}>
-            <S.OnboardingImageWrapper
-              horizontal
-              pagingEnabled
-              onMomentumScrollEnd={onMomentumScrollEnd}
-              showsHorizontalScrollIndicator={false}>
-              <S.OnboardingImage
-                source={require('../../assets/images/banner_sample_img.png')}
-              />
-              <S.OnboardingImage
-                source={require('../../assets/images/banner_sample_img.png')}
-              />
-              <S.OnboardingImage
-                source={require('../../assets/images/banner_sample_img.png')}
-              />
-            </S.OnboardingImageWrapper>
+            <Carousel
+              imageWidth={ONBOARDING_IMAGE_WIDTH}
+              imageHeight={ONBOARDING_IMAGE_HEIGHT}
+              imageUrls={[{uri: ''}, {uri: ''}, {uri: ''}]}
+              indicator={'BOTTOM'}
+              autoPlayIntervalTime={ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME}
+            />
           </View>
-          <OnboardingSlideGuide currentImageLocation={currentIndex} />
         </S.TopWrapper>
         <S.BottomWrapper>
           <Button
