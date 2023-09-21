@@ -77,7 +77,7 @@ const S = {
     width: 100%;
     padding: 8px 16px 10px 16px;
     gap: 8px;
-    border-width: ${({value}) => (!!value ? '2px' : '1px')};
+    border-width: 1px;
     border-color: ${({status}) => getStatusColor(status!)};
     border-radius: 100px;
   `,
