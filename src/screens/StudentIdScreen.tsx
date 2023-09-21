@@ -4,6 +4,7 @@ import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {StudentIdStackParamList} from '../navigators/StudentIdStackNavigator';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const PAYCO_URL_SCHEME = {
   PAYCO_PAYMENT: 'payco://open/home/widgetPayment',
@@ -181,6 +182,7 @@ const StudentIdComponent = () => {
 
 const StudentIdScreen = () => {
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     setIsPortalAuthenticated(true);
@@ -188,13 +190,13 @@ const StudentIdScreen = () => {
   }, []);
 
   return (
-    <>
+    <View style={{paddingTop: insets.top}}>
       {isPortalAuthenticated ? (
         <StudentIdComponent />
       ) : (
         <PortalUnauthorizedComponent />
       )}
-    </>
+    </View>
   );
 };
 
