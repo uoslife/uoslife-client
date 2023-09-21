@@ -8,7 +8,7 @@ type indicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
 
 type CarouselProps = {
   imageWidth: number;
-  imageHeight?: number;
+  imageHeight: number;
   imageUrls: Array<{uri: string}>;
   indicator: indicatorType;
   autoPlay?: boolean;
