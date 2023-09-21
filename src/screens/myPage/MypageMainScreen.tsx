@@ -38,7 +38,8 @@ const MypageMainScreen = ({
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'마이페이지'} />
-      <S.myProfileContainer style={{height: height - HEADER_HEIGHT}}>
+      <S.myProfileContainer
+        style={{height: height - (HEADER_HEIGHT + insets.top)}}>
         <S.myProfileBox>
           <S.circleImageWrapper>
             <S.userImage source={require('../../assets/images/user.png')} />
