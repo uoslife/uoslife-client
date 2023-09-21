@@ -14,7 +14,7 @@ const NavigationList = ({
     <S.navigateContainer>
       <Pressable onPress={onPress}>
         <S.navigateContent>
-          <Txt label={label!} color={'grey190'} typograph={'bodyLarge'} />
+          <Txt label={label} color={'grey190'} typograph={'bodyLarge'} />
           {navigationButton ?? (
             <Icon
               name={'forwardArrow'}
