@@ -59,9 +59,9 @@ const getStatusColor = (status: InputProps['status']) => {
     case 'error':
       return colors.red;
     case 'default':
-      return colors.grey130;
+      return colors.grey190;
     default:
-      return colors.grey130;
+      return colors.grey190;
   }
 };
 
@@ -79,7 +79,7 @@ const S = {
     justify-content: space-between;
     width: 100%;
     padding: 5px 12px 8px 12px;
-    border-bottom-width: ${({value}) => (!!value ? '2px' : '1px')};
+    border-bottom-width: 1px;
     border-bottom-color: ${({status}) => getStatusColor(status!)};
   `,
   textInput: styled.TextInput<InputProps>`

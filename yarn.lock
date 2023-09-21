@@ -3925,10 +3925,10 @@
   resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.52/fb8189b3e6f461741c6fbf62db34fa6500084623#fb8189b3e6f461741c6fbf62db34fa6500084623"
   integrity sha512-untScGuq1bMV0QGJ9pN6L2DgGjM8Zj9dfr6dZwMY1U1Y39IHrzUEjbNHc+71gy8zwEnlohsYUplIXH9kBuqe2A==
 
-"@uoslife/react@^1.0.2":
-  version "1.0.2"
-  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.0.2/dc7f366a5f6c5cdcd45be6e994fa11be23df6518"
-  integrity sha512-AKpZtTNpfaJKSsHD1A106vI6zYcKbFP05Uz8omxgs+PAiV5CP8SYe6ub4TnF6uHrKmt3lxBXQOm0dmGiKg9ylA==
+"@uoslife/react@^1.0.3":
+  version "1.0.3"
+  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.0.3/6cd1d08316832bd6cd6e3589a05a60a6ed41907e#6cd1d08316832bd6cd6e3589a05a60a6ed41907e"
+  integrity sha512-/xV6DO8CrWzbiTNgEQAbkBwLGIEjMZ9R3DqSBLK+9re2uqoxoUtRwe3IcJrH9ugw9zD3aWMUgz8x5uR/wnLeog==
   dependencies:
     react "^18.2.0"
     react-dom "^18.2.0"

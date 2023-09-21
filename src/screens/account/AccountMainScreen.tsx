@@ -45,42 +45,45 @@ const AccountMainScreen = () => {
     const currentContentOffset = e.nativeEvent.contentOffset.x;
     setCurrentIndex(currentContentOffset / ONBOARDING_IMAGE_WIDTH);
   };
+
   return (
-    <S.Container style={{marginTop: insets.top}}>
-      <S.TopWrapper>
-        <View style={{width: ONBOARDING_IMAGE_WIDTH}}>
-          <S.OnboardingImageWrapper
-            horizontal
-            pagingEnabled
-            onMomentumScrollEnd={onMomentumScrollEnd}
-            showsHorizontalScrollIndicator={false}>
-            <S.OnboardingImage
-              source={require('../../assets/images/banner_sample_img.png')}
-            />
-            <S.OnboardingImage
-              source={require('../../assets/images/banner_sample_img.png')}
-            />
-            <S.OnboardingImage
-              source={require('../../assets/images/banner_sample_img.png')}
-            />
-          </S.OnboardingImageWrapper>
-        </View>
-        <OnboardingSlideGuide currentImageLocation={currentIndex} />
-      </S.TopWrapper>
-      <S.BottomWrapper>
-        <Button
-          label={'로그인(임시)'}
-          isFullWidth
-          onPress={handleTemporaryLoginButtonClick}
-        />
-        <Button
-          label={'시작하기'}
-          isFullWidth
-          variant="outline"
-          onPress={handleClickAccountButton}
-        />
-      </S.BottomWrapper>
-    </S.Container>
+    <View style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
+      <S.Container>
+        <S.TopWrapper>
+          <View style={{width: ONBOARDING_IMAGE_WIDTH}}>
+            <S.OnboardingImageWrapper
+              horizontal
+              pagingEnabled
+              onMomentumScrollEnd={onMomentumScrollEnd}
+              showsHorizontalScrollIndicator={false}>
+              <S.OnboardingImage
+                source={require('../../assets/images/banner_sample_img.png')}
+              />
+              <S.OnboardingImage
+                source={require('../../assets/images/banner_sample_img.png')}
+              />
+              <S.OnboardingImage
+                source={require('../../assets/images/banner_sample_img.png')}
+              />
+            </S.OnboardingImageWrapper>
+          </View>
+          <OnboardingSlideGuide currentImageLocation={currentIndex} />
+        </S.TopWrapper>
+        <S.BottomWrapper>
+          <Button
+            label={'로그인(임시)'}
+            isFullWidth
+            onPress={handleTemporaryLoginButtonClick}
+          />
+          <Button
+            label={'시작하기'}
+            isFullWidth
+            variant="outline"
+            onPress={handleClickAccountButton}
+          />
+        </S.BottomWrapper>
+      </S.Container>
+    </View>
   );
 };
 

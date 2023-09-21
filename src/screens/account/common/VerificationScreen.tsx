@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
@@ -17,10 +17,14 @@ import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
+import {useTimer} from '@uoslife/react';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
 const MAX_VERIFICATION_CODE_LENGTH = 6;
+
+const VERIFICATION_TIMER_MIN = 3;
+const VERIFICATION_TIMER_SEC = 0;
 
 // TODO: unable되었을 때 눌리는 문제 해결필요
 // TODO: Time Expired되었을 때 에러 대응
@@ -190,6 +194,13 @@ const VerificationScreen = () => {
     // }
   };
 
+  const {currentTime, isFinish} = useTimer(
+    VERIFICATION_TIMER_MIN,
+    VERIFICATION_TIMER_SEC,
+  );
+
+  useEffect(() => {}, [isVerificationCodeSent]);
+
   const handleOnPressRetryButton = async () => {
     const smsVerificationRes = await CoreAPI.sendSmsVerification({
       mobile: storedPhoneNumber,
@@ -200,7 +211,7 @@ const VerificationScreen = () => {
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
-        label={'전화번호 본인인증'}
+        label={'휴대폰 본인인증'}
         onPressBackButton={handleHeaderBackButton}
       />
       <S.verificationContainer>
@@ -242,6 +253,7 @@ const VerificationScreen = () => {
             {isVerificationCodeSent && (
               <>
                 <Timer
+                  currentTime={currentTime}
                   style={{
                     position: 'absolute',
                     top: 10,
@@ -262,7 +274,7 @@ const VerificationScreen = () => {
           </Input>
         </View>
         <Button
-          label={isVerificationCodeSent ? '본인인증 하기' : '인증번호 받기'}
+          label={isVerificationCodeSent ? '본인 인증하기' : '인증번호 받기'}
           onPress={
             isVerificationCodeSent
               ? handleOnPressVerifyIdentify
