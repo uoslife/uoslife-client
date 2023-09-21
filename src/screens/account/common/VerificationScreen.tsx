@@ -14,7 +14,7 @@ import {
 } from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
-import setTokenWhenLogin from '../../../utils/setTokenWhenLogin';
+import storeToken from '../../../utils/storeToken';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
 import {useTimer} from '@uoslife/react';
@@ -92,7 +92,7 @@ const VerificationScreen = () => {
     try {
       const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
       if (loginRes.statusCode === 201) {
-        setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+        storeToken(loginRes.accessToken, loginRes.refreshToken);
         return 'NONE';
       }
     } catch {}

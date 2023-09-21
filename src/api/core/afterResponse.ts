@@ -1,14 +1,14 @@
 import ky, {AfterResponseHook} from 'ky';
 import {CoreAPI} from '../services';
-import setTokenWhenLogin from '../../utils/setTokenWhenLogin';
-import {getData, removeData} from './beforeRequest';
+import storeToken from '../../utils/storeToken';
+import {storage} from '../../storage';
 
 export const handleToken: AfterResponseHook = async (
   request,
   _options,
   response,
 ) => {
-  const accessToken = await getData('access_token');
+  const accessToken = storage.getString('access_token');
   if (
     response.status !== 401 ||
     !accessToken ||
@@ -19,12 +19,12 @@ export const handleToken: AfterResponseHook = async (
   try {
     const res = await CoreAPI.getRefreshToken({});
     if (res.statusCode === 201) {
-      setTokenWhenLogin(res.accessToken, res.refreshToken);
+      storeToken(res.accessToken, res.refreshToken);
       return ky(request);
     }
   } catch (error) {
-    await removeData('access_token');
-    await removeData('refresh_token');
+    storage.delete('access_token');
+    storage.delete('refresh_token');
     // await CoreAPI.logout({});
     return response;
   }

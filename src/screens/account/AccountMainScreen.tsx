@@ -9,7 +9,7 @@ import OnboardingSlideGuide from '../../components/molecules/account/onboarding/
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {NativeSyntheticEvent, NativeScrollEvent, View} from 'react-native';
 import {CoreAPI} from '../../api/services';
-import setTokenWhenLogin from '../../utils/setTokenWhenLogin';
+import storeToken from '../../utils/storeToken';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 
@@ -26,7 +26,7 @@ const AccountMainScreen = () => {
     // }
     // console.log(loginRes);
     // if (loginRes.statusCode === 201) {
-    //   setTokenWhenLogin(loginRes.accessToken, loginRes.refreshToken);
+    //   storeToken(loginRes.accessToken, loginRes.refreshToken);
     // }
     setAccountStatus(prev => {
       return {...prev, isLogin: true};
