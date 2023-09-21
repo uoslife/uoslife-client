@@ -47,7 +47,6 @@ export default CategoryTab;
 
 const S = {
   tapWrapper: styled.View`
-    display: flex;
     flex-direction: row;
     width: 100%;
   `,
@@ -60,8 +59,11 @@ const S = {
     align-items: center;
 
     ${({isSelected, selectedBottomColor}) =>
-      isSelected
-        ? `border-bottom-width: 2px; border-bottom-color: ${selectedBottomColor}`
-        : ''}
+      isSelected &&
+      `
+      padding: 14px 0;
+      border-bottom-width: 2px; 
+      border-bottom-color: ${selectedBottomColor};
+      `}
   `,
 };
