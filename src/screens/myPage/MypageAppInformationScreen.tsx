@@ -15,24 +15,24 @@ type NavigationListType = {
     | 'Mypage_advertisingandMarketingConsent';
 };
 
+const APP_INFORMATION_LIST: NavigationListType[] = [
+  {
+    label: '이용약관 및 정책',
+    navigate: 'Mypage_ToSandPolicies',
+  },
+  {
+    label: '개인정보 처리방침',
+    navigate: 'Mypage_privacyPolicies',
+  },
+  {
+    label: '광고 및 마케팅 수신 동의',
+    navigate: 'Mypage_advertisingandMarketingConsent',
+  },
+];
+
 const MypageAppInformationScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MypageAppInformationScreenRouteProp>();
-
-  const APP_INFORMATION_LIST: NavigationListType[] = [
-    {
-      label: '이용약관 및 정책',
-      navigate: 'Mypage_ToSandPolicies',
-    },
-    {
-      label: '개인정보 처리방침',
-      navigate: 'Mypage_privacyPolicies',
-    },
-    {
-      label: '광고 및 마케팅 수신 동의',
-      navigate: 'Mypage_advertisingandMarketingConsent',
-    },
-  ];
 
   return (
     <View style={{paddingTop: insets.top}}>
