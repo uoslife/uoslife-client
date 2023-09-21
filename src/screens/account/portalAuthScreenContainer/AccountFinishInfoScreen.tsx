@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import {CoreAPI} from '../../../api/services';
 import {useAtom, useAtomValue} from 'jotai';
 import {accountStatusAtom} from '../../../atoms/account';
-import setTokenWhenLogin from '../../../utils/setTokenWhenLogin';
+import storeToken from '../../../utils/storeToken';
 import showErrorMessage from '../../../utils/showErrorMessage';
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
@@ -22,7 +22,7 @@ const AccountFinishInfoScreen = () => {
     (async () => {
       try {
         const res = await CoreAPI.login({phone: accountStatus.phone});
-        setTokenWhenLogin(res.accessToken, res.refreshToken);
+        storeToken(res.accessToken, res.refreshToken);
         setAccontStatus(prev => {
           return {...prev, accountStatus: true};
         });
