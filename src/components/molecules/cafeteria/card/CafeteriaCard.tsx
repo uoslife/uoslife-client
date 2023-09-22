@@ -5,7 +5,6 @@ import {View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 
 const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
-const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
   return (
     <View>
       {isEmpty ? (
@@ -67,7 +66,6 @@ const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
         </S.cardContentWrapper>
       )}
     </View>
-  );
   );
 };
 
