@@ -235,7 +235,7 @@ const S = {
     gap: 8px;
   `,
   cafeteriaPaginationBarWrapper: styled.View`
-    algin-items: center;
+    align-items: center;
     margin-top: 16px;
   `,
 };
