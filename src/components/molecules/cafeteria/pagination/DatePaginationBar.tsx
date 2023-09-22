@@ -3,9 +3,7 @@ import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import DatePaginationProps from './DatePaginationBar.type';
 
-const DatePaginationBar = ({
-  datePaginationItems,
-}): DatePaginationProps => {
+const DatePaginationBar = ({datePaginationItems}: DatePaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (newPage: number) => {
@@ -20,9 +18,9 @@ const DatePaginationBar = ({
         onPress={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}>
         {currentPage === 1 ? (
-          <Icon name={'backward'} color='grey40' width={24} height={24} />
+          <Icon name={'backward'} color="grey40" width={24} height={24} />
         ) : (
-          <Icon name={'backward'} color='grey190' width={24} height={24} />
+          <Icon name={'backward'} color="grey190" width={24} height={24} />
         )}
       </TabBarButton>
 
@@ -36,9 +34,9 @@ const DatePaginationBar = ({
         onPress={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === 7}>
         {currentPage === 7 ? (
-          <Icon name={'forward'} color='grey40' width={24} height={24} />
+          <Icon name={'forward'} color="grey40" width={24} height={24} />
         ) : (
-          <Icon name={'forward'} color='grey190' width={24} height={24} />
+          <Icon name={'forward'} color="grey190" width={24} height={24} />
         )}
       </TabBarButton>
     </TabBarContainer>
@@ -52,7 +50,7 @@ const TabBarContainer = styled.View`
   gap: 20px;
 `;
 
-const TabBarButton = styled.TouchableOpacity` 
+const TabBarButton = styled.TouchableOpacity`
   padding: 8px;
   align-items: flex-start;
 `;
