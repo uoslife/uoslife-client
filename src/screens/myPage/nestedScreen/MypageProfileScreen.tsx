@@ -6,7 +6,7 @@ import {MyPageAccountStackParamList} from '../../../navigators/MyPageStackNaviga
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import useModal from '../../../hooks/useModal';
-import {Icon, Txt} from '@uoslife/design-system';
+import {colors, Icon, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -161,18 +161,17 @@ const MypageProfileScreen = () => {
           typograph={'bodyMedium'}
         />
       ),
-      children: (
+      children: isPortalAuthenticated && (
         <S.portalAccountInformationWrapper>
-          {isPortalAuthenticated &&
-            portalAccountInformationKeyArray.map((key, index) => {
-              return (
-                <PortalAccountInformationList
-                  key={index}
-                  name={key}
-                  value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
-                />
-              );
-            })}
+          {portalAccountInformationKeyArray.map((key, index) => {
+            return (
+              <PortalAccountInformationList
+                key={index}
+                name={key}
+                value={PORTAL_ACCOUNT_DUMMY_DATA[0][key]}
+              />
+            );
+          })}
         </S.portalAccountInformationWrapper>
       ),
     },
@@ -189,14 +188,14 @@ const MypageProfileScreen = () => {
     },
   ];
 
-  const handleGoBack=()=>{
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   return (
     <View style={{paddingTop: insets.top}}>
       <S.screenContainer>
-        <Header label={'MY Page'} onPressBackButton={handleGoBack} />
+        <Header label={'마이페이지'} onPressBackButton={handleGoBack} />
         <S.myProfileContainer>
           <S.myProfileBox>
             <Pressable
@@ -208,13 +207,17 @@ const MypageProfileScreen = () => {
                     selectedPhotoUri
                       ? {uri: selectedPhotoUri}
                       : require('../../../assets/images/user.png')
+                    // TODO: 디자인 시스템으로 유저 아이콘 이전하기
                   }
                   selectedPhotoUri={!!selectedPhotoUri}
                 />
               </S.userCircleImageWrapper>
               <S.cameraCircleImageWrapper style={styles.cameraImage}>
-                <S.cameraImage
-                  source={require('../../../assets/images/camera.png')}
+                <Icon
+                  name={'camera'}
+                  width={24}
+                  height={24}
+                  color={'grey190'}
                 />
               </S.cameraCircleImageWrapper>
             </Pressable>
@@ -294,27 +297,25 @@ const S = {
     gap: 14px;
   `,
   userCircleImageWrapper: styled.View`
-    display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     width: 160px;
     height: 160px;
-    border: 1px solid #a6a6a6;
+    border: 1px solid ${colors.grey60};
     border-radius: 80px;
-    position: relative;
     overflow: hidden;
   `,
   cameraCircleImageWrapper: styled.View`
-    background-color: #d9d9d9;
-    display: flex;
+    position: absolute;
+    top: 116px;
+    left: 116px;
+    padding: 8px;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    position: absolute;
-    top: 120px;
-    left: 120px;
+    background-color: ${colors.white};
+    border: 1px solid ${colors.grey130};
+    border-radius: 100px;
   `,
   userImage: styled.Image<{selectedPhotoUri: boolean}>`
     width: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};

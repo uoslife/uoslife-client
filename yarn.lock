@@ -3919,7 +3919,6 @@
   dependencies:
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
-
 "@uoslife/design-system@^1.0.52":
   version "1.0.52"
   resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.52/fb8189b3e6f461741c6fbf62db34fa6500084623#fb8189b3e6f461741c6fbf62db34fa6500084623"

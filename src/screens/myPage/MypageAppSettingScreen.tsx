@@ -79,7 +79,7 @@ const MypageAppSettingScreen = () => {
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={'알림 설정'} onPressBackButton={handleGoBack}/>
       <S.mypageAppSettingContainer>
-        <View style={{gap: 16}}>
+        <View style={{gap: 12}}>
           <Txt
             label={'시대생 알림'}
             color={'grey150'}
@@ -99,7 +99,7 @@ const MypageAppSettingScreen = () => {
             </S.notificationSettingContainer>
           ))}
         </View>
-        <View style={{gap: 16}}>
+        <View style={{gap: 12}}>
           <Txt
             label={'공지사항 알림'}
             color={'grey150'}

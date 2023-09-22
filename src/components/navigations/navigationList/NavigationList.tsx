@@ -12,9 +12,9 @@ const NavigationList = ({
 }: NavigationListProps) => {
   return (
     <S.navigateContainer>
-      <S.navigateContent>
-        <Txt label={label!} color={'grey190'} typograph={'bodyLarge'} />
-        <Pressable onPress={onPress}>
+      <Pressable onPress={onPress}>
+        <S.navigateContent>
+          <Txt label={label} color={'grey190'} typograph={'bodyLarge'} />
           {navigationButton ?? (
             <Icon
               name={'forwardArrow'}
@@ -23,8 +23,8 @@ const NavigationList = ({
               color={'grey130'}
             />
           )}
-        </Pressable>
-      </S.navigateContent>
+        </S.navigateContent>
+      </Pressable>
       {children}
     </S.navigateContainer>
   );
