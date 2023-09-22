@@ -5,15 +5,7 @@ import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {StudentIdStackParamList} from '../navigators/StudentIdStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
-const PAYCO_URL_SCHEME = {
-  PAYCO_PAYMENT: 'payco://open/home/widgetPayment',
-  PAYCO_INSTALL: Platform.select({
-    ios: 'https://apps.apple.com/kr/app/%ED%8E%98%EC%9D%B4%EC%BD%94-payco-%ED%98%9C%ED%83%9D%EA%B9%8C%EC%A7%80-%EB%98%91%EB%98%91%ED%95%9C-%EA%B0%84%ED%8E%B8%EA%B2%B0%EC%A0%9C/id924292102',
-    android:
-      'https://play.google.com/store/apps/details?id=com.nhnent.payapp&hl=ko-KR',
-  }),
-};
+import URLS from '../configs/urls';
 
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdStackParamList>();
@@ -59,14 +51,10 @@ const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
 
   const openPayco = async () => {
-    const isPaycoInstalled = await Linking.canOpenURL(
-      PAYCO_URL_SCHEME.PAYCO_PAYMENT,
-    );
+    const isPaycoInstalled = await Linking.canOpenURL(URLS.PAYCO.PAYCO_PAYMENT);
 
     return Linking.openURL(
-      isPaycoInstalled
-        ? PAYCO_URL_SCHEME.PAYCO_PAYMENT
-        : PAYCO_URL_SCHEME.PAYCO_INSTALL!,
+      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT : URLS.PAYCO.PAYCO_INSTALL!,
     );
   };
 
