@@ -28,7 +28,7 @@ const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
   const [activeIcon, setActiveIcon] = useState('lunch');
   const [today, setToday] = useState(new Date());
-  const [datePaginationItems, setDatePaginationItems] = useState([]);
+  const [datePaginationItems, setDatePaginationItems] = useState<string[]>([]);
   const [date, setDate] = useState('');
 
   const getCafeteriaAPI = useCallback(async (date: string) => {
@@ -78,6 +78,17 @@ const CafeteriaScreen = () => {
 
   // 일주일치의 날짜를 생성
   useEffect(() => {
+    setDatePaginationItems(() => {
+      return [
+        '2023.09.25 (월)',
+        '2023.09.26 (화)',
+        '2023.09.27 (수)',
+        '2023.09.28 (목)',
+        '2023.09.29 (금)',
+        '2023.09.30 (토)',
+        '2023.10.01 (일)',
+      ];
+    }); // TODO: 날짜 표시용 임시 코드
     if (today.getDay() === 1) {
       setDatePaginationItems([]);
       for (let i = 0; i < 7; i++) {
@@ -99,9 +110,9 @@ const CafeteriaScreen = () => {
     }
   }, [today.getDay, date]);
 
-  useEffect(() => {
-    getCafeteriaAPI(date);
-  }, [date]);
+  // useEffect(() => {
+  //   getCafeteriaAPI(date);
+  // }, [date]);
 
   const handleIconPress = useCallback(
     (icon: string) => {
