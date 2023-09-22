@@ -1,20 +1,22 @@
 import styled from '@emotion/native';
-import React, {useState} from 'react';
+import React from 'react';
 import {Pressable, View} from 'react-native';
-import {accountStatusAtom} from '..';
-import {useSetAtom} from 'jotai';
+import {
+  accountFlowStatusAtom,
+  existedAccountInfoAtom,
+} from '../../../atoms/account';
+import {useAtom, useSetAtom} from 'jotai';
 import Header from '../../../components/header/Header';
 import {Txt, Button, colors} from '@uoslife/design-system';
 
-const DUMMY_ID_LIST = ['아이디1', '아이디2', '아이디3', '아이디4']; // TODO: ATOM으로 관리
-
 const AccountIntegrationScreen = () => {
-  const [selectedId, setSelectedId] = useState<string>('아이디1');
-  const [idList, setIdList] = useState<string[]>(DUMMY_ID_LIST);
-  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
+  const [existedAccountInfo, setExistedAccountInfo] = useAtom(
+    existedAccountInfoAtom,
+  );
 
   const handlePressButton = () => {
-    setAccountStatus(prev => {
+    setAccountFlowStatus(prev => {
       return {
         ...prev,
         stepStatus: {userType: prev.stepStatus.userType, step: 1},
@@ -27,7 +29,7 @@ const AccountIntegrationScreen = () => {
       <Header
         label={'계정 통합'}
         onPressBackButton={() =>
-          setAccountStatus(prev => {
+          setAccountFlowStatus(prev => {
             return {
               ...prev,
               stepStatus: {
@@ -53,10 +55,24 @@ const AccountIntegrationScreen = () => {
             />
           </View>
           <S.idContainer>
-            {idList.map(id => (
-              <Pressable key={id} onPress={() => setSelectedId(id)}>
-                <S.idButtonSelected isSelected={id === selectedId}>
-                  <Txt label={id} color={'grey190'} typograph={'titleMedium'} />
+            {existedAccountInfo.map(item => (
+              <Pressable
+                key={item.id}
+                onPress={() =>
+                  setExistedAccountInfo(prev => {
+                    return prev.map(prevItem =>
+                      prevItem.id === item.id
+                        ? {...prevItem, isSelected: true}
+                        : {...prevItem, isSelected: false},
+                    );
+                  })
+                }>
+                <S.idButtonSelected isSelected={item.isSelected}>
+                  <Txt
+                    label={item.nickname}
+                    color={'grey190'}
+                    typograph={'titleMedium'}
+                  />
                 </S.idButtonSelected>
               </Pressable>
             ))}
@@ -65,7 +81,7 @@ const AccountIntegrationScreen = () => {
         <Button
           label={'계정 통합하기'}
           onPress={handlePressButton}
-          isEnabled={!!selectedId}
+          isEnabled={existedAccountInfo.some(item => item.isSelected === true)}
           isFullWidth={true}
         />
       </S.accountIntegrationContainer>

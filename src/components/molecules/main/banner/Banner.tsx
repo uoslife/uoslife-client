@@ -8,7 +8,7 @@ const Banner = () => {
         <Txt label={`1 / 5`} color={'white'} typograph={'labelSmall'} />
       </S.BannerOrderMarker>
       <S.BannerImage
-        source={require('../../../../assets/images/banner_sample_img.png')}
+        source={require('../../../../assets/images/bannerEx.png')}
       />
     </S.BannerWrapper>
   );
@@ -24,7 +24,7 @@ const S = {
     width: 100%;
     height: 148px;
     border-radius: 20px;
-    object-fit: cover;
+    object-fit: fill;
   `,
   BannerOrderMarker: styled.View`
     display: flex;
@@ -33,10 +33,9 @@ const S = {
     position: absolute;
     top: 11px;
     right: 12px;
-    width: 35px;
-    height: 24px;
     border-radius: 24px;
     background: rgba(0, 0, 0, 0.2);
     z-index: 3;
+    padding: 4px 8px;
   `,
 };

@@ -35,7 +35,7 @@ const MainServiceBox = ({
     <S.Wrapper>
       <S.TopWrapper>
         <S.TitleWrapper>
-          <Icon name={iconName} width={15} height={16} color={iconColor} />
+          <Icon name={iconName} width={24} height={24} color={iconColor} />
           <Txt
             label={label}
             color={'primaryDarker'}

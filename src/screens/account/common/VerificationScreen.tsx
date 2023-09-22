@@ -1,20 +1,35 @@
-import React, {useState} from 'react';
-import {Alert, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import Input from '../../../components/forms/input/Input';
-import {Button, Txt, Timer, colors} from '@uoslife/design-system';
+import {Button, Txt, Timer} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
-import {UserType, accountStatusAtom} from '..';
+import {
+  UserType,
+  accountFlowStatusAtom,
+  accountStatusAtom,
+  existedAccountInfoAtom,
+  existedAccountInfoType,
+} from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
+import storeToken from '../../../utils/storeToken';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ErrorResponseType} from '../../../api/services/type';
+import {useTimer} from '@uoslife/react';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
 const MAX_VERIFICATION_CODE_LENGTH = 6;
 
-type WarningStatus =
+const VERIFICATION_TIMER_MIN = 3;
+const VERIFICATION_TIMER_SEC = 0;
+
+// TODO: unable되었을 때 눌리는 문제 해결필요
+// TODO: Time Expired되었을 때 에러 대응
+
+type InputStatusMessageType =
   | 'DEFAULT'
   | 'NOT_MATCHING_CODE'
   | 'REQUEST_EXCEED'
@@ -22,14 +37,17 @@ type WarningStatus =
 
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
+  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
   const [inputValue, setInputValue] = useState('');
   const [storedPhoneNumber, setStoredPhoneNumber] = useState('');
-  const [warningStatus, setWarningStatus] = useState<WarningStatus>('DEFAULT');
+  const [inputMessageStatus, setInputMessageStatus] =
+    useState<InputStatusMessageType>('DEFAULT');
   const [isVerificationCodeSent, setIsVerificationCodeSent] = useState(false);
 
   // 공통
-  const handleWarningMessage = (status: WarningStatus) => {
+  const handleInputStatusMessage = (status: InputStatusMessageType) => {
     switch (status) {
       case 'DEFAULT':
         return '인증번호가 오지 않나요?';
@@ -44,8 +62,13 @@ const VerificationScreen = () => {
 
   const onChangeText = (text: string) => {
     setInputValue(text);
+    setInputMessageStatus('DEFAULT');
   };
 
+  const onPressInputDelete = () => {
+    setInputValue('');
+    setInputMessageStatus('DEFAULT');
+  };
   const handleButtonIsEnable = () => {
     if (
       isVerificationCodeSent &&
@@ -57,7 +80,7 @@ const VerificationScreen = () => {
 
   const handleHeaderBackButton = () => {
     if (isVerificationCodeSent) setIsVerificationCodeSent(false);
-    setAccountStatus(prev => {
+    setAccountFlowStatus(prev => {
       return {
         ...prev,
         baseStatus: 'DEFAULT',
@@ -66,22 +89,40 @@ const VerificationScreen = () => {
   };
 
   const checkUserTypeBeforeRedirect = async (): Promise<UserType> => {
-    const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
-    if (loginRes.statusCode === 201) return 'NONE';
-    const res = await CoreAPI.getExistedAccountInfo({
-      mobile: storedPhoneNumber,
-    });
-    if (!!res) return 'EXISTED';
-    return 'NEW';
+    try {
+      const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
+      if (loginRes.statusCode === 201) {
+        storeToken(loginRes.accessToken, loginRes.refreshToken);
+        return 'NONE';
+      }
+    } catch {}
+    try {
+      const res = await CoreAPI.getExistedAccountInfo({
+        mobile: storedPhoneNumber,
+      });
+      console.log(res);
+      // TODO: refactoring 필요
+      const existedAccountInfo = res.map(data => {
+        return {id: data.id, nickname: data.nickname, isSelected: false};
+      }) as existedAccountInfoType;
+      setExistedAccountInfo(() => {
+        return existedAccountInfo;
+      });
+      return 'EXISTED';
+    } catch {
+      return 'NEW';
+    }
   };
 
   // 전화번호 입력 페이지
   const handleOnPressRequestCode = async () => {
-    if (inputValue.length < MAX_PHONE_NUMBER_LENGTH) return;
+    const currentInputLength = inputValue.length;
+    if (currentInputLength < MAX_PHONE_NUMBER_LENGTH) return;
     try {
       const smsVerificationRes = await CoreAPI.sendSmsVerification({
         mobile: inputValue,
       });
+      console.info(smsVerificationRes);
       setStoredPhoneNumber(inputValue);
       setIsVerificationCodeSent(true);
       setInputValue('');
@@ -95,43 +136,70 @@ const VerificationScreen = () => {
 
   // 인증번호 입력 페이지
   const handleOnPressVerifyIdentify = async () => {
+    const currentInputLength = inputValue.length;
+    if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
     try {
       const smsVerificationRes = await CoreAPI.checkSmsVerification({
         mobile: storedPhoneNumber,
         code: inputValue,
       });
-      if (smsVerificationRes.isVerified) {
-        const userType = await checkUserTypeBeforeRedirect();
-        setIsVerificationCodeSent(false); // state 초기화
-        setStoredPhoneNumber(''); // state 초기화
-        if (userType === 'NONE') return; // TODO: 메인페이지로 redirect
-        setAccountStatus(prev => {
-          return {
-            ...prev,
-            stepStatus: {
-              userType: userType,
-              step: 0,
-            },
-          };
-        });
-      } else {
-        setWarningStatus('NOT_MATCHING_CODE');
+      console.info(smsVerificationRes);
+    } catch (err) {
+      const error = err as ErrorResponseType;
+      const {code} = error;
+      switch (code) {
+        case 'S02':
+          setInputMessageStatus('REQUEST_EXCEED');
+          return;
+        case 'S03':
+          setInputMessageStatus('NOT_MATCHING_CODE');
+          return;
+        default:
+          return;
       }
-    } catch (error) {
-      showErrorMessage(error);
-      // setIsVerificationCodeSent(false);
-      // setStoredPhoneNumber('');
-      // setAccountStatus(prev => {
-      //   return {
-      //     ...prev,
-      //     stepStatus: {
-      //       userType: 'EXISTED',
-      //       step: 0,
-      //     },
-      //   };
-      // });
     }
+    const userType = await checkUserTypeBeforeRedirect();
+    console.log(userType);
+    setIsVerificationCodeSent(false); // state 초기화
+    setStoredPhoneNumber(''); // state 초기화
+    if (userType === 'NONE') {
+      setAccountStatus(prev => {
+        return {...prev, isLogin: true};
+      });
+      return;
+    }
+    setAccountFlowStatus(prev => {
+      return {
+        ...prev,
+        stepStatus: {
+          userType: userType,
+          step: 0,
+        },
+      };
+    });
+    return;
+
+    // TODO: 아래 코드는 api 연결 완료시 삭제
+    // setIsVerificationCodeSent(false);
+    // setStoredPhoneNumber('');
+    // setAccountFlowStatus(prev => {
+    //   return {
+    //     ...prev,
+    //     stepStatus: {
+    //       userType: 'EXISTED',
+    //       step: 0,
+    //     },
+    //   };
+    // });
+    // }
   };
+
+  const {currentTime, isFinish} = useTimer(
+    VERIFICATION_TIMER_MIN,
+    VERIFICATION_TIMER_SEC,
+  );
+
+  useEffect(() => {}, [isVerificationCodeSent]);
 
   const handleOnPressRetryButton = async () => {
     const smsVerificationRes = await CoreAPI.sendSmsVerification({
@@ -143,7 +211,7 @@ const VerificationScreen = () => {
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
-        label={'전화번호 본인인증'}
+        label={'휴대폰 본인인증'}
         onPressBackButton={handleHeaderBackButton}
       />
       <S.verificationContainer>
@@ -165,26 +233,27 @@ const VerificationScreen = () => {
             />
           </View>
           <Input
-            onChangeText={text => onChangeText(text)}
+            onChangeText={onChangeText}
             maxLength={
               isVerificationCodeSent
                 ? MAX_VERIFICATION_CODE_LENGTH
                 : MAX_PHONE_NUMBER_LENGTH
             }
-            onPress={() => setInputValue('')}
+            onPress={onPressInputDelete}
             keyboardType={'numeric'}
             value={inputValue}
             label={isVerificationCodeSent ? '인증번호' : '전화번호'}
             statusMessage={
               isVerificationCodeSent
-                ? handleWarningMessage(warningStatus)
+                ? handleInputStatusMessage(inputMessageStatus)
                 : undefined
             }
-            status={warningStatus === 'DEFAULT' ? 'default' : 'error'}
+            status={inputMessageStatus === 'DEFAULT' ? 'default' : 'error'}
             placeholder={isVerificationCodeSent ? '000000' : '01012345678'}>
             {isVerificationCodeSent && (
               <>
                 <Timer
+                  currentTime={currentTime}
                   style={{
                     position: 'absolute',
                     top: 10,
@@ -205,7 +274,7 @@ const VerificationScreen = () => {
           </Input>
         </View>
         <Button
-          label={isVerificationCodeSent ? '본인인증 하기' : '인증번호 받기'}
+          label={isVerificationCodeSent ? '본인 인증하기' : '인증번호 받기'}
           onPress={
             isVerificationCodeSent
               ? handleOnPressVerifyIdentify

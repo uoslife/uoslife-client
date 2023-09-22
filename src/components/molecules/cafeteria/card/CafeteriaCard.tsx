@@ -2,8 +2,9 @@ import styled from '@emotion/native';
 import React from 'react';
 import CafeteriaCardProps from './CafeteriaCard.type';
 import {View} from 'react-native';
-import {Txt} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 
+const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
 const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
   return (
     <View>
@@ -67,6 +68,7 @@ const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
       )}
     </View>
   );
+  );
 };
 
 const S = {
@@ -85,7 +87,7 @@ const S = {
   `,
   divider: styled.View`
     height: 1px;
-    background-color: #f3f2f1;
+    background-color: ${colors.grey10};
     margin-top: 12px;
   `,
   emptyWrapper: styled.View`

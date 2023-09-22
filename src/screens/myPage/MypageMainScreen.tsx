@@ -6,7 +6,7 @@ import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 type MyPageNavigatorItem = {
   name: string;
@@ -32,9 +32,9 @@ const MypageMainScreen = ({
     {name: '문의하기', navigateDestination: 'Mypage_inquiry'},
   ];
 
-  const handleGoBack=()=>{
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>

@@ -10,7 +10,7 @@ const CafeteriaBox = () => {
         <S.BoxTopArea>
           <Txt label={'학생식당'} color={'grey190'} typograph={'titleSmall'} />
           <S.BoxTimeIndicator>
-            <Txt label={'오후 2시'} color={'grey130'} typograph={'caption'} />
+            <Txt label={'~ 오후 2시'} color={'grey130'} typograph={'caption'} />
           </S.BoxTimeIndicator>
         </S.BoxTopArea>
         <S.BoxBottomArea>
@@ -112,8 +112,6 @@ const S = {
   `,
   BoxTimeIndicator: styled.View`
     box-sizing: border-box;
-    width: 60px;
-    height: 23px;
     padding: 4px 8px;
     border-radius: 16px;
     background-color: ${colors.grey20};

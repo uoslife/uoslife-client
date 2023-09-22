@@ -130,7 +130,7 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
           <>
             <Txt
               color={'grey130'}
-              label={usingStatus === 'IN-USE' ? '학습시간' : '남은 시간'}
+              label={usingStatus === 'IN-USE' ? '학습 시간' : '남은 시간'}
               typograph="titleSmall"
             />
             <View style={{paddingTop: 4}}>
@@ -159,4 +159,3 @@ const LibraryTimer = ({usingStatus, timerTime}: LibraryUsingStatus) => {
 };
 
 export default LibraryTimer;
-

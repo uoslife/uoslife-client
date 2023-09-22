@@ -5,29 +5,52 @@ import styled from '@emotion/native';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {Pressable, View} from 'react-native';
 import {useSetAtom} from 'jotai';
-import {accountStatusAtom} from '..';
+import {accountFlowStatusAtom} from '../../../atoms/account';
+import {CoreAPI} from '../../../api/services';
+import InputProps from '../../../components/forms/input/Input.type';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
+type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
-  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
-  const [status, setStatus] = useState('');
-  const [inputValue, setInputValue] = useState({id: '', password: ''});
+  const [messageStatus, setMessageStatus] =
+    useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
+  const [inputValue, setInputValue] = useState<InputValueType>({
+    id: '',
+    password: '',
+  });
 
-  const handleStatusMessage = (status: string) => {
+  const handleInputStatusMessage = (
+    status: PortalVerificationStatusMessageType,
+  ) => {
     switch (status) {
-      case 'codeError':
-        return '입력하신 인증번호가 일치하지 않습니다.';
-      case 'requestExceed':
-        return '1일 인증 요청 가능 횟수를 초과하였습니다.';
-      case 'timeExpired':
-        return '요청된 시간이 만료되었습니다.';
+      case 'BEFORE_VERIFICATION':
+        return '';
+      case 'ERROR':
+        return '아이디 또는 비밀번호를 확인해주세요.';
+    }
+  };
+  const handleInputStatus = (
+    status: PortalVerificationStatusMessageType,
+  ): InputProps['status'] => {
+    switch (status) {
+      case 'BEFORE_VERIFICATION':
+        return 'default';
+      case 'ERROR':
+        return 'error';
     }
   };
 
-  const onChangeText = (text: string, target: string) => {
+  const onChangeText = (text: string, target: keyof InputValueType) => {
     setInputValue({...inputValue, [target]: text});
+    setMessageStatus('BEFORE_VERIFICATION');
+  };
+  const onPressInputDelete = (target: keyof InputValueType) => {
+    onChangeText('', target);
   };
 
   const handlePostponePortalAuth = () => {
@@ -42,8 +65,24 @@ const PortalAuthenticationScreen = () => {
     });
   };
 
-  const handleSubmit = () => {
-    // 확인 버튼 입력 시, 관련 기능 추가
+  const handleSubmit = async () => {
+    const res = await CoreAPI.portalVerification({
+      username: inputValue.id,
+      password: inputValue.password,
+    });
+    if (!res) {
+      setMessageStatus('ERROR');
+      return;
+    }
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        portalStatus: {
+          isPortalStep: prev.portalStatus.isPortalStep,
+          step: 1,
+        },
+      };
+    });
   };
 
   return (
@@ -80,21 +119,20 @@ const PortalAuthenticationScreen = () => {
           </View>
           <Input
             onChangeText={text => onChangeText(text, 'id')}
-            onPress={() => onChangeText('', 'id')}
+            onPress={() => onPressInputDelete('id')}
             value={inputValue.id}
             label={'포털 아이디'}
-            status={'default'}
-            statusMessage={handleStatusMessage(status)}
+            status={handleInputStatus(messageStatus)}
             placeholder={'아이디'}
           />
           <Input
             onChangeText={text => onChangeText(text, 'password')}
-            onPress={() => onChangeText('', 'password')}
+            onPress={() => onPressInputDelete('password')}
             value={inputValue.password}
             secureTextEntry={true}
             label={'포털 비밀번호'}
-            status={'default'}
-            statusMessage={handleStatusMessage(status)}
+            status={handleInputStatus(messageStatus)}
+            statusMessage={handleInputStatusMessage(messageStatus)}
             placeholder={'비밀번호'}
           />
         </View>
