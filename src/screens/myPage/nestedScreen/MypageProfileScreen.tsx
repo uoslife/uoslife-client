@@ -188,10 +188,14 @@ const MypageProfileScreen = () => {
     },
   ];
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <View style={{paddingTop: insets.top}}>
       <S.screenContainer>
-        <Header label={'마이페이지'} />
+        <Header label={'마이페이지'} onPressBackButton={handleGoBack} />
         <S.myProfileContainer>
           <S.myProfileBox>
             <Pressable

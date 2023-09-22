@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import Header from '../../components/header/Header';
 import styled from '@emotion/native';
@@ -7,87 +7,129 @@ import CafeteriaCard from '../../components/molecules/cafeteria/card/CafeteriaCa
 import {Icon, Txt} from '@uoslife/design-system';
 import {Pressable} from 'react-native';
 import DatePaginationBar from '../../components/molecules/cafeteria/pagination/DatePaginationBar';
+import {UtilAPI} from '../../api/services';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
+import response from './mockResponse';
 
 export type CafeteriaItem = {
+  name: string;
   corner?: string;
-  dish?: string;
-  subDish?: string;
-  price?: string;
+  menu: string;
+  sideMenus?: string;
+  openTime: string;
+  closeTime: string;
+  price: string;
   extraPrice?: string;
-  showDivider?: boolean;
+  mealTime: string;
 };
-
-export type DatePaginationItem = {};
 
 const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
   const [activeIcon, setActiveIcon] = useState('lunch');
+  const [today, setToday] = useState(new Date());
+  const [datePaginationItems, setDatePaginationItems] = useState<string[]>([]);
+  const [date, setDate] = useState('');
 
-  // api example
-  const cafeteriaItems: CafeteriaItem[] = [
-    {
-      corner: '코너A',
-      dish: '라면',
-      subDish: '치즈 / 떡 / 만두 / 공기밥',
-      price: '2,000원',
-      extraPrice: '(+ 500원)',
-      showDivider: false,
-    },
-    {dish: '삶은 계란', price: '500원', showDivider: false},
-    {dish: '돈불고기', price: '3,000원', showDivider: true},
-    {
-      corner: '코너B',
-      dish: '콩나물국',
-      subDish: '쥐어채볶음 / 참나물겉절이 / 만두',
-      price: '3,800원',
-      showDivider: true,
-    },
-    {
-      corner: '코너C',
-      dish: '콩나물국',
-      subDish: '쥐어채볶음 / 참나물겉절이 / 만두',
-      price: '3,800원',
-      showDivider: true,
-    },
-    {
-      corner: '코너D',
-      dish: '콩나물국',
-      subDish: '쥐어채볶음 / 참나물겉절이 / 만두',
-      price: '3,800원',
-      showDivider: false,
-    },
-  ];
+  const getCafeteriaAPI = useCallback(async (date: string) => {
+    const response = await UtilAPI.getCafeteriasWithDate({date});
+  }, []);
 
-  const handleIconPress = (icon: string) => {
-    if (activeIcon !== icon) {
-      setActiveIcon(icon);
-    }
+  const navigation = useNavigation();
+
+  const handleGoBack = () => {
+    navigation.goBack();
   };
 
-  // api example
-  const datePaginationItems: DatePaginationItem[] = [
-    {
-      date: '2023.08.22(화)',
-    },
-    {
-      date: '2023.08.23(수)',
-    },
-    {
-      date: '2023.08.24(목)',
-    },
+  const lunchData = response.filter(items => items.mealTime === 'LUNCH');
+  const dinnerData = response.filter(items => items.mealTime === 'DINNER');
+
+  const studentUnionLunch = lunchData.filter(
+    items => items.name === '학생회관',
+  );
+  const naturalScienceBuildingLunch = lunchData.filter(
+    items => items.name === '자연과학관',
+  );
+  const mainBuildingLunch = lunchData.filter(items => items.name === '본관8층');
+
+  const studentUnionDinner = dinnerData.filter(
+    items => items.name === '학생회관',
+  );
+  const naturalScienceBuildingDinner = dinnerData.filter(
+    items => items.name === '자연과학관',
+  );
+  const mainBuildingDinner = dinnerData.filter(
+    items => items.name === '본관8층',
+  );
+
+  const dayString = [
+    '일요일',
+    '월요일',
+    '화요일',
+    '수요일',
+    '목요일',
+    '금요일',
+    '토요일',
   ];
+
+  useEffect(() => {
+    setToday(new Date());
+  }, [today.getDate()]);
+
+  // 일주일치의 날짜를 생성
+  useEffect(() => {
+    setDatePaginationItems(() => {
+      return [
+        '2023.09.25 (월)',
+        '2023.09.26 (화)',
+        '2023.09.27 (수)',
+        '2023.09.28 (목)',
+        '2023.09.29 (금)',
+        '2023.09.30 (토)',
+        '2023.10.01 (일)',
+      ];
+    }); // TODO: 날짜 표시용 임시 코드
+    if (today.getDay() === 1) {
+      setDatePaginationItems([]);
+      for (let i = 0; i < 7; i++) {
+        const year = today.getFullYear(); // 년도
+        const month = ('0' + (today.getMonth() + 1)).slice(-2); // 달
+        const day = ('0' + today.getDate()).slice(-2); // 일
+        const dayOfWeek = dayString[today.getDay()]; // 요일 (일요일 0 ~ 토요일 6)
+
+        const dateStr = `${year}.${month}.${day}(${dayOfWeek})`;
+        setDate(year + '-' + month + '-' + day);
+
+        setDatePaginationItems(datePaginationItems => [
+          ...datePaginationItems,
+          dateStr,
+        ]);
+
+        today.setDate(today.getDate() + 1); // 다음 날짜로 이동
+      }
+    }
+  }, [today.getDay, date]);
+
+  // useEffect(() => {
+  //   getCafeteriaAPI(date);
+  // }, [date]);
+
+  const handleIconPress = useCallback(
+    (icon: string) => {
+      if (activeIcon !== icon) {
+        setActiveIcon(icon);
+      }
+    },
+    [activeIcon],
+  );
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'학식'} />
+      <Header label={'학식'} onPressBackButton={handleGoBack} />
       <ScrollView>
         <S.bodyContainer>
           <S.selectorWrapper>
-            <DatePaginationBar
-              totalPages={3}
-              datePaginationItems={datePaginationItems}
-            />
+            <DatePaginationBar datePaginationItems={datePaginationItems} />
             <S.iconWrapper>
               <Pressable onPress={() => handleIconPress('lunch')}>
                 <S.iconContainer>
@@ -121,18 +163,50 @@ const CafeteriaScreen = () => {
               </Pressable>
             </S.iconWrapper>
           </S.selectorWrapper>
-          <S.menuContainer>
-            <Card
-              title="학생회관"
-              caption={`코너 A, B ,C 11:00 ~ 14:00\n코너 E 11:00 ~ 13:30`}
-              children={<CafeteriaCard cafeteriaItems={cafeteriaItems} />}
-            />
-            <Card
-              title="자연과학관"
-              caption="17:00 ~ 18:30"
-              children={<CafeteriaCard isEmpty />}
-            />
-          </S.menuContainer>
+          {activeIcon === 'lunch' && (
+            <S.menuContainer>
+              <Card
+                title="학생회관"
+                caption="11:00 ~ 14:00"
+                children={<CafeteriaCard cafeteriaItems={studentUnionLunch} />}
+              />
+              <Card
+                title="자연과학관"
+                caption="11:30 ~ 14:00"
+                children={
+                  <CafeteriaCard cafeteriaItems={naturalScienceBuildingLunch} />
+                }
+              />
+              <Card
+                title="본관8층"
+                caption="11:30 ~ 14:00"
+                children={<CafeteriaCard cafeteriaItems={mainBuildingLunch} />}
+              />
+            </S.menuContainer>
+          )}
+          {activeIcon === 'dinner' && (
+            <S.menuContainer>
+              <Card
+                title="학생회관"
+                caption="17:00 ~ 18:30"
+                children={<CafeteriaCard cafeteriaItems={studentUnionDinner} />}
+              />
+              <Card
+                title="자연과학관"
+                caption="17:30 ~ 18:30"
+                children={
+                  <CafeteriaCard
+                    cafeteriaItems={naturalScienceBuildingDinner}
+                  />
+                }
+              />
+              <Card
+                title="본관8층"
+                caption="17:30 ~ 18:30"
+                children={<CafeteriaCard cafeteriaItems={mainBuildingDinner} />}
+              />
+            </S.menuContainer>
+          )}
         </S.bodyContainer>
       </ScrollView>
     </S.screenContainer>
@@ -172,7 +246,7 @@ const S = {
     gap: 8px;
   `,
   cafeteriaPaginationBarWrapper: styled.View`
-    algin-items: center;
+    align-items: center;
     margin-top: 16px;
   `,
 };

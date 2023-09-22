@@ -6,7 +6,6 @@ import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {colors, Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Dimensions} from 'react-native';
 
 type MyPageNavigatorItem = {
   name: string;
@@ -32,14 +31,10 @@ const MypageMainScreen = ({
     {name: '문의하기', navigateDestination: 'Mypage_inquiry'},
   ];
 
-  const {height} = Dimensions.get('window');
-  const HEADER_HEIGHT = 56;
-
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'마이페이지'} />
-      <S.myProfileContainer
-        style={{height: height - (HEADER_HEIGHT + insets.top)}}>
+      <Header label={'MY Page'} />
+      <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
             <S.userImage source={require('../../assets/images/user.png')} />

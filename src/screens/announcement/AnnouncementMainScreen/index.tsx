@@ -101,10 +101,14 @@ const AnnouncementMainScreen = () => {
       },
     },
   ];
+  
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
 
   return (
     <S.screenWrapper style={{paddingTop: insets.top}}>
-      <Header label="공지사항">
+      <Header label="공지사항" onPressBackButton={handleGoBack}>
         <S.headerIcons>
           {icons.map((item, i) => (
             <S.iconWrapper key={i} onPress={item.onPress}>

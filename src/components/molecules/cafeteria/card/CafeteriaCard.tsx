@@ -22,37 +22,37 @@ const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
               return (
                 <View key={index}>
                   <S.cardContent>
-                    {value.corner && (
+                    {value['corner'] && (
                       <Txt
-                        label={value.corner}
+                        label={value['corner']}
                         color={'grey190'}
                         typograph={'labelLarge'}
                       />
                     )}
                     <S.inlineWrapper>
                       <Txt
-                        label={value.dish}
+                        label={value['menu']}
                         color={'grey190'}
                         typograph={'bodyLarge'}
                       />
                       <Txt
-                        label={value.price}
+                        label={value['price']}
                         color={'grey130'}
                         typograph={'bodyLarge'}
                       />
                     </S.inlineWrapper>
 
                     <S.inlineWrapper>
-                      {value.subDish && (
+                      {value['sideMenus'] && (
                         <Txt
-                          label={value.subDish}
+                          label={value['sideMenus']}
                           color={'grey90'}
                           typograph={'bodyMedium'}
                         />
                       )}
-                      {value.extraPrice && (
+                      {value['extraPrice'] && (
                         <Txt
-                          label={value.extraPrice}
+                          label={value['extraPrice']}
                           color={'grey90'}
                           typograph={'bodyMedium'}
                         />

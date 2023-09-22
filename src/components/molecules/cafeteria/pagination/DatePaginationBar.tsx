@@ -3,14 +3,11 @@ import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import DatePaginationProps from './DatePaginationBar.type';
 
-const DatePaginationBar = ({
-  totalPages,
-  datePaginationItems,
-}): DatePaginationProps => {
+const DatePaginationBar = ({datePaginationItems}: DatePaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
+    if (newPage >= 1 && newPage <= 7) {
       setCurrentPage(newPage);
     }
   };
@@ -21,25 +18,25 @@ const DatePaginationBar = ({
         onPress={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}>
         {currentPage === 1 ? (
-          <Icon name={'backward'} color='grey40' width={24} height={24} />
+          <Icon name={'backward'} color="grey40" width={24} height={24} />
         ) : (
-          <Icon name={'backward'} color='grey190' width={24} height={24} />
+          <Icon name={'backward'} color="grey190" width={24} height={24} />
         )}
       </TabBarButton>
 
       <Txt
-        label={datePaginationItems[currentPage - 1].date}
+        label={datePaginationItems[currentPage - 1]}
         color={'grey150'}
         typograph={'titleMedium'}
       />
 
       <TabBarButton
         onPress={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}>
-        {currentPage === totalPages ? (
-          <Icon name={'forward'} color='grey40' width={24} height={24} />
+        disabled={currentPage === 7}>
+        {currentPage === 7 ? (
+          <Icon name={'forward'} color="grey40" width={24} height={24} />
         ) : (
-          <Icon name={'forward'} color='grey190' width={24} height={24} />
+          <Icon name={'forward'} color="grey190" width={24} height={24} />
         )}
       </TabBarButton>
     </TabBarContainer>
@@ -53,7 +50,7 @@ const TabBarContainer = styled.View`
   gap: 20px;
 `;
 
-const TabBarButton = styled.TouchableOpacity` 
+const TabBarButton = styled.TouchableOpacity`
   padding: 8px;
   align-items: flex-start;
 `;

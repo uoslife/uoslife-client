@@ -12,6 +12,7 @@ import IconWithText from '../../../components/molecules/iconWithText/IconWithTex
 import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 type AnnouncementDetailScreenProps = NativeStackScreenProps<
   AnnouncementStackParamList,
@@ -52,9 +53,15 @@ const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
     </S.bookmarkBtnContainer>
   );
 
+  const navigation=useNavigation();
+
+  const handleGoBack=()=>{
+    navigation.goBack();
+  }
+
   return !!article ? (
     <S.screenWrapper style={{paddingTop: insets.top}}>
-      <Header label={article.category} />
+      <Header label={article.category} onPressBackButton={handleGoBack} />
       <S.exceptHeader>
         {/* emotion의 border-{direction} 버그로 인해 style prop 이용 */}
         <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>

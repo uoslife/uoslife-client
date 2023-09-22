@@ -1,8 +1,5 @@
-import { DatePaginationItem } from "../../../../screens/cafeteria/CafeteriaScreen";
-
-type DatePaginationProps={
-    totalPages:number,
-    datePaginationItems?: DatePaginationItem[]
-}
+type DatePaginationProps = {
+  datePaginationItems?: string[];
+};
 
 export default DatePaginationProps;
