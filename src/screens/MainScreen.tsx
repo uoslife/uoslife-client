@@ -2,18 +2,20 @@ import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import React from 'react';
 
-import {Platform, NativeModules, StatusBar, View} from 'react-native';
+import {View, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/core';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import {
   AnnounceContents,
-  Banner,
-  BottomNavigation,
   CafeteriaContents,
   LibraryContents,
   MainServiceBox,
 } from '../components/molecules';
-import {useNavigation} from '@react-navigation/core';
+import Carousel from '../components/molecules/carousel/Carousel';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+const {width} = Dimensions.get('window');
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
@@ -60,7 +62,12 @@ const MainScreen = () => {
               typograph={'headlineSmall'}
             />
           </View>
-          <Banner />
+          <Carousel
+            imageWidth={width - 32}
+            imageHeight={148}
+            imageUrls={[{uri: ''}, {uri: ''}]}
+            indicator="TOPRIGHT"
+          />
           <MainServiceBox
             label={'오늘의 학식'}
             iconName={'cafeteria'}
