@@ -1,8 +1,8 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import styled from '@emotion/native';
 import {Alert} from 'react-native';
-import {Icon, Txt} from '@uoslife/design-system';
+import {Txt} from '@uoslife/design-system';
 import SearchInput from '../../../components/forms/searchInput/SearchInput';
 import HistoryList from '../../../components/molecules/announcement/HistoryList';
 import {
@@ -14,6 +14,11 @@ import Header from '../../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+type SearchHistoryProps = {
+  histories: string[];
+  executeSearch: (searchWordParam: string) => void;
+};
+
 const AnnouncementSearchScreen = () => {
   const insets = useSafeAreaInsets();
   const [histories, setHistories] = useState<string[]>([]);
@@ -21,15 +26,16 @@ const AnnouncementSearchScreen = () => {
   // articles === null일때 ? 검색창이 열리고, 히스토리가 보임 : 검색 결과가 보임
   const [articles, setArticles] = useState<null | Article[]>(null);
   const inputRef = useRef<TextInput>(null);
+  const [hasSearchResults, setHasSearchResults] = useState(true);
 
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
     const DUMMY_HISTORY = [];
+    // TODO: 검색 결과가 없을 경우, hasSearchResults state 활용하여 return으로 분기 처리해주기.
     for (let i = 0; i < 10; i++) {
       DUMMY_HISTORY.push(`히스토리 ${i}`);
       DUMMY_HISTORY.push(`${i}`);
     }
-
     setHistories(DUMMY_HISTORY);
   }, []);
 
@@ -54,6 +60,48 @@ const AnnouncementSearchScreen = () => {
       console.log(err);
     }
   };
+
+  const NoSearchedHistoryResults = () => (
+    <S.searchHistoryResultNotFound>
+      <Txt
+        label={'검색 결과가 없어요.'}
+        color={'grey90'}
+        typograph={'bodyMedium'}
+      />
+    </S.searchHistoryResultNotFound>
+  );
+
+  const IsSearchedHistoryResult = ({
+    histories,
+    executeSearch,
+  }: SearchHistoryProps) => (
+    <>
+      <S.rowReversed>
+        <S.eraseAllTxtWrapper
+          onPress={() => {
+            Alert.alert('API를 달아주셔야 제대로 지워집니다?');
+            setHistories([]);
+          }}>
+          <Txt
+            color={'grey90'}
+            label={'모두 지우기'}
+            typograph={'bodyMedium'}
+          />
+        </S.eraseAllTxtWrapper>
+      </S.rowReversed>
+      <HistoryList executeSearch={executeSearch} histories={histories} />
+    </>
+  );
+
+  const HistoryResult = () =>
+    hasSearchResults ? (
+      <IsSearchedHistoryResult
+        histories={histories}
+        executeSearch={executeSearch}
+      />
+    ) : (
+      <NoSearchedHistoryResults />
+    );
 
   return (
     <View style={{paddingTop: insets.top}}>
@@ -84,22 +132,7 @@ const AnnouncementSearchScreen = () => {
       {!!articles ? (
         <ArticleList articles={articles} showCategory />
       ) : (
-        <>
-          <S.rowReversed>
-            <S.eraseAllTxtWrapper
-              onPress={() => {
-                Alert.alert('API를 달아주셔야 제대로 지워집니다?');
-                setHistories([]);
-              }}>
-              <Txt
-                color={'grey90'}
-                label={'모두 지우기'}
-                typograph={'bodyMedium'}
-              />
-            </S.eraseAllTxtWrapper>
-          </S.rowReversed>
-          <HistoryList executeSearch={executeSearch} histories={histories} />
-        </>
+        HistoryResult()
       )}
     </View>
   );
@@ -111,12 +144,10 @@ const S = {
   screenWrapper: styled.ScrollView`
     width: 100%;
     height: 100%;
-    display: flex;
 
     z-index: 10;
   `,
   searchInputRow: styled.View`
-    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 16px;
@@ -124,10 +155,14 @@ const S = {
   rowReversed: styled.View`
     width: 100%;
 
-    display: flex;
     flex-direction: row-reverse;
   `,
   eraseAllTxtWrapper: styled.Pressable`
     padding: 10px 20px;
+  `,
+  searchHistoryResultNotFound: styled.View`
+    padding: 48px 0;
+    justify-content: center;
+    align-items: center;
   `,
 };
