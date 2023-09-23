@@ -25,9 +25,7 @@ export default Header;
 const S = {
   headerContainter: styled.View`
     width: 100%;
-    height: 56px;
-    display: flex;
-    padding: 8px 16px;
+    padding: 12px 20px 12px 16px;
     flex-direction: row;
     align-items: center;
     gap: 16px;
