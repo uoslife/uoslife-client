@@ -13,8 +13,6 @@ export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
   AnnouncementDetail: {id: string};
-  AnnouncementSearchWindow: {prevSearchWord?: string};
-  AnnouncementSearchResult: {searchWord: string};
   AnnouncementSearch: undefined;
 };
 
