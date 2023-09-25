@@ -3,17 +3,17 @@ import React, {useState, useEffect, useRef} from 'react';
 import styled from '@emotion/native';
 import {Alert} from 'react-native';
 import {Txt} from '@uoslife/design-system';
-import SearchInput from '../../../components/forms/searchInput/SearchInput';
-import HistoryList from '../../../components/molecules/announcement/HistoryList';
+import SearchInput from '../../components/forms/searchInput/SearchInput';
+import HistoryList from '../../components/molecules/announcement/HistoryList';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
-} from '../AnnouncementMainScreen';
-import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
-import Header from '../../../components/header/Header';
+} from './AnnouncementMainScreen';
+import ArticleList from '../../components/molecules/announcement/article/ArticleList';
+import Header from '../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 type SearchResultProps = {
   articles: Article[];
@@ -46,11 +46,11 @@ const AnnouncementSearchScreen = () => {
   const [articles, setArticles] = useState<null | Article[]>(null);
   const inputRef = useRef<TextInput>(null);
 
-  const navigation=useNavigation();
-  
-  const handleGoBack=()=>{
+  const navigation = useNavigation();
+
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {

@@ -1,18 +1,18 @@
 import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
-import Header from '../../../components/header/Header';
+import Header from '../../components/header/Header';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import {View, Text} from 'react-native';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
-} from '../AnnouncementMainScreen';
-import {getUploadTimeString} from '../../../utils/handle-date';
-import IconWithText from '../../../components/molecules/iconWithText/IconWithText';
-import {AnnouncementStackParamList} from '../../../navigators/AnnouncementStackNavigator';
+} from './AnnouncementMainScreen';
+import {getUploadTimeString} from '../../utils/handle-date';
+import IconWithText from '../../components/molecules/iconWithText/IconWithText';
+import {AnnouncementStackParamList} from '../../navigators/AnnouncementStackNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 type AnnouncementDetailScreenProps = NativeStackScreenProps<
   AnnouncementStackParamList,
@@ -53,11 +53,11 @@ const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
     </S.bookmarkBtnContainer>
   );
 
-  const navigation=useNavigation();
+  const navigation = useNavigation();
 
-  const handleGoBack=()=>{
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   return !!article ? (
     <S.screenWrapper style={{paddingTop: insets.top}}>

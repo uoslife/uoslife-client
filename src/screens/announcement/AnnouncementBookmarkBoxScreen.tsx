@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import Header from '../../../components/header/Header';
+import Header from '../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../../../components/molecules/announcement/article/ArticleList';
+import ArticleList from '../../components/molecules/announcement/article/ArticleList';
 import styled from '@emotion/native';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
   ArticleCategoryTapState,
-} from '../AnnouncementMainScreen';
+} from './AnnouncementMainScreen';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const AnnouncementBookmarkBoxScreen = () => {
   const insets = useSafeAreaInsets();
@@ -20,10 +20,10 @@ const AnnouncementBookmarkBoxScreen = () => {
     selected: '일반공지',
   });
 
-  const navigation=useNavigation();
-  const handleGoBack=()=>{
+  const navigation = useNavigation();
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   useEffect(() => {
     try {

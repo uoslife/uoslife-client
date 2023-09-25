@@ -6,8 +6,8 @@ import {
 
 import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScreen';
 import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
-import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
 import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
+import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
 
 export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
