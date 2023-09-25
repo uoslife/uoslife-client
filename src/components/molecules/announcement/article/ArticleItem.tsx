@@ -53,7 +53,11 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
           name={'bookmark'}
           color={bookmarkByMe ? 'primaryBrand' : 'grey60'}
         />
-        <Text>{bookmarkCnt}</Text>
+        <Txt
+          label={bookmarkCnt.toString()}
+          color={bookmarkByMe ? 'primaryBrand' : 'grey60'}
+          typograph={'labelSmall'}
+        />
       </S.bookmarkContainer>
     </S.articleItemWrapper>
   );

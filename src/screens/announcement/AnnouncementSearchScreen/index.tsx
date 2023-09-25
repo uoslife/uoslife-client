@@ -1,8 +1,8 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import styled from '@emotion/native';
 import {Alert} from 'react-native';
-import {Icon, Txt} from '@uoslife/design-system';
+import {Txt} from '@uoslife/design-system';
 import SearchInput from '../../../components/forms/searchInput/SearchInput';
 import HistoryList from '../../../components/molecules/announcement/HistoryList';
 import {
@@ -14,6 +14,29 @@ import Header from '../../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+
+type SearchResultProps = {
+  articles: Article[];
+  hasSearchResult: boolean;
+};
+
+const NoSearchedResults = () => (
+  <S.searchHistoryResultNotFound>
+    <Txt
+      label={'검색 결과가 없어요.'}
+      color={'grey90'}
+      typograph={'bodyMedium'}
+    />
+  </S.searchHistoryResultNotFound>
+);
+
+const SearchResult = ({articles, hasSearchResult}: SearchResultProps) => {
+  return hasSearchResult ? (
+    <ArticleList articles={articles} showCategory />
+  ) : (
+    <NoSearchedResults />
+  );
+};
 
 const AnnouncementSearchScreen = () => {
   const insets = useSafeAreaInsets();
@@ -41,6 +64,9 @@ const AnnouncementSearchScreen = () => {
   }, []);
 
   // API: 검색 수행하기
+  const hasSearchResult = false;
+  // TODO: 검색 api의 responese.size === 0인지 아닌지에 따라서 hasSearchResult의 값이 true인지 false인지 여부 판단.
+
   const executeSearch = (searchWordParam: string) => {
     setSearchWord(searchWordParam);
 
@@ -89,7 +115,7 @@ const AnnouncementSearchScreen = () => {
       </Header>
 
       {!!articles ? (
-        <ArticleList articles={articles} showCategory />
+        <SearchResult articles={articles} hasSearchResult={hasSearchResult} />
       ) : (
         <>
           <S.rowReversed>
@@ -118,12 +144,10 @@ const S = {
   screenWrapper: styled.ScrollView`
     width: 100%;
     height: 100%;
-    display: flex;
 
     z-index: 10;
   `,
   searchInputRow: styled.View`
-    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 16px;
@@ -131,10 +155,14 @@ const S = {
   rowReversed: styled.View`
     width: 100%;
 
-    display: flex;
     flex-direction: row-reverse;
   `,
   eraseAllTxtWrapper: styled.Pressable`
     padding: 10px 20px;
+  `,
+  searchHistoryResultNotFound: styled.View`
+    padding: 48px 0;
+    justify-content: center;
+    align-items: center;
   `,
 };

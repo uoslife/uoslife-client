@@ -41,12 +41,12 @@ const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
     <S.bookmarkBtnContainer onPress={onPressBookmark}>
       <Icon
         name={'bookmark'}
-        color={article.bookmarkByMe ? 'grey90' : 'primaryBrand'}
+        color={article.bookmarkByMe ? 'primaryBrand' : 'grey90'}
         height={24}
         width={24}
       />
       <Txt
-        color={article.bookmarkByMe ? 'grey90' : 'primaryBrand'}
+        color={article.bookmarkByMe ? 'primaryBrand' : 'grey90'}
         label={`${article.bookmarkCnt}`}
         typograph={'titleSmall'}
       />
@@ -158,7 +158,7 @@ const S = {
   `,
   attachmentItem: styled.View`
     display: flex;
-    gap: 2px;
+    gap: 6px;
     flex-direction: row;
     align-items: center;
 
