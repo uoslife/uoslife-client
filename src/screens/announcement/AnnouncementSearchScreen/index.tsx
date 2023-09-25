@@ -1,11 +1,5 @@
 import {View} from 'react-native';
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from '@emotion/native';
 import {Alert} from 'react-native';
 import {Txt} from '@uoslife/design-system';
@@ -20,14 +14,12 @@ import Header from '../../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-type HistoryResultProps = {
-  executeSearch: (searchWordParam: string) => void;
-  histories: string[];
-  setHistories?: Dispatch<SetStateAction<string[]>>;
-  hasSearchResults?: boolean;
+type SearchResultProps = {
+  articles: Article[];
+  hasSearchResult: boolean;
 };
 
-const NoSearchedHistoryResults = () => (
+const NoSearchedResults = () => (
   <S.searchHistoryResultNotFound>
     <Txt
       label={'검색 결과가 없어요.'}
@@ -37,38 +29,13 @@ const NoSearchedHistoryResults = () => (
   </S.searchHistoryResultNotFound>
 );
 
-const IsSearchedHistoryResult = ({
-  histories,
-  setHistories,
-  executeSearch,
-}: HistoryResultProps) => (
-  <>
-    <S.rowReversed>
-      <S.eraseAllTxtWrapper
-        onPress={() => {
-          Alert.alert('API를 달아주셔야 제대로 지워집니다?');
-          setHistories!([]);
-        }}>
-        <Txt color={'grey90'} label={'모두 지우기'} typograph={'bodyMedium'} />
-      </S.eraseAllTxtWrapper>
-    </S.rowReversed>
-    <HistoryList executeSearch={executeSearch} histories={histories} />
-  </>
-);
-
-const HistoryResult = ({
-  hasSearchResults,
-  histories,
-  executeSearch,
-}: HistoryResultProps) =>
-  hasSearchResults ? (
-    <IsSearchedHistoryResult
-      histories={histories}
-      executeSearch={executeSearch}
-    />
+const SearchResult = ({articles, hasSearchResult}: SearchResultProps) => {
+  return hasSearchResult ? (
+    <ArticleList articles={articles} showCategory />
   ) : (
-    <NoSearchedHistoryResults />
+    <NoSearchedResults />
   );
+};
 
 const AnnouncementSearchScreen = () => {
   const insets = useSafeAreaInsets();
@@ -77,20 +44,22 @@ const AnnouncementSearchScreen = () => {
   // articles === null일때 ? 검색창이 열리고, 히스토리가 보임 : 검색 결과가 보임
   const [articles, setArticles] = useState<null | Article[]>(null);
   const inputRef = useRef<TextInput>(null);
-  const [hasSearchResults, setHasSearchResults] = useState(true);
 
   // API: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
     const DUMMY_HISTORY = [];
-    // TODO: 검색 결과가 없을 경우, hasSearchResults state 활용하여 return으로 분기 처리해주기.
     for (let i = 0; i < 10; i++) {
       DUMMY_HISTORY.push(`히스토리 ${i}`);
       DUMMY_HISTORY.push(`${i}`);
     }
+
     setHistories(DUMMY_HISTORY);
   }, []);
 
   // API: 검색 수행하기
+  const hasSearchResult = false;
+  // TODO: 검색 api의 responese.size === 0인지 아닌지에 따라서 hasSearchResult의 값이 true인지 false인지 여부 판단.
+
   const executeSearch = (searchWordParam: string) => {
     setSearchWord(searchWordParam);
 
@@ -139,13 +108,24 @@ const AnnouncementSearchScreen = () => {
       </Header>
 
       {!!articles ? (
-        <ArticleList articles={articles} showCategory />
+        <SearchResult articles={articles} hasSearchResult={hasSearchResult} />
       ) : (
-        <HistoryResult
-          hasSearchResults={hasSearchResults}
-          histories={histories}
-          executeSearch={executeSearch}
-        />
+        <>
+          <S.rowReversed>
+            <S.eraseAllTxtWrapper
+              onPress={() => {
+                Alert.alert('API를 달아주셔야 제대로 지워집니다?');
+                setHistories([]);
+              }}>
+              <Txt
+                color={'grey90'}
+                label={'모두 지우기'}
+                typograph={'bodyMedium'}
+              />
+            </S.eraseAllTxtWrapper>
+          </S.rowReversed>
+          <HistoryList executeSearch={executeSearch} histories={histories} />
+        </>
       )}
     </View>
   );
