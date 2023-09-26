@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import LibraryTimer from './LibraryTimer';
-
+import {View} from 'react-native';
 
 export type LibraryUserInfoType =
   | {
@@ -105,12 +105,9 @@ const LibraryUserInfo = ({
         {getDescriptions({extended, room, seatNum, timeOfUse}).map(
           (item, i) => (
             <S.userInfoDetailItem key={i}>
-              <Txt
-                style={{width: 56}}
-                color={'grey90'}
-                label={item.key}
-                typograph="titleSmall"
-              />
+              <View style={{width: 56}}>
+                <Txt color={'grey90'} label={item.key} typograph="titleSmall" />
+              </View>
               <Txt color={'grey190'} label={item.value} typograph="bodyLarge" />
             </S.userInfoDetailItem>
           ),
