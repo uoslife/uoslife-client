@@ -5,10 +5,10 @@ import React from 'react';
 import {Txt, colors} from '@uoslife/design-system';
 import {
   ArticleCategoryName,
-  ArticleCategoryTapState,
+  AnnouncementCategoryState,
 } from '../../screens/announcement/AnnouncementMainScreen';
 
-type TapBtnProps = {
+type TabBtnProps = {
   isSelected: boolean;
   selectedBottomColor: string;
 };
@@ -17,40 +17,38 @@ const CategoryTab = ({
   categoryTabProps,
   selectCategory,
 }: {
-  categoryTabProps: ArticleCategoryTapState;
+  categoryTabProps: AnnouncementCategoryState;
   selectCategory: (categoryName: ArticleCategoryName) => void;
 }) => {
-  const {list, selected} = categoryTabProps;
-
   return (
-    <S.tapWrapper>
-      {list.map(item => (
-        <S.tapBtn
-          key={item}
-          isSelected={item === selected}
+    <S.TabContainer>
+      {categoryTabProps.map(item => (
+        <S.TabBtn
+          key={item.name}
+          isSelected={item.isSelected}
           selectedBottomColor={colors.primaryBrand}
           onPress={() => {
-            selectCategory(item);
+            selectCategory(item.name);
           }}>
           <Txt
             typograph={'bodyMedium'}
-            label={item.slice(0, 2)}
-            color={item === selected ? 'primaryBrand' : 'black'}
+            label={item.name.slice(0, 2)}
+            color={item.isSelected ? 'primaryBrand' : 'black'}
           />
-        </S.tapBtn>
+        </S.TabBtn>
       ))}
-    </S.tapWrapper>
+    </S.TabContainer>
   );
 };
 
 export default CategoryTab;
 
 const S = {
-  tapWrapper: styled.View`
+  TabContainer: styled.View`
     flex-direction: row;
     width: 100%;
   `,
-  tapBtn: styled.Pressable<TapBtnProps>`
+  TabBtn: styled.Pressable<TabBtnProps>`
     height: 48px;
     flex: 1;
 

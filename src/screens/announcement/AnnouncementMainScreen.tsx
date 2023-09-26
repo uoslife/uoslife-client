@@ -55,7 +55,7 @@ export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<Article[]>([]);
-  const [articleCategoryTapProps, setArticleCategoryTapProps] =
+  const [articleCategoryTabProps, setArticleCategoryTabProps] =
     useState<AnnouncementCategoryState>([
       {
         name: '일반공지',
@@ -76,8 +76,8 @@ const AnnouncementMainScreen = () => {
     ]);
 
   const selectCategory = (categoryName: ArticleCategoryName) => {
-    setArticleCategoryTapProps(
-      articleCategoryTapProps.map(item => ({
+    setArticleCategoryTabProps(
+      articleCategoryTabProps.map(item => ({
         ...item,
         isSelected: item.name === categoryName,
       })),
@@ -92,13 +92,13 @@ const AnnouncementMainScreen = () => {
         ANNOUNCEMENT_ARTICLE_DUMMY_DATA.filter(
           item =>
             item.category ===
-            articleCategoryTapProps.find(item => item.isSelected)?.name,
+            articleCategoryTabProps.find(item => item.isSelected)?.name,
         ),
       );
     } catch (err) {
       console.log(err);
     }
-  }, [articleCategoryTapProps]);
+  }, [articleCategoryTabProps]);
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
@@ -116,7 +116,7 @@ const AnnouncementMainScreen = () => {
     {
       iconName: 'notification',
       onPress: () => {
-        // TODO: 바텀시트 여는 코드 실행
+        // TODO: 바텀시트 여는 코드 작성
       },
     },
   ];
@@ -141,13 +141,13 @@ const AnnouncementMainScreen = () => {
           ))}
         </S.HeaderIcons>
       </Header>
-      <S.CategoryTapAndContents>
+      <S.CategoryTabAndContents>
         <CategoryTab
-          categoryTabProps={articleCategoryTapProps}
+          categoryTabProps={articleCategoryTabProps}
           selectCategory={selectCategory}
         />
         <ArticleList articles={articles} />
-      </S.CategoryTapAndContents>
+      </S.CategoryTabAndContents>
     </S.ScreenContainer>
   );
 };
@@ -160,7 +160,7 @@ const S = {
     height: 100%;
     display: flex;
   `,
-  CategoryTapAndContents: styled.View`
+  CategoryTabAndContents: styled.View`
     width: 100%;
     display: flex;
     gap: 4px;
