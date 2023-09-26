@@ -10,7 +10,7 @@ type ArticleListProps = {
 
 const ArticleList = ({articles, showCategory}: ArticleListProps) => {
   return (
-    <S.listContainer>
+    <S.ListContainer>
       {articles.map(article => (
         <ArticleItem
           article={article}
@@ -18,14 +18,14 @@ const ArticleList = ({articles, showCategory}: ArticleListProps) => {
           showCategory={showCategory}
         />
       ))}
-    </S.listContainer>
+    </S.ListContainer>
   );
 };
 
 export default ArticleList;
 
 const S = {
-  listContainer: styled.View`
+  ListContainer: styled.ScrollView`
     width: 100%;
   `,
 };
