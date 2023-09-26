@@ -13,10 +13,12 @@ export type ArticleCategoryName =
   | '학사공지'
   | '채용공고'
   | '창업공지';
-export type ArticleCategoryTapState = {
-  list: ArticleCategoryName[];
-  selected: ArticleCategoryName;
-};
+
+export type AnnouncementCategoryState = {
+  name: ArticleCategoryName;
+  isSelected: boolean;
+}[];
+
 export type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
@@ -54,26 +56,43 @@ const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTapProps, setArticleCategoryTapProps] =
-    useState<ArticleCategoryTapState>({
-      list: ['일반공지', '학사공지', '채용공고', '창업공지'],
-      selected: '일반공지',
-    });
+    useState<AnnouncementCategoryState>([
+      {
+        name: '일반공지',
+        isSelected: true,
+      },
+      {
+        name: '학사공지',
+        isSelected: false,
+      },
+      {
+        name: '채용공고',
+        isSelected: false,
+      },
+      {
+        name: '창업공지',
+        isSelected: false,
+      },
+    ]);
 
   const selectCategory = (categoryName: ArticleCategoryName) => {
-    setArticleCategoryTapProps({
-      ...articleCategoryTapProps,
-      selected: categoryName,
-    });
+    setArticleCategoryTapProps(
+      articleCategoryTapProps.map(item => ({
+        ...item,
+        isSelected: item.name === categoryName,
+      })),
+    );
   };
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
   useEffect(() => {
     try {
-      // 선택한 메뉴에 해당되는 글만
       setArticles(
         ANNOUNCEMENT_ARTICLE_DUMMY_DATA.filter(
-          article => article.category === articleCategoryTapProps.selected,
+          item =>
+            item.category ===
+            articleCategoryTapProps.find(item => item.isSelected)?.name,
         ),
       );
     } catch (err) {
@@ -97,7 +116,7 @@ const AnnouncementMainScreen = () => {
     {
       iconName: 'notification',
       onPress: () => {
-        // 바텀시트 열기
+        // TODO: 바텀시트 여는 코드 실행
       },
     },
   ];
@@ -107,47 +126,46 @@ const AnnouncementMainScreen = () => {
   };
 
   return (
-    <S.screenWrapper style={{paddingTop: insets.top}}>
+    <S.ScreenContainer style={{paddingTop: insets.top}}>
       <Header label="공지사항" onPressBackButton={handleGoBack}>
-        <S.headerIcons>
+        <S.HeaderIcons>
           {icons.map((item, i) => (
-            <S.iconWrapper key={i} onPress={item.onPress}>
+            <S.IconWrapper key={i} onPress={item.onPress}>
               <Icon
                 name={item.iconName}
                 color={'grey150'}
                 height={24}
                 width={24}
               />
-            </S.iconWrapper>
+            </S.IconWrapper>
           ))}
-        </S.headerIcons>
+        </S.HeaderIcons>
       </Header>
-      {/* 헤더 완성시 검색, 북마크, 알림 아이콘 넣기 */}
-      <S.categoryTapAndContents>
+      <S.CategoryTapAndContents>
         <CategoryTab
           categoryTabProps={articleCategoryTapProps}
           selectCategory={selectCategory}
         />
         <ArticleList articles={articles} />
-      </S.categoryTapAndContents>
-    </S.screenWrapper>
+      </S.CategoryTapAndContents>
+    </S.ScreenContainer>
   );
 };
 
 export default AnnouncementMainScreen;
 
 const S = {
-  screenWrapper: styled.ScrollView`
+  ScreenContainer: styled.ScrollView`
     width: 100%;
     height: 100%;
     display: flex;
   `,
-  categoryTapAndContents: styled.View`
+  CategoryTapAndContents: styled.View`
     width: 100%;
     display: flex;
     gap: 4px;
   `,
-  headerIcons: styled.View`
+  HeaderIcons: styled.View`
     // 헤더에서 backArrow, Label 외 영역 전부 사용
     flex: 1;
 
@@ -156,8 +174,7 @@ const S = {
     align-items: center;
     gap: 8px;
   `,
-
-  iconWrapper: styled.Pressable`
+  IconWrapper: styled.Pressable`
     padding: 4px;
   `,
 };
