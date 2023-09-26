@@ -2,13 +2,12 @@ import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
 import Header from '../../components/header/Header';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
 } from './AnnouncementMainScreen';
 import {getUploadTimeString} from '../../utils/handle-date';
-import IconWithText from '../../components/molecules/iconWithText/IconWithText';
 import {AnnouncementStackParamList} from '../../navigators/AnnouncementStackNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -19,39 +18,102 @@ type AnnouncementDetailScreenProps = NativeStackScreenProps<
   'AnnouncementDetail'
 >;
 
-const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
-  const insets = useSafeAreaInsets();
-  const [article, setArticle] = useState<Article>();
+const DetailScreenBookmarkToggle = ({
+  bookmarkByMe,
+  bookmarkCnt,
+}: Pick<Article, 'bookmarkByMe' | 'bookmarkCnt'>) => {
+  // TODO: 북마크 Toggle API 호출 지정 필요
+  const onToggleBookmark = () => {};
 
-  const id = route.params.id;
-
-  // article 불러오는 API 달기
-  useEffect(() => {
-    const found = ANNOUNCEMENT_ARTICLE_DUMMY_DATA.find(
-      article => article.id === id,
-    );
-
-    setArticle(found);
-  }, []);
-
-  // API 달기
-  const onPressBookmark = () => {};
-
-  const Bookmark = ({article}: {article: Article}) => (
-    <S.bookmarkBtnContainer onPress={onPressBookmark}>
+  return (
+    <S.BookmarkToggleContainer onPress={onToggleBookmark}>
       <Icon
         name={'bookmark'}
-        color={article.bookmarkByMe ? 'primaryBrand' : 'grey90'}
+        color={bookmarkByMe ? 'primaryBrand' : 'grey90'}
         height={24}
         width={24}
       />
       <Txt
-        color={article.bookmarkByMe ? 'primaryBrand' : 'grey90'}
-        label={`${article.bookmarkCnt}`}
+        color={bookmarkByMe ? 'primaryBrand' : 'grey90'}
+        label={`${bookmarkCnt}`}
         typograph={'titleSmall'}
       />
-    </S.bookmarkBtnContainer>
+    </S.BookmarkToggleContainer>
   );
+};
+
+const AnnouncementDetailContent = ({
+  title,
+  attachments,
+  body,
+  bookmarkByMe,
+  bookmarkCnt,
+  category,
+  uploadTime,
+}: Article) => (
+  <S.AnnouncementDetailContent>
+    <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
+      <S.DetailTopWrapper>
+        <Txt label={title} color={'black'} typograph={'titleLarge'} />
+        <S.CategoryAndDateAndBookmarkContainer>
+          <Txt
+            label={`${category} | ${getUploadTimeString(uploadTime)}`}
+            color={'grey90'}
+            typograph={'bodySmall'}
+          />
+          <DetailScreenBookmarkToggle
+            bookmarkByMe={bookmarkByMe}
+            bookmarkCnt={bookmarkCnt}
+          />
+        </S.CategoryAndDateAndBookmarkContainer>
+      </S.DetailTopWrapper>
+    </View>
+    {attachments.length !== 0 && (
+      <S.AttachmentList>
+        {attachments.map((item, i) => (
+          <S.AttachmentItem key={item}>
+            <Icon
+              height={18}
+              width={18}
+              name={'download'}
+              color={'primaryBrand'}
+              key={i}
+            />
+            <Txt
+              label={`${i + 1}. ${item}`}
+              color={'grey130'}
+              typograph={'bodyMedium'}
+            />
+          </S.AttachmentItem>
+        ))}
+      </S.AttachmentList>
+    )}
+    <Txt label={body} color={'grey190'} typograph={'bodyLarge'} />
+  </S.AnnouncementDetailContent>
+);
+
+const AnnouncementDetailScreen = ({
+  route: {
+    params: {id},
+  },
+}: AnnouncementDetailScreenProps) => {
+  const insets = useSafeAreaInsets();
+  const [article, setArticle] = useState<Article>();
+  // TODO: API 호출 관련 상태관리 로직 custom hook으로 추상화 필요
+  const [isPending, setIsPending] = useState<boolean>(false);
+
+  // TODO: 더미데이터 -> 실제 API 호출로 변경 필요
+  useEffect(() => {
+    setIsPending(true);
+
+    const found = ANNOUNCEMENT_ARTICLE_DUMMY_DATA.find(
+      article => article.id === id,
+    );
+
+    if (found) setArticle(found);
+
+    setIsPending(false);
+  }, []);
 
   const navigation = useNavigation();
 
@@ -59,81 +121,44 @@ const AnnouncementDetailScreen = ({route}: AnnouncementDetailScreenProps) => {
     navigation.goBack();
   };
 
-  return !!article ? (
-    <S.screenWrapper style={{paddingTop: insets.top}}>
-      <Header label={article.category} onPressBackButton={handleGoBack} />
-      <S.exceptHeader>
-        {/* emotion의 border-{direction} 버그로 인해 style prop 이용 */}
-        <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
-          <S.detailTopWrapper>
-            <Txt
-              label={article.title}
-              color={'black'}
-              typograph={'titleLarge'}
-            />
-            <S.categoryAndDateAndBookmarkWrapper>
-              <Txt
-                label={`${article.category} | ${getUploadTimeString(
-                  article!.uploadTime!,
-                )}`}
-                color={'grey90'}
-                typograph={'bodySmall'}
-              />
-              <Bookmark article={article} />
-            </S.categoryAndDateAndBookmarkWrapper>
-          </S.detailTopWrapper>
+  return (
+    <S.ScreenContainer style={{paddingTop: insets.top}}>
+      <Header
+        label={'category: navigation 수정 후에 다시 고치기'}
+        onPressBackButton={handleGoBack}
+      />
+      {!isPending && article ? (
+        <AnnouncementDetailContent {...article} />
+      ) : (
+        <View>
+          {/* TODO: 이곳에 보여줄 컴포넌트 작성 필요 */}
+          로딩중
         </View>
-        {article.attachments.length !== 0 && (
-          <S.attachmentsContainer>
-            {article.attachments.map((item, i) => (
-              <S.attachmentItem key={item}>
-                <Icon
-                  height={18}
-                  width={18}
-                  name={'download'}
-                  color={'primaryBrand'}
-                  key={i}
-                />
-                <Txt
-                  label={`${i + 1}. ${item}`}
-                  color={'grey130'}
-                  typograph={'bodyMedium'}
-                />
-              </S.attachmentItem>
-            ))}
-          </S.attachmentsContainer>
-        )}
-        <Txt label={article.body!} color={'grey190'} typograph={'bodyLarge'} />
-      </S.exceptHeader>
-    </S.screenWrapper>
-  ) : (
-    <View>
-      <Text>로딩스피너?</Text>
-    </View>
+      )}
+    </S.ScreenContainer>
   );
 };
 
 export default AnnouncementDetailScreen;
 
 const S = {
-  screenWrapper: styled.ScrollView`
+  ScreenContainer: styled.ScrollView`
     width: 100%;
     height: 100%;
-    background: #fff; // 수정 필요
   `,
-  exceptHeader: styled.View`
+  AnnouncementDetailContent: styled.View`
     display: flex;
     gap: 24px;
 
     padding: 0px 16px;
   `,
-  detailTopWrapper: styled.View`
+  DetailTopWrapper: styled.View`
     padding: 12px 0;
 
-    border-bottom: 1px ${() => colors.black};
-    border-color: ${() => colors.black};
+    border-bottom: 1px ${colors.black};
+    border-color: ${colors.black};
   `,
-  categoryAndDateAndBookmarkWrapper: styled.View`
+  CategoryAndDateAndBookmarkContainer: styled.View`
     display: flex;
     flex-direction: row;
 
@@ -142,35 +167,29 @@ const S = {
 
     margin-top: 8px;
   `,
-  bookmarkBtnContainer: styled.Pressable`
+  BookmarkToggleContainer: styled.Pressable`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
 
     padding: 6px 12px 6px 8px;
     border-radius: 10px;
 
-    border: 1px ${() => colors.grey40};
+    border: 1px ${colors.grey40};
   `,
-  attachmentsContainer: styled.View`
+  AttachmentList: styled.View`
     gap: 4px;
   `,
-  attachmentItem: styled.View`
+  AttachmentItem: styled.View`
     display: flex;
     gap: 6px;
     flex-direction: row;
     align-items: center;
 
     border-radius: 10px;
-    border: 1px ${() => colors.grey40};
+    border: 1px ${colors.grey40};
 
     padding: 8px 16px;
-  `,
-  divider: styled.View`
-    width: 100%;
-    height: 1px;
-    margin: 0px 16px;
-    background: ${() => colors.grey20};
   `,
 };
