@@ -5,10 +5,7 @@ import {Image, Text} from 'react-native';
 import {Article} from '../../../../screens/announcement/AnnouncementMainScreen';
 import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
-import {
-  AnnouncementNavigationProps,
-  AnnouncementStackParamList,
-} from '../../../../navigators/AnnouncementStackNavigator';
+import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 
 type ArticleItemProps = {
   article: Article;
@@ -16,8 +13,15 @@ type ArticleItemProps = {
 };
 
 const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
-  const {bookmarkCnt, department, title, uploadTime, bookmarkByMe, category} =
-    article;
+  const {
+    bookmarkCnt,
+    department,
+    title,
+    uploadTime,
+    bookmarkByMe,
+    category,
+    id,
+  } = article;
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
@@ -30,7 +34,7 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
     <S.articleItemWrapper>
       <S.description
         onPress={() => {
-          navigation.navigate('AnnouncementDetail', {id: article.id});
+          navigation.navigate('AnnouncementDetail', {id, category});
         }}>
         {showCategory && (
           <Txt

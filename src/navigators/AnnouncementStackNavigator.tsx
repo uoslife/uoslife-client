@@ -4,7 +4,9 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
-import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScreen';
+import AnnouncementMainScreen, {
+  ArticleCategoryName,
+} from '../screens/announcement/AnnouncementMainScreen';
 import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
 import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
 import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
@@ -12,7 +14,7 @@ import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementB
 export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
-  AnnouncementDetail: {id: string};
+  AnnouncementDetail: {id: string; category: ArticleCategoryName};
   AnnouncementSearch: undefined;
 };
 

@@ -94,7 +94,7 @@ const AnnouncementDetailContent = ({
 
 const AnnouncementDetailScreen = ({
   route: {
-    params: {id},
+    params: {id, category},
   },
 }: AnnouncementDetailScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -123,10 +123,7 @@ const AnnouncementDetailScreen = ({
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
-      <Header
-        label={'category: navigation 수정 후에 다시 고치기'}
-        onPressBackButton={handleGoBack}
-      />
+      <Header label={category} onPressBackButton={handleGoBack} />
       {!isPending && article ? (
         <AnnouncementDetailContent {...article} />
       ) : (
