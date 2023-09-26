@@ -83,12 +83,8 @@ const S = {
   screenContainer: styled.View`
     height: 100%;
     width: 100%;
-
     background: ${() => colors.grey10};
-
-    display: flex;
     align-items: center;
-
     padding-bottom: 70px;
   `,
 };

@@ -121,36 +121,26 @@ export default LibraryUserInfo;
 
 const S = {
   userInfoWrapper: styled.View`
-    display: flex;
     align-items: center;
-
     width: 100%;
   `,
   sayingContainer: styled.View`
     padding-top: 20px;
-
-    display: flex;
     align-items: center;
   `,
   timerContainer: styled.View`
     padding-top: 24px;
   `,
   userInfoDetails: styled.View`
-    display: flex;
     gap: 8px;
-
     width: 100%;
-
-    padding-top: 24px;
-    padding-left: 64px;
+    padding: 24px 0 0 64px;
   `,
   userInfoDetailItem: styled.View`
-    display: flex;
     flex-direction: row;
     gap: 24px;
     align-items: center;
     justify-content: flex-start;
-
     width: 100%;
   `,
 };
