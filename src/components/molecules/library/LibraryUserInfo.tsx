@@ -142,7 +142,7 @@ const S = {
     width: 100%;
 
     padding-top: 24px;
-    padding-left: 48px;
+    padding-left: 64px;
   `,
   userInfoDetailItem: styled.View`
     display: flex;
