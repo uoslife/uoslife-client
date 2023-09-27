@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {Dispatch, useState} from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt, colors, colorsType} from '@uoslife/design-system';
 
@@ -10,115 +10,113 @@ type ModalBtn = {
 
 type ModalHookParams = {
   title: string;
+  // standard와 menu 두 종류의 모달, Figma 참고 바랍니다.
+  modalType: 'standard' | 'menu';
   // modalType이 "standard"건 "menu"건, 디자인상으로만 다르고 로직은 사실상 같은 관계로 button 주입은 동일하게 합니다.
   buttons: ModalBtn[];
-
-  modalType: 'standard' | 'menu';
   description?: string;
   informationBox?: {key: string; value: string}[];
 };
 
-// 모달은 항상 바텀시트보다 위에 있습니다.
-// 배경을 눌러도 사라지지 않습니다(기본값). setModalCloseOnBgPress를 통해 수정 가능합니다.
-// 배경은 까맣게 처리됩니다(기본값). setModalBgDark를 통해 수정 가능합니다.
-const useModal = ({
-  title,
+type ModalComponentParams = ModalHookParams & {
+  setModalOpened: Dispatch<boolean>;
+};
+
+const ModalComponent = ({
   modalType,
   description,
+  title,
   buttons,
   informationBox,
-}: ModalHookParams) => {
-  const [modalOpened, setModalOpened] = useState<boolean>(false);
-  const [modalBgDark, setModalBgDark] = useState<boolean>(true);
-  const [modalCloseOnBgPress, setModalCloseOnBgPress] =
-    useState<boolean>(false);
+  setModalOpened,
+}: ModalComponentParams) => {
+  switch (modalType) {
+    case 'standard':
+      const buttonTxtColor: colorsType[] = (() => {
+        switch (buttons.length) {
+          case 1:
+            return ['grey130'];
+          case 2:
+            return ['primaryBrand', 'grey90'];
+          default:
+            return ['primaryBrand', 'grey130', 'grey90'];
+        }
+      })();
 
-  const ModalcontentComponent = () => {
-    switch (modalType) {
-      case 'standard':
-        const buttonTxtColor: colorsType[] = (function () {
-          switch (buttons.length) {
-            case 1:
-              return ['grey130'];
-            case 2:
-              return ['primaryBrand', 'grey90'];
-            default:
-              return ['primaryBrand', 'grey130', 'grey90'];
-          }
-        })();
+      return (
+        <>
+          <S.standard.top>
+            <Txt color={'grey190'} label={title} typograph="titleMedium" />
+            {informationBox && (
+              <S.standard.informationBox bgColor={colors.grey20}>
+                {informationBox.map((item, i) => (
+                  <S.standard.informationItem key={i}>
+                    <Txt
+                      style={{width: 36}}
+                      label={item.key}
+                      color="primaryBrand" // Figma대로 색상 적용 안되는 문제
+                      typograph="labelMedium"
+                    />
+                    <Txt
+                      label={item.value}
+                      color="grey190"
+                      typograph="bodyMedium"
+                    />
+                  </S.standard.informationItem>
+                ))}
+              </S.standard.informationBox>
+            )}
+            <Txt
+              label={
+                description ||
+                'standard modal 이용시 description 필드를 채워주세요..'
+              }
+              color={'grey130'}
+              typograph={'bodySmall'}
+            />
+          </S.standard.top>
+          {buttons.map((btn, i) => {
+            const onPressBtn = () => {
+              if (btn.onPress) btn.onPress();
+              if (btn.closeAfterPressed) setModalOpened(false);
+            };
 
-        return (
-          <>
-            <S.standard.top>
-              <Txt color={'grey190'} label={title} typograph="titleMedium" />
-              {informationBox && (
-                <S.standard.informationBox bgColor={colors.grey20}>
-                  {informationBox.map((item, i) => (
-                    <S.standard.informationItem key={i}>
-                      <Txt
-                        style={{width: 36}}
-                        label={item.key}
-                        color="primaryBrand" // Figma대로 색상 적용 안되는 문제
-                        typograph="labelMedium"
-                      />
-                      <Txt
-                        label={item.value}
-                        color="grey190"
-                        typograph="bodyMedium"
-                      />
-                    </S.standard.informationItem>
-                  ))}
-                </S.standard.informationBox>
-              )}
+            return (
+              <S.standard.btn
+                borderColor={colors.grey40}
+                onPress={onPressBtn}
+                key={i}>
+                <Txt
+                  color={buttonTxtColor[i]}
+                  label={btn.text}
+                  typograph={'bodyMedium'}
+                />
+              </S.standard.btn>
+            );
+          })}
+        </>
+      );
+    case 'menu':
+      return (
+        <>
+          <S.menu.top>
+            <Txt color={'grey190'} label={title} typograph={'titleMedium'} />
+            {description && (
               <Txt
-                label={
-                  description ||
-                  'standard modal 이용시 description 필드를 채워주세요..'
-                }
+                label={description}
                 color={'grey130'}
                 typograph={'bodySmall'}
               />
-            </S.standard.top>
-            {buttons.map((btn, i) => {
-              const onPressBtn = () => {
-                if (btn.onPress) btn.onPress();
-                if (btn.closeAfterPressed) setModalOpened(false);
-              };
+            )}
+          </S.menu.top>
+          {buttons.map((btn, i) => {
+            const onPressBtn = () => {
+              if (btn.onPress) btn.onPress();
+              if (btn.closeAfterPressed) setModalOpened(false);
+            };
 
-              return (
-                <S.standard.btn
-                  borderColor={colors.grey40}
-                  onPress={onPressBtn}
-                  key={i}>
-                  <Txt
-                    color={buttonTxtColor[i]}
-                    label={btn.text}
-                    typograph={'bodyMedium'}
-                  />
-                </S.standard.btn>
-              );
-            })}
-          </>
-        );
-      case 'menu':
-        return (
-          <>
-            <S.menu.top>
-              <Txt color={'grey190'} label={title} typograph={'titleMedium'} />
-              {description && (
-                <Txt
-                  label={description}
-                  color={'grey130'}
-                  typograph={'bodySmall'}
-                />
-              )}
-            </S.menu.top>
-            {buttons.map((btn, i) => (
-              <S.menu.btn
-                onPress={() => {
-                  if (btn.onPress) btn.onPress();
-                  if (btn.closeAfterPressed) setModalOpened(false);
-                }}>
+            return (
+              <S.menu.btn onPress={onPressBtn}>
                 <Txt
                   style={{paddingTop: 12, paddingBottom: 12, paddingLeft: 8}}
                   color={'grey190'}
@@ -132,11 +130,21 @@ const useModal = ({
                   width={24}
                 />
               </S.menu.btn>
-            ))}
-          </>
-        );
-    }
-  };
+            );
+          })}
+        </>
+      );
+  }
+};
+
+// 모달은 항상 바텀시트보다 위에 있습니다.
+// 배경을 눌러도 사라지지 않습니다(기본값). setModalCloseOnBgPress를 통해 수정 가능합니다.
+// 배경은 까맣게 처리됩니다(기본값). setModalBgDark를 통해 수정 가능합니다.
+const useModal = (modalHookParams: ModalHookParams) => {
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
+  const [modalBgDark, setModalBgDark] = useState<boolean>(true);
+  const [modalCloseOnBgPress, setModalCloseOnBgPress] =
+    useState<boolean>(false);
 
   return {
     renderModal: modalOpened
@@ -149,8 +157,11 @@ const useModal = ({
                 if (modalCloseOnBgPress) setModalOpened(false);
               }}
             />
-            <S.modalContainer zIndex={10}>
-              <ModalcontentComponent />
+            <S.modalContainer>
+              <ModalComponent
+                {...modalHookParams}
+                setModalOpened={setModalOpened}
+              />
             </S.modalContainer>
           </S.modalWrapper>
         )
@@ -194,12 +205,10 @@ const S = {
       bgDark ? 'rgba(0, 0, 0, 0.32)' : 'rgba(0, 0, 0, 0)'};
     z-index: ${({zIndex}) => zIndex};
   `,
-  modalContainer: styled.View<{
-    zIndex: number;
-  }>`
-    width: 300px;
-
+  modalContainer: styled.View`
     background-color: white;
+    width: 300px;
+    z-index: 10;
     border-radius: 20px;
   `,
   standard: {
