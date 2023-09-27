@@ -20,21 +20,21 @@ type SearchResultProps = {
   hasSearchResult: boolean;
 };
 
-const NoSearchedResults = () => (
-  <S.searchHistoryResultNotFound>
+const NoSearchResult = () => (
+  <S.SearchResult>
     <Txt
       label={'검색 결과가 없어요.'}
       color={'grey90'}
       typograph={'bodyMedium'}
     />
-  </S.searchHistoryResultNotFound>
+  </S.SearchResult>
 );
 
 const SearchResult = ({articles, hasSearchResult}: SearchResultProps) => {
   return hasSearchResult ? (
     <ArticleList articles={articles} showCategory />
   ) : (
-    <NoSearchedResults />
+    <NoSearchResult />
   );
 };
 
@@ -42,7 +42,6 @@ const AnnouncementSearchScreen = () => {
   const insets = useSafeAreaInsets();
   const [histories, setHistories] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
-  // articles === null일때 ? 검색창이 열리고, 히스토리가 보임 : 검색 결과가 보임
   const [articles, setArticles] = useState<null | Article[]>(null);
   const inputRef = useRef<TextInput>(null);
 
@@ -52,7 +51,7 @@ const AnnouncementSearchScreen = () => {
     navigation.goBack();
   };
 
-  // API: 히스토리 블러오기 기능 붙이기
+  // TODO: 히스토리 블러오기 기능 붙이기
   useEffect(() => {
     const DUMMY_HISTORY = [];
     for (let i = 0; i < 10; i++) {
@@ -63,7 +62,7 @@ const AnnouncementSearchScreen = () => {
     setHistories(DUMMY_HISTORY);
   }, []);
 
-  // API: 검색 수행하기
+  // TODO: 검색 수행하기
   const hasSearchResult = false;
   // TODO: 검색 api의 responese.size === 0인지 아닌지에 따라서 hasSearchResult의 값이 true인지 false인지 여부 판단.
 
@@ -89,7 +88,7 @@ const AnnouncementSearchScreen = () => {
   };
 
   return (
-    <View style={{paddingTop: insets.top}}>
+    <S.ScreenContainer style={{paddingTop: insets.top}}>
       <Header onPressBackButton={handleGoBack}>
         {/* Focus가 사라져야 될 때 사라지지 않는 이슈 있음 */}
         <SearchInput
@@ -134,18 +133,16 @@ const AnnouncementSearchScreen = () => {
           <HistoryList executeSearch={executeSearch} histories={histories} />
         </>
       )}
-    </View>
+    </S.ScreenContainer>
   );
 };
 
 export default AnnouncementSearchScreen;
 
 const S = {
-  screenWrapper: styled.ScrollView`
+  ScreenContainer: styled.ScrollView`
     width: 100%;
     height: 100%;
-
-    z-index: 10;
   `,
   searchInputRow: styled.View`
     flex-direction: row;
@@ -160,7 +157,7 @@ const S = {
   eraseAllTxtWrapper: styled.Pressable`
     padding: 10px 20px;
   `,
-  searchHistoryResultNotFound: styled.View`
+  SearchResult: styled.View`
     padding: 48px 0;
     justify-content: center;
     align-items: center;
