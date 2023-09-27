@@ -3,7 +3,7 @@ import Header from '../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../components/molecules/announcement/article/ArticleList';
 import CategoryTab from '../../components/category-tab/CategoryTab';
-import {Icon, IconsNameType, Txt} from '@uoslife/design-system';
+import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -104,7 +104,7 @@ const AnnouncementMainScreen = () => {
     {
       iconName: 'search',
       onPress: () => {
-        navigation.navigate('AnnouncementSearch');
+        navigation.navigate('AnnouncementSearch', {initialSearchWord: ''});
       },
     },
     {

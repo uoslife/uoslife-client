@@ -15,7 +15,7 @@ export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
   AnnouncementDetail: {id: string; category: ArticleCategoryName};
-  AnnouncementSearch: undefined;
+  AnnouncementSearch: {initialSearchWord: string};
 };
 
 export type AnnouncementNavigationProps =

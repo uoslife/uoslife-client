@@ -1,4 +1,3 @@
-import {View} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import styled from '@emotion/native';
 import {Alert} from 'react-native';
@@ -14,6 +13,11 @@ import Header from '../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {
+  AnnouncementNavigationProps,
+  AnnouncementStackParamList,
+} from '../../navigators/AnnouncementStackNavigator';
 
 type SearchResultProps = {
   articles: Article[];
@@ -38,17 +42,32 @@ const SearchResult = ({articles, hasSearchResult}: SearchResultProps) => {
   );
 };
 
-const AnnouncementSearchScreen = () => {
+type AnnouncementSearchScreenProps = NativeStackScreenProps<
+  AnnouncementStackParamList,
+  'AnnouncementSearch'
+>;
+
+const AnnouncementSearchScreen = ({
+  route: {
+    params: {initialSearchWord},
+  },
+}: AnnouncementSearchScreenProps) => {
   const insets = useSafeAreaInsets();
   const [histories, setHistories] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [articles, setArticles] = useState<null | Article[]>(null);
   const inputRef = useRef<TextInput>(null);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<AnnouncementNavigationProps>();
 
   const handleGoBack = () => {
     navigation.goBack();
+  };
+
+  const handleGoToNewSearchPage = () => {
+    navigation.navigate('AnnouncementSearch', {
+      initialSearchWord: initialSearchWord,
+    });
   };
 
   // TODO: 히스토리 블러오기 기능 붙이기
