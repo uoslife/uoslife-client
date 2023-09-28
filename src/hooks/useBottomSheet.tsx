@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import {View} from 'react-native';
 import BottomSheetLayout from '../components/overlays/bottom-sheet/BottomSheetLayout';
 
 type UseBottomSheetReturnValue = {
@@ -9,38 +8,54 @@ type UseBottomSheetReturnValue = {
   setBottomSheetCloseOnBgPress: React.Dispatch<React.SetStateAction<boolean>>;
   openBottomSheet: () => void;
   closeBottomSheet: () => void;
-  activateBgDark: () => void;
-  deactivateBgDark: () => void;
+  activateBottomSheetBgDark: () => void;
+  deactivateBottomSheetBgDark: () => void;
 };
 
 const useBottomSheet = (): UseBottomSheetReturnValue => {
-  const [bottomSheetOpened, setModalOpened] = useState(false);
-  const [bottomSheetBgDark, setBottomSheetBgDark] = useState(true);
   const [bottomSheetContent, setBottomSheetContent] =
     useState<React.ReactNode>(null);
+  const [bottomSheetOpened, setModalOpened] = useState(false);
+  const [bottomSheetBgDark, setBottomSheetBgDark] = useState(true);
   const [bottomSheetCloseOnBgPress, setBottomSheetCloseOnBgPress] =
     useState(false);
+
+  const openBottomSheet = () => {
+    setModalOpened(true);
+  };
+
+  const closeBottomSheet = () => {
+    setModalOpened(false);
+  };
+
+  const activateBottomSheetBgDark = () => {
+    setBottomSheetBgDark(true);
+  };
+
+  const deactivateBottomSheetBgDark = () => {
+    setBottomSheetBgDark(false);
+  };
+
+  const onPressBg = () => {
+    if (bottomSheetCloseOnBgPress) {
+      closeBottomSheet();
+    }
+  };
 
   return {
     renderBottomSheet: () =>
       bottomSheetOpened && (
-        <BottomSheetLayout>{bottomSheetContent}</BottomSheetLayout>
+        <BottomSheetLayout bgDark={bottomSheetBgDark} onPressBg={onPressBg}>
+          {bottomSheetContent}
+        </BottomSheetLayout>
       ),
     setBottomSheetContent,
     setBottomSheetBgDark,
     setBottomSheetCloseOnBgPress,
-    openBottomSheet: () => {
-      setModalOpened(true);
-    },
-    closeBottomSheet: () => {
-      setModalOpened(false);
-    },
-    activateBgDark: () => {
-      setBottomSheetBgDark(true);
-    },
-    deactivateBgDark: () => {
-      setBottomSheetBgDark(false);
-    },
+    openBottomSheet,
+    closeBottomSheet,
+    activateBottomSheetBgDark,
+    deactivateBottomSheetBgDark,
   };
 };
 

@@ -8,8 +8,8 @@ type UseModalReturnValue = {
   setModalCloseOnBgPress: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: () => void;
   closeModal: () => void;
-  activateBgDark: () => void;
-  deactivateBgDark: () => void;
+  activateModalBgDark: () => void;
+  deactivateModalBgDark: () => void;
 };
 
 const useModal = (): UseModalReturnValue => {
@@ -18,23 +18,42 @@ const useModal = (): UseModalReturnValue => {
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
   const [modalCloseOnBgPress, setModalCloseOnBgPress] = useState(false);
 
+  const openModal = () => {
+    setModalOpened(true);
+  };
+
+  const closeModal = () => {
+    setModalOpened(false);
+  };
+
+  const activateModalBgDark = () => {
+    setModalBgDark(true);
+  };
+
+  const deactivateModalBgDark = () => {
+    setModalBgDark(false);
+  };
+
+  const onPressBg = () => {
+    if (modalCloseOnBgPress) {
+      closeModal();
+    }
+  };
+
   return {
-    renderModal: () => modalOpened && <ModalLayout>{modalContent}</ModalLayout>,
+    renderModal: () =>
+      modalOpened && (
+        <ModalLayout bgDark={modalBgDark} onPressBg={onPressBg}>
+          {modalContent}
+        </ModalLayout>
+      ),
     setModalContent,
     setModalBgDark,
     setModalCloseOnBgPress,
-    openModal: () => {
-      setModalOpened(true);
-    },
-    closeModal: () => {
-      setModalOpened(false);
-    },
-    activateBgDark: () => {
-      setModalBgDark(true);
-    },
-    deactivateBgDark: () => {
-      setModalBgDark(false);
-    },
+    openModal,
+    closeModal,
+    activateModalBgDark,
+    deactivateModalBgDark,
   };
 };
 
