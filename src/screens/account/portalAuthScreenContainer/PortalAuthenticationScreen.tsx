@@ -1,66 +1,185 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
-import {Button} from '../../../components/button/Button';
+import styled from '@emotion/native';
+import {Txt, Button, colors} from '@uoslife/design-system';
+import {Pressable, View} from 'react-native';
+import {useSetAtom} from 'jotai';
+import {accountFlowStatusAtom} from '../../../atoms/account';
+import {CoreAPI} from '../../../api/services';
+import InputProps from '../../../components/forms/input/Input.type';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {TextInput} from 'react-native-gesture-handler';
+type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
+type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
-  const [submit, setSubmit] = useState(false);
-  const [error, setError] = useState(false);
-  const [input, setInput] = useState({id: '', password: ''});
+  const insets = useSafeAreaInsets();
+  const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
-  const onChangeText = (text: string, target: string) => {
-    setSubmit(false);
-    setInput({...input, [target]: text});
+  const [messageStatus, setMessageStatus] =
+    useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
+  const [inputValue, setInputValue] = useState<InputValueType>({
+    id: '',
+    password: '',
+  });
+
+  const handleInputStatusMessage = (
+    status: PortalVerificationStatusMessageType,
+  ) => {
+    switch (status) {
+      case 'BEFORE_VERIFICATION':
+        return '';
+      case 'ERROR':
+        return '아이디 또는 비밀번호를 확인해주세요.';
+    }
   };
-
-  const submitHandler = () => {
-    setSubmit(true);
-    if (input.id === 'API.id' && input.password === 'API.password') {
-      setError(false);
-      // navigate to PortalAuthenticationSuccessScreen
-    } else {
-      setError(true);
+  const handleInputStatus = (
+    status: PortalVerificationStatusMessageType,
+  ): InputProps['status'] => {
+    switch (status) {
+      case 'BEFORE_VERIFICATION':
+        return 'default';
+      case 'ERROR':
+        return 'error';
     }
   };
 
+  const onChangeText = (text: string, target: keyof InputValueType) => {
+    setInputValue({...inputValue, [target]: text});
+    setMessageStatus('BEFORE_VERIFICATION');
+  };
+  const onPressInputDelete = (target: keyof InputValueType) => {
+    onChangeText('', target);
+  };
+
+  const handlePostponePortalAuth = () => {
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        portalStatus: {
+          isPortalStep: prev.portalStatus.isPortalStep,
+          step: 1,
+        },
+      };
+    });
+  };
+
+  const handleSubmit = async () => {
+    const res = await CoreAPI.portalVerification({
+      username: inputValue.id,
+      password: inputValue.password,
+    });
+    if (!res) {
+      setMessageStatus('ERROR');
+      return;
+    }
+    setAccountStatus(prev => {
+      return {
+        ...prev,
+        portalStatus: {
+          isPortalStep: prev.portalStatus.isPortalStep,
+          step: 1,
+        },
+      };
+    });
+  };
+
   return (
-    <View>
-      <Header label="포털 계정 연동" />
-      <Text>서울시립대학교 포털 계정 연동하기</Text>
-      <Text>
-        ᆞ포털 계정 연동을 통해 다양한 편의 기능 {'\n'} (ex. 시대팅)을 이용할 수
-        있어요.
-      </Text>
-      <Text>ᆞ계정 정보는 서버에 안전한 암호화 방식으로 저장돼요.</Text>
-      <Text>포털 아이디</Text>
-      <Input
-        placeholder="아이디 입력"
-        onChangeText={text => onChangeText(text, 'id')}
-        status={submit && error ? 'error' : 'default'}
+    <S.screenContainer style={{paddingTop: insets.top}}>
+      <Header
+        label="포털 계정 연동"
+        onPressBackButton={() =>
+          setAccountStatus(prev => {
+            return {
+              ...prev,
+              portalStatus: {
+                isPortalStep: false,
+                step: 0,
+              },
+            };
+          })
+        }
       />
-      <Text>포털 비밀번호</Text>
-      <TextInput placeholder="비밀번호" />
-      <Input
-        placeholder="비밀번호 입력"
-        onChangeText={text => onChangeText(text, 'password')}
-        status={submit && error ? 'error' : 'default'}
-        secureTextEntry={true}
-      />
-      {submit && error ? (
-        <Text>아이디 또는 비밀번호를 확인해주세요</Text>
-      ) : null}
-      <Text>포털 연동 다음에 하기</Text>
-      {input.id === '' || input.password === '' ? (
-        <Button label="확인" disabled={true} />
-      ) : (
-        <Button label="확인" onPress={submitHandler} type="primary" />
-      )}
-    </View>
+      <S.portalAuthenticationContainer>
+        <View style={{gap: 32}}>
+          <View style={{gap: 8}}>
+            <Txt
+              typograph={'headlineMedium'}
+              color={'grey190'}
+              label={'서울시립대학교\n포털 계정 연동하기'}
+            />
+            <Txt
+              typograph={'bodyMedium'}
+              color={'grey190'}
+              label={
+                '포털 계정 연동을 통해 다양한 편의 기능(ex. 시대팅)을 이용할 수 있습니다.\n계정 정보는 서버에 안전한 암호화 방식으로 저장됩니다.'
+              }
+            />
+          </View>
+          <Input
+            onChangeText={text => onChangeText(text, 'id')}
+            onPress={() => onPressInputDelete('id')}
+            value={inputValue.id}
+            label={'포털 아이디'}
+            status={handleInputStatus(messageStatus)}
+            placeholder={'아이디'}
+          />
+          <Input
+            onChangeText={text => onChangeText(text, 'password')}
+            onPress={() => onPressInputDelete('password')}
+            value={inputValue.password}
+            secureTextEntry={true}
+            label={'포털 비밀번호'}
+            status={handleInputStatus(messageStatus)}
+            statusMessage={handleInputStatusMessage(messageStatus)}
+            placeholder={'비밀번호'}
+          />
+        </View>
+        <S.bottomContainer>
+          <S.postponePortalAuthButton>
+            <Pressable onPress={handlePostponePortalAuth}>
+              <Txt
+                label={'포털 연동 다음에 하기'}
+                color={'grey130'}
+                typograph={'bodySmall'}
+              />
+            </Pressable>
+          </S.postponePortalAuthButton>
+          <Button
+            label={'확인'}
+            onPress={handleSubmit}
+            isEnabled={!!(inputValue.id && inputValue.password)}
+            isFullWidth={true}
+          />
+        </S.bottomContainer>
+      </S.portalAuthenticationContainer>
+    </S.screenContainer>
   );
 };
 
 export default PortalAuthenticationScreen;
+
+const S = {
+  screenContainer: styled.View`
+    flex: 1;
+  `,
+  portalAuthenticationContainer: styled.View`
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 16px;
+  `,
+  bottomContainer: styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  `,
+  postponePortalAuthButton: styled.View`
+    padding-bottom: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  `,
+};

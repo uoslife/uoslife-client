@@ -2,14 +2,17 @@ import React from 'react';
 import {View} from 'react-native';
 
 import {useAtomValue} from 'jotai';
-import {AccountStatusType, accountStatusAtom} from '..';
+import {
+  AccountFlowStatusType,
+  accountFlowStatusAtom,
+} from '../../../atoms/account';
 
 import SetNicknameScreen from '../common/SetNicknameScreen';
 import AccountIntegrationScreen from '../common/AccountIntegrationScreen';
 
 const ExistedUserScreenContainer = () => {
-  const accountStatus = useAtomValue(accountStatusAtom);
-  const handleExistedUserScreen = (accountStatus: AccountStatusType) => {
+  const accountStatus = useAtomValue(accountFlowStatusAtom);
+  const handleExistedUserScreen = (accountStatus: AccountFlowStatusType) => {
     switch (accountStatus.stepStatus.step) {
       case 0:
         return <AccountIntegrationScreen />;
@@ -19,7 +22,9 @@ const ExistedUserScreenContainer = () => {
         return <AccountIntegrationScreen />;
     }
   };
-  return <View>{handleExistedUserScreen(accountStatus)}</View>;
+  return (
+    <View style={{flex: 1}}>{handleExistedUserScreen(accountStatus)}</View>
+  );
 };
 
 export default ExistedUserScreenContainer;

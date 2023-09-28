@@ -1,52 +1,121 @@
-import React, {useEffect, useMemo} from 'react';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useConfigContext} from '../hooks/ConfigContext';
 
 import {
-  MyProfileScreen,
-  MyAccountScreen,
-  MyAppInformationScreen,
-  MyAppSettingScreen,
+  MypageAppInformationScreen,
+  MypageAppSettingScreen,
+  MypageMainScreen,
+  MypageProfileScreen,
 } from '../screens/myPage';
-import SplashScreen from 'react-native-splash-screen';
-import MaintenanceScreen from '../screens/MaintenanceScreen';
+import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
+import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
+import VerificationScreen from '../screens/account/common/VerificationScreen';
+import ToSandPoliciesScreen from '../screens/myPage/appInformationScreens/ToSandPolicies';
+import PrivacyPoliciesScreen from '../screens/myPage/appInformationScreens/PrivacyandPolicies';
+import AdvertisingandMarketingConsentScreen from '../screens/myPage/appInformationScreens/AdvertisingandMarketingConsentScreen';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type MyPageStackParamList = {
-  myProfile: undefined;
-  myAccount: undefined;
-  myAppSetting: undefined;
-  myAppInformation: undefined;
+  Mypage_main: undefined;
+  Mypage_profile: undefined;
+  Mypage_appSetting: undefined;
+  Mypage_appInformation: undefined;
+  Mypage_inquiry: undefined;
 };
 
+export type MyPageAccountStackParamList = {
+  Mypage_profileMain: undefined;
+  Mypage_changeNickname: {isMyPage: boolean};
+  Mypage_portalAuthentication: undefined;
+  Mypage_changeNumber: undefined;
+};
+
+export type MyPageAppInformationStackParamList = {
+  Mypage_appInformation: undefined;
+  Mypage_ToSandPolicies: undefined;
+  Mypage_privacyPolicies: undefined;
+  Mypage_dvertisingandMarketing: undefined;
+  Mypage_advertisingandMarketingConsent: undefined;
+};
+
+export type MypageAppInformationScreenRouteProp = NativeStackNavigationProp<
+  MyPageAppInformationStackParamList,
+  'Mypage_appInformation'
+>;
+
 const Stack = createStackNavigator<MyPageStackParamList>();
+const AccountStack = createStackNavigator<MyPageAccountStackParamList>();
+const AppInformationStack =
+  createStackNavigator<MyPageAppInformationStackParamList>();
+
+const MypageAccountNavigator = () => {
+  return (
+    <AccountStack.Navigator
+      initialRouteName="Mypage_profileMain"
+      screenOptions={{headerShown: false}}>
+      <AccountStack.Screen
+        name="Mypage_profileMain"
+        component={MypageProfileScreen}
+      />
+      <AccountStack.Screen
+        name="Mypage_changeNickname"
+        component={SetNicknameScreen}
+      />
+      <AccountStack.Screen
+        name="Mypage_portalAuthentication"
+        component={PortalAuthenticationScreen}
+      />
+      <AccountStack.Screen
+        name="Mypage_changeNumber"
+        component={VerificationScreen}
+      />
+    </AccountStack.Navigator>
+  );
+};
+
+const MyPageAppInformationStackNavigator = () => {
+  return (
+    <AppInformationStack.Navigator
+      initialRouteName="Mypage_appInformation"
+      screenOptions={{headerShown: false}}>
+      <AppInformationStack.Screen
+        name="Mypage_appInformation"
+        component={MypageAppInformationScreen}
+      />
+      <AppInformationStack.Screen
+        name="Mypage_ToSandPolicies"
+        component={ToSandPoliciesScreen}
+      />
+      <AppInformationStack.Screen
+        name="Mypage_privacyPolicies"
+        component={PrivacyPoliciesScreen}
+      />
+      <AppInformationStack.Screen
+        name="Mypage_advertisingandMarketingConsent"
+        component={AdvertisingandMarketingConsentScreen}
+      />
+    </AppInformationStack.Navigator>
+  );
+};
 
 const MyPageStackNavigator = () => {
-  const {config, isLoading, hasNetworkError} = useConfigContext();
-
-  const isMaintenance = useMemo(
-    () => config.get('app.block') !== 'NO',
-    [config],
-  );
-
-  useEffect(() => {
-    if (isLoading) return;
-    SplashScreen.hide();
-  }, [isLoading]);
-
-  if (isMaintenance) {
-    return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
-  }
-
   return (
     <Stack.Navigator
-      initialRouteName="myProfile"
+      initialRouteName="Mypage_main"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="myProfile" component={MyProfileScreen} />
-      <Stack.Screen name="myAccount" component={MyAccountScreen} />
-      <Stack.Screen name="myAppSetting" component={MyAppSettingScreen} />
+      <Stack.Screen name="Mypage_main" component={MypageMainScreen} />
+      <Stack.Screen name="Mypage_profile" component={MypageAccountNavigator} />
       <Stack.Screen
-        name="myAppInformation"
-        component={MyAppInformationScreen}
+        name="Mypage_appSetting"
+        component={MypageAppSettingScreen}
+      />
+      <Stack.Screen
+        name="Mypage_appInformation"
+        component={MyPageAppInformationStackNavigator}
+      />
+      <Stack.Screen
+        name="Mypage_inquiry"
+        component={MypageAppInformationScreen}
       />
     </Stack.Navigator>
   );

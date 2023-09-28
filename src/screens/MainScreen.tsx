@@ -2,30 +2,36 @@ import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import React from 'react';
 
-import {Platform, NativeModules, StatusBar, View} from 'react-native';
+import {View, Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/core';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import {
   AnnounceContents,
-  Banner,
-  BottomNavigation,
   CafeteriaContents,
-  CardLayout,
   LibraryContents,
   MainServiceBox,
 } from '../components/molecules';
+import Carousel from '../components/molecules/carousel/Carousel';
+import {RootNavigationProps} from '../navigators/RootStackNavigator';
+
+const {width} = Dimensions.get('window');
 
 const MainScreen = () => {
-  const {StatusBarManager} = NativeModules;
-  const STATUS_BAR_HEIGHT =
-    Platform.OS === 'android'
-      ? StatusBar.currentHeight
-      : StatusBarManager.HEIGHT;
+  const insets = useSafeAreaInsets();
+  const navigation = useNavigation<RootNavigationProps>();
   return (
     <>
-      <S.MainContainer style={{paddingTop: STATUS_BAR_HEIGHT}}>
-        <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+      <S.MainContainer>
+        <View
+          style={{height: insets.top, backgroundColor: colors.primaryBrand}}
+        />
+        <View>
+          <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+        </View>
         <S.MainWrapper>
-          <S.MypageButton>
-            <Icon name={'person_white'} width={24} height={24} />
+          <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
+            <Icon name={'person'} width={24} height={24} color={'white'} />
           </S.MypageButton>
           <View
             style={css`
@@ -41,11 +47,14 @@ const MainScreen = () => {
                 color={'white'}
                 typograph={'headlineMedium'}
               />
-              <Txt
-                label={'환영합니다'}
-                color={'white'}
-                typograph={'headlineMedium'}
-              />
+              <S.WelcomeMessage>
+                <Txt
+                  label={'환영합니다'}
+                  color={'white'}
+                  typograph={'headlineMedium'}
+                />
+                <Icon name={'uoslife'} width={20} height={6} color={'white'} />
+              </S.WelcomeMessage>
             </View>
             <Txt
               label={'OO아 힘을 내, 파이팅 넌 할 수 있어!'}
@@ -53,21 +62,32 @@ const MainScreen = () => {
               typograph={'headlineSmall'}
             />
           </View>
-          <Banner />
+          <Carousel
+            imageWidth={width - 32}
+            imageHeight={148}
+            imageUrls={[{uri: ''}, {uri: ''}]}
+            indicator="TOPRIGHT"
+          />
           <MainServiceBox
             label={'오늘의 학식'}
-            icon={'cafeteria_primaryDarker'}>
+            iconName={'cafeteria'}
+            iconColor={'primaryDarker'}>
             <CafeteriaContents />
           </MainServiceBox>
-          <MainServiceBox label={'도서관'} icon={'library_primaryDarker'}>
+          <MainServiceBox
+            label={'도서관'}
+            iconName={'library'}
+            iconColor={'primaryDarker'}>
             <LibraryContents />
           </MainServiceBox>
-          <MainServiceBox label={'공지사항'} icon={'campaign_primaryDarker'}>
+          <MainServiceBox
+            label={'공지사항'}
+            iconName={'campaign'}
+            iconColor={'primaryDarker'}>
             <AnnounceContents />
           </MainServiceBox>
         </S.MainWrapper>
       </S.MainContainer>
-      <BottomNavigation />
     </>
   );
 };
@@ -92,7 +112,11 @@ const S = {
     flex-direction: column;
     gap: 48px;
   `,
-
+  WelcomeMessage: styled.View`
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+  `,
   MypageButton: styled.Pressable`
     position: absolute;
     top: 16px;

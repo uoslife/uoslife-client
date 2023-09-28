@@ -1,71 +1,64 @@
 import styled from '@emotion/native';
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {useAtom, useAtomValue} from 'jotai';
 import {
-  View,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-  Image,
-} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {Button} from '../../../components/button/Button';
-import AgreementToTerms from '../../../components/contents/AgreementToTerms';
-import AgreementProcessResult from '../../../components/contents/AgreementProcessResult';
-import {useSetAtom} from 'jotai';
-import {accountStatusAtom} from '..';
-import BottomSheet from '../../../components/overlay/BottomSheet';
-import Modal from '../../../components/overlay/Modal';
+  accountFlowStatusAtom,
+  existedAccountInfoAtom,
+} from '../../../atoms/account';
+import {Button, Txt} from '@uoslife/design-system';
+import Header from '../../../components/header/Header';
+import Input from '../../../components/forms/input/Input';
+import {StackScreenProps} from '@react-navigation/stack';
+import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {CoreAPI} from '../../../api/services';
+import InputProps from '../../../components/forms/input/Input.type';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ErrorResponseType} from '../../../api/services/type';
 
-interface InputProps {
-  text: string;
-  isChecked: boolean;
-}
+export type SetNickNameScreenProps = StackScreenProps<
+  MyPageNestedStackParamList,
+  'Mypage_changeNickname'
+>;
 
-const SetNicknameScreen = () => {
-  const [input, setInput] = useState<InputProps>({
-    text: '',
-    isChecked: false,
-  });
-  const [isBottomSheetOpened, setIsBottomSheetOpened] =
-    useState<boolean>(false);
-  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+type NicknameStatusMessageType =
+  | 'BEFORE_CHECK'
+  | 'CAN_USE'
+  | 'CANNOT_USE'
+  | 'DUPLICATED';
 
-  const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    const text = e.nativeEvent.text;
+const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+  const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
-    const regex = /^[가-힣a-zA-Z0-9!@#$%^&*()-_+=~]{1,8}$/;
+  const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
+  const [accountStatus, setAccountStatus] = useAtom(accountFlowStatusAtom);
 
-    const isValid = regex.test(text); // 정규표현식 일치 여부 확인
-    let isVerified = false; // 중복되지 않았는지 확인: API 붙인 뒤 로직 작성
+  const isMyPage = route?.params.isMyPage;
+  const existedNickname = existedAccountInfo.find(
+    item => item.isSelected === true,
+  )?.nickname;
+  const [inputValue, setInputValue] = useState(existedNickname ?? '');
+  const [statusMessage, setStatusMessage] =
+    useState<NicknameStatusMessageType>('BEFORE_CHECK');
+
+  const handleSetNicknameButton = async () => {
+    // TODO: 사용 불가능 닉네임 로직 추가
+    // setStatusMessage('CANNOT_USE');
 
     try {
-      isVerified = true;
+      const res = await CoreAPI.checkDuplicateUserNickname({
+        nickname: inputValue,
+      });
     } catch (err) {
-      console.log(err);
+      const error = err as ErrorResponseType;
     }
-
-    const isChecked = isValid && isVerified;
-
-    setInput({text, isChecked});
-  };
-
-  const openModal = () => {
-    setIsModalOpened(true);
-  };
-
-  const openBottomSheet = () => {
-    setIsBottomSheetOpened(true);
-  };
-
-  const closeBottomSheet = () => {
-    setIsBottomSheetOpened(false);
-  };
-
-  const closeModal = () => {
-    setIsModalOpened(false);
-  };
-  const setAccountStatus = useSetAtom(accountStatusAtom);
-  const handleBottomSheetButton = () => {
+    // if (!res.duplicated) {
+    //   setStatusMessage('DUPLICATED');
+    //   return;
+    // }
+    setStatusMessage('CAN_USE');
     setAccountStatus(prev => {
       return {
         ...prev,
@@ -73,105 +66,125 @@ const SetNicknameScreen = () => {
       };
     });
   };
+
+  const onChangeText = (text: string) => {
+    setInputValue(text);
+    setStatusMessage('BEFORE_CHECK');
+  };
+  const onPressInputDelete = () => {
+    setInputValue('');
+  };
+
+  const handleInputStatusMessage = (status: NicknameStatusMessageType) => {
+    switch (status) {
+      case 'BEFORE_CHECK':
+        return '';
+      case 'CANNOT_USE':
+        return '사용할 수 없는 닉네임입니다.';
+      case 'CAN_USE':
+        return '사용 가능한 닉네임입니다.';
+      case 'DUPLICATED':
+        return '중복되는 닉네임입니다.';
+    }
+  };
+  const handleInputStatus = (
+    status: NicknameStatusMessageType,
+  ): InputProps['status'] => {
+    switch (status) {
+      case 'BEFORE_CHECK':
+        return 'default';
+      case 'CANNOT_USE':
+      case 'DUPLICATED':
+        return 'error';
+      case 'CAN_USE':
+        return 'success';
+    }
+  };
+
   return (
-    // <>
-    //   <S.pageWrapper>
-    //     <S.contentsContainer>
-    //       <S.description1>사용하실 닉네임을 입력해주세요.</S.description1>
-    //       <View>
-    //         <S.description2>
-    //           닉네임은 최대 8자로 설정 가능합니다.
-    //         </S.description2>
-    //         <S.description2>
-    //           한글, 영문, 숫자, 특수기호를 이용해주세요.
-    //         </S.description2>
-    //       </View>
-    //       <View>
-    //         <View>
-    //           <S.literalNickname>닉네임</S.literalNickname>
-    //         </View>
-    //         <S.nicknameAndCheck>
-    //           <TextInput
-    //             value={input.text}
-    //             onChange={onChange}
-    //             style={{
-    //               borderColor: 'black',
-    //               borderStyle: 'solid',
-    //               borderWidth: 5,
-    //               flex: 1,
-    //             }}
-    //           />
-    //         </S.nicknameAndCheck>
-    //       </View>
-    //     </S.contentsContainer>
-    //     <Button
-    //       label={'확인'}
-    //       onPress={openBottomSheet}
-    //       type={input.isChecked ? 'primary' : 'default'}
-    //     />
-    //   </S.pageWrapper>
-    //   {isBottomSheetOpened && (
-    //     <BottomSheet
-    //       zIndex={1}
-    //       onBackgroundPress={closeBottomSheet}
-    //       darkBackground={!isModalOpened}>
-    //       <AgreementToTerms
-    //         openModal={openModal}
-    //         handleBottomSheetButton={handleBottomSheetButton}
-    //       />
-    //     </BottomSheet>
-    //   )}
-    //   {isModalOpened && (
-    //     // <Modal onClose={closeModal} zIndex={3} darkBackground>
-    //       <AgreementProcessResult />
-    //     // {/* </Modal> */}
-    //   )}
-    // </>
-    <></>
+    <>
+      <S.screenContainer style={{paddingTop: insets.top}}>
+        <Header
+          label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
+          onPressBackButton={() => {
+            if (isMyPage) return navigation.goBack();
+            switch (accountStatus.stepStatus.userType) {
+              case 'EXISTED':
+                setAccountStatus(prev => {
+                  return {
+                    ...prev,
+                    stepStatus: {
+                      userType: 'EXISTED',
+                      step: 0,
+                    },
+                  };
+                });
+                break;
+              case 'NEW':
+                setAccountStatus(prev => {
+                  return {
+                    ...prev,
+                    stepStatus: {
+                      userType: 'NONE',
+                      step: 0,
+                    },
+                  };
+                });
+            }
+          }}
+        />
+        <S.setNicknameContainer>
+          <View style={{gap: 32}}>
+            <View style={{gap: 8}}>
+              <Txt
+                label={
+                  isMyPage
+                    ? '변경하실 닉네임을 입력해주세요.'
+                    : '사용하실 닉네임을 입력해주세요.'
+                }
+                color={'grey190'}
+                typograph={'headlineMedium'}
+              />
+              <Txt
+                label={
+                  '닉네임은 최대 8자로 설정 가능합니다.\n한글, 영문, 숫자, 특수기호를 이용해주세요.'
+                }
+                color={'grey190'}
+                typograph={'bodyMedium'}
+              />
+            </View>
+            <Input
+              onChangeText={onChangeText}
+              maxLength={8}
+              onPress={onPressInputDelete}
+              value={inputValue}
+              label={'닉네임'}
+              statusMessage={handleInputStatusMessage(statusMessage)}
+              status={handleInputStatus(statusMessage)}
+              placeholder={'여기에 입력하세요.'}
+            />
+          </View>
+          <Button
+            label={'설정하기'}
+            onPress={handleSetNicknameButton}
+            isEnabled={!!inputValue}
+            isFullWidth={true}
+          />
+        </S.setNicknameContainer>
+      </S.screenContainer>
+    </>
   );
 };
 
 export default SetNicknameScreen;
 
 const S = {
-  pageWrapper: styled.View`
+  screenContainer: styled.View`
     flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    padding-top: 28px;
-    padding-right: 16px;
-    padding-left: 16px;
-    padding-bottom: 28px;
+  `,
+  setNicknameContainer: styled.View`
+    flex: 1;
     justify-content: space-between;
-  `,
-  nicknameAndCheck: styled.View`
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-  `,
-  contentsContainer: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  `,
-  description1: styled.Text`
-    font-size: 25px;
-    font-weight: bold;
-    color: black;
-  `,
-  description2: styled.Text`
-    font-size: 18px;
-    color: black;
-  `,
-  inputContainer: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  `,
-  literalNickname: styled.Text`
-    padding-left: 12px;
-    padding-right: 12px;
-    color: black;
+    padding: 28px 16px;
   `,
 };

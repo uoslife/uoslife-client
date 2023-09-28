@@ -1,8 +1,20 @@
 import styled from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import CardLayout from '../cardLayout/CardLayout';
+import {useCallback} from 'react';
+import {Linking, Alert} from 'react-native';
+import URLS from '../../../../configs/urls';
 
 const AnnounceContents = () => {
+  const handlePressLinkButton = useCallback(async () => {
+    const supported = await Linking.canOpenURL(URLS.UOSTORY);
+
+    if (supported) {
+      await Linking.openURL(URLS.UOSTORY);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${URLS.UOSTORY}`);
+    }
+  }, [URLS.UOSTORY]);
   return (
     <CardLayout>
       <S.Wrapper>
@@ -54,13 +66,18 @@ const AnnounceContents = () => {
           </S.AnnounceText>
         </S.AnnounceTextWrapper>
         <S.Border />
-        <S.LinkButton>
+        <S.LinkButton onPress={handlePressLinkButton}>
+          <Icon
+            name={'openInNew'}
+            width={18}
+            height={18}
+            color={'primaryBrand'}
+          />
           <Txt
-            label={'UOStory 바로가기'}
+            label={'UOSTORY 바로가기'}
             color={'primaryBrand'}
             typograph={'bodySmall'}
           />
-          <Icon name={'openInNew_primaryBrand'} width={24} height={24} />
         </S.LinkButton>
       </S.Wrapper>
     </CardLayout>
@@ -104,8 +121,9 @@ const S = {
   LinkButton: styled.Pressable`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: space-between;
     justify-content: center;
     padding: 16px 0;
+    gap: 2px;
   `,
 };

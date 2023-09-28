@@ -1,6 +1,7 @@
 export type HeaderProps = {
-  label: string;
+  label?: string;
   onPressBackButton?: () => void;
+  children?: React.ReactNode;
 };
 
 export default HeaderProps;

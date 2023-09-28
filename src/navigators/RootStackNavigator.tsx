@@ -5,18 +5,32 @@ import SplashScreen from 'react-native-splash-screen';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 import AccountScreen from '../screens/account';
-import VerificationScreen from '../screens/account/common/VerificationScreen';
+import AnnouncementStackNavigator from './AnnouncementStackNavigator';
+import MyPageStackNavigator from './MyPageStackNavigator';
+import {StackNavigationProp} from '@react-navigation/stack';
+import LibraryScreen from '../screens/library/LibraryScreen';
+import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
+import {useAtomValue} from 'jotai';
+import {accountStatusAtom} from '../atoms/account';
+import useUserInfo from '../hooks/useUserInfo';
+import RootBottomTapNavigator from './RootBottomTapNavigator';
 
 export type RootStackParamList = {
-  Account: undefined;
-  AccountVerification: undefined;
-  // Main: undefined;
+  Main: undefined;
+  MyPage: undefined;
+  Announcement: undefined;
+  Library: undefined;
+  Cafeteria: undefined;
 };
+
+export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
+  const accountStatus = useAtomValue(accountStatusAtom);
   const {config, isLoading, hasNetworkError} = useConfigContext();
+  useUserInfo();
 
   const isMaintenance = useMemo(
     () => config.get('app.block') !== 'NO',
@@ -32,13 +46,22 @@ const RootStackNavigator: React.FC = () => {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
 
+  if (!accountStatus.isLogin) {
+    return <AccountScreen />;
+  }
+
   return (
     <Stack.Navigator
-      initialRouteName="Account"
+      initialRouteName="Main"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Account" component={AccountScreen} />
-      <Stack.Screen name="AccountVerification" component={VerificationScreen} />
-      {/* <Stack.Screen name="Main" component={MainScreen} /> */}
+      <Stack.Screen name="Main" component={RootBottomTapNavigator} />
+      <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
+      <Stack.Screen
+        name="Announcement"
+        component={AnnouncementStackNavigator}
+      />
+      <Stack.Screen name="Library" component={LibraryScreen} />
+      <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
     </Stack.Navigator>
   );
 };

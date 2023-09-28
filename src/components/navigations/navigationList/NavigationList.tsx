@@ -2,26 +2,30 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import styled from '@emotion/native';
 import NavigationListProps from './NavigationList.type';
+import {Icon, Txt} from '@uoslife/design-system';
 
 const NavigationList = ({
   label,
   onPress,
-  hasBorder = true,
+  navigationButton, // TODO: type 수정필요
   children,
 }: NavigationListProps) => {
   return (
     <S.navigateContainer>
-      <S.navigateContent>
-        <Text>{label}</Text>
-        <Pressable onPress={onPress}>
-          {children ?? (
-            <S.arrowButtonImage
-              source={require('../../../assets/images/backButton.png')}
+      <Pressable onPress={onPress}>
+        <S.navigateContent>
+          <Txt label={label} color={'grey190'} typograph={'bodyLarge'} />
+          {navigationButton ?? (
+            <Icon
+              name={'forwardArrow'}
+              width={24}
+              height={24}
+              color={'grey130'}
             />
           )}
-        </Pressable>
-      </S.navigateContent>
-      <View style={hasBorder ? style.bottomBorder : style.marginBottom}></View>
+        </S.navigateContent>
+      </Pressable>
+      {children}
     </S.navigateContainer>
   );
 };
@@ -49,13 +53,3 @@ const S = {
     padding-bottom: 10px;
   `,
 };
-
-const style = StyleSheet.create({
-  bottomBorder: {
-    borderBottomColor: '#A6A6A6',
-    borderBottomWidth: 1,
-  },
-  marginBottom: {
-    paddingBottom: 176,
-  },
-});

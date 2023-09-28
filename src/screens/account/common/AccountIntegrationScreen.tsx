@@ -1,131 +1,124 @@
 import styled from '@emotion/native';
-import React, {Dispatch, SetStateAction, useState} from 'react';
-import {View} from 'react-native';
-import {Button} from '../../../components/button/Button';
-import {accountStatusAtom} from '..';
-import {useSetAtom} from 'jotai';
-
-const DUMMY_ID_LIST = [
-  'dbmean',
-  'minminmin',
-  '헬로우헬로45s우',
-  'ㅁㄴㅇ라ㅓㄴㅁ와러ㅗㄴㅇㄹ',
-];
+import React from 'react';
+import {Pressable, View} from 'react-native';
+import {
+  accountFlowStatusAtom,
+  existedAccountInfoAtom,
+} from '../../../atoms/account';
+import {useAtom, useSetAtom} from 'jotai';
+import Header from '../../../components/header/Header';
+import {Txt, Button, colors} from '@uoslife/design-system';
 
 const AccountIntegrationScreen = () => {
-  const [selected, setSelected] = useState<string>();
-  const [idList, setIdList] = useState<string[]>(DUMMY_ID_LIST);
-  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
+  const [existedAccountInfo, setExistedAccountInfo] = useAtom(
+    existedAccountInfoAtom,
+  );
+
   const handlePressButton = () => {
-    setAccountStatus(prev => {
+    setAccountFlowStatus(prev => {
       return {
         ...prev,
         stepStatus: {userType: prev.stepStatus.userType, step: 1},
       };
     });
   };
+
   return (
-    <S.pageWrapper>
-      <S.contentsContainer>
-        <S.descriptionsContainer>
-          <View>
-            <S.description1>통합하고자 하는 아이디를</S.description1>
-            <S.description1>선택해주세요.</S.description1>
-          </View>
-          <View>
-            {/* <S.description2>&#8226; 아래 기본 계정 중 대표로 통합할 계정을 선택해주세요.</S.description2> */}
-            {/* <S.description2>&#8226; 선택한 계정을 제외한 기존 계정은 삭제됩니다.</S.description2> */}
-            <S.description2>
-              선택한 계정을 제외한 기존 계정은 삭제됩니다.
-            </S.description2>
-          </View>
-        </S.descriptionsContainer>
-        <S.idContainer>
-          {idList.map(id =>
-            id === selected ? (
-              <S.idButtonSelected
-                key={id}
-                onPress={() => {
-                  setSelected(id);
-                }}>
-                <S.idText>{id}</S.idText>
-              </S.idButtonSelected>
-            ) : (
-              <S.idButtonDefault
-                key={id}
-                onPress={() => {
-                  setSelected(id);
-                }}>
-                <S.idText>{id}</S.idText>
-              </S.idButtonDefault>
-            ),
-          )}
-        </S.idContainer>
-      </S.contentsContainer>
-      <Button
-        label={'계정 통합하기'}
-        type={selected ? 'primary' : 'default'}
-        onPress={handlePressButton}
+    <S.screenContainer>
+      <Header
+        label={'계정 통합'}
+        onPressBackButton={() =>
+          setAccountFlowStatus(prev => {
+            return {
+              ...prev,
+              stepStatus: {
+                userType: 'NONE',
+                step: 0,
+              },
+            };
+          })
+        }
       />
-    </S.pageWrapper>
+      <S.accountIntegrationContainer>
+        <View style={{gap: 24}}>
+          <View style={{gap: 8}}>
+            <Txt
+              label={'통합하고자 하는\n아이디를 선택해주세요.'}
+              color={'grey190'}
+              typograph={'headlineMedium'}
+            />
+            <Txt
+              label={'선택한 계정을 제외한 기존 계정은 삭제됩니다.'}
+              color={'grey190'}
+              typograph={'bodyMedium'}
+            />
+          </View>
+          <S.idContainer>
+            {existedAccountInfo.map(item => (
+              <Pressable
+                key={item.id}
+                onPress={() =>
+                  setExistedAccountInfo(prev => {
+                    return prev.map(prevItem =>
+                      prevItem.id === item.id
+                        ? {...prevItem, isSelected: true}
+                        : {...prevItem, isSelected: false},
+                    );
+                  })
+                }>
+                <S.idButtonSelected isSelected={item.isSelected}>
+                  <Txt
+                    label={item.nickname}
+                    color={'grey190'}
+                    typograph={'titleMedium'}
+                  />
+                </S.idButtonSelected>
+              </Pressable>
+            ))}
+          </S.idContainer>
+        </View>
+        <Button
+          label={'계정 통합하기'}
+          onPress={handlePressButton}
+          isEnabled={existedAccountInfo.some(item => item.isSelected === true)}
+          isFullWidth={true}
+        />
+      </S.accountIntegrationContainer>
+    </S.screenContainer>
   );
+};
+
+const getBorderColor = (isSelected: boolean) => {
+  switch (isSelected) {
+    case true:
+      return colors.primaryBrand;
+    case false:
+      return colors.grey40;
+  }
 };
 
 export default AccountIntegrationScreen;
 
 const S = {
-  pageWrapper: styled.View`
+  screenContainer: styled.View`
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding-top: 28px;
-    padding-right: 16px;
-    padding-left: 16px;
-    padding-bottom: 28px;
-
+  `,
+  accountIntegrationContainer: styled.View`
+    flex: 1;
     justify-content: space-between;
-  `,
-  contentsContainer: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  `,
-  description1: styled.Text`
-    font-size: 25px;
-    font-weight: bold;
-    color: black;
-  `,
-  description2: styled.Text`
-    font-size: 18px;
-    color: black;
-  `,
-  descriptionsContainer: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    padding: 42px 16px;
   `,
   idContainer: styled.View`
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
+    gap: 16px;
   `,
-  idButtonDefault: styled.TouchableOpacity`
+  idButtonSelected: styled.View<{isSelected: boolean}>`
     display: flex;
 
     height: 56px;
     border-radius: 10px;
-    border: #e1dfdd;
-
-    justify-content: center;
-  `,
-  idButtonSelected: styled.TouchableOpacity`
-    display: flex;
-
-    height: 56px;
-    border-radius: 10px;
-    border-width: 2px;
-    border: #4686ff;
-
+    padding: 16px;
+    border: 2px solid ${({isSelected}) => getBorderColor(isSelected)};
     justify-content: center;
   `,
   idText: styled.Text`
@@ -133,23 +126,4 @@ const S = {
     color: black;
     font-weight: bold;
   `,
-  // cardContainer: styled.View`
-  //   padding: 12px;
-  //   width: 200px;
-  //   display: flex;
-  //   flex-direction: column;
-  //   border-radius: 8px;
-  //   background: #efefef;
-  // `,
-  // cardWrapper: styled.View`
-  //   display: flex;
-  //   flex-direction: row;
-  //   justify-content: space-between;
-  // `,
-  // button: styled.View`
-  //   border-radius: 16px;
-  //   background: #d0d0d0;
-  //   padding: 4px 10px;
-  //   font-size: 10px;
-  // `,
 };

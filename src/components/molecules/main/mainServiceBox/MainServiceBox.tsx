@@ -5,22 +5,46 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {CardLayout} from '../..';
 
 import MainServiceBoxType from './MainServiceBox.type';
+import {Image} from 'react-native';
+import {useNavigation} from '@react-navigation/core';
+import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 
-const MainServiceBox = ({label, icon, children}: MainServiceBoxType) => {
+const MainServiceBox = ({
+  label,
+  iconName,
+  iconColor,
+  children,
+}: MainServiceBoxType) => {
+  const navigation = useNavigation<RootNavigationProps>();
+  const handleMoreButton = () => {
+    switch (iconName) {
+      case 'library':
+        navigation.navigate('Library');
+        break;
+      case 'cafeteria':
+        navigation.navigate('Cafeteria');
+        break;
+      case 'campaign':
+        navigation.navigate('Announcement');
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <S.Wrapper>
       <S.TopWrapper>
         <S.TitleWrapper>
-          <Icon name={icon} width={15} height={16} />
+          <Icon name={iconName} width={24} height={24} color={iconColor} />
           <Txt
             label={label}
             color={'primaryDarker'}
             typograph={'titleMedium'}
           />
         </S.TitleWrapper>
-        <S.MoreButton>
+        <S.MoreButton onPress={handleMoreButton}>
           <Txt label={'더보기'} color={'grey90'} typograph={'labelMedium'} />
-          <Icon name={'forwardArrow_grey90'} width={10} height={10} />
+          <Icon name={'forwardArrow'} width={10} height={10} color={'grey90'} />
         </S.MoreButton>
       </S.TopWrapper>
       {children}
