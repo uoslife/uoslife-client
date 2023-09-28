@@ -1,11 +1,13 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 
-type ModalInformationBox = {
+type ModalInformationBoxProps = {
   InformationTxtObject: {key: string; value: string}[];
 };
 
-const ModalInformationBox = ({InformationTxtObject}: ModalInformationBox) => {
+const ModalInformationBox = ({
+  InformationTxtObject,
+}: ModalInformationBoxProps) => {
   return (
     <S.Box>
       {InformationTxtObject.map(({key, value}, i) => (
