@@ -4,12 +4,12 @@ import ModalLayout from '../components/overlays/modal/ModalLayout';
 type UseModalReturnValue = {
   renderModal: () => React.ReactNode;
   setModalContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  setModalBgDark: React.Dispatch<React.SetStateAction<boolean>>;
-  setModalCloseOnBgPress: React.Dispatch<React.SetStateAction<boolean>>;
   openModal: () => void;
   closeModal: () => void;
   activateModalBgDark: () => void;
   deactivateModalBgDark: () => void;
+  activateModalCloseOnBgPress: () => void;
+  deactivateModalCloseOnBgPress: () => void;
 };
 
 const useModal = (): UseModalReturnValue => {
@@ -34,6 +34,14 @@ const useModal = (): UseModalReturnValue => {
     setModalBgDark(false);
   };
 
+  const activateModalCloseOnBgPress = () => {
+    setModalCloseOnBgPress(true);
+  };
+
+  const deactivateModalCloseOnBgPress = () => {
+    setModalCloseOnBgPress(false);
+  };
+
   const onPressBg = () => {
     if (modalCloseOnBgPress) {
       closeModal();
@@ -48,12 +56,12 @@ const useModal = (): UseModalReturnValue => {
         </ModalLayout>
       ),
     setModalContent,
-    setModalBgDark,
-    setModalCloseOnBgPress,
     openModal,
     closeModal,
     activateModalBgDark,
     deactivateModalBgDark,
+    activateModalCloseOnBgPress,
+    deactivateModalCloseOnBgPress,
   };
 };
 

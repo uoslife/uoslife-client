@@ -4,28 +4,28 @@ import BottomSheetLayout from '../components/overlays/bottom-sheet/BottomSheetLa
 type UseBottomSheetReturnValue = {
   renderBottomSheet: () => React.ReactNode;
   setBottomSheetContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  setBottomSheetBgDark: React.Dispatch<React.SetStateAction<boolean>>;
-  setBottomSheetCloseOnBgPress: React.Dispatch<React.SetStateAction<boolean>>;
   openBottomSheet: () => void;
   closeBottomSheet: () => void;
   activateBottomSheetBgDark: () => void;
   deactivateBottomSheetBgDark: () => void;
+  activateBottomSheetCloseOnBgPress: () => void;
+  deactivateBottomSheetCloseOnBgPress: () => void;
 };
 
 const useBottomSheet = (): UseBottomSheetReturnValue => {
   const [bottomSheetContent, setBottomSheetContent] =
     useState<React.ReactNode>(null);
-  const [bottomSheetOpened, setModalOpened] = useState(false);
+  const [bottomSheetOpened, setBottomSheetOpened] = useState(false);
   const [bottomSheetBgDark, setBottomSheetBgDark] = useState(true);
   const [bottomSheetCloseOnBgPress, setBottomSheetCloseOnBgPress] =
     useState(false);
 
   const openBottomSheet = () => {
-    setModalOpened(true);
+    setBottomSheetOpened(true);
   };
 
   const closeBottomSheet = () => {
-    setModalOpened(false);
+    setBottomSheetOpened(false);
   };
 
   const activateBottomSheetBgDark = () => {
@@ -34,6 +34,14 @@ const useBottomSheet = (): UseBottomSheetReturnValue => {
 
   const deactivateBottomSheetBgDark = () => {
     setBottomSheetBgDark(false);
+  };
+
+  const activateBottomSheetCloseOnBgPress = () => {
+    setBottomSheetCloseOnBgPress(true);
+  };
+
+  const deactivateBottomSheetCloseOnBgPress = () => {
+    setBottomSheetCloseOnBgPress(false);
   };
 
   const onPressBg = () => {
@@ -50,12 +58,12 @@ const useBottomSheet = (): UseBottomSheetReturnValue => {
         </BottomSheetLayout>
       ),
     setBottomSheetContent,
-    setBottomSheetBgDark,
-    setBottomSheetCloseOnBgPress,
     openBottomSheet,
     closeBottomSheet,
     activateBottomSheetBgDark,
     deactivateBottomSheetBgDark,
+    activateBottomSheetCloseOnBgPress,
+    deactivateBottomSheetCloseOnBgPress,
   };
 };
 

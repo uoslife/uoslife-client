@@ -9,11 +9,12 @@ type BottomSheetToggleItemProps = {
 
 const BottomSheetCheckItem = ({
   isOn,
+  description,
   onToggle,
 }: BottomSheetToggleItemProps) => {
   return (
     <S.ItemWrapper>
-      <S.CheckArea onPress={onToggle}></S.CheckArea>
+      <S.Description onPress={onToggle}>{description}</S.Description>
     </S.ItemWrapper>
   );
 };
@@ -25,7 +26,5 @@ const S = {
     flex-direction: row;
     justify-content: space-between;
   `,
-  CheckArea: styled.Pressable``,
-  LeftArea: styled.Pressable``,
-  ForwardIconArea: styled.Pressable``,
+  Description: styled.Pressable``,
 };

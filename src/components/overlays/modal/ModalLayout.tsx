@@ -9,7 +9,7 @@ type ModalLayoutProps = {
 const ModalLayout = ({children, bgDark, onPressBg}: ModalLayoutProps) => {
   return (
     <S.Wrapper>
-      <S.Background bgDark={bgDark} onPress={onPressBg}></S.Background>
+      <S.Background bgDark={bgDark} onPress={onPressBg} />
       <S.Container>{children}</S.Container>
     </S.Wrapper>
   );
@@ -32,6 +32,8 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    z-index: 10;
   `,
   Background: styled.Pressable<SBgProps>`
     position: absolute;
@@ -44,7 +46,6 @@ const S = {
   Container: styled.View`
     background-color: white;
     width: 300px;
-    z-index: 10;
     border-radius: 20px;
   `,
 };

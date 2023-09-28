@@ -6,10 +6,14 @@ type BottomSheetLayoutProps = {
   onPressBg: () => void;
 };
 
-const BottomSheetLayout = ({children, onPressBg}: BottomSheetLayoutProps) => {
+const BottomSheetLayout = ({
+  children,
+  onPressBg,
+  bgDark,
+}: BottomSheetLayoutProps) => {
   return (
     <S.Wrapper>
-      <S.Background bgDark={false} onPress={onPressBg} />
+      <S.Background bgDark={bgDark} onPress={onPressBg} />
       <S.Container>{children}</S.Container>
     </S.Wrapper>
   );
@@ -31,6 +35,8 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+
+    z-index: 5;
   `,
   Background: styled.Pressable<SBgProps>`
     position: absolute;
@@ -39,7 +45,6 @@ const S = {
 
     background-color: ${({bgDark}) =>
       bgDark ? 'rgba(0, 0, 0, 0.32)' : 'rgba(0, 0, 0, 0)'};
-    z-index: 5;
   `,
   Container: styled.View`
     background-color: white;
