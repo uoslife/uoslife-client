@@ -1,24 +1,19 @@
 import styled from '@emotion/native';
+import {GestureResponderEvent} from 'react-native';
 
 type BottomSheetToggleItemProps = {
-  id: string;
   isOn: boolean;
   description: string;
-  isOnSetter: (id: string) => void;
+  onToggle: (e: GestureResponderEvent) => void;
 };
 
 const BottomSheetCheckItem = ({
-  id,
   isOn,
-  isOnSetter,
+  onToggle,
 }: BottomSheetToggleItemProps) => {
-  const toggleIsOn = () => {
-    isOnSetter(id);
-  };
-
   return (
     <S.ItemWrapper>
-      <S.CheckArea onPress={toggleIsOn}></S.CheckArea>
+      <S.CheckArea onPress={onToggle}></S.CheckArea>
     </S.ItemWrapper>
   );
 };
