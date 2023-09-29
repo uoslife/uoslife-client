@@ -1,30 +1,47 @@
 import styled from '@emotion/native';
-import {GestureResponderEvent} from 'react-native';
+import ToggleSwitch from '../../../toggleSwitch/ToggleSwitch';
+import {Txt} from '@uoslife/design-system';
 
-type BottomSheetToggleItemProps = {
+export type BottomSheetToggleItemProps = {
   isOn: boolean;
   description: string;
-  onToggle: (e: GestureResponderEvent) => void;
+  onToggle: () => void;
 };
 
-const BottomSheetCheckItem = ({
+const BottomSheetToggleItem = ({
   isOn,
   description,
   onToggle,
 }: BottomSheetToggleItemProps) => {
   return (
-    <S.ItemWrapper>
-      <S.Description onPress={onToggle}>{description}</S.Description>
-    </S.ItemWrapper>
+    <S.Root onPress={onToggle}>
+      <S.TextContainer>
+        <Txt color={'grey190'} label={description} typograph={'bodyLarge'} />
+      </S.TextContainer>
+      <S.ToggleContainer>
+        <ToggleSwitch isOn={isOn} onToggle={onToggle} />
+      </S.ToggleContainer>
+    </S.Root>
   );
 };
 
-export default BottomSheetCheckItem;
+export default BottomSheetToggleItem;
 
 const S = {
-  ItemWrapper: styled.View`
+  Root: styled.Pressable`
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+
+    gap: 24px;
   `,
-  Description: styled.Pressable``,
+  TextContainer: styled.View`
+    flex: 1;
+  `,
+  ToggleContainer: styled.View`
+    width: 48px;
+    height: 48px;
+
+    justify-content: center;
+    align-items: center;
+  `,
 };
