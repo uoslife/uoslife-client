@@ -1,17 +1,19 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 
+export type InformationBoxObject = {key: string; value: string}[];
+
 type ModalInformationBoxProps = {
-  InformationTxtObject: {key: string; value: string}[];
+  informationBoxObject: InformationBoxObject;
 };
 
 const ModalInformationBox = ({
-  InformationTxtObject,
+  informationBoxObject,
 }: ModalInformationBoxProps) => {
   return (
     <S.Box>
-      {InformationTxtObject.map(({key, value}, i) => (
-        <S.Item>
+      {informationBoxObject.map(({key, value}, i) => (
+        <S.Item key={i}>
           <S.KeyTxtContainer>
             <Txt label={key} color={'primaryBrand'} typograph={'labelMedium'} />
           </S.KeyTxtContainer>

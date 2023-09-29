@@ -1,9 +1,10 @@
+import {View} from 'react-native';
 import styled from '@emotion/native';
-import {Txt, colorsType} from '@uoslife/design-system';
+import {Txt, colors, colorsType} from '@uoslife/design-system';
 
 type ButtonColorType = 'ACCEPT' | 'SECONDARY' | 'DENY';
 
-type ModalStandardButtonProps = {
+export type ModalStandardButtonProps = {
   type: ButtonColorType;
   label: string;
   onPress: () => void;
@@ -11,8 +12,8 @@ type ModalStandardButtonProps = {
 
 const TypeColorMapping: {[key in ButtonColorType]: colorsType} = {
   ACCEPT: 'primaryBrand',
-  SECONDARY: 'grey90',
-  DENY: 'grey130',
+  SECONDARY: 'grey130',
+  DENY: 'grey90',
 };
 
 const ModalStandardButton = ({
@@ -21,13 +22,15 @@ const ModalStandardButton = ({
   onPress,
 }: ModalStandardButtonProps) => {
   return (
-    <S.ButtonContainer onPress={onPress}>
-      <Txt
-        color={TypeColorMapping[type]}
-        label={label}
-        typograph={'bodyMedium'}
-      />
-    </S.ButtonContainer>
+    <View style={{borderTopColor: colors.grey40, borderTopWidth: 1}}>
+      <S.ButtonContainer onPress={onPress}>
+        <Txt
+          color={TypeColorMapping[type]}
+          label={label}
+          typograph={'bodyMedium'}
+        />
+      </S.ButtonContainer>
+    </View>
   );
 };
 
