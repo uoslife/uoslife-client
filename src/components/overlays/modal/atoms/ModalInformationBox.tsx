@@ -41,7 +41,6 @@ const S = {
     flex-direction: row;
     align-items: center;
   `,
-  // fixed width 부여가 목적
   KeyTxtContainer: styled.View`
     width: 36px;
   `,
