@@ -7,7 +7,7 @@ import ModalInformationBox, {
   InformationBoxObject,
 } from '../atoms/ModalInformationBox';
 
-type ModalMenuContentProps = {
+type ModalStandardContentProps = {
   title: string;
   supportingText: string;
   standardBtnPropsList: ModalStandardButtonProps[];
@@ -31,7 +31,7 @@ const ModalStandardContent = ({
   supportingText,
   standardBtnPropsList,
   informationBoxObject,
-}: ModalMenuContentProps) => {
+}: ModalStandardContentProps) => {
   return (
     <S.Container>
       <S.Descriptions>
