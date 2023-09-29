@@ -37,9 +37,11 @@ const ModalMenuContent = ({
           />
         )}
       </S.Descriptions>
-      {menuBtnProps.map((menuBtnProp, i) => (
-        <ModalMenuButton key={i} {...menuBtnProp} />
-      ))}
+      <S.Buttons>
+        {menuBtnProps.map((menuBtnProp, i) => (
+          <ModalMenuButton key={i} {...menuBtnProp} />
+        ))}
+      </S.Buttons>
     </S.Container>
   );
 };
@@ -55,4 +57,5 @@ const S = {
 
     gap: 8px;
   `,
+  Buttons: styled.View``,
 };
