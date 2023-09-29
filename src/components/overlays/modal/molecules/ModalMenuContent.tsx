@@ -5,7 +5,7 @@ import ModalMenuButton, {ModalMenuButtonProps} from '../atoms/ModalMenuButton';
 type ModalMenuContentProps = {
   title: string;
   supportingText?: string;
-  menuBtnProps: ModalMenuButtonProps[];
+  menuBtnPropsList: ModalMenuButtonProps[];
 };
 
 // {
@@ -23,7 +23,7 @@ type ModalMenuContentProps = {
 const ModalMenuContent = ({
   title,
   supportingText,
-  menuBtnProps,
+  menuBtnPropsList,
 }: ModalMenuContentProps) => {
   return (
     <S.Container>
@@ -38,8 +38,8 @@ const ModalMenuContent = ({
         )}
       </S.Descriptions>
       <S.Buttons>
-        {menuBtnProps.map((menuBtnProp, i) => (
-          <ModalMenuButton key={i} {...menuBtnProp} />
+        {menuBtnPropsList.map((menuBtnProps, i) => (
+          <ModalMenuButton key={i} {...menuBtnProps} />
         ))}
       </S.Buttons>
     </S.Container>
