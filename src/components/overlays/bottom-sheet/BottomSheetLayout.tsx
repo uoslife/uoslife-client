@@ -6,6 +6,7 @@ type BottomSheetLayoutProps = {
   onPressBg: () => void;
 };
 
+// useBottomSheet 전용 컴포넌트입니다. 해당 hook 외의 다른 곳에서 사용하지 않도록 주의해주세요.
 const BottomSheetLayout = ({
   children,
   onPressBg,
