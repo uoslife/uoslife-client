@@ -1,14 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import styled from '@emotion/native';
-import {Alert} from 'react-native';
-import {Txt} from '@uoslife/design-system';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
-import HistoryList from '../../components/molecules/announcement/HistoryList';
 import {
   ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
   Article,
 } from './AnnouncementMainScreen';
-import ArticleList from '../../components/molecules/announcement/article/ArticleList';
 import Header from '../../components/header/Header';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -18,31 +14,12 @@ import {
   AnnouncementNavigationProps,
   AnnouncementStackParamList,
 } from '../../navigators/AnnouncementStackNavigator';
+import InSearching from '../../components/molecules/announcement/search/InSearching';
+import SearchResult from '../../components/molecules/announcement/search/SearchResult';
 
-type SearchResultProps = {
-  articles: Article[];
-  hasSearchResult: boolean;
-};
+type SearchScreenState = 'IN-SEARCHING' | 'SEARCH-RESULT';
 
-const NoSearchResult = () => (
-  <S.SearchResult>
-    <Txt
-      label={'검색 결과가 없어요.'}
-      color={'grey90'}
-      typograph={'bodyMedium'}
-    />
-  </S.SearchResult>
-);
-
-const SearchResult = ({articles, hasSearchResult}: SearchResultProps) => {
-  return hasSearchResult ? (
-    <ArticleList articles={articles} showCategory />
-  ) : (
-    <NoSearchResult />
-  );
-};
-
-type AnnouncementSearchScreenProps = NativeStackScreenProps<
+export type AnnouncementSearchScreenProps = NativeStackScreenProps<
   AnnouncementStackParamList,
   'AnnouncementSearch'
 >;
@@ -53,38 +30,19 @@ const AnnouncementSearchScreen = ({
   },
 }: AnnouncementSearchScreenProps) => {
   const insets = useSafeAreaInsets();
-  const [histories, setHistories] = useState<string[]>([]);
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [articles, setArticles] = useState<null | Article[]>(null);
+  const [mode, setMode] = useState<SearchScreenState>(
+    // 초기 검색어가 빈 문자열: 검색페이지 최초 진입
+    !initialSearchWord ? 'IN-SEARCHING' : 'SEARCH-RESULT',
+  );
+  const [searchWord, setSearchWord] = useState<string>(initialSearchWord);
+  const [articles, setArticles] = useState<Article[]>(
+    ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
+  );
   const inputRef = useRef<TextInput>(null);
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
-  const handleGoToNewSearchPage = () => {
-    navigation.navigate('AnnouncementSearch', {
-      initialSearchWord: initialSearchWord,
-    });
-  };
-
-  // TODO: 히스토리 블러오기 기능 붙이기
-  useEffect(() => {
-    const DUMMY_HISTORY = [];
-    for (let i = 0; i < 10; i++) {
-      DUMMY_HISTORY.push(`히스토리 ${i}`);
-      DUMMY_HISTORY.push(`${i}`);
-    }
-
-    setHistories(DUMMY_HISTORY);
-  }, []);
-
-  // TODO: 검색 수행하기
-  const hasSearchResult = false;
-  // TODO: 검색 api의 responese.size === 0인지 아닌지에 따라서 hasSearchResult의 값이 true인지 false인지 여부 판단.
-
+  // TODO: 검색 API 붙이기
   const executeSearch = (searchWordParam: string) => {
     setSearchWord(searchWordParam);
 
@@ -106,15 +64,36 @@ const AnnouncementSearchScreen = ({
     }
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
+  const handlePressBackButton = () => {
+    switch (mode) {
+      case 'IN-SEARCHING':
+        setMode('SEARCH-RESULT');
+        setSearchWord(initialSearchWord);
+        break;
+      case 'SEARCH-RESULT':
+        handleGoBack();
+        break;
+    }
+  };
+
+  const navigateToNewSearchScreen = (searchWord: string) => {
+    navigation.push('AnnouncementSearch', {
+      initialSearchWord: searchWord,
+    });
+  };
+
   return (
-    <S.ScreenContainer style={{paddingTop: insets.top}}>
-      <Header onPressBackButton={handleGoBack}>
-        {/* Focus가 사라져야 될 때 사라지지 않는 이슈 있음 */}
+    <S.Root style={{paddingTop: insets.top}}>
+      <Header onPressBackButton={handlePressBackButton}>
         <SearchInput
           inputRef={inputRef}
           placeholder={'검색어를 입력해주세요.'}
           onFocus={() => {
-            setArticles(null);
+            setMode('IN-SEARCHING');
           }}
           onPressClear={() => {
             setSearchWord('');
@@ -122,63 +101,34 @@ const AnnouncementSearchScreen = ({
           }}
           onChangeText={text => {
             setSearchWord(text);
-            setArticles(null);
+            setArticles([]);
             inputRef.current!.focus();
           }}
           onSubmitEditing={() => {
-            executeSearch(searchWord);
+            navigateToNewSearchScreen(searchWord);
           }}
           value={searchWord}
         />
       </Header>
-
-      {!!articles ? (
-        <SearchResult articles={articles} hasSearchResult={hasSearchResult} />
-      ) : (
-        <>
-          <S.rowReversed>
-            <S.eraseAllTxtWrapper
-              onPress={() => {
-                Alert.alert('API를 달아주셔야 제대로 지워집니다?');
-                setHistories([]);
-              }}>
-              <Txt
-                color={'grey90'}
-                label={'모두 지우기'}
-                typograph={'bodyMedium'}
-              />
-            </S.eraseAllTxtWrapper>
-          </S.rowReversed>
-          <HistoryList executeSearch={executeSearch} histories={histories} />
-        </>
-      )}
-    </S.ScreenContainer>
+      {/* 피드백 후 삭제: 삼항 연산자를 배제하고 싶어서 이렇게 작성해 보았습니다. */}
+      {/* 오히려 가독성을 해친다고 판단된다면 삼항 연산자로 바꿔 놓겠습니다. */}
+      {(() => {
+        switch (mode) {
+          case 'IN-SEARCHING':
+            return <InSearching />;
+          case 'SEARCH-RESULT':
+            return <SearchResult articles={articles} />;
+        }
+      })()}
+    </S.Root>
   );
 };
 
 export default AnnouncementSearchScreen;
 
 const S = {
-  ScreenContainer: styled.ScrollView`
+  Root: styled.View`
     width: 100%;
     height: 100%;
-  `,
-  searchInputRow: styled.View`
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-  `,
-  rowReversed: styled.View`
-    width: 100%;
-
-    flex-direction: row-reverse;
-  `,
-  eraseAllTxtWrapper: styled.Pressable`
-    padding: 10px 20px;
-  `,
-  SearchResult: styled.View`
-    padding: 48px 0;
-    justify-content: center;
-    align-items: center;
   `,
 };

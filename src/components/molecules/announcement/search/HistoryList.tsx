@@ -1,21 +1,49 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import {Alert} from 'react-native';
+import {Alert, Keyboard} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 
-const HistoryList = ({
-  histories,
-  executeSearch,
-}: {
-  histories: string[];
-  executeSearch: (searchWord: string) => void;
-}) => {
+const HistoryList = ({}: {}) => {
+  // TODO: MMKV Storage로 변경
+  const [histories, setHistories] = useState<string[]>([
+    'dummy',
+    'dummy2',
+    'dummy3',
+    'dummy4',
+    'dummy5',
+    'dummy6',
+    'dummy7',
+    'dummy8',
+    'dummy9',
+    'dummy10',
+    'dummy11',
+    'dummy12',
+    'dummy13',
+    'dummy14',
+    'dummy15',
+    'dummy16',
+    'dummy17',
+    'dummy18',
+    'dummy19',
+    'dummy20',
+  ]);
+
+  const navigation = useNavigation<AnnouncementNavigationProps>();
+
+  const navigateToNewSearchScreen = (searchWord: string) => {
+    navigation.push('AnnouncementSearch', {
+      initialSearchWord: searchWord,
+    });
+  };
+
   return (
-    <S.HistoryListContainer>
+    <S.Root>
       {histories.map(item => (
         <S.HistoryItemContainer
           onPress={() => {
-            executeSearch(item);
+            navigateToNewSearchScreen(item);
           }}
           key={item}>
           <S.ItemLeftBox>
@@ -24,21 +52,20 @@ const HistoryList = ({
           </S.ItemLeftBox>
           <S.DeleteBtn
             onPress={e => {
-              e.stopPropagation();
               Alert.alert('삭제');
             }}>
             <Icon name="clear" color="grey90" width={24} height={24} />
           </S.DeleteBtn>
         </S.HistoryItemContainer>
       ))}
-    </S.HistoryListContainer>
+    </S.Root>
   );
 };
 
 export default HistoryList;
 
 const S = {
-  HistoryListContainer: styled.ScrollView`
+  Root: styled.View`
     padding: 0 16px;
   `,
   HistoryItemContainer: styled.Pressable`
