@@ -12,11 +12,11 @@ const WebViewScreen: React.FC<Props<any>> = ({route}) => {
   const webviewRef = useRef<WebView>();
   const url = route.params?.url;
 
-  // TODO: 뒤로가기 버튼 추가.
-
   return (
     <WebView
-      originWhitelist={config.get('webview.allowed_hosts') as string[]}
+      originWhitelist={['https://www.google.com', 'https://m.naver.com']} // In-App Webview를 위한 임시 링크 등록.
+      // originWhitelist={config.get('webview.allowed_hosts') as string[]}
+      // TODO: superbase에 등록된 webview.allowed_hosts에 웹뷰 링크 추가하기.
       source={{uri: url ?? (config.get('webview.url') as string)}}
       ref={ref => (webviewRef.current = ref || ({} as WebView))}
       injectedJavaScript={webview.injectedJavascript}
