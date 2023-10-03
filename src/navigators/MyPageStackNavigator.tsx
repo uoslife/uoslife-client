@@ -1,6 +1,5 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-
 import {
   MypageAppInformationScreen,
   MypageAppSettingScreen,
@@ -32,10 +31,10 @@ export type MyPageAccountStackParamList = {
 
 export type MyPageAppInformationStackParamList = {
   Mypage_appInformation: undefined;
-  Mypage_ToSandPolicies: undefined;
-  Mypage_privacyPolicies: undefined;
+  Mypage_ToSandPoliciesWebView: {url?: string};
+  Mypage_privacyPoliciesWebView: {url?: string};
+  Mypage_advertisingandMarketingConsentWebView: {url?: string};
   Mypage_dvertisingandMarketing: undefined;
-  Mypage_advertisingandMarketingConsent: undefined;
 };
 
 export type MypageAppInformationScreenRouteProp = NativeStackNavigationProp<
@@ -83,15 +82,15 @@ const MyPageAppInformationStackNavigator = () => {
         component={MypageAppInformationScreen}
       />
       <AppInformationStack.Screen
-        name="Mypage_ToSandPolicies"
+        name="Mypage_ToSandPoliciesWebView"
         component={ToSandPoliciesScreen}
       />
       <AppInformationStack.Screen
-        name="Mypage_privacyPolicies"
+        name="Mypage_privacyPoliciesWebView"
         component={PrivacyPoliciesScreen}
       />
       <AppInformationStack.Screen
-        name="Mypage_advertisingandMarketingConsent"
+        name="Mypage_advertisingandMarketingConsentWebView"
         component={AdvertisingandMarketingConsentScreen}
       />
     </AppInformationStack.Navigator>

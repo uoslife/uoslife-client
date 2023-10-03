@@ -10,32 +10,36 @@ import {View} from 'react-native';
 type NavigationListType = {
   label: string;
   navigate:
-    | 'Mypage_ToSandPolicies'
-    | 'Mypage_privacyPolicies'
-    | 'Mypage_advertisingandMarketingConsent';
+    | 'Mypage_ToSandPoliciesWebView'
+    | 'Mypage_privacyPoliciesWebView'
+    | 'Mypage_advertisingandMarketingConsentWebView';
+  url: string;
 };
 
 const APP_INFORMATION_LIST: NavigationListType[] = [
   {
     label: '이용약관 및 정책',
-    navigate: 'Mypage_ToSandPolicies',
+    navigate: 'Mypage_ToSandPoliciesWebView',
+    url: 'https://www.google.com/', // TODO: 이용약관 및 정책 url 추가
   },
   {
     label: '개인정보 처리방침',
-    navigate: 'Mypage_privacyPolicies',
+    navigate: 'Mypage_privacyPoliciesWebView',
+    url: 'https://www.naver.com/', // TODO: 개인정보 처리방침 url 추가
   },
   {
     label: '광고 및 마케팅 수신 동의',
-    navigate: 'Mypage_advertisingandMarketingConsent',
+    navigate: 'Mypage_advertisingandMarketingConsentWebView',
+    url: 'https://www.youtube.com/?gl=KR&hl=ko', // TODO: 광고 및 마케팅 수신 동의 url 추가
   },
 ];
 
 const MypageAppInformationScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MypageAppInformationScreenRouteProp>();
-  const handleGoBack=()=>{
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   return (
     <View style={{paddingTop: insets.top}}>
@@ -45,7 +49,11 @@ const MypageAppInformationScreen = () => {
           <NavigationList
             key={index}
             label={item.label}
-            onPress={() => navigation.navigate(item.navigate)}
+            onPress={() =>
+              navigation.navigate(item.navigate, {
+                url: item.url,
+              })
+            }
           />
         ))}
       </S.Container>
