@@ -20,12 +20,12 @@ const APP_INFORMATION_LIST: NavigationListType[] = [
   {
     label: '이용약관 및 정책',
     navigate: 'Mypage_ToSandPoliciesWebView',
-    url: 'https://www.google.com/', // TODO: 이용약관 및 정책 url 추가
+    url: 'https://www.google.com', // TODO: 이용약관 및 정책 url 추가
   },
   {
     label: '개인정보 처리방침',
     navigate: 'Mypage_privacyPoliciesWebView',
-    url: 'https://www.naver.com/', // TODO: 개인정보 처리방침 url 추가
+    url: 'https://m.naver.com', // TODO: 개인정보 처리방침 url 추가
   },
   {
     label: '광고 및 마케팅 수신 동의',
