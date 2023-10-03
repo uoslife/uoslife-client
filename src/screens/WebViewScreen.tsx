@@ -2,14 +2,17 @@ import React, {useRef} from 'react';
 import {useConfigContext} from '../hooks/ConfigContext';
 import WebView from 'react-native-webview';
 import webview from '../configs/webview';
+import {StackScreenProps} from '@react-navigation/stack';
 
-type Props = {
-  url?: string;
-};
+type Props<ParamList extends Record<string, object | undefined>> =
+  StackScreenProps<ParamList>;
 
-const WebViewScreen: React.FC<Props> = ({url}) => {
+const WebViewScreen: React.FC<Props<any>> = ({route}) => {
   const {config} = useConfigContext();
   const webviewRef = useRef<WebView>();
+  const url = route.params?.url;
+
+  // TODO: 뒤로가기 버튼 추가.
 
   return (
     <WebView
