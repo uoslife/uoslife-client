@@ -19,7 +19,6 @@ export type MyPageStackParamList = {
   Mypage_profile: undefined;
   Mypage_appSetting: undefined;
   Mypage_appInformation: undefined;
-  Mypage_inquiry: undefined;
 };
 
 export type MyPageAccountStackParamList = {
@@ -111,10 +110,6 @@ const MyPageStackNavigator = () => {
       <Stack.Screen
         name="Mypage_appInformation"
         component={MyPageAppInformationStackNavigator}
-      />
-      <Stack.Screen
-        name="Mypage_inquiry"
-        component={MypageAppInformationScreen}
       />
     </Stack.Navigator>
   );

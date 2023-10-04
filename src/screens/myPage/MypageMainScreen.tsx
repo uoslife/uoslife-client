@@ -6,11 +6,32 @@ import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {colors, Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Linking} from 'react-native';
 
 type MyPageNavigatorItem = {
   name: string;
-  navigateDestination: keyof MyPageStackParamList;
+  navigateDestination?:
+    | 'Mypage_profile'
+    | 'Mypage_appSetting'
+    | 'Mypage_appInformation';
+  url?: string;
 };
+
+const MY_PAGE_NAVIGATION_ITEM: MyPageNavigatorItem[] = [
+  {name: '계정', navigateDestination: 'Mypage_profile'},
+  {
+    name: '앱 설정',
+    navigateDestination: 'Mypage_appSetting',
+  },
+  {
+    name: '앱 정보',
+    navigateDestination: 'Mypage_appInformation',
+  },
+  {
+    name: '문의하기',
+    url: 'https://pf.kakao.com/_gMEHK',
+  },
+];
 
 const MypageMainScreen = ({
   navigation,
@@ -18,18 +39,11 @@ const MypageMainScreen = ({
   const insets = useSafeAreaInsets();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
 
-  const MY_PAGE_NAVIGATION_ITEM: MyPageNavigatorItem[] = [
-    {name: '계정', navigateDestination: 'Mypage_profile'},
-    {
-      name: '앱 설정',
-      navigateDestination: 'Mypage_appSetting',
-    },
-    {
-      name: '앱 정보',
-      navigateDestination: 'Mypage_appInformation',
-    },
-    {name: '문의하기', navigateDestination: 'Mypage_inquiry'},
-  ];
+  const handleNavigate = (value: MyPageNavigatorItem) => {
+    value.name === '문의하기'
+      ? Linking.openURL(value.url!)
+      : navigation.navigate(value.navigateDestination!);
+  };
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
@@ -60,11 +74,7 @@ const MypageMainScreen = ({
               <NavigationList
                 key={index}
                 label={value.name}
-                onPress={() =>
-                  navigation.navigate('MyPage', {
-                    screen: value.navigateDestination,
-                  })
-                }
+                onPress={() => handleNavigate(value)}
               />
             );
           })}
