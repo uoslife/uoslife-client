@@ -1,18 +1,18 @@
 import React, {useRef, useState} from 'react';
-import {useConfigContext} from '../hooks/ConfigContext';
+import {useConfigContext} from '../../hooks/ConfigContext';
 import WebView from 'react-native-webview';
-import webview from '../configs/webview';
+import webview from '../../configs/webview';
 import {StackScreenProps} from '@react-navigation/stack';
 import {ParamListBase} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native/dist/emotion-native.cjs';
-import Header from '../components/header/Header';
-import Spinner from '../components/spinner/Spinner';
+import Header from '../../components/header/Header';
+import Spinner from '../../components/spinner/Spinner';
 
 type WebviewProps<NavigationStackParamList extends ParamListBase> =
   StackScreenProps<NavigationStackParamList> & {label?: string};
 
-const WebViewScreen = ({navigation, route, label}: WebviewProps<any>) => {
+const WebViewComponent = ({navigation, route, label}: WebviewProps<any>) => {
   const [isLoading, setIsLoading] = useState(false);
   const {config} = useConfigContext();
   const webviewRef = useRef<WebView>();
@@ -56,4 +56,4 @@ const S = {
   `,
 };
 
-export default WebViewScreen;
+export default WebViewComponent;
