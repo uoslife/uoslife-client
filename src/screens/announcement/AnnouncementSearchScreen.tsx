@@ -17,8 +17,6 @@ import {
 import InSearching from '../../components/molecules/announcement/search/InSearching';
 import SearchResult from '../../components/molecules/announcement/search/SearchResult';
 
-type SearchScreenState = 'IN-SEARCHING' | 'SEARCH-RESULT';
-
 export type AnnouncementSearchScreenProps = NativeStackScreenProps<
   AnnouncementStackParamList,
   'AnnouncementSearch'
@@ -30,9 +28,9 @@ const AnnouncementSearchScreen = ({
   },
 }: AnnouncementSearchScreenProps) => {
   const insets = useSafeAreaInsets();
-  const [mode, setMode] = useState<SearchScreenState>(
-    // 초기 검색어가 빈 문자열: 검색페이지 최초 진입
-    !initialSearchWord ? 'IN-SEARCHING' : 'SEARCH-RESULT',
+  const [searchWordEntering, setSearchWordEntering] = useState<boolean>(
+    // 초기 검색어가 빈 문자열: 검색어 입력 페이지 진입
+    !initialSearchWord,
   );
   const [searchWord, setSearchWord] = useState<string>(initialSearchWord);
   const [articles, setArticles] = useState<Article[]>(
@@ -42,7 +40,7 @@ const AnnouncementSearchScreen = ({
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  // TODO: 검색 API 붙이기
+  // TODO: 더미 데이터 -> 실 API 호출로 변경
   const executeSearch = (searchWordParam: string) => {
     setSearchWord(searchWordParam);
 
@@ -69,57 +67,44 @@ const AnnouncementSearchScreen = ({
   };
 
   const handlePressBackButton = () => {
-    switch (mode) {
-      case 'IN-SEARCHING':
-        setMode('SEARCH-RESULT');
-        setSearchWord(initialSearchWord);
-        break;
-      case 'SEARCH-RESULT':
-        handleGoBack();
-        break;
+    if (searchWordEntering) {
+      setSearchWordEntering(false);
+      setSearchWord(initialSearchWord);
+    } else {
+      handleGoBack();
     }
   };
 
-  const navigateToNewSearchScreen = (searchWord: string) => {
-    navigation.push('AnnouncementSearch', {
-      initialSearchWord: searchWord,
-    });
+  const searchInputProps: React.ComponentProps<typeof SearchInput> = {
+    inputRef,
+    placeholder: '검색어를 입력해주세요.',
+    onFocus: () => {
+      setSearchWordEntering(true);
+    },
+    onChangeText: text => {
+      setSearchWord(text);
+      setArticles([]);
+    },
+    onSubmitEditing: () => {
+      executeSearch(searchWord);
+    },
+    onPressClear: () => {
+      setSearchWord('');
+      inputRef.current!.focus();
+    },
+    value: searchWord,
   };
 
   return (
     <S.Root style={{paddingTop: insets.top}}>
       <Header onPressBackButton={handlePressBackButton}>
-        <SearchInput
-          inputRef={inputRef}
-          placeholder={'검색어를 입력해주세요.'}
-          onFocus={() => {
-            setMode('IN-SEARCHING');
-          }}
-          onPressClear={() => {
-            setSearchWord('');
-            inputRef.current!.focus();
-          }}
-          onChangeText={text => {
-            setSearchWord(text);
-            setArticles([]);
-            inputRef.current!.focus();
-          }}
-          onSubmitEditing={() => {
-            navigateToNewSearchScreen(searchWord);
-          }}
-          value={searchWord}
-        />
+        <SearchInput {...searchInputProps} />
       </Header>
-      {/* 피드백 후 삭제: 삼항 연산자를 배제하고 싶어서 이렇게 작성해 보았습니다. */}
-      {/* 오히려 가독성을 해친다고 판단된다면 삼항 연산자로 바꿔 놓겠습니다. */}
-      {(() => {
-        switch (mode) {
-          case 'IN-SEARCHING':
-            return <InSearching />;
-          case 'SEARCH-RESULT':
-            return <SearchResult articles={articles} />;
-        }
-      })()}
+      {searchWordEntering ? (
+        <InSearching />
+      ) : (
+        <SearchResult articles={articles} />
+      )}
     </S.Root>
   );
 };
