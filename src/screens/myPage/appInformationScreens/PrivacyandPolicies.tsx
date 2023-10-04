@@ -9,7 +9,7 @@ type PrivacyPoliciesStackNavigation = StackNavigationProp<
   'Mypage_privacyPoliciesWebView'
 >;
 
-const ToSandPoliciesScreen = () => {
+const PrivacyandPoliciesScreen = () => {
   const navigation = useNavigation<PrivacyPoliciesStackNavigation>();
   const route = useRoute();
 
@@ -22,4 +22,4 @@ const ToSandPoliciesScreen = () => {
   );
 };
 
-export default ToSandPoliciesScreen;
+export default PrivacyandPoliciesScreen;
