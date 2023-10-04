@@ -7,7 +7,7 @@ import {ParamListBase} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native/dist/emotion-native.cjs';
 import Header from '../components/header/Header';
-import {colors} from '@uoslife/design-system';
+import Spinner from '../components/spinner/Spinner';
 
 type WebviewProps<NavigationStackParamList extends ParamListBase> =
   StackScreenProps<NavigationStackParamList> & {label?: string};
@@ -16,8 +16,8 @@ const WebViewScreen = ({navigation, route, label}: WebviewProps<any>) => {
   const [isLoading, setIsLoading] = useState(false);
   const {config} = useConfigContext();
   const webviewRef = useRef<WebView>();
-  const url = route.params?.url;
   const insets = useSafeAreaInsets();
+  const url = route.params?.url;
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -45,9 +45,7 @@ const WebViewScreen = ({navigation, route, label}: WebviewProps<any>) => {
         onLoadStart={() => setIsLoading(true)}
         onLoad={() => setIsLoading(false)}
       />
-      {isLoading && (
-        <S.activityIndicator size="large" color={colors.primaryBrand} />
-      )}
+      {isLoading && <Spinner />}
     </S.screenContainer>
   );
 };
@@ -55,12 +53,6 @@ const WebViewScreen = ({navigation, route, label}: WebviewProps<any>) => {
 const S = {
   screenContainer: styled.View`
     flex: 1;
-  `,
-  activityIndicator: styled.ActivityIndicator`
-    flex: 1;
-    position: absolute;
-    top: 45%;
-    left: 45%;
   `,
 };
 
