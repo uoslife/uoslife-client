@@ -127,10 +127,7 @@ const AnnouncementDetailScreen = ({
       {!isPending && article ? (
         <AnnouncementDetailContent {...article} />
       ) : (
-        <View>
-          {/* TODO: 이곳에 보여줄 컴포넌트 작성 필요 */}
-          로딩중
-        </View>
+        <View>{/* TODO: 이곳에 보여줄 컴포넌트 작성 필요 */}</View>
       )}
     </S.ScreenContainer>
   );
