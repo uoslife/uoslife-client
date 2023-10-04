@@ -69,15 +69,13 @@ const MypageMainScreen = ({
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
-          {MY_PAGE_NAVIGATION_ITEM.map((value, index) => {
-            return (
-              <NavigationList
-                key={index}
-                label={value.name}
-                onPress={() => handleNavigate(value)}
-              />
-            );
-          })}
+          {MY_PAGE_NAVIGATION_ITEM.map((item, index) => (
+            <NavigationList
+              key={index}
+              label={item.name}
+              onPress={() => handleNavigate(item)}
+            />
+          ))}
         </S.myProfileBox>
         <S.logout>
           <Txt label={'로그아웃'} color={'grey130'} typograph={'bodyMedium'} />
