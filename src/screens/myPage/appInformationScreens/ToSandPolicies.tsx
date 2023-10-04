@@ -7,9 +7,13 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+type ToSandPoliciesStackNavigation = StackNavigationProp<
+  MyPageAppInformationStackParamList,
+  'Mypage_ToSandPoliciesWebView'
+>;
+
 const ToSandPoliciesScreen = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<MyPageAppInformationStackParamList>>();
+  const navigation = useNavigation<ToSandPoliciesStackNavigation>();
   const route = useRoute();
   const insets = useSafeAreaInsets();
 

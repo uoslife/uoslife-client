@@ -7,9 +7,14 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+type AdvertisingandMarketingConsentNavigationStack = StackNavigationProp<
+  MyPageAppInformationStackParamList,
+  'Mypage_advertisingandMarketingConsentWebView'
+>;
+
 const ToSandPoliciesScreen = () => {
   const navigation =
-    useNavigation<StackNavigationProp<MyPageAppInformationStackParamList>>();
+    useNavigation<AdvertisingandMarketingConsentNavigationStack>();
   const route = useRoute();
   const insets = useSafeAreaInsets();
   const handleGoBack = () => {

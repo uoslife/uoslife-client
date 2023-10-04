@@ -7,9 +7,13 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+type PrivacyPoliciesStackNavigation = StackNavigationProp<
+  MyPageAppInformationStackParamList,
+  'Mypage_privacyPoliciesWebView'
+>;
+
 const ToSandPoliciesScreen = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<MyPageAppInformationStackParamList>>();
+  const navigation = useNavigation<PrivacyPoliciesStackNavigation>();
   const route = useRoute();
   const insets = useSafeAreaInsets();
   const handleGoBack = () => {
@@ -17,10 +21,11 @@ const ToSandPoliciesScreen = () => {
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'개인정보 처리방침'} onPressBackButton={handleGoBack} />
-      <WebViewScreen navigation={navigation} route={route} />
-    </S.screenContainer>
+    <WebViewScreen
+      navigation={navigation}
+      route={route}
+      label={'개인정보 처리방침'}
+    />
   );
 };
 
