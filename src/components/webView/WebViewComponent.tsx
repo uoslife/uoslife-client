@@ -27,7 +27,7 @@ const WebViewComponent = ({navigation, route, label}: WebviewProps<any>) => {
     <S.screenContainer style={{paddingTop: insets.top}}>
       {label && <Header label={label} onPressBackButton={handleGoBack} />}
       <WebView
-        originWhitelist={['https://www.google.com', 'https://m.naver.com']} // In-App Webview를 위한 임시 링크 등록.
+        originWhitelist={['https://www.google.com', 'https://m.blog.naver.com']} // In-App Webview를 위한 임시 링크 등록.
         // originWhitelist={config.get('webview.allowed_hosts') as string[]}
         // TODO: superbase에 등록된 webview.allowed_hosts에 웹뷰 링크 추가하기.
         source={{uri: url ?? (config.get('webview.url') as string)}}
