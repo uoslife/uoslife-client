@@ -52,28 +52,30 @@ export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
     attachments: i % 3 === 0 ? [] : ['첨부파일 1', '첨부파일 2'],
   }));
 
+const initialArticleCategoryTabProps: AnnouncementCategoryState = [
+  {
+    name: '일반공지',
+    isSelected: true,
+  },
+  {
+    name: '학사공지',
+    isSelected: false,
+  },
+  {
+    name: '채용공고',
+    isSelected: false,
+  },
+  {
+    name: '창업공지',
+    isSelected: false,
+  },
+];
+
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTabProps, setArticleCategoryTabProps] =
-    useState<AnnouncementCategoryState>([
-      {
-        name: '일반공지',
-        isSelected: true,
-      },
-      {
-        name: '학사공지',
-        isSelected: false,
-      },
-      {
-        name: '채용공고',
-        isSelected: false,
-      },
-      {
-        name: '창업공지',
-        isSelected: false,
-      },
-    ]);
+    useState<AnnouncementCategoryState>(initialArticleCategoryTabProps);
 
   const selectCategory = (categoryName: ArticleCategoryName) => {
     setArticleCategoryTabProps(
