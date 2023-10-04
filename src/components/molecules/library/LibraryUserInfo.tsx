@@ -105,9 +105,12 @@ const LibraryUserInfo = ({
         {getDescriptions({extended, room, seatNum, timeOfUse}).map(
           (item, i) => (
             <S.userInfoDetailItem key={i}>
-              <View style={{width: 56}}>
-                <Txt color={'grey90'} label={item.key} typograph="titleSmall" />
-              </View>
+              <Txt
+                style={{width: 56}}
+                color={'grey90'}
+                label={item.key}
+                typograph="titleSmall"
+              />
               <Txt color={'grey190'} label={item.value} typograph="bodyLarge" />
             </S.userInfoDetailItem>
           ),
