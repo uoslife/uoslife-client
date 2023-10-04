@@ -7,12 +7,13 @@ import {ParamListBase} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native/dist/emotion-native.cjs';
 import Header from '../components/header/Header';
-import {Text} from 'react-native';
+import {colors} from '@uoslife/design-system';
 
 type WebviewProps<NavigationStackParamList extends ParamListBase> =
-  StackScreenProps<Na화vigationStackParamList> & {label?: string};
+  StackScreenProps<NavigationStackParamList> & {label?: string};
 
-const WebViewScreen: React.FC<Props<any>> = ({route}) => {
+const WebViewScreen = ({navigation, route, label}: WebviewProps<any>) => {
+  const [isLoading, setIsLoading] = useState(false);
   const {config} = useConfigContext();
   const webviewRef = useRef<WebView>();
   const url = route.params?.url;
@@ -41,7 +42,12 @@ const WebViewScreen: React.FC<Props<any>> = ({route}) => {
         scalesPageToFit={true}
         cacheEnabled={true}
         bounces={false}
+        onLoadStart={() => setIsLoading(true)}
+        onLoad={() => setIsLoading(false)}
       />
+      {isLoading && (
+        <S.activityIndicator size="large" color={colors.primaryBrand} />
+      )}
     </S.screenContainer>
   );
 };
@@ -50,8 +56,11 @@ const S = {
   screenContainer: styled.View`
     flex: 1;
   `,
-  activityIndicatorStyle: styled.View`
+  activityIndicator: styled.ActivityIndicator`
     flex: 1;
+    position: absolute;
+    top: 45%;
+    left: 45%;
   `,
 };
 
