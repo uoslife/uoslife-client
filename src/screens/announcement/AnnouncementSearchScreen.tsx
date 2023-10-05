@@ -1,25 +1,18 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import styled from '@emotion/native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   AnnouncementNavigationProps,
-  AnnouncementStackParamList,
+  AnnouncementSearchScreenProps,
 } from '../../navigators/AnnouncementStackNavigator';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import Header from '../../components/header/Header';
 import SearchResultView from '../../components/molecules/announcement/search/SearchResultView';
 
-export type AnnouncementSearchScreenProps = NativeStackScreenProps<
-  AnnouncementStackParamList,
-  'AnnouncementSearch'
->;
-
 // 검색어 입력(searchWordEntering === true) / 검색 결과 두 상태로 구분(searchWordEntering === false)
-// 해당 컴포넌트에서 관리하는 state: searchWordEntering, searchWord, articles
 const AnnouncementSearchScreen = ({
   route: {
     params: {initialSearchWord},
@@ -37,10 +30,13 @@ const AnnouncementSearchScreen = ({
     navigation.push('AnnouncementSearch', {
       initialSearchWord: searchWord,
     });
-    // 2. 새로운 screen stack에서 뒤로가기를 눌렀을 때, 이전의 검색결과 페이지를 보여줘야 함
+    // 2. 새로운 screen stack에서 뒤로가기를 눌렀을 때, 이전의 검색결과 페이지로 복귀
     setTimeout(() => {
       setSearchWordEntering(false);
     }, 300);
+
+    // 2에서 delay를 주는 이유: 이전 페이지의 searchWordEntering state 변경이 UI에 노출되지 않기 하기 위해
+    // 순차실행 보장에 흔히 쓰이는 Promise도 써 보았지만, '애니메이션 시작'을 push 함수의 동작 종료로 판정함으로 인하여 여전히 중첩되는 문제가 발생 -> setTimeout으로 확실히 감추기로 결정
   };
 
   const searchInputProps: React.ComponentProps<typeof SearchInput> = {
@@ -48,9 +44,7 @@ const AnnouncementSearchScreen = ({
     placeholder: '검색어를 입력해주세요.',
     onFocus: () => {
       setSearchWordEntering(true);
-      // setTimeout(() => {
       inputRef.current!.focus();
-      // }, 100);
     },
     onChangeText: text => {
       setSearchWord(text);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ArticleItem from './ArticleItem';
 import styled from '@emotion/native';
-import {Article} from '../../../../screens/announcement/AnnouncementMainScreen';
+import {Article} from '../../../../types/announcement.type';
 
 type ArticleListProps = {
   articles: Article[];

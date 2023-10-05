@@ -3,20 +3,12 @@ import React, {useEffect, useState} from 'react';
 import Header from '../../components/header/Header';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import {View} from 'react-native';
-import {
-  ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
-  Article,
-} from './AnnouncementMainScreen';
 import {getUploadTimeString} from '../../utils/handle-date';
-import {AnnouncementStackParamList} from '../../navigators/AnnouncementStackNavigator';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-
-type AnnouncementDetailScreenProps = NativeStackScreenProps<
-  AnnouncementStackParamList,
-  'AnnouncementDetail'
->;
+import {Article} from '../../types/announcement.type';
+import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
+import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
 
 const DetailScreenBookmarkToggle = ({
   bookmarkByMe,
@@ -99,14 +91,14 @@ const AnnouncementDetailScreen = ({
 }: AnnouncementDetailScreenProps) => {
   const insets = useSafeAreaInsets();
   const [article, setArticle] = useState<Article>();
-  // TODO: API 호출 관련 상태관리 로직 custom hook으로 추상화 필요
+  // TODO: API 호출 관련 상태관리 로직 custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  // TODO: 더미데이터 -> 실제 API 호출로 변경 필요
+  // TODO: 실 API 호출로 변경
   useEffect(() => {
     setIsPending(true);
 
-    const found = ANNOUNCEMENT_ARTICLE_DUMMY_DATA.find(
+    const found = ANNOUNCEMENT_LIST_MOCK_DATA.find(
       article => article.id === id,
     );
 

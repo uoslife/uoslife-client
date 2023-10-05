@@ -10,50 +10,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
-
-export type ArticleCategoryName =
-  | '일반공지'
-  | '학사공지'
-  | '채용공고'
-  | '창업공지';
-
-export type AnnouncementCategoryState = {
-  name: ArticleCategoryName;
-  isSelected: boolean;
-}[];
-
-export type Article = {
-  bookmarkCnt: number;
-  bookmarkByMe: boolean;
-  title: string;
-  category: ArticleCategoryName;
-  body: string;
-  department: string; // XX과
-  uploadTime: Date;
-  id: string;
-  attachments: string[]; // 첨부파일
-};
-
-export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(300)
-  .fill(null)
-  .map((_, i) => ({
-    bookmarkCnt: i % 5,
-    department: `category${i}`,
-    title: `titletitletitletitletitletitletitletitletitletitleletitletitletitle${i}`,
-    uploadTime: new Date(),
-    bookmarkByMe: !!(i % 5) && !!(i % 2),
-    body: 'bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody',
-    id: `id${i}`,
-    category:
-      i % 4 === 0
-        ? '일반공지'
-        : i % 4 === 1
-        ? '학사공지'
-        : i % 4 === 2
-        ? '채용공고'
-        : '창업공지',
-    attachments: i % 3 === 0 ? [] : ['첨부파일 1', '첨부파일 2'],
-  }));
+import {
+  AnnouncementCategoryState,
+  Article,
+  ArticleCategoryName,
+} from '../../types/announcement.type';
+import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
 
 const initialArticleCategoryTabProps: AnnouncementCategoryState = [
   {
@@ -96,10 +58,11 @@ const AnnouncementMainScreen = () => {
     );
   };
 
+  // TODO: 실 API 호출로 변경
   useEffect(() => {
     try {
       setArticles(
-        ANNOUNCEMENT_ARTICLE_DUMMY_DATA.filter(
+        ANNOUNCEMENT_LIST_MOCK_DATA.filter(
           item =>
             item.category ===
             articleCategoryTabProps.find(item => item.isSelected)?.name,
@@ -110,6 +73,7 @@ const AnnouncementMainScreen = () => {
     }
   }, [articleCategoryTabProps]);
 
+  // 이게 최선?
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
       iconName: 'search',
@@ -187,7 +151,7 @@ const AnnouncementMainScreen = () => {
         </>
       ) : (
         <>
-          <Header label="공지사항" onPressBackButton={onPressBackButton}>
+          <Header label={'공지사항'} onPressBackButton={onPressBackButton}>
             <S.HeaderIcons>
               {icons.map((item, i) => (
                 <S.IconWrapper key={i} onPress={item.onPress}>

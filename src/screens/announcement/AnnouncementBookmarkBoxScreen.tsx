@@ -3,12 +3,10 @@ import Header from '../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
 import ArticleList from '../../components/molecules/announcement/article/ArticleList';
 import styled from '@emotion/native';
-import {
-  ANNOUNCEMENT_ARTICLE_DUMMY_DATA,
-  Article,
-} from './AnnouncementMainScreen';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {Article} from '../../types/announcement.type';
+import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
 
 const NoBookmarkFound = () => (
   <S.NoBookmarkFoundContainer>
@@ -28,13 +26,11 @@ const AnnouncementBookmarkBoxScreen = () => {
     navigation.goBack();
   };
 
+  // TODO: 실 API 호출로 변경
   useEffect(() => {
     try {
-      // 내가 북마크한 글만
       setArticles(
-        ANNOUNCEMENT_ARTICLE_DUMMY_DATA.filter(
-          ({bookmarkByMe}) => bookmarkByMe,
-        ),
+        ANNOUNCEMENT_LIST_MOCK_DATA.filter(({bookmarkByMe}) => bookmarkByMe),
       );
     } catch (err) {
       console.log(err);

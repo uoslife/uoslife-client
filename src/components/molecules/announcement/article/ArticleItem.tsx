@@ -2,10 +2,10 @@ import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import React from 'react';
 import {Image, Text} from 'react-native';
-import {Article} from '../../../../screens/announcement/AnnouncementMainScreen';
 import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
 import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
+import {Article} from '../../../../types/announcement.type';
 
 type ArticleItemProps = {
   article: Article;
