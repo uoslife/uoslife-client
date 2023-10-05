@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {BackHandler, Alert} from 'react-native';
+import {BackHandler, Alert, Keyboard} from 'react-native';
 import {
   AnnouncementNavigationProps,
   AnnouncementSearchScreenProps,
@@ -45,7 +45,7 @@ const AnnouncementSearchScreen = ({
     placeholder: '검색어를 입력해주세요.',
     onFocus: () => {
       setSearchWordEntering(true);
-      inputRef.current!.focus();
+      inputRef.current?.focus();
     },
     onChangeText: text => {
       setSearchWord(text);
@@ -56,14 +56,30 @@ const AnnouncementSearchScreen = ({
     onPressClear: () => {
       setSearchWord('');
       setSearchWordEntering(true);
-      inputRef.current!.focus();
+      inputRef.current?.focus();
     },
     value: searchWord,
   };
 
   const onPressBackButton = () => {
-    searchWordEntering ? setSearchWordEntering(false) : navigation.goBack();
+    if (searchWordEntering) {
+      setSearchWordEntering(false);
+      inputRef.current?.blur();
+    } else {
+      navigation.goBack();
+    }
   };
+
+  useEffect(() => {
+    const keyboardDidHideListener = () => {
+      inputRef.current?.blur();
+    };
+    Keyboard.addListener('keyboardDidHide', keyboardDidHideListener);
+
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidHide');
+    };
+  }, []);
 
   // 안드로이드에서 뒤로가기 버튼을 눌렀을 때의 동작 지정
   // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/

@@ -7,7 +7,7 @@ import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {BackHandler, Alert} from 'react-native';
+import {BackHandler, Alert, Keyboard} from 'react-native';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
@@ -96,10 +96,6 @@ const AnnouncementMainScreen = () => {
     },
   ];
 
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
   const navigateToNewSearchScreen = (searchWord: string) => {
     navigation.push('AnnouncementSearch', {
       initialSearchWord: searchWord,
@@ -114,7 +110,7 @@ const AnnouncementMainScreen = () => {
     placeholder: '검색어를 입력해주세요.',
     onFocus: () => {
       setSearchWordEntering(true);
-      inputRef.current!.focus();
+      inputRef.current?.focus();
     },
     onChangeText: text => {
       setSearchWord(text);
@@ -125,7 +121,7 @@ const AnnouncementMainScreen = () => {
     onPressClear: () => {
       setSearchWord('');
       setSearchWordEntering(true);
-      inputRef.current!.focus();
+      inputRef.current?.focus();
     },
     value: searchWord,
   };
@@ -133,11 +129,22 @@ const AnnouncementMainScreen = () => {
   const onPressBackButton = () => {
     if (searchWordEntering) {
       setSearchWordEntering(false);
-      setSearchWord('');
+      inputRef.current?.blur();
     } else {
-      handleGoBack();
+      navigation.goBack();
     }
   };
+
+  useEffect(() => {
+    const keyboardDidHideListener = () => {
+      inputRef.current?.blur();
+    };
+    Keyboard.addListener('keyboardDidHide', keyboardDidHideListener);
+
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidHide');
+    };
+  }, []);
 
   // 안드로이드에서 뒤로가기 버튼을 눌렀을 때의 동작 지정
   // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/
