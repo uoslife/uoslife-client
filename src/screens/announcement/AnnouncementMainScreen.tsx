@@ -5,8 +5,9 @@ import ArticleList from '../../components/molecules/announcement/article/Article
 import CategoryTab from '../../components/category-tab/CategoryTab';
 import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {BackHandler, Alert} from 'react-native';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
@@ -99,15 +100,6 @@ const AnnouncementMainScreen = () => {
     navigation.goBack();
   };
 
-  const onPressBackButton = () => {
-    if (searchWordEntering) {
-      setSearchWordEntering(false);
-      setSearchWord('');
-    } else {
-      handleGoBack();
-    }
-  };
-
   const navigateToNewSearchScreen = (searchWord: string) => {
     navigation.push('AnnouncementSearch', {
       initialSearchWord: searchWord,
@@ -137,6 +129,34 @@ const AnnouncementMainScreen = () => {
     },
     value: searchWord,
   };
+
+  const onPressBackButton = () => {
+    if (searchWordEntering) {
+      setSearchWordEntering(false);
+      setSearchWord('');
+    } else {
+      handleGoBack();
+    }
+  };
+
+  // 안드로이드에서 뒤로가기 버튼을 눌렀을 때의 동작 지정
+  // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        onPressBackButton();
+
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress,
+      );
+
+      return () => subscription.remove();
+    }, [onPressBackButton]),
+  );
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>

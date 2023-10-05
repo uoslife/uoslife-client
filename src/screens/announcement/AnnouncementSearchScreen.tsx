@@ -1,8 +1,9 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import styled from '@emotion/native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {BackHandler, Alert} from 'react-native';
 import {
   AnnouncementNavigationProps,
   AnnouncementSearchScreenProps,
@@ -63,6 +64,25 @@ const AnnouncementSearchScreen = ({
   const onPressBackButton = () => {
     searchWordEntering ? setSearchWordEntering(false) : navigation.goBack();
   };
+
+  // 안드로이드에서 뒤로가기 버튼을 눌렀을 때의 동작 지정
+  // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        onPressBackButton();
+
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress,
+      );
+
+      return () => subscription.remove();
+    }, [onPressBackButton]),
+  );
 
   return (
     <S.Root style={{paddingTop: insets.top}}>
