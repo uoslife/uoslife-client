@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Header from '../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../components/molecules/announcement/article/ArticleList';
@@ -7,6 +7,9 @@ import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import SearchInput from '../../components/forms/searchInput/SearchInput';
+import {TextInput} from 'react-native-gesture-handler';
+import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 
 export type ArticleCategoryName =
   | '일반공지'
@@ -31,7 +34,7 @@ export type Article = {
   attachments: string[]; // 첨부파일
 };
 
-export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(15)
+export const ANNOUNCEMENT_ARTICLE_DUMMY_DATA: Article[] = new Array(300)
   .fill(null)
   .map((_, i) => ({
     bookmarkCnt: i % 5,
@@ -73,9 +76,16 @@ const initialArticleCategoryTabProps: AnnouncementCategoryState = [
 
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
+
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTabProps, setArticleCategoryTabProps] =
     useState<AnnouncementCategoryState>(initialArticleCategoryTabProps);
+  const [searchWordEntering, setSearchWordEntering] = useState<boolean>(false);
+  const [searchWord, setSearchWord] = useState<string>('');
+
+  const navigation = useNavigation<AnnouncementNavigationProps>();
+
+  const inputRef = useRef<TextInput>(null);
 
   const selectCategory = (categoryName: ArticleCategoryName) => {
     setArticleCategoryTabProps(
@@ -85,8 +95,6 @@ const AnnouncementMainScreen = () => {
       })),
     );
   };
-
-  const navigation = useNavigation<AnnouncementNavigationProps>();
 
   useEffect(() => {
     try {
@@ -106,7 +114,7 @@ const AnnouncementMainScreen = () => {
     {
       iconName: 'search',
       onPress: () => {
-        navigation.navigate('AnnouncementSearch', {initialSearchWord: ''});
+        setSearchWordEntering(true);
       },
     },
     {
@@ -127,29 +135,81 @@ const AnnouncementMainScreen = () => {
     navigation.goBack();
   };
 
+  const onPressBackButton = () => {
+    if (searchWordEntering) {
+      setSearchWordEntering(false);
+      setSearchWord('');
+    } else {
+      handleGoBack();
+    }
+  };
+
+  const navigateToNewSearchScreen = (searchWord: string) => {
+    navigation.push('AnnouncementSearch', {
+      initialSearchWord: searchWord,
+    });
+    setTimeout(() => {
+      setSearchWordEntering(false);
+    }, 300);
+  };
+
+  const searchInputProps: React.ComponentProps<typeof SearchInput> = {
+    inputRef,
+    placeholder: '검색어를 입력해주세요.',
+    onFocus: () => {
+      setSearchWordEntering(true);
+      inputRef.current!.focus();
+    },
+    onChangeText: text => {
+      setSearchWord(text);
+    },
+    onSubmitEditing: () => {
+      navigateToNewSearchScreen(searchWord);
+    },
+    onPressClear: () => {
+      setSearchWord('');
+      setSearchWordEntering(true);
+      inputRef.current!.focus();
+    },
+    value: searchWord,
+  };
+
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
-      <Header label="공지사항" onPressBackButton={handleGoBack}>
-        <S.HeaderIcons>
-          {icons.map((item, i) => (
-            <S.IconWrapper key={i} onPress={item.onPress}>
-              <Icon
-                name={item.iconName}
-                color={'grey150'}
-                height={24}
-                width={24}
-              />
-            </S.IconWrapper>
-          ))}
-        </S.HeaderIcons>
-      </Header>
-      <S.CategoryTabAndContents>
-        <CategoryTab
-          categoryTabProps={articleCategoryTabProps}
-          selectCategory={selectCategory}
-        />
-        <ArticleList articles={articles} />
-      </S.CategoryTabAndContents>
+      {searchWordEntering ? (
+        <>
+          <Header onPressBackButton={onPressBackButton}>
+            <SearchInput {...searchInputProps} />
+          </Header>
+          <SearchWordEnteringView
+            navigateToNewSearchScreen={navigateToNewSearchScreen}
+          />
+        </>
+      ) : (
+        <>
+          <Header label="공지사항" onPressBackButton={onPressBackButton}>
+            <S.HeaderIcons>
+              {icons.map((item, i) => (
+                <S.IconWrapper key={i} onPress={item.onPress}>
+                  <Icon
+                    name={item.iconName}
+                    color={'grey150'}
+                    height={24}
+                    width={24}
+                  />
+                </S.IconWrapper>
+              ))}
+            </S.HeaderIcons>
+          </Header>
+          <S.CategoryTabAndContents>
+            <CategoryTab
+              categoryTabProps={articleCategoryTabProps}
+              selectCategory={selectCategory}
+            />
+            <ArticleList articles={articles} />
+          </S.CategoryTabAndContents>
+        </>
+      )}
     </S.ScreenContainer>
   );
 };
@@ -157,10 +217,9 @@ const AnnouncementMainScreen = () => {
 export default AnnouncementMainScreen;
 
 const S = {
-  ScreenContainer: styled.ScrollView`
+  ScreenContainer: styled.View`
     width: 100%;
     height: 100%;
-    display: flex;
   `,
   CategoryTabAndContents: styled.View`
     width: 100%;

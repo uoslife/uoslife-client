@@ -1,14 +1,15 @@
-import {Txt} from '@uoslife/design-system';
-import HistoryList from './HistoryList';
 import styled from '@emotion/native';
+import React from 'react';
+import HistoryList from './HistoryList';
+import {Txt} from '@uoslife/design-system';
 
-type InSearchingProps = {
+// AnnounceMentMainScreen / AnnouncementSearchScreen에서 searchWordEnteringView === true일 때의 컴포넌트
+const SearchWordEnteringView = ({
+  navigateToNewSearchScreen,
+}: {
   navigateToNewSearchScreen: (s: string) => void;
-};
-
-const InSearching = ({navigateToNewSearchScreen}: InSearchingProps) => {
+}) => {
   return (
-    // keyboardShouldPersistTaps: 키보드 열린 상태에서 클릭시 ScrollView 내부 Item들의 리스너 동작을 위해 부여
     <S.Root keyboardShouldPersistTaps={'always'}>
       <S.Top>
         <S.TextContainer
@@ -27,8 +28,6 @@ const InSearching = ({navigateToNewSearchScreen}: InSearchingProps) => {
   );
 };
 
-export default InSearching;
-
 const S = {
   Root: styled.ScrollView``,
   Top: styled.View`
@@ -41,3 +40,5 @@ const S = {
     padding: 10px 20px;
   `,
 };
+
+export default SearchWordEnteringView;

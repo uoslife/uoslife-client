@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import {Alert, Keyboard} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
+import {Alert} from 'react-native';
 
-const HistoryList = ({}: {}) => {
+type HistoryListProps = {
+  navigateToNewSearchScreen: (s: string) => void;
+};
+
+const HistoryList = ({navigateToNewSearchScreen}: HistoryListProps) => {
   // TODO: MMKV Storage로 변경
   const [histories, setHistories] = useState<string[]>([
     'dummy',
@@ -29,14 +31,6 @@ const HistoryList = ({}: {}) => {
     'dummy19',
     'dummy20',
   ]);
-
-  const navigation = useNavigation<AnnouncementNavigationProps>();
-
-  const navigateToNewSearchScreen = (searchWord: string) => {
-    navigation.push('AnnouncementSearch', {
-      initialSearchWord: searchWord,
-    });
-  };
 
   return (
     <S.Root>

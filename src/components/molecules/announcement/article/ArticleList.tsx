@@ -25,7 +25,7 @@ const ArticleList = ({articles, showCategory}: ArticleListProps) => {
 export default ArticleList;
 
 const S = {
-  ListContainer: styled.View`
+  ListContainer: styled.ScrollView`
     width: 100%;
   `,
 };
