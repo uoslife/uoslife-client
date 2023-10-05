@@ -199,27 +199,31 @@ const MypageProfileScreen = () => {
         <S.myProfileContainer>
           <S.myProfileBox>
             <Pressable
-              onPress={handleUpdateProfileImage}
+              // onPress={handleUpdateProfileImage}
               style={{paddingBottom: 64}}>
               <S.userCircleImageWrapper>
+                {/*<S.userImage*/}
+                {/*  source={*/}
+                {/*    selectedPhotoUri*/}
+                {/*      ? {uri: selectedPhotoUri}*/}
+                {/*      : require('../../../assets/images/user.png')*/}
+                {/*    // TODO: 디자인 시스템으로 유저 아이콘 이전하기*/}
+                {/*  }*/}
+                {/*  selectedPhotoUri={!!selectedPhotoUri}*/}
+                {/*/>*/}
                 <S.userImage
-                  source={
-                    selectedPhotoUri
-                      ? {uri: selectedPhotoUri}
-                      : require('../../../assets/images/user.png')
-                    // TODO: 디자인 시스템으로 유저 아이콘 이전하기
-                  }
+                  source={require('../../../assets/images/iroomae_character.png')}
                   selectedPhotoUri={!!selectedPhotoUri}
                 />
               </S.userCircleImageWrapper>
-              <S.cameraCircleImageWrapper style={styles.cameraImage}>
-                <Icon
-                  name={'camera'}
-                  width={24}
-                  height={24}
-                  color={'grey190'}
-                />
-              </S.cameraCircleImageWrapper>
+              {/*<S.cameraCircleImageWrapper style={styles.cameraImage}>*/}
+              {/*  <Icon*/}
+              {/*    name={'camera'}*/}
+              {/*    width={24}*/}
+              {/*    height={24}*/}
+              {/*    color={'grey190'}*/}
+              {/*  />*/}
+              {/*</S.cameraCircleImageWrapper>*/}
             </Pressable>
             {myAccountNavigatorItems.map((value, index) => {
               return (
@@ -318,8 +322,8 @@ const S = {
     border-radius: 100px;
   `,
   userImage: styled.Image<{selectedPhotoUri: boolean}>`
-    width: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
-    height: ${({selectedPhotoUri}) => (selectedPhotoUri ? '100%' : '60px')};
+    width: 75px;
+    height: 100px;
   `,
   cameraImage: styled.Image`
     width: 13px;
