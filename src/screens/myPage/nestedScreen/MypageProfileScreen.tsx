@@ -207,10 +207,10 @@ const MypageProfileScreen = () => {
                 {/*    selectedPhotoUri*/}
                 {/*      ? {uri: selectedPhotoUri}*/}
                 {/*      : require('../../../assets/images/user.png')*/}
-                {/*    // TODO: 디자인 시스템으로 유저 아이콘 이전하기*/}
                 {/*  }*/}
                 {/*  selectedPhotoUri={!!selectedPhotoUri}*/}
                 {/*/>*/}
+                {/*TODO: 프로필 사진 변경 작업시, 해당 주석 코드 사용 */}
                 <S.userImage
                   source={require('../../../assets/images/iroomae_character.png')}
                   selectedPhotoUri={!!selectedPhotoUri}
@@ -224,6 +224,7 @@ const MypageProfileScreen = () => {
               {/*    color={'grey190'}*/}
               {/*  />*/}
               {/*</S.cameraCircleImageWrapper>*/}
+              {/*TODO: 프로필 사진 변경 작업시, 해당 주석 코드 사용 */}
             </Pressable>
             {myAccountNavigatorItems.map((value, index) => {
               return (
