@@ -1,6 +1,6 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
-import ModalMenuButton, {ModalMenuButtonProps} from '../atoms/ModalMenuButton';
+import ModalMenuButton, {ModalMenuButtonProps} from '../items/ModalMenuButton';
 
 type ModalMenuContentProps = {
   title: string;

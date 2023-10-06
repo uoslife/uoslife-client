@@ -2,10 +2,10 @@ import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import ModalStandardButton, {
   ModalStandardButtonProps,
-} from '../atoms/ModalStandardButton';
+} from '../items/ModalStandardButton';
 import ModalInformationBox, {
   InformationBoxObject,
-} from '../atoms/ModalInformationBox';
+} from '../items/ModalInformationBox';
 
 type ModalStandardContentProps = {
   title: string;

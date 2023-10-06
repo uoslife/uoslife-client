@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import ToggleSwitch from '../../../toggleSwitch/ToggleSwitch';
+import ToggleSwitch from '../../toggleSwitch/ToggleSwitch';
 import {Txt} from '@uoslife/design-system';
 
 export type BottomSheetToggleItemProps = {

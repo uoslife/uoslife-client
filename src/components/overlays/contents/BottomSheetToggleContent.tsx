@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {Button} from '@uoslife/design-system';
 import BottomSheetToggleItem, {
   BottomSheetToggleItemProps,
-} from '../atoms/BottomSheetToggleItem';
+} from '../items/BottomSheetToggleItem';
 
 type BottomSheetToggleContentProps = {
   toggleItemPropsList: BottomSheetToggleItemProps[];

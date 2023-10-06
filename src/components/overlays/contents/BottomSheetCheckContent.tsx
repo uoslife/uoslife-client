@@ -1,7 +1,7 @@
 import {Button, colors} from '@uoslife/design-system';
 import BottomSheetCheckItem, {
   BottomSheetCheckItemProps,
-} from '../atoms/BottomSheetCheckItem';
+} from '../items/BottomSheetCheckItem';
 import styled from '@emotion/native';
 
 type BottomSheetCheckContentProps = {
