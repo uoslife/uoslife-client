@@ -3,26 +3,24 @@ import ModalLayout from '../components/overlays/layouts/ModalLayout';
 import BottomSheetLayout from '../components/overlays/layouts/BottomSheetLayout';
 
 type UseModalParams = {
-  // 레이아웃(위치, height / width / border 등 스타일 스펙) 지정
-  layout: 'modal' | 'bottom-sheet';
-  // 배경을 누르면 사라지게 할 것인지 여부
+  /** 레이아웃(위치, height / width / border 등 스타일 스펙) 지정 */
+  modalType: 'MODAL' | 'BOTTOM_SHEET';
+
+  /** 배경을 누르면 사라지게 할 것인지 여부 */
   closeOnBgPress?: boolean;
 };
 
 type UseModalReturnValue = [
   () => void,
   () => void,
-  () => React.ReactNode,
-  React.Dispatch<React.SetStateAction<React.ReactNode>>,
+  ({children}: {children: React.ReactNode}) => React.JSX.Element,
 ];
 
-interface UseModal {
-  (params: UseModalParams): UseModalReturnValue;
-}
-
-const useModal: UseModal = ({layout, closeOnBgPress}) => {
+const useModal = ({
+  modalType,
+  closeOnBgPress = false,
+}: UseModalParams): UseModalReturnValue => {
   const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState<React.ReactNode>(null);
 
   const open = () => {
     setIsOpen(true);
@@ -32,30 +30,33 @@ const useModal: UseModal = ({layout, closeOnBgPress}) => {
     setIsOpen(false);
   };
 
-  const Component = () => {
-    const onPressBg = () => {
-      if (closeOnBgPress) {
-        close();
-      }
-    };
+  // TODO: onPressBg 로직 변경
+  const onPressBg = () => {
+    if (closeOnBgPress) {
+      close();
+    }
+  };
 
-    switch (layout) {
-      case 'modal':
+  const Modal = ({children}: {children: React.ReactNode}) => {
+    if (!isOpen) return <></>;
+
+    switch (modalType) {
+      case 'MODAL':
         return (
           <ModalLayout bgDark onPressBg={onPressBg}>
-            {content}
+            {children}
           </ModalLayout>
         );
-      case 'bottom-sheet':
+      case 'BOTTOM_SHEET':
         return (
           <BottomSheetLayout bgDark onPressBg={onPressBg}>
-            {content}
+            {children}
           </BottomSheetLayout>
         );
     }
   };
 
-  return [open, close, () => isOpen && <Component />, setContent];
+  return [open, close, Modal];
 };
 
 export default useModal;
