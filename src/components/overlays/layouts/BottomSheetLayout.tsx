@@ -27,6 +27,9 @@ type SBgProps = {
   onPress: () => void;
 };
 
+const bgDarkRgba = 'rgba(0, 0, 0, 0.32)';
+const bgTranparentRgba = 'rgba(0, 0, 0, 0)';
+
 const S = {
   Wrapper: styled.View`
     position: absolute;
@@ -44,8 +47,7 @@ const S = {
     width: 100%;
     height: 100%;
 
-    background-color: ${({bgDark}) =>
-      bgDark ? 'rgba(0, 0, 0, 0.32)' : 'rgba(0, 0, 0, 0)'};
+    background-color: ${({bgDark}) => (bgDark ? bgDarkRgba : bgTranparentRgba)};
   `,
   Container: styled.View`
     background-color: white;
