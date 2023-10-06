@@ -1,68 +1,61 @@
 import {useState} from 'react';
 import ModalLayout from '../components/overlays/modal/ModalLayout';
+import BottomSheetLayout from '../components/overlays/bottom-sheet/BottomSheetLayout';
 
-type UseModalReturnValue = {
-  renderModal: () => React.ReactNode;
-  setModalContent: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  openModal: () => void;
-  closeModal: () => void;
-  activateModalBgDark: () => void;
-  deactivateModalBgDark: () => void;
-  activateModalCloseOnBgPress: () => void;
-  deactivateModalCloseOnBgPress: () => void;
+type UseModalParams = {
+  // 레이아웃(위치, height / width / border 등 스타일 스펙) 지정
+  layout: 'modal' | 'bottom-sheet';
+  // 배경을 누르면 사라지게 할 것인지 여부
+  closeOnBgPress?: boolean;
 };
 
-const useModal = (): UseModalReturnValue => {
-  const [modalOpened, setModalOpened] = useState(false);
-  const [modalBgDark, setModalBgDark] = useState(true);
-  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
-  const [modalCloseOnBgPress, setModalCloseOnBgPress] = useState(false);
+type UseModalReturnValue = [
+  () => void,
+  () => void,
+  () => React.ReactNode,
+  React.Dispatch<React.SetStateAction<React.ReactNode>>,
+];
 
-  const openModal = () => {
-    setModalOpened(true);
+interface UseModal {
+  (params: UseModalParams): UseModalReturnValue;
+}
+
+const useModal: UseModal = ({layout, closeOnBgPress}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [content, setContent] = useState<React.ReactNode>(null);
+
+  const open = () => {
+    setIsOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpened(false);
+  const close = () => {
+    setIsOpen(false);
   };
 
-  const activateModalBgDark = () => {
-    setModalBgDark(true);
-  };
+  const Component = () => {
+    const onPressBg = () => {
+      if (closeOnBgPress) {
+        close();
+      }
+    };
 
-  const deactivateModalBgDark = () => {
-    setModalBgDark(false);
-  };
-
-  const activateModalCloseOnBgPress = () => {
-    setModalCloseOnBgPress(true);
-  };
-
-  const deactivateModalCloseOnBgPress = () => {
-    setModalCloseOnBgPress(false);
-  };
-
-  const onPressBg = () => {
-    if (modalCloseOnBgPress) {
-      closeModal();
+    switch (layout) {
+      case 'modal':
+        return (
+          <ModalLayout bgDark onPressBg={onPressBg}>
+            {content}
+          </ModalLayout>
+        );
+      case 'bottom-sheet':
+        return (
+          <BottomSheetLayout bgDark onPressBg={onPressBg}>
+            {content}
+          </BottomSheetLayout>
+        );
     }
   };
 
-  return {
-    renderModal: () =>
-      modalOpened && (
-        <ModalLayout bgDark={modalBgDark} onPressBg={onPressBg}>
-          {modalContent}
-        </ModalLayout>
-      ),
-    setModalContent,
-    openModal,
-    closeModal,
-    activateModalBgDark,
-    deactivateModalBgDark,
-    activateModalCloseOnBgPress,
-    deactivateModalCloseOnBgPress,
-  };
+  return [open, close, () => isOpen && <Component />, setContent];
 };
 
 export default useModal;

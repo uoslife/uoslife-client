@@ -6,7 +6,7 @@ type ModalLayoutProps = {
   onPressBg: () => void;
 };
 
-// useModal 전용 컴포넌트입니다. 해당 hook 외의 다른 곳에서 사용하지 않도록 주의해주세요.
+// useModal - layout: "modal" 전용 컴포넌트입니다. 해당 hook 외 다른 곳에서 사용하지 않도록 주의해주세요.
 const ModalLayout = ({children, bgDark, onPressBg}: ModalLayoutProps) => {
   return (
     <S.Wrapper>
@@ -22,6 +22,9 @@ type SBgProps = {
   bgDark: boolean;
   onPress: () => void;
 };
+
+const bgDarkRgba = 'rgba(0, 0, 0, 0.32)';
+const bgTranparentRgba = 'rgba(0, 0, 0, 0)';
 
 const S = {
   Wrapper: styled.View`
@@ -39,8 +42,7 @@ const S = {
     width: 100%;
     height: 100%;
 
-    background-color: ${({bgDark}) =>
-      bgDark ? 'rgba(0, 0, 0, 0.32)' : 'rgba(0, 0, 0, 0)'};
+    background-color: ${({bgDark}) => (bgDark ? bgDarkRgba : bgTranparentRgba)};
   `,
   Container: styled.View`
     background-color: white;

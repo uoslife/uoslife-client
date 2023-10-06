@@ -8,18 +8,6 @@ type ModalMenuContentProps = {
   menuBtnPropsList: ModalMenuButtonProps[];
 };
 
-// {
-//   /* TODO: text-align: center적용 필요 */
-// }
-// {
-//   /* 인라인 스타일로 적용시 다른 Txt 스타일이 깨지는 문제 -> 다른 방법 찾기 */
-// }
-// <Txt
-//   label={supportingText}
-//   color={'grey130'}
-//   typograph={'bodySmall'}
-// />;
-
 const ModalMenuContent = ({
   title,
   supportingText,
