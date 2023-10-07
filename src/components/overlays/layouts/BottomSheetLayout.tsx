@@ -39,8 +39,6 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-
-    z-index: 5;
   `,
   Background: styled.Pressable<SBgProps>`
     position: absolute;

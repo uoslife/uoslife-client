@@ -34,8 +34,6 @@ const S = {
 
     justify-content: center;
     align-items: center;
-
-    z-index: 10;
   `,
   Background: styled.Pressable<StyledBgProps>`
     position: absolute;
