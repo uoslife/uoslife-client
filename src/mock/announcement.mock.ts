@@ -1,6 +1,6 @@
 import {Article} from '../types/announcement.type';
 
-export const ANNOUNCEMENT_LIST_MOCK_DATA: Article[] = new Array(300)
+export const ANNOUNCEMENT_LIST_MOCK_DATA: Article[] = new Array(30)
   .fill(null)
   .map((_, i) => ({
     bookmarkCnt: i % 5,
