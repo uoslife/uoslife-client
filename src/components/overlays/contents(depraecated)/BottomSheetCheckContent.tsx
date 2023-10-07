@@ -43,8 +43,6 @@ const BottomSheetCheckContent = ({
   );
 };
 
-export default BottomSheetCheckContent;
-
 const S = {
   Root: styled.View``,
   ItemsWrapper: styled.View`

@@ -34,8 +34,6 @@ const ModalMenuContent = ({
   );
 };
 
-export default ModalMenuContent;
-
 const S = {
   Container: styled.View`
     width: 100%;

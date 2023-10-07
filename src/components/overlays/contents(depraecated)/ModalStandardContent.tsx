@@ -38,8 +38,6 @@ const ModalStandardContent = ({
   );
 };
 
-export default ModalStandardContent;
-
 const S = {
   Container: styled.View`
     width: 100%;
