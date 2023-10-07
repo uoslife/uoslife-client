@@ -126,7 +126,7 @@ const AnnouncementMainScreen = () => {
     value: searchWord,
   };
 
-  const onPressBackButton = () => {
+  const onHeaderBackPress = () => {
     if (searchWordEntering) {
       setSearchWordEntering(false);
       inputRef.current?.blur();
@@ -150,26 +150,26 @@ const AnnouncementMainScreen = () => {
   // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/
   useFocusEffect(
     React.useCallback(() => {
-      const onBackPress = () => {
-        onPressBackButton();
+      const onAndroidBackPress = () => {
+        onHeaderBackPress();
 
         return true;
       };
 
       const subscription = BackHandler.addEventListener(
         'hardwareBackPress',
-        onBackPress,
+        onAndroidBackPress,
       );
 
       return () => subscription.remove();
-    }, [onPressBackButton]),
+    }, [onHeaderBackPress]),
   );
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
       {searchWordEntering ? (
         <>
-          <Header onPressBackButton={onPressBackButton}>
+          <Header onPressBackButton={onHeaderBackPress}>
             <SearchInput {...searchInputProps} />
           </Header>
           <SearchWordEnteringView
@@ -178,7 +178,7 @@ const AnnouncementMainScreen = () => {
         </>
       ) : (
         <>
-          <Header label={'공지사항'} onPressBackButton={onPressBackButton}>
+          <Header label={'공지사항'} onPressBackButton={onHeaderBackPress}>
             <S.HeaderIcons>
               {icons.map((item, i) => (
                 <S.IconWrapper key={i} onPress={item.onPress}>
