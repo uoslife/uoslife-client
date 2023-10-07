@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {BackHandler, Alert, Keyboard} from 'react-native';
+import {BackHandler, Keyboard} from 'react-native';
 import {
   AnnouncementNavigationProps,
   AnnouncementSearchScreenProps,
@@ -13,13 +13,14 @@ import SearchInput from '../../components/forms/searchInput/SearchInput';
 import Header from '../../components/header/Header';
 import SearchResultView from '../../components/molecules/announcement/search/SearchResultView';
 
-// 검색어 입력(searchWordEntering === true) / 검색 결과 두 상태로 구분(searchWordEntering === false)
+// 검색어 입력(isSearchWordEntering === true) / 검색 결과 두 상태로 구분(isSearchWordEntering === false)
 const AnnouncementSearchScreen = ({
   route: {
     params: {initialSearchWord},
   },
 }: AnnouncementSearchScreenProps) => {
-  const [searchWordEntering, setSearchWordEntering] = useState<boolean>(false);
+  const [isSearchWordEntering, setSearchWordEntering] =
+    useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>(initialSearchWord);
 
   const inputRef = useRef<TextInput>(null);
@@ -36,7 +37,7 @@ const AnnouncementSearchScreen = ({
       setSearchWordEntering(false);
     }, 300);
 
-    // 2에서 delay를 주는 이유: 이전 페이지의 searchWordEntering state 변경이 UI에 노출되지 않기 하기 위해
+    // 2에서 delay를 주는 이유: 이전 페이지의 isSearchWordEntering state 변경이 UI에 노출되지 않기 하기 위해
     // 순차실행 보장에 흔히 쓰이는 Promise도 써 보았지만, '애니메이션 시작'을 push 함수의 동작 종료로 판정함으로 인하여 여전히 중첩되는 문제가 발생 -> setTimeout으로 확실히 감추기로 결정
   };
 
@@ -62,7 +63,7 @@ const AnnouncementSearchScreen = ({
   };
 
   const onHeaderBackPress = () => {
-    if (searchWordEntering) {
+    if (isSearchWordEntering) {
       setSearchWordEntering(false);
       inputRef.current?.blur();
     } else {
@@ -105,7 +106,7 @@ const AnnouncementSearchScreen = ({
       <Header onPressBackButton={onHeaderBackPress}>
         <SearchInput {...searchInputProps} />
       </Header>
-      {searchWordEntering ? (
+      {isSearchWordEntering ? (
         <SearchWordEnteringView
           navigateToNewSearchScreen={navigateToNewSearchScreen}
         />

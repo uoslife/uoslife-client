@@ -7,7 +7,7 @@ import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {BackHandler, Alert, Keyboard} from 'react-native';
+import {BackHandler, Keyboard} from 'react-native';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
@@ -43,7 +43,8 @@ const AnnouncementMainScreen = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [articleCategoryTabProps, setArticleCategoryTabProps] =
     useState<AnnouncementCategoryState>(initialArticleCategoryTabProps);
-  const [searchWordEntering, setSearchWordEntering] = useState<boolean>(false);
+  const [isSearchWordEntering, setSearchWordEntering] =
+    useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
@@ -127,7 +128,7 @@ const AnnouncementMainScreen = () => {
   };
 
   const onHeaderBackPress = () => {
-    if (searchWordEntering) {
+    if (isSearchWordEntering) {
       setSearchWordEntering(false);
       inputRef.current?.blur();
     } else {
@@ -167,7 +168,7 @@ const AnnouncementMainScreen = () => {
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
-      {searchWordEntering ? (
+      {isSearchWordEntering ? (
         <>
           <Header onPressBackButton={onHeaderBackPress}>
             <SearchInput {...searchInputProps} />
