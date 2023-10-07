@@ -18,7 +18,7 @@ const ModalLayout = ({children, bgDark, onPressBg}: ModalLayoutProps) => {
 
 export default ModalLayout;
 
-type SBgProps = {
+type StyledBgProps = {
   bgDark: boolean;
   onPress: () => void;
 };
@@ -37,7 +37,7 @@ const S = {
 
     z-index: 10;
   `,
-  Background: styled.Pressable<SBgProps>`
+  Background: styled.Pressable<StyledBgProps>`
     position: absolute;
     width: 100%;
     height: 100%;
