@@ -5,7 +5,7 @@ import webview from '../../configs/webview';
 import {StackScreenProps} from '@react-navigation/stack';
 import {ParamListBase} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import styled from '@emotion/native/dist/emotion-native.cjs';
+import styled from '@emotion/native';
 import Header from '../../components/header/Header';
 import Spinner from '../../components/spinner/Spinner';
 
