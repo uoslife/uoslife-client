@@ -33,7 +33,7 @@ const AccountScreenContainer = () => {
     }
   };
   return (
-    <S.AccountContainer contentContainerStyle={{flex: 1}}>
+    <S.AccountContainer contentContainerStyle={{flexGrow: 1}}>
       {handleAccountScreen(accountStatus)}
     </S.AccountContainer>
   );
