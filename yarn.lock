@@ -3920,10 +3920,10 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@uoslife/design-system@^1.0.53":
-  version "1.0.53"
-  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.53/5b5cc78bc65ca5908bd405020660abdb9a038eda#5b5cc78bc65ca5908bd405020660abdb9a038eda"
-  integrity sha512-GsZSA/hklu4/+ufq3igmorcbqNqLGggDLWO1G6l0tNWWEzlNh/1zvI7FoKQGVW+NCEokR3Z04m4WCnRpSxLMTA==
+"@uoslife/design-system@^1.0.56":
+  version "1.0.56"
+  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.0.56/a016a16382e3750836903805cfe3f254d37805a8#a016a16382e3750836903805cfe3f254d37805a8"
+  integrity sha512-au+9/DZHotvYCLzLxY5yu3Z5Fb+BMR/qxjpHcqVvhJzegPJ+YK4Ymgs+KTsMhTDEQLRe3H66Ya+P7mrtU6rhOw==
 
 "@uoslife/react@^1.0.3":
   version "1.0.3"

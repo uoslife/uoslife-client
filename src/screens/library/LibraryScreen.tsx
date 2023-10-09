@@ -9,7 +9,7 @@ import LibraryUserInfo, {
   LibraryUserInfoType,
 } from '../../components/molecules/library/LibraryUserInfo';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const LibraryScreen = () => {
   const insets = useSafeAreaInsets();
@@ -20,7 +20,7 @@ const LibraryScreen = () => {
     timerTime: 1805,
     room: '쏼라쏼라열람실',
     seatNum: 21,
-    timeOfUse: '14:00 - 20:00',
+    timeOfUse: '14:00 ~ 20:00',
     extended: 0,
   });
   const [seatStatus, setSeatStatus] = useState<LibraryCardProps[]>([
@@ -57,11 +57,11 @@ const LibraryScreen = () => {
     },
   ]);
 
-  const navigation=useNavigation();
+  const navigation = useNavigation();
 
-  const handleGoBack=()=>{
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   // 정보 불러오는 API 붙이기
   useEffect(() => {}, []);
@@ -83,12 +83,8 @@ const S = {
   screenContainer: styled.View`
     height: 100%;
     width: 100%;
-
     background: ${() => colors.grey10};
-
-    display: flex;
     align-items: center;
-
     padding-bottom: 70px;
   `,
 };
