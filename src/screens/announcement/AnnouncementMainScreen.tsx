@@ -103,6 +103,7 @@ const AnnouncementMainScreen = () => {
     });
     setTimeout(() => {
       setSearchWordEntering(false);
+      setSearchWord('');
     }, 300);
   };
 

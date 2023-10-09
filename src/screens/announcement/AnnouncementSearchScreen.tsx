@@ -34,6 +34,7 @@ const AnnouncementSearchScreen = ({
     });
     // 2. 새로운 screen stack에서 뒤로가기를 눌렀을 때, 이전의 검색결과 페이지로 복귀
     setTimeout(() => {
+      setSearchWord(initialSearchWord);
       setSearchWordEntering(false);
     }, 300);
 
