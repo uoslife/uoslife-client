@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {MypageAppInformationScreenRouteProp} from '../../navigators/MyPageStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {View} from 'react-native';
+import URLS from '../../configs/urls';
 
 type NavigationListType = {
   label: string;
@@ -20,17 +21,17 @@ const APP_INFORMATION_LIST: NavigationListType[] = [
   {
     label: '이용약관 및 정책',
     navigate: 'Mypage_ToSandPoliciesWebView',
-    url: 'https://www.google.com/search?q=react+native+originwhitelist+inapp&sca_esv=570717024&sxsrf=AM9HkKlXZ-1grme7cSLzuUMI06t3UHdCRA%3A1696442095034&ei=76YdZZXdAY39hwOZsrfgBA&ved=0ahUKEwjVkNOj-9yBAxWN_mEKHRnZDUwQ4dUDCBA&uact=5&oq=react+native+originwhitelist+inapp&gs_lp=Egxnd3Mtd2l6LXNlcnAiInJlYWN0IG5hdGl2ZSBvcmlnaW53aGl0ZWxpc3QgaW5hcHAyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigAUjGE1ClAljAEnABeAGQAQCYAbgBoAHWCaoBAzAuObgBA8gBAPgBAcICChAAGEcY1gQYsAPCAgQQIxgnwgIEEAAYHuIDBBgAIEGIBgGQBgo&sclient=gws-wiz-serp#ip=1', // TODO: 이용약관 및 정책 url 추가
+    url: URLS.APP_INFORMATION.TO_SAND_POLICIES,
   },
   {
     label: '개인정보 처리방침',
     navigate: 'Mypage_privacyPoliciesWebView',
-    url: 'https://m.blog.naver.com/been_monolid/222866746370', // TODO: 개인정보 처리방침 url 추가
+    url: URLS.APP_INFORMATION.PRIVACY_AND_POLICIES,
   },
   {
     label: '광고 및 마케팅 수신 동의',
     navigate: 'Mypage_advertisingandMarketingConsentWebView',
-    url: 'https://www.youtube.com/?gl=KR&hl=ko', // TODO: 광고 및 마케팅 수신 동의 url 추가
+    url: URLS.APP_INFORMATION.ADVERTISING_AND_MARKETING_CONSENT,
   },
 ];
 

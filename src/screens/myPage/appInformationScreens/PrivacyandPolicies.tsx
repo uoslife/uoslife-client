@@ -1,8 +1,8 @@
 import React from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import WebViewComponent from '../../../components/webView/WebViewComponent';
 import {MyPageAppInformationStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
+import WebViewWithHeader from '../../../components/webView/WebViewWthHeader';
 
 type PrivacyPoliciesStackNavigation = StackNavigationProp<
   MyPageAppInformationStackParamList,
@@ -14,7 +14,7 @@ const PrivacyandPoliciesScreen = () => {
   const route = useRoute();
 
   return (
-    <WebViewComponent
+    <WebViewWithHeader
       navigation={navigation}
       route={route}
       label={'개인정보 처리방침'}
