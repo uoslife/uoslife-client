@@ -1,27 +1,18 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {useConfigContext} from '../../hooks/ConfigContext';
 import WebView from 'react-native-webview';
 import webview from '../../configs/webview';
 import {StackScreenProps} from '@react-navigation/stack';
 import {ParamListBase} from '@react-navigation/native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import styled from '@emotion/native';
-import Header from '../../components/header/Header';
-import Spinner from '../../components/spinner/Spinner';
+import Spinner from '../spinner/Spinner';
 
-type WebviewProps<NavigationStackParamList extends ParamListBase> =
-  StackScreenProps<NavigationStackParamList> & {label?: string};
+export type CustomWebviewProps<NavigationStackParamList extends ParamListBase> =
+  StackScreenProps<NavigationStackParamList>;
 
-const WebViewComponent = ({navigation, route, label}: WebviewProps<any>) => {
-  const [isLoading, setIsLoading] = useState(false);
+const CustomWebView = ({route}: CustomWebviewProps<any>) => {
   const {config} = useConfigContext();
   const webviewRef = useRef<WebView>();
-  const insets = useSafeAreaInsets();
   const url = route.params?.url;
-
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
@@ -50,10 +41,4 @@ const WebViewComponent = ({navigation, route, label}: WebviewProps<any>) => {
   );
 };
 
-const S = {
-  screenContainer: styled.View`
-    flex: 1;
-  `,
-};
-
-export default WebViewComponent;
+export default CustomWebView;
