@@ -10,6 +10,8 @@ export type InputProps = TextInputProps & {
   status?: 'default' | 'error' | 'success';
   statusMessage?: string;
   value?: string;
+  showTimer?: boolean;
+  currentTime?: string;
   children?: React.ReactNode;
 };
 
