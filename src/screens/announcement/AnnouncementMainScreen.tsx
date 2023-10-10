@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import Header from '../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../components/molecules/announcement/article/ArticleList';
-import CategoryTab from '../../components/category-tab/CategoryTab';
+import CategoryTab from '../../components/molecules/announcement/category-tab/CategoryTab';
 import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -11,38 +11,18 @@ import {BackHandler, Keyboard} from 'react-native';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
-import {
-  AnnouncementCategoryState,
-  Article,
-  ArticleCategoryName,
-} from '../../types/announcement.type';
+import {Article} from '../../types/announcement.type';
 import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
-
-const initialArticleCategoryTabProps: AnnouncementCategoryState = [
-  {
-    name: '일반공지',
-    isSelected: true,
-  },
-  {
-    name: '학사공지',
-    isSelected: false,
-  },
-  {
-    name: '채용공고',
-    isSelected: false,
-  },
-  {
-    name: '창업공지',
-    isSelected: false,
-  },
-];
+import {useAtom} from 'jotai';
+import {categoryTabNumAtom} from '../../atoms/announcement';
 
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
 
+  const [selectedCategoryTabNum, selectCategoryTabNum] =
+    useAtom(categoryTabNumAtom);
+
   const [articles, setArticles] = useState<Article[]>([]);
-  const [articleCategoryTabProps, setArticleCategoryTabProps] =
-    useState<AnnouncementCategoryState>(initialArticleCategoryTabProps);
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
@@ -51,31 +31,19 @@ const AnnouncementMainScreen = () => {
 
   const inputRef = useRef<TextInput>(null);
 
-  const selectCategory = (categoryName: ArticleCategoryName) => {
-    setArticleCategoryTabProps(
-      articleCategoryTabProps.map(item => ({
-        ...item,
-        isSelected: item.name === categoryName,
-      })),
-    );
-  };
-
-  // TODO: 실 API 호출로 변경
+  // TODO: 선택된 카테고리에 따른 실 API 호출로 변경
   useEffect(() => {
     try {
       setArticles(
         ANNOUNCEMENT_LIST_MOCK_DATA.filter(
-          item =>
-            item.category ===
-            articleCategoryTabProps.find(item => item.isSelected)?.name,
+          item => item.categoryNum === selectedCategoryTabNum,
         ),
       );
     } catch (err) {
       console.log(err);
     }
-  }, [articleCategoryTabProps]);
+  }, [selectedCategoryTabNum]);
 
-  // 이게 최선?
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
       iconName: 'search',
@@ -195,10 +163,7 @@ const AnnouncementMainScreen = () => {
             </S.HeaderIcons>
           </Header>
           <S.CategoryTabAndContents>
-            <CategoryTab
-              categoryTabProps={articleCategoryTabProps}
-              selectCategory={selectCategory}
-            />
+            <CategoryTab />
             <ArticleList articles={articles} />
           </S.CategoryTabAndContents>
         </>

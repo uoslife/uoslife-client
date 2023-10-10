@@ -1,19 +1,10 @@
-export type ArticleCategoryName =
-  | '일반공지'
-  | '학사공지'
-  | '채용공고'
-  | '창업공지';
-
-export type AnnouncementCategoryState = {
-  name: ArticleCategoryName;
-  isSelected: boolean;
-}[];
+export type ArticleCategoryNum = 0 | 1 | 2 | 3;
 
 export type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
   title: string;
-  category: ArticleCategoryName;
+  categoryNum: ArticleCategoryNum;
   body: string;
   department: string; // XX과
   uploadTime: Date;
