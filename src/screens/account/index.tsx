@@ -12,6 +12,7 @@ import {
   AccountFlowStatusType,
   accountFlowStatusAtom,
 } from '../../atoms/account';
+import AccountFlowStatusGuideForDev from './AccountFlowStatusGuideForDev';
 
 const AccountScreenContainer = () => {
   const accountStatus = useAtomValue(accountFlowStatusAtom);
@@ -35,6 +36,7 @@ const AccountScreenContainer = () => {
   return (
     <S.AccountContainer contentContainerStyle={{flexGrow: 1}}>
       {handleAccountScreen(accountStatus)}
+      <AccountFlowStatusGuideForDev />
     </S.AccountContainer>
   );
 };
