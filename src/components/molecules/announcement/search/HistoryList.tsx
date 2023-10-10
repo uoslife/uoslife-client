@@ -7,30 +7,15 @@ type HistoryListProps = {
   navigateToNewSearchScreen: (s: string) => void;
 };
 
+const DUMMY_INITIAL_HISTORY_LIST = new Array(20)
+  .fill(null)
+  .map((_, i) => `dummy${i}`);
+
 const HistoryList = ({navigateToNewSearchScreen}: HistoryListProps) => {
   // TODO: MMKV Storage로 변경
-  const [histories, setHistories] = useState<string[]>([
-    'dummy',
-    'dummy2',
-    'dummy3',
-    'dummy4',
-    'dummy5',
-    'dummy6',
-    'dummy7',
-    'dummy8',
-    'dummy9',
-    'dummy10',
-    'dummy11',
-    'dummy12',
-    'dummy13',
-    'dummy14',
-    'dummy15',
-    'dummy16',
-    'dummy17',
-    'dummy18',
-    'dummy19',
-    'dummy20',
-  ]);
+  const [histories, setHistories] = useState<string[]>(
+    DUMMY_INITIAL_HISTORY_LIST,
+  );
 
   return (
     <S.Root>
