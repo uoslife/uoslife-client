@@ -10,4 +10,10 @@ export default {
         'https://play.google.com/store/apps/details?id=com.nhnent.payapp&hl=ko-KR',
     }),
   },
+  APP_INFORMATION: {
+    //TODO: 앱 정보 웹뷰 임시 링크 대체하기.
+    TO_SAND_POLICIES: 'https://m.blog.naver.com/been_monolid/222866746370',
+    PRIVACY_AND_POLICIES: 'https://www.google.com/',
+    ADVERTISING_AND_MARKETING_CONSENT: 'https://www.youtube.com/?gl=KR&hl=ko',
+  },
 };
