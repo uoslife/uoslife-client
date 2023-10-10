@@ -1,0 +1,109 @@
+import styled from '@emotion/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import BottomSheetCheckItem from '../../../overlays/items/BottomSheetCheckItem';
+import {Button} from '@uoslife/design-system';
+import {useEffect, useState} from 'react';
+
+type OverlayType = 'CHECK_ALL' | 'REQUIRED' | 'OPTIONAL';
+type OverlayStatus = {id: number; type: OverlayType; checked: boolean};
+type OverlayStatusArray = Array<OverlayStatus>;
+
+const initOverlayStatus: OverlayStatusArray = [
+  {id: 0, type: 'CHECK_ALL', checked: false},
+  {id: 1, type: 'REQUIRED', checked: false},
+  {id: 2, type: 'REQUIRED', checked: false},
+  {id: 3, type: 'OPTIONAL', checked: false},
+];
+
+type Props = {
+  handleClickSubmitBottomSheetButton: (isAdvertismentAgree: boolean) => void;
+};
+
+const ServiceAgreementOverlay = ({
+  handleClickSubmitBottomSheetButton,
+}: Props) => {
+  const insets = useSafeAreaInsets();
+  const [overlayStatus, setStatus] =
+    useState<OverlayStatusArray>(initOverlayStatus);
+
+  const getCheckedStatusById = (id: OverlayStatus['id']) =>
+    overlayStatus.find(item => item.id === id)!.checked;
+  const areAllRequiredChecked = () => {
+    const requiredStatus = overlayStatus.filter(obj => obj.type === 'REQUIRED');
+    return requiredStatus.every(obj => obj.checked);
+  };
+
+  const handleClickCheckAllItem = () => {
+    const firstItemCheckedStatus = getCheckedStatusById(0);
+    setStatus(prev => {
+      return prev.map(item =>
+        item.type === 'CHECK_ALL' || item.type === 'REQUIRED'
+          ? {...item, checked: !firstItemCheckedStatus}
+          : item,
+      );
+    });
+  };
+
+  const handleClickCheckItem = (id: OverlayStatus['id']) => {
+    setStatus(prev => {
+      return prev.map(item =>
+        item.id === id ? {...item, checked: !item.checked} : item,
+      );
+    });
+  };
+
+  useEffect(() => {
+    const isAllRequireChecked = areAllRequiredChecked();
+    if (isAllRequireChecked)
+      setStatus(prev => {
+        return prev.map(item =>
+          item.id === 0 ? {...item, checked: true} : item,
+        );
+      });
+  }, [getCheckedStatusById(1), getCheckedStatusById(2)]);
+
+  return (
+    <S.Container style={{paddingBottom: insets.bottom}}>
+      <BottomSheetCheckItem
+        checked={getCheckedStatusById(0)}
+        title="약관에 모두 동의"
+        onToggle={handleClickCheckAllItem}
+      />
+      <BottomSheetCheckItem
+        checked={getCheckedStatusById(1)}
+        title="[필수] 개인정보처리방침"
+        onToggle={() => handleClickCheckItem(1)}
+        onPressForward={() => {}} // TODO: 개처방 Screen 띄우기
+      />
+      <BottomSheetCheckItem
+        checked={getCheckedStatusById(2)}
+        title="[필수] 시대생 이용약관"
+        onToggle={() => handleClickCheckItem(2)}
+        onPressForward={() => {}} // TODO: 이용약관 Screen 띄우기
+      />
+      <BottomSheetCheckItem
+        checked={getCheckedStatusById(3)}
+        title="[선택] 광고 및 마케팅 수신동의 알림"
+        supportingText={`각종 시대생 소식 및 이벤트에 대한 정보를\n제공합니다.`}
+        onToggle={() => handleClickCheckItem(3)}
+      />
+      <Button
+        label="확인"
+        isFullWidth
+        isEnabled={areAllRequiredChecked()}
+        onPress={() => handleClickSubmitBottomSheetButton}
+      />
+    </S.Container>
+  );
+};
+
+export default ServiceAgreementOverlay;
+
+const S = {
+  Container: styled.View`
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  `,
+};
