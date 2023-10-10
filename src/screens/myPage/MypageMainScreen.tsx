@@ -37,7 +37,10 @@ const MypageMainScreen = ({
       <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
-            <S.userImage source={require('../../assets/images/user.png')} />
+            {/*<S.userImage source={require('../../assets/images/user.png')} />*/}
+            <S.userImage
+              source={require('../../assets/images/iroomae_character.png')}
+            />
           </S.circleImageWrapper>
           <S.textWrapper>
             <Txt
@@ -103,8 +106,8 @@ const S = {
     padding-bottom: 36px;
   `,
   userImage: styled.Image`
-    width: 60px;
-    height: 60px;
+    width: 75px;
+    height: 100px;
   `,
   logout: styled.Text`
     text-align: center;
