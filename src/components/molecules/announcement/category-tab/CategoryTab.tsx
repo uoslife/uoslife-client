@@ -3,8 +3,8 @@ import React from 'react';
 import {useAtom} from 'jotai';
 import {categoryTabNumAtom} from '../../../../atoms/announcement';
 import {
-  articleCategoryAbbreviatedNameList,
-  articleCategoryFullNameList,
+  ARTICLE_CATEGORY_ABBREVIATED_NAME_LIST,
+  ARTICLE_CATEGORY_FULL_NAME_LIST,
 } from '../../../../constants/article-category-name';
 import {ALL_CATEGORY_NUMBERS} from '../../../../types/announcement.type';
 import TabBtn from './TabBtn';
@@ -20,9 +20,9 @@ const CategoryTab = () => {
         <TabBtn
           tabNum={tabNum}
           isSelected={tabNum === selectedCategoryTabNum}
-          key={articleCategoryFullNameList[tabNum]}
+          key={ARTICLE_CATEGORY_FULL_NAME_LIST[tabNum]}
           selectCategoryTabNum={selectCategoryTabNum}
-          label={articleCategoryAbbreviatedNameList[tabNum]}
+          label={ARTICLE_CATEGORY_ABBREVIATED_NAME_LIST[tabNum]}
         />
       ))}
     </S.Root>

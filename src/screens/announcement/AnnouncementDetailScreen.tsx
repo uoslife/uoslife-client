@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Article} from '../../types/announcement.type';
 import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
 import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
+import {ARTICLE_CATEGORY_FULL_NAME_LIST} from '../../constants/article-category-name';
 
 const DetailScreenBookmarkToggle = ({
   bookmarkByMe,
@@ -40,8 +41,8 @@ const AnnouncementDetailContent = ({
   body,
   bookmarkByMe,
   bookmarkCnt,
-  category,
   uploadTime,
+  categoryNum,
 }: Article) => (
   <S.AnnouncementDetailContent>
     <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
@@ -49,7 +50,9 @@ const AnnouncementDetailContent = ({
         <Txt label={title} color={'black'} typograph={'titleLarge'} />
         <S.CategoryAndDateAndBookmarkContainer>
           <Txt
-            label={`${category} | ${getUploadTimeString(uploadTime)}`}
+            label={`${
+              ARTICLE_CATEGORY_FULL_NAME_LIST[categoryNum]
+            } | ${getUploadTimeString(uploadTime)}`}
             color={'grey90'}
             typograph={'bodySmall'}
           />
