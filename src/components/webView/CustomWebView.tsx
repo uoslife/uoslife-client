@@ -15,29 +15,25 @@ const CustomWebView = ({route}: CustomWebviewProps<any>) => {
   const url = route.params?.url;
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
-      {label && <Header label={label} onPressBackButton={handleGoBack} />}
-      <WebView
-        originWhitelist={['https://www.google.com', 'https://m.blog.naver.com']} // In-App Webview를 위한 임시 링크 등록.
-        // originWhitelist={config.get('webview.allowed_hosts') as string[]}
-        // TODO: superbase에 등록된 webview.allowed_hosts에 웹뷰 링크 추가하기.
-        source={{uri: url ?? (config.get('webview.url') as string)}}
-        ref={ref => (webviewRef.current = ref || ({} as WebView))}
-        injectedJavaScript={webview.injectedJavascript}
-        allowsBackForwardNavigationGestures={true}
-        setBuiltInZoomControls={false}
-        setDisplayZoomControls={false}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        allowFileAccess={true}
-        scalesPageToFit={true}
-        cacheEnabled={true}
-        bounces={false}
-        onLoadStart={() => setIsLoading(true)}
-        onLoad={() => setIsLoading(false)}
-      />
-      {isLoading && <Spinner />}
-    </S.screenContainer>
+    <WebView
+      originWhitelist={['https://www.google.com', 'https://m.blog.naver.com']} // In-App Webview를 위한 임시 링크 등록.
+      // originWhitelist={config.get('webview.allowed_hosts') as string[]}
+      // TODO: superbase에 등록된 webview.allowed_hosts에 웹뷰 링크 추가하기.
+      source={{uri: url ?? (config.get('webview.url') as string)}}
+      ref={ref => (webviewRef.current = ref || ({} as WebView))}
+      injectedJavaScript={webview.injectedJavascript}
+      allowsBackForwardNavigationGestures={true}
+      setBuiltInZoomControls={false}
+      setDisplayZoomControls={false}
+      javaScriptEnabled={true}
+      domStorageEnabled={true}
+      allowFileAccess={true}
+      scalesPageToFit={true}
+      cacheEnabled={true}
+      bounces={false}
+      startInLoadingState={true}
+      renderLoading={() => <Spinner />}
+    />
   );
 };
 
