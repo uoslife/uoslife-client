@@ -15,12 +15,15 @@ export type AccountFlowStatusType = {
   portalStatus: PortalStatusType;
 };
 
-/** 회원인증 flow status를 관리하는 atom입니다.  */
-export const accountFlowStatusAtom = atom<AccountFlowStatusType>({
+export const accountFlowInitStatus: AccountFlowStatusType = {
   baseStatus: 'DEFAULT',
   stepStatus: {userType: 'NONE', step: 0},
   portalStatus: {isPortalStep: false, step: 0},
-});
+};
+/** 회원인증 flow status를 관리하는 atom입니다.  */
+export const accountFlowStatusAtom = atom<AccountFlowStatusType>(
+  accountFlowInitStatus,
+);
 
 export type existedAccountInfoType = Array<{
   id: string;
