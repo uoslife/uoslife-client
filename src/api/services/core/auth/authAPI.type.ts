@@ -2,7 +2,7 @@ type AuthTokenDefaultRes = {
   accessToken: string;
   refreshToken: string;
 };
-type MigrationUserInfoType = {
+export type MigrationUserInfoType = {
   id: string;
   nickname: string;
   username: string;
@@ -23,7 +23,7 @@ export type SignUpParams = {
     notification: boolean;
     marketing: boolean;
   };
-  migrationUserInfo: MigrationUserInfoType;
+  migrationUserInfo: MigrationUserInfoType | null;
 };
 export type SignUpRes = AuthTokenDefaultRes;
 

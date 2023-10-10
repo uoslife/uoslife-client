@@ -1,4 +1,5 @@
 import {atom} from 'jotai';
+import {MigrationUserInfoType} from '../../api/services/core/auth/authAPI.type';
 
 export type UserType = 'NONE' | 'NEW' | 'EXISTED';
 
@@ -22,18 +23,13 @@ export const accountFlowStatusAtom = atom<AccountFlowStatusType>({
   portalStatus: {isPortalStep: false, step: 0},
 });
 
-export type existedAccountInfoType = Array<{
-  id: string;
-  nickname: string;
-  isSelected: boolean;
-}>;
+export type existedAccountInfoType = Array<
+  MigrationUserInfoType & {
+    isSelected: boolean;
+  }
+>;
 
-export const existedAccountInfoAtom = atom<existedAccountInfoType>([
-  {id: '1', nickname: 'hi', isSelected: false},
-  {id: '12', nickname: 'hi2', isSelected: false},
-  {id: '13', nickname: 'hi3', isSelected: false},
-  {id: '14', nickname: 'hi4', isSelected: false},
-]);
+export const existedAccountInfoAtom = atom<existedAccountInfoType>([]);
 
 type accountStatusType = {
   isLogin: boolean;
