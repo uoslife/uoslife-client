@@ -16,4 +16,5 @@ export default {
     PRIVACY_AND_POLICIES: 'https://www.google.com/',
     ADVERTISING_AND_MARKETING_CONSENT: 'https://www.youtube.com/?gl=KR&hl=ko',
   },
+  KAKAOTALK_UOSLIFE: 'https://pf.kakao.com/_gMEHK',
 };

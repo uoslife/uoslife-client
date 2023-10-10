@@ -7,29 +7,29 @@ import NavigationList from '../../components/navigations/navigationList/Navigati
 import {colors, Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Linking} from 'react-native';
+import URLS from '../../configs/urls';
 
 type MyPageNavigatorItem = {
   name: string;
-  navigateDestination?:
-    | 'Mypage_profile'
-    | 'Mypage_appSetting'
-    | 'Mypage_appInformation';
-  url?: string;
+  handleOnPress?: () => void;
 };
 
-const MY_PAGE_NAVIGATION_ITEM: MyPageNavigatorItem[] = [
-  {name: '계정', navigateDestination: 'Mypage_profile'},
+const createMyPageNavigations = (navigation: any): MyPageNavigatorItem[] => [
+  {
+    name: '계정',
+    handleOnPress: () => navigation.navigate('Mypage_profile'),
+  },
   {
     name: '앱 설정',
-    navigateDestination: 'Mypage_appSetting',
+    handleOnPress: () => navigation.navigate('Mypage_appSetting'),
   },
   {
     name: '앱 정보',
-    navigateDestination: 'Mypage_appInformation',
+    handleOnPress: () => navigation.navigate('Mypage_appInformation'),
   },
   {
     name: '문의하기',
-    url: 'https://pf.kakao.com/_gMEHK',
+    handleOnPress: () => Linking.openURL(URLS.KAKAOTALK_UOSLIFE),
   },
 ];
 
@@ -38,12 +38,7 @@ const MypageMainScreen = ({
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
-
-  const handleNavigate = (value: MyPageNavigatorItem) => {
-    value.name === '문의하기'
-      ? Linking.openURL(value.url!)
-      : navigation.navigate(value.navigateDestination!);
-  };
+  const MY_PAGE_NAVIGATIONS = createMyPageNavigations(navigation);
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
@@ -69,11 +64,11 @@ const MypageMainScreen = ({
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
-          {MY_PAGE_NAVIGATION_ITEM.map((item, index) => (
+          {MY_PAGE_NAVIGATIONS.map((navigation, index) => (
             <NavigationList
               key={index}
-              label={item.name}
-              onPress={() => handleNavigate(item)}
+              label={navigation.name}
+              onPress={navigation.handleOnPress}
             />
           ))}
         </S.myProfileBox>
