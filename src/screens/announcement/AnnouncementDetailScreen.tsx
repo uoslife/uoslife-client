@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Article} from '../../types/announcement.type';
 import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
 import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
-import {ARTICLE_CATEGORY_FULL_NAME_LIST} from '../../constants/article-category-name';
+import {ANNOUNCEMENT_CATEGORY_MAP} from '../../atoms/announcement';
 
 const DetailScreenBookmarkToggle = ({
   bookmarkByMe,
@@ -17,6 +17,8 @@ const DetailScreenBookmarkToggle = ({
 }: Pick<Article, 'bookmarkByMe' | 'bookmarkCnt'>) => {
   // TODO: 북마크 Toggle API 호출 지정 필요
   const onToggleBookmark = () => {};
+
+  /* TODO: 이미 만들어져 있는 IconWithText를 사용할 수 있는지 확인 */
 
   return (
     <S.BookmarkToggleContainer onPress={onToggleBookmark}>
@@ -42,7 +44,7 @@ const AnnouncementDetailContent = ({
   bookmarkByMe,
   bookmarkCnt,
   uploadTime,
-  categoryNum,
+  categoryId,
 }: Article) => (
   <S.AnnouncementDetailContent>
     <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
@@ -51,7 +53,7 @@ const AnnouncementDetailContent = ({
         <S.CategoryAndDateAndBookmarkContainer>
           <Txt
             label={`${
-              ARTICLE_CATEGORY_FULL_NAME_LIST[categoryNum]
+              ANNOUNCEMENT_CATEGORY_MAP[categoryId].fullName
             } | ${getUploadTimeString(uploadTime)}`}
             color={'grey90'}
             typograph={'bodySmall'}
@@ -89,7 +91,7 @@ const AnnouncementDetailContent = ({
 
 const AnnouncementDetailScreen = ({
   route: {
-    params: {id, category},
+    params: {id, categoryId},
   },
 }: AnnouncementDetailScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -118,7 +120,10 @@ const AnnouncementDetailScreen = ({
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
-      <Header label={category} onPressBackButton={handleGoBack} />
+      <Header
+        label={ANNOUNCEMENT_CATEGORY_MAP[categoryId].fullName}
+        onPressBackButton={handleGoBack}
+      />
       {!isPending && article ? (
         <AnnouncementDetailContent {...article} />
       ) : (

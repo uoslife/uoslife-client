@@ -1,21 +1,21 @@
 import styled from '@emotion/native';
-import {ArticleCategoryNum} from '../../../../types/announcement.type';
 import {Txt, colors} from '@uoslife/design-system';
+import {AnnouncementCategoryId} from '../../../../atoms/announcement';
 
 type TabBtnProps = {
   isSelected: boolean;
   label: string;
-  tabNum: ArticleCategoryNum;
-  selectCategoryTabNum: (num: ArticleCategoryNum) => void;
+  categoryId: AnnouncementCategoryId;
+  selectCategoryId: (categoryId: AnnouncementCategoryId) => void;
 };
 
-const TabBtn = ({
+const TabButton = ({
   isSelected,
   label,
-  selectCategoryTabNum,
-  tabNum,
+  categoryId,
+  selectCategoryId,
 }: TabBtnProps) => {
-  const onPressTabBtn = () => selectCategoryTabNum(tabNum);
+  const onPressTabBtn = () => selectCategoryId(categoryId);
 
   return (
     <S.Root isSelected={isSelected} onPress={onPressTabBtn}>
@@ -28,7 +28,7 @@ const TabBtn = ({
   );
 };
 
-export default TabBtn;
+export default TabButton;
 
 type StyledTabBtnContainerProps = {
   isSelected: boolean;

@@ -13,36 +13,31 @@ import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 import {Article} from '../../types/announcement.type';
 import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
-import {useAtom} from 'jotai';
-import {categoryTabNumAtom} from '../../atoms/announcement';
+import {useAtomValue} from 'jotai';
+import {selectedCategoryIdAtom} from '../../atoms/announcement';
 
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
-
-  const [selectedCategoryTabNum, selectCategoryTabNum] =
-    useAtom(categoryTabNumAtom);
-
   const [articles, setArticles] = useState<Article[]>([]);
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
-
   const navigation = useNavigation<AnnouncementNavigationProps>();
-
   const inputRef = useRef<TextInput>(null);
+  const selectedCategoryId = useAtomValue(selectedCategoryIdAtom);
 
   // TODO: 선택된 카테고리에 따른 실 API 호출로 변경
   useEffect(() => {
     try {
       setArticles(
         ANNOUNCEMENT_LIST_MOCK_DATA.filter(
-          item => item.categoryNum === selectedCategoryTabNum,
+          item => item.categoryId === selectedCategoryId,
         ),
       );
     } catch (err) {
       console.log(err);
     }
-  }, [selectedCategoryTabNum]);
+  }, [selectedCategoryId]);
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {

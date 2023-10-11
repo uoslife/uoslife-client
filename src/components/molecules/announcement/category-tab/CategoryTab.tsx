@@ -1,30 +1,32 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {useAtom} from 'jotai';
-import {categoryTabNumAtom} from '../../../../atoms/announcement';
 import {
-  ARTICLE_CATEGORY_ABBREVIATED_NAME_LIST,
-  ARTICLE_CATEGORY_FULL_NAME_LIST,
-} from '../../../../constants/article-category-name';
-import {ALL_CATEGORY_NUMBERS} from '../../../../types/announcement.type';
-import TabBtn from './TabBtn';
+  ANNOUNCEMENT_CATEGORY_ID_LIST,
+  ANNOUNCEMENT_CATEGORY_MAP,
+  selectedCategoryIdAtom,
+} from '../../../../atoms/announcement';
+import TabButton from './TabButton';
 
 /** 앱 메인페이지의 공지사항 Card 부분 / 공지사항 메인페이지에서에서 사용하는 카테고리 선택 컴포넌트 */
 const CategoryTab = () => {
-  const [selectedCategoryTabNum, selectCategoryTabNum] =
-    useAtom(categoryTabNumAtom);
+  const [selectedCategoryId, selectCategoryId] = useAtom(
+    selectedCategoryIdAtom,
+  );
 
   return (
     <S.Root>
-      {ALL_CATEGORY_NUMBERS.map(tabNum => (
-        <TabBtn
-          tabNum={tabNum}
-          isSelected={tabNum === selectedCategoryTabNum}
-          key={ARTICLE_CATEGORY_FULL_NAME_LIST[tabNum]}
-          selectCategoryTabNum={selectCategoryTabNum}
-          label={ARTICLE_CATEGORY_ABBREVIATED_NAME_LIST[tabNum]}
-        />
-      ))}
+      {ANNOUNCEMENT_CATEGORY_ID_LIST.map(id => {
+        return (
+          <TabButton
+            key={id}
+            isSelected={selectedCategoryId === id}
+            label={ANNOUNCEMENT_CATEGORY_MAP[id].abbreviatedName}
+            categoryId={id}
+            selectCategoryId={selectCategoryId}
+          />
+        );
+      })}
     </S.Root>
   );
 };

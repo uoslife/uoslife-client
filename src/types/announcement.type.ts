@@ -1,12 +1,10 @@
-export const ALL_CATEGORY_NUMBERS = [0, 1, 2, 3] as const;
-
-export type ArticleCategoryNum = (typeof ALL_CATEGORY_NUMBERS)[number];
+import {AnnouncementCategoryId} from '../atoms/announcement';
 
 export type Article = {
   bookmarkCnt: number;
   bookmarkByMe: boolean;
   title: string;
-  categoryNum: ArticleCategoryNum;
+  categoryId: AnnouncementCategoryId;
   body: string;
   department: string; // XX과
   uploadTime: Date;

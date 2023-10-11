@@ -9,13 +9,13 @@ import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScre
 import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
 import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
 import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
-import {ArticleCategoryName} from '../types/announcement.type';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AnnouncementCategoryId} from '../atoms/announcement';
 
 type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
-  AnnouncementDetail: {id: string; category: ArticleCategoryName};
+  AnnouncementDetail: {id: string; categoryId: AnnouncementCategoryId};
   AnnouncementSearch: {initialSearchWord: string};
 };
 
@@ -65,7 +65,7 @@ const AnnouncementStackNavigator = () => {
 
 export default AnnouncementStackNavigator;
 
-// 좌우 페이지 이동 구현을 위한 options object: 유튜브 UI를 완전히 따라 구현하기 위해 사용, 일단은 존치.
+// 좌우 페이지 이동 구현을 위한 options object: 유튜브 UI를 완전히 따라 구현하기 위해 사용.
 // source: https://stackoverflow.com/questions/68731507/react-native-navigation-animation-slide-implementation
 const SlideTransition: StackNavigationOptions = {
   cardStyleInterpolator: ({current, next, layouts}) => {
