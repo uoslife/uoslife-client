@@ -31,9 +31,9 @@ export type MyPageAccountStackParamList = {
 
 export type MyPageAppInformationStackParamList = {
   Mypage_appInformation: undefined;
-  Mypage_ToSandPoliciesWebView: {url?: string};
-  Mypage_privacyPoliciesWebView: {url?: string};
-  Mypage_advertisingandMarketingConsentWebView: {url?: string};
+  Mypage_ToSandPoliciesWebView: undefined;
+  Mypage_privacyPoliciesWebView: undefined;
+  Mypage_advertisingandMarketingConsentWebView: undefined;
   Mypage_dvertisingandMarketing: undefined;
 };
 
