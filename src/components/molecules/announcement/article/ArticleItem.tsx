@@ -1,7 +1,6 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import React from 'react';
-import {Image, Text} from 'react-native';
 import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
 import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
@@ -19,7 +18,7 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
     title,
     uploadTime,
     bookmarkByMe,
-    category,
+    categoryId,
     id,
   } = article;
 
@@ -31,15 +30,15 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
   const processedUploadTimeString = getUploadTimeString(uploadTime);
 
   return (
-    <S.articleItemWrapper>
-      <S.description
+    <S.Root>
+      <S.DescriptionContainer
         onPress={() => {
-          navigation.navigate('AnnouncementDetail', {id, category});
+          navigation.navigate('AnnouncementDetail', {id, categoryId});
         }}>
         {showCategory && (
           <Txt
             color={'primaryBrand'}
-            label={category}
+            label={categoryId}
             typograph={'labelMedium'}
           />
         )}
@@ -49,8 +48,8 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
           typograph={'labelSmall'}
           label={`${department} | ${processedUploadTimeString}`}
         />
-      </S.description>
-      <S.bookmarkContainer onPress={onPressBookmark}>
+      </S.DescriptionContainer>
+      <S.BookmarkContainer onPress={onPressBookmark}>
         <Icon
           width={24}
           height={24}
@@ -62,13 +61,13 @@ const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
           color={bookmarkByMe ? 'primaryBrand' : 'grey60'}
           typograph={'labelSmall'}
         />
-      </S.bookmarkContainer>
-    </S.articleItemWrapper>
+      </S.BookmarkContainer>
+    </S.Root>
   );
 };
 
 const S = {
-  articleItemWrapper: styled.View`
+  Root: styled.View`
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 8px;
@@ -81,13 +80,13 @@ const S = {
 
     align-items: center;
   `,
-  description: styled.Pressable`
+  DescriptionContainer: styled.Pressable`
     flex: 1;
 
     display: flex;
     gap: 4px;
   `,
-  bookmarkContainer: styled.Pressable`
+  BookmarkContainer: styled.Pressable`
     display: flex;
     align-items: center;
     justify-content: center;
