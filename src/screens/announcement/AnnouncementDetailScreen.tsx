@@ -18,8 +18,6 @@ const DetailScreenBookmarkToggle = ({
   // TODO: 북마크 Toggle API 호출 지정 필요
   const onToggleBookmark = () => {};
 
-  /* TODO: 이미 만들어져 있는 IconWithText를 사용할 수 있는지 확인 */
-
   return (
     <S.BookmarkToggleContainer onPress={onToggleBookmark}>
       <Icon
