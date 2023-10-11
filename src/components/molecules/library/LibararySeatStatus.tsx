@@ -26,20 +26,14 @@ export const LibrarySeatStatus = ({libraries}: SeatStatusProps) => (
 
 const S = {
   seatStatusWrapper: styled.View`
-    display: flex;
     width: 100%;
-
-    padding-top: 48px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 48px 16px 0 16px;
   `,
   seatStatusTopTextContainer: styled.View`
     padding-left: 8px;
   `,
   cardsWrapper: styled.View`
     padding-top: 12px;
-
-    display: flex;
     gap: 16px;
   `,
 };
