@@ -11,7 +11,7 @@ import URLS from '../../configs/urls';
 
 type MyPageNavigatorItem = {
   name: string;
-  handleOnPress?: () => void;
+  handleOnPress: () => void;
 };
 
 const createMyPageNavigations = (navigation: any): MyPageNavigatorItem[] => [
