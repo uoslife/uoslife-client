@@ -4,12 +4,12 @@ import styled from '@emotion/native';
 import Header from '../../components/header/Header';
 import CustomWebView, {CustomWebviewProps} from './CustomWebView';
 
-type WebviewWithHeaderProps = CustomWebviewProps<any> & {label: string};
+type WebviewWithHeaderProps = CustomWebviewProps & {label: string};
 
 const WebViewWithHeader = ({
   navigation,
-  route,
   label,
+  url,
 }: WebviewWithHeaderProps) => {
   const insets = useSafeAreaInsets();
 
@@ -20,7 +20,7 @@ const WebViewWithHeader = ({
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label={label} onPressBackButton={handleGoBack} />
-      <CustomWebView navigation={navigation} route={route} />
+      <CustomWebView navigation={navigation} url={url} />
     </S.screenContainer>
   );
 };

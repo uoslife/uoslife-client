@@ -1,8 +1,9 @@
 import React from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {MyPageAppInformationStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
 import WebViewWithHeader from '../../../components/webView/WebViewWthHeader';
+import URLS from '../../../configs/urls';
 
 type AdvertisingandMarketingConsentNavigationStack = StackNavigationProp<
   MyPageAppInformationStackParamList,
@@ -12,12 +13,11 @@ type AdvertisingandMarketingConsentNavigationStack = StackNavigationProp<
 const ToSandPoliciesScreen = () => {
   const navigation =
     useNavigation<AdvertisingandMarketingConsentNavigationStack>();
-  const route = useRoute();
 
   return (
     <WebViewWithHeader
       navigation={navigation}
-      route={route}
+      url={URLS.APP_INFORMATION.ADVERTISING_AND_MARKETING_CONSENT}
       label={'광고 및 마케팅 수신 동의'}
     />
   );

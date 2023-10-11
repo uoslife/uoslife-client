@@ -2,17 +2,18 @@ import React, {useRef} from 'react';
 import {useConfigContext} from '../../hooks/ConfigContext';
 import WebView from 'react-native-webview';
 import webview from '../../configs/webview';
-import {StackScreenProps} from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase} from '@react-navigation/native';
 import Spinner from '../spinner/Spinner';
 
-export type CustomWebviewProps<NavigationStackParamList extends ParamListBase> =
-  StackScreenProps<NavigationStackParamList>;
+export type CustomWebviewProps = {
+  navigation: StackNavigationProp<ParamListBase>;
+  url: string;
+};
 
-const CustomWebView = ({route}: CustomWebviewProps<any>) => {
+const CustomWebView = ({url}: CustomWebviewProps) => {
   const {config} = useConfigContext();
   const webviewRef = useRef<WebView>();
-  const url = route.params?.url;
 
   return (
     <WebView
