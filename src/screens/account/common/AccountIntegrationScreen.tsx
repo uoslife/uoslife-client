@@ -8,8 +8,10 @@ import {
 import {useAtom, useSetAtom} from 'jotai';
 import Header from '../../../components/header/Header';
 import {Txt, Button, colors} from '@uoslife/design-system';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const AccountIntegrationScreen = () => {
+  const insets = useSafeAreaInsets();
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const [existedAccountInfo, setExistedAccountInfo] = useAtom(
     existedAccountInfoAtom,
@@ -25,7 +27,7 @@ const AccountIntegrationScreen = () => {
   };
 
   return (
-    <S.screenContainer>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
         label={'계정 통합'}
         onPressBackButton={() =>

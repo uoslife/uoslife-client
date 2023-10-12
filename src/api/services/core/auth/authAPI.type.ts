@@ -1,33 +1,43 @@
-type AuthAPIDefaultResType = {
-  statusCode: number;
-  message: string;
+type AuthTokenDefaultRes = {
+  accessToken: string;
+  refreshToken: string;
+};
+export type MigrationUserInfoType = {
+  id: string;
+  nickname: string;
+  username: string;
+};
+
+export type SendSMSVerificationCodeParams = {
+  mobile: string;
+};
+export type SendSMSVerificationCodeRes = {
+  mobile: string;
 };
 
 export type SignUpParams = {
-  /** ex) phone: "01012345678" */
-  phone: string;
-  /** ex) nickname: "uoslife" */
   nickname: string;
-  personalData: boolean;
-  uoslifeUsing: boolean;
-  adsAndMarketing: boolean;
+  tos: {
+    privatePolicy: boolean;
+    termsOfUse: boolean;
+    notification: boolean;
+    marketing: boolean;
+  };
+  migrationUserInfo: MigrationUserInfoType | null;
+};
+export type SignUpRes = AuthTokenDefaultRes;
+
+export type SignInParams = {
+  mobile: string;
+  code: string;
+};
+export type SignInRes = {
+  token: AuthTokenDefaultRes;
+  migrationUserInfo: Array<MigrationUserInfoType>;
+  migrationNeeded: boolean;
+  isTokenEmpty: boolean;
 };
 
-export type SignUpRes = AuthAPIDefaultResType;
+export type GetRefreshTokenRes = AuthTokenDefaultRes;
 
-export type GetRefreshTokenRes = {
-  accessToken: string;
-  refreshToken: string;
-} & AuthAPIDefaultResType;
-
-export type LogoutRes = {
-  userId?: string;
-} & AuthAPIDefaultResType;
-
-export type LoginParams = {
-  phone: string;
-};
-export type LoginRes = {
-  accessToken: string;
-  refreshToken: string;
-} & AuthAPIDefaultResType;
+export type LogoutRes = {};
