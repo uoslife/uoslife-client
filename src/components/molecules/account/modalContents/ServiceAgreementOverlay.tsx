@@ -91,7 +91,9 @@ const ServiceAgreementOverlay = ({
         label="확인"
         isFullWidth
         isEnabled={areAllRequiredChecked()}
-        onPress={() => handleClickSubmitBottomSheetButton}
+        onPress={() =>
+          handleClickSubmitBottomSheetButton(getCheckedStatusById(3))
+        }
       />
     </S.Container>
   );
