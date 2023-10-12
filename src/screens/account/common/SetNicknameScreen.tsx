@@ -80,6 +80,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
     isAdvertismentAgree: boolean,
   ) => {
     setIsAdvertismentAgree(isAdvertismentAgree);
+    const {isSelected, ...restSelectedAccountInfo} = selectedAccountInfo!;
     try {
       const signUpRes = await CoreAPI.signUp({
         nickname: inputValue,
@@ -89,7 +90,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
           notification: false,
           marketing: isAdvertismentAgree,
         },
-        migrationUserInfo: selectedAccountInfo ?? null,
+        migrationUserInfo: restSelectedAccountInfo ?? null,
       });
       console.log(signUpRes); // TODO: require delete
       storeToken(signUpRes.accessToken, signUpRes.refreshToken);
