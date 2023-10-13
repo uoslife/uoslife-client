@@ -10,7 +10,7 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {Platform, StyleSheet} from 'react-native';
 
 export type RootTabParamList = {
-  Main: undefined;
+  MainTab: undefined;
   StudentId: undefined;
   UoslifeMeeting: undefined;
 };
@@ -29,7 +29,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
   {
     component: MainScreen,
-    screenName: 'Main',
+    screenName: 'MainTab',
     label: '시대생활',
     icon: 'menu',
   },
@@ -50,7 +50,7 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
 const RootBottomTabNavigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Main"
+      initialRouteName="MainTab"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {...Style.bottomTapLayout, ...Style.bottomTapShadow},
