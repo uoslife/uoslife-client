@@ -14,7 +14,6 @@ let App: React.FC = () => {
   useEffect(() => {
     (async () => {
       NotificationService.registerMessageHandler();
-      await NotificationService.onAppRunning();
       await NotificationService.requestNotificationPermissions();
     })();
   }, []);

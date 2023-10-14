@@ -19,6 +19,10 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
 import {useTimer} from '@uoslife/react';
 import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
+import {storage} from '../../../storage';
+import {DeviceService} from '../../../services/device';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -38,6 +42,8 @@ type InputStatusMessageType =
 
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<RootNavigationProps>();
+
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setAccountStatus = useSetAtom(accountStatusAtom);
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
@@ -124,9 +130,10 @@ const VerificationScreen = () => {
         code: inputValue,
       });
       storeToken(signInRes.token.accessToken, signInRes.token.refreshToken);
-      setAccountStatus(prev => {
-        return {...prev, isLogin: true};
-      });
+      await DeviceService.setDeviceInfo();
+      storage.set('user.isLoggedIn', true);
+
+      // TODO: 해당 로직 추상화 필요
     } catch (err) {
       const error = err as SignInRes;
       storeToken(error.token.accessToken, error.token.refreshToken);

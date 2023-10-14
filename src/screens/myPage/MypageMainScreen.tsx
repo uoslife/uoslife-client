@@ -4,8 +4,10 @@ import styled from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
-import {colors, Txt} from '@uoslife/design-system';
+import {Button, colors, Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {UserService} from '../../services/user';
+import {DevSettings} from 'react-native';
 
 type MyPageNavigatorItem = {
   name: string;
@@ -30,6 +32,11 @@ const MypageMainScreen = ({
     },
     {name: '문의하기', navigateDestination: 'Mypage_inquiry'},
   ];
+
+  const handlePressLogoutButton = async () => {
+    await UserService.logout();
+    DevSettings.reload();
+  };
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
@@ -72,9 +79,11 @@ const MypageMainScreen = ({
             );
           })}
         </S.myProfileBox>
-        <S.logout>
-          <Txt label={'로그아웃'} color={'grey130'} typograph={'bodyMedium'} />
-        </S.logout>
+        <Button
+          label={'로그아웃'}
+          variant="text"
+          onPress={handlePressLogoutButton}
+        />
       </S.myProfileContainer>
     </S.screenContainer>
   );
@@ -109,7 +118,7 @@ const S = {
     width: 75px;
     height: 100px;
   `,
-  logout: styled.Text`
+  logout: styled.Pressable`
     text-align: center;
   `,
 };

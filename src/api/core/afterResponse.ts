@@ -2,6 +2,7 @@ import ky, {AfterResponseHook} from 'ky';
 import {CoreAPI} from '../services';
 import storeToken from '../../utils/storeToken';
 import {storage} from '../../storage';
+import {UserService} from '../../services/user';
 
 export const handleToken: AfterResponseHook = async (
   request,
@@ -9,23 +10,17 @@ export const handleToken: AfterResponseHook = async (
   response,
 ) => {
   const accessToken = storage.getString('access_token');
-  if (
-    response.status !== 401 ||
-    !accessToken ||
-    request.url.includes('refresh')
-  )
+  const refreshToken = storage.getString('refresh_token');
+  if (response.status !== 401 || request.url.includes('refresh')) {
+    storage.set('user.isLoggedIn', true);
     return response;
-
+  }
   try {
+    request.headers.set('Authorization', `Bearer ${refreshToken}`);
     const res = await CoreAPI.getRefreshToken({});
-    if (res.statusCode === 201) {
-      storeToken(res.accessToken, res.refreshToken);
-      return ky(request);
-    }
+    if (res) return ky(request);
   } catch (error) {
-    storage.delete('access_token');
-    storage.delete('refresh_token');
-    // await CoreAPI.logout({});
+    await UserService.logout();
     return response;
   }
 };

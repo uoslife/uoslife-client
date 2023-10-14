@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useConfigContext} from '../hooks/ConfigContext';
 import SplashScreen from 'react-native-splash-screen';
@@ -12,8 +12,11 @@ import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 import {useAtomValue} from 'jotai';
 import {accountStatusAtom} from '../atoms/account';
-import useUserInfo from '../hooks/useUserInfo';
 import RootBottomTapNavigator from './RootBottomTapNavigator';
+import {storage} from '../storage';
+import {UserService} from '../services/user';
+import {NotificationService} from '../services/notification';
+import {DeviceService} from '../services/device';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -28,9 +31,8 @@ export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
-  const accountStatus = useAtomValue(accountStatusAtom);
   const {config, isLoading, hasNetworkError} = useConfigContext();
-  useUserInfo();
+  const [isServiceInitLoading, setIsServiceInitLoading] = useState(true);
 
   const isMaintenance = useMemo(
     () => config.get('app.block') !== 'NO',
@@ -38,15 +40,25 @@ const RootStackNavigator: React.FC = () => {
   );
 
   useEffect(() => {
-    if (isLoading) return;
+    (async () => {
+      await NotificationService.setFirebasePushToken();
+      await UserService.setUserInfo().finally(() => {
+        setIsServiceInitLoading(false);
+      });
+      // await DeviceService.updateDeviceInfo(); // TODO: patch Device API 문제 해결되면 주석 해제
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || isServiceInitLoading) return;
     SplashScreen.hide();
-  }, [isLoading]);
+  }, [isLoading, isServiceInitLoading]);
 
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
 
-  if (!accountStatus.isLogin) {
+  if (!storage.getBoolean('user.isLoggedIn')) {
     return <AccountScreen />;
   }
 

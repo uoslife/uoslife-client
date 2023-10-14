@@ -7,5 +7,6 @@ const UserAPI: UserService = {
     get<Type.CheckDuplicateUserNicknameRes>(
       `core/users/check/${params.nickname}`,
     ),
+  getUserInfo: () => get<Type.GetUserInfoRes>(`core/users`),
 };
 export default UserAPI;

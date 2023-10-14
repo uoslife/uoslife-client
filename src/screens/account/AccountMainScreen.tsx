@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {DevSettings, View} from 'react-native';
 
 import {Button} from '@uoslife/design-system';
 
@@ -8,10 +8,14 @@ import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Carousel from '../../components/molecules/carousel/Carousel';
-import {accountFlowStatusAtom, accountStatusAtom} from '../../atoms/account';
+import {accountFlowStatusAtom} from '../../atoms/account';
 
-import {CoreAPI} from '../../api/services';
+import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
 import storeToken from '../../utils/storeToken';
+import {DeviceService} from '../../services/device';
+import {storage} from '../../storage';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 const ONBOARDING_IMAGE_HEIGHT = 493;
@@ -19,22 +23,15 @@ const ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME = 4 * 1000;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
-  const setAccountStatus = useSetAtom(accountStatusAtom);
+  const navigation = useNavigation<RootNavigationProps>();
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
 
   const handleTemporaryLoginButtonClick = async () => {
-    // try {
-    //   const loginRes = await CoreAPI.login({phone: '01012345678'});
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // console.log(loginRes);
-    // if (loginRes.statusCode === 201) {
-    //   storeToken(loginRes.accessToken, loginRes.refreshToken);
-    // }
-    setAccountStatus(prev => {
-      return {...prev, isLogin: true};
-    });
+    storeToken(DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN);
+    await DeviceService.setDeviceInfo();
+    storage.set('user.isLoggedIn', true);
+    navigation.navigate('Main');
+    DevSettings.reload();
   };
 
   const handleClickAccountButton = async () => {

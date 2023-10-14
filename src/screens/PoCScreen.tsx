@@ -7,6 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigators/RootStackNavigator';
+import {storage} from '../storage';
 
 const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
   navigation,
@@ -20,6 +21,7 @@ const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
       const metadata = await codePush.getUpdateMetadata();
       if (metadata) setCodePushVersion(metadata.label);
     })();
+    storage.set('codePushVersion', codePushVersion);
   }, []);
 
   return (
