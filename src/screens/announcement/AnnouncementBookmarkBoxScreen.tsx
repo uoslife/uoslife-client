@@ -5,8 +5,7 @@ import ArticleList from '../../components/molecules/announcement/article/Article
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import {Article} from '../../types/announcement.type';
-import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../mock/announcement.mock';
+import {ArticleListType} from '../../types/announcement.type';
 
 const NoBookmarkFound = () => (
   <S.NoBookmarkFoundContainer>
@@ -20,22 +19,14 @@ const NoBookmarkFound = () => (
 
 const AnnouncementBookmarkBoxScreen = () => {
   const insets = useSafeAreaInsets();
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleListType>([]);
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
 
-  // TODO: 실 API 호출로 변경
-  useEffect(() => {
-    try {
-      setArticles(
-        ANNOUNCEMENT_LIST_MOCK_DATA.filter(({bookmarkByMe}) => bookmarkByMe),
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  // TODO: API 부착
+  useEffect(() => {}, []);
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
@@ -44,7 +35,7 @@ const AnnouncementBookmarkBoxScreen = () => {
         {articles.length === 0 ? (
           <NoBookmarkFound />
         ) : (
-          <ArticleList articles={articles} showCategory />
+          <ArticleList onEndReached={() => {}} articles={articles} />
         )}
       </S.BookmarkListContainer>
     </S.ScreenContainer>

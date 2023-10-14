@@ -1,45 +1,46 @@
 import {atom} from 'jotai';
 
-export const ANNOUNCEMENT_CATEGORY_ID_LIST = [
-  'general',
-  'academic',
-  'recruit',
-  'startup',
+export const ANNOUNCEMENT_CATEGORY_ORIGIN_LIST = [
+  'FA1',
+  'FA2',
+  'FA34',
+  'FA35',
 ] as const;
 
-export type AnnouncementCategoryId =
-  (typeof ANNOUNCEMENT_CATEGORY_ID_LIST)[number];
+export type AnnouncementCategoryOrigin =
+  (typeof ANNOUNCEMENT_CATEGORY_ORIGIN_LIST)[number];
 
 type AnnouncementCategoryItem = {
   fullName: string;
   abbreviatedName: string;
 };
 
-export const ANNOUNCEMENT_CATEGORY_MAP: {
-  [key in AnnouncementCategoryId]: AnnouncementCategoryItem;
+export const ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP: {
+  [key in AnnouncementCategoryOrigin]: AnnouncementCategoryItem;
 } = {
-  general: {
+  FA1: {
     fullName: '일반공지',
     abbreviatedName: '일반',
   },
-  academic: {
+  FA2: {
     fullName: '학사공지',
     abbreviatedName: '학사',
   },
-  recruit: {
+  FA34: {
     fullName: '채용공고',
     abbreviatedName: '채용',
   },
-  startup: {
+  FA35: {
     fullName: '창업공지',
     abbreviatedName: '창업',
   },
 } as const;
 
 export type AnnouncementCategoryFullName =
-  (typeof ANNOUNCEMENT_CATEGORY_MAP)[AnnouncementCategoryId]['fullName'];
+  (typeof ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP)[AnnouncementCategoryOrigin]['fullName'];
 
 export type AnnouncementCategoryAbbreviatedName =
-  (typeof ANNOUNCEMENT_CATEGORY_MAP)[AnnouncementCategoryId]['abbreviatedName'];
+  (typeof ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP)[AnnouncementCategoryOrigin]['abbreviatedName'];
 
-export const selectedCategoryIdAtom = atom<AnnouncementCategoryId>('general');
+export const selectedCategoryOriginAtom =
+  atom<AnnouncementCategoryOrigin>('FA1');

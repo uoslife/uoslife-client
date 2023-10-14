@@ -1,17 +1,24 @@
 import {ServiceFunc} from '../../type';
 import * as Type from './announcementAPI.type';
 
-export default interface AnnouncementService {
-  getAllAnnouncements: ServiceFunc<
-    Type.GetAnnouncementsAllParams,
-    Type.GetAnnouncementsGeneralRes
+export default interface AnnoucementService {
+  getAnnouncementsForMain: ServiceFunc<
+    Type.GetAnnouncementsForMainParams,
+    Type.GetAnnouncementsForMainRes
   >;
-  searchAnnouncements: ServiceFunc<
-    Type.GetAnnouncementsBySearchParams,
-    Type.GetAnnouncementsGeneralRes
+  getAnnouncementById: ServiceFunc<
+    Type.GetAnnouncementByIdParams,
+    Type.GetAnnouncementByIdRes
   >;
-  opitonallySearchAnnouncements: ServiceFunc<
-    Type.GetAnnouncementsByOptionalSearchParams,
-    Type.GetAnnouncementsGeneralRes
+  searchAnnoucements: ServiceFunc<
+    Type.SearchAnnouncementsParams,
+    Type.SearchAnnouncementsRes
   >;
+
+  // NOT-IN-USE(23 / 10 / 14)
+
+  // searchAnnoucementsOptionally: ServiceFunc<
+  //   Type.SearchAnnouncementsOptionallyParams,
+  //   Type.SearchAnnouncementsOptionallyRes
+  // >;
 }

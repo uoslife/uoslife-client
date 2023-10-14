@@ -1,21 +1,24 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
-import {AnnouncementCategoryId} from '../../../../atoms/announcement';
+import {AnnouncementCategoryOrigin} from '../../../../atoms/announcement';
 
 type TabBtnProps = {
   isSelected: boolean;
   label: string;
-  categoryId: AnnouncementCategoryId;
-  selectCategoryId: (categoryId: AnnouncementCategoryId) => void;
+  origin: AnnouncementCategoryOrigin;
+  selectCategoryOrigin: (origin: AnnouncementCategoryOrigin) => void;
 };
 
 const TabButton = ({
   isSelected,
   label,
-  categoryId,
-  selectCategoryId,
+  origin,
+  selectCategoryOrigin,
 }: TabBtnProps) => {
-  const onPressTabBtn = () => selectCategoryId(categoryId);
+  const onPressTabBtn = () => {
+    selectCategoryOrigin(origin);
+    console.log('origin', origin);
+  };
 
   return (
     <S.Root isSelected={isSelected} onPress={onPressTabBtn}>

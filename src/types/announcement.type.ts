@@ -1,13 +1,23 @@
-import {AnnouncementCategoryId} from '../atoms/announcement';
+import {AnnouncementOriginName} from '../api/services/utility/announcement/announcementAPI.type';
 
-export type Article = {
-  bookmarkCnt: number;
-  bookmarkByMe: boolean;
+/** List 내부의 ArticleItem(상세 정보 미포함) */
+export type ArticleItemType = {
+  id: number;
   title: string;
-  categoryId: AnnouncementCategoryId;
-  body: string;
-  department: string; // XX과
-  uploadTime: Date;
-  id: string;
-  attachments: string[]; // 첨부파일
+  department: string;
+  date: Date;
+  bookmarkCount: number;
+  origin?: AnnouncementOriginName;
+};
+
+export type ArticleListType = ArticleItemType[];
+
+/** 게시글 상세 정보 */
+export type ArticleDetailType = ArticleItemType & {
+  writer: string;
+  files: {[key in string]: string}[];
+  description: string;
+  origin: AnnouncementOriginName;
+  viewCount: number;
+  url: string;
 };

@@ -2,8 +2,7 @@ import {Txt} from '@uoslife/design-system';
 import ArticleList from '../article/ArticleList';
 import styled from '@emotion/native';
 import {useEffect, useState} from 'react';
-import {Article} from '../../../../types/announcement.type';
-import {ANNOUNCEMENT_LIST_MOCK_DATA} from '../../../../mock/announcement.mock';
+import {ArticleListType} from '../../../../types/announcement.type';
 
 // AnnouncementSearchScreen에서 searchWordEnteringView === false일 때의 컴포넌트
 const SearchResultNotFound = () => {
@@ -19,25 +18,10 @@ const SearchResultNotFound = () => {
 };
 
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
-  const [searchedArticles, setSearchedArticles] = useState<Article[]>([]);
+  const [searchedArticles, setSearchedArticles] = useState<ArticleListType>([]);
 
   useEffect(() => {
-    // TODO: 실 데이터 호출로 변경
-    const searchReq = async () => {
-      try {
-        const data = ANNOUNCEMENT_LIST_MOCK_DATA.filter(
-          article =>
-            article.title.includes(searchWord) ||
-            article.body.includes(searchWord),
-        );
-
-        setSearchedArticles(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    searchReq();
+    // TODO: 아 시발 언제붙이냐
   }, []);
 
   return (
@@ -45,7 +29,7 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
       {searchedArticles.length === 0 ? (
         <SearchResultNotFound />
       ) : (
-        <ArticleList articles={searchedArticles} showCategory />
+        <ArticleList onEndReached={() => {}} articles={searchedArticles} />
       )}
     </>
   );
