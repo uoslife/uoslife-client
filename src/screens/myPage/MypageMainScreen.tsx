@@ -65,19 +65,21 @@ const MypageMainScreen = ({
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
-          {MY_PAGE_NAVIGATION_ITEM.map((value, index) => {
-            return (
-              <NavigationList
-                key={index}
-                label={value.name}
-                onPress={() =>
-                  navigation.navigate('MyPage', {
-                    screen: value.navigateDestination,
-                  })
-                }
-              />
-            );
-          })}
+          <S.NavigationListWarpper>
+            {MY_PAGE_NAVIGATION_ITEM.map((value, index) => {
+              return (
+                <NavigationList
+                  key={index}
+                  label={value.name}
+                  onPress={() =>
+                    navigation.navigate('MyPage', {
+                      screen: value.navigateDestination,
+                    })
+                  }
+                />
+              );
+            })}
+          </S.NavigationListWarpper>
         </S.myProfileBox>
         <Button
           label={'로그아웃'}
@@ -120,6 +122,9 @@ const S = {
   `,
   logout: styled.Pressable`
     text-align: center;
+  `,
+  NavigationListWarpper: styled.View`
+    width: 100%;
   `,
 };
 
