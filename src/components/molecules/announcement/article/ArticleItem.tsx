@@ -5,7 +5,7 @@ import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
 import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../types/announcement.type';
-import {ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP} from '../../../../atoms/announcement';
+import {announcementFullName} from '../../../../configs/announcement';
 
 type ArticleItemProps = {
   articleItem: ArticleItemType;
@@ -34,9 +34,7 @@ const ArticleItem = ({articleItem}: ArticleItemProps) => {
         {origin && (
           <Txt
             color={'primaryBrand'}
-            label={
-              ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP[origin].fullName
-            }
+            label={announcementFullName[origin]}
             typograph={'labelMedium'}
           />
         )}
@@ -71,10 +69,7 @@ const ArticleItem = ({articleItem}: ArticleItemProps) => {
 
 const S = {
   Root: styled.View`
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 8px;
-    padding-top: 8px;
+    padding: 8px 16px;
 
     width: 100%;
 
@@ -97,7 +92,6 @@ const S = {
     width: 48px;
     height: 60px;
   `,
-  textContainer: styled.View``,
 };
 
 export default ArticleItem;
