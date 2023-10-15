@@ -9,29 +9,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../services/user';
 import {DevSettings} from 'react-native';
 
-type MyPageNavigatorItem = {
-  name: string;
-  navigateDestination: keyof MyPageStackParamList;
-};
-
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
-
-  const MY_PAGE_NAVIGATION_ITEM: MyPageNavigatorItem[] = [
-    {name: '계정', navigateDestination: 'Mypage_profile'},
-    {
-      name: '앱 설정',
-      navigateDestination: 'Mypage_appSetting',
-    },
-    {
-      name: '앱 정보',
-      navigateDestination: 'Mypage_appInformation',
-    },
-    {name: '문의하기', navigateDestination: 'Mypage_inquiry'},
-  ];
 
   const handlePressLogoutButton = async () => {
     await UserService.logout();
@@ -40,7 +22,10 @@ const MypageMainScreen = ({
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'MY Page'} />
+      <Header
+        label={'마이페이지'}
+        onPressBackButton={() => navigation.goBack()}
+      />
       <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
@@ -65,19 +50,24 @@ const MypageMainScreen = ({
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
-          {MY_PAGE_NAVIGATION_ITEM.map((value, index) => {
-            return (
-              <NavigationList
-                key={index}
-                label={value.name}
-                onPress={() =>
-                  navigation.navigate('MyPage', {
-                    screen: value.navigateDestination,
-                  })
-                }
-              />
-            );
-          })}
+          <S.NavigationListWapper>
+            <NavigationList
+              label="계정"
+              onPress={() => navigation.navigate('Mypage_profile')}
+            />
+            <NavigationList
+              label="앱 설정"
+              onPress={() => navigation.navigate('Mypage_appSetting')}
+            />
+            <NavigationList
+              label="앱 정보"
+              onPress={() => navigation.navigate('Mypage_appInformation')}
+            />
+            <NavigationList
+              label="문의하기"
+              onPress={() => navigation.navigate('Mypage_inquiry')}
+            />
+          </S.NavigationListWapper>
         </S.myProfileBox>
         <Button
           label={'로그아웃'}
@@ -120,6 +110,9 @@ const S = {
   `,
   logout: styled.Pressable`
     text-align: center;
+  `,
+  NavigationListWapper: styled.View`
+    width: 100%;
   `,
 };
 

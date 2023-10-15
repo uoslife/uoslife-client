@@ -1,85 +1,84 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
   MypageAppInformationScreen,
   MypageAppSettingScreen,
   MypageMainScreen,
   MypageProfileScreen,
+  ToSandPoliciesScreen,
+  AdvertisingandMarketingConsentScreen,
+  PrivacyandPoliciesScreen,
 } from '../screens/myPage';
-import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
 import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
 import VerificationScreen from '../screens/account/common/VerificationScreen';
-import ToSandPoliciesScreen from '../screens/myPage/appInformationScreens/ToSandPolicies';
-import PrivacyPoliciesScreen from '../screens/myPage/appInformationScreens/PrivacyandPolicies';
-import AdvertisingandMarketingConsentScreen from '../screens/myPage/appInformationScreens/AdvertisingandMarketingConsentScreen';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;
   Mypage_profile: undefined;
   Mypage_appSetting: undefined;
   Mypage_appInformation: undefined;
-  Mypage_inquiry: undefined;
+  Mypage_inquiry: undefined; // TODO: 삭제 필요
 };
 
-export type MyPageAccountStackParamList = {
-  Mypage_profileMain: undefined;
+export type MyPageProfileStackParamList = {
+  Mypage_profile_Main: undefined;
   Mypage_changeNickname: {isMyPage: boolean};
   Mypage_portalAuthentication: undefined;
   Mypage_changeNumber: undefined;
 };
+export type MypageProfileNavigationProp =
+  NativeStackNavigationProp<MyPageProfileStackParamList>;
 
 export type MyPageAppInformationStackParamList = {
-  Mypage_appInformation: undefined;
+  Mypage_appInformation_Main: undefined;
   Mypage_ToSandPolicies: undefined;
   Mypage_privacyPolicies: undefined;
   Mypage_dvertisingandMarketing: undefined;
   Mypage_advertisingandMarketingConsent: undefined;
 };
-
-export type MypageAppInformationScreenRouteProp = NativeStackNavigationProp<
-  MyPageAppInformationStackParamList,
-  'Mypage_appInformation'
->;
+export type MypageAppInformationNavigationProp =
+  NativeStackNavigationProp<MyPageAppInformationStackParamList>;
 
 const Stack = createStackNavigator<MyPageStackParamList>();
-const AccountStack = createStackNavigator<MyPageAccountStackParamList>();
+const ProfileStack = createStackNavigator<MyPageProfileStackParamList>();
 const AppInformationStack =
   createStackNavigator<MyPageAppInformationStackParamList>();
 
-const MypageAccountNavigator = () => {
+const MypageProfileNavigator = () => {
   return (
-    <AccountStack.Navigator
-      initialRouteName="Mypage_profileMain"
+    <ProfileStack.Navigator
+      initialRouteName="Mypage_profile_Main"
       screenOptions={{headerShown: false}}>
-      <AccountStack.Screen
-        name="Mypage_profileMain"
+      <ProfileStack.Screen
+        name="Mypage_profile_Main"
         component={MypageProfileScreen}
       />
-      <AccountStack.Screen
+      <ProfileStack.Screen
         name="Mypage_changeNickname"
         component={SetNicknameScreen}
       />
-      <AccountStack.Screen
+      <ProfileStack.Screen
         name="Mypage_portalAuthentication"
         component={PortalAuthenticationScreen}
       />
-      <AccountStack.Screen
+      <ProfileStack.Screen
         name="Mypage_changeNumber"
         component={VerificationScreen}
       />
-    </AccountStack.Navigator>
+    </ProfileStack.Navigator>
   );
 };
 
 const MyPageAppInformationStackNavigator = () => {
   return (
     <AppInformationStack.Navigator
-      initialRouteName="Mypage_appInformation"
+      initialRouteName="Mypage_appInformation_Main"
       screenOptions={{headerShown: false}}>
       <AppInformationStack.Screen
-        name="Mypage_appInformation"
+        name="Mypage_appInformation_Main"
         component={MypageAppInformationScreen}
       />
       <AppInformationStack.Screen
@@ -88,7 +87,7 @@ const MyPageAppInformationStackNavigator = () => {
       />
       <AppInformationStack.Screen
         name="Mypage_privacyPolicies"
-        component={PrivacyPoliciesScreen}
+        component={PrivacyandPoliciesScreen}
       />
       <AppInformationStack.Screen
         name="Mypage_advertisingandMarketingConsent"
@@ -104,7 +103,7 @@ const MyPageStackNavigator = () => {
       initialRouteName="Mypage_main"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Mypage_main" component={MypageMainScreen} />
-      <Stack.Screen name="Mypage_profile" component={MypageAccountNavigator} />
+      <Stack.Screen name="Mypage_profile" component={MypageProfileNavigator} />
       <Stack.Screen
         name="Mypage_appSetting"
         component={MypageAppSettingScreen}

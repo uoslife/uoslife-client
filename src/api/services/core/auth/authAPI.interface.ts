@@ -6,6 +6,7 @@ export default interface authService {
     Type.SendSMSVerificationCodeParams,
     Type.SendSMSVerificationCodeRes
   >;
+  unregister: ServiceFunc<Type.UnregisterParams, Type.UnregisterRes>;
   signUp: ServiceFunc<Type.SignUpParams, Type.SignUpRes>;
   signIn: ServiceFunc<Type.SignInParams, Type.SignInRes>;
   getRefreshToken: ServiceFunc<unknown, Type.GetRefreshTokenRes>;
