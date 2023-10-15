@@ -7,105 +7,87 @@ import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {BackHandler, Keyboard} from 'react-native';
+import {BackHandler, Keyboard, Text} from 'react-native';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 import {useAtomValue} from 'jotai';
-import AnnouncementAPI from '../../api/services/utility/announcement/announcementAPI';
-import {selectedCategoryOriginAtom} from '../../atoms/announcement';
-import {AnnouncementOriginName} from '../../api/services/utility/announcement/announcementAPI.type';
-import {ArticleItemType, ArticleListType} from '../../types/announcement.type';
+import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
+import {
+  AnnouncementCategoryStatusType,
+  AnnouncmentCategoryOriginType,
+  categoryStatusAtom,
+} from '../../atoms/announcement';
+import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
+import {ArticleItemType} from '../../types/announcement.type';
 
-type ArticlePageNumberState = {
-  [key in AnnouncementOriginName]: number;
-};
-
-type ArticlesState = {
-  [key in AnnouncementOriginName]: ArticleItemType[];
-};
-
-const initialArticlePageNumberState: ArticlePageNumberState = {
-  FA1: 0,
-  FA2: 0,
-  FA34: 0,
-  FA35: 0,
-};
-
-const initialArticlesState: ArticlesState = {
-  FA1: [],
-  FA2: [],
-  FA34: [],
-  FA35: [],
+type ArticlesType = {
+  origin: AnnouncmentCategoryOriginType;
+  content: ArticleItemType[];
 };
 
 // 페이지네이션 설정
-const ELEMENTS_PER_PAGE = 15;
+const ELEMENTS_PER_PAGE = 10;
+
+const getOriginFromCategoryState = (
+  categoryState: AnnouncementCategoryStatusType,
+) => {
+  const selectedState = categoryState.find(item => item.isSelected === true);
+  return selectedState!.origin;
+};
 
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
-  const [articlePageNumber, setArticlePageNumber] =
-    useState<ArticlePageNumberState>(initialArticlePageNumberState);
-  // SPA UX 개선을 위해 Category별로 각각 state를 가지고 있기로 결정
-  const [articles, setArticles] = useState<ArticlesState>(initialArticlesState);
+  const categoryState = useAtomValue(categoryStatusAtom);
+
+  const [articles, setArticles] = useState<ArticlesType>();
+  const [currentOrigin, setCurrentOrigin] =
+    useState<AnnouncmentCategoryOriginType>(
+      getOriginFromCategoryState(categoryState),
+    );
 
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
   const navigation = useNavigation<AnnouncementNavigationProps>();
   const inputRef = useRef<TextInput>(null);
-  const selectedCategoryOrigin = useAtomValue(selectedCategoryOriginAtom);
 
-  const getNewArticlesAndUpdateState = async ({
-    origin,
-  }: {
-    origin: AnnouncementOriginName;
-  }) => {
-    // state로부터 몇페이지인지 가져오기
-    const page = articlePageNumber[origin];
-    console.log('\n\n\n');
-    console.log({page});
-    console.log('\n\n\n');
+  const getArticles = async (origin: AnnouncementOriginNameType) => {
+    const page = articles ? articles.content.length : 0;
 
     try {
-      const res = await AnnouncementAPI.getAnnouncementsForMain({
+      const res = await AnnouncementAPI.getAnnouncements({
         origin,
         page,
         size: ELEMENTS_PER_PAGE,
       });
-
       const newArticles = res.content;
 
       console.log({newArticles});
 
-      setArticles(prev => {
-        return {
-          ...prev,
-          [origin]: [...prev[origin], ...newArticles],
-        };
-      });
+      if (articles && origin !== articles!.origin)
+        setArticles({origin, content: newArticles});
 
-      setArticlePageNumber(prev => {
-        return {
-          ...prev,
-          [origin]: prev[origin] + 1,
-        };
-      });
+      setArticles(prev =>
+        prev
+          ? {origin, content: [...prev.content, ...newArticles]}
+          : {origin, content: newArticles},
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const getInitialArticlesForMain = async () => {
-      await getNewArticlesAndUpdateState({origin: 'FA1'});
-      await getNewArticlesAndUpdateState({origin: 'FA2'});
-      await getNewArticlesAndUpdateState({origin: 'FA34'});
-      await getNewArticlesAndUpdateState({origin: 'FA35'});
-    };
+    (async () => {
+      await getArticles(currentOrigin);
+    })();
+  }, [currentOrigin]);
 
-    getInitialArticlesForMain();
-  }, []);
+  useEffect(() => {
+    const origin = getOriginFromCategoryState(categoryState);
+    setCurrentOrigin(origin);
+  }, [categoryState]);
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
@@ -199,7 +181,7 @@ const AnnouncementMainScreen = () => {
   );
 
   const articleListReachEndHandler = async () => {
-    await getNewArticlesAndUpdateState({origin: selectedCategoryOrigin});
+    await getArticles(currentOrigin);
   };
 
   return (
@@ -231,10 +213,14 @@ const AnnouncementMainScreen = () => {
           </Header>
           <S.CategoryTabAndContents>
             <CategoryTab />
-            <ArticleList
-              onEndReached={articleListReachEndHandler}
-              articles={articles[selectedCategoryOrigin]}
-            />
+            {!articles ? (
+              <Text>로딩중</Text>
+            ) : (
+              <ArticleList
+                articles={articles.content}
+                onEndReached={articleListReachEndHandler}
+              />
+            )}
           </S.CategoryTabAndContents>
         </>
       )}
