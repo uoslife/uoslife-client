@@ -45,6 +45,6 @@ const S = {
   Container: styled.View`
     background-color: white;
     width: 300px;
-    border-radius: 20px;
+    border-radius: 12px;
   `,
 };
