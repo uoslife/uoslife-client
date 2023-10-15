@@ -4,6 +4,7 @@ import CardLayout from '../cardLayout/CardLayout';
 import {useCallback} from 'react';
 import {Linking, Alert} from 'react-native';
 import URLS from '../../../../configs/urls';
+import CategoryTab from '../../announcement/category-tab/CategoryTab';
 
 const AnnounceContents = () => {
   const handlePressLinkButton = useCallback(async () => {
@@ -19,22 +20,7 @@ const AnnounceContents = () => {
     <CardLayout>
       <S.Wrapper>
         <S.AnnounceCategoryWrapper>
-          <S.AnnounceCategoryButton>
-            <Txt
-              label={'일반'}
-              color={'primaryBrand'}
-              typograph={'bodyMedium'}
-            />
-          </S.AnnounceCategoryButton>
-          <S.AnnounceCategoryButton>
-            <Txt label={'학사'} color={'grey190'} typograph={'bodyMedium'} />
-          </S.AnnounceCategoryButton>
-          <S.AnnounceCategoryButton>
-            <Txt label={'채용'} color={'grey190'} typograph={'bodyMedium'} />
-          </S.AnnounceCategoryButton>
-          <S.AnnounceCategoryButton>
-            <Txt label={'창업'} color={'grey190'} typograph={'bodyMedium'} />
-          </S.AnnounceCategoryButton>
+          <CategoryTab />
         </S.AnnounceCategoryWrapper>
         <S.AnnounceTextWrapper>
           <S.AnnounceText>
