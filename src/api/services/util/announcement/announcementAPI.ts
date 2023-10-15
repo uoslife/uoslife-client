@@ -4,8 +4,8 @@ import * as Type from './announcementAPI.type';
 import {generateQueryString} from '../../../../utils/getQueryStringFromParams';
 
 const AnnouncementAPI: AnnouncementService = {
-  getAnnouncementsForMain: params =>
-    get<Type.GetAnnouncementsForMainRes>(
+  getAnnouncements: params =>
+    get<Type.GetAnnouncementsRes>(
       `utility/announcement?${generateQueryString(params)}`,
     ),
   getAnnouncementById: params =>

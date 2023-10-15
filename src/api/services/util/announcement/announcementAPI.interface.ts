@@ -2,9 +2,9 @@ import {ServiceFunc} from '../../type';
 import * as Type from './announcementAPI.type';
 
 export default interface AnnoucementService {
-  getAnnouncementsForMain: ServiceFunc<
-    Type.GetAnnouncementsForMainParams,
-    Type.GetAnnouncementsForMainRes
+  getAnnouncements: ServiceFunc<
+    Type.GetAnnouncementsParams,
+    Type.GetAnnouncementsRes
   >;
   getAnnouncementById: ServiceFunc<
     Type.GetAnnouncementByIdParams,

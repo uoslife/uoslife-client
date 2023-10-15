@@ -3,26 +3,18 @@ import {
   ArticleItemType,
 } from '../../../../types/announcement.type';
 
-export const ANNOUCENEMNT_ORIGIN_NAME_LIST = [
-  'FA1',
-  'FA2',
-  'FA34',
-  'FA35',
-] as const;
-
-export type AnnouncementOriginName =
-  (typeof ANNOUCENEMNT_ORIGIN_NAME_LIST)[number];
+export type AnnouncementOriginNameType = 'FA1' | 'FA2' | 'FA34' | 'FA35';
 
 type AnnouncementPageableParamsType = {
   page: number;
   size: number;
 };
 
-export type GetAnnouncementsForMainParams = AnnouncementPageableParamsType & {
-  origin: AnnouncementOriginName;
+export type GetAnnouncementsParams = AnnouncementPageableParamsType & {
+  origin: AnnouncementOriginNameType;
 };
 
-export type GetAnnouncementsForMainRes = {
+export type GetAnnouncementsRes = {
   // 지금 시점에서 실사용하는 유일한 필드
   content: ArticleItemType[];
 
