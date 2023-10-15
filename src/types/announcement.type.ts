@@ -1,4 +1,4 @@
-import {AnnouncementOriginName} from '../api/services/utility/announcement/announcementAPI.type';
+import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
 /** List 내부의 ArticleItem(상세 정보 미포함) */
 export type ArticleItemType = {
@@ -7,7 +7,7 @@ export type ArticleItemType = {
   department: string;
   date: Date;
   bookmarkCount: number;
-  origin?: AnnouncementOriginName;
+  origin?: AnnouncementOriginNameType;
 };
 
 export type ArticleListType = ArticleItemType[];
@@ -17,7 +17,7 @@ export type ArticleDetailType = ArticleItemType & {
   writer: string;
   files: {[key in string]: string}[];
   description: string;
-  origin: AnnouncementOriginName;
+  origin: AnnouncementOriginNameType;
   viewCount: number;
   url: string;
 };
