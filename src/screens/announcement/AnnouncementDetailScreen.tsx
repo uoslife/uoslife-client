@@ -11,7 +11,7 @@ import {
   ArticleDetailType,
   ArticleItemType,
 } from '../../types/announcement.type';
-import {ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP} from '../../atoms/announcement';
+import {announcementFullName} from '../../configs/announcement';
 
 const DetailScreenBookmarkToggle = ({
   bookmarkCount,
@@ -50,8 +50,8 @@ const AnnouncementDetailContent = ({
   url,
   viewCount,
   writer, // attachments,
-  // body,
-} // bookmarkByMe,
+  // bookmarkByMe,
+} // body,
 // bookmarkCnt,
 // uploadTime,
 // categoryId,
@@ -62,9 +62,9 @@ const AnnouncementDetailContent = ({
         <Txt label={title} color={'black'} typograph={'titleLarge'} />
         <S.CategoryAndDateAndBookmarkContainer>
           <Txt
-            label={`${
-              ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP[origin].fullName
-            } | ${getUploadTimeString(date)}`}
+            label={`${announcementFullName[origin]} | ${getUploadTimeString(
+              date,
+            )}`}
             color={'grey90'}
             typograph={'bodySmall'}
           />

@@ -1,44 +1,29 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
-import {AnnouncementCategoryOrigin} from '../../../../atoms/announcement';
+import {AnnouncementCategoryNameType} from '../../../../atoms/announcement';
 
-type TabBtnProps = {
+type TabButtonProps = {
+  label: AnnouncementCategoryNameType;
   isSelected: boolean;
-  label: string;
-  origin: AnnouncementCategoryOrigin;
-  selectCategoryOrigin: (origin: AnnouncementCategoryOrigin) => void;
+  onPress: () => void;
 };
 
-const TabButton = ({
-  isSelected,
-  label,
-  origin,
-  selectCategoryOrigin,
-}: TabBtnProps) => {
-  const onPressTabBtn = () => {
-    selectCategoryOrigin(origin);
-    console.log('origin', origin);
-  };
-
+const TabButton = ({isSelected, label, onPress}: TabButtonProps) => {
   return (
-    <S.Root isSelected={isSelected} onPress={onPressTabBtn}>
+    <S.Container isSelected={isSelected} onPress={onPress}>
       <Txt
         typograph={'bodyMedium'}
         label={label}
         color={isSelected ? 'primaryBrand' : 'black'}
       />
-    </S.Root>
+    </S.Container>
   );
 };
 
 export default TabButton;
 
-type StyledTabBtnContainerProps = {
-  isSelected: boolean;
-};
-
 const S = {
-  Root: styled.Pressable<StyledTabBtnContainerProps>`
+  Container: styled.Pressable<Pick<TabButtonProps, 'isSelected'>>`
     height: 48px;
     flex: 1;
 
