@@ -20,9 +20,7 @@ const SearchResultNotFound = () => {
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
   const [searchedArticles, setSearchedArticles] = useState<ArticleListType>([]);
 
-  useEffect(() => {
-    // TODO: 아 시발 언제붙이냐
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
