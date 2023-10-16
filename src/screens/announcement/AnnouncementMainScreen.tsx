@@ -20,6 +20,8 @@ import {
 } from '../../atoms/announcement';
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
 import {ArticleItemType} from '../../types/announcement.type';
+import useModal from '../../hooks/useModal';
+import AlertSettingOverlay from '../../components/molecules/announcement/modalContents/AlertSettingOverlay';
 
 type ArticlesType = {
   origin: AnnouncmentCategoryOriginType;
@@ -104,9 +106,7 @@ const AnnouncementMainScreen = () => {
     },
     {
       iconName: 'notification',
-      onPress: () => {
-        // TODO: 바텀시트 여는 코드 작성
-      },
+      onPress: () => openBottomSheet(),
     },
   ];
 
@@ -184,47 +184,55 @@ const AnnouncementMainScreen = () => {
     await getArticles(currentOrigin);
   };
 
+  const [openBottomSheet, closeBottomSheet, BottomSheet] =
+    useModal('BOTTOM_SHEET');
+
   return (
-    <S.ScreenContainer style={{paddingTop: insets.top}}>
-      {isSearchWordEntering ? (
-        <>
-          <Header onPressBackButton={onHeaderBackPress}>
-            <SearchInput {...searchInputProps} />
-          </Header>
-          <SearchWordEnteringView
-            navigateToNewSearchScreen={navigateToNewSearchScreen}
-          />
-        </>
-      ) : (
-        <>
-          <Header label={'공지사항'} onPressBackButton={onHeaderBackPress}>
-            <S.HeaderIcons>
-              {icons.map((item, i) => (
-                <S.IconWrapper key={i} onPress={item.onPress}>
-                  <Icon
-                    name={item.iconName}
-                    color={'grey150'}
-                    height={24}
-                    width={24}
-                  />
-                </S.IconWrapper>
-              ))}
-            </S.HeaderIcons>
-          </Header>
-          <S.CategoryTabAndContents>
-            <CategoryTab />
-            {!articles ? (
-              <Text>로딩중</Text>
-            ) : (
-              <ArticleList
-                articles={articles.content}
-                onEndReached={articleListReachEndHandler}
-              />
-            )}
-          </S.CategoryTabAndContents>
-        </>
-      )}
-    </S.ScreenContainer>
+    <>
+      <S.ScreenContainer style={{paddingTop: insets.top}}>
+        {isSearchWordEntering ? (
+          <>
+            <Header onPressBackButton={onHeaderBackPress}>
+              <SearchInput {...searchInputProps} />
+            </Header>
+            <SearchWordEnteringView
+              navigateToNewSearchScreen={navigateToNewSearchScreen}
+            />
+          </>
+        ) : (
+          <>
+            <Header label={'공지사항'} onPressBackButton={onHeaderBackPress}>
+              <S.HeaderIcons>
+                {icons.map((item, i) => (
+                  <S.IconWrapper key={i} onPress={item.onPress}>
+                    <Icon
+                      name={item.iconName}
+                      color={'grey150'}
+                      height={24}
+                      width={24}
+                    />
+                  </S.IconWrapper>
+                ))}
+              </S.HeaderIcons>
+            </Header>
+            <S.CategoryTabAndContents>
+              <CategoryTab />
+              {!articles ? (
+                <Text>로딩중</Text>
+              ) : (
+                <ArticleList
+                  articles={articles.content}
+                  onEndReached={articleListReachEndHandler}
+                />
+              )}
+            </S.CategoryTabAndContents>
+          </>
+        )}
+      </S.ScreenContainer>
+      <BottomSheet>
+        <AlertSettingOverlay />
+      </BottomSheet>
+    </>
   );
 };
 
