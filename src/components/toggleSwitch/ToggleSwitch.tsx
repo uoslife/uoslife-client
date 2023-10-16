@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import ToggleSwitchProps from './ToggleSwitch.type';
 import {Animated, StyleSheet, Pressable, Easing, Platform} from 'react-native';
 import styled from '@emotion/native';
+import {colors} from '@uoslife/design-system';
 
 const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
   useEffect(() => {
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3,
+        backgroundColor: colors.white,
       },
       android: {
         elevation: 5,
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 1},
         shadowOpacity: 0.25,
         shadowRadius: 2,
+        backgroundColor: colors.white,
       },
       android: {
         elevation: 1,
