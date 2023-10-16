@@ -1,25 +1,26 @@
 import styled from '@emotion/native';
 import ToggleSwitch from '../../toggleSwitch/ToggleSwitch';
 import {Txt} from '@uoslife/design-system';
+import {PressableProps} from 'react-native';
 
 export type BottomSheetToggleItemProps = {
   isOn: boolean;
   description: string;
-  onToggle: () => void;
+  onPress: PressableProps['onPress'];
 };
 
 const BottomSheetToggleItem = ({
   isOn,
   description,
-  onToggle,
+  onPress,
 }: BottomSheetToggleItemProps) => {
   return (
-    <S.Root onPress={onToggle}>
+    <S.Root onPress={onPress}>
       <S.TextContainer>
         <Txt color={'grey190'} label={description} typograph={'bodyLarge'} />
       </S.TextContainer>
       <S.ToggleContainer>
-        <ToggleSwitch isOn={isOn} onToggle={onToggle} />
+        <ToggleSwitch isOn={isOn} />
       </S.ToggleContainer>
     </S.Root>
   );
