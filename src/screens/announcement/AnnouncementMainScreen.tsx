@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import Header from '../../components/header/Header';
 import styled from '@emotion/native';
-import ArticleList from '../../components/molecules/announcement/article/ArticleList';
+import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
 import CategoryTab from '../../components/molecules/announcement/category-tab/CategoryTab';
 import {Icon, IconsNameType} from '@uoslife/design-system';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
@@ -187,6 +187,7 @@ const AnnouncementMainScreen = () => {
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
     useModal('BOTTOM_SHEET');
 
+  // TODO: 리팩토링(구조부터 다 뜯어고쳐야?)
   return (
     <>
       <S.ScreenContainer style={{paddingTop: insets.top}}>
@@ -221,6 +222,7 @@ const AnnouncementMainScreen = () => {
                 <Text>로딩중</Text>
               ) : (
                 <ArticleList
+                  showCategoryName={false}
                   articles={articles.content}
                   onEndReached={articleListReachEndHandler}
                 />

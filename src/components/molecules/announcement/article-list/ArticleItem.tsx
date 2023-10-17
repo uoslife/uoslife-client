@@ -8,10 +8,11 @@ import {ArticleItemType} from '../../../../types/announcement.type';
 import {announcementFullName} from '../../../../configs/announcement';
 
 type ArticleItemProps = {
+  showCategoryName: boolean;
   articleItem: ArticleItemType;
 };
 
-const ArticleItem = ({articleItem}: ArticleItemProps) => {
+const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
   const {bookmarkCount, date, department, id, title, origin} = articleItem;
 
   // TODO: API를 통해 받아오도록 수정
@@ -31,7 +32,7 @@ const ArticleItem = ({articleItem}: ArticleItemProps) => {
         onPress={() => {
           navigation.navigate('AnnouncementDetail', {id, origin: 'FA1'});
         }}>
-        {origin && (
+        {showCategoryName && (
           <Txt
             color={'primaryBrand'}
             label={announcementFullName[origin]}

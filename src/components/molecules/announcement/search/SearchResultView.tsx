@@ -1,5 +1,5 @@
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../article/ArticleList';
+import ArticleList from '../article-list/ArticleList';
 import styled from '@emotion/native';
 import {useEffect, useState} from 'react';
 import {ArticleListType} from '../../../../types/announcement.type';
