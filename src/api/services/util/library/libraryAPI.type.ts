@@ -1,10 +1,15 @@
-type LibraryTypeType = {
+export type LibraryStatusType = {
+  type: LibraryStatusTypeType;
+  item: Array<LibraryStatusItemType>;
+};
+
+export type LibraryStatusTypeType = {
   code: string;
   korName: string;
   requestName: string;
 };
 
-type LibraryItemType = {
+export type LibraryStatusItemType = {
   seat_no_s: string;
   chk_holiday: string;
   time_start: string;
@@ -40,10 +45,7 @@ type LibraryReservationType = {
 
 export type GetAllLibraryStatusParams = {};
 
-export type GetAllLibraryStatusRes = Array<{
-  type: LibraryTypeType;
-  item: Array<LibraryItemType>;
-}>;
+export type GetAllLibraryStatusRes = Array<LibraryStatusType>;
 
 export type GetLibraryReservationParams = {
   studentId: string;
