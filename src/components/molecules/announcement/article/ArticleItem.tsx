@@ -29,7 +29,7 @@ const ArticleItem = ({articleItem}: ArticleItemProps) => {
     <S.Root>
       <S.DescriptionContainer
         onPress={() => {
-          navigation.navigate('AnnouncementDetail', {id});
+          navigation.navigate('AnnouncementDetail', {id, origin: 'FA1'});
         }}>
         {origin && (
           <Txt

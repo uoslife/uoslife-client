@@ -23,7 +23,7 @@ import {ArticleItemType} from '../../types/announcement.type';
 import useModal from '../../hooks/useModal';
 import AlertSettingOverlay from '../../components/molecules/announcement/modalContents/AlertSettingOverlay';
 
-type ArticlesType = {
+type MainArticlesType = {
   origin: AnnouncmentCategoryOriginType;
   content: ArticleItemType[];
 };
@@ -42,7 +42,7 @@ const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
   const categoryState = useAtomValue(categoryStatusAtom);
 
-  const [articles, setArticles] = useState<ArticlesType>();
+  const [articles, setArticles] = useState<MainArticlesType>();
   const [currentOrigin, setCurrentOrigin] =
     useState<AnnouncmentCategoryOriginType>(
       getOriginFromCategoryState(categoryState),

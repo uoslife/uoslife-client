@@ -10,11 +10,12 @@ import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetail
 import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
 import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
 type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
-  AnnouncementDetail: {id: number};
+  AnnouncementDetail: {id: number; origin: AnnouncementOriginNameType};
   AnnouncementSearch: {initialSearchWord: string};
 };
 

@@ -2,16 +2,14 @@ import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
 import Header from '../../components/header/Header';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import {View} from 'react-native';
-import {getUploadTimeString} from '../../utils/handle-date';
+import {View, useWindowDimensions, Text} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
-import {
-  ArticleDetailType,
-  ArticleItemType,
-} from '../../types/announcement.type';
+import {ArticleDetailType} from '../../types/announcement.type';
 import {announcementFullName} from '../../configs/announcement';
+import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
+import {RenderHTML} from 'react-native-render-html';
 
 const DetailScreenBookmarkToggle = ({
   bookmarkCount,
@@ -42,77 +40,83 @@ const AnnouncementDetailContent = ({
   title,
   bookmarkCount,
   date,
-  department,
   description,
   files,
-  id,
   origin,
-  url,
-  viewCount,
-  writer, // attachments,
-  // bookmarkByMe,
-} // body,
-// bookmarkCnt,
-// uploadTime,
-// categoryId,
-: ArticleDetailType) => (
-  <S.AnnouncementDetailContent>
-    <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
-      <S.DetailTopWrapper>
-        <Txt label={title} color={'black'} typograph={'titleLarge'} />
-        <S.CategoryAndDateAndBookmarkContainer>
-          <Txt
-            label={`${announcementFullName[origin]} | ${getUploadTimeString(
-              date,
-            )}`}
-            color={'grey90'}
-            typograph={'bodySmall'}
-          />
-          <DetailScreenBookmarkToggle bookmarkCount={bookmarkCount} />
-        </S.CategoryAndDateAndBookmarkContainer>
-      </S.DetailTopWrapper>
-    </View>
-    {files.length != 0 && (
-      <S.AttachmentList>
-        {files.map((fileItem, i) => (
-          <S.AttachmentItem key={i}>
-            <Icon
-              height={18}
-              width={18}
-              name={'download'}
-              color={'primaryBrand'}
-              key={i}
-            />
+}: ArticleDetailType) => {
+  const {width} = useWindowDimensions();
+  const horizontalPadding = 16;
+  const htmlContentWidth = width - horizontalPadding * 2;
+  // 받아온 files를 객체를 배열로 변환
+  const processedFilesData = Object.entries(files).map((fileItem, i) => ({
+    name: fileItem[0],
+    url: fileItem[1],
+  }));
+
+  return (
+    <S.AnnouncementDetailContent>
+      <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
+        <S.DetailTopWrapper>
+          <Txt label={title} color={'black'} typograph={'titleLarge'} />
+          <S.CategoryAndDateAndBookmarkContainer>
             <Txt
-              label={`${i + 1}. ${fileItem}`}
-              color={'grey130'}
-              typograph={'bodyMedium'}
+              label={`${announcementFullName[origin]} | ${date}`}
+              color={'grey90'}
+              typograph={'bodySmall'}
             />
-          </S.AttachmentItem>
-        ))}
-      </S.AttachmentList>
-    )}
-    {/* TODO: label 제대로 넣기 */}
-    <Txt
-      label={'호로로로롤ㄹ로ㅗㄹ로'}
-      color={'grey190'}
-      typograph={'bodyLarge'}
-    />
-  </S.AnnouncementDetailContent>
-);
+            <DetailScreenBookmarkToggle bookmarkCount={bookmarkCount} />
+          </S.CategoryAndDateAndBookmarkContainer>
+        </S.DetailTopWrapper>
+      </View>
+      {Object.keys(files).length !== 0 && (
+        <S.AttachmentList>
+          {processedFilesData.map(({name, url}, i) => (
+            <S.AttachmentItem key={i}>
+              <Icon
+                height={18}
+                width={18}
+                name={'download'}
+                color={'primaryBrand'}
+                key={i}
+              />
+              <Txt
+                label={`${name}`}
+                color={'grey130'}
+                typograph={'bodyMedium'}
+              />
+            </S.AttachmentItem>
+          ))}
+        </S.AttachmentList>
+      )}
+      <RenderHTML
+        contentWidth={htmlContentWidth}
+        source={{html: description}}
+      />
+    </S.AnnouncementDetailContent>
+  );
+};
 
 const AnnouncementDetailScreen = ({
   route: {
-    params: {id},
+    params: {id, origin},
   },
 }: AnnouncementDetailScreenProps) => {
   const insets = useSafeAreaInsets();
   const [article, setArticle] = useState<ArticleDetailType>();
-  // TODO: API 호출 관련 상태관리 로직 custom hook 추상화 이용
+  // TODO: API 호출 관련 상태관리 로직 - custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  // TODO: 실 API 호출 코드 작성
-  useEffect(() => {}, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const loadedArticle = await AnnouncementAPI.getAnnouncementById({id});
+        console.log({loadedArticle});
+        setArticle(loadedArticle);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   const navigation = useNavigation();
 
@@ -124,18 +128,16 @@ const AnnouncementDetailScreen = ({
     <>
       <S.ScreenContainer style={{paddingTop: insets.top}}>
         <Header
-          label={
-            '와라라라라라라이'
-            // TODO: 라벨 바르게 넣기
-            // ANNOUNCEMENT_CATEGORY_ORIGIN_TO_NAME_VIEW_MAP[article?.origin]
-            //   .fullName
-          }
+          label={announcementFullName[origin]}
           onPressBackButton={handleGoBack}
         />
-        {!isPending && article ? (
+        {article ? (
           <AnnouncementDetailContent {...article} />
         ) : (
-          <View>{/* TODO: 이곳에 보여줄 컴포넌트 작성 필요 */}</View>
+          <View>
+            {/* TODO: LoadingSpinner 컴포넌트 대체하기 */}
+            <Text>로딩중</Text>
+          </View>
         )}
       </S.ScreenContainer>
     </>
