@@ -1,10 +1,9 @@
 import styled from '@emotion/native';
 import Header from '../../components/header/Header';
 import {useEffect, useState} from 'react';
-import {colors} from '@uoslife/design-system';
-import {LibrarySeatStatus} from '../../components/molecules/library/LibararySeatStatus';
+
+import {LibraryStatus} from '../../components/molecules/library/LibararyStatus';
 import {ScrollView} from 'react-native-gesture-handler';
-import {LibraryCardProps} from '../../components/molecules/library/LibraryCard';
 import LibraryUserInfo, {
   LibraryUserInfoType,
 } from '../../components/molecules/library/LibraryUserInfo';
@@ -23,40 +22,6 @@ const LibraryScreen = () => {
     timeOfUse: '14:00 ~ 20:00',
     extended: 0,
   });
-  const [seatStatus, setSeatStatus] = useState<LibraryCardProps[]>([
-    {
-      libraryName: '중앙도서관',
-      rooms: [
-        {roomName: '0 데시벨 1', remainingSeatCnt: 228, totalSeatCnt: 266},
-        {roomName: '0 데시벨 2', remainingSeatCnt: 80, totalSeatCnt: 243},
-        {roomName: '0 ZONE 1', remainingSeatCnt: 228, totalSeatCnt: 266},
-        {roomName: '0 ZONE 2', remainingSeatCnt: 11, totalSeatCnt: 266},
-      ],
-    },
-    {
-      libraryName: '경영경제전문도서관',
-      rooms: [
-        {roomName: '제1 열람실', remainingSeatCnt: 40, totalSeatCnt: 50},
-        {
-          roomName: '제2 열람실',
-          remainingSeatCnt: 33,
-          totalSeatCnt: 123,
-        },
-      ],
-    },
-    {
-      libraryName: '법학전문도서관',
-      rooms: [
-        {roomName: '멀티미디어실', remainingSeatCnt: 40, totalSeatCnt: 180},
-        {
-          roomName: 'ㅇㅇ',
-          remainingSeatCnt: 1,
-          totalSeatCnt: 133,
-        },
-      ],
-    },
-  ]);
-
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -71,7 +36,7 @@ const LibraryScreen = () => {
       <S.screenContainer>
         <Header label="도서관" onPressBackButton={handleGoBack} />
         <LibraryUserInfo libraryUserInfo={libraryUserInfo} />
-        <LibrarySeatStatus libraries={seatStatus} />
+        <LibraryStatus />
       </S.screenContainer>
     </ScrollView>
   );
@@ -83,7 +48,6 @@ const S = {
   screenContainer: styled.View`
     height: 100%;
     width: 100%;
-    background: ${() => colors.grey10};
     align-items: center;
     padding-bottom: 70px;
   `,

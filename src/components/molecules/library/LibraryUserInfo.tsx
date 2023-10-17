@@ -1,7 +1,6 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import LibraryTimer from './LibraryTimer';
-import {View} from 'react-native';
 
 export type LibraryUserInfoType =
   | {
