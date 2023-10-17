@@ -3,8 +3,8 @@ import ArticleList from '../article-list/ArticleList';
 import styled from '@emotion/native';
 import {useEffect, useState} from 'react';
 import {ArticleListType} from '../../../../types/announcement.type';
+import AnnouncementAPI from '../../../../api/services/util/announcement/announcementAPI';
 
-// AnnouncementSearchScreen에서 searchWordEnteringView === false일 때의 컴포넌트
 const SearchResultNotFound = () => {
   return (
     <S.SearchResultNotFoundRoot>
@@ -17,10 +17,22 @@ const SearchResultNotFound = () => {
   );
 };
 
+// TODO: Lazy Loading과 페이지네이션
+// TODO: pending state 추가, 해당 상태에 보여줄 컴포넌트 띄우기
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
   const [searchedArticles, setSearchedArticles] = useState<ArticleListType>([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    (async () => {
+      const res = await AnnouncementAPI.searchAnnoucements({
+        keyword: searchWord,
+        page: 0,
+        size: 10,
+      });
+
+      setSearchedArticles(res.content);
+    })();
+  }, []);
 
   return (
     <>
