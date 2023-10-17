@@ -16,6 +16,7 @@
   "dependencies": {
     "@emotion/native": "^11.11.0",
     "@emotion/react": "^11.11.1",
+    "@native-html/table-plugin": "^5.3.1",
     "@notifee/react-native": "^7.7.1",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-firebase/analytics": "^18.0.0",
