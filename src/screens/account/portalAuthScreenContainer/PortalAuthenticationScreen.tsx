@@ -3,18 +3,21 @@ import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
 import styled from '@emotion/native';
 import {Txt, Button, colors} from '@uoslife/design-system';
-import {Pressable, View} from 'react-native';
+import {DevSettings, Pressable, View} from 'react-native';
 import {useSetAtom} from 'jotai';
 import {accountFlowStatusAtom} from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
+import {ErrorResponseType} from '../../../api/services/type';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
   const [messageStatus, setMessageStatus] =
@@ -66,43 +69,36 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handleSubmit = async () => {
-    const res = await CoreAPI.portalVerification({
-      username: inputValue.id,
-      password: inputValue.password,
-    });
-    if (!res) {
-      setMessageStatus('ERROR');
-      return;
+    try {
+      const res = await CoreAPI.portalVerification({
+        username: inputValue.id,
+        password: inputValue.password,
+      });
+      setAccountStatus(prev => {
+        return {
+          ...prev,
+          portalStatus: {
+            isPortalStep: prev.portalStatus.isPortalStep,
+            step: 1,
+          },
+        };
+      });
+    } catch (err) {
+      const error = err as ErrorResponseType;
+      if (error.code === 'V01') setMessageStatus('ERROR');
+      else console.log(error);
     }
-    setAccountStatus(prev => {
-      return {
-        ...prev,
-        portalStatus: {
-          isPortalStep: prev.portalStatus.isPortalStep,
-          step: 1,
-        },
-      };
-    });
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer
+      style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
       <Header
         label="포털 계정 연동"
-        onPressBackButton={() =>
-          setAccountStatus(prev => {
-            return {
-              ...prev,
-              portalStatus: {
-                isPortalStep: false,
-                step: 0,
-              },
-            };
-          })
-        }
+        onPressBackButton={() => DevSettings.reload()}
       />
       <S.portalAuthenticationContainer>
-        <View style={{gap: 32}}>
+        <View style={{gap: 24}}>
           <View style={{gap: 8}}>
             <Txt
               typograph={'headlineMedium'}
@@ -111,30 +107,32 @@ const PortalAuthenticationScreen = () => {
             />
             <Txt
               typograph={'bodyMedium'}
-              color={'grey190'}
+              color={'grey130'}
               label={
-                '포털 계정 연동을 통해 다양한 편의 기능(ex. 시대팅)을 이용할 수 있습니다.\n계정 정보는 서버에 안전한 암호화 방식으로 저장됩니다.'
+                '포털 계정 연동을 통해 다양한 기능을 이용할 수 있습니다.\n계정 정보는 안전한 암호화 방식으로 서버에 저장됩니다.'
               }
             />
           </View>
-          <Input
-            onChangeText={text => onChangeText(text, 'id')}
-            onPress={() => onPressInputDelete('id')}
-            value={inputValue.id}
-            label={'포털 아이디'}
-            status={handleInputStatus(messageStatus)}
-            placeholder={'아이디'}
-          />
-          <Input
-            onChangeText={text => onChangeText(text, 'password')}
-            onPress={() => onPressInputDelete('password')}
-            value={inputValue.password}
-            secureTextEntry={true}
-            label={'포털 비밀번호'}
-            status={handleInputStatus(messageStatus)}
-            statusMessage={handleInputStatusMessage(messageStatus)}
-            placeholder={'비밀번호'}
-          />
+          <View>
+            <Input
+              onChangeText={text => onChangeText(text, 'id')}
+              onPress={() => onPressInputDelete('id')}
+              value={inputValue.id}
+              label={'포털 아이디'}
+              status={handleInputStatus(messageStatus)}
+              placeholder={'아이디'}
+            />
+            <Input
+              onChangeText={text => onChangeText(text, 'password')}
+              onPress={() => onPressInputDelete('password')}
+              value={inputValue.password}
+              secureTextEntry={true}
+              label={'포털 비밀번호'}
+              status={handleInputStatus(messageStatus)}
+              statusMessage={handleInputStatusMessage(messageStatus)}
+              placeholder={'비밀번호'}
+            />
+          </View>
         </View>
         <S.bottomContainer>
           <S.postponePortalAuthButton>
