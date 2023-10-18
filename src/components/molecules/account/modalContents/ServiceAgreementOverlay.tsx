@@ -28,19 +28,19 @@ const ServiceAgreementOverlay = ({
 
   const getCheckedStatusById = (id: OverlayStatus['id']) =>
     overlayStatus.find(item => item.id === id)!.checked;
-  const areAllRequiredChecked = () => {
-    const requiredStatus = overlayStatus.filter(obj => obj.type === 'REQUIRED');
+  const areAllStatusChecked = () => {
+    const requiredStatus = overlayStatus.filter(
+      obj => obj.type === 'REQUIRED' || obj.type === 'OPTIONAL',
+    );
     return requiredStatus.every(obj => obj.checked);
   };
 
   const handleClickCheckAllItem = () => {
     const firstItemCheckedStatus = getCheckedStatusById(0);
     setStatus(prev => {
-      return prev.map(item =>
-        item.type === 'CHECK_ALL' || item.type === 'REQUIRED'
-          ? {...item, checked: !firstItemCheckedStatus}
-          : item,
-      );
+      return prev.map(item => {
+        return {...item, checked: !firstItemCheckedStatus};
+      });
     });
   };
 
@@ -53,7 +53,7 @@ const ServiceAgreementOverlay = ({
   };
 
   useEffect(() => {
-    const isAllRequireChecked = areAllRequiredChecked();
+    const isAllRequireChecked = areAllStatusChecked();
     if (isAllRequireChecked)
       setStatus(prev => {
         return prev.map(item =>
@@ -90,7 +90,7 @@ const ServiceAgreementOverlay = ({
       <Button
         label="확인"
         isFullWidth
-        isEnabled={areAllRequiredChecked()}
+        isEnabled={areAllStatusChecked()}
         onPress={() =>
           handleClickSubmitBottomSheetButton(getCheckedStatusById(3))
         }
