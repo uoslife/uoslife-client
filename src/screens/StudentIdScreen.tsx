@@ -1,11 +1,20 @@
 import styled from '@emotion/native';
-import {StyleSheet, View, Platform, ScrollView, Linking} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Platform,
+  ScrollView,
+  Linking,
+  ActivityIndicator,
+} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {StudentIdNavigationProp} from '../navigators/StudentIdStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import URLS from '../configs/urls';
+import QRCode from 'react-native-qrcode-svg';
+import {UtilAPI} from '../api/services';
 
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdNavigationProp>();
@@ -49,12 +58,15 @@ const PortalUnauthorizedComponent = () => {
 
 const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
+  const [qrCode, setQrCode] = useState('');
 
   const openPayco = async () => {
-    const isPaycoInstalled = await Linking.canOpenURL(URLS.PAYCO.PAYCO_PAYMENT);
+    const isPaycoInstalled = await Linking.canOpenURL(
+      URLS.PAYCO.PAYCO_PAYMENT!,
+    );
 
     return Linking.openURL(
-      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT : URLS.PAYCO.PAYCO_INSTALL!,
+      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
     );
   };
 
@@ -67,6 +79,15 @@ const StudentIdComponent = () => {
 
     setCurrentTime(timeString);
   };
+
+  const getStudentIdQrCode = async () => {
+    const res = await UtilAPI.getStudentIdQr({});
+    setQrCode(res.data);
+  };
+
+  useEffect(() => {
+    getStudentIdQrCode();
+  }, [qrCode, setQrCode]);
 
   useEffect(() => {
     let getCurrentTimeInterval = setInterval(getCurrentTime);
@@ -81,7 +102,15 @@ const StudentIdComponent = () => {
       <S.studentIdScreen>
         <View style={{gap: 24}}>
           <S.qrWrapper>
-            <S.qrImage source={require('../assets/images/qr_example.png')} />
+            {qrCode ? (
+              <QRCode
+                value={qrCode}
+                logoSize={30}
+                logoBackgroundColor="transparent"
+              />
+            ) : (
+              <ActivityIndicator />
+            )}
             <Txt
               label={currentTime}
               color={'grey190'}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import StudentIdMainScreen from '../screens/StudentIdScreen';
+import StudentIdScreen from '../screens/StudentIdScreen';
 import StudentIdPortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -19,7 +19,7 @@ const StudentIdStackNavigator = () => {
     <Stack.Navigator
       initialRouteName="StudentId_main"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="StudentId_main" component={StudentIdMainScreen} />
+      <Stack.Screen name="StudentId_main" component={StudentIdScreen} />
       <Stack.Screen
         name="StudentId_portalAuthentication"
         component={StudentIdPortalAuthenticationScreen}
