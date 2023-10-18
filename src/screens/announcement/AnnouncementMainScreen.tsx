@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {useState, useEffect, useRef, useCallback, ComponentProps} from 'react';
 import Header from '../../components/header/Header';
 import styled from '@emotion/native';
 import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
@@ -9,26 +9,19 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BackHandler, Keyboard, Text} from 'react-native';
 import SearchInput from '../../components/forms/searchInput/SearchInput';
-import {TextInput} from 'react-native-gesture-handler';
+import {FlatList, TextInput} from 'react-native-gesture-handler';
 import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 import {useAtomValue} from 'jotai';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import {
   AnnouncementCategoryStatusType,
-  AnnouncmentCategoryOriginType,
   categoryStatusAtom,
 } from '../../atoms/announcement';
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
-import {ArticleItemType} from '../../types/announcement.type';
+import {ArticleListType} from '../../types/announcement.type';
 import useModal from '../../hooks/useModal';
 import AlertSettingOverlay from '../../components/molecules/announcement/modalContents/AlertSettingOverlay';
 
-type MainArticlesType = {
-  origin: AnnouncmentCategoryOriginType;
-  content: ArticleItemType[];
-};
-
-// 페이지네이션 설정
 const ELEMENTS_PER_PAGE = 10;
 
 const getOriginFromCategoryState = (
@@ -38,58 +31,63 @@ const getOriginFromCategoryState = (
   return selectedState!.origin;
 };
 
+// TODO: 지저분한 Search 관련 코드와 컴포넌트 구조 정리
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
-  const categoryState = useAtomValue(categoryStatusAtom);
-
-  const [articles, setArticles] = useState<MainArticlesType>();
-  const [currentOrigin, setCurrentOrigin] =
-    useState<AnnouncmentCategoryOriginType>(
-      getOriginFromCategoryState(categoryState),
-    );
-
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
   const navigation = useNavigation<AnnouncementNavigationProps>();
   const inputRef = useRef<TextInput>(null);
+  const listRef = useRef<FlatList>(null);
 
-  const getArticles = async (origin: AnnouncementOriginNameType) => {
-    const page = articles ? articles.content.length : 0;
+  const [articleListObject, setArticleListObject] = useState<{
+    [key in AnnouncementOriginNameType]: ArticleListType;
+  }>({
+    FA1: [],
+    FA2: [],
+    FA34: [],
+    FA35: [],
+  });
 
-    try {
-      const res = await AnnouncementAPI.getAnnouncements({
-        origin,
-        page,
-        size: ELEMENTS_PER_PAGE,
-      });
-      const newArticles = res.content;
+  const [articlePageObject, setArticlePageObject] = useState<{
+    [key in AnnouncementOriginNameType]: number;
+  }>({
+    FA1: 0,
+    FA2: 0,
+    FA34: 0,
+    FA35: 0,
+  });
 
-      console.log({newArticles});
+  const categoryStatus = useAtomValue(categoryStatusAtom);
+  const currentOrigin = getOriginFromCategoryState(categoryStatus);
+  const currentArticles = articleListObject[currentOrigin];
 
-      if (articles && origin !== articles!.origin)
-        setArticles({origin, content: newArticles});
+  useEffect(() => {
+    listRef.current?.scrollToOffset({offset: 0});
+  }, [currentOrigin, listRef]);
 
-      setArticles(prev =>
-        prev
-          ? {origin, content: [...prev.content, ...newArticles]}
-          : {origin, content: newArticles},
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  const loadNewArticlesByOrigin = async (
+    origin: AnnouncementOriginNameType,
+  ) => {
+    const params = {
+      origin,
+      page: articlePageObject[origin],
+      size: ELEMENTS_PER_PAGE,
+    };
+    const res = await AnnouncementAPI.getAnnouncements(params);
+
+    const loadedArticles = res.content;
+
+    setArticleListObject(prev => ({
+      ...prev,
+      [origin]: [...prev[origin], ...loadedArticles],
+    }));
+    setArticlePageObject(prev => ({
+      ...prev,
+      [origin]: prev[origin] + 1,
+    }));
   };
-
-  useEffect(() => {
-    (async () => {
-      await getArticles(currentOrigin);
-    })();
-  }, [currentOrigin]);
-
-  useEffect(() => {
-    const origin = getOriginFromCategoryState(categoryState);
-    setCurrentOrigin(origin);
-  }, [categoryState]);
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
@@ -120,7 +118,7 @@ const AnnouncementMainScreen = () => {
     }, 300);
   };
 
-  const searchInputProps: React.ComponentProps<typeof SearchInput> = {
+  const searchInputProps: ComponentProps<typeof SearchInput> = {
     inputRef,
     placeholder: '검색어를 입력해주세요.',
     onFocus: () => {
@@ -164,7 +162,7 @@ const AnnouncementMainScreen = () => {
   // 안드로이드에서 뒤로가기 버튼을 눌렀을 때의 동작 지정
   // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const onAndroidBackPress = () => {
         onHeaderBackPress();
 
@@ -181,13 +179,12 @@ const AnnouncementMainScreen = () => {
   );
 
   const articleListReachEndHandler = async () => {
-    await getArticles(currentOrigin);
+    await loadNewArticlesByOrigin(currentOrigin);
   };
 
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
     useModal('BOTTOM_SHEET');
 
-  // TODO: 리팩토링(구조부터 다 뜯어고쳐야?)
   return (
     <>
       <S.ScreenContainer style={{paddingTop: insets.top}}>
@@ -218,14 +215,15 @@ const AnnouncementMainScreen = () => {
             </Header>
             <S.CategoryTabAndContents>
               <CategoryTab />
-              {!articles ? (
-                <Text>로딩중</Text>
-              ) : (
+              {currentArticles ? (
                 <ArticleList
+                  ref={listRef}
                   showCategoryName={false}
-                  articles={articles.content}
+                  articles={currentArticles}
                   onEndReached={articleListReachEndHandler}
                 />
+              ) : (
+                <Text>로딩중</Text>
               )}
             </S.CategoryTabAndContents>
           </>

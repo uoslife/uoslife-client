@@ -20,10 +20,10 @@ const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  // bookmark toggle
+  // TODO: bookmark toggle 구현
   const onPressBookmark = () => {};
 
-  // TODO: API 호출시 string 형식이 달라서 바뀜 -> 나중에 기획에 맞는지 확인 후 삭제
+  // TODO: API 호출시의 형식이 예상과 다름 -> 기획팀에 전달 후 삭제
   // const processedUploadTimeString = getUploadTimeString(date);
 
   return (
