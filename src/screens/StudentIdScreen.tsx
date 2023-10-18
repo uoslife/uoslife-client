@@ -3,12 +3,12 @@ import {StyleSheet, View, Platform, ScrollView, Linking} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import {StudentIdStackParamList} from '../navigators/StudentIdStackNavigator';
+import {StudentIdNavigationProp} from '../navigators/StudentIdStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import URLS from '../configs/urls';
 
 const PortalUnauthorizedComponent = () => {
-  const navigation = useNavigation<StudentIdStackParamList>();
+  const navigation = useNavigation<StudentIdNavigationProp>();
 
   const handleNavigatePortalAuthenticate = async () => {
     return navigation.navigate('StudentId_portalAuthentication');
