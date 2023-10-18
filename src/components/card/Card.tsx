@@ -30,11 +30,11 @@ const S = {
   `,
   cardHeader: styled.View`
     background-color: ${colors.grey10};
-    padding: 20px 16px 12px 16px;
+    padding: 20px 16px 12px;
   `,
   cardBody: styled.View`
     margin-top: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   `,
   inlineWrapper: styled.View`
     flex-direction: row;

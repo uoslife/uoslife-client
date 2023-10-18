@@ -18,7 +18,6 @@ export class DeviceService {
       model,
       os,
       osVersion,
-      version: '',
       appVersion,
       codePushVersion,
     };
@@ -45,8 +44,7 @@ export class DeviceService {
         serverDeviceInfo.firebasePushToken ||
       localDeviceInfo.model !== serverDeviceInfo.model ||
       localDeviceInfo.os !== serverDeviceInfo.os ||
-      localDeviceInfo.osVersion !== serverDeviceInfo.osVersion ||
-      localDeviceInfo.version !== serverDeviceInfo.version
+      localDeviceInfo.osVersion !== serverDeviceInfo.osVersion
     )
       await CoreAPI.patchDeviceInfo(localDeviceInfo);
   }
