@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {DevSettings, View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import Input from '../../../components/forms/input/Input';
-import {Button, Txt, Timer} from '@uoslife/design-system';
+import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {
-  UserType,
   accountFlowStatusAtom,
   accountStatusAtom,
   existedAccountInfoAtom,
-  existedAccountInfoType,
 } from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
@@ -132,10 +130,11 @@ const VerificationScreen = () => {
       storeToken(signInRes.token.accessToken, signInRes.token.refreshToken);
       await DeviceService.setDeviceInfo();
       storage.set('user.isLoggedIn', true);
-
+      DevSettings.reload();
       // TODO: 해당 로직 추상화 필요
     } catch (err) {
       const error = err as SignInRes;
+      console.error(error);
       storeToken(error.token.accessToken, error.token.refreshToken);
       setExistedAccountInfo(
         error.migrationUserInfo.map(item => {
