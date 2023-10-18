@@ -9,10 +9,11 @@ import {
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
 
-const useAutoRedirect = (time: number) => {
+const useAutoRedirect = (time: number, callback: () => void) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       DevSettings.reload();
+      callback();
     }, time);
     return () => clearInterval(timeout);
   }, []);
@@ -20,8 +21,10 @@ const useAutoRedirect = (time: number) => {
 
 const AccountFinishInfoScreen = () => {
   const setAccontFlowStatus = useSetAtom(accountFlowStatusAtom);
-  setAccontFlowStatus(accountFlowInitStatus);
-  useAutoRedirect(REDIRECT_TO_MAIN_TIME);
+  useAutoRedirect(REDIRECT_TO_MAIN_TIME, () =>
+    setAccontFlowStatus(accountFlowInitStatus),
+  );
+
   return (
     <View style={{paddingTop: 400, alignItems: 'center'}}>
       <Txt label={'로그인 완료!'} color={'black'} typograph={'bodySmall'} />
