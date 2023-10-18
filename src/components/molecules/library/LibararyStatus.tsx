@@ -30,7 +30,11 @@ export const LibraryStatus = () => {
           <></>
         ) : (
           libraryStatus.map(item => (
-            <LibraryStatusCard item={item.item} type={item.type} />
+            <LibraryStatusCard
+              key={item.type.code}
+              item={item.item}
+              type={item.type}
+            />
           ))
         )}
       </S.cardsWrapper>
