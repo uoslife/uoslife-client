@@ -1,27 +1,15 @@
 import styled from '@emotion/native';
 import Header from '../../components/header/Header';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 
 import {LibraryStatus} from '../../components/molecules/library/LibararyStatus';
 import {ScrollView} from 'react-native-gesture-handler';
-import LibraryUserInfo, {
-  LibraryUserInfoType,
-} from '../../components/molecules/library/LibraryUserInfo';
+import LibraryUserInfo from '../../components/molecules/library/LibraryUserInfo';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 
 const LibraryScreen = () => {
   const insets = useSafeAreaInsets();
-  const [libraryUserInfo, setLibraryUserInfo] = useState<LibraryUserInfoType>({
-    userName: '한유민',
-    using: true,
-    leave: false,
-    timerTime: 1805,
-    room: '쏼라쏼라열람실',
-    seatNum: 21,
-    timeOfUse: '14:00 ~ 20:00',
-    extended: 0,
-  });
   const navigation = useNavigation();
 
   const handleGoBack = () => {
@@ -35,7 +23,7 @@ const LibraryScreen = () => {
     <ScrollView style={{paddingTop: insets.top}}>
       <S.screenContainer>
         <Header label="도서관" onPressBackButton={handleGoBack} />
-        <LibraryUserInfo libraryUserInfo={libraryUserInfo} />
+        <LibraryUserInfo />
         <LibraryStatus />
       </S.screenContainer>
     </ScrollView>

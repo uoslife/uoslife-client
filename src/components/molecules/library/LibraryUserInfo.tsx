@@ -1,120 +1,123 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import LibraryTimer from './LibraryTimer';
+import {useEffect, useState} from 'react';
+import {UtilAPI} from '../../../api/services';
+import TextItems from '../common/textItems/TextItems';
+import {GetLibraryReservationRes} from '../../../api/services/util/library/libraryAPI.type';
+import {storage} from '../../../storage';
+import {GetUserInfoRes} from '../../../api/services/core/user/userAPI.type';
+import {ErrorResponseType} from '../../../api/services/type';
 
-export type LibraryUserInfoType =
-  | {
-      userName: string;
-      using: true; // 사용여부
-      leave: boolean; // 외출여부
-      timerTime: number; // 타이머에 표시될 시간: 초 단위
-      room: string; // 열람실: 가능하면 type을 나중에 더 specific하게 변경하기
-      seatNum: number; // 좌석번호
-      timeOfUse: string; // 이용 가능 시간: 가능하면 type을 나중에 더 specific하게 변경하기(정규표현식 등 이용)
-      extended: number; // 연장 횟수: 0 - 3회
-    }
-  | {
-      using: false;
-    };
-// Driven by LibraryUserInfo
-export type UsingStatus = 'IN-USE' | 'OUTGO' | 'BE-CLOSED' | 'NOT-USED';
-export type UsingStatusWithoutNotUsed = Exclude<UsingStatus, 'NOT-USED'>;
+type UsingStatusIsUsingType = 'USING' | 'NOT_USING';
+type UsingStatusInOutingType = 'OUTING_DEFAULT' | 'OUTING_NO_TIME';
+export type UsingStatusType = UsingStatusIsUsingType | UsingStatusInOutingType;
+export type UsingStatusExcludeNotUsing = Exclude<UsingStatusType, 'NOT_USING'>;
 
-const LibraryUserInfo = ({
-  libraryUserInfo,
-}: {
-  libraryUserInfo: LibraryUserInfoType;
-}) => {
-  const usingStatus: UsingStatus = (function () {
-    // 사용 X
-    if (!libraryUserInfo.using) return 'NOT-USED';
+const INFORMATION_MESSAGE_FROM_STATUS: {[key in UsingStatusType]: string} = {
+  USING: '잘하고 있어요!',
+  OUTING_DEFAULT: '조심히 다녀오세요!',
+  OUTING_NO_TIME: '시간이 얼마 남지 않았어요!',
+  NOT_USING: '',
+};
 
-    // 사용 O, 외출 X
-    if (!libraryUserInfo.leave) return 'IN-USE';
+const getInformationMessage = (libraryUsingStatus: UsingStatusType) => {
+  const userInfo = JSON.parse(storage.getString('user')!) as GetUserInfoRes;
 
-    // 외출 O, 외출시간 > 30분
-    if (libraryUserInfo.timerTime > 1800) return 'OUTGO';
+  return `${userInfo.name ?? ''}님 ${
+    INFORMATION_MESSAGE_FROM_STATUS[libraryUsingStatus]
+  }`;
+};
 
-    // 외출 O, 외출시간 <= 30분
-    return 'BE-CLOSED';
-  })();
+const LibraryUserInfo = () => {
+  const [libraryReservationInfo, setLibraryReservationInfo] =
+    useState<GetLibraryReservationRes>();
+  const [libraryUsingStatus, setLibraryUsingStatus] =
+    useState<UsingStatusType>();
+  const [isStudyRoom, setIsStudyRoom] = useState(false);
 
-  if (usingStatus === 'NOT-USED' || !libraryUserInfo.using)
-    return (
-      <S.userInfoWrapper>
-        <S.timerContainer>
-          <LibraryTimer usingStatus={usingStatus} />
-        </S.timerContainer>
-      </S.userInfoWrapper>
-    );
-
-  const {room, seatNum, timeOfUse, extended, userName} = libraryUserInfo;
-
-  const getSaying = ({
-    userName,
-    usingStatus,
-  }: {
-    userName: string;
-    usingStatus: UsingStatusWithoutNotUsed;
-  }) => {
-    const additionalSaying: {[key in UsingStatusWithoutNotUsed]: string} = {
-      'IN-USE': '잘하고 있어요!',
-      OUTGO: '조심히 다져오세요!',
-      'BE-CLOSED': '',
-    };
-
-    return `${userName}님 ${additionalSaying[usingStatus]}`;
+  const getOutingStatus = (
+    remainingSeconds: GetLibraryReservationRes['remainingSeconds'],
+  ): UsingStatusType => {
+    if (remainingSeconds < 30 * 60) return 'OUTING_DEFAULT';
+    return 'OUTING_NO_TIME';
   };
 
-  const getDescriptions = ({
-    room,
-    seatNum,
-    timeOfUse,
-    extended,
-  }: {
-    room: string;
-    seatNum: number;
-    timeOfUse: string;
-    extended: number;
-  }) => {
-    return [
-      {key: '열람실', value: room},
-      {key: '좌석번호', value: `${seatNum}번`},
-      {key: '이용시간', value: timeOfUse},
-      {key: '연장횟수', value: `${extended}회 / 3회`},
-    ];
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const libraryReservationRes = await UtilAPI.getLibraryReservation({
+          studentId: '2022280085',
+        });
+        setLibraryReservationInfo(libraryReservationRes);
+        if (libraryReservationRes.seatRoomName === '') setIsStudyRoom(true);
+        else setIsStudyRoom(false);
+
+        const outingStatus = getOutingStatus(
+          libraryReservationRes.remainingSeconds,
+        );
+        if (libraryReservationRes.remainingSeconds === -1)
+          setLibraryUsingStatus('USING');
+        else setLibraryUsingStatus(outingStatus);
+      } catch (error) {
+        const err = error as ErrorResponseType;
+        if (err.code === 'L01') setLibraryUsingStatus('NOT_USING');
+        else console.error(err);
+      }
+    })();
+  }, []);
 
   return (
     <S.userInfoWrapper>
-      <S.sayingContainer>
-        <Txt
-          color={'grey190'}
-          label={getSaying({userName, usingStatus})}
-          typograph={'titleLarge'}
-        />
-      </S.sayingContainer>
-      <S.timerContainer>
-        <LibraryTimer
-          usingStatus={usingStatus}
-          timerTime={libraryUserInfo.timerTime}
-        />
-      </S.timerContainer>
-      <S.userInfoDetails>
-        {getDescriptions({extended, room, seatNum, timeOfUse}).map(
-          (item, i) => (
-            <S.userInfoDetailItem key={i}>
-              <Txt
-                style={{width: 56}}
-                color={'grey90'}
-                label={item.key}
-                typograph="titleSmall"
+      {!libraryReservationInfo ? (
+        <></>
+      ) : (
+        <>
+          <Txt
+            color={'grey190'}
+            label={getInformationMessage(libraryUsingStatus)}
+            typograph={'titleLarge'}
+          />
+          <LibraryTimer
+            libraryUsingStatus={libraryUsingStatus}
+            timerTime={libraryReservationInfo.remainingSeconds}
+          />
+          <S.InformationTextWrapper>
+            <TextItems
+              label={'열람실'}
+              item={
+                isStudyRoom
+                  ? libraryReservationInfo!.studyRoomName
+                  : libraryReservationInfo!.seatRoomName
+              }
+            />
+            <TextItems
+              label={'좌석번호'}
+              item={`${
+                isStudyRoom
+                  ? libraryReservationInfo!.studyRoomNo
+                  : libraryReservationInfo!.seatNo + '번'
+              }`}
+            />
+            <TextItems
+              label={'이용시간'}
+              item={
+                isStudyRoom
+                  ? libraryReservationInfo!.studyRoomUseTime
+                  : libraryReservationInfo!.seatUseTime
+              }
+            />
+            {!isStudyRoom && (
+              <TextItems
+                label={'연장횟수'}
+                item={`${libraryReservationInfo!.extendUsed}회 / ${
+                  libraryReservationInfo!.extendRemaining
+                }회`}
               />
-              <Txt color={'grey190'} label={item.value} typograph="bodyLarge" />
-            </S.userInfoDetailItem>
-          ),
-        )}
-      </S.userInfoDetails>
+            )}
+          </S.InformationTextWrapper>
+        </>
+      )}
     </S.userInfoWrapper>
   );
 };
@@ -125,24 +128,12 @@ const S = {
   userInfoWrapper: styled.View`
     align-items: center;
     width: 100%;
-  `,
-  sayingContainer: styled.View`
     padding-top: 20px;
-    align-items: center;
+    gap: 24px;
   `,
-  timerContainer: styled.View`
-    padding-top: 24px;
-  `,
-  userInfoDetails: styled.View`
+  InformationTextWrapper: styled.View`
     gap: 8px;
     width: 100%;
-    padding: 24px 0 0 64px;
-  `,
-  userInfoDetailItem: styled.View`
-    flex-direction: row;
-    gap: 24px;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
+    padding: 0 32px;
   `,
 };
