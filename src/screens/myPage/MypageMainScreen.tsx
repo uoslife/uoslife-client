@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import Header from '../../components/header/Header';
+import {Linking} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
+import URLS from '../../configs/urls';
+import Header from '../../components/header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Button, colors, Txt} from '@uoslife/design-system';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../services/user';
 import {useNavigation} from '@react-navigation/native';
 import {RootNavigationProps} from '../../navigators/RootStackNavigator';
@@ -67,7 +69,7 @@ const MypageMainScreen = ({
             />
             <NavigationList
               label="문의하기"
-              onPress={() => navigation.navigate('Mypage_inquiry')}
+              onPress={() => Linking.openURL(URLS.KAKAOTALK_UOSLIFE)}
             />
           </S.NavigationListWapper>
         </S.myProfileBox>

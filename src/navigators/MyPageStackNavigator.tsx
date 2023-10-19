@@ -36,8 +36,7 @@ export type MyPageAppInformationStackParamList = {
   Mypage_appInformation_Main: undefined;
   Mypage_ToSandPolicies: undefined;
   Mypage_privacyPolicies: undefined;
-  Mypage_dvertisingandMarketing: undefined;
-  Mypage_advertisingandMarketingConsent: undefined;
+  Mypage_advertisingandMarketing: undefined;
 };
 export type MypageAppInformationNavigationProp =
   NativeStackNavigationProp<MyPageAppInformationStackParamList>;
@@ -90,7 +89,7 @@ const MyPageAppInformationStackNavigator = () => {
         component={PrivacyandPoliciesScreen}
       />
       <AppInformationStack.Screen
-        name="Mypage_advertisingandMarketingConsent"
+        name="Mypage_advertisingandMarketing"
         component={AdvertisingandMarketingConsentScreen}
       />
     </AppInformationStack.Navigator>
@@ -111,10 +110,6 @@ const MyPageStackNavigator = () => {
       <Stack.Screen
         name="Mypage_appInformation"
         component={MyPageAppInformationStackNavigator}
-      />
-      <Stack.Screen
-        name="Mypage_inquiry"
-        component={MypageAppInformationScreen}
       />
     </Stack.Navigator>
   );
