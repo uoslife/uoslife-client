@@ -1,11 +1,11 @@
 import CafeteriaAPI from './cafeteria/cafeteriaAPI';
 import AnnouncementAPI from './announcement/announcementAPI';
-import StudentIdQrAPI from './studentIdQr/studentIdQrAPI';
+import StudentIdAPI from './studentId/studentIdAPI';
 
 const UtilAPI = {
   ...CafeteriaAPI,
   ...AnnouncementAPI,
-  ...StudentIdQrAPI,
+  ...StudentIdAPI,
 };
 
 export default UtilAPI;

@@ -81,7 +81,7 @@ const StudentIdComponent = () => {
   };
 
   const getStudentIdQrCode = async () => {
-    const res = await UtilAPI.getStudentIdQr({});
+    const res = await UtilAPI.getStudentId({});
     setQrCode(res.data);
   };
 
