@@ -7,17 +7,19 @@ import NavigationList from '../../components/navigations/navigationList/Navigati
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../services/user';
-import {DevSettings} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
+  const rootNavigation = useNavigation<RootNavigationProps>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
 
   const handlePressLogoutButton = async () => {
     await UserService.logout();
-    DevSettings.reload();
+    rootNavigation.navigate('Account');
   };
 
   return (

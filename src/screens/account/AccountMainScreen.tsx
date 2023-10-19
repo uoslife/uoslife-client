@@ -1,5 +1,5 @@
 import React from 'react';
-import {DevSettings, View} from 'react-native';
+import {View} from 'react-native';
 
 import {Button} from '@uoslife/design-system';
 
@@ -31,7 +31,6 @@ const AccountMainScreen = () => {
     await DeviceService.setDeviceInfo();
     storage.set('user.isLoggedIn', true);
     navigation.navigate('Main');
-    DevSettings.reload();
   };
 
   const handleClickAccountButton = async () => {

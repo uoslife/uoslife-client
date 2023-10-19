@@ -46,9 +46,7 @@ const LibraryUserInfo = () => {
   useEffect(() => {
     (async () => {
       try {
-        const libraryReservationRes = await UtilAPI.getLibraryReservation({
-          studentId: '2022280085',
-        });
+        const libraryReservationRes = await UtilAPI.getLibraryReservation({});
         setLibraryReservationInfo(libraryReservationRes);
         if (libraryReservationRes.seatRoomName === '') setIsStudyRoom(true);
         else setIsStudyRoom(false);

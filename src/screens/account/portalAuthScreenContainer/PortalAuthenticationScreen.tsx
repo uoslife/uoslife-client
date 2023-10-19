@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
+import {Pressable, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import styled from '@emotion/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSetAtom} from 'jotai';
+import {Txt, Button} from '@uoslife/design-system';
+
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
-import styled from '@emotion/native';
-import {Txt, Button, colors} from '@uoslife/design-system';
-import {DevSettings, Pressable, View} from 'react-native';
-import {useSetAtom} from 'jotai';
-import {accountFlowStatusAtom} from '../../../atoms/account';
-import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+
+import {accountFlowStatusAtom} from '../../../atoms/account';
+import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+
+import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
@@ -17,7 +21,7 @@ type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootNavigationProps>();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
   const [messageStatus, setMessageStatus] =
@@ -95,7 +99,7 @@ const PortalAuthenticationScreen = () => {
       style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
       <Header
         label="포털 계정 연동"
-        onPressBackButton={() => DevSettings.reload()}
+        onPressBackButton={() => navigation.navigate('Main')}
       />
       <S.portalAuthenticationContainer>
         <View style={{gap: 24}}>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {DevSettings, View} from 'react-native';
+import {View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import Input from '../../../components/forms/input/Input';
@@ -130,7 +130,7 @@ const VerificationScreen = () => {
       storeToken(signInRes.token.accessToken, signInRes.token.refreshToken);
       await DeviceService.setDeviceInfo();
       storage.set('user.isLoggedIn', true);
-      DevSettings.reload();
+      navigation.navigate('Main');
       // TODO: 해당 로직 추상화 필요
     } catch (err) {
       const error = err as SignInRes;
