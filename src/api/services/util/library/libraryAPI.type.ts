@@ -27,7 +27,7 @@ export type LibraryStatusItemType = {
   remain_seat: string;
 };
 
-type LibraryReservationType = {
+export type LibraryReservationType = {
   seatRoomName: string;
   seatNo: string;
   seatUseTime: string;
@@ -47,8 +47,6 @@ export type GetAllLibraryStatusParams = {};
 
 export type GetAllLibraryStatusRes = Array<LibraryStatusType>;
 
-export type GetLibraryReservationParams = {
-  studentId: string;
-};
+export type GetLibraryReservationParams = {};
 
 export type GetLibraryReservationRes = LibraryReservationType;
