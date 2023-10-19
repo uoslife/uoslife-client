@@ -20,6 +20,8 @@ import useModal from '../../../hooks/useModal';
 import storeToken from '../../../utils/storeToken';
 import ServiceAgreementOverlay from '../../../components/molecules/account/modalContents/ServiceAgreementOverlay';
 import AdvertisingAgreementResult from '../../../components/molecules/account/modalContents/AdvertisingAgreementResult';
+import {DeviceService} from '../../../services/device';
+import {UserService} from '../../../services/user';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
@@ -94,6 +96,8 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
       });
       console.log(signUpRes); // TODO: require delete
       storeToken(signUpRes.accessToken, signUpRes.refreshToken);
+      await DeviceService.setDeviceInfo();
+      await UserService.setUserInfo(_);
       openModal();
     } catch (err) {
       console.error(err);

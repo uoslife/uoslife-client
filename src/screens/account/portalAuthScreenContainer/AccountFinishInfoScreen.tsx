@@ -6,8 +6,7 @@ import {
   accountFlowInitStatus,
   accountFlowStatusAtom,
 } from '../../../atoms/account';
-import {useNavigation} from '@react-navigation/native';
-import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+import {useUserStatus} from '../../../atoms/user';
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
 
@@ -22,10 +21,10 @@ const useAutoRedirect = (time: number, callback: () => void) => {
 
 const AccountFinishInfoScreen = () => {
   const setAccontFlowStatus = useSetAtom(accountFlowStatusAtom);
-  const navigation = useNavigation<RootNavigationProps>();
+  const {setIsLoggedIn} = useUserStatus();
 
   const useAutoRedirectCallback = () => {
-    navigation.navigate('Main');
+    setIsLoggedIn(true);
     setAccontFlowStatus(accountFlowInitStatus);
   };
 

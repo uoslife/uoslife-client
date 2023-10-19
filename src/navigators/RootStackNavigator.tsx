@@ -11,11 +11,10 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 import {useAtomValue} from 'jotai';
-import {accountStatusAtom} from '../atoms/account';
 import RootBottomTapNavigator from './RootBottomTapNavigator';
-import {storage} from '../storage';
 import {UserService} from '../services/user';
 import {NotificationService} from '../services/notification';
+import {useUserStatus, userStatusAtom} from '../atoms/user';
 import {DeviceService} from '../services/device';
 
 export type RootStackParamList = {
@@ -34,6 +33,8 @@ const Stack = createStackNavigator<RootStackParamList>();
 const RootStackNavigator: React.FC = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
   const [isServiceInitLoading, setIsServiceInitLoading] = useState(true);
+  const userStatus = useAtomValue(userStatusAtom);
+  const {setIsLoggedIn} = useUserStatus();
 
   const isMaintenance = useMemo(
     () => config.get('app.block') !== 'NO',
@@ -43,10 +44,10 @@ const RootStackNavigator: React.FC = () => {
   useEffect(() => {
     (async () => {
       await NotificationService.setFirebasePushToken();
-      await UserService.setUserInfo().finally(() => {
+      await UserService.setUserInfo(() => setIsLoggedIn(true)).finally(() => {
         setIsServiceInitLoading(false);
       });
-      // await DeviceService.updateDeviceInfo(); // TODO: patch Device API 문제 해결되면 주석 해제
+      await DeviceService.updateDeviceInfo(); // TODO: patch Device API 문제 해결되면 주석 해제
     })();
   }, []);
 
@@ -60,19 +61,22 @@ const RootStackNavigator: React.FC = () => {
   }
   return (
     <Stack.Navigator
-      initialRouteName={`${
-        storage.getBoolean('user.isLoggedIn') ? 'Main' : 'Account'
-      }`}
+      initialRouteName="Main"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Account" component={AccountScreen} />
-      <Stack.Screen name="Main" component={RootBottomTapNavigator} />
-      <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
-      <Stack.Screen
-        name="Announcement"
-        component={AnnouncementStackNavigator}
-      />
-      <Stack.Screen name="Library" component={LibraryScreen} />
-      <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
+      {userStatus.isLoggedIn ? (
+        <>
+          <Stack.Screen name="Main" component={RootBottomTapNavigator} />
+          <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
+          <Stack.Screen
+            name="Announcement"
+            component={AnnouncementStackNavigator}
+          />
+          <Stack.Screen name="Library" component={LibraryScreen} />
+          <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
+        </>
+      ) : (
+        <Stack.Screen name="Account" component={AccountScreen} />
+      )}
     </Stack.Navigator>
   );
 };

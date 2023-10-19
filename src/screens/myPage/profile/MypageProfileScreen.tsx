@@ -12,6 +12,7 @@ import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../../services/user';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+import {useUserStatus} from '../../../atoms/user';
 
 const getPortalAccountInfoList = () => {
   const userInfo = UserService.getAllUserInfo()!;
@@ -26,6 +27,7 @@ const getPortalAccountInfoList = () => {
 
 const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
+  const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<MypageProfileNavigationProp>();
   const rootNavigation = useNavigation<RootNavigationProps>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
@@ -178,7 +180,9 @@ const MypageProfileScreen = () => {
             variant="text"
             isFullWidth
             onPress={async () => {
-              await UserService.unregister(rootNavigation);
+              await UserService.unregister(rootNavigation).finally(() =>
+                setIsLoggedIn(false),
+              );
             }}
           />
           <S.Devider />

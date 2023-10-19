@@ -9,19 +9,17 @@ import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {UserService} from '../../services/user';
-import {useNavigation} from '@react-navigation/native';
-import {RootNavigationProps} from '../../navigators/RootStackNavigator';
+import {useUserStatus} from '../../atoms/user';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
-  const rootNavigation = useNavigation<RootNavigationProps>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
+  const {setIsLoggedIn} = useUserStatus();
 
   const handlePressLogoutButton = async () => {
-    await UserService.logout();
-    rootNavigation.navigate('Account');
+    await UserService.logout().finally(() => setIsLoggedIn(false));
   };
 
   return (
