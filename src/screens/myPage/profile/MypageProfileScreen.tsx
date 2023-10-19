@@ -4,13 +4,14 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {MypageProfileNavigationProp} from '../../../navigators/MyPageStackNavigator';
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../../services/user';
+import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 
 const getPortalAccountInfoList = () => {
   const userInfo = UserService.getAllUserInfo()!;
@@ -26,6 +27,7 @@ const getPortalAccountInfoList = () => {
 const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MypageProfileNavigationProp>();
+  const rootNavigation = useNavigation<RootNavigationProps>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openModal, closeModal, Modal] = useModal('MODAL');
@@ -176,7 +178,7 @@ const MypageProfileScreen = () => {
             variant="text"
             isFullWidth
             onPress={async () => {
-              await UserService.unregister();
+              await UserService.unregister(rootNavigation);
             }}
           />
           <S.Devider />

@@ -19,6 +19,7 @@ import {NotificationService} from '../services/notification';
 import {DeviceService} from '../services/device';
 
 export type RootStackParamList = {
+  Account: undefined;
   Main: undefined;
   MyPage: undefined;
   Announcement: undefined;
@@ -57,15 +58,13 @@ const RootStackNavigator: React.FC = () => {
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
-
-  if (!storage.getBoolean('user.isLoggedIn')) {
-    return <AccountScreen />;
-  }
-
   return (
     <Stack.Navigator
-      initialRouteName="Main"
+      initialRouteName={`${
+        storage.getBoolean('user.isLoggedIn') ? 'Main' : 'MyPage'
+      }`}
       screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Account" component={AccountScreen} />
       <Stack.Screen name="Main" component={RootBottomTapNavigator} />
       <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
       <Stack.Screen
