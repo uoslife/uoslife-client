@@ -61,7 +61,7 @@ const RootStackNavigator: React.FC = () => {
   return (
     <Stack.Navigator
       initialRouteName={`${
-        storage.getBoolean('user.isLoggedIn') ? 'Main' : 'MyPage'
+        storage.getBoolean('user.isLoggedIn') ? 'Main' : 'Account'
       }`}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Account" component={AccountScreen} />
