@@ -19,13 +19,13 @@ const useInterval = ({onInterval, delay}: Props) => {
     // useInterval을 적용하지 않은 다른 화면에서 앱을 껏다 켰을 때, interval 동작 방지.
     if (!isFocusedScreen) return;
 
-    let intervalId: NodeJS.Timeout | null = null;
+    let intervalHandler: NodeJS.Timeout | null = null;
     const startInterval = () => {
       savedOnInterval.current(); // delay로 인한 interval 시작 전, 첫 onInterval 호출. (ex. 학생증qr)
-      intervalId = setInterval(savedOnInterval.current, delay);
+      intervalHandler = setInterval(savedOnInterval.current, delay);
     };
     const stopInterval = () => {
-      if (intervalId) clearInterval(intervalId);
+      if (intervalHandler) clearInterval(intervalHandler);
     };
 
     // 다른 stack 스크린으로 전환 시, clearInterval.
