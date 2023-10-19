@@ -87,7 +87,7 @@ const StudentIdComponent = () => {
 
   useInterval({
     onInterval: getStudentIdQrCode,
-    delay: 1000 * 2,
+    delay: 1000 * 10,
   });
 
   useInterval({
