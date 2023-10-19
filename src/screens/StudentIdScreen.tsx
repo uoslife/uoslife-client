@@ -6,7 +6,6 @@ import {
   ScrollView,
   Linking,
   ActivityIndicator,
-  AppState,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
@@ -16,6 +15,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import URLS from '../configs/urls';
 import QRCode from 'react-native-qrcode-svg';
 import {UtilAPI} from '../api/services';
+import useInterval from '../hooks/useInterval';
 
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdNavigationProp>();
@@ -61,8 +61,6 @@ const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
   const [qrCode, setQrCode] = useState('');
 
-  const navigation = useNavigation();
-
   const openPayco = async () => {
     const isPaycoInstalled = await Linking.canOpenURL(
       URLS.PAYCO.PAYCO_PAYMENT!,
@@ -79,7 +77,6 @@ const StudentIdComponent = () => {
     let minutes = ('0' + today.getMinutes()).slice(-2);
     let seconds = ('0' + today.getSeconds()).slice(-2);
     let timeString = hours + ':' + minutes + ':' + seconds;
-
     setCurrentTime(timeString);
   };
 
@@ -88,50 +85,15 @@ const StudentIdComponent = () => {
     setQrCode(res.data);
   };
 
-  useEffect(() => {
-    let updateStudentIdQrCode: NodeJS.Timeout | null = null;
+  useInterval({
+    onInterval: getStudentIdQrCode,
+    delay: 1000 * 2,
+  });
 
-    // Get initial QRcode
-    getStudentIdQrCode();
-    updateStudentIdQrCode = setInterval(() => getStudentIdQrCode(), 1000 * 10);
-    const handleFocus = () => {
-      getStudentIdQrCode(); // Get initial QRcode
-      updateStudentIdQrCode = setInterval(
-        () => getStudentIdQrCode(),
-        1000 * 10,
-      );
-    };
-
-    const handleBlur = () => {
-      if (updateStudentIdQrCode) clearInterval(updateStudentIdQrCode);
-    };
-
-    const handleActive = (appState: string) => {
-      if (appState === 'active') {
-        return handleFocus();
-      }
-      handleBlur();
-    };
-
-    navigation.addListener('focus', handleFocus);
-    navigation.addListener('blur', handleBlur);
-    const appSTate = AppState.addEventListener('change', handleActive);
-
-    // cleanup function
-    return () => {
-      navigation.removeListener('focus', handleFocus);
-      navigation.removeListener('blur', handleBlur);
-      appSTate.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    let getCurrentTimeInterval = setInterval(getCurrentTime);
-
-    return () => {
-      clearInterval(getCurrentTimeInterval);
-    };
-  }, []);
+  useInterval({
+    onInterval: getCurrentTime,
+    delay: 1000,
+  });
 
   return (
     <ScrollView>
