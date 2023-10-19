@@ -1,5 +1,5 @@
 import {CoreAPI} from '../api/services';
-import {GetUserInfoRes} from '../api/services/core/user/userAPI.type';
+import {UserInfoType} from '../api/services/core/user/userAPI.type';
 import {storage} from '../storage';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 
@@ -19,14 +19,16 @@ export class UserService {
     navigation.navigate('Account');
   }
 
-  static getAllUserInfo(): GetUserInfoRes | null {
+  static getAllUserInfo(): UserInfoType | null {
     const jsonUser = storage.getString('user');
     if (!jsonUser) return null;
-    return JSON.parse(jsonUser) as GetUserInfoRes;
+    return JSON.parse(jsonUser) as UserInfoType;
   }
-  static getUserInfo(item: keyof GetUserInfoRes): string | number {
+  static getUserInfo(
+    item: keyof UserInfoType,
+  ): UserInfoType[keyof UserInfoType] {
     const userInfo = this.getAllUserInfo();
-    if (userInfo === null) return '';
+    if (userInfo === null) return null;
     return userInfo[item];
   }
   static deleteUserInfo = (): void => {

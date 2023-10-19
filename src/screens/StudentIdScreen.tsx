@@ -1,21 +1,37 @@
 import styled from '@emotion/native';
-import {StyleSheet, View, Platform, ScrollView, Linking} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Platform,
+  ScrollView,
+  Linking,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import {StudentIdStackParamList} from '../navigators/StudentIdStackNavigator';
+import {StudentIdNavigationProp} from '../navigators/StudentIdStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import URLS from '../configs/urls';
+import QRCode from 'react-native-qrcode-svg';
+import {UtilAPI} from '../api/services';
+import useInterval from '../hooks/useInterval';
+import {UserService} from '../services/user';
+
+const DEVICE_HEIGHT = Dimensions.get('screen').height;
+const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 
 const PortalUnauthorizedComponent = () => {
-  const navigation = useNavigation<StudentIdStackParamList>();
+  const navigation = useNavigation<StudentIdNavigationProp>();
 
   const handleNavigatePortalAuthenticate = async () => {
     return navigation.navigate('StudentId_portalAuthentication');
   };
 
   return (
-    <S.portalUnauthorizedScreen>
+    <S.portalUnauthorizedScreen
+      style={{height: DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT}}>
       <S.uoslifeBrandLogo
         source={require('../assets/images/uoslifeBrandLogo.png')}
       />
@@ -49,12 +65,15 @@ const PortalUnauthorizedComponent = () => {
 
 const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
+  const [qrCode, setQrCode] = useState('');
 
   const openPayco = async () => {
-    const isPaycoInstalled = await Linking.canOpenURL(URLS.PAYCO.PAYCO_PAYMENT);
+    const isPaycoInstalled = await Linking.canOpenURL(
+      URLS.PAYCO.PAYCO_PAYMENT!,
+    );
 
     return Linking.openURL(
-      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT : URLS.PAYCO.PAYCO_INSTALL!,
+      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
     );
   };
 
@@ -64,24 +83,38 @@ const StudentIdComponent = () => {
     let minutes = ('0' + today.getMinutes()).slice(-2);
     let seconds = ('0' + today.getSeconds()).slice(-2);
     let timeString = hours + ':' + minutes + ':' + seconds;
-
     setCurrentTime(timeString);
   };
 
-  useEffect(() => {
-    let getCurrentTimeInterval = setInterval(getCurrentTime);
+  const getStudentIdQrCode = async () => {
+    const res = await UtilAPI.getStudentId({});
+    setQrCode(res.data);
+  };
 
-    return () => {
-      clearInterval(getCurrentTimeInterval);
-    };
-  }, [currentTime, setCurrentTime]);
+  useInterval({
+    onInterval: getStudentIdQrCode,
+    delay: 1000 * 10,
+  });
+
+  useInterval({
+    onInterval: getCurrentTime,
+    delay: 1000,
+  });
 
   return (
     <ScrollView>
       <S.studentIdScreen>
         <View style={{gap: 24}}>
           <S.qrWrapper>
-            <S.qrImage source={require('../assets/images/qr_example.png')} />
+            {qrCode ? (
+              <QRCode
+                value={qrCode}
+                logoSize={30}
+                logoBackgroundColor="transparent"
+              />
+            ) : (
+              <ActivityIndicator />
+            )}
             <Txt
               label={currentTime}
               color={'grey190'}
@@ -173,8 +206,8 @@ const StudentIdScreen = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    setIsPortalAuthenticated(true);
-    // api 또는 전역에서 학생증 인증 여부 확인
+    const isVerified = UserService.getUserInfo('isVerified') as boolean | null;
+    setIsPortalAuthenticated(isVerified ?? false);
   }, []);
 
   return (
@@ -195,9 +228,12 @@ const S = {
     flex: 1;
   `,
   portalUnauthorizedScreen: styled.View`
-    flex: 1;
     gap: 24px;
-    padding: 160px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 16px 0 16px;
+    justify-content: center;
   `,
   uoslifeBrandLogo: styled.Image`
     width: 100%;
