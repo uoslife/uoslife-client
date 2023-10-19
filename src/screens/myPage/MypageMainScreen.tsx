@@ -25,7 +25,7 @@ const MypageMainScreen = ({
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer style={{paddingTop: insets.top}} bounces={false}>
       <Header
         label={'마이페이지'}
         onPressBackButton={() => navigation.goBack()}

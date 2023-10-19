@@ -77,7 +77,7 @@ const MypageProfileScreen = () => {
   return (
     <>
       <View style={{paddingTop: insets.top}}>
-        <S.screenContainer>
+        <S.screenContainer bounces={false}>
           <Header label={'마이페이지'} onPressBackButton={handleGoBack} />
           <S.myProfileContainer>
             <S.myProfileBox>
