@@ -3,7 +3,6 @@ export type DeviceInfoType = {
   model: string;
   os: string;
   osVersion: string;
-  version: string;
   appVersion: string;
   codePushVersion: string;
 };

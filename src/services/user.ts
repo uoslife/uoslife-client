@@ -1,7 +1,7 @@
-import {DevSettings} from 'react-native';
 import {CoreAPI} from '../api/services';
 import {UserInfoType} from '../api/services/core/user/userAPI.type';
 import {storage} from '../storage';
+import {RootNavigationProps} from '../navigators/RootStackNavigator';
 
 export class UserService {
   static async setUserInfo(): Promise<void> {
@@ -14,9 +14,9 @@ export class UserService {
     console.log(storage.getAllKeys());
   }
 
-  static async unregister(): Promise<void> {
+  static async unregister(navigation: RootNavigationProps): Promise<void> {
     await CoreAPI.unregister({});
-    DevSettings.reload();
+    navigation.navigate('Account');
   }
 
   static getAllUserInfo(): UserInfoType | null {

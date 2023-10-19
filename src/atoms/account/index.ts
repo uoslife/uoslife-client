@@ -28,7 +28,7 @@ export const accountFlowStatusAtom = atom<AccountFlowStatusType>(
 
 export type existedAccountInfoType = Array<
   MigrationUserInfoType & {
-    isSelected: boolean;
+    isSelected?: boolean;
   }
 >;
 
