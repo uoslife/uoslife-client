@@ -6,6 +6,7 @@ import {
   ScrollView,
   Linking,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
@@ -16,6 +17,10 @@ import URLS from '../configs/urls';
 import QRCode from 'react-native-qrcode-svg';
 import {UtilAPI} from '../api/services';
 import useInterval from '../hooks/useInterval';
+import {UserService} from '../services/user';
+
+const DEVICE_HEIGHT = Dimensions.get('screen').height;
+const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdNavigationProp>();
@@ -25,7 +30,8 @@ const PortalUnauthorizedComponent = () => {
   };
 
   return (
-    <S.portalUnauthorizedScreen>
+    <S.portalUnauthorizedScreen
+      style={{height: DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT}}>
       <S.uoslifeBrandLogo
         source={require('../assets/images/uoslifeBrandLogo.png')}
       />
@@ -200,8 +206,8 @@ const StudentIdScreen = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    setIsPortalAuthenticated(true);
-    // api 또는 전역에서 학생증 인증 여부 확인
+    const isVerified = UserService.getUserInfo('isVerified') as boolean | null;
+    setIsPortalAuthenticated(isVerified ?? false);
   }, []);
 
   return (
@@ -222,9 +228,12 @@ const S = {
     flex: 1;
   `,
   portalUnauthorizedScreen: styled.View`
-    flex: 1;
     gap: 24px;
-    padding: 160px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 16px 0 16px;
+    justify-content: center;
   `,
   uoslifeBrandLogo: styled.Image`
     width: 100%;
