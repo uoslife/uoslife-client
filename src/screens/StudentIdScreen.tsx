@@ -6,6 +6,7 @@ import {
   ScrollView,
   Linking,
   ActivityIndicator,
+  AppState,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
@@ -60,6 +61,8 @@ const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
   const [qrCode, setQrCode] = useState('');
 
+  const navigation = useNavigation();
+
   const openPayco = async () => {
     const isPaycoInstalled = await Linking.canOpenURL(
       URLS.PAYCO.PAYCO_PAYMENT!,
@@ -86,8 +89,41 @@ const StudentIdComponent = () => {
   };
 
   useEffect(() => {
+    let updateStudentIdQrCode: NodeJS.Timeout | null = null;
+
+    // Get initial QRcode
     getStudentIdQrCode();
-  }, [qrCode, setQrCode]);
+    updateStudentIdQrCode = setInterval(() => getStudentIdQrCode(), 1000 * 10);
+    const handleFocus = () => {
+      getStudentIdQrCode(); // Get initial QRcode
+      updateStudentIdQrCode = setInterval(
+        () => getStudentIdQrCode(),
+        1000 * 10,
+      );
+    };
+
+    const handleBlur = () => {
+      if (updateStudentIdQrCode) clearInterval(updateStudentIdQrCode);
+    };
+
+    const handleActive = (appState: string) => {
+      if (appState === 'active') {
+        return handleFocus();
+      }
+      handleBlur();
+    };
+
+    navigation.addListener('focus', handleFocus);
+    navigation.addListener('blur', handleBlur);
+    const appSTate = AppState.addEventListener('change', handleActive);
+
+    // cleanup function
+    return () => {
+      navigation.removeListener('focus', handleFocus);
+      navigation.removeListener('blur', handleBlur);
+      appSTate.remove();
+    };
+  }, []);
 
   useEffect(() => {
     let getCurrentTimeInterval = setInterval(getCurrentTime);
@@ -95,7 +131,7 @@ const StudentIdComponent = () => {
     return () => {
       clearInterval(getCurrentTimeInterval);
     };
-  }, [currentTime, setCurrentTime]);
+  }, []);
 
   return (
     <ScrollView>
