@@ -1,55 +1,54 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
 import styled from '@emotion/native';
 import NavigationListProps from './NavigationList.type';
 import {Icon, Txt} from '@uoslife/design-system';
 
 const NavigationList = ({
   label,
+  pressLabel,
+  pressLabelColor,
+  isPressIconShown = true,
   onPress,
-  navigationButton, // TODO: type 수정필요
-  children,
 }: NavigationListProps) => {
   return (
-    <S.navigateContainer>
-      <Pressable onPress={onPress}>
-        <S.navigateContent>
-          <Txt label={label} color={'grey190'} typograph={'bodyLarge'} />
-          {navigationButton ?? (
-            <Icon
-              name={'forwardArrow'}
-              width={24}
-              height={24}
-              color={'grey130'}
-            />
-          )}
-        </S.navigateContent>
-      </Pressable>
-      {children}
-    </S.navigateContainer>
+    <S.Container>
+      <Txt label={label} color={'grey190'} typograph={'bodyLarge'} />
+      <S.PressableArea onPress={onPress}>
+        {pressLabel && (
+          <Txt
+            label={pressLabel}
+            color={pressLabelColor ?? 'grey130'}
+            typograph={'bodyMedium'}
+          />
+        )}
+        {isPressIconShown && (
+          <Icon
+            name={'forwardArrow'}
+            width={24}
+            height={24}
+            color={'grey130'}
+          />
+        )}
+      </S.PressableArea>
+    </S.Container>
   );
 };
 
 export default NavigationList;
 
 const S = {
-  navigateContent: styled.View`
+  Container: styled.View`
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    padding: 12px 4px 12px 8px;
   `,
-  arrowButtonImage: styled.Image`
-    width: 9px;
-    height: 14px;
-    transform: rotate(180deg);
-  `,
-  navigateContainer: styled.View`
+  PressableArea: styled.Pressable`
     display: flex;
-    width: 100%;
-    justify-content: center;
-    gap: 24px;
-    padding-bottom: 10px;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
   `,
 };

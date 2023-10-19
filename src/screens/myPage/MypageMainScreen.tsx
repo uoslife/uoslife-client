@@ -2,51 +2,41 @@ import React, {useState} from 'react';
 import {Linking} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
-import {colors, Txt} from '@uoslife/design-system';
 import URLS from '../../configs/urls';
 import Header from '../../components/header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
-
-type MyPageNavigatorItem = {
-  name: string;
-  handleOnPress: () => void;
-};
-
-const createMyPageNavigations = (navigation: any): MyPageNavigatorItem[] => [
-  {
-    name: '계정',
-    handleOnPress: () => navigation.navigate('Mypage_profile'),
-  },
-  {
-    name: '앱 설정',
-    handleOnPress: () => navigation.navigate('Mypage_appSetting'),
-  },
-  {
-    name: '앱 정보',
-    handleOnPress: () => navigation.navigate('Mypage_appInformation'),
-  },
-  {
-    name: '문의하기',
-    handleOnPress: () => Linking.openURL(URLS.KAKAOTALK_UOSLIFE),
-  },
-];
+import {Button, colors, Txt} from '@uoslife/design-system';
+import {UserService} from '../../services/user';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
+  const rootNavigation = useNavigation<RootNavigationProps>();
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
-  const MY_PAGE_NAVIGATIONS = createMyPageNavigations(navigation);
+
+  const handlePressLogoutButton = async () => {
+    await UserService.logout();
+    rootNavigation.navigate('Account');
+  };
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'MY Page'} />
+      <Header
+        label={'마이페이지'}
+        onPressBackButton={() => navigation.goBack()}
+      />
       <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
-            <S.userImage source={require('../../assets/images/user.png')} />
+            {/*<S.userImage source={require('../../assets/images/user.png')} />*/}
+            <S.userImage
+              source={require('../../assets/images/iroomae_character.png')}
+            />
           </S.circleImageWrapper>
           <S.textWrapper>
             <Txt
@@ -64,17 +54,30 @@ const MypageMainScreen = ({
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
-          {MY_PAGE_NAVIGATIONS.map((navigation, index) => (
+          <S.NavigationListWapper>
             <NavigationList
-              key={index}
-              label={navigation.name}
-              onPress={navigation.handleOnPress}
+              label="계정"
+              onPress={() => navigation.navigate('Mypage_profile')}
             />
-          ))}
+            <NavigationList
+              label="앱 설정"
+              onPress={() => navigation.navigate('Mypage_appSetting')}
+            />
+            <NavigationList
+              label="앱 정보"
+              onPress={() => navigation.navigate('Mypage_appInformation')}
+            />
+            <NavigationList
+              label="문의하기"
+              onPress={() => Linking.openURL(URLS.KAKAOTALK_UOSLIFE)}
+            />
+          </S.NavigationListWapper>
         </S.myProfileBox>
-        <S.logout>
-          <Txt label={'로그아웃'} color={'grey130'} typograph={'bodyMedium'} />
-        </S.logout>
+        <Button
+          label={'로그아웃'}
+          variant="text"
+          onPress={handlePressLogoutButton}
+        />
       </S.myProfileContainer>
     </S.screenContainer>
   );
@@ -106,11 +109,14 @@ const S = {
     padding-bottom: 36px;
   `,
   userImage: styled.Image`
-    width: 60px;
-    height: 60px;
+    width: 75px;
+    height: 100px;
   `,
-  logout: styled.Text`
+  logout: styled.Pressable`
     text-align: center;
+  `,
+  NavigationListWapper: styled.View`
+    width: 100%;
   `,
 };
 

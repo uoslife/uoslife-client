@@ -3,14 +3,21 @@ import messaging, {
 } from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
 import {PermissionsAndroid, Platform} from 'react-native';
+import {storage} from '../storage';
+import {checkNotifications} from 'react-native-permissions';
 
 export class NotificationService {
   static async onMessageReceived(
     message: FirebaseMessagingTypes.RemoteMessage,
   ): Promise<string | undefined> {
-    if (!message.data) return;
-    // console.log(message.notification);
-    return notifee.displayNotification(JSON.parse(message.data.notifee));
+    if (!message.data || !message.data.notifee) return;
+    try {
+      const notifeeData = btoa(message.data.notifee);
+      const notifeePayload = JSON.parse(notifeeData);
+      return notifee.displayNotification(notifeePayload);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   static registerMessageHandler(): void {
@@ -44,10 +51,19 @@ export class NotificationService {
     return messaging().getToken();
   }
 
-  static async onAppRunning(): Promise<void> {
+  static async getFirebasePushToken(): Promise<string> {
     if (Platform.OS === 'ios') messaging().setAPNSToken('app');
-    const token = await NotificationService.getNotificationToken();
-    console.info(token);
-    // TODO: Storage에 token 저장 및 일치하지 않으면 서버로 보내는 로직
+    const token = await this.getNotificationToken();
+    return token;
+  }
+  static async setFirebasePushToken(): Promise<void> {
+    const token = await this.getFirebasePushToken();
+    storage.set('firebasePushToken', token ?? '');
+  }
+
+  static async getNotificationAgreement(): Promise<boolean> {
+    const {status} = await checkNotifications();
+    if (status === 'granted') return true;
+    return false;
   }
 }

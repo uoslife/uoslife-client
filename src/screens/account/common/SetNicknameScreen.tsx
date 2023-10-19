@@ -16,6 +16,10 @@ import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
+import useModal from '../../../hooks/useModal';
+import storeToken from '../../../utils/storeToken';
+import ServiceAgreementOverlay from '../../../components/molecules/account/modalContents/ServiceAgreementOverlay';
+import AdvertisingAgreementResult from '../../../components/molecules/account/modalContents/AdvertisingAgreementResult';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageNestedStackParamList,
@@ -36,29 +40,66 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
   const [accountStatus, setAccountStatus] = useAtom(accountFlowStatusAtom);
 
   const isMyPage = route?.params.isMyPage;
-  const existedNickname = existedAccountInfo.find(
+
+  const selectedAccountInfo = existedAccountInfo.find(
     item => item.isSelected === true,
-  )?.nickname;
-  const [inputValue, setInputValue] = useState(existedNickname ?? '');
+  );
+  const [inputValue, setInputValue] = useState(
+    selectedAccountInfo?.nickname ?? '',
+  );
   const [statusMessage, setStatusMessage] =
     useState<NicknameStatusMessageType>('BEFORE_CHECK');
+
+  const [openBottomSheet, _, BottomSheet] = useModal('BOTTOM_SHEET');
+  const [openModal, closeModal, Modal] = useModal('MODAL');
 
   const handleSetNicknameButton = async () => {
     // TODO: 사용 불가능 닉네임 로직 추가
     // setStatusMessage('CANNOT_USE');
 
     try {
-      const res = await CoreAPI.checkDuplicateUserNickname({
-        nickname: inputValue,
-      });
+      const CheckDuplicateUserNicknameRes =
+        await CoreAPI.checkDuplicateUserNickname({
+          nickname: inputValue,
+        });
+      if (CheckDuplicateUserNicknameRes.duplicate) {
+        setStatusMessage('DUPLICATED');
+        return;
+      }
+      setStatusMessage('CAN_USE');
+
+      openBottomSheet();
     } catch (err) {
       const error = err as ErrorResponseType;
+      console.error(error);
     }
-    // if (!res.duplicated) {
-    //   setStatusMessage('DUPLICATED');
-    //   return;
-    // }
-    setStatusMessage('CAN_USE');
+  };
+
+  const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
+  const handleClickSubmitBottomSheetButton = async (
+    isAdvertismentAgree: boolean,
+  ) => {
+    setIsAdvertismentAgree(isAdvertismentAgree);
+    if (selectedAccountInfo) delete selectedAccountInfo['isSelected'];
+    try {
+      const signUpRes = await CoreAPI.signUp({
+        nickname: inputValue,
+        tos: {
+          privatePolicy: true,
+          termsOfUse: true,
+          notification: false,
+          marketing: isAdvertismentAgree,
+        },
+        migrationUserInfo: selectedAccountInfo ?? null,
+      });
+      console.log(signUpRes); // TODO: require delete
+      storeToken(signUpRes.accessToken, signUpRes.refreshToken);
+      openModal();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const handleClickSubmitModalButton = () => {
     setAccountStatus(prev => {
       return {
         ...prev,
@@ -103,7 +144,8 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
 
   return (
     <>
-      <S.screenContainer style={{paddingTop: insets.top}}>
+      <S.screenContainer
+        style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
         <Header
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
@@ -172,6 +214,19 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
           />
         </S.setNicknameContainer>
       </S.screenContainer>
+      <BottomSheet>
+        <ServiceAgreementOverlay
+          handleClickSubmitBottomSheetButton={
+            handleClickSubmitBottomSheetButton
+          }
+        />
+      </BottomSheet>
+      <Modal>
+        <AdvertisingAgreementResult
+          isAgree={isAdvertismentAgree}
+          handleClickSubmitModalButton={handleClickSubmitModalButton}
+        />
+      </Modal>
     </>
   );
 };

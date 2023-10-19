@@ -1,8 +1,8 @@
 import React from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 import styled from '@emotion/native';
 import InputProps from './Input.type';
-import {colors, typographs} from '@uoslife/design-system';
+import {Icon, Timer, colors, typographs} from '@uoslife/design-system';
 
 const Input = ({
   keyboardType = 'default',
@@ -12,41 +12,42 @@ const Input = ({
   value,
   placeholder,
   placeholderTextColor = colors.grey60,
+  showTimer,
+  currentTime,
   onChangeText,
   onPress,
   children,
   ...props
 }: InputProps) => {
   return (
-    <View>
-      <S.label status={status}>{label}</S.label>
-      <Pressable>
-        <S.roundInputContainer value={value} status={status}>
-          <S.textInput
-            style={Styles.paddingVertical}
-            keyboardType={keyboardType}
-            placeholder={placeholder}
-            value={value}
-            placeholderTextColor={placeholderTextColor}
-            onChangeText={onChangeText}
-            {...props}
-          />
-          {children}
+    <S.Container>
+      <S.Label status={status}>{label}</S.Label>
+      <S.InputContainer status={status}>
+        <S.TextInput
+          style={Styles.paddingVertical}
+          keyboardType={keyboardType}
+          placeholder={placeholder}
+          value={value}
+          placeholderTextColor={placeholderTextColor}
+          onChangeText={onChangeText}
+          {...props}
+        />
+        <S.InputRightBox>
+          {showTimer && <Timer currentTime={currentTime!} />}
           {!!value && (
             <Pressable onPress={onPress}>
-              <S.deleteTextIcon
-                source={require('../../../assets/images/deleteButton.png')}
-              />
+              <Icon name={'clear'} width={24} height={24} />
             </Pressable>
           )}
-        </S.roundInputContainer>
-      </Pressable>
+        </S.InputRightBox>
+      </S.InputContainer>
+      {children}
       {!!statusMessage && (
-        <S.statusMessageWrapper>
-          <S.statusMessage status={status}>{statusMessage}</S.statusMessage>
-        </S.statusMessageWrapper>
+        <S.StatusMessageWrapper>
+          <S.StatusMessage status={status}>{statusMessage}</S.StatusMessage>
+        </S.StatusMessageWrapper>
       )}
-    </View>
+    </S.Container>
   );
 };
 
@@ -66,37 +67,43 @@ const getStatusColor = (status: InputProps['status']) => {
 };
 
 const S = {
-  label: styled.Text<InputProps>`
+  Container: styled.View`
+    position: relative;
+    width: 100%;
+    height: 94px;
+  `,
+  Label: styled.Text<InputProps>`
     padding-left: 12px;
     color: ${({status}) => getStatusColor(status)};
-    ${() => typographs.labelLarge}
+    ${typographs.labelLarge}
   `,
-  roundInputContainer: styled.View<InputProps>`
-    position: relative;
+  InputContainer: styled.View<Pick<InputProps, 'status'>>`
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 5px 12px 8px 12px;
+    padding: 8px 12px;
     border-bottom-width: 1px;
     border-bottom-color: ${({status}) => getStatusColor(status!)};
   `,
-  textInput: styled.TextInput<InputProps>`
-    ${() => typographs.titleMedium};
-    width: 90%;
+  TextInput: styled.TextInput`
+    ${typographs.titleMedium};
   `,
-  statusMessageWrapper: styled.View<InputProps>`
-    padding-top: 7px;
-    padding-left: 8px;
+  InputRightBox: styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
   `,
-  statusMessage: styled.Text<InputProps>`
+  StatusMessageWrapper: styled.View`
+    position: absolute;
+    left: 12px;
+    bottom: 8px;
+  `,
+  StatusMessage: styled.Text<Pick<InputProps, 'status'>>`
     color: ${({status}) => getStatusColor(status!)};
-    ${() => typographs.labelMedium}
-  `,
-  deleteTextIcon: styled.Image<InputProps>`
-    height: 24px;
-    width: 24px;
+    ${typographs.labelMedium}
   `,
 };
 

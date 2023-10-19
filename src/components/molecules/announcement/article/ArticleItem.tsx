@@ -1,74 +1,75 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import React from 'react';
-import {Image, Text} from 'react-native';
-import {Article} from '../../../../screens/announcement/AnnouncementMainScreen';
+import React, {useEffect} from 'react';
 import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
-import {
-  AnnouncementNavigationProps,
-  AnnouncementStackParamList,
-} from '../../../../navigators/AnnouncementStackNavigator';
+import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
+import {ArticleItemType} from '../../../../types/announcement.type';
+import {announcementFullName} from '../../../../configs/announcement';
 
 type ArticleItemProps = {
-  article: Article;
-  showCategory?: true;
+  articleItem: ArticleItemType;
 };
 
-const ArticleItem = ({article, showCategory}: ArticleItemProps) => {
-  const {bookmarkCnt, department, title, uploadTime, bookmarkByMe, category} =
-    article;
+const ArticleItem = ({articleItem}: ArticleItemProps) => {
+  const {bookmarkCount, date, department, id, title, origin} = articleItem;
+
+  // TODO: API를 통해 받아오도록 수정
+  const bookmarkedByMe = false;
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  //  bookmark toggle
+  // bookmark toggle
   const onPressBookmark = () => {};
 
-  const processedUploadTimeString = getUploadTimeString(uploadTime);
+  // TODO: API 호출시 string 형식이 달라서 바뀜 -> 나중에 기획에 맞는지 확인 후 삭제
+  // const processedUploadTimeString = getUploadTimeString(date);
 
   return (
-    <S.articleItemWrapper>
-      <S.description
+    <S.Root>
+      <S.DescriptionContainer
         onPress={() => {
-          navigation.navigate('AnnouncementDetail', {id: article.id});
+          navigation.navigate('AnnouncementDetail', {id});
         }}>
-        {showCategory && (
+        {origin && (
           <Txt
             color={'primaryBrand'}
-            label={category}
+            label={announcementFullName[origin]}
             typograph={'labelMedium'}
           />
         )}
         <Txt color={'grey190'} typograph={'bodyMedium'} label={title} />
-        <Txt
+        {/* <Txt
           color={'grey90'}
           typograph={'labelSmall'}
           label={`${department} | ${processedUploadTimeString}`}
+        /> */}
+        <Txt
+          color={'grey90'}
+          typograph={'labelSmall'}
+          label={`${department} | ${date}`}
         />
-      </S.description>
-      <S.bookmarkContainer onPress={onPressBookmark}>
+      </S.DescriptionContainer>
+      <S.BookmarkContainer onPress={onPressBookmark}>
         <Icon
           width={24}
           height={24}
           name={'bookmark'}
-          color={bookmarkByMe ? 'primaryBrand' : 'grey60'}
+          color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
         />
         <Txt
-          label={bookmarkCnt.toString()}
-          color={bookmarkByMe ? 'primaryBrand' : 'grey60'}
+          label={bookmarkCount.toString()}
+          color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
           typograph={'labelSmall'}
         />
-      </S.bookmarkContainer>
-    </S.articleItemWrapper>
+      </S.BookmarkContainer>
+    </S.Root>
   );
 };
 
 const S = {
-  articleItemWrapper: styled.View`
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 8px;
-    padding-top: 8px;
+  Root: styled.View`
+    padding: 8px 16px;
 
     width: 100%;
 
@@ -77,13 +78,13 @@ const S = {
 
     align-items: center;
   `,
-  description: styled.Pressable`
+  DescriptionContainer: styled.Pressable`
     flex: 1;
 
     display: flex;
     gap: 4px;
   `,
-  bookmarkContainer: styled.Pressable`
+  BookmarkContainer: styled.Pressable`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,7 +92,6 @@ const S = {
     width: 48px;
     height: 60px;
   `,
-  textContainer: styled.View``,
 };
 
 export default ArticleItem;

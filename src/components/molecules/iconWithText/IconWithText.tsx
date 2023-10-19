@@ -7,18 +7,11 @@ type Props = {
   text: string;
   color?: colorsType;
   isClick?: boolean;
-  flexDirection?: 'row' | 'column';
 };
 
-const IconWithText = ({
-  iconName,
-  color,
-  text,
-  isClick,
-  flexDirection = 'column',
-}: Props) => {
+const IconWithText = ({iconName, color, text, isClick}: Props) => {
   return (
-    <S.Wrapper flexDirection={flexDirection}>
+    <S.Wrapper>
       <Icon
         name={iconName}
         width={24}
@@ -37,10 +30,9 @@ const IconWithText = ({
 export default IconWithText;
 
 const S = {
-  Wrapper: styled.Pressable<{flexDirection: 'row' | 'column'}>`
+  Wrapper: styled.Pressable`
     width: 56px;
     display: flex;
-    flex-direction: ${({flexDirection}) => flexDirection};
     justify-content: center;
     align-items: center;
     gap: 2px;

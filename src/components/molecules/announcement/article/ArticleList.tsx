@@ -1,31 +1,22 @@
 import React from 'react';
 import ArticleItem from './ArticleItem';
-import styled from '@emotion/native';
-import {Article} from '../../../../screens/announcement/AnnouncementMainScreen';
+import {FlatList} from 'react-native';
+import {ArticleListType} from '../../../../types/announcement.type';
 
 type ArticleListProps = {
-  articles: Article[];
-  showCategory?: true;
+  articles: ArticleListType;
+  onEndReached: () => void;
 };
 
-const ArticleList = ({articles, showCategory}: ArticleListProps) => {
+const ArticleList = ({articles, onEndReached}: ArticleListProps) => {
   return (
-    <S.listContainer>
-      {articles.map(article => (
-        <ArticleItem
-          article={article}
-          key={article.id}
-          showCategory={showCategory}
-        />
-      ))}
-    </S.listContainer>
+    <FlatList
+      contentContainerStyle={{paddingBottom: 150}}
+      renderItem={({item}) => <ArticleItem articleItem={item} key={item.id} />}
+      data={articles}
+      onEndReached={onEndReached}
+    />
   );
 };
 
 export default ArticleList;
-
-const S = {
-  listContainer: styled.View`
-    width: 100%;
-  `,
-};

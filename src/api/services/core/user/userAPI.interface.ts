@@ -6,8 +6,5 @@ export default interface UserService {
     Type.CheckDuplicateUserNicknameParams,
     Type.CheckDuplicateUserNicknameRes
   >;
-  getExistedAccountInfo: ServiceFunc<
-    Type.GetExistedAccountInfoParams,
-    Type.GetExistedAccountInfoRes
-  >;
+  getUserInfo: ServiceFunc<Type.GetUserInfoParams, Type.GetUserInfoRes>;
 }

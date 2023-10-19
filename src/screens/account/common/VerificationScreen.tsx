@@ -3,14 +3,12 @@ import {View} from 'react-native';
 import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import Input from '../../../components/forms/input/Input';
-import {Button, Txt, Timer} from '@uoslife/design-system';
+import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {
-  UserType,
   accountFlowStatusAtom,
   accountStatusAtom,
   existedAccountInfoAtom,
-  existedAccountInfoType,
 } from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
@@ -18,6 +16,11 @@ import storeToken from '../../../utils/storeToken';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
 import {useTimer} from '@uoslife/react';
+import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
+import {storage} from '../../../storage';
+import {DeviceService} from '../../../services/device';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -37,13 +40,18 @@ type InputStatusMessageType =
 
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation<RootNavigationProps>();
+
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setAccountStatus = useSetAtom(accountStatusAtom);
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
+
   const [inputValue, setInputValue] = useState('');
   const [storedPhoneNumber, setStoredPhoneNumber] = useState('');
+
   const [inputMessageStatus, setInputMessageStatus] =
     useState<InputStatusMessageType>('DEFAULT');
+
   const [isVerificationCodeSent, setIsVerificationCodeSent] = useState(false);
 
   // 공통
@@ -80,6 +88,7 @@ const VerificationScreen = () => {
 
   const handleHeaderBackButton = () => {
     if (isVerificationCodeSent) setIsVerificationCodeSent(false);
+
     setAccountFlowStatus(prev => {
       return {
         ...prev,
@@ -88,45 +97,19 @@ const VerificationScreen = () => {
     });
   };
 
-  const checkUserTypeBeforeRedirect = async (): Promise<UserType> => {
-    try {
-      const loginRes = await CoreAPI.login({phone: storedPhoneNumber});
-      if (loginRes.statusCode === 201) {
-        storeToken(loginRes.accessToken, loginRes.refreshToken);
-        return 'NONE';
-      }
-    } catch {}
-    try {
-      const res = await CoreAPI.getExistedAccountInfo({
-        mobile: storedPhoneNumber,
-      });
-      console.log(res);
-      // TODO: refactoring 필요
-      const existedAccountInfo = res.map(data => {
-        return {id: data.id, nickname: data.nickname, isSelected: false};
-      }) as existedAccountInfoType;
-      setExistedAccountInfo(() => {
-        return existedAccountInfo;
-      });
-      return 'EXISTED';
-    } catch {
-      return 'NEW';
-    }
-  };
-
   // 전화번호 입력 페이지
   const handleOnPressRequestCode = async () => {
     const currentInputLength = inputValue.length;
     if (currentInputLength < MAX_PHONE_NUMBER_LENGTH) return;
     try {
-      const smsVerificationRes = await CoreAPI.sendSmsVerification({
+      const smsVerificationRes = await CoreAPI.sendSMSVerificationCode({
         mobile: inputValue,
       });
-      console.info(smsVerificationRes);
-      setStoredPhoneNumber(inputValue);
+      setStoredPhoneNumber(smsVerificationRes.mobile);
       setIsVerificationCodeSent(true);
       setInputValue('');
     } catch (error) {
+      // TODO: error인 경우 수정
       showErrorMessage(error);
       setStoredPhoneNumber(inputValue);
       setIsVerificationCodeSent(true);
@@ -138,60 +121,51 @@ const VerificationScreen = () => {
   const handleOnPressVerifyIdentify = async () => {
     const currentInputLength = inputValue.length;
     if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
+
     try {
-      const smsVerificationRes = await CoreAPI.checkSmsVerification({
+      const signInRes = await CoreAPI.signIn({
         mobile: storedPhoneNumber,
         code: inputValue,
       });
-      console.info(smsVerificationRes);
+      storeToken(signInRes.token.accessToken, signInRes.token.refreshToken);
+      await DeviceService.setDeviceInfo();
+      storage.set('user.isLoggedIn', true);
+      navigation.navigate('Main');
+      // TODO: 해당 로직 추상화 필요
     } catch (err) {
-      const error = err as ErrorResponseType;
-      const {code} = error;
-      switch (code) {
-        case 'S02':
-          setInputMessageStatus('REQUEST_EXCEED');
-          return;
-        case 'S03':
-          setInputMessageStatus('NOT_MATCHING_CODE');
-          return;
-        default:
-          return;
+      const error = err as SignInRes;
+      console.error(error);
+      storeToken(error.token.accessToken, error.token.refreshToken);
+      setExistedAccountInfo(
+        error.migrationUserInfo.map(item => {
+          return {...item, isSelected: false};
+        }),
+      );
+
+      if (error.migrationNeeded) {
+        setAccountFlowStatus(prev => {
+          return {
+            ...prev,
+            stepStatus: {
+              userType: 'EXISTED',
+              step: 0,
+            },
+          };
+        });
+      } else {
+        setAccountFlowStatus(prev => {
+          return {
+            ...prev,
+            stepStatus: {
+              userType: 'NEW',
+              step: 0,
+            },
+          };
+        });
       }
     }
-    const userType = await checkUserTypeBeforeRedirect();
-    console.log(userType);
     setIsVerificationCodeSent(false); // state 초기화
     setStoredPhoneNumber(''); // state 초기화
-    if (userType === 'NONE') {
-      setAccountStatus(prev => {
-        return {...prev, isLogin: true};
-      });
-      return;
-    }
-    setAccountFlowStatus(prev => {
-      return {
-        ...prev,
-        stepStatus: {
-          userType: userType,
-          step: 0,
-        },
-      };
-    });
-    return;
-
-    // TODO: 아래 코드는 api 연결 완료시 삭제
-    // setIsVerificationCodeSent(false);
-    // setStoredPhoneNumber('');
-    // setAccountFlowStatus(prev => {
-    //   return {
-    //     ...prev,
-    //     stepStatus: {
-    //       userType: 'EXISTED',
-    //       step: 0,
-    //     },
-    //   };
-    // });
-    // }
   };
 
   const {currentTime, isFinish} = useTimer(
@@ -199,13 +173,20 @@ const VerificationScreen = () => {
     VERIFICATION_TIMER_SEC,
   );
 
-  useEffect(() => {}, [isVerificationCodeSent]);
+  useEffect(() => {
+    if (isFinish) setInputMessageStatus('TIME_EXPIRED');
+  }, [isFinish]);
 
   const handleOnPressRetryButton = async () => {
-    const smsVerificationRes = await CoreAPI.sendSmsVerification({
-      mobile: storedPhoneNumber,
-    });
-    if (smsVerificationRes.trialCount >= MAX_SMS_TRIAL_COUNT) return; // TODO: 만료시 동작 구현 필요
+    try {
+      const smsVerificationRes = await CoreAPI.sendSMSVerificationCode({
+        mobile: storedPhoneNumber,
+      });
+      // TODO: timer 3분으로 초기화
+    } catch (err) {
+      const error = err as ErrorResponseType;
+      if (error.code === 'S02') setInputMessageStatus('REQUEST_EXCEED');
+    }
   };
 
   return (
@@ -249,27 +230,17 @@ const VerificationScreen = () => {
                 : undefined
             }
             status={inputMessageStatus === 'DEFAULT' ? 'default' : 'error'}
-            placeholder={isVerificationCodeSent ? '000000' : '01012345678'}>
+            placeholder={isVerificationCodeSent ? '000000' : '01012345678'}
+            showTimer={isVerificationCodeSent}
+            currentTime={currentTime}>
             {isVerificationCodeSent && (
-              <>
-                <Timer
-                  currentTime={currentTime}
-                  style={{
-                    position: 'absolute',
-                    top: 10,
-                    right: inputValue ? 50 : 7,
-                  }}
+              <S.requestRetryButton onPressIn={handleOnPressRetryButton}>
+                <Txt
+                  label={'재전송'}
+                  color={'grey190'}
+                  typograph={'labelMedium'}
                 />
-                <S.requestRetryButton
-                  style={{zIndex: 6}}
-                  onPress={handleOnPressRetryButton}>
-                  <Txt
-                    label={'재전송'}
-                    color={'grey190'}
-                    typograph={'labelMedium'}
-                  />
-                </S.requestRetryButton>
-              </>
+              </S.requestRetryButton>
             )}
           </Input>
         </View>
@@ -302,9 +273,8 @@ const S = {
 
   requestRetryButton: styled.Pressable`
     position: absolute;
-    top: 45px;
-    right: 7px;
-    padding-bottom: 1px;
+    bottom: 8px;
+    right: 12px;
   `,
 };
 

@@ -1,4 +1,5 @@
 import {atom} from 'jotai';
+import {MigrationUserInfoType} from '../../api/services/core/auth/authAPI.type';
 
 export type UserType = 'NONE' | 'NEW' | 'EXISTED';
 
@@ -15,25 +16,23 @@ export type AccountFlowStatusType = {
   portalStatus: PortalStatusType;
 };
 
-/** 회원인증 flow status를 관리하는 atom입니다.  */
-export const accountFlowStatusAtom = atom<AccountFlowStatusType>({
+export const accountFlowInitStatus: AccountFlowStatusType = {
   baseStatus: 'DEFAULT',
   stepStatus: {userType: 'NONE', step: 0},
   portalStatus: {isPortalStep: false, step: 0},
-});
+};
+/** 회원인증 flow status를 관리하는 atom입니다.  */
+export const accountFlowStatusAtom = atom<AccountFlowStatusType>(
+  accountFlowInitStatus,
+);
 
-export type existedAccountInfoType = Array<{
-  id: string;
-  nickname: string;
-  isSelected: boolean;
-}>;
+export type existedAccountInfoType = Array<
+  MigrationUserInfoType & {
+    isSelected?: boolean;
+  }
+>;
 
-export const existedAccountInfoAtom = atom<existedAccountInfoType>([
-  {id: '1', nickname: 'hi', isSelected: false},
-  {id: '12', nickname: 'hi2', isSelected: false},
-  {id: '13', nickname: 'hi3', isSelected: false},
-  {id: '14', nickname: 'hi4', isSelected: false},
-]);
+export const existedAccountInfoAtom = atom<existedAccountInfoType>([]);
 
 type accountStatusType = {
   isLogin: boolean;
@@ -45,5 +44,5 @@ export const initAccounStatus = {
   phone: '',
 };
 
-/** 현재 회원 정보를 관리하는 atom입니다. */
+/** 현재 회원 정보를 관리하는 atom입니다. TODO: 추후 삭제 */
 export const accountStatusAtom = atom<accountStatusType>(initAccounStatus);

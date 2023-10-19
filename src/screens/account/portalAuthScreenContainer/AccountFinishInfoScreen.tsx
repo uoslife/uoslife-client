@@ -1,40 +1,39 @@
 import {Txt} from '@uoslife/design-system';
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
-import {CoreAPI} from '../../../api/services';
-import {useAtom, useAtomValue} from 'jotai';
-import {accountStatusAtom} from '../../../atoms/account';
-import storeToken from '../../../utils/storeToken';
-import showErrorMessage from '../../../utils/showErrorMessage';
+import {useSetAtom} from 'jotai';
+import {
+  accountFlowInitStatus,
+  accountFlowStatusAtom,
+} from '../../../atoms/account';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
 
-// const useAutoRedirect = (time: number) => {
-//   useEffect(() => {
-//     const interval = setInterval(() => {}, time);
-//     return clearInterval(interval);
-//   });
-// };
+const useAutoRedirect = (time: number, callback: () => void) => {
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      callback();
+    }, time);
+    return () => clearInterval(timeout);
+  }, []);
+};
 
 const AccountFinishInfoScreen = () => {
-  const [accountStatus, setAccontStatus] = useAtom(accountStatusAtom);
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await CoreAPI.login({phone: accountStatus.phone});
-        storeToken(res.accessToken, res.refreshToken);
-        setAccontStatus(prev => {
-          return {...prev, accountStatus: true};
-        });
-      } catch (error) {
-        showErrorMessage(error);
-      }
-    })();
-  }, []);
-  // useAutoRedirect(REDIRECT_TO_MAIN_TIME);
+  const setAccontFlowStatus = useSetAtom(accountFlowStatusAtom);
+  const navigation = useNavigation<RootNavigationProps>();
+
+  const useAutoRedirectCallback = () => {
+    navigation.navigate('Main');
+    setAccontFlowStatus(accountFlowInitStatus);
+  };
+
+  useAutoRedirect(REDIRECT_TO_MAIN_TIME, useAutoRedirectCallback);
+
   return (
-    <View>
-      <Txt label={'로그인 완료!'} color={'grey40'} typograph={'bodySmall'} />
+    <View style={{paddingTop: 400, alignItems: 'center'}}>
+      <Txt label={'로그인 완료!'} color={'black'} typograph={'bodySmall'} />
     </View>
   );
 };

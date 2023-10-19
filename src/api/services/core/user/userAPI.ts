@@ -4,9 +4,9 @@ import * as Type from './userAPI.type';
 
 const UserAPI: UserService = {
   checkDuplicateUserNickname: params =>
-    get<Type.CheckDuplicateUserNicknameRes>(`api/users/${params.nickname}`),
-
-  getExistedAccountInfo: params =>
-    get<Type.GetExistedAccountInfoRes>(`api/users/account/${params.mobile}`),
+    get<Type.CheckDuplicateUserNicknameRes>(
+      `core/users/check/${params.nickname}`,
+    ),
+  getUserInfo: () => get<Type.GetUserInfoRes>(`core/users`),
 };
 export default UserAPI;
