@@ -16,12 +16,12 @@ const useInterval = ({onInterval, delay}: Props) => {
   }, [onInterval]);
 
   useEffect(() => {
-    // 학생증이 아닌 다른 화면에서 앱을 껏다 켰을 때, interval 동작 방지.
+    // useInterval을 적용하지 않은 다른 화면에서 앱을 껏다 켰을 때, interval 동작 방지.
     if (!isFocusedScreen) return;
 
     let intervalId: NodeJS.Timeout | null = null;
     const startInterval = () => {
-      savedOnInterval.current(); // interval 시작 전, 첫 학생증 호출.
+      savedOnInterval.current(); // delay로 인한 interval 시작 전, 첫 onInterval 호출. (ex. 학생증qr)
       intervalId = setInterval(savedOnInterval.current, delay);
     };
     const stopInterval = () => {
