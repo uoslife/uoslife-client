@@ -7,7 +7,7 @@ import URLS from '../../../configs/urls';
 
 type ToSandPoliciesStackNavigation = StackNavigationProp<
   MyPageAppInformationStackParamList,
-  'Mypage_ToSandPoliciesWebView'
+  'Mypage_ToSandPolicies'
 >;
 
 const ToSandPoliciesScreen = () => {

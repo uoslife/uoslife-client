@@ -7,7 +7,7 @@ import URLS from '../../../configs/urls';
 
 type PrivacyPoliciesStackNavigation = StackNavigationProp<
   MyPageAppInformationStackParamList,
-  'Mypage_privacyPoliciesWebView'
+  'Mypage_privacyPolicies'
 >;
 
 const PrivacyandPoliciesScreen = () => {

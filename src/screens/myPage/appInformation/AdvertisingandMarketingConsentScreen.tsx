@@ -7,7 +7,7 @@ import URLS from '../../../configs/urls';
 
 type AdvertisingandMarketingConsentNavigationStack = StackNavigationProp<
   MyPageAppInformationStackParamList,
-  'Mypage_advertisingandMarketingConsentWebView'
+  'Mypage_advertisingandMarketing'
 >;
 
 const ToSandPoliciesScreen = () => {

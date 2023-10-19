@@ -34,7 +34,6 @@ const MypageAppInformationScreen = () => {
         />
         <NavigationList
           label="현재 앱 버전"
-          onPress={() => navigation.navigate('Mypage_ToSandPolicies')}
           pressLabel={DeviceInfo.getVersion()}
           isPressIconShown={false}
         />
