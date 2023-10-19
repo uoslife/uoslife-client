@@ -60,7 +60,7 @@ const MypageMainScreen = ({
               onPress={() => navigation.navigate('Mypage_profile')}
             />
             <NavigationList
-              label="앱 설정"
+              label="알림 설정"
               onPress={() => navigation.navigate('Mypage_appSetting')}
             />
             <NavigationList
