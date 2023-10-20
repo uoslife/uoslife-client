@@ -26,7 +26,6 @@ const AnnouncementDetailScreen = ({
       try {
         const loadedArticle = await AnnouncementAPI.getAnnouncementById({id});
         const {description} = loadedArticle;
-        console.log(description);
         setArticle(loadedArticle);
       } catch (error) {
         console.log(error);
