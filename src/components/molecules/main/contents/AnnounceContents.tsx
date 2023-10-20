@@ -1,21 +1,24 @@
-import styled from '@emotion/native';
-import {Button, Icon, Txt, colors} from '@uoslife/design-system';
-import CardLayout from '../cardLayout/CardLayout';
 import {useCallback, useEffect, useState} from 'react';
-import {Linking, Alert, View} from 'react-native';
+import {Linking, Alert, View, Pressable} from 'react-native';
+import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/core';
+import {useAtomValue} from 'jotai';
+import {Button, Txt, colors} from '@uoslife/design-system';
+
 import URLS from '../../../../configs/urls';
-import CategoryTab from '../../announcement/category-tab/CategoryTab';
+import {categoryStatusAtom} from '../../../../atoms/announcement';
 import {UtilityService} from '../../../../services/utility';
 import {AnnouncementOriginNameType} from '../../../../api/services/util/announcement/announcementAPI.type';
-import {categoryStatusAtom} from '../../../../atoms/announcement';
-import {useAtomValue} from 'jotai';
+
+import CardLayout from '../cardLayout/CardLayout';
+import CategoryTab from '../../announcement/category-tab/CategoryTab';
 
 const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;
 const DEFAULT_ANNOUNCEMENT_ORIGIN = 'FA1';
 
 type AnnouncementsType = {
   origin: AnnouncementOriginNameType;
-  contents: Array<string>;
+  contents: Array<{id: number; text: string}>;
 };
 type AnnouncementsStateType = Array<AnnouncementsType>;
 
@@ -28,6 +31,8 @@ const findIsOriginExist = (
 
 const AnnounceContents = () => {
   const categoryStatus = useAtomValue(categoryStatusAtom);
+  const navigation = useNavigation();
+
   const [announcements, setAnnouncements] = useState<AnnouncementsStateType>();
   const [currentOrigin, setCurrentOrigin] =
     useState<AnnouncementOriginNameType>(DEFAULT_ANNOUNCEMENT_ORIGIN);
@@ -38,7 +43,9 @@ const AnnounceContents = () => {
         DEFAULT_GET_ANNOOUNCEMENT_SIZE,
       );
       if (!res) return;
-      const contentsArray = res?.content.map(item => item.title);
+      const contentsArray = res?.content.map(item => {
+        return {id: item.id, text: item.title};
+      });
       setAnnouncements([
         {origin: DEFAULT_ANNOUNCEMENT_ORIGIN, contents: contentsArray},
       ]);
@@ -57,7 +64,9 @@ const AnnounceContents = () => {
         DEFAULT_GET_ANNOOUNCEMENT_SIZE,
       );
       if (!res) return;
-      const contentsArray = res.content.map(item => item.title);
+      const contentsArray = res.content.map(item => {
+        return {id: item.id, text: item.title};
+      });
       setAnnouncements(prev =>
         prev ? [...prev, {origin, contents: contentsArray}] : undefined,
       );
@@ -82,13 +91,21 @@ const AnnounceContents = () => {
             announcements
               ?.find(item => item.origin === currentOrigin)
               ?.contents.map(item => (
-                <Txt
-                  key={item}
-                  label={item}
-                  color={'grey190'}
-                  typograph={'bodyMedium'}
-                  style={{padding: 8}}
-                />
+                <Pressable
+                  key={item.id}
+                  onPress={() =>
+                    navigation.navigate('Announcement', {
+                      screen: 'AnnouncementDetail',
+                      params: {id: item.id, origin: currentOrigin},
+                    })
+                  }>
+                  <Txt
+                    label={item.text}
+                    color={'grey190'}
+                    typograph={'bodyMedium'}
+                    style={{padding: 8}}
+                  />
+                </Pressable>
               ))
           ) : (
             <View style={{height: 200}} />
