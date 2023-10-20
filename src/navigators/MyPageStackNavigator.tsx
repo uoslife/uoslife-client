@@ -20,7 +20,6 @@ export type MyPageStackParamList = {
   Mypage_profile: undefined;
   Mypage_appSetting: undefined;
   Mypage_appInformation: undefined;
-  Mypage_inquiry: undefined; // TODO: 삭제 필요
 };
 
 export type MyPageProfileStackParamList = {
