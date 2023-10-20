@@ -9,9 +9,19 @@ import {ArticleListType} from '../../types/announcement.type';
 
 const NoBookmarkFound = () => (
   <S.NoBookmarkFoundContainer>
-    <Txt
+    {/* <Txt
       color={'black'}
       label={'자신이 북마크한 공지사항을 확인할 수 있어요'}
+      typograph={'bodyMedium'}
+    /> */}
+    <Txt
+      color={'black'}
+      label={'북마크 관련 기능은 아직 개발이 완료되지 않았습니다.'}
+      typograph={'bodyMedium'}
+    />
+    <Txt
+      color={'black'}
+      label={'잠시만 기다려주세요..'}
       typograph={'bodyMedium'}
     />
   </S.NoBookmarkFoundContainer>
@@ -35,7 +45,11 @@ const AnnouncementBookmarkBoxScreen = () => {
         {articles.length === 0 ? (
           <NoBookmarkFound />
         ) : (
-          <ArticleList onEndReached={() => {}} articles={articles} />
+          <ArticleList
+            ListFooterComponent={<></>}
+            onEndReached={() => {}}
+            articles={articles}
+          />
         )}
       </S.BookmarkListContainer>
     </S.ScreenContainer>

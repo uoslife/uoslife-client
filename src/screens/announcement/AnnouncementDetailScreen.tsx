@@ -10,6 +10,7 @@ import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import {ScrollView} from 'react-native-gesture-handler';
 import AnnouncementDetailScreenContent from '../../components/molecules/announcement/announcement-detail/AnnouncementContent';
+import Spinner from '../../components/spinner/Spinner';
 
 const AnnouncementDetailScreen = ({
   route: {
@@ -23,6 +24,7 @@ const AnnouncementDetailScreen = ({
 
   useEffect(() => {
     (async () => {
+      setIsPending(true);
       try {
         const loadedArticle = await AnnouncementAPI.getAnnouncementById({id});
         const {description} = loadedArticle;
@@ -30,6 +32,7 @@ const AnnouncementDetailScreen = ({
       } catch (error) {
         console.log(error);
       }
+      setIsPending(false);
     })();
   }, []);
 
@@ -46,15 +49,14 @@ const AnnouncementDetailScreen = ({
           label={announcementFullName[origin]}
           onPressBackButton={handleGoBack}
         />
-        {article ? (
-          <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-            <AnnouncementDetailScreenContent {...article} />
-          </ScrollView>
+        {isPending ? (
+          <Spinner />
         ) : (
-          <View>
-            {/* TODO: LoadingSpinner 컴포넌트 대체하기 */}
-            <Text>로딩중</Text>
-          </View>
+          article && (
+            <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+              <AnnouncementDetailScreenContent {...article} />
+            </ScrollView>
+          )
         )}
       </S.Root>
     </>

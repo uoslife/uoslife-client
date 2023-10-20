@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/core';
 import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../types/announcement.type';
 import {announcementFullName} from '../../../../configs/announcement';
+import {Alert} from 'react-native';
 
 type ArticleItemProps = {
   showCategoryName: boolean;
@@ -21,7 +22,9 @@ const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
   // TODO: bookmark toggle 구현
-  const onPressBookmark = () => {};
+  const onPressBookmark = () => {
+    Alert.alert('북마크 기능은 아직 개발이 완료되지 않았습니다.');
+  };
 
   // TODO: API 호출시의 형식이 예상과 다름 -> 기획팀에 전달 후 삭제
   // const processedUploadTimeString = getUploadTimeString(date);

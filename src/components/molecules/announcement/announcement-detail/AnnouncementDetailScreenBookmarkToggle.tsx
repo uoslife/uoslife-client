@@ -1,12 +1,15 @@
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import {ArticleDetailType} from '../../../../types/announcement.type';
+import {Alert} from 'react-native';
 import styled from '@emotion/native';
 
 const AnnouncementDetailScreenBookmarkToggle = ({
   bookmarkCount,
 }: Pick<ArticleDetailType, 'bookmarkCount'>) => {
   // TODO: 북마크 Toggle API 호출 지정 필요
-  const onToggleBookmark = () => {};
+  const onToggleBookmark = () => {
+    Alert.alert('북마크 기능은 아직 개발이 완료되지 않았습니다.');
+  };
 
   const bookmarkedByMe = false;
 
