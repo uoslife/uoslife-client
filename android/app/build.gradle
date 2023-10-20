@@ -98,6 +98,10 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0-alpha01")
     implementation project(":react-native-splash-screen")
 
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+    implementation 'com.facebook.fresco:animated-webp:+'
+    implementation 'com.facebook.fresco:webpsupport:+'
+
     implementation platform('com.google.firebase:firebase-bom:32.2.2')
     implementation 'com.google.firebase:firebase-analytics'
 
