@@ -191,7 +191,8 @@ const VerificationScreen = () => {
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer
+      style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label={'휴대폰 본인인증'}
         onPressBackButton={handleHeaderBackButton}
@@ -269,7 +270,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 42px 28px;
+    padding: 28px 16px 0;
   `,
 
   requestRetryButton: styled.Pressable`

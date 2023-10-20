@@ -103,7 +103,7 @@ const PortalAuthenticationScreen = () => {
 
   return (
     <S.screenContainer
-      style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
+      style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label="포털 계정 연동"
         onPressBackButton={handlePressBackButton}
@@ -177,7 +177,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 28px 16px;
+    padding: 28px 16px 0;
   `,
   bottomContainer: styled.View`
     display: flex;

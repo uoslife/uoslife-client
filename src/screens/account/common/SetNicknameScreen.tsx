@@ -152,7 +152,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
   return (
     <>
       <S.screenContainer
-        style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
+        style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
         <Header
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
@@ -247,6 +247,6 @@ const S = {
   setNicknameContainer: styled.View`
     flex: 1;
     justify-content: space-between;
-    padding: 28px 16px;
+    padding: 28px 16px 0;
   `,
 };
