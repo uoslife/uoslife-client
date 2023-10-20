@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Header from '../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../../components/molecules/announcement/article/ArticleList';
+import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';

@@ -1,10 +1,10 @@
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../article/ArticleList';
+import ArticleList from '../article-list/ArticleList';
 import styled from '@emotion/native';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {ArticleListType} from '../../../../types/announcement.type';
+import AnnouncementAPI from '../../../../api/services/util/announcement/announcementAPI';
 
-// AnnouncementSearchScreen에서 searchWordEnteringView === false일 때의 컴포넌트
 const SearchResultNotFound = () => {
   return (
     <S.SearchResultNotFoundRoot>
@@ -17,17 +17,41 @@ const SearchResultNotFound = () => {
   );
 };
 
+// 페이지네이션 설정
+const ELEMENTS_PER_PAGE = 10;
+
+// TODO: pending state 추가, 해당 상태에 보여줄 컴포넌트 띄우기
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
   const [searchedArticles, setSearchedArticles] = useState<ArticleListType>([]);
+  const [page, setPage] = useState(0);
 
-  useEffect(() => {}, []);
+  const loadNewArticles = async () => {
+    const params = {
+      keyword: searchWord,
+      page,
+      size: ELEMENTS_PER_PAGE,
+    };
+    const res = await AnnouncementAPI.searchAnnoucements(params);
+    const loadedArticles = res.content;
+
+    setPage(prev => prev + 1);
+    setSearchedArticles([...searchedArticles, ...loadedArticles]);
+  };
+
+  useEffect(() => {
+    loadNewArticles();
+  }, []);
 
   return (
     <>
       {searchedArticles.length === 0 ? (
         <SearchResultNotFound />
       ) : (
-        <ArticleList onEndReached={() => {}} articles={searchedArticles} />
+        <ArticleList
+          ref={null}
+          onEndReached={loadNewArticles}
+          articles={searchedArticles}
+        />
       )}
     </>
   );

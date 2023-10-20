@@ -8,10 +8,11 @@ import {ArticleItemType} from '../../../../types/announcement.type';
 import {announcementFullName} from '../../../../configs/announcement';
 
 type ArticleItemProps = {
+  showCategoryName: boolean;
   articleItem: ArticleItemType;
 };
 
-const ArticleItem = ({articleItem}: ArticleItemProps) => {
+const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
   const {bookmarkCount, date, department, id, title, origin} = articleItem;
 
   // TODO: API를 통해 받아오도록 수정
@@ -19,19 +20,19 @@ const ArticleItem = ({articleItem}: ArticleItemProps) => {
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  // bookmark toggle
+  // TODO: bookmark toggle 구현
   const onPressBookmark = () => {};
 
-  // TODO: API 호출시 string 형식이 달라서 바뀜 -> 나중에 기획에 맞는지 확인 후 삭제
+  // TODO: API 호출시의 형식이 예상과 다름 -> 기획팀에 전달 후 삭제
   // const processedUploadTimeString = getUploadTimeString(date);
 
   return (
     <S.Root>
       <S.DescriptionContainer
         onPress={() => {
-          navigation.navigate('AnnouncementDetail', {id});
+          navigation.navigate('AnnouncementDetail', {id, origin: 'FA1'});
         }}>
-        {origin && (
+        {showCategoryName && (
           <Txt
             color={'primaryBrand'}
             label={announcementFullName[origin]}

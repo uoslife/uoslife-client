@@ -7,7 +7,7 @@ export type ArticleItemType = {
   department: string;
   date: Date;
   bookmarkCount: number;
-  origin?: AnnouncementOriginNameType;
+  origin: AnnouncementOriginNameType;
 };
 
 export type ArticleListType = ArticleItemType[];
