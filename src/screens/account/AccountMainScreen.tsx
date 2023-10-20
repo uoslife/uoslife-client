@@ -1,5 +1,5 @@
 import React from 'react';
-import {DevSettings, View} from 'react-native';
+import {View} from 'react-native';
 
 import {Button} from '@uoslife/design-system';
 
@@ -13,9 +13,8 @@ import {accountFlowStatusAtom} from '../../atoms/account';
 import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
 import storeToken from '../../utils/storeToken';
 import {DeviceService} from '../../services/device';
-import {storage} from '../../storage';
-import {useNavigation} from '@react-navigation/native';
-import {RootNavigationProps} from '../../navigators/RootStackNavigator';
+import {UserService} from '../../services/user';
+import {useUserStatus} from '../../atoms/user';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 const ONBOARDING_IMAGE_HEIGHT = 493;
@@ -23,15 +22,13 @@ const ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME = 4 * 1000;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<RootNavigationProps>();
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
+  const {setIsLoggedIn} = useUserStatus();
 
   const handleTemporaryLoginButtonClick = async () => {
     storeToken(DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN);
     await DeviceService.setDeviceInfo();
-    storage.set('user.isLoggedIn', true);
-    navigation.navigate('Main');
-    DevSettings.reload();
+    await UserService.setUserInfo(() => setIsLoggedIn(true));
   };
 
   const handleClickAccountButton = async () => {

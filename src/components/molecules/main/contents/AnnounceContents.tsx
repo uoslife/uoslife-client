@@ -1,12 +1,69 @@
 import styled from '@emotion/native';
-import {Icon, Txt, colors} from '@uoslife/design-system';
+import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import CardLayout from '../cardLayout/CardLayout';
-import {useCallback} from 'react';
-import {Linking, Alert} from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
+import {Linking, Alert, View} from 'react-native';
 import URLS from '../../../../configs/urls';
 import CategoryTab from '../../announcement/category-tab/CategoryTab';
+import {UtilityService} from '../../../../services/utility';
+import {AnnouncementOriginNameType} from '../../../../api/services/util/announcement/announcementAPI.type';
+import {categoryStatusAtom} from '../../../../atoms/announcement';
+import {useAtomValue} from 'jotai';
+
+const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;
+const DEFAULT_ANNOUNCEMENT_ORIGIN = 'FA1';
+
+type AnnouncementsType = {
+  origin: AnnouncementOriginNameType;
+  contents: Array<string>;
+};
+type AnnouncementsStateType = Array<AnnouncementsType>;
+
+const findIsOriginExist = (
+  announcements: AnnouncementsStateType,
+  origin: AnnouncementOriginNameType,
+) => {
+  return announcements.some(item => item.origin === origin);
+};
 
 const AnnounceContents = () => {
+  const categoryStatus = useAtomValue(categoryStatusAtom);
+  const [announcements, setAnnouncements] = useState<AnnouncementsStateType>();
+  const [currentOrigin, setCurrentOrigin] =
+    useState<AnnouncementOriginNameType>(DEFAULT_ANNOUNCEMENT_ORIGIN);
+  useEffect(() => {
+    (async () => {
+      const res = await UtilityService.getAnnouncementsInMainScreen(
+        DEFAULT_ANNOUNCEMENT_ORIGIN,
+        DEFAULT_GET_ANNOOUNCEMENT_SIZE,
+      );
+      if (!res) return;
+      const contentsArray = res?.content.map(item => item.title);
+      setAnnouncements([
+        {origin: DEFAULT_ANNOUNCEMENT_ORIGIN, contents: contentsArray},
+      ]);
+    })();
+  }, []);
+
+  useEffect(() => {
+    const origin = categoryStatus.find(item => item.isSelected === true)
+      ?.origin as AnnouncementOriginNameType;
+    setCurrentOrigin(origin);
+
+    (async () => {
+      if (announcements && findIsOriginExist(announcements, origin)) return;
+      const res = await UtilityService.getAnnouncementsInMainScreen(
+        origin,
+        DEFAULT_GET_ANNOOUNCEMENT_SIZE,
+      );
+      if (!res) return;
+      const contentsArray = res.content.map(item => item.title);
+      setAnnouncements(prev =>
+        prev ? [...prev, {origin, contents: contentsArray}] : undefined,
+      );
+    })();
+  }, [categoryStatus]);
+
   const handlePressLinkButton = useCallback(async () => {
     const supported = await Linking.canOpenURL(URLS.UOSTORY);
 
@@ -18,54 +75,37 @@ const AnnounceContents = () => {
   }, [URLS.UOSTORY]);
   return (
     <CardLayout>
-      <S.Wrapper>
-        <S.AnnounceCategoryWrapper>
-          <CategoryTab />
-        </S.AnnounceCategoryWrapper>
+      <S.Container>
+        <CategoryTab />
         <S.AnnounceTextWrapper>
-          <S.AnnounceText>
-            <Txt
-              label={
-                '[대학일자리플러스센터] 2023년 골라듣는 온오프라인 프리패스'
-              }
-              color={'grey190'}
-              typograph={'bodyMedium'}
-            />
-          </S.AnnounceText>
-          <S.AnnounceText>
-            <Txt
-              label={
-                '[대학일자리플러스센터] 2023년 골라듣는 온오프라인 프리패스'
-              }
-              color={'grey190'}
-              typograph={'bodyMedium'}
-            />
-          </S.AnnounceText>
-          <S.AnnounceText>
-            <Txt
-              label={
-                '[대학일자리플러스센터] 2023년 골라듣는 온오프라인 프리패스'
-              }
-              color={'grey190'}
-              typograph={'bodyMedium'}
-            />
-          </S.AnnounceText>
+          {announcements?.find(item => item.origin === currentOrigin) ? (
+            announcements
+              ?.find(item => item.origin === currentOrigin)
+              ?.contents.map(item => (
+                <Txt
+                  key={item}
+                  label={item}
+                  color={'grey190'}
+                  typograph={'bodyMedium'}
+                  style={{padding: 8}}
+                />
+              ))
+          ) : (
+            <View style={{height: 200}} />
+          )}
         </S.AnnounceTextWrapper>
-        <S.Border />
-        <S.LinkButton onPress={handlePressLinkButton}>
-          <Icon
-            name={'openInNew'}
-            width={18}
-            height={18}
-            color={'primaryBrand'}
+        <S.Divider />
+        <S.LinkButtonWrapper>
+          <Button
+            label={'UOStory 바로가기'}
+            variant="text"
+            iconName="openInNew"
+            isFullWidth
+            size="small"
+            onPress={handlePressLinkButton}
           />
-          <Txt
-            label={'UOSTORY 바로가기'}
-            color={'primaryBrand'}
-            typograph={'bodySmall'}
-          />
-        </S.LinkButton>
-      </S.Wrapper>
+        </S.LinkButtonWrapper>
+      </S.Container>
     </CardLayout>
   );
 };
@@ -73,43 +113,21 @@ const AnnounceContents = () => {
 export default AnnounceContents;
 
 const S = {
-  Wrapper: styled.View`
-    padding: 16px 16px 0;
-  `,
-  AnnounceCategoryWrapper: styled.View`
-    width: 100%;
-    margin-bottom: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  `,
-  AnnounceCategoryButton: styled.Pressable`
-    padding: 9px 24px;
-    /* border-bottom-width: 1px; */
-    border-color: ${colors.primaryBrand};
-    border-style: solid;
+  Container: styled.View`
+    padding: 20px 16px 0;
   `,
   AnnounceTextWrapper: styled.View`
     display: flex;
     flex-direction: column;
     gap: 4px;
+    padding: 12px 0;
   `,
-  AnnounceText: styled.View`
-    padding: 8px;
-  `,
-  Border: styled.View`
-    margin: 4px 0;
+  Divider: styled.View`
     width: 100%;
     height: 1px;
     background-color: ${colors.grey40};
   `,
-  LinkButton: styled.Pressable`
-    display: flex;
-    flex-direction: row;
-    align-items: space-between;
-    justify-content: center;
-    padding: 16px 0;
-    gap: 2px;
+  LinkButtonWrapper: styled.Pressable`
+    padding: 8px 0;
   `,
 };

@@ -28,21 +28,8 @@ export const accountFlowStatusAtom = atom<AccountFlowStatusType>(
 
 export type existedAccountInfoType = Array<
   MigrationUserInfoType & {
-    isSelected: boolean;
+    isSelected?: boolean;
   }
 >;
 
 export const existedAccountInfoAtom = atom<existedAccountInfoType>([]);
-
-type accountStatusType = {
-  isLogin: boolean;
-  phone: string;
-};
-
-export const initAccounStatus = {
-  isLogin: false,
-  phone: '',
-};
-
-/** 현재 회원 정보를 관리하는 atom입니다. TODO: 추후 삭제 */
-export const accountStatusAtom = atom<accountStatusType>(initAccounStatus);

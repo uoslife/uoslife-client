@@ -1,27 +1,31 @@
 import React, {useState} from 'react';
-import Header from '../../components/header/Header';
+import {Linking} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
+import URLS from '../../configs/urls';
+import Header from '../../components/header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Button, colors, Txt} from '@uoslife/design-system';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../services/user';
-import {DevSettings} from 'react-native';
+import {useUserStatus} from '../../atoms/user';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
-  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
+  const {setIsLoggedIn} = useUserStatus();
+
+  const nickname = UserService.getUserInfo('nickname') as string;
+  const isVerified = UserService.getUserInfo('isVerified') as boolean;
 
   const handlePressLogoutButton = async () => {
-    await UserService.logout();
-    DevSettings.reload();
+    await UserService.logout().finally(() => setIsLoggedIn(false));
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer style={{paddingTop: insets.top}} bounces={false}>
       <Header
         label={'마이페이지'}
         onPressBackButton={() => navigation.goBack()}
@@ -35,18 +39,12 @@ const MypageMainScreen = ({
             />
           </S.circleImageWrapper>
           <S.textWrapper>
-            <Txt
-              label={'귀여운시루매(김동현)'}
-              color={'grey190'}
-              typograph={'titleLarge'}
-            />
+            <Txt label={nickname} color={'grey190'} typograph={'titleLarge'} />
             <Txt
               label={
-                isPortalAuthenticated
-                  ? '경영학부(2023270001)'
-                  : '포털 계정을 연동해주세요'
+                isVerified ? '경영학부(2000000000)' : '포털 계정을 연동해주세요'
               }
-              color={isPortalAuthenticated ? 'grey130' : 'primaryBrand'}
+              color={isVerified ? 'grey130' : 'primaryBrand'}
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
@@ -56,7 +54,7 @@ const MypageMainScreen = ({
               onPress={() => navigation.navigate('Mypage_profile')}
             />
             <NavigationList
-              label="앱 설정"
+              label="알림 설정"
               onPress={() => navigation.navigate('Mypage_appSetting')}
             />
             <NavigationList
@@ -65,7 +63,7 @@ const MypageMainScreen = ({
             />
             <NavigationList
               label="문의하기"
-              onPress={() => navigation.navigate('Mypage_inquiry')}
+              onPress={() => Linking.openURL(URLS.KAKAOTALK_UOSLIFE)}
             />
           </S.NavigationListWapper>
         </S.myProfileBox>

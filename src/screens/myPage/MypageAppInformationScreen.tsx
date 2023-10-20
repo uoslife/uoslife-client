@@ -30,13 +30,10 @@ const MypageAppInformationScreen = () => {
         />
         <NavigationList
           label="광고 및 마케팅 수신 동의"
-          onPress={() =>
-            navigation.navigate('Mypage_advertisingandMarketingConsent')
-          }
+          onPress={() => navigation.navigate('Mypage_advertisingandMarketing')}
         />
         <NavigationList
           label="현재 앱 버전"
-          onPress={() => navigation.navigate('Mypage_ToSandPolicies')}
           pressLabel={DeviceInfo.getVersion()}
           isPressIconShown={false}
         />

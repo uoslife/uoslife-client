@@ -27,7 +27,8 @@ const AccountIntegrationScreen = () => {
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer
+      style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label={'계정 통합'}
         onPressBackButton={() =>
@@ -109,10 +110,11 @@ const S = {
   accountIntegrationContainer: styled.View`
     flex: 1;
     justify-content: space-between;
-    padding: 42px 16px;
+    padding: 28px 16px 0;
   `,
-  idContainer: styled.View`
+  idContainer: styled.ScrollView`
     gap: 16px;
+    padding-bottom: 16px;
   `,
   idButtonSelected: styled.View<{isSelected: boolean}>`
     display: flex;

@@ -4,13 +4,15 @@ import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
 import {MypageProfileNavigationProp} from '../../../navigators/MyPageStackNavigator';
 import NavigationList from '../../../components/navigations/navigationList/NavigationList';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import useModal from '../../../hooks/useModal';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UserService} from '../../../services/user';
+import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+import {useUserStatus} from '../../../atoms/user';
 
 const getPortalAccountInfoList = () => {
   const userInfo = UserService.getAllUserInfo()!;
@@ -25,16 +27,19 @@ const getPortalAccountInfoList = () => {
 
 const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
+  const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<MypageProfileNavigationProp>();
-  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
+  const rootNavigation = useNavigation<RootNavigationProps>();
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openModal, closeModal, Modal] = useModal('MODAL');
 
-  const handleUpdateProfileImage = async () => {
-    openPhotoSelectionAlert();
-  };
+  const isVerified = UserService.getUserInfo('isVerified') as boolean;
+
+  // const handleUpdateProfileImage = async () => {
+  //   openPhotoSelectionAlert();
+  // };
   // const handlePortalAccountPress = () => {
-  //   if (isPortalAuthenticated) {
+  //   if (isVerified) {
   //       <S.modalWrapper>
   //         <Txt
   //           label={'포털 계정 연동을 해지하시겠습니까?'}
@@ -75,13 +80,13 @@ const MypageProfileScreen = () => {
   return (
     <>
       <View style={{paddingTop: insets.top}}>
-        <S.screenContainer>
+        <S.screenContainer bounces={false}>
           <Header label={'마이페이지'} onPressBackButton={handleGoBack} />
           <S.myProfileContainer>
             <S.myProfileBox>
               <Pressable
                 // onPress={handleUpdateProfileImage}
-                style={{paddingBottom: 64}}>
+                style={{padding: 48}}>
                 <S.userCircleImageWrapper>
                   {/*<S.userImage*/}
                   {/*  source={*/}
@@ -119,19 +124,15 @@ const MypageProfileScreen = () => {
               <NavigationList
                 label="포털 계정 연동"
                 onPress={
-                  !isPortalAuthenticated
+                  !isVerified
                     ? () => navigation.navigate('Mypage_portalAuthentication')
                     : undefined
                 }
-                pressLabel={
-                  isPortalAuthenticated ? '연동되었습니다.' : '연동하기'
-                }
-                pressLabelColor={
-                  isPortalAuthenticated ? 'grey130' : 'primaryBrand'
-                }
-                isPressIconShown={!isPortalAuthenticated}
+                pressLabel={isVerified ? '연동되었습니다.' : '연동하기'}
+                pressLabelColor={isVerified ? 'grey130' : 'primaryBrand'}
+                isPressIconShown={!isVerified}
               />
-              {isPortalAuthenticated && (
+              {isVerified && (
                 <S.portalAccountInformationWrapper>
                   {getPortalAccountInfoList().map(item => {
                     return (
@@ -176,7 +177,9 @@ const MypageProfileScreen = () => {
             variant="text"
             isFullWidth
             onPress={async () => {
-              await UserService.unregister();
+              await UserService.unregister(rootNavigation).finally(() =>
+                setIsLoggedIn(false),
+              );
             }}
           />
           <S.Devider />
@@ -234,7 +237,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 48px 24px;
+    padding: 0 16px;
   `,
   myProfileBox: styled.View`
     width: 100%;

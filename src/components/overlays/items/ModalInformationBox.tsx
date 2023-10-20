@@ -13,13 +13,14 @@ const ModalInformationBox = ({
   return (
     <S.Box>
       {informationBoxObject.map(({key, value}, i) => (
-        <S.Item key={i}>
-          <S.KeyTxtContainer>
-            <Txt label={key} color={'primaryBrand'} typograph={'labelMedium'} />
-          </S.KeyTxtContainer>
-          <S.ValueTxtContainer>
-            <Txt label={value} color={'grey190'} typograph={'bodySmall'} />
-          </S.ValueTxtContainer>
+        <S.Item key={i} style={{gap: 8}}>
+          <Txt
+            label={key}
+            color={'primaryBrand'}
+            typograph={'labelMedium'}
+            style={{width: 36}}
+          />
+          <Txt label={value} color={'grey190'} typograph={'bodySmall'} />
         </S.Item>
       ))}
     </S.Box>

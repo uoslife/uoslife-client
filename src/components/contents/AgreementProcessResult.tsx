@@ -12,7 +12,7 @@ const AgreementProcessResult = () => (
     </View>
     <View>
       <Text>광고성 정보 수신 동의는</Text>
-      <Text>MY Page &lt; [앱 설정]에서 변경 가능합니다.</Text>
+      <Text>MY Page &lt; [알림 설정]에서 변경 가능합니다.</Text>
     </View>
   </S.wrapper>
 );

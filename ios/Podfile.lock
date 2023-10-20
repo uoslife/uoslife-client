@@ -502,7 +502,7 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.13.0):
+  - RNSVG (13.14.0):
     - React-Core
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
@@ -766,7 +766,7 @@ SPEC CHECKSUMS:
   RNNotifee: 05692d7bb42b6c718a3906aeb8431c48ff2e8097
   RNPermissions: b9843ffdb72fb099f8fe7f04e709cb511d5161c8
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
-  RNSVG: ed492aaf3af9ca01bc945f7a149d76d62e73ec82
+  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: e7ea9e590e27460d28911403b894722354d73479
 

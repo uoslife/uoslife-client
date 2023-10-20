@@ -13,4 +13,10 @@ export default {
         'https://play.google.com/store/apps/details?id=com.nhnent.payapp&hl=ko-KR',
     }),
   },
+  APP_INFORMATION: {
+    TO_SAND_POLICIES: 'https://www.uoslife.team/notices/6',
+    PRIVACY_AND_POLICIES: 'https://www.uoslife.team/notices/5',
+    ADVERTISING_AND_MARKETING_CONSENT: 'https://www.uoslife.team/notices/7',
+  },
+  KAKAOTALK_UOSLIFE: 'https://pf.kakao.com/_gMEHK',
 };

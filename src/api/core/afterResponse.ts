@@ -12,7 +12,8 @@ export const handleToken: AfterResponseHook = async (
   const accessToken = storage.getString('access_token');
   const refreshToken = storage.getString('refresh_token');
   if (response.status !== 401 || request.url.includes('refresh')) {
-    storage.set('user.isLoggedIn', true);
+    // storage.set('user.isLoggedIn', true);
+    // TODO: 로직 변경 필요
     return response;
   }
   try {
