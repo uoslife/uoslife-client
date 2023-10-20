@@ -9,23 +9,23 @@ import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {UserService} from '../../services/user';
-import {useNavigation} from '@react-navigation/native';
-import {RootNavigationProps} from '../../navigators/RootStackNavigator';
+import {useUserStatus} from '../../atoms/user';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
-  const rootNavigation = useNavigation<RootNavigationProps>();
-  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
+  const {setIsLoggedIn} = useUserStatus();
+
+  const nickname = UserService.getUserInfo('nickname') as string;
+  const isVerified = UserService.getUserInfo('isVerified') as boolean;
 
   const handlePressLogoutButton = async () => {
-    await UserService.logout();
-    rootNavigation.navigate('Account');
+    await UserService.logout().finally(() => setIsLoggedIn(false));
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer style={{paddingTop: insets.top}} bounces={false}>
       <Header
         label={'마이페이지'}
         onPressBackButton={() => navigation.goBack()}
@@ -39,18 +39,12 @@ const MypageMainScreen = ({
             />
           </S.circleImageWrapper>
           <S.textWrapper>
-            <Txt
-              label={'귀여운시루매(김동현)'}
-              color={'grey190'}
-              typograph={'titleLarge'}
-            />
+            <Txt label={nickname} color={'grey190'} typograph={'titleLarge'} />
             <Txt
               label={
-                isPortalAuthenticated
-                  ? '경영학부(2023270001)'
-                  : '포털 계정을 연동해주세요'
+                isVerified ? '경영학부(2000000000)' : '포털 계정을 연동해주세요'
               }
-              color={isPortalAuthenticated ? 'grey130' : 'primaryBrand'}
+              color={isVerified ? 'grey130' : 'primaryBrand'}
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
@@ -60,7 +54,7 @@ const MypageMainScreen = ({
               onPress={() => navigation.navigate('Mypage_profile')}
             />
             <NavigationList
-              label="앱 설정"
+              label="알림 설정"
               onPress={() => navigation.navigate('Mypage_appSetting')}
             />
             <NavigationList

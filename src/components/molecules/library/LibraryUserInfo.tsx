@@ -59,6 +59,7 @@ const LibraryUserInfo = () => {
         else setLibraryUsingStatus(outingStatus);
       } catch (error) {
         const err = error as ErrorResponseType;
+        setLibraryUsingStatus('NOT_USING');
         if (err.code === 'L01') setLibraryUsingStatus('NOT_USING');
         else console.error(err);
       }
@@ -67,7 +68,7 @@ const LibraryUserInfo = () => {
 
   return (
     <S.userInfoWrapper>
-      {!libraryReservationInfo ? (
+      {!libraryReservationInfo || !libraryUsingStatus ? (
         <></>
       ) : (
         <>

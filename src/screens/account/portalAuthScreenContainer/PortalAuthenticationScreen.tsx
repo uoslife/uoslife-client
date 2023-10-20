@@ -15,12 +15,14 @@ import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
+import {useUserStatus} from '../../../atoms/user';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
+  const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<RootNavigationProps>();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
@@ -94,12 +96,17 @@ const PortalAuthenticationScreen = () => {
     }
   };
 
+  const handlePressBackButton = () => {
+    setIsLoggedIn(true);
+    navigation.goBack();
+  };
+
   return (
     <S.screenContainer
-      style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
+      style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label="포털 계정 연동"
-        onPressBackButton={() => navigation.navigate('Main')}
+        onPressBackButton={handlePressBackButton}
       />
       <S.portalAuthenticationContainer>
         <View style={{gap: 24}}>
@@ -170,7 +177,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 28px 16px;
+    padding: 28px 16px 0;
   `,
   bottomContainer: styled.View`
     display: flex;

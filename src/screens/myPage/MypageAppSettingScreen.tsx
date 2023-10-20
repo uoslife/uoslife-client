@@ -5,7 +5,7 @@ import styled from '@emotion/native/dist/emotion-native.cjs';
 import {Txt} from '@uoslife/design-system';
 import ToggleSwitch from '../../components/toggleSwitch/ToggleSwitch';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const UOSLIFE_NOTIFICATION_SETTING = [
   {
@@ -70,14 +70,14 @@ const MypageAppSettingScreen = () => {
     );
   };
 
-  const navigation=useNavigation();
-  const handleGoBack=()=>{
+  const navigation = useNavigation();
+  const handleGoBack = () => {
     navigation.goBack();
-  }
+  };
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'알림 설정'} onPressBackButton={handleGoBack}/>
+      <Header label={'알림 설정'} onPressBackButton={handleGoBack} />
       <S.mypageAppSettingContainer>
         <View style={{gap: 12}}>
           <Txt

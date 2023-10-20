@@ -14,17 +14,25 @@ import {
 } from '../components/molecules';
 import Carousel from '../components/molecules/carousel/Carousel';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
+import {UserService} from '../services/user';
 
 const {width} = Dimensions.get('window');
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
+
+  const id = UserService.getUserInfo('id');
+  const nickname = UserService.getUserInfo('nickname');
+
   return (
     <>
-      <S.MainContainer>
+      <S.MainContainer bounces={false}>
         <View
-          style={{height: insets.top, backgroundColor: colors.primaryBrand}}
+          style={{
+            height: insets.top + 20,
+            backgroundColor: colors.primaryBrand,
+          }}
         />
         <View>
           <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
@@ -35,21 +43,27 @@ const MainScreen = () => {
           </S.MypageButton>
           <View
             style={css`
-              display: flex;
-              flex-direction: column;
-              gap: 8px;
-              margin-top: 40px;
+              gap: 4px;
+              margin-top: 20px;
               padding-left: 16px;
             `}>
+            <S.WaveInfoWrapper>
+              <Txt
+                label={`${id}번째 파동`}
+                color={'primaryUi'}
+                typograph={'labelSmall'}
+                style={{textAlign: 'center'}}
+              />
+            </S.WaveInfoWrapper>
             <View>
               <Txt
-                label={`${'시대인'} 님`}
+                label={`${nickname} 님`}
                 color={'white'}
                 typograph={'headlineMedium'}
               />
               <S.WelcomeMessage>
                 <Txt
-                  label={'환영합니다'}
+                  label={'환영해요'}
                   color={'white'}
                   typograph={'headlineMedium'}
                 />
@@ -57,7 +71,7 @@ const MainScreen = () => {
               </S.WelcomeMessage>
             </View>
             <Txt
-              label={'OO아 힘을 내, 파이팅 넌 할 수 있어!'}
+              label={'파동이 되어 새로운 물결을 만들어가요'}
               color={'white'}
               typograph={'headlineSmall'}
             />
@@ -103,6 +117,7 @@ const S = {
     top: 0;
     left: 0;
     width: 100%;
+    height: 223px;
   `,
   MainWrapper: styled.View`
     position: relative;
@@ -117,9 +132,15 @@ const S = {
     align-items: center;
     gap: 4px;
   `,
+  WaveInfoWrapper: styled.View`
+    padding: 4px 8px;
+    align-self: flex-start;
+    border-radius: 16px;
+    background-color: ${colors.primaryLighter};
+  `,
   MypageButton: styled.Pressable`
     position: absolute;
-    top: 16px;
+    top: -6px;
     right: 0;
   `,
 };

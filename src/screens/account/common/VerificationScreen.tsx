@@ -7,7 +7,6 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {
   accountFlowStatusAtom,
-  accountStatusAtom,
   existedAccountInfoAtom,
 } from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
@@ -21,6 +20,8 @@ import {storage} from '../../../storage';
 import {DeviceService} from '../../../services/device';
 import {useNavigation} from '@react-navigation/native';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+import {useUserStatus} from '../../../atoms/user';
+import {UserService} from '../../../services/user';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -41,9 +42,9 @@ type InputStatusMessageType =
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
+  const {setIsLoggedIn} = useUserStatus();
 
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
-  const setAccountStatus = useSetAtom(accountStatusAtom);
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
 
   const [inputValue, setInputValue] = useState('');
@@ -129,8 +130,8 @@ const VerificationScreen = () => {
       });
       storeToken(signInRes.token.accessToken, signInRes.token.refreshToken);
       await DeviceService.setDeviceInfo();
-      storage.set('user.isLoggedIn', true);
-      navigation.navigate('Main');
+      await UserService.setUserInfo(() => setIsLoggedIn(true));
+
       // TODO: 해당 로직 추상화 필요
     } catch (err) {
       const error = err as SignInRes;
@@ -190,7 +191,8 @@ const VerificationScreen = () => {
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer
+      style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label={'휴대폰 본인인증'}
         onPressBackButton={handleHeaderBackButton}
@@ -268,7 +270,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 42px 28px;
+    padding: 28px 16px 0;
   `,
 
   requestRetryButton: styled.Pressable`

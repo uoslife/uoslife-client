@@ -20,7 +20,7 @@ const LibraryScreen = () => {
   useEffect(() => {}, []);
 
   return (
-    <ScrollView style={{paddingTop: insets.top}}>
+    <ScrollView style={{paddingTop: insets.top}} bounces={false}>
       <S.screenContainer>
         <Header label="도서관" onPressBackButton={handleGoBack} />
         <LibraryUserInfo />

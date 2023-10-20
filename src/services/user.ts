@@ -4,14 +4,16 @@ import {storage} from '../storage';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 
 export class UserService {
-  static async setUserInfo(): Promise<void> {
-    const userInfo = await CoreAPI.getUserInfo({});
-    storage.set('user', JSON.stringify(userInfo));
+  static async setUserInfo(callback: () => void): Promise<void> {
+    try {
+      const userInfo = await CoreAPI.getUserInfo({});
+      storage.set('user', JSON.stringify(userInfo));
+      callback();
+    } catch (error) {}
   }
   static async logout(): Promise<void> {
     // await CoreAPI.logout({}); // TODO: logout API 호출하도록 변경
     this.deleteUserInfo();
-    console.log(storage.getAllKeys());
   }
 
   static async unregister(navigation: RootNavigationProps): Promise<void> {

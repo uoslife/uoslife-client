@@ -45,7 +45,8 @@ export class DeviceService {
       localDeviceInfo.model !== serverDeviceInfo.model ||
       localDeviceInfo.os !== serverDeviceInfo.os ||
       localDeviceInfo.osVersion !== serverDeviceInfo.osVersion
-    )
+    ) {
       await CoreAPI.patchDeviceInfo(localDeviceInfo);
+    }
   }
 }

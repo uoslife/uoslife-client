@@ -10,7 +10,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
 import {StackScreenProps} from '@react-navigation/stack';
-import {MyPageNestedStackParamList} from '../../../navigators/MyPageStackNavigator';
+import {MyPageProfileStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
@@ -20,9 +20,11 @@ import useModal from '../../../hooks/useModal';
 import storeToken from '../../../utils/storeToken';
 import ServiceAgreementOverlay from '../../../components/molecules/account/modalContents/ServiceAgreementOverlay';
 import AdvertisingAgreementResult from '../../../components/molecules/account/modalContents/AdvertisingAgreementResult';
+import {DeviceService} from '../../../services/device';
+import {UserService} from '../../../services/user';
 
 export type SetNickNameScreenProps = StackScreenProps<
-  MyPageNestedStackParamList,
+  MyPageProfileStackParamList,
   'Mypage_changeNickname'
 >;
 
@@ -51,7 +53,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
     useState<NicknameStatusMessageType>('BEFORE_CHECK');
 
   const [openBottomSheet, _, BottomSheet] = useModal('BOTTOM_SHEET');
-  const [openModal, closeModal, Modal] = useModal('MODAL');
+  const [openModal, __, Modal] = useModal('MODAL');
 
   const handleSetNicknameButton = async () => {
     // TODO: 사용 불가능 닉네임 로직 추가
@@ -67,7 +69,10 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
         return;
       }
       setStatusMessage('CAN_USE');
-
+      if (isMyPage) {
+        return;
+        // TODO: 닉네임 업데이트 API 연동 필요
+      }
       openBottomSheet();
     } catch (err) {
       const error = err as ErrorResponseType;
@@ -94,6 +99,8 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
       });
       console.log(signUpRes); // TODO: require delete
       storeToken(signUpRes.accessToken, signUpRes.refreshToken);
+      await DeviceService.setDeviceInfo();
+      await UserService.setUserInfo(_);
       openModal();
     } catch (err) {
       console.error(err);
@@ -145,7 +152,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
   return (
     <>
       <S.screenContainer
-        style={{paddingTop: insets.top, paddingBottom: insets.bottom}}>
+        style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
         <Header
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
@@ -240,6 +247,6 @@ const S = {
   setNicknameContainer: styled.View`
     flex: 1;
     justify-content: space-between;
-    padding: 28px 16px;
+    padding: 28px 16px 0;
   `,
 };
