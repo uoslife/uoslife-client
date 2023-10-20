@@ -6,13 +6,13 @@ import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {UsingStatusType, UsingStatusExcludeNotUsing} from './LibraryUserInfo';
 
 type LibraryUsingStatus = {
-  libraryUsingStatus: UsingStatusType;
+  libraryUsingStatus?: UsingStatusType;
   timerTime?: number; // 초 단위로
 };
 
 // 시간줄어드는거 구현 필요
 const LibraryTimer = ({libraryUsingStatus, timerTime}: LibraryUsingStatus) => {
-  if (timerTime === -1) return <></>;
+  if (!libraryUsingStatus || timerTime === -1) return <></>;
   if (libraryUsingStatus === 'NOT_USING')
     return (
       <CountdownCircleTimer
