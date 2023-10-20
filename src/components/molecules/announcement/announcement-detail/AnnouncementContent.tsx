@@ -1,14 +1,11 @@
-import {Alert, Linking, Pressable, Touchable, View} from 'react-native';
+import {Linking, View} from 'react-native';
 import {ArticleDetailType} from '../../../../types/announcement.type';
 import AnnouncementDetailScreenBookmarkToggle from './AnnouncementDetailScreenBookmarkToggle';
-import {Button, Txt, colors} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 import {announcementFullName} from '../../../../configs/announcement';
 import styled from '@emotion/native';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
-import {Link} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import IconWithText from '../../iconWithText/IconWithText';
 
 const AnnouncementDetailScreenContent = ({
   title,
@@ -50,7 +47,7 @@ const AnnouncementDetailScreenContent = ({
           </S.CategoryAndDateAndBookmarkContainer>
         </S.TopWrapper>
       </View>
-      {files.length != 0 && <AnnouncementFileList files={files} />}
+      <AnnouncementFileList files={files} />
       <AnnouncementHTML description={description} />
     </S.Root>
   );
