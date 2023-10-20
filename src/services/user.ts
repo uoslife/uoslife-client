@@ -14,7 +14,6 @@ export class UserService {
   static async logout(): Promise<void> {
     // await CoreAPI.logout({}); // TODO: logout API 호출하도록 변경
     this.deleteUserInfo();
-    console.log(storage.getAllKeys());
   }
 
   static async unregister(navigation: RootNavigationProps): Promise<void> {

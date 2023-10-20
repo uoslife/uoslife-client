@@ -41,13 +41,17 @@ const RootStackNavigator: React.FC = () => {
     [config],
   );
 
+  const callbackWhenLoggedIn = async () => {
+    await DeviceService.updateDeviceInfo();
+    setIsLoggedIn(true);
+  };
+
   useEffect(() => {
     (async () => {
       await NotificationService.setFirebasePushToken();
-      await UserService.setUserInfo(() => setIsLoggedIn(true)).finally(() => {
+      await UserService.setUserInfo(callbackWhenLoggedIn).finally(() => {
         setIsServiceInitLoading(false);
       });
-      await DeviceService.updateDeviceInfo(); // TODO: patch Device API 문제 해결되면 주석 해제
     })();
   }, []);
 
