@@ -30,15 +30,16 @@ const MypageProfileScreen = () => {
   const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<MypageProfileNavigationProp>();
   const rootNavigation = useNavigation<RootNavigationProps>();
-  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(true);
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openModal, closeModal, Modal] = useModal('MODAL');
 
-  const handleUpdateProfileImage = async () => {
-    openPhotoSelectionAlert();
-  };
+  const isVerified = UserService.getUserInfo('isVerified') as boolean;
+
+  // const handleUpdateProfileImage = async () => {
+  //   openPhotoSelectionAlert();
+  // };
   // const handlePortalAccountPress = () => {
-  //   if (isPortalAuthenticated) {
+  //   if (isVerified) {
   //       <S.modalWrapper>
   //         <Txt
   //           label={'포털 계정 연동을 해지하시겠습니까?'}
@@ -85,7 +86,7 @@ const MypageProfileScreen = () => {
             <S.myProfileBox>
               <Pressable
                 // onPress={handleUpdateProfileImage}
-                style={{paddingBottom: 64}}>
+                style={{padding: 48}}>
                 <S.userCircleImageWrapper>
                   {/*<S.userImage*/}
                   {/*  source={*/}
@@ -123,19 +124,15 @@ const MypageProfileScreen = () => {
               <NavigationList
                 label="포털 계정 연동"
                 onPress={
-                  !isPortalAuthenticated
+                  !isVerified
                     ? () => navigation.navigate('Mypage_portalAuthentication')
                     : undefined
                 }
-                pressLabel={
-                  isPortalAuthenticated ? '연동되었습니다.' : '연동하기'
-                }
-                pressLabelColor={
-                  isPortalAuthenticated ? 'grey130' : 'primaryBrand'
-                }
-                isPressIconShown={!isPortalAuthenticated}
+                pressLabel={isVerified ? '연동되었습니다.' : '연동하기'}
+                pressLabelColor={isVerified ? 'grey130' : 'primaryBrand'}
+                isPressIconShown={!isVerified}
               />
-              {isPortalAuthenticated && (
+              {isVerified && (
                 <S.portalAccountInformationWrapper>
                   {getPortalAccountInfoList().map(item => {
                     return (
@@ -240,7 +237,7 @@ const S = {
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 48px 24px;
+    padding: 0 16px;
   `,
   myProfileBox: styled.View`
     width: 100%;

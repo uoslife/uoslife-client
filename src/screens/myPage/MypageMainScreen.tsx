@@ -15,8 +15,10 @@ const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
-  const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
   const {setIsLoggedIn} = useUserStatus();
+
+  const nickname = UserService.getUserInfo('nickname') as string;
+  const isVerified = UserService.getUserInfo('isVerified') as boolean;
 
   const handlePressLogoutButton = async () => {
     await UserService.logout().finally(() => setIsLoggedIn(false));
@@ -37,18 +39,12 @@ const MypageMainScreen = ({
             />
           </S.circleImageWrapper>
           <S.textWrapper>
-            <Txt
-              label={'귀여운시루매(김동현)'}
-              color={'grey190'}
-              typograph={'titleLarge'}
-            />
+            <Txt label={nickname} color={'grey190'} typograph={'titleLarge'} />
             <Txt
               label={
-                isPortalAuthenticated
-                  ? '경영학부(2023270001)'
-                  : '포털 계정을 연동해주세요'
+                isVerified ? '경영학부(2000000000)' : '포털 계정을 연동해주세요'
               }
-              color={isPortalAuthenticated ? 'grey130' : 'primaryBrand'}
+              color={isVerified ? 'grey130' : 'primaryBrand'}
               typograph={'bodyMedium'}
             />
           </S.textWrapper>
