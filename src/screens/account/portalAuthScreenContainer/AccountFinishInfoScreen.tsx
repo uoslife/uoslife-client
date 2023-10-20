@@ -7,6 +7,7 @@ import {
   accountFlowStatusAtom,
 } from '../../../atoms/account';
 import {useUserStatus} from '../../../atoms/user';
+import AnimatedPlayer from 'react-native-animated-webp';
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
 
@@ -32,7 +33,13 @@ const AccountFinishInfoScreen = () => {
 
   return (
     <View style={{paddingTop: 400, alignItems: 'center'}}>
-      <Txt label={'로그인 완료!'} color={'black'} typograph={'bodySmall'} />
+      <AnimatedPlayer
+        thumbnailSource={require('../../../assets/animations/uoslifeLogo.webp')}
+        animatedSource={require('../../../assets/animations/uoslifeLogo.webp')}
+        autoplay={true}
+        loop={false}
+        style={{width: 350, height: 350}}
+      />
     </View>
   );
 };
