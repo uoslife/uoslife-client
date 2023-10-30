@@ -18,7 +18,7 @@ const initOverlayStatus: OverlayStatusArray = [
 ];
 
 type Props = {
-  handleClickSubmitBottomSheetButton?: (isAdvertismentAgree: boolean) => void;
+  handleClickSubmitBottomSheetButton: (isAdvertismentAgree: boolean) => void;
 };
 
 const ServiceAgreementOverlay = ({
@@ -99,7 +99,7 @@ const ServiceAgreementOverlay = ({
         isFullWidth
         isEnabled={areAllStatusChecked()}
         onPress={() =>
-          handleClickSubmitBottomSheetButton!(getCheckedStatusById(3))
+          handleClickSubmitBottomSheetButton(getCheckedStatusById(3))
         }
       />
     </S.Container>
