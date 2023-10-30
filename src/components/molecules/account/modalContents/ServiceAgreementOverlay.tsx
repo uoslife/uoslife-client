@@ -3,8 +3,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import BottomSheetCheckItem from '../../../overlays/items/BottomSheetCheckItem';
 import {Button} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/core';
-import {AccountNavigationProp} from '../../../../navigators/AccountStackNavigatior';
 
 type OverlayType = 'CHECK_ALL' | 'REQUIRED' | 'OPTIONAL';
 type OverlayStatus = {id: number; type: OverlayType; checked: boolean};
@@ -27,7 +25,6 @@ const ServiceAgreementOverlay = ({
   const insets = useSafeAreaInsets();
   const [overlayStatus, setStatus] =
     useState<OverlayStatusArray>(initOverlayStatus);
-  const navigation = useNavigation<AccountNavigationProp>();
 
   const getCheckedStatusById = (id: OverlayStatus['id']) =>
     overlayStatus.find(item => item.id === id)!.checked;
@@ -76,17 +73,13 @@ const ServiceAgreementOverlay = ({
         checked={getCheckedStatusById(1)}
         title="[필수] 개인정보처리방침"
         onToggle={() => handleClickCheckItem(1)}
-        onPressForward={() => {
-          navigation.navigate('Account_ToSandPolicies');
-        }}
+        onPressForward={() => {}} // TODO: 개처방 Screen 띄우기
       />
       <BottomSheetCheckItem
         checked={getCheckedStatusById(2)}
         title="[필수] 시대생 이용약관"
         onToggle={() => handleClickCheckItem(2)}
-        onPressForward={() => {
-          navigation.navigate('Account_privacyPolicies');
-        }}
+        onPressForward={() => {}} // TODO: 이용약관 Screen 띄우기
       />
       <BottomSheetCheckItem
         checked={getCheckedStatusById(3)}
