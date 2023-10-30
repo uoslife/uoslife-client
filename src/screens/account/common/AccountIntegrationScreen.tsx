@@ -70,7 +70,7 @@ const AccountIntegrationScreen = () => {
                     );
                   })
                 }>
-                <S.idButtonSelected isSelected={item.isSelected}>
+                <S.idButtonSelected isSelected={item.isSelected!}>
                   <Txt
                     label={item.nickname}
                     color={'grey190'}
