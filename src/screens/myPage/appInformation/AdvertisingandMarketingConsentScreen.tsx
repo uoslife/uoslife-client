@@ -2,9 +2,10 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import WebViewWithHeader from '../../../components/webView/WebViewWthHeader';
 import URLS from '../../../configs/urls';
+import {ServiceAgreementStackNavigation} from '../../../types/serviceAgreement.type';
 
 const ToSandPoliciesScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<ServiceAgreementStackNavigation>();
 
   return (
     <WebViewWithHeader
