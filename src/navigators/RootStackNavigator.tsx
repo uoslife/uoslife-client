@@ -4,7 +4,6 @@ import {useConfigContext} from '../hooks/ConfigContext';
 import SplashScreen from 'react-native-splash-screen';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
-import AccountScreen from '../screens/account';
 import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import MyPageStackNavigator from './MyPageStackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -16,6 +15,7 @@ import {UserService} from '../services/user';
 import {NotificationService} from '../services/notification';
 import {useUserStatus, userStatusAtom} from '../atoms/user';
 import {DeviceService} from '../services/device';
+import AccountStackNavigator from './AccountStackNavigatior';
 
 export type RootStackParamList = {
   Account: undefined;
@@ -79,7 +79,7 @@ const RootStackNavigator: React.FC = () => {
           <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
         </>
       ) : (
-        <Stack.Screen name="Account" component={AccountScreen} />
+        <Stack.Screen name="Account" component={AccountStackNavigator} />
       )}
     </Stack.Navigator>
   );
