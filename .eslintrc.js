@@ -14,6 +14,7 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
+    curly: 0,
     'import/no-unresolved': 'off',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error', {variables: false}],
@@ -32,7 +33,14 @@ module.exports = {
       {namedComponents: 'arrow-function'},
     ],
     'react/react-in-jsx-scope': 'off',
-    curly: 0,
+    'react/require-default-props': 'off',
+    'import/no-named-as-default': 'off',
+    'react/jsx-props-no-spreading': [
+      'error',
+      {
+        custom: 'ignore',
+      },
+    ],
   },
   plugins: ['prettier'],
   ignorePatterns: ['**/storybook-static'],
