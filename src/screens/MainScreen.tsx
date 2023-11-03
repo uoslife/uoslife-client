@@ -6,15 +6,15 @@ import {View, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {
-  AnnounceContents,
-  CafeteriaContents,
-  LibraryContents,
-  MainServiceBox,
-} from '../components/molecules';
-import Carousel from '../components/molecules/carousel/Carousel';
+import Carousel from '../components/molecules/common/carousel/Carousel';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import UserService from '../services/user';
+import {
+  MainServiceBox,
+  CafeteriaContents,
+  LibraryContents,
+  AnnounceContents,
+} from '../components/molecules/screens/main';
 
 const {width} = Dimensions.get('window');
 

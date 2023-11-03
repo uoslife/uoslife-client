@@ -4,8 +4,8 @@ import styled from '@emotion/native/dist/emotion-native.cjs';
 import {Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import ToggleSwitch from '../../components/toggleSwitch/ToggleSwitch';
-import Header from '../../components/header/Header';
+import ToggleSwitch from '../../components/atoms/toggleSwitch/ToggleSwitch';
+import Header from '../../components/molecules/common/header/Header';
 
 const UOSLIFE_NOTIFICATION_SETTING = [
   {

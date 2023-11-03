@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import ModalLayout from '../components/overlays/layouts/ModalLayout';
-import BottomSheetLayout from '../components/overlays/layouts/BottomSheetLayout';
+import ModalLayout from '../components/molecules/overlays/layouts/ModalLayout';
+import BottomSheetLayout from '../components/molecules/overlays/layouts/BottomSheetLayout';
 
 type UseModalParams =
   /** 레이아웃(위치, height / width / border 등 스타일 스펙) 지정 */

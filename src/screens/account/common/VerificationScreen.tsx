@@ -6,8 +6,8 @@ import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTimer} from '@uoslife/react';
 import {useNavigation} from '@react-navigation/native';
-import Header from '../../../components/header/Header';
-import Input from '../../../components/forms/input/Input';
+import Header from '../../../components/molecules/common/header/Header';
+import Input from '../../../components/molecules/common/forms/input/Input';
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,

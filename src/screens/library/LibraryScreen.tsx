@@ -4,9 +4,9 @@ import {useEffect} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import LibraryUserInfo from '../../components/molecules/library/LibraryUserInfo';
-import {LibraryStatus} from '../../components/molecules/library/LibararyStatus';
-import Header from '../../components/header/Header';
+import LibraryUserInfo from '../../components/molecules/screens/library/LibraryUserInfo';
+import {LibraryStatus} from '../../components/molecules/screens/library/LibararyStatus';
+import Header from '../../components/molecules/common/header/Header';
 
 const LibraryScreen = () => {
   const insets = useSafeAreaInsets();

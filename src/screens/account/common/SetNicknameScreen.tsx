@@ -10,16 +10,16 @@ import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
 } from '../../../atoms/account';
-import Header from '../../../components/header/Header';
-import Input from '../../../components/forms/input/Input';
+import Header from '../../../components/molecules/common/header/Header';
+import Input from '../../../components/molecules/common/forms/input/Input';
 import {MyPageProfileStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {CoreAPI} from '../../../api/services';
-import InputProps from '../../../components/forms/input/Input.type';
+import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
 import storeToken from '../../../utils/storeToken';
-import ServiceAgreementOverlay from '../../../components/molecules/account/modalContents/ServiceAgreementOverlay';
-import AdvertisingAgreementResult from '../../../components/molecules/account/modalContents/AdvertisingAgreementResult';
+import ServiceAgreementOverlay from '../../../components/molecules/screens/account/modalContents/ServiceAgreementOverlay';
+import AdvertisingAgreementResult from '../../../components/molecules/screens/account/modalContents/AdvertisingAgreementResult';
 import DeviceService from '../../../services/device';
 import UserService from '../../../services/user';
 

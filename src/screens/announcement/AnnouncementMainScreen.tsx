@@ -6,12 +6,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BackHandler, Keyboard, Text} from 'react-native';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import {useAtomValue} from 'jotai';
-import SearchInput from '../../components/forms/searchInput/SearchInput';
-import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
+import SearchInput from '../../components/molecules/common/forms/searchInput/SearchInput';
+import SearchWordEnteringView from '../../components/molecules/screens/announcement/search/SearchWordEnteringView';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
-import CategoryTab from '../../components/molecules/announcement/category-tab/CategoryTab';
-import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
-import Header from '../../components/header/Header';
+import CategoryTab from '../../components/molecules/screens/announcement/category-tab/CategoryTab';
+import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
+import Header from '../../components/molecules/common/header/Header';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import {
   AnnouncementCategoryStatusType,
@@ -20,7 +20,7 @@ import {
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
 import {ArticleListType} from '../../types/announcement.type';
 import useModal from '../../hooks/useModal';
-import AlertSettingOverlay from '../../components/molecules/announcement/modalContents/AlertSettingOverlay';
+import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 
 const ELEMENTS_PER_PAGE = 10;
 

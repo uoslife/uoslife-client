@@ -8,7 +8,7 @@ import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
-import Carousel from '../../components/molecules/carousel/Carousel';
+import Carousel from '../../components/molecules/common/carousel/Carousel';
 import {accountFlowStatusAtom} from '../../atoms/account';
 
 import storeToken from '../../utils/storeToken';

@@ -6,9 +6,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSetAtom} from 'jotai';
 import {Txt, Button} from '@uoslife/design-system';
 
-import Header from '../../../components/header/Header';
-import Input from '../../../components/forms/input/Input';
-import InputProps from '../../../components/forms/input/Input.type';
+import Header from '../../../components/molecules/common/header/Header';
+import Input from '../../../components/molecules/common/forms/input/Input';
+import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 
 import {accountFlowStatusAtom} from '../../../atoms/account';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';

@@ -3,8 +3,8 @@ import {Txt} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
-import Header from '../../components/header/Header';
+import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
+import Header from '../../components/molecules/common/header/Header';
 import {ArticleListType} from '../../types/announcement.type';
 
 const NoBookmarkFound = () => (

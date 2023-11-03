@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {MyPageAppInformationStackParamList} from '../../../navigators/MyPageStackNavigator';
-import WebViewWithHeader from '../../../components/webView/WebViewWthHeader';
+import WebViewWithHeader from '../../../components/molecules/webView/WebViewWthHeader';
 import URLS from '../../../configs/urls';
 
 type AdvertisingandMarketingConsentNavigationStack = StackNavigationProp<

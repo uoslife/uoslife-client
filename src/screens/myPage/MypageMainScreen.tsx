@@ -5,9 +5,9 @@ import styled from '@emotion/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import URLS from '../../configs/urls';
-import Header from '../../components/header/Header';
+import Header from '../../components/molecules/common/header/Header';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
-import NavigationList from '../../components/navigations/navigationList/NavigationList';
+import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import UserService from '../../services/user';
 import {useUserStatus} from '../../atoms/user';
 

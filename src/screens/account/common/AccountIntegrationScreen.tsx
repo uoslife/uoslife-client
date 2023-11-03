@@ -4,7 +4,7 @@ import {Pressable, View} from 'react-native';
 import {useAtom, useSetAtom} from 'jotai';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Header from '../../../components/header/Header';
+import Header from '../../../components/molecules/common/header/Header';
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,

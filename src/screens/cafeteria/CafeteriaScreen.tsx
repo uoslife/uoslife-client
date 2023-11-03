@@ -5,10 +5,10 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {Pressable} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import Header from '../../components/header/Header';
-import Card from '../../components/card/Card';
-import CafeteriaCard from '../../components/molecules/cafeteria/card/CafeteriaCard';
-import DatePaginationBar from '../../components/molecules/cafeteria/pagination/DatePaginationBar';
+import Header from '../../components/molecules/common/header/Header';
+import Card from '../../components/molecules/common/card/Card';
+import CafeteriaCard from '../../components/molecules/screens/cafeteria/card/CafeteriaCard';
+import DatePaginationBar from '../../components/molecules/screens/cafeteria/pagination/DatePaginationBar';
 import {UtilAPI} from '../../api/services';
 import response from './mockResponse';
 

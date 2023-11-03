@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from '@emotion/native';
-import BottomSheet from '../components/overlay/BottomSheet';
+import BottomSheet from '../components/molecules/overlay/BottomSheet';
 
 // 배경을 누르면 사라집니다..
 const useBottomSheet = () => {

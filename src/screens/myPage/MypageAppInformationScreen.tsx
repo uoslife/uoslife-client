@@ -5,8 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import DeviceInfo from 'react-native-device-info';
 
-import Header from '../../components/header/Header';
-import NavigationList from '../../components/navigations/navigationList/NavigationList';
+import Header from '../../components/molecules/common/header/Header';
+import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import {MypageAppInformationNavigationProp} from '../../navigators/MyPageStackNavigator';
 
 const MypageAppInformationScreen = () => {
