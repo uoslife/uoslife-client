@@ -11,13 +11,13 @@ const LibraryRoomItem = ({item}: Props) => {
       <S.itemTxtContainer>
         <Txt
           label={`${item.room_name}`}
-          color={'grey190'}
-          typograph={'titleSmall'}
+          color="grey190"
+          typograph="titleSmall"
         />
         <Txt
           label={`잔여 ${item.remain_seat}석 / ${item.total_seat}석`}
-          color={'grey130'}
-          typograph={'bodyLarge'}
+          color="grey130"
+          typograph="bodyLarge"
         />
       </S.itemTxtContainer>
       <S.progressBarConatiner>

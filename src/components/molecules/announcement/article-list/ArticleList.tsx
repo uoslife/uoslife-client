@@ -1,6 +1,6 @@
 import {forwardRef} from 'react';
-import ArticleItem from './ArticleItem';
 import {FlatList} from 'react-native';
+import ArticleItem from './ArticleItem';
 import {ArticleListType} from '../../../../types/announcement.type';
 
 type ArticleListProps = {

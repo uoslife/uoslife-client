@@ -27,7 +27,7 @@ const ModalStandardButton = ({
         <Txt
           color={TypeColorMapping[type]}
           label={label}
-          typograph={'bodyMedium'}
+          typograph="bodyMedium"
         />
       </S.ButtonContainer>
     </View>

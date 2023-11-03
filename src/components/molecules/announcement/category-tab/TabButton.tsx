@@ -12,7 +12,7 @@ const TabButton = ({isSelected, label, onPress}: TabButtonProps) => {
   return (
     <S.Container isSelected={isSelected} onPress={onPress}>
       <Txt
-        typograph={'bodyMedium'}
+        typograph="bodyMedium"
         label={label}
         color={isSelected ? 'primaryBrand' : 'black'}
       />

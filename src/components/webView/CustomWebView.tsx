@@ -1,9 +1,9 @@
 import React, {useRef} from 'react';
-import {useConfigContext} from '../../hooks/ConfigContext';
 import WebView from 'react-native-webview';
-import webview from '../../configs/webview';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase} from '@react-navigation/native';
+import webview from '../../configs/webview';
+import {useConfigContext} from '../../hooks/ConfigContext';
 import Spinner from '../spinner/Spinner';
 
 export type CustomWebviewProps = {
@@ -23,16 +23,16 @@ const CustomWebView = ({url}: CustomWebviewProps) => {
       source={{uri: url ?? (config.get('webview.url') as string)}}
       ref={ref => (webviewRef.current = ref || ({} as WebView))}
       injectedJavaScript={webview.injectedJavascript}
-      allowsBackForwardNavigationGestures={true}
+      allowsBackForwardNavigationGestures
       setBuiltInZoomControls={false}
       setDisplayZoomControls={false}
-      javaScriptEnabled={true}
-      domStorageEnabled={true}
-      allowFileAccess={true}
-      scalesPageToFit={true}
-      cacheEnabled={true}
+      javaScriptEnabled
+      domStorageEnabled
+      allowFileAccess
+      scalesPageToFit
+      cacheEnabled
       bounces={false}
-      startInLoadingState={true}
+      startInLoadingState
       renderLoading={() => <Spinner />}
     />
   );

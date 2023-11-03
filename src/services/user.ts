@@ -1,9 +1,9 @@
 import {CoreAPI} from '../api/services';
 import {UserInfoType} from '../api/services/core/user/userAPI.type';
-import {storage} from '../storage';
+import storage from '../storage';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 
-export class UserService {
+export default class UserService {
   static async setUserInfo(callback: () => void): Promise<void> {
     try {
       const userInfo = await CoreAPI.getUserInfo({});
@@ -11,6 +11,7 @@ export class UserService {
       callback();
     } catch (error) {}
   }
+
   static async logout(): Promise<void> {
     // await CoreAPI.logout({}); // TODO: logout API 호출하도록 변경
     this.deleteUserInfo();
@@ -26,6 +27,7 @@ export class UserService {
     if (!jsonUser) return null;
     return JSON.parse(jsonUser) as UserInfoType;
   }
+
   static getUserInfo(
     item: keyof UserInfoType,
   ): UserInfoType[keyof UserInfoType] {
@@ -33,6 +35,7 @@ export class UserService {
     if (userInfo === null) return null;
     return userInfo[item];
   }
+
   static deleteUserInfo = (): void => {
     storage.delete('access_token');
     storage.delete('refresh_token');

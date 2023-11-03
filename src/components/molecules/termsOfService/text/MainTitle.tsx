@@ -9,7 +9,7 @@ type MianTitleProp = {
 const MainTitle = ({mainTitle}: MianTitleProp) => {
   return (
     <TitleContainer>
-      <Txt label={mainTitle} color={'grey190'} typograph={'headlineMedium'} />
+      <Txt label={mainTitle} color="grey190" typograph="headlineMedium" />
     </TitleContainer>
   );
 };

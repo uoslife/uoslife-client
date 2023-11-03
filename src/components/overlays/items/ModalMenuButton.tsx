@@ -10,8 +10,8 @@ const ModalMenuButton = ({label, onPress}: ModalMenuButtonProps) => {
   return (
     <S.Wrapper>
       <S.Container onPress={onPress}>
-        <Txt color={'grey190'} label={label} typograph={'bodyLarge'} />
-        <Icon name={'forwardArrow'} color={'grey130'} height={24} width={24} />
+        <Txt color="grey190" label={label} typograph="bodyLarge" />
+        <Icon name="forwardArrow" color="grey130" height={24} width={24} />
       </S.Container>
     </S.Wrapper>
   );

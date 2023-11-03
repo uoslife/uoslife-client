@@ -1,17 +1,17 @@
 import styled from '@emotion/native';
-import IconWithText from '../../iconWithText/IconWithText';
-import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import IconWithText from '../../iconWithText/IconWithText';
+import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 
 const BottomNavigation = () => {
   const insets = useSafeAreaInsets();
   const {navigate} = useNavigation<RootNavigationProps>();
   return (
     <S.BottomNavigationWrapper bottomInsets={insets.bottom}>
-      <IconWithText iconName={'menu'} text={'시대생활'} isClick={true} />
-      <IconWithText iconName={'studentId'} text={'학생증'} isClick={false} />
-      <IconWithText iconName={'person'} text={'채팅'} isClick={false} />
+      <IconWithText iconName="menu" text="시대생활" isClick />
+      <IconWithText iconName="studentId" text="학생증" isClick={false} />
+      <IconWithText iconName="person" text="채팅" isClick={false} />
     </S.BottomNavigationWrapper>
   );
 };

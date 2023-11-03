@@ -30,7 +30,7 @@ const Carousel = ({
   const setIndex = useCallback((index: number) => {
     carouselRef.current?.scrollToIndex({
       animated: true,
-      index: index,
+      index,
     });
   }, []);
 
@@ -60,8 +60,8 @@ const Carousel = ({
         <S.CarouselOrderMarker>
           <Txt
             label={`${currentIndex} / ${imageUrlsLength}`}
-            color={'white'}
-            typograph={'labelSmall'}
+            color="white"
+            typograph="labelSmall"
           />
         </S.CarouselOrderMarker>
       )}

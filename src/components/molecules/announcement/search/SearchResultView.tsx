@@ -1,18 +1,14 @@
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../article-list/ArticleList';
 import styled from '@emotion/native';
 import {useEffect, useState, useRef} from 'react';
+import ArticleList from '../article-list/ArticleList';
 import {ArticleListType} from '../../../../types/announcement.type';
 import AnnouncementAPI from '../../../../api/services/util/announcement/announcementAPI';
 
 const SearchResultNotFound = () => {
   return (
     <S.SearchResultNotFoundRoot>
-      <Txt
-        label={'검색 결과가 없어요.'}
-        color={'grey90'}
-        typograph={'bodyMedium'}
-      />
+      <Txt label="검색 결과가 없어요." color="grey90" typograph="bodyMedium" />
     </S.SearchResultNotFoundRoot>
   );
 };

@@ -1,8 +1,8 @@
 import styled from '@emotion/native';
+import {colors} from '@uoslife/design-system';
 import Card from '../../card/Card';
 import {LibraryStatusType} from '../../../api/services/util/library/libraryAPI.type';
 import LibraryRoomItem from './LibraryRoomItem';
-import {colors} from '@uoslife/design-system';
 
 type Props = LibraryStatusType;
 

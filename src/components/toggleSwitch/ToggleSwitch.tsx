@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import ToggleSwitchProps from './ToggleSwitch.type';
 import {Animated, StyleSheet, Pressable, Easing, Platform} from 'react-native';
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
+import ToggleSwitchProps from './ToggleSwitch.type';
 
 const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
   useEffect(() => {

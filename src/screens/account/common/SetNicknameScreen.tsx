@@ -2,26 +2,26 @@ import styled from '@emotion/native';
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {useAtom, useAtomValue} from 'jotai';
+import {Button, Txt} from '@uoslife/design-system';
+import {StackScreenProps} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
 } from '../../../atoms/account';
-import {Button, Txt} from '@uoslife/design-system';
 import Header from '../../../components/header/Header';
 import Input from '../../../components/forms/input/Input';
-import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageProfileStackParamList} from '../../../navigators/MyPageStackNavigator';
-import {useNavigation} from '@react-navigation/native';
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/forms/input/Input.type';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
 import storeToken from '../../../utils/storeToken';
 import ServiceAgreementOverlay from '../../../components/molecules/account/modalContents/ServiceAgreementOverlay';
 import AdvertisingAgreementResult from '../../../components/molecules/account/modalContents/AdvertisingAgreementResult';
-import {DeviceService} from '../../../services/device';
-import {UserService} from '../../../services/user';
+import DeviceService from '../../../services/device';
+import UserService from '../../../services/user';
 
 export type SetNickNameScreenProps = StackScreenProps<
   MyPageProfileStackParamList,
@@ -85,7 +85,7 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
     isAdvertismentAgree: boolean,
   ) => {
     setIsAdvertismentAgree(isAdvertismentAgree);
-    if (selectedAccountInfo) delete selectedAccountInfo['isSelected'];
+    if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
     try {
       const signUpRes = await CoreAPI.signUp({
         nickname: inputValue,
@@ -191,15 +191,15 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
                     ? '변경하실 닉네임을 입력해주세요.'
                     : '사용하실 닉네임을 입력해주세요.'
                 }
-                color={'grey190'}
-                typograph={'headlineMedium'}
+                color="grey190"
+                typograph="headlineMedium"
               />
               <Txt
                 label={
                   '닉네임은 최대 8자로 설정 가능합니다.\n한글, 영문, 숫자, 특수기호를 이용해주세요.'
                 }
-                color={'grey190'}
-                typograph={'bodyMedium'}
+                color="grey190"
+                typograph="bodyMedium"
               />
             </View>
             <Input
@@ -207,17 +207,17 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
               maxLength={8}
               onPress={onPressInputDelete}
               value={inputValue}
-              label={'닉네임'}
+              label="닉네임"
               statusMessage={handleInputStatusMessage(statusMessage)}
               status={handleInputStatus(statusMessage)}
-              placeholder={'여기에 입력하세요.'}
+              placeholder="여기에 입력하세요."
             />
           </View>
           <Button
-            label={'설정하기'}
+            label="설정하기"
             onPress={handleSetNicknameButton}
             isEnabled={!!inputValue}
-            isFullWidth={true}
+            isFullWidth
           />
         </S.setNicknameContainer>
       </S.screenContainer>

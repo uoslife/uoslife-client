@@ -17,11 +17,11 @@ const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
           <Icon
             height={18}
             width={18}
-            name={'download'}
-            color={'primaryBrand'}
+            name="download"
+            color="primaryBrand"
             key={i}
           />
-          <Txt label={`${name}`} color={'grey130'} typograph={'bodyMedium'} />
+          <Txt label={`${name}`} color="grey130" typograph="bodyMedium" />
         </S.Item>
       ))}
     </S.List>

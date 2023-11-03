@@ -1,5 +1,5 @@
 import ky, {BeforeRequestHook} from 'ky';
-import {storage} from '../../storage';
+import storage from '../../storage';
 
 export const setAuthorizationHeader: BeforeRequestHook = (
   request,

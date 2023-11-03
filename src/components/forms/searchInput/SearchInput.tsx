@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
-import SearchInputProps from './SearchInput.type';
 import {colors, Icon, typographs} from '@uoslife/design-system';
+import SearchInputProps from './SearchInput.type';
 
 const SearchInput = ({
   status = 'default',
@@ -22,10 +22,10 @@ const SearchInput = ({
       <Pressable>
         <S.roundInputContainer value={value} status={status}>
           <Icon
-            name={'search'}
+            name="search"
             width={24}
             height={24}
-            color={!!value ? 'grey190' : 'grey60'}
+            color={value ? 'grey190' : 'grey60'}
           />
           <S.textInput
             style={Styles.paddingVertical}
@@ -37,14 +37,14 @@ const SearchInput = ({
             ref={inputRef}
             placeholderTextColor={placeholderTextColor}
             multiline={false}
-            returnKeyType={'search'}
+            returnKeyType="search"
             {...props}
           />
           {children}
           {!!value && (
             <S.deleteTextWrapper>
               <Pressable onPress={onPressClear}>
-                <Icon name={'clear'} width={24} height={24} color={'grey90'} />
+                <Icon name="clear" width={24} height={24} color="grey90" />
               </Pressable>
             </S.deleteTextWrapper>
           )}

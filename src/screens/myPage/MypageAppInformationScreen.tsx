@@ -18,7 +18,7 @@ const MypageAppInformationScreen = () => {
 
   return (
     <View style={{paddingTop: insets.top}}>
-      <Header label={'앱 정보'} onPressBackButton={handleGoBack} />
+      <Header label="앱 정보" onPressBackButton={handleGoBack} />
       <S.Container>
         <NavigationList
           label="이용약관 및 정책"

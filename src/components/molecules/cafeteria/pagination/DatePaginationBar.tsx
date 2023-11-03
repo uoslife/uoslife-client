@@ -18,25 +18,25 @@ const DatePaginationBar = ({datePaginationItems}: DatePaginationProps) => {
         onPress={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}>
         {currentPage === 1 ? (
-          <Icon name={'backward'} color="grey40" width={24} height={24} />
+          <Icon name="backward" color="grey40" width={24} height={24} />
         ) : (
-          <Icon name={'backward'} color="grey190" width={24} height={24} />
+          <Icon name="backward" color="grey190" width={24} height={24} />
         )}
       </TabBarButton>
 
       <Txt
         label={datePaginationItems[currentPage - 1]}
-        color={'grey150'}
-        typograph={'titleMedium'}
+        color="grey150"
+        typograph="titleMedium"
       />
 
       <TabBarButton
         onPress={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === 7}>
         {currentPage === 7 ? (
-          <Icon name={'forward'} color="grey40" width={24} height={24} />
+          <Icon name="forward" color="grey40" width={24} height={24} />
         ) : (
-          <Icon name={'forward'} color="grey190" width={24} height={24} />
+          <Icon name="forward" color="grey190" width={24} height={24} />
         )}
       </TabBarButton>
     </TabBarContainer>

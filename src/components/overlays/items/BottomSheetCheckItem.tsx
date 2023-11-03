@@ -21,7 +21,7 @@ const BottomSheetCheckItem = ({
     <S.Root>
       <S.Left onPress={onToggle}>
         <Icon
-          name={'check'}
+          name="check"
           color={checked ? 'primaryBrand' : 'grey60'}
           height={24}
           width={24}
@@ -29,23 +29,14 @@ const BottomSheetCheckItem = ({
       </S.Left>
       <S.Right>
         <S.Descriptions onPress={onToggle}>
-          <Txt color={'grey190'} label={title} typograph={'bodyLarge'} />
+          <Txt color="grey190" label={title} typograph="bodyLarge" />
           {supportingText && (
-            <Txt
-              color={'grey130'}
-              label={supportingText}
-              typograph={'bodySmall'}
-            />
+            <Txt color="grey130" label={supportingText} typograph="bodySmall" />
           )}
         </S.Descriptions>
         {!!onPressForward && (
           <S.ForwardArrow onPress={onPressForward}>
-            <Icon
-              name={'forwardArrow'}
-              color={'grey130'}
-              height={24}
-              width={24}
-            />
+            <Icon name="forwardArrow" color="grey130" height={24} width={24} />
           </S.ForwardArrow>
         )}
       </S.Right>

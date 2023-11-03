@@ -1,6 +1,6 @@
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import {ArticleDetailType} from '../../../../types/announcement.type';
 import styled from '@emotion/native';
+import {ArticleDetailType} from '../../../../types/announcement.type';
 
 const AnnouncementDetailScreenBookmarkToggle = ({
   bookmarkCount,
@@ -13,7 +13,7 @@ const AnnouncementDetailScreenBookmarkToggle = ({
   return (
     <S.Root onPress={onToggleBookmark}>
       <Icon
-        name={'bookmark'}
+        name="bookmark"
         color={bookmarkedByMe ? 'primaryBrand' : 'grey90'}
         height={24}
         width={24}
@@ -21,7 +21,7 @@ const AnnouncementDetailScreenBookmarkToggle = ({
       <Txt
         color={bookmarkedByMe ? 'primaryBrand' : 'grey90'}
         label={`${bookmarkCount}`}
-        typograph={'titleSmall'}
+        typograph="titleSmall"
       />
     </S.Root>
   );

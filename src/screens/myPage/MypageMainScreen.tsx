@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Linking} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {Button, colors, Txt} from '@uoslife/design-system';
 import URLS from '../../configs/urls';
 import Header from '../../components/header/Header';
-import {StackScreenProps} from '@react-navigation/stack';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/navigations/navigationList/NavigationList';
-import {Button, colors, Txt} from '@uoslife/design-system';
-import {UserService} from '../../services/user';
+import UserService from '../../services/user';
 import {useUserStatus} from '../../atoms/user';
 
 const MypageMainScreen = ({
@@ -27,25 +27,25 @@ const MypageMainScreen = ({
   return (
     <S.screenContainer style={{paddingTop: insets.top}} bounces={false}>
       <Header
-        label={'마이페이지'}
+        label="마이페이지"
         onPressBackButton={() => navigation.goBack()}
       />
       <S.myProfileContainer>
         <S.myProfileBox>
           <S.circleImageWrapper>
-            {/*<S.userImage source={require('../../assets/images/user.png')} />*/}
+            {/* <S.userImage source={require('../../assets/images/user.png')} /> */}
             <S.userImage
               source={require('../../assets/images/iroomae_character.png')}
             />
           </S.circleImageWrapper>
           <S.textWrapper>
-            <Txt label={nickname} color={'grey190'} typograph={'titleLarge'} />
+            <Txt label={nickname} color="grey190" typograph="titleLarge" />
             <Txt
               label={
                 isVerified ? '경영학부(2000000000)' : '포털 계정을 연동해주세요'
               }
               color={isVerified ? 'grey130' : 'primaryBrand'}
-              typograph={'bodyMedium'}
+              typograph="bodyMedium"
             />
           </S.textWrapper>
           <S.NavigationListWapper>
@@ -68,7 +68,7 @@ const MypageMainScreen = ({
           </S.NavigationListWapper>
         </S.myProfileBox>
         <Button
-          label={'로그아웃'}
+          label="로그아웃"
           variant="text"
           onPress={handlePressLogoutButton}
         />

@@ -32,7 +32,7 @@ const AccountFinishInfoScreen = () => {
 
   return (
     <View style={{paddingTop: 400, alignItems: 'center'}}>
-      <Txt label={'로그인 완료!'} color={'black'} typograph={'bodySmall'} />
+      <Txt label="로그인 완료!" color="black" typograph="bodySmall" />
     </View>
   );
 };

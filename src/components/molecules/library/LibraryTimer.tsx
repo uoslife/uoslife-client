@@ -1,8 +1,8 @@
 import {View} from 'react-native';
 import React from 'react';
 import {Txt, colorsType} from '@uoslife/design-system';
-import {pad} from '../../../utils/handle-date';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
+import {pad} from '../../../utils/handle-date';
 import {UsingStatusType, UsingStatusExcludeNotUsing} from './LibraryUserInfo';
 
 type LibraryUsingStatus = {
@@ -18,19 +18,17 @@ const LibraryTimer = ({libraryUsingStatus, timerTime}: LibraryUsingStatus) => {
       <CountdownCircleTimer
         colors={['#F9B000', '#E5212A', '#E5212A']}
         duration={0}
-        trailColor={'#E1DFDD'}
+        trailColor="#E1DFDD"
         colorsTime={[1000, 1000]}
         size={240}
         strokeWidth={2}>
         {({}) => (
-          <>
-            <Txt
-              color={'grey130'}
-              label={`이용 중인 좌석이\n없어요.`}
-              typograph="titleLarge"
-              style={{textAlign: 'center'}}
-            />
-          </>
+          <Txt
+            color="grey130"
+            label={`이용 중인 좌석이\n없어요.`}
+            typograph="titleLarge"
+            style={{textAlign: 'center'}}
+          />
         )}
       </CountdownCircleTimer>
     );
@@ -101,9 +99,9 @@ const LibraryTimer = ({libraryUsingStatus, timerTime}: LibraryUsingStatus) => {
 
     switch (libraryUsingStatus) {
       case 'USING':
-        return `${!!hour ? `${hour}시간 ` : ``}${minute}분`;
+        return `${hour ? `${hour}시간 ` : ``}${minute}분`;
       default: // 1, 2
-        return `${!!hour ? `${hour}시간 ` : ``}${
+        return `${hour ? `${hour}시간 ` : ``}${
           !hour && !!minute ? `${minute}분 ` : ``
         }${second}초`;
     }
@@ -116,49 +114,45 @@ const LibraryTimer = ({libraryUsingStatus, timerTime}: LibraryUsingStatus) => {
     });
 
   return (
-    <>
-      <CountdownCircleTimer
-        isPlaying
-        size={240}
-        rotation={'counterclockwise'}
-        duration={duration}
-        initialRemainingTime={initialRemainingTime}
-        colors={timerColors}
-        colorsTime={[5400, 1800, 0]} // libraryUsingStatus === 1 || libraryUsingStatus === 2일 때
-        trailColor={trailColor}
-        strokeWidth={2}
-        isSmoothColorTransition={false}>
-        {({remainingTime, elapsedTime}) => (
-          <>
+    <CountdownCircleTimer
+      isPlaying
+      size={240}
+      rotation="counterclockwise"
+      duration={duration}
+      initialRemainingTime={initialRemainingTime}
+      colors={timerColors}
+      colorsTime={[5400, 1800, 0]} // libraryUsingStatus === 1 || libraryUsingStatus === 2일 때
+      trailColor={trailColor}
+      strokeWidth={2}
+      isSmoothColorTransition={false}>
+      {({remainingTime, elapsedTime}) => (
+        <>
+          <Txt
+            color="grey130"
+            label={libraryUsingStatus === 'USING' ? '학습 시간' : '남은 시간'}
+            typograph="titleSmall"
+          />
+          <View style={{paddingTop: 4}}>
             <Txt
-              color={'grey130'}
-              label={libraryUsingStatus === 'USING' ? '학습 시간' : '남은 시간'}
+              color="grey190"
+              label={getDisplayTimeString({
+                timerTime:
+                  libraryUsingStatus === 'USING' ? elapsedTime : remainingTime,
+                libraryUsingStatus,
+              })}
+              typograph="headlineMedium"
+            />
+          </View>
+          <View style={{paddingTop: 24}}>
+            <Txt
+              color={getBottomTxtColor({libraryUsingStatus})}
+              label={libraryUsingStatus === 'USING' ? '이용 중' : '외출 중'}
               typograph="titleSmall"
             />
-            <View style={{paddingTop: 4}}>
-              <Txt
-                color={'grey190'}
-                label={getDisplayTimeString({
-                  timerTime:
-                    libraryUsingStatus === 'USING'
-                      ? elapsedTime
-                      : remainingTime,
-                  libraryUsingStatus,
-                })}
-                typograph={'headlineMedium'}
-              />
-            </View>
-            <View style={{paddingTop: 24}}>
-              <Txt
-                color={getBottomTxtColor({libraryUsingStatus})}
-                label={libraryUsingStatus === 'USING' ? '이용 중' : '외출 중'}
-                typograph={'titleSmall'}
-              />
-            </View>
-          </>
-        )}
-      </CountdownCircleTimer>
-    </>
+          </View>
+        </>
+      )}
+    </CountdownCircleTimer>
   );
 };
 

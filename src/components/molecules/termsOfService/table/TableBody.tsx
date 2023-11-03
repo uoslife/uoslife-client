@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 
 type TableBodyProps = {
   subTitle?: string;
@@ -11,15 +11,25 @@ type TableBodyProps = {
   leftandTopOpen?: boolean;
 };
 
-const TableBody: React.FC<TableBodyProps> = ({subTitle, bodyText, leftOpen, topOpen, leftandTopOpen}) => {
+const TableBody: React.FC<TableBodyProps> = ({
+  subTitle,
+  bodyText,
+  leftOpen,
+  topOpen,
+  leftandTopOpen,
+}) => {
   return (
     <BodyContainer
       leftOpen={leftOpen}
       topOpen={topOpen}
       leftandTopOpen={leftandTopOpen}>
-      <View style={{gap:8}}>
-        {subTitle&&<Txt label={subTitle} color={'grey160'} typograph={'labelLarge'} />}
-        {bodyText&&<Txt label={bodyText} color={'grey130'} typograph={'bodyMedium'} />}
+      <View style={{gap: 8}}>
+        {subTitle && (
+          <Txt label={subTitle} color="grey160" typograph="labelLarge" />
+        )}
+        {bodyText && (
+          <Txt label={bodyText} color="grey130" typograph="bodyMedium" />
+        )}
       </View>
     </BodyContainer>
   );
@@ -28,7 +38,7 @@ const TableBody: React.FC<TableBodyProps> = ({subTitle, bodyText, leftOpen, topO
 const BodyContainer = styled.View<
   Pick<TableBodyProps, 'leftOpen' | 'topOpen' | 'leftandTopOpen'>
 >`
-  flex:1;
+  flex: 1;
   border-top-width: ${props =>
     props.topOpen || props.leftandTopOpen ? '0' : '1px'};
   border-top-color: #e1dfdd;
@@ -39,7 +49,7 @@ const BodyContainer = styled.View<
   border-left-width: ${props =>
     props.leftOpen || props.leftandTopOpen ? '0' : '1px'};
   border-left-color: #e1dfdd;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   width: 164px;
   padding: 16px 12px 16px 12px;
   flex-direction: column;

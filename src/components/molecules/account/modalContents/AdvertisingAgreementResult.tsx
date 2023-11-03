@@ -17,8 +17,8 @@ const AdvertisingAgreementResult = ({
       <S.TopContainer>
         <Txt
           label={`광고성 정보 수신동의 ${isAgree ? '처리' : '거부'} 결과`}
-          color={'grey190'}
-          typograph={'titleMedium'}
+          color="grey190"
+          typograph="titleMedium"
           style={{textAlign: 'center'}}
         />
         <ModalInformationBox
@@ -35,8 +35,8 @@ const AdvertisingAgreementResult = ({
         />
         <Txt
           label={`광고성 정보 수신 동의는 MY Page > [앱 설정]에서\n변경 가능합니다.`}
-          color={'grey130'}
-          typograph={'bodySmall'}
+          color="grey130"
+          typograph="bodySmall"
           style={{textAlign: 'center'}}
         />
       </S.TopContainer>

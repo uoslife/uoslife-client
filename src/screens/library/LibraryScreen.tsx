@@ -1,12 +1,12 @@
 import styled from '@emotion/native';
-import Header from '../../components/header/Header';
 import {useEffect} from 'react';
 
-import {LibraryStatus} from '../../components/molecules/library/LibararyStatus';
 import {ScrollView} from 'react-native-gesture-handler';
-import LibraryUserInfo from '../../components/molecules/library/LibraryUserInfo';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import LibraryUserInfo from '../../components/molecules/library/LibraryUserInfo';
+import {LibraryStatus} from '../../components/molecules/library/LibararyStatus';
+import Header from '../../components/header/Header';
 
 const LibraryScreen = () => {
   const insets = useSafeAreaInsets();

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
-import Header from '../../components/header/Header';
+import Header from '../header/Header';
 import CustomWebView, {CustomWebviewProps} from './CustomWebView';
 
 type WebviewWithHeaderProps = CustomWebviewProps & {label: string};

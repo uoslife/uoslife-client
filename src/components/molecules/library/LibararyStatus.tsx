@@ -1,12 +1,12 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 
-import LibraryRoomItem from './LibraryRoomItem';
 import {useEffect, useState} from 'react';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import LibraryRoomItem from './LibraryRoomItem';
 import {UtilAPI} from '../../../api/services';
 import {GetAllLibraryStatusRes} from '../../../api/services/util/library/libraryAPI.type';
 import LibraryStatusCard from './LibraryStatusCard';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export const LibraryStatus = () => {
   const insets = useSafeAreaInsets();

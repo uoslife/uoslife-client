@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import Header from '../../../components/header/Header';
 import styled from '@emotion/native';
-import Input from '../../../components/forms/input/Input';
 import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useTimer} from '@uoslife/react';
+import {useNavigation} from '@react-navigation/native';
+import Header from '../../../components/header/Header';
+import Input from '../../../components/forms/input/Input';
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
@@ -12,16 +15,12 @@ import {
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ErrorResponseType} from '../../../api/services/type';
-import {useTimer} from '@uoslife/react';
 import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
-import {storage} from '../../../storage';
-import {DeviceService} from '../../../services/device';
-import {useNavigation} from '@react-navigation/native';
+import DeviceService from '../../../services/device';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 import {useUserStatus} from '../../../atoms/user';
-import {UserService} from '../../../services/user';
+import UserService from '../../../services/user';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -194,15 +193,15 @@ const VerificationScreen = () => {
     <S.screenContainer
       style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
-        label={'휴대폰 본인인증'}
+        label="휴대폰 본인인증"
         onPressBackButton={handleHeaderBackButton}
       />
       <S.verificationContainer>
         <View style={{gap: 32}}>
           <View style={{gap: 8}}>
             <Txt
-              typograph={'headlineMedium'}
-              color={'grey190'}
+              typograph="headlineMedium"
+              color="grey190"
               label={
                 isVerificationCodeSent
                   ? '인증번호를 입력해주세요.'
@@ -210,9 +209,9 @@ const VerificationScreen = () => {
               }
             />
             <Txt
-              typograph={'bodyMedium'}
-              color={'grey190'}
-              label={'인증번호 전송은 1일 5회로 제한됩니다.'}
+              typograph="bodyMedium"
+              color="grey190"
+              label="인증번호 전송은 1일 5회로 제한됩니다."
             />
           </View>
           <Input
@@ -223,7 +222,7 @@ const VerificationScreen = () => {
                 : MAX_PHONE_NUMBER_LENGTH
             }
             onPress={onPressInputDelete}
-            keyboardType={'numeric'}
+            keyboardType="numeric"
             value={inputValue}
             label={isVerificationCodeSent ? '인증번호' : '전화번호'}
             statusMessage={
@@ -237,11 +236,7 @@ const VerificationScreen = () => {
             currentTime={currentTime}>
             {isVerificationCodeSent && (
               <S.requestRetryButton onPressIn={handleOnPressRetryButton}>
-                <Txt
-                  label={'재전송'}
-                  color={'grey190'}
-                  typograph={'labelMedium'}
-                />
+                <Txt label="재전송" color="grey190" typograph="labelMedium" />
               </S.requestRetryButton>
             )}
           </Input>
@@ -254,7 +249,7 @@ const VerificationScreen = () => {
               : handleOnPressRequestCode
           }
           isEnabled={handleButtonIsEnable()}
-          isFullWidth={true}
+          isFullWidth
         />
       </S.verificationContainer>
     </S.screenContainer>

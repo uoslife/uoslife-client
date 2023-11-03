@@ -7,7 +7,7 @@ import {Button, Txt, colors} from '@uoslife/design-system';
 
 import URLS from '../../../../configs/urls';
 import {categoryStatusAtom} from '../../../../atoms/announcement';
-import {UtilityService} from '../../../../services/utility';
+import UtilityService from '../../../../services/utility';
 import {AnnouncementOriginNameType} from '../../../../api/services/util/announcement/announcementAPI.type';
 
 import CardLayout from '../cardLayout/CardLayout';
@@ -101,8 +101,8 @@ const AnnounceContents = () => {
                   }>
                   <Txt
                     label={item.text}
-                    color={'grey190'}
-                    typograph={'bodyMedium'}
+                    color="grey190"
+                    typograph="bodyMedium"
                     style={{padding: 8}}
                   />
                 </Pressable>
@@ -114,7 +114,7 @@ const AnnounceContents = () => {
         <S.Divider />
         <S.LinkButtonWrapper>
           <Button
-            label={'UOStory 바로가기'}
+            label="UOStory 바로가기"
             variant="text"
             iconName="openInNew"
             isFullWidth

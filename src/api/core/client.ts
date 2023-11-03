@@ -1,10 +1,10 @@
 import 'react-native-url-polyfill/auto';
 import ky from 'ky';
 import {createClient} from '@supabase/supabase-js';
-import supabase from '../../configs/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import supabase from '../../configs/supabase';
 
-import {handleToken} from './afterResponse';
+import handleToken from './afterResponse';
 import {setAuthorizationHeader} from './beforeRequest';
 import {beforeError} from './beforeError';
 

@@ -1,17 +1,17 @@
 import {useState, useEffect, useRef, useCallback, ComponentProps} from 'react';
-import Header from '../../components/header/Header';
 import styled from '@emotion/native';
-import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
-import CategoryTab from '../../components/molecules/announcement/category-tab/CategoryTab';
 import {Icon, IconsNameType} from '@uoslife/design-system';
-import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BackHandler, Keyboard, Text} from 'react-native';
-import SearchInput from '../../components/forms/searchInput/SearchInput';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
-import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 import {useAtomValue} from 'jotai';
+import SearchInput from '../../components/forms/searchInput/SearchInput';
+import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
+import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
+import CategoryTab from '../../components/molecules/announcement/category-tab/CategoryTab';
+import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
+import Header from '../../components/header/Header';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import {
   AnnouncementCategoryStatusType,
@@ -199,13 +199,13 @@ const AnnouncementMainScreen = () => {
           </>
         ) : (
           <>
-            <Header label={'공지사항'} onPressBackButton={onHeaderBackPress}>
+            <Header label="공지사항" onPressBackButton={onHeaderBackPress}>
               <S.HeaderIcons>
                 {icons.map((item, i) => (
                   <S.IconWrapper key={i} onPress={item.onPress}>
                     <Icon
                       name={item.iconName}
-                      color={'grey150'}
+                      color="grey150"
                       height={24}
                       width={24}
                     />

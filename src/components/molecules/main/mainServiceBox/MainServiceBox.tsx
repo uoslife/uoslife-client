@@ -2,11 +2,11 @@ import React from 'react';
 import styled from '@emotion/native';
 
 import {Icon, Txt} from '@uoslife/design-system';
+import {Image} from 'react-native';
+import {useNavigation} from '@react-navigation/core';
 import {CardLayout} from '../..';
 
 import MainServiceBoxType from './MainServiceBox.type';
-import {Image} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
 import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 
 const MainServiceBox = ({
@@ -36,15 +36,11 @@ const MainServiceBox = ({
       <S.TopWrapper>
         <S.TitleWrapper>
           <Icon name={iconName} width={24} height={24} color={iconColor} />
-          <Txt
-            label={label}
-            color={'primaryDarker'}
-            typograph={'titleMedium'}
-          />
+          <Txt label={label} color="primaryDarker" typograph="titleMedium" />
         </S.TitleWrapper>
         <S.MoreButton onPress={handleMoreButton}>
-          <Txt label={'더보기'} color={'grey90'} typograph={'labelMedium'} />
-          <Icon name={'forwardArrow'} width={10} height={10} color={'grey90'} />
+          <Txt label="더보기" color="grey90" typograph="labelMedium" />
+          <Icon name="forwardArrow" width={10} height={10} color="grey90" />
         </S.MoreButton>
       </S.TopWrapper>
       {children}

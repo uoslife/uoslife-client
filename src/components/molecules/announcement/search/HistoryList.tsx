@@ -26,8 +26,8 @@ const HistoryList = ({navigateToNewSearchScreen}: HistoryListProps) => {
           }}
           key={item}>
           <S.ItemLeftBox>
-            <Icon color={'grey130'} name={'history'} height={24} width={24} />
-            <Txt label={item} color={'grey130'} typograph={'bodyLarge'} />
+            <Icon color="grey130" name="history" height={24} width={24} />
+            <Txt label={item} color="grey130" typograph="bodyLarge" />
           </S.ItemLeftBox>
           <S.DeleteBtn
             onPress={e => {

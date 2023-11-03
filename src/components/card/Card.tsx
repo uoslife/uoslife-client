@@ -1,16 +1,16 @@
 import styled from '@emotion/native';
 import React from 'react';
-import CardProps from './Card.type';
 import {Txt, colors} from '@uoslife/design-system';
+import CardProps from './Card.type';
 
 const Card = ({title, caption, children}: CardProps) => {
   return (
     <S.cardContainer>
       <S.cardHeader>
         <S.inlineWrapper>
-          <Txt label={title} color={'grey160'} typograph={'titleMedium'} />
+          <Txt label={title} color="grey160" typograph="titleMedium" />
           {caption && (
-            <Txt label={caption} color={'grey150'} typograph={'caption'} />
+            <Txt label={caption} color="grey150" typograph="caption" />
           )}
         </S.inlineWrapper>
       </S.cardHeader>

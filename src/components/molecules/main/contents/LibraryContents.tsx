@@ -2,11 +2,11 @@ import {useEffect, useState} from 'react';
 import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 
+import {useNavigation} from '@react-navigation/native';
 import CardLayout from '../cardLayout/CardLayout';
 
-import {UtilityService} from '../../../../services/utility';
+import UtilityService from '../../../../services/utility';
 import {LibraryReservationType} from '../../../../api/services/util/library/libraryAPI.type';
-import {useNavigation} from '@react-navigation/native';
 import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 
 const LibraryContentsInUsing = ({
@@ -17,23 +17,15 @@ const LibraryContentsInUsing = ({
     <S.Wrapper>
       <S.LeftArea>
         <S.TimerBackground>
-          <Icon name={'time'} width={24} height={24} color={'primaryBrand'} />
+          <Icon name="time" width={24} height={24} color="primaryBrand" />
         </S.TimerBackground>
-        <Txt label={'이용 중'} color={'primaryBrand'} typograph={'bodySmall'} />
+        <Txt label="이용 중" color="primaryBrand" typograph="bodySmall" />
       </S.LeftArea>
       <S.RightArea>
-        <Txt
-          label={`${seatRoomName}`}
-          color={'grey190'}
-          typograph={'bodyLarge'}
-        />
+        <Txt label={`${seatRoomName}`} color="grey190" typograph="bodyLarge" />
         <S.SeatText>
-          <Txt
-            label={`${seatNo}번`}
-            color={'grey190'}
-            typograph={'titleMedium'}
-          />
-          <Txt label={'좌석'} color={'grey190'} typograph={'bodyLarge'} />
+          <Txt label={`${seatNo}번`} color="grey190" typograph="titleMedium" />
+          <Txt label="좌석" color="grey190" typograph="bodyLarge" />
         </S.SeatText>
       </S.RightArea>
     </S.Wrapper>
@@ -46,15 +38,15 @@ const LibraryContentsInNotUsing = () => {
     <S.NotUsingWrapper>
       <S.NotUsingTextWrapper>
         <Txt
-          label={'이용 중인 좌석이 없어요'}
-          color={'grey150'}
-          typograph={'bodyLarge'}
+          label="이용 중인 좌석이 없어요"
+          color="grey150"
+          typograph="bodyLarge"
           style={{textAlign: 'center'}}
         />
       </S.NotUsingTextWrapper>
       <S.Divider />
       <Button
-        label={'좌석 현황 보기'}
+        label="좌석 현황 보기"
         variant="text"
         size="medium"
         isFullWidth

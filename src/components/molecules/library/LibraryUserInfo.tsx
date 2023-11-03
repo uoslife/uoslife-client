@@ -1,11 +1,11 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
-import LibraryTimer from './LibraryTimer';
 import {useEffect, useState} from 'react';
+import LibraryTimer from './LibraryTimer';
 import {UtilAPI} from '../../../api/services';
 import TextItems from '../common/textItems/TextItems';
 import {GetLibraryReservationRes} from '../../../api/services/util/library/libraryAPI.type';
-import {storage} from '../../../storage';
+import storage from '../../../storage';
 import {GetUserInfoRes} from '../../../api/services/core/user/userAPI.type';
 import {ErrorResponseType} from '../../../api/services/type';
 
@@ -73,9 +73,9 @@ const LibraryUserInfo = () => {
       ) : (
         <>
           <Txt
-            color={'grey190'}
+            color="grey190"
             label={getInformationMessage(libraryUsingStatus)}
-            typograph={'titleLarge'}
+            typograph="titleLarge"
           />
           <LibraryTimer
             libraryUsingStatus={libraryUsingStatus}
@@ -83,7 +83,7 @@ const LibraryUserInfo = () => {
           />
           <S.InformationTextWrapper>
             <TextItems
-              label={'열람실'}
+              label="열람실"
               item={
                 isStudyRoom
                   ? libraryReservationInfo!.studyRoomName
@@ -91,15 +91,15 @@ const LibraryUserInfo = () => {
               }
             />
             <TextItems
-              label={'좌석번호'}
+              label="좌석번호"
               item={`${
                 isStudyRoom
                   ? libraryReservationInfo!.studyRoomNo
-                  : libraryReservationInfo!.seatNo + '번'
+                  : `${libraryReservationInfo!.seatNo}번`
               }`}
             />
             <TextItems
-              label={'이용시간'}
+              label="이용시간"
               item={
                 isStudyRoom
                   ? libraryReservationInfo!.studyRoomUseTime
@@ -108,7 +108,7 @@ const LibraryUserInfo = () => {
             />
             {!isStudyRoom && (
               <TextItems
-                label={'연장횟수'}
+                label="연장횟수"
                 item={`${libraryReservationInfo!.extendUsed}회 / ${
                   libraryReservationInfo!.extendRemaining
                 }회`}

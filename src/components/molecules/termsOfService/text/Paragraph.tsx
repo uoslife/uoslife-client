@@ -14,16 +14,16 @@ const Paragraph = ({header, subHeader, paragraph}: ParagraphProps) => {
     <View>
       {header && (
         <S.headerContainer>
-          <Txt label={header} color={'grey190'} typograph={'titleLarge'} />
+          <Txt label={header} color="grey190" typograph="titleLarge" />
         </S.headerContainer>
       )}
       {subHeader && (
         <S.subHeaderContainer>
-          <Txt label={subHeader} color={'grey190'} typograph={'titleSmall'} />
+          <Txt label={subHeader} color="grey190" typograph="titleSmall" />
         </S.subHeaderContainer>
       )}
       {paragraph && (
-        <Txt label={paragraph} color={'grey130'} typograph={'bodyLarge'} />
+        <Txt label={paragraph} color="grey130" typograph="bodyLarge" />
       )}
     </View>
   );

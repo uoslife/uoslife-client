@@ -1,14 +1,9 @@
 import ky, {AfterResponseHook} from 'ky';
 import {CoreAPI} from '../services';
-import storeToken from '../../utils/storeToken';
-import {storage} from '../../storage';
-import {UserService} from '../../services/user';
+import storage from '../../storage';
+import UserService from '../../services/user';
 
-export const handleToken: AfterResponseHook = async (
-  request,
-  _options,
-  response,
-) => {
+const handleToken: AfterResponseHook = async (request, _options, response) => {
   const accessToken = storage.getString('access_token');
   const refreshToken = storage.getString('refresh_token');
   if (response.status !== 401 || request.url.includes('refresh')) {
@@ -25,3 +20,4 @@ export const handleToken: AfterResponseHook = async (
     return response;
   }
 };
+export default handleToken;

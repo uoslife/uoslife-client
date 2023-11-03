@@ -8,68 +8,32 @@ const CafeteriaBox = () => {
     <CardLayout style={{marginRight: 7}}>
       <S.BoxWrapper>
         <S.BoxTopArea>
-          <Txt label={'학생식당'} color={'grey190'} typograph={'titleSmall'} />
+          <Txt label="학생식당" color="grey190" typograph="titleSmall" />
           <S.BoxTimeIndicator>
-            <Txt label={'~ 오후 2시'} color={'grey130'} typograph={'caption'} />
+            <Txt label="~ 오후 2시" color="grey130" typograph="caption" />
           </S.BoxTimeIndicator>
         </S.BoxTopArea>
         <S.BoxBottomArea>
           <S.BoxCafeteriaList>
             <S.BoxCafeteriaListLeftArea>
-              <Txt
-                label={'B코너'}
-                color={'secondaryUi'}
-                typograph={'labelLarge'}
-              />
-              <Txt
-                label={'돈불고기'}
-                color={'grey190'}
-                typograph={'bodyMedium'}
-              />
+              <Txt label="B코너" color="secondaryUi" typograph="labelLarge" />
+              <Txt label="돈불고기" color="grey190" typograph="bodyMedium" />
             </S.BoxCafeteriaListLeftArea>
-            <Txt
-              label={'3,000 원'}
-              color={'grey190'}
-              typograph={'bodyMedium'}
-            />
+            <Txt label="3,000 원" color="grey190" typograph="bodyMedium" />
           </S.BoxCafeteriaList>
           <S.BoxCafeteriaList>
             <S.BoxCafeteriaListLeftArea>
-              <Txt
-                label={'B코너'}
-                color={'secondaryUi'}
-                typograph={'labelLarge'}
-              />
-              <Txt
-                label={'돈불고기'}
-                color={'grey190'}
-                typograph={'bodyMedium'}
-              />
+              <Txt label="B코너" color="secondaryUi" typograph="labelLarge" />
+              <Txt label="돈불고기" color="grey190" typograph="bodyMedium" />
             </S.BoxCafeteriaListLeftArea>
-            <Txt
-              label={'3,000 원'}
-              color={'grey190'}
-              typograph={'bodyMedium'}
-            />
+            <Txt label="3,000 원" color="grey190" typograph="bodyMedium" />
           </S.BoxCafeteriaList>
           <S.BoxCafeteriaList>
             <S.BoxCafeteriaListLeftArea>
-              <Txt
-                label={'B코너'}
-                color={'secondaryUi'}
-                typograph={'labelLarge'}
-              />
-              <Txt
-                label={'돈불고기'}
-                color={'grey190'}
-                typograph={'bodyMedium'}
-              />
+              <Txt label="B코너" color="secondaryUi" typograph="labelLarge" />
+              <Txt label="돈불고기" color="grey190" typograph="bodyMedium" />
             </S.BoxCafeteriaListLeftArea>
-            <Txt
-              label={'3,000 원'}
-              color={'grey190'}
-              typograph={'bodyMedium'}
-            />
+            <Txt label="3,000 원" color="grey190" typograph="bodyMedium" />
           </S.BoxCafeteriaList>
         </S.BoxBottomArea>
       </S.BoxWrapper>
@@ -79,7 +43,7 @@ const CafeteriaBox = () => {
 
 const CafeteriaContents = () => {
   return (
-    <S.ContentsWrapper horizontal={true}>
+    <S.ContentsWrapper horizontal>
       <CafeteriaBox />
       <CafeteriaBox />
     </S.ContentsWrapper>

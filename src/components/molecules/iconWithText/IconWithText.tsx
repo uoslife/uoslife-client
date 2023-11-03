@@ -21,7 +21,7 @@ const IconWithText = ({iconName, color, text, isClick}: Props) => {
       <Txt
         label={text}
         color={isClick ? 'primaryBrand' : 'grey160' ?? color}
-        typograph={'caption'}
+        typograph="caption"
       />
     </S.Wrapper>
   );

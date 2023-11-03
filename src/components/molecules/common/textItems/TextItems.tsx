@@ -11,11 +11,11 @@ const TextItems = ({label, item}: Props) => {
     <S.Container>
       <Txt
         style={{width: 56}}
-        color={'grey90'}
+        color="grey90"
         label={label}
         typograph="titleSmall"
       />
-      <Txt color={'grey190'} label={item} typograph="bodyLarge" />
+      <Txt color="grey190" label={item} typograph="bodyLarge" />
     </S.Container>
   );
 };

@@ -3,18 +3,16 @@ import {Pressable, Text} from 'react-native';
 
 import styled from '@emotion/native';
 
-import HeaderProps from './Header.type';
 import {Icon, Txt, colors} from '@uoslife/design-system';
+import HeaderProps from './Header.type';
 
 const Header = ({label, onPressBackButton, children}: HeaderProps) => {
   return (
     <S.headerContainter>
       <Pressable onPress={onPressBackButton}>
-        <Icon name={'backArrow'} width={24} height={24} color="grey130" />
+        <Icon name="backArrow" width={24} height={24} color="grey130" />
       </Pressable>
-      {!!label && (
-        <Txt label={label} color={'grey190'} typograph="titleLarge" />
-      )}
+      {!!label && <Txt label={label} color="grey190" typograph="titleLarge" />}
       {children}
     </S.headerContainter>
   );

@@ -16,13 +16,9 @@ const ModalMenuContent = ({
   return (
     <S.Container>
       <S.Descriptions>
-        <Txt label={title} color={'grey190'} typograph={'titleMedium'} />
+        <Txt label={title} color="grey190" typograph="titleMedium" />
         {supportingText && (
-          <Txt
-            label={supportingText}
-            color={'grey130'}
-            typograph={'bodySmall'}
-          />
+          <Txt label={supportingText} color="grey130" typograph="bodySmall" />
         )}
       </S.Descriptions>
       <S.Buttons>

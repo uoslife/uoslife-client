@@ -1,8 +1,8 @@
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import BottomSheetCheckItem from '../../../overlays/items/BottomSheetCheckItem';
 import {Button} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
+import BottomSheetCheckItem from '../../../overlays/items/BottomSheetCheckItem';
 
 type OverlayType = 'CHECK_ALL' | 'REQUIRED' | 'OPTIONAL';
 type OverlayStatus = {id: number; type: OverlayType; checked: boolean};

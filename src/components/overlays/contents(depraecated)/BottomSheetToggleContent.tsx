@@ -22,8 +22,8 @@ const BottomSheetToggleContent = ({
       </S.ItemsWrapper>
       <S.ButtonWrapper>
         <Button
-          label={'Button'}
-          size={'large'}
+          label="Button"
+          size="large"
           isEnabled={buttonEnabled}
           isFullWidth
         />

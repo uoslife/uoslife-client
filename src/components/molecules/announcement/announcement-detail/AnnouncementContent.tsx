@@ -1,9 +1,9 @@
 import {View} from 'react-native';
+import {Txt, colors} from '@uoslife/design-system';
+import styled from '@emotion/native';
 import {ArticleDetailType} from '../../../../types/announcement.type';
 import AnnouncementDetailScreenBookmarkToggle from './AnnouncementDetailScreenBookmarkToggle';
-import {Txt, colors} from '@uoslife/design-system';
 import {announcementFullName} from '../../../../configs/announcement';
-import styled from '@emotion/native';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
 
@@ -19,12 +19,12 @@ const AnnouncementDetailScreenContent = ({
     <S.Root>
       <View style={{borderBottomColor: colors.grey20, borderBottomWidth: 1}}>
         <S.TopWrapper>
-          <Txt label={title} color={'black'} typograph={'titleLarge'} />
+          <Txt label={title} color="black" typograph="titleLarge" />
           <S.CategoryAndDateAndBookmarkContainer>
             <Txt
               label={`${announcementFullName[origin]} | ${date}`}
-              color={'grey90'}
-              typograph={'bodySmall'}
+              color="grey90"
+              typograph="bodySmall"
             />
             <AnnouncementDetailScreenBookmarkToggle
               bookmarkCount={bookmarkCount}

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable, StyleSheet} from 'react-native';
 import styled from '@emotion/native';
-import InputProps from './Input.type';
 import {Icon, Timer, colors, typographs} from '@uoslife/design-system';
+import InputProps from './Input.type';
 
 const Input = ({
   keyboardType = 'default',
@@ -36,7 +36,7 @@ const Input = ({
           {showTimer && <Timer currentTime={currentTime!} />}
           {!!value && (
             <Pressable onPress={onPress}>
-              <Icon name={'clear'} width={24} height={24} />
+              <Icon name="clear" width={24} height={24} />
             </Pressable>
           )}
         </S.InputRightBox>

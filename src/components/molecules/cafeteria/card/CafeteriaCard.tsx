@@ -1,8 +1,8 @@
 import styled from '@emotion/native';
 import React from 'react';
-import CafeteriaCardProps from './CafeteriaCard.type';
 import {View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
+import CafeteriaCardProps from './CafeteriaCard.type';
 
 const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
   return (
@@ -10,9 +10,9 @@ const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
       {isEmpty ? (
         <S.emptyWrapper>
           <Txt
-            label={'오늘은 운영하지 않아요.'}
-            color={'grey150'}
-            typograph={'bodyLarge'}
+            label="오늘은 운영하지 않아요."
+            color="grey150"
+            typograph="bodyLarge"
           />
         </S.emptyWrapper>
       ) : (
@@ -22,39 +22,39 @@ const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
               return (
                 <View key={index}>
                   <S.cardContent>
-                    {value['corner'] && (
+                    {value.corner && (
                       <Txt
-                        label={value['corner']}
-                        color={'grey190'}
-                        typograph={'labelLarge'}
+                        label={value.corner}
+                        color="grey190"
+                        typograph="labelLarge"
                       />
                     )}
                     <S.inlineWrapper>
                       <Txt
-                        label={value['menu']}
-                        color={'grey190'}
-                        typograph={'bodyLarge'}
+                        label={value.menu}
+                        color="grey190"
+                        typograph="bodyLarge"
                       />
                       <Txt
-                        label={value['price']}
-                        color={'grey130'}
-                        typograph={'bodyLarge'}
+                        label={value.price}
+                        color="grey130"
+                        typograph="bodyLarge"
                       />
                     </S.inlineWrapper>
 
                     <S.inlineWrapper>
-                      {value['sideMenus'] && (
+                      {value.sideMenus && (
                         <Txt
-                          label={value['sideMenus']}
-                          color={'grey90'}
-                          typograph={'bodyMedium'}
+                          label={value.sideMenus}
+                          color="grey90"
+                          typograph="bodyMedium"
                         />
                       )}
-                      {value['extraPrice'] && (
+                      {value.extraPrice && (
                         <Txt
-                          label={value['extraPrice']}
-                          color={'grey90'}
-                          typograph={'bodyMedium'}
+                          label={value.extraPrice}
+                          color="grey90"
+                          typograph="bodyMedium"
                         />
                       )}
                     </S.inlineWrapper>

@@ -1,8 +1,8 @@
 import {Button, colors} from '@uoslife/design-system';
+import styled from '@emotion/native';
 import BottomSheetCheckItem, {
   BottomSheetCheckItemProps,
 } from '../items/BottomSheetCheckItem';
-import styled from '@emotion/native';
 
 type BottomSheetCheckContentProps = {
   buttonEnabled: boolean;
@@ -33,8 +33,8 @@ const BottomSheetCheckContent = ({
       </S.ItemsWrapper>
       <S.ButtonWrapper>
         <Button
-          label={'Button'}
-          size={'large'}
+          label="Button"
+          size="large"
           isEnabled={buttonEnabled}
           isFullWidth
         />

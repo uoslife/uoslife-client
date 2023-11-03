@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/native';
-import NavigationListProps from './NavigationList.type';
 import {Icon, Txt} from '@uoslife/design-system';
+import NavigationListProps from './NavigationList.type';
 
 const NavigationList = ({
   label,
@@ -12,22 +12,17 @@ const NavigationList = ({
 }: NavigationListProps) => {
   return (
     <S.Container>
-      <Txt label={label} color={'grey190'} typograph={'bodyLarge'} />
+      <Txt label={label} color="grey190" typograph="bodyLarge" />
       <S.PressableArea onPress={onPress}>
         {pressLabel && (
           <Txt
             label={pressLabel}
             color={pressLabelColor ?? 'grey130'}
-            typograph={'bodyMedium'}
+            typograph="bodyMedium"
           />
         )}
         {isPressIconShown && (
-          <Icon
-            name={'forwardArrow'}
-            width={24}
-            height={24}
-            color={'grey130'}
-          />
+          <Icon name="forwardArrow" width={24} height={24} color="grey130" />
         )}
       </S.PressableArea>
     </S.Container>

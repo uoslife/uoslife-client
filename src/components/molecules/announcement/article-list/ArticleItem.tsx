@@ -1,8 +1,8 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import React, {useEffect} from 'react';
-import {getUploadTimeString} from '../../../../utils/handle-date';
 import {useNavigation} from '@react-navigation/core';
+import {getUploadTimeString} from '../../../../utils/handle-date';
 import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../types/announcement.type';
 import {announcementFullName} from '../../../../configs/announcement';
@@ -34,20 +34,20 @@ const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
         }}>
         {showCategoryName && (
           <Txt
-            color={'primaryBrand'}
+            color="primaryBrand"
             label={announcementFullName[origin]}
-            typograph={'labelMedium'}
+            typograph="labelMedium"
           />
         )}
-        <Txt color={'grey190'} typograph={'bodyMedium'} label={title} />
+        <Txt color="grey190" typograph="bodyMedium" label={title} />
         {/* <Txt
           color={'grey90'}
           typograph={'labelSmall'}
           label={`${department} | ${processedUploadTimeString}`}
         /> */}
         <Txt
-          color={'grey90'}
-          typograph={'labelSmall'}
+          color="grey90"
+          typograph="labelSmall"
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
@@ -55,13 +55,13 @@ const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
         <Icon
           width={24}
           height={24}
-          name={'bookmark'}
+          name="bookmark"
           color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
         />
         <Txt
           label={bookmarkCount.toString()}
           color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
-          typograph={'labelSmall'}
+          typograph="labelSmall"
         />
       </S.BookmarkContainer>
     </S.Root>
