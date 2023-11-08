@@ -1,4 +1,4 @@
-import {storage} from '../storage';
+import storage from '../storage';
 
 const storeToken = (accessToken: string, refreshToken: string) => {
   if (!accessToken && !refreshToken) return;

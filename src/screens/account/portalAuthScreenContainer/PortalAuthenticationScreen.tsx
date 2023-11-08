@@ -6,9 +6,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSetAtom} from 'jotai';
 import {Txt, Button} from '@uoslife/design-system';
 
-import Header from '../../../components/header/Header';
-import Input from '../../../components/forms/input/Input';
-import InputProps from '../../../components/forms/input/Input.type';
+import Header from '../../../components/molecules/common/header/Header';
+import Input from '../../../components/molecules/common/forms/input/Input';
+import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 
 import {accountFlowStatusAtom} from '../../../atoms/account';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
@@ -112,13 +112,13 @@ const PortalAuthenticationScreen = () => {
         <View style={{gap: 24}}>
           <View style={{gap: 8}}>
             <Txt
-              typograph={'headlineMedium'}
-              color={'grey190'}
+              typograph="headlineMedium"
+              color="grey190"
               label={'서울시립대학교\n포털 계정 연동하기'}
             />
             <Txt
-              typograph={'bodyMedium'}
-              color={'grey130'}
+              typograph="bodyMedium"
+              color="grey130"
               label={
                 '포털 계정 연동을 통해 다양한 기능을 이용할 수 있습니다.\n계정 정보는 안전한 암호화 방식으로 서버에 저장됩니다.'
               }
@@ -129,19 +129,19 @@ const PortalAuthenticationScreen = () => {
               onChangeText={text => onChangeText(text, 'id')}
               onPress={() => onPressInputDelete('id')}
               value={inputValue.id}
-              label={'포털 아이디'}
+              label="포털 아이디"
               status={handleInputStatus(messageStatus)}
-              placeholder={'아이디'}
+              placeholder="아이디"
             />
             <Input
               onChangeText={text => onChangeText(text, 'password')}
               onPress={() => onPressInputDelete('password')}
               value={inputValue.password}
-              secureTextEntry={true}
-              label={'포털 비밀번호'}
+              secureTextEntry
+              label="포털 비밀번호"
               status={handleInputStatus(messageStatus)}
               statusMessage={handleInputStatusMessage(messageStatus)}
-              placeholder={'비밀번호'}
+              placeholder="비밀번호"
             />
           </View>
         </View>
@@ -149,17 +149,17 @@ const PortalAuthenticationScreen = () => {
           <S.postponePortalAuthButton>
             <Pressable onPress={handlePostponePortalAuth}>
               <Txt
-                label={'포털 연동 다음에 하기'}
-                color={'grey130'}
-                typograph={'bodySmall'}
+                label="포털 연동 다음에 하기"
+                color="grey130"
+                typograph="bodySmall"
               />
             </Pressable>
           </S.postponePortalAuthButton>
           <Button
-            label={'확인'}
+            label="확인"
             onPress={handleSubmit}
             isEnabled={!!(inputValue.id && inputValue.password)}
-            isFullWidth={true}
+            isFullWidth
           />
         </S.bottomContainer>
       </S.portalAuthenticationContainer>

@@ -7,13 +7,13 @@ import {useSetAtom} from 'jotai';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import Carousel from '../../components/molecules/carousel/Carousel';
+import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
+import Carousel from '../../components/molecules/common/carousel/Carousel';
 import {accountFlowStatusAtom} from '../../atoms/account';
 
-import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
 import storeToken from '../../utils/storeToken';
-import {DeviceService} from '../../services/device';
-import {UserService} from '../../services/user';
+import DeviceService from '../../services/device';
+import UserService from '../../services/user';
 import {useUserStatus} from '../../atoms/user';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
@@ -46,19 +46,19 @@ const AccountMainScreen = () => {
               imageWidth={ONBOARDING_IMAGE_WIDTH}
               imageHeight={ONBOARDING_IMAGE_HEIGHT}
               imageUrls={[{uri: ''}, {uri: ''}, {uri: ''}]}
-              indicator={'BOTTOM'}
+              indicator="BOTTOM"
               autoPlayIntervalTime={ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME}
             />
           </View>
         </S.TopWrapper>
         <S.BottomWrapper>
           <Button
-            label={'로그인(임시)'}
+            label="로그인(임시)"
             isFullWidth
             onPress={handleTemporaryLoginButtonClick}
           />
           <Button
-            label={'시작하기'}
+            label="시작하기"
             isFullWidth
             variant="outline"
             onPress={handleClickAccountButton}

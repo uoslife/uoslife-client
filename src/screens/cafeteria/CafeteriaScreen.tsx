@@ -1,15 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
-import Header from '../../components/header/Header';
 import styled from '@emotion/native';
-import Card from '../../components/card/Card';
-import CafeteriaCard from '../../components/molecules/cafeteria/card/CafeteriaCard';
 import {Icon, Txt} from '@uoslife/design-system';
 import {Pressable} from 'react-native';
-import DatePaginationBar from '../../components/molecules/cafeteria/pagination/DatePaginationBar';
-import {UtilAPI} from '../../api/services';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import Header from '../../components/molecules/common/header/Header';
+import Card from '../../components/molecules/common/card/Card';
+import CafeteriaCard from '../../components/molecules/screens/cafeteria/card/CafeteriaCard';
+import DatePaginationBar from '../../components/molecules/screens/cafeteria/pagination/DatePaginationBar';
+import {UtilAPI} from '../../api/services';
 import response from './mockResponse';
 
 export type CafeteriaItem = {
@@ -93,12 +93,12 @@ const CafeteriaScreen = () => {
       setDatePaginationItems([]);
       for (let i = 0; i < 7; i++) {
         const year = today.getFullYear(); // 년도
-        const month = ('0' + (today.getMonth() + 1)).slice(-2); // 달
-        const day = ('0' + today.getDate()).slice(-2); // 일
+        const month = `0${today.getMonth() + 1}`.slice(-2); // 달
+        const day = `0${today.getDate()}`.slice(-2); // 일
         const dayOfWeek = dayString[today.getDay()]; // 요일 (일요일 0 ~ 토요일 6)
 
         const dateStr = `${year}.${month}.${day}(${dayOfWeek})`;
-        setDate(year + '-' + month + '-' + day);
+        setDate(`${year}-${month}-${day}`);
 
         setDatePaginationItems(datePaginationItems => [
           ...datePaginationItems,
@@ -125,7 +125,7 @@ const CafeteriaScreen = () => {
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'학식'} onPressBackButton={handleGoBack} />
+      <Header label="학식" onPressBackButton={handleGoBack} />
       <ScrollView bounces={false}>
         <S.bodyContainer>
           <S.selectorWrapper>
@@ -134,30 +134,30 @@ const CafeteriaScreen = () => {
               <Pressable onPress={() => handleIconPress('lunch')}>
                 <S.iconContainer>
                   <Icon
-                    name={'lunch'}
+                    name="lunch"
                     color={activeIcon === 'lunch' ? 'primaryBrand' : 'grey90'}
                     width={24}
                     height={24}
                   />
                   <Txt
-                    label={'중식'}
+                    label="중식"
                     color={activeIcon === 'lunch' ? 'primaryBrand' : 'grey90'}
-                    typograph={'labelLarge'}
+                    typograph="labelLarge"
                   />
                 </S.iconContainer>
               </Pressable>
               <Pressable onPress={() => handleIconPress('dinner')}>
                 <S.iconContainer>
                   <Icon
-                    name={'dinner'}
+                    name="dinner"
                     color={activeIcon === 'dinner' ? 'primaryBrand' : 'grey90'}
                     width={24}
                     height={24}
                   />
                   <Txt
-                    label={'석식'}
+                    label="석식"
                     color={activeIcon === 'dinner' ? 'primaryBrand' : 'grey90'}
-                    typograph={'labelLarge'}
+                    typograph="labelLarge"
                   />
                 </S.iconContainer>
               </Pressable>

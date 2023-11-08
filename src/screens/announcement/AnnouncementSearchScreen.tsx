@@ -8,10 +8,10 @@ import {
   AnnouncementNavigationProps,
   AnnouncementSearchScreenProps,
 } from '../../navigators/AnnouncementStackNavigator';
-import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
-import SearchInput from '../../components/forms/searchInput/SearchInput';
-import Header from '../../components/header/Header';
-import SearchResultView from '../../components/molecules/announcement/search/SearchResultView';
+import SearchWordEnteringView from '../../components/molecules/screens/announcement/search/SearchWordEnteringView';
+import SearchInput from '../../components/molecules/common/forms/searchInput/SearchInput';
+import Header from '../../components/molecules/common/header/Header';
+import SearchResultView from '../../components/molecules/screens/announcement/search/SearchResultView';
 
 // 검색어 입력(isSearchWordEntering === true) / 검색 결과 두 상태로 구분(isSearchWordEntering === false)
 const AnnouncementSearchScreen = ({
