@@ -46,6 +46,12 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-shadow': 'warn',
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+      },
+    ],
   },
   plugins: ['prettier'],
   ignorePatterns: ['**/storybook-static'],
