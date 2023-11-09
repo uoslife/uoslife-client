@@ -17,10 +17,8 @@ import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
-import storeToken from '../../../utils/storeToken';
 import ServiceAgreementOverlay from '../../../components/molecules/screens/account/modalContents/ServiceAgreementOverlay';
 import AdvertisingAgreementResult from '../../../components/molecules/screens/account/modalContents/AdvertisingAgreementResult';
-import DeviceService from '../../../services/device';
 import UserService from '../../../services/user';
 
 export type SetNickNameScreenProps = StackScreenProps<
@@ -97,10 +95,11 @@ const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
         },
         migrationUserInfo: selectedAccountInfo ?? null,
       });
-      console.log(signUpRes); // TODO: require delete
-      storeToken(signUpRes.accessToken, signUpRes.refreshToken);
-      await DeviceService.setDeviceInfo();
-      await UserService.setUserInfo(_);
+      await UserService.onRegister({
+        accessToken: signUpRes.accessToken,
+        refreshToken: signUpRes.refreshToken,
+        setNotLoggedIn: true,
+      });
       openModal();
     } catch (err) {
       console.error(err);

@@ -10,7 +10,7 @@ import {
 import PortalAuthenticationScreen from './PortalAuthenticationScreen';
 import AccountFinishInfoScreen from './AccountFinishInfoScreen';
 
-const portalAuthScreenContainer = () => {
+const PortalAuthScreenContainer = () => {
   const accountStatus = useAtomValue(accountFlowStatusAtom);
   const handlePortalAuthScreen = (accountStatus: AccountFlowStatusType) => {
     switch (accountStatus.portalStatus.step) {
@@ -25,4 +25,4 @@ const portalAuthScreenContainer = () => {
   return <View style={{flex: 1}}>{handlePortalAuthScreen(accountStatus)}</View>;
 };
 
-export default portalAuthScreenContainer;
+export default PortalAuthScreenContainer;

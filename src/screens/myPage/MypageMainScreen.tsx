@@ -9,19 +9,17 @@ import Header from '../../components/molecules/common/header/Header';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import UserService from '../../services/user';
-import {useUserStatus} from '../../atoms/user';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
-  const {setIsLoggedIn} = useUserStatus();
 
-  const nickname = UserService.getUserInfo('nickname') as string;
-  const isVerified = UserService.getUserInfo('isVerified') as boolean;
+  const nickname = UserService.getUserInfoFromDevice('nickname') as string;
+  const isVerified = UserService.getUserInfoFromDevice('isVerified') as boolean;
 
   const handlePressLogoutButton = async () => {
-    await UserService.logout().finally(() => setIsLoggedIn(false));
+    await UserService.logout();
   };
 
   return (

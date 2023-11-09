@@ -5,7 +5,6 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTimer} from '@uoslife/react';
-import {useNavigation} from '@react-navigation/native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import {
@@ -17,9 +16,6 @@ import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
 import {ErrorResponseType} from '../../../api/services/type';
 import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
-import DeviceService from '../../../services/device';
-import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
-import {useUserStatus} from '../../../atoms/user';
 import UserService from '../../../services/user';
 
 const MAX_SMS_TRIAL_COUNT = 5;
@@ -40,8 +36,6 @@ type InputStatusMessageType =
 
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<RootNavigationProps>();
-  const {setIsLoggedIn} = useUserStatus();
 
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
@@ -127,11 +121,10 @@ const VerificationScreen = () => {
         mobile: storedPhoneNumber,
         code: inputValue,
       });
-      storeToken(signInRes.token.accessToken, signInRes.token.refreshToken);
-      await DeviceService.setDeviceInfo();
-      await UserService.setUserInfo(() => setIsLoggedIn(true));
-
-      // TODO: 해당 로직 추상화 필요
+      await UserService.onRegister({
+        accessToken: signInRes.token.accessToken,
+        refreshToken: signInRes.token.refreshToken,
+      });
     } catch (err) {
       const error = err as SignInRes;
       console.error(error);

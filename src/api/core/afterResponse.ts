@@ -2,21 +2,23 @@ import ky, {AfterResponseHook} from 'ky';
 import {CoreAPI} from '../services';
 import storage from '../../storage';
 import UserService from '../../services/user';
+import storeToken from '../../utils/storeToken';
 
 const handleToken: AfterResponseHook = async (request, _options, response) => {
-  const accessToken = storage.getString('access_token');
-  const refreshToken = storage.getString('refresh_token');
+  const refreshToken = storage.getString('refreshToken');
   if (response.status !== 401 || request.url.includes('refresh')) {
-    // storage.set('user.isLoggedIn', true);
-    // TODO: 로직 변경 필요
     return response;
   }
   try {
     request.headers.set('Authorization', `Bearer ${refreshToken}`);
     const res = await CoreAPI.getRefreshToken({});
-    if (res) return ky(request);
+    if (res) {
+      storeToken(res.accessToken, res.refreshToken);
+      return ky(request);
+    }
   } catch (error) {
     await UserService.logout();
+    storage.set('isLoggedIn', false);
     return response;
   }
 };

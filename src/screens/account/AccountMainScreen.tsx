@@ -11,10 +11,7 @@ import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
 import Carousel from '../../components/molecules/common/carousel/Carousel';
 import {accountFlowStatusAtom} from '../../atoms/account';
 
-import storeToken from '../../utils/storeToken';
-import DeviceService from '../../services/device';
 import UserService from '../../services/user';
-import {useUserStatus} from '../../atoms/user';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 const ONBOARDING_IMAGE_HEIGHT = 493;
@@ -23,12 +20,12 @@ const ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME = 4 * 1000;
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
   const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
-  const {setIsLoggedIn} = useUserStatus();
 
   const handleTemporaryLoginButtonClick = async () => {
-    storeToken(DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN);
-    await DeviceService.setDeviceInfo();
-    await UserService.setUserInfo(() => setIsLoggedIn(true));
+    await UserService.onRegister({
+      accessToken: DEV_ACCESS_TOKEN,
+      refreshToken: DEV_REFRESH_TOKEN,
+    });
   };
 
   const handleClickAccountButton = async () => {

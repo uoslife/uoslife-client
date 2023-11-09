@@ -194,7 +194,9 @@ const StudentIdScreen = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    const isVerified = UserService.getUserInfo('isVerified') as boolean | null;
+    const isVerified = UserService.getUserInfoFromDevice('isVerified') as
+      | boolean
+      | null;
     setIsPortalAuthenticated(isVerified ?? false);
   }, []);
 
