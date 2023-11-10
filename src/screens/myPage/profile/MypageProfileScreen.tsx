@@ -11,10 +11,9 @@ import useModal from '../../../hooks/useModal';
 import usePhoto from '../../../hooks/usePhoto';
 import UserService from '../../../services/user';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
-import {useUserStatus} from '../../../atoms/user';
 
 const getPortalAccountInfoList = () => {
-  const userInfo = UserService.getAllUserInfo()!;
+  const userInfo = UserService.getAllUserInfoFromDevice()!;
   return [
     {name: '이름', value: userInfo.name},
     {name: '학과', value: '경제학부'},
@@ -26,13 +25,11 @@ const getPortalAccountInfoList = () => {
 
 const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
-  const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<MypageProfileNavigationProp>();
-  const rootNavigation = useNavigation<RootNavigationProps>();
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openModal, closeModal, Modal] = useModal('MODAL');
 
-  const isVerified = UserService.getUserInfo('isVerified') as boolean;
+  const isVerified = UserService.getUserInfoFromDevice('isVerified') as boolean;
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
@@ -118,7 +115,9 @@ const MypageProfileScreen = () => {
                     isMyPage: true,
                   })
                 }
-                pressLabel={UserService.getUserInfo('nickname') as string}
+                pressLabel={
+                  UserService.getUserInfoFromDevice('nickname') as string
+                }
               />
               <NavigationList
                 label="포털 계정 연동"
@@ -176,9 +175,7 @@ const MypageProfileScreen = () => {
             variant="text"
             isFullWidth
             onPress={async () => {
-              await UserService.unregister(rootNavigation).finally(() =>
-                setIsLoggedIn(false),
-              );
+              await UserService.unregister();
             }}
           />
           <S.Devider />

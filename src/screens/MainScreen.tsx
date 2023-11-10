@@ -22,8 +22,8 @@ const MainScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
 
-  const id = UserService.getUserInfo('id');
-  const nickname = UserService.getUserInfo('nickname');
+  const id = UserService.getUserInfoFromDevice('id');
+  const nickname = UserService.getUserInfoFromDevice('nickname');
 
   return (
     <S.MainContainer bounces={false}>

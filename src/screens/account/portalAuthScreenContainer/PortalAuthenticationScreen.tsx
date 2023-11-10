@@ -15,14 +15,13 @@ import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
-import {useUserStatus} from '../../../atoms/user';
+import storage from '../../../storage';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
-  const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<RootNavigationProps>();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
 
@@ -97,7 +96,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePressBackButton = () => {
-    setIsLoggedIn(true);
+    storage.set('isLoggedIn', true);
     navigation.goBack();
   };
 

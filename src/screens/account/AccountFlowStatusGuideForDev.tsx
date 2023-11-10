@@ -2,15 +2,15 @@ import styled, {css} from '@emotion/native';
 import {useSetAtom} from 'jotai';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import {useState} from 'react';
-import {Pressable, View} from 'react-native';
+import {Pressable} from 'react-native';
 import {
   accountFlowInitStatus,
   accountFlowStatusAtom,
 } from '../../atoms/account';
 
-type locationType = 'TOP_LEFT' | 'TOP_RIGHT' | 'BOTTOM_LEFT' | 'BOTTOM_RIGHT';
+type LocationType = 'TOP_LEFT' | 'TOP_RIGHT' | 'BOTTOM_LEFT' | 'BOTTOM_RIGHT';
 
-const transformLocation = (location: locationType) => {
+const transformLocation = (location: LocationType) => {
   switch (location) {
     case 'TOP_LEFT':
       return css`

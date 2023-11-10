@@ -6,7 +6,7 @@ import {
   accountFlowInitStatus,
   accountFlowStatusAtom,
 } from '../../../atoms/account';
-import {useUserStatus} from '../../../atoms/user';
+import storage from '../../../storage';
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
 
@@ -21,10 +21,9 @@ const useAutoRedirect = (time: number, callback: () => void) => {
 
 const AccountFinishInfoScreen = () => {
   const setAccontFlowStatus = useSetAtom(accountFlowStatusAtom);
-  const {setIsLoggedIn} = useUserStatus();
 
   const useAutoRedirectCallback = () => {
-    setIsLoggedIn(true);
+    storage.set('isLoggedIn', true);
     setAccontFlowStatus(accountFlowInitStatus);
   };
 
