@@ -89,6 +89,7 @@ const S = {
   `,
   TextInput: styled.TextInput`
     ${typographs.titleMedium};
+    width: 80%;
   `,
   InputRightBox: styled.View`
     flex-direction: row;
