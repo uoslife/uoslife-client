@@ -1,40 +1,53 @@
 import styled from '@emotion/native';
-import {Icon, Txt, colors} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 
+import {useEffect, useState} from 'react';
 import CardLayout from '../cardLayout/CardLayout';
+import DateUtils from '../../../../../utils/date';
+import {UtilAPI} from '../../../../../api/services';
+import {
+  CafeteriaItemType,
+  GetCafeteriasResponse,
+} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
 
-const CafeteriaBox = () => {
+const CafeteriaBox = ({
+  location,
+  operationTime,
+  attributes,
+}: CafeteriaItemType) => {
   return (
     <CardLayout style={{marginRight: 7}}>
       <S.BoxWrapper>
         <S.BoxTopArea>
-          <Txt label="학생식당" color="grey190" typograph="titleSmall" />
+          <Txt label={location} color="grey190" typograph="titleSmall" />
           <S.BoxTimeIndicator>
-            <Txt label="~ 오후 2시" color="grey130" typograph="caption" />
+            <Txt label={operationTime} color="grey130" typograph="caption" />
           </S.BoxTimeIndicator>
         </S.BoxTopArea>
         <S.BoxBottomArea>
-          <S.BoxCafeteriaList>
-            <S.BoxCafeteriaListLeftArea>
-              <Txt label="B코너" color="secondaryUi" typograph="labelLarge" />
-              <Txt label="돈불고기" color="grey190" typograph="bodyMedium" />
-            </S.BoxCafeteriaListLeftArea>
-            <Txt label="3,000 원" color="grey190" typograph="bodyMedium" />
-          </S.BoxCafeteriaList>
-          <S.BoxCafeteriaList>
-            <S.BoxCafeteriaListLeftArea>
-              <Txt label="B코너" color="secondaryUi" typograph="labelLarge" />
-              <Txt label="돈불고기" color="grey190" typograph="bodyMedium" />
-            </S.BoxCafeteriaListLeftArea>
-            <Txt label="3,000 원" color="grey190" typograph="bodyMedium" />
-          </S.BoxCafeteriaList>
-          <S.BoxCafeteriaList>
-            <S.BoxCafeteriaListLeftArea>
-              <Txt label="B코너" color="secondaryUi" typograph="labelLarge" />
-              <Txt label="돈불고기" color="grey190" typograph="bodyMedium" />
-            </S.BoxCafeteriaListLeftArea>
-            <Txt label="3,000 원" color="grey190" typograph="bodyMedium" />
-          </S.BoxCafeteriaList>
+          {attributes.map(item => (
+            <S.BoxCafeteriaList key={item.menuList[0].menu}>
+              <S.BoxCafeteriaListLeftArea>
+                {item.corner && (
+                  <Txt
+                    label={item.corner}
+                    color="secondaryUi"
+                    typograph="labelLarge"
+                  />
+                )}
+                <Txt
+                  label={item.menuList[0].menu}
+                  color="grey190"
+                  typograph="bodyMedium"
+                />
+              </S.BoxCafeteriaListLeftArea>
+              <Txt
+                label={item.menuList[0].price}
+                color="grey190"
+                typograph="bodyMedium"
+              />
+            </S.BoxCafeteriaList>
+          ))}
         </S.BoxBottomArea>
       </S.BoxWrapper>
     </CardLayout>
@@ -42,10 +55,35 @@ const CafeteriaBox = () => {
 };
 
 const CafeteriaContents = () => {
+  const date = new DateUtils(new Date());
+  const {commonDate, currentMealTime} = date;
+  const [cafeteria, setCafeteria] = useState<GetCafeteriasResponse>();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await UtilAPI.getCafeterias({
+          mealTime: currentMealTime,
+          openDate: commonDate,
+        });
+        setCafeteria(res);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [commonDate, currentMealTime]);
+
   return (
     <S.ContentsWrapper horizontal>
-      <CafeteriaBox />
-      <CafeteriaBox />
+      {cafeteria &&
+        cafeteria.map(item => (
+          <CafeteriaBox
+            key={item.location}
+            location={item.location}
+            operationTime={item.operationTime}
+            attributes={item.attributes}
+          />
+        ))}
     </S.ContentsWrapper>
   );
 };
