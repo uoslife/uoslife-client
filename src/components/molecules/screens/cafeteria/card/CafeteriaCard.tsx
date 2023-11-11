@@ -3,11 +3,44 @@ import React from 'react';
 import {View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import CafeteriaCardProps from './CafeteriaCard.type';
+import {CafeteriaItemAttributesType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
 
-const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
+const CafeteriaCardBody = ({corner, menuList}: CafeteriaItemAttributesType) => {
   return (
-    <View>
-      {isEmpty ? (
+    <S.CafeteriaCardBodyWrapper>
+      {corner && <Txt label={corner} color="grey190" typograph="labelLarge" />}
+      {menuList.map(item => (
+        <View key={item.menu}>
+          <S.InlineWrapper>
+            <Txt label={item.menu} color="grey190" typograph="bodyLarge" />
+            <Txt label={item.price} color="grey130" typograph="bodyLarge" />
+          </S.InlineWrapper>
+          <S.InlineWrapper>
+            {item.sideDish && (
+              <Txt
+                label={item.sideDish}
+                color="grey90"
+                typograph="bodyMedium"
+              />
+            )}
+            {item.sidePrice && (
+              <Txt
+                label={item.sidePrice}
+                color="grey90"
+                typograph="bodyMedium"
+              />
+            )}
+          </S.InlineWrapper>
+        </View>
+      ))}
+    </S.CafeteriaCardBodyWrapper>
+  );
+};
+
+const CafeteriaCard = ({cafeteriaItem}: CafeteriaCardProps) => {
+  return (
+    <S.CafeteriaCardConatiner>
+      {false ? (
         <S.emptyWrapper>
           <Txt
             label="오늘은 운영하지 않아요."
@@ -16,72 +49,35 @@ const CafeteriaCard = ({cafeteriaItems, isEmpty}: CafeteriaCardProps) => {
           />
         </S.emptyWrapper>
       ) : (
-        <S.cardContentWrapper>
-          {cafeteriaItems &&
-            cafeteriaItems.map((value, index) => {
-              return (
-                <View key={index}>
-                  <S.cardContent>
-                    {value.corner && (
-                      <Txt
-                        label={value.corner}
-                        color="grey190"
-                        typograph="labelLarge"
-                      />
-                    )}
-                    <S.inlineWrapper>
-                      <Txt
-                        label={value.menu}
-                        color="grey190"
-                        typograph="bodyLarge"
-                      />
-                      <Txt
-                        label={value.price}
-                        color="grey130"
-                        typograph="bodyLarge"
-                      />
-                    </S.inlineWrapper>
-
-                    <S.inlineWrapper>
-                      {value.sideMenus && (
-                        <Txt
-                          label={value.sideMenus}
-                          color="grey90"
-                          typograph="bodyMedium"
-                        />
-                      )}
-                      {value.extraPrice && (
-                        <Txt
-                          label={value.extraPrice}
-                          color="grey90"
-                          typograph="bodyMedium"
-                        />
-                      )}
-                    </S.inlineWrapper>
-                  </S.cardContent>
-                  {value.showDivider && <S.divider />}
-                </View>
-              );
-            })}
-        </S.cardContentWrapper>
+        <S.CafeteriaCardBodyContainer>
+          {cafeteriaItem.map(item => (
+            <CafeteriaCardBody
+              key={item.menuList[0].menu}
+              corner={item.corner}
+              menuList={item.menuList}
+            />
+          ))}
+        </S.CafeteriaCardBodyContainer>
       )}
-    </View>
+    </S.CafeteriaCardConatiner>
   );
 };
 
 const S = {
-  inlineWrapper: styled.View`
+  CafeteriaCardConatiner: styled.View`
+    padding: 0 16px 12px;
+  `,
+  CafeteriaCardBodyContainer: styled.View`
+    gap: 12px;
+    flex-direction: column;
+  `,
+  InlineWrapper: styled.View`
     flex-direction: row;
     justify-content: space-between;
   `,
-  cardContent: styled.View`
-    gap: 4px;
-  `,
-  cardContentWrapper: styled.View`
+  CafeteriaCardBodyWrapper: styled.View`
     flex-direction: column;
-    gap: 12px;
-    margin-left: 16px;
-    margin-right: 16px;
+    gap: 4px;
   `,
   divider: styled.View`
     height: 1px;

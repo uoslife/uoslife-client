@@ -1,8 +1,7 @@
-import {CafeteriaItem} from '../../../../../screens/cafeteria/CafeteriaScreen';
+import {CafeteriaItemType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
 
 export type CafeteriaCardProps = {
-  cafeteriaItems: CafeteriaItem[];
-  isEmpty?: boolean;
+  cafeteriaItem: CafeteriaItemType['attributes'];
 };
 
 export default CafeteriaCardProps;
