@@ -10,7 +10,12 @@ const Card = ({title, caption, children}: CardProps) => {
         <S.inlineWrapper>
           <Txt label={title} color="grey160" typograph="titleMedium" />
           {caption && (
-            <Txt label={caption} color="grey150" typograph="caption" />
+            <Txt
+              style={{textAlign: 'right'}}
+              label={caption}
+              color="grey150"
+              typograph="caption"
+            />
           )}
         </S.inlineWrapper>
       </S.cardHeader>
