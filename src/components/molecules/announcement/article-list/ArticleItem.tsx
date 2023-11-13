@@ -1,29 +1,56 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import React, {useEffect} from 'react';
-import {getUploadTimeString} from '../../../../utils/handle-date';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../types/announcement.type';
 import {announcementFullName} from '../../../../configs/announcement';
-import {Alert} from 'react-native';
+import BookmarkAPI from '../../../../api/services/util/bookmark/bookmarkAPI';
+import useBookmarkOnLocal from '../../../../hooks/useBookmarkOnLocal';
 
 type ArticleItemProps = {
   showCategoryName: boolean;
+  isBookmarkedByMe: boolean;
   articleItem: ArticleItemType;
 };
 
-const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
+const ArticleItem = ({
+  articleItem,
+  showCategoryName,
+  isBookmarkedByMe,
+}: ArticleItemProps) => {
   const {bookmarkCount, date, department, id, title, origin} = articleItem;
+  const [isBookmarkedByMeState, setIsBookmarkedState] =
+    useState(isBookmarkedByMe);
+  const [isPending, setIsPending] = useState(false);
 
-  // TODO: API를 통해 받아오도록 수정
-  const bookmarkedByMe = false;
+  const {saveBookmarkOnLocal} = useBookmarkOnLocal();
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  // TODO: bookmark toggle 구현
-  const onPressBookmark = () => {
-    Alert.alert('북마크 기능은 아직 개발이 완료되지 않았습니다.');
+  const onPressBookmarkToggle = async () => {
+    setIsBookmarkedState(prev => !prev);
+    setIsPending(true);
+
+    try {
+      let result;
+
+      if (isBookmarkedByMe) {
+        result = await BookmarkAPI.cancelBookmark({
+          announcementId: articleItem.id,
+        });
+      } else {
+        result = await BookmarkAPI.postBookmark({
+          announcementId: articleItem.id,
+        });
+      }
+
+      saveBookmarkOnLocal(result.bookmarkInformation);
+    } catch (error) {
+      // 요청 실패시 원상복구
+      setIsBookmarkedState(prev => prev);
+    }
+    setIsPending(false);
   };
 
   // TODO: API 호출시의 형식이 예상과 다름 -> 기획팀에 전달 후 삭제
@@ -54,17 +81,17 @@ const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
-      <S.BookmarkContainer onPress={onPressBookmark}>
+      <S.BookmarkContainer onPress={onPressBookmarkToggle}>
         <Icon
           width={24}
           height={24}
-          name={'bookmark'}
-          color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
+          name="bookmark"
+          color={isBookmarkedByMe ? 'primaryBrand' : 'grey60'}
         />
         <Txt
           label={bookmarkCount.toString()}
-          color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
-          typograph={'labelSmall'}
+          color={isBookmarkedByMe ? 'primaryBrand' : 'grey60'}
+          typograph="labelSmall"
         />
       </S.BookmarkContainer>
     </S.Root>

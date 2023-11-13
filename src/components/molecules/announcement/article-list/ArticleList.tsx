@@ -1,9 +1,8 @@
 import {forwardRef} from 'react';
 import ArticleItem from './ArticleItem';
-import {FlatList} from 'react-native';
+import useBookmarkOnLocal from '../../../../hooks/useBookmarkOnLocal';
+import {FlatList} from 'react-native-gesture-handler';
 import {ArticleListType} from '../../../../types/announcement.type';
-import {Txt} from '@uoslife/design-system';
-import styled from '@emotion/native';
 
 type ArticleListProps = {
   articles: ArticleListType;
@@ -14,15 +13,25 @@ type ArticleListProps = {
 
 const ArticleList = forwardRef<FlatList, ArticleListProps>(
   (
-    {articles, showCategoryName = true, ListFooterComponent, onEndReached},
+    {articles, showCategoryName = true, onEndReached, ListFooterComponent},
     ref,
   ) => {
+    const {loadBookmarkFromLocal} = useBookmarkOnLocal();
+
+    const isBookmarkedByMe = (id: number) => {
+      const bookmarkOnLocal = loadBookmarkFromLocal();
+      if (!bookmarkOnLocal) return false;
+
+      return id in bookmarkOnLocal;
+    };
+
     return (
       <FlatList
         ref={ref}
         contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}
         renderItem={({item}) => (
           <ArticleItem
+            isBookmarkedByMe={isBookmarkedByMe(item.id)}
             showCategoryName={showCategoryName}
             articleItem={item}
             key={item.id}
