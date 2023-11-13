@@ -1,6 +1,5 @@
 import {Txt} from '@uoslife/design-system';
 import React, {useEffect} from 'react';
-import {View} from 'react-native';
 import {useSetAtom} from 'jotai';
 import {
   accountFlowInitStatus,
@@ -8,8 +7,9 @@ import {
 } from '../../../atoms/account';
 import {useUserStatus} from '../../../atoms/user';
 import AnimatedPlayer from 'react-native-animated-webp';
+import styled from '@emotion/native';
 
-const REDIRECT_TO_MAIN_TIME = 3 * 1000;
+const REDIRECT_TO_MAIN_TIME = 4 * 1000;
 
 const useAutoRedirect = (time: number, callback: () => void) => {
   useEffect(() => {
@@ -32,16 +32,28 @@ const AccountFinishInfoScreen = () => {
   useAutoRedirect(REDIRECT_TO_MAIN_TIME, useAutoRedirectCallback);
 
   return (
-    <View style={{paddingTop: 400, alignItems: 'center'}}>
+    <S.screenContainer>
       <AnimatedPlayer
-        thumbnailSource={require('../../../assets/animations/uoslifeLogo.webp')}
-        animatedSource={require('../../../assets/animations/uoslifeLogo.webp')}
-        autoplay={true}
-        loop={false}
-        style={{width: 350, height: 350}}
+        thumbnailSource={require('../../../assets/animations/uoslifeLogo.gif')}
+        animatedSource={require('../../../assets/animations/uoslifeLogo.gif')}
+        style={{width: 400, height: 300}}
       />
-    </View>
+      <Txt
+        label={'회원가입 축하드립니다!'}
+        color={'grey130'}
+        typograph={'titleLarge'}
+      />
+    </S.screenContainer>
   );
 };
 
 export default AccountFinishInfoScreen;
+
+const S = {
+  screenContainer: styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    top: -50px;
+  `,
+};

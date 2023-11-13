@@ -135,6 +135,21 @@ const AccountFlowStatusGuideForDev = () => {
               })
             }
           />
+          <S.Button
+            title="인증성공"
+            onPress={() =>
+              setAccountFlowStatus(() => {
+                return {
+                  ...accountFlowInitStatus,
+                  baseStatus: 'ONPROGRESS',
+                  portalStatus: {
+                    isPortalStep: true,
+                    step: 1,
+                  },
+                };
+              })
+            }
+          />
         </>
       )}
       <Pressable
