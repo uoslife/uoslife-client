@@ -2,12 +2,12 @@ import {ServiceFunc} from '../../type';
 import * as Type from './notificationAPI.type';
 
 export default interface NotificationService {
-  sendNotification: ServiceFunc<
-    Type.SendNotificationParams,
-    Type.sendNotificationResponse
+  subscribeTopic: ServiceFunc<
+    Type.SubscribeTopicParams,
+    Type.SubscribeTopicResponse
   >;
-  sendNotificationWithToken: ServiceFunc<
-    Type.sendNotificationWithTokenParams,
-    Type.sendNotificationWithTokenResponse
+  getUserTopics: ServiceFunc<
+    Type.GetUserTopicsParams,
+    Type.GetUserTopicsResponse
   >;
 }
