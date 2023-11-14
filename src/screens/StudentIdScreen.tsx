@@ -26,7 +26,9 @@ const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdNavigationProp>();
 
   const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_portalAuthentication');
+    return navigation.navigate('StudentId_portalAuthentication', {
+      fromStudentId: true,
+    });
   };
 
   return (
@@ -197,16 +199,11 @@ const StudentIdScreen = () => {
     const isVerified = UserService.getUserInfoFromDevice('isVerified') as
       | boolean
       | null;
-    setIsPortalAuthenticated(isVerified ?? false);
   }, []);
 
   return (
     <View style={{paddingTop: insets.top}}>
-      {isPortalAuthenticated ? (
-        <StudentIdComponent />
-      ) : (
-        <PortalUnauthorizedComponent />
-      )}
+      <PortalUnauthorizedComponent />
     </View>
   );
 };

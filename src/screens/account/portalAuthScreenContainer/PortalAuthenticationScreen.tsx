@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Pressable, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSetAtom} from 'jotai';
@@ -16,15 +16,23 @@ import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
+import {StackScreenProps} from '@react-navigation/stack';
+import {MyPageProfileStackParamList} from '../../../navigators/MyPageStackNavigator';
+import {StudentIdStackParamList} from '../../../navigators/StudentIdStackNavigator';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
-const PortalAuthenticationScreen = () => {
+export type SetNickNameScreenProps = StackScreenProps<
+  StudentIdStackParamList,
+  'StudentId_portalAuthentication'
+>;
+
+const PortalAuthenticationScreen = ({route}: SetNickNameScreenProps) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
-
+  const fromStudentId = route?.params.fromStudentId;
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
   const [inputValue, setInputValue] = useState<InputValueType>({
@@ -144,7 +152,7 @@ const PortalAuthenticationScreen = () => {
             />
           </View>
         </View>
-        <S.bottomContainer>
+        <S.bottomContainer fromStudentId={fromStudentId}>
           <S.postponePortalAuthButton>
             <Pressable onPress={handlePostponePortalAuth}>
               <Txt
@@ -168,6 +176,9 @@ const PortalAuthenticationScreen = () => {
 
 export default PortalAuthenticationScreen;
 
+type test = {
+  fromStudentId: boolean;
+};
 const S = {
   screenContainer: styled.View`
     flex: 1;
@@ -178,10 +189,11 @@ const S = {
     justify-content: space-between;
     padding: 28px 16px 0;
   `,
-  bottomContainer: styled.View`
+  bottomContainer: styled.View<test>`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    //gap: 16px;
+    gap: ${({fromStudentId}) => (fromStudentId ? 100 : 0)};
   `,
   postponePortalAuthButton: styled.View`
     padding-bottom: 1px;
