@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 
 import {useEffect, useState} from 'react';
-import CardLayout from '../cardLayout/CardLayout';
+import CardLayout from '../../../common/cardLayout/CardLayout';
 import DateUtils from '../../../../../utils/date';
 import {UtilAPI} from '../../../../../api/services';
 import {

@@ -2,10 +2,11 @@ import styled from '@emotion/native';
 import React from 'react';
 import {Txt, colors} from '@uoslife/design-system';
 import CardProps from './Card.type';
+import CardLayout from '../cardLayout/CardLayout';
 
 const Card = ({title, caption, children}: CardProps) => {
   return (
-    <S.cardContainer>
+    <CardLayout>
       <S.cardHeader>
         <S.inlineWrapper>
           <Txt label={title} color="grey160" typograph="titleMedium" />
@@ -20,19 +21,11 @@ const Card = ({title, caption, children}: CardProps) => {
         </S.inlineWrapper>
       </S.cardHeader>
       <S.cardBody>{children}</S.cardBody>
-    </S.cardContainer>
+    </CardLayout>
   );
 };
 
 const S = {
-  cardContainer: styled.View`
-    width: 100%;
-    border-radius: 20px;
-    border-width: 1px;
-    border-color: ${colors.grey40};
-    background-color: #ffffff;
-    overflow: hidden;
-  `,
   cardHeader: styled.View`
     background-color: ${colors.grey10};
     padding: 20px 16px 12px;

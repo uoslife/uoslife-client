@@ -40,25 +40,15 @@ const CafeteriaCardBody = ({corner, menuList}: CafeteriaItemAttributesType) => {
 const CafeteriaCard = ({cafeteriaItem}: CafeteriaCardProps) => {
   return (
     <S.CafeteriaCardConatiner>
-      {false ? (
-        <S.emptyWrapper>
-          <Txt
-            label="오늘은 운영하지 않아요."
-            color="grey150"
-            typograph="bodyLarge"
+      <S.CafeteriaCardBodyContainer>
+        {cafeteriaItem.map(item => (
+          <CafeteriaCardBody
+            key={item.menuList[0].menu}
+            corner={item.corner}
+            menuList={item.menuList}
           />
-        </S.emptyWrapper>
-      ) : (
-        <S.CafeteriaCardBodyContainer>
-          {cafeteriaItem.map(item => (
-            <CafeteriaCardBody
-              key={item.menuList[0].menu}
-              corner={item.corner}
-              menuList={item.menuList}
-            />
-          ))}
-        </S.CafeteriaCardBodyContainer>
-      )}
+        ))}
+      </S.CafeteriaCardBodyContainer>
     </S.CafeteriaCardConatiner>
   );
 };
