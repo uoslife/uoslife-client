@@ -52,6 +52,11 @@ module.exports = {
         allowAfterThis: true,
       },
     ],
+    'no-plusplus': ['error', {allowForLoopAfterthoughts: true}],
+    '@typescript-eslint/lines-between-class-members': [
+      'error',
+      {exceptAfterOverload: true},
+    ],
   },
   plugins: ['prettier'],
   ignorePatterns: ['**/storybook-static'],

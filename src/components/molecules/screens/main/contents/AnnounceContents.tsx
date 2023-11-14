@@ -10,7 +10,7 @@ import {categoryStatusAtom} from '../../../../../atoms/announcement';
 import UtilityService from '../../../../../services/utility';
 import {AnnouncementOriginNameType} from '../../../../../api/services/util/announcement/announcementAPI.type';
 
-import CardLayout from '../cardLayout/CardLayout';
+import CardLayout from '../../../common/cardLayout/CardLayout';
 import CategoryTab from '../../announcement/category-tab/CategoryTab';
 
 const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;

@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 
 import {useNavigation} from '@react-navigation/native';
-import CardLayout from '../cardLayout/CardLayout';
+import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import UtilityService from '../../../../../services/utility';
 import {LibraryReservationType} from '../../../../../api/services/util/library/libraryAPI.type';

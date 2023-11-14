@@ -1,4 +1,3 @@
-export {default as CardLayout} from './cardLayout/CardLayout';
 export {default as MainServiceBox} from './mainServiceBox/MainServiceBox';
 export {default as BottomNavigation} from './bottomNavigation/BottomNavigation';
 
