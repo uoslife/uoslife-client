@@ -4,7 +4,11 @@ import messaging, {
 import notifee from '@notifee/react-native';
 import {PermissionsAndroid, Platform} from 'react-native';
 import {checkNotifications} from 'react-native-permissions';
+import {decode} from 'base-64';
 import storage from '../storage';
+
+// TODO: global 변수 다른 module로 옮기기
+global.btoa = decode;
 
 export default class NotificationService {
   static async onMessageReceived(
@@ -14,7 +18,7 @@ export default class NotificationService {
     try {
       const notifeeData = btoa(message.data.notifee);
       const notifeePayload = JSON.parse(notifeeData);
-      return notifee.displayNotification(notifeePayload);
+      notifee.displayNotification(notifeePayload);
     } catch (e) {
       console.error(e);
     }
