@@ -3,6 +3,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {Txt} from '@uoslife/design-system';
 import Header from '../../components/molecules/common/header/Header';
 import Card from '../../components/molecules/common/card/Card';
 import CafeteriaCard from '../../components/molecules/screens/cafeteria/card/CafeteriaCard';
@@ -14,6 +15,7 @@ import {
 } from '../../api/services/util/cafeteria/cafeteriaAPI.type';
 import IconWithText from '../../components/molecules/common/iconWithText/IconWithText';
 import DateUtils from '../../utils/date';
+import CardLayout from '../../components/molecules/common/cardLayout/CardLayout';
 
 type CafeteriaItemType = {
   isCurrent: boolean;
@@ -213,14 +215,25 @@ const CafeteriaScreen = () => {
             </S.iconWrapper>
           </S.selectorWrapper>
           <S.menuContainer>
-            {currentCafeteriaItem?.items?.map(item => (
-              <Card
-                key={item.location}
-                title={item.location}
-                caption={item.operationTime}>
-                <CafeteriaCard cafeteriaItem={item.attributes} />
-              </Card>
-            ))}
+            {currentCafeteriaItem?.items ? (
+              currentCafeteriaItem?.items.map(item => (
+                <Card
+                  key={item.location}
+                  title={item.location}
+                  caption={item.operationTime}>
+                  <CafeteriaCard cafeteriaItem={item.attributes} />
+                </Card>
+              ))
+            ) : (
+              <CardLayout style={{padding: 24}}>
+                <Txt
+                  label="오늘은 운영하지 않아요."
+                  color="grey160"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+              </CardLayout>
+            )}
           </S.menuContainer>
         </S.bodyContainer>
       </ScrollView>
