@@ -8,11 +8,11 @@ const BookmarkAPI: BookmarkService = {
     get<Type.GetBookmarkedArticlesRes>(`utility/bookmark`),
   cancelBookmark: params =>
     del<Type.CancelBookmarkRes>(
-      `utility/bookmark/${generateQueryString(params)}`,
+      `utility/bookmark?${generateQueryString(params)}`,
     ),
   postBookmark: params =>
     post<Type.PostBookmarkRes>(
-      `utility/bookmark/${generateQueryString(params)}`,
+      `utility/bookmark?${generateQueryString(params)}`,
       {},
     ),
 };
