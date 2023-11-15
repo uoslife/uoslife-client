@@ -1,10 +1,11 @@
 import {Txt} from '@uoslife/design-system';
 import ArticleList from '../article-list/ArticleList';
 import styled from '@emotion/native';
-import {useEffect, useState, useRef} from 'react';
-import {ArticleListType} from '../../../../types/announcement.type';
+import {useEffect, useState} from 'react';
 import AnnouncementAPI from '../../../../api/services/util/announcement/announcementAPI';
 import Spinner from '../../../spinner/Spinner';
+import {ArticleItemType} from '../../../../types/announcement.type';
+import useBookmarkOnLocal from '../../../../hooks/useBookmarkOnLocal';
 
 const SearchResultNotFound = () => {
   return (
@@ -23,10 +24,13 @@ const ELEMENTS_PER_PAGE = 10;
 
 // TODO: pending state 추가, 해당 상태에 보여줄 컴포넌트 띄우기
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
-  const [isPending, setIsPending] = useState(false);
-  const [searchedArticles, setSearchedArticles] = useState<ArticleListType>([]);
+  const [isPending, setIsPending] = useState(true);
+  const [searchedArticles, setSearchedArticles] = useState<ArticleItemType[]>(
+    [],
+  );
   const [page, setPage] = useState(0);
 
+  const {getBookmarkIdList} = useBookmarkOnLocal();
   const loadNewArticles = async () => {
     try {
       setIsPending(true);
@@ -36,8 +40,12 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
         page,
         size: ELEMENTS_PER_PAGE,
       };
+      const idList = await getBookmarkIdList();
       const res = await AnnouncementAPI.searchAnnoucements(params);
-      const loadedArticles = res.content;
+      const loadedArticles = res.content.map(item => ({
+        ...item,
+        isBookmarkedByMe: idList.includes(item.id),
+      }));
 
       setPage(prev => prev + 1);
       setSearchedArticles([...searchedArticles, ...loadedArticles]);

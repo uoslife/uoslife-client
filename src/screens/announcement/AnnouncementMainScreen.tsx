@@ -18,10 +18,11 @@ import {
   categoryStatusAtom,
 } from '../../atoms/announcement';
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
-import {ArticleListType} from '../../types/announcement.type';
 import useModal from '../../hooks/useModal';
 import AlertSettingOverlay from '../../components/molecules/announcement/modalContents/AlertSettingOverlay';
 import Spinner from '../../components/spinner/Spinner';
+import {ArticleItemType} from '../../types/announcement.type';
+import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 
 const ELEMENTS_PER_PAGE = 10;
 
@@ -43,8 +44,10 @@ const AnnouncementMainScreen = () => {
   const inputRef = useRef<TextInput>(null);
   const listRef = useRef<FlatList>(null);
 
+  const {getBookmarkIdList} = useBookmarkOnLocal();
+
   const [articleListObject, setArticleListObject] = useState<{
-    [key in AnnouncementOriginNameType]: ArticleListType;
+    [key in AnnouncementOriginNameType]: ArticleItemType[];
   }>({
     FA1: [],
     FA2: [],
@@ -81,7 +84,12 @@ const AnnouncementMainScreen = () => {
       };
       const res = await AnnouncementAPI.getAnnouncements(params);
 
-      const loadedArticles = res.content;
+      const idList = await getBookmarkIdList();
+
+      const loadedArticles: ArticleItemType[] = res.content.map(item => ({
+        ...item,
+        isBookmarkedByMe: idList.includes(item.id),
+      }));
 
       setArticleListObject(prev => ({
         ...prev,

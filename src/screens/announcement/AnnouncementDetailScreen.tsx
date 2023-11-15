@@ -11,6 +11,7 @@ import AnnouncementAPI from '../../api/services/util/announcement/announcementAP
 import {ScrollView} from 'react-native-gesture-handler';
 import AnnouncementDetailScreenContent from '../../components/molecules/announcement/announcement-detail/AnnouncementContent';
 import Spinner from '../../components/spinner/Spinner';
+import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 
 const AnnouncementDetailScreen = ({
   route: {
@@ -22,13 +23,18 @@ const AnnouncementDetailScreen = ({
   // TODO: API 호출 관련 상태관리 로직 - custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
+  const {getBookmarkIdList} = useBookmarkOnLocal();
+
   useEffect(() => {
     (async () => {
       setIsPending(true);
       try {
         const loadedArticle = await AnnouncementAPI.getAnnouncementById({id});
-        const {description} = loadedArticle;
-        setArticle(loadedArticle);
+
+        setArticle({
+          ...loadedArticle,
+          isBookmarkedByMe: (await getBookmarkIdList()).includes(id),
+        });
       } catch (error) {
         console.log(error);
       }

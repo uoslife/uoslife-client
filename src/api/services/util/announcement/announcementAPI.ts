@@ -14,6 +14,12 @@ const AnnouncementAPI: AnnouncementService = {
     get<Type.SearchAnnouncementsRes>(
       `utility/announcement/search?${generateQueryString(params)}`,
     ),
+  getAnnouncementByIdList: params =>
+    get<Type.getAnnouncementByIdListRes>(
+      `utility/announcement/list?${params.idList
+        .map(id => `id=${id}`)
+        .join('&')}`,
+    ),
 
   // NOT-IN-USE(23 / 10 / 14)
 

@@ -8,47 +8,67 @@ import {announcementFullName} from '../../../../configs/announcement';
 import BookmarkAPI from '../../../../api/services/util/bookmark/bookmarkAPI';
 import useBookmarkOnLocal from '../../../../hooks/useBookmarkOnLocal';
 
-type ArticleItemProps = {
+type ArticleItemComponentProps = {
   showCategoryName: boolean;
-  isBookmarkedByMe: boolean;
   articleItem: ArticleItemType;
 };
 
 const ArticleItem = ({
   articleItem,
   showCategoryName,
-  isBookmarkedByMe,
-}: ArticleItemProps) => {
-  const {bookmarkCount, date, department, id, title, origin} = articleItem;
-  const [isBookmarkedByMeState, setIsBookmarkedState] =
-    useState(isBookmarkedByMe);
+}: ArticleItemComponentProps) => {
+  const {bookmarkCount, date, department, id, title, origin, isBookmarkedByMe} =
+    articleItem;
   const [isPending, setIsPending] = useState(false);
 
-  const {saveBookmarkOnLocal} = useBookmarkOnLocal();
+  // TODO: "이 component level에서 관리하는 게 맞는가"에 대해 다시 고민해보기
+  // 클라이언트 측에서 어떻게 보여질지 결정하는 부분(API 호출 시 변동되기에 state로 저장)
+  const [bookmarkCountOnClient, setBookmarkCountOnClient] =
+    useState(bookmarkCount);
+  const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
+    useState(isBookmarkedByMe);
+
+  const {saveBookmarkOnLocal, getBookmarkIdList} = useBookmarkOnLocal();
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
   const onPressBookmarkToggle = async () => {
-    setIsBookmarkedState(prev => !prev);
     setIsPending(true);
 
-    try {
-      let result;
+    if (isBookmarkedByMeOnClient) {
+      try {
+        setIsBookmarkedByMeOnClient(prev => !prev);
+        setBookmarkCountOnClient(prev => prev - 1);
 
-      if (isBookmarkedByMe) {
-        result = await BookmarkAPI.cancelBookmark({
+        const result = await BookmarkAPI.cancelBookmark({
           announcementId: articleItem.id,
         });
-      } else {
-        result = await BookmarkAPI.postBookmark({
-          announcementId: articleItem.id,
-        });
+        saveBookmarkOnLocal(result.bookmarkInformation);
+      } catch (error) {
+        const {code} = error as any;
+        // 이미 삭제되어 있는 상태도 아닌, Unexpected Error
+        if (code !== 'B01') {
+          setIsBookmarkedByMeOnClient(prev => !prev);
+          setBookmarkCountOnClient(prev => prev + 1);
+        }
       }
+    } else {
+      try {
+        setIsBookmarkedByMeOnClient(prev => !prev);
+        setBookmarkCountOnClient(prev => prev + 1);
 
-      saveBookmarkOnLocal(result.bookmarkInformation);
-    } catch (error) {
-      // 요청 실패시 원상복구
-      setIsBookmarkedState(prev => prev);
+        const result = await BookmarkAPI.postBookmark({
+          announcementId: articleItem.id,
+        });
+        saveBookmarkOnLocal(result.bookmarkInformation);
+      } catch (error) {
+        const {code} = error as any;
+        // 이미 등록되어 있는 상태도 아닌, Unexpected Error
+        if (code !== 'B01') {
+          setIsBookmarkedByMeOnClient(prev => !prev);
+          setBookmarkCountOnClient(prev => prev - 1);
+        }
+      }
     }
     setIsPending(false);
   };
@@ -81,16 +101,17 @@ const ArticleItem = ({
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
-      <S.BookmarkContainer onPress={onPressBookmarkToggle}>
+      <S.BookmarkContainer
+        onPress={!isPending ? onPressBookmarkToggle : () => {}}>
         <Icon
           width={24}
           height={24}
           name="bookmark"
-          color={isBookmarkedByMe ? 'primaryBrand' : 'grey60'}
+          color={isBookmarkedByMeOnClient ? 'primaryBrand' : 'grey60'}
         />
         <Txt
-          label={bookmarkCount.toString()}
-          color={isBookmarkedByMe ? 'primaryBrand' : 'grey60'}
+          label={bookmarkCountOnClient.toString()}
+          color={isBookmarkedByMeOnClient ? 'primaryBrand' : 'grey60'}
           typograph="labelSmall"
         />
       </S.BookmarkContainer>
