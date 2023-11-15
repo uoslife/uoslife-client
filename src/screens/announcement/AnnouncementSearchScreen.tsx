@@ -8,10 +8,13 @@ import {
   AnnouncementNavigationProps,
   AnnouncementSearchScreenProps,
 } from '../../navigators/AnnouncementStackNavigator';
-import SearchWordEnteringView from '../../components/molecules/screens/announcement/search/SearchWordEnteringView';
+import SearchWordEnteringView, {
+  HISTORIES_KEY,
+} from '../../components/molecules/screens/announcement/search/SearchWordEnteringView';
 import SearchInput from '../../components/molecules/common/forms/searchInput/SearchInput';
 import Header from '../../components/molecules/common/header/Header';
 import SearchResultView from '../../components/molecules/screens/announcement/search/SearchResultView';
+import storage from '../../storage';
 
 // 검색어 입력(isSearchWordEntering === true) / 검색 결과 두 상태로 구분(isSearchWordEntering === false)
 const AnnouncementSearchScreen = ({
@@ -54,6 +57,14 @@ const AnnouncementSearchScreen = ({
     },
     onSubmitEditing: () => {
       navigateToNewSearchScreen(searchWord);
+      storage.set(
+        HISTORIES_KEY,
+        JSON.stringify([
+          searchWord,
+          ...JSON.parse(storage.getString(HISTORIES_KEY) ?? '[]'),
+        ]),
+      );
+      console.log(storage.getString(HISTORIES_KEY));
     },
     onPressClear: () => {
       setSearchWord('');
