@@ -1,16 +1,16 @@
 import styled, {css} from '@emotion/native';
 import {useSetAtom} from 'jotai';
+import {Icon, Txt, colors} from '@uoslife/design-system';
+import {useState} from 'react';
+import {Pressable} from 'react-native';
 import {
   accountFlowInitStatus,
   accountFlowStatusAtom,
 } from '../../atoms/account';
-import {Icon, Txt, colors} from '@uoslife/design-system';
-import {useState} from 'react';
-import {Pressable, View} from 'react-native';
 
-type locationType = 'TOP_LEFT' | 'TOP_RIGHT' | 'BOTTOM_LEFT' | 'BOTTOM_RIGHT';
+type LocationType = 'TOP_LEFT' | 'TOP_RIGHT' | 'BOTTOM_LEFT' | 'BOTTOM_RIGHT';
 
-const transformLocation = (location: locationType) => {
+const transformLocation = (location: LocationType) => {
   switch (location) {
     case 'TOP_LEFT':
       return css`
@@ -46,7 +46,7 @@ const ClearButton = ({
       style={{
         alignItems: 'flex-end',
       }}>
-      <Icon name={'clear'} width={24} height={24} />
+      <Icon name="clear" width={24} height={24} />
     </Pressable>
   );
 };
@@ -140,22 +140,22 @@ const AccountFlowStatusGuideForDev = () => {
       <Pressable
         style={{position: 'absolute', top: 0, left: -14, padding: 4}}
         onPress={() => setLocation('TOP_LEFT')}>
-        <Txt label={'<'} color={'grey90'} typograph={'caption'} />
+        <Txt label="<" color="grey90" typograph="caption" />
       </Pressable>
       <Pressable
         style={{position: 'absolute', top: 0, right: -14, padding: 4}}
         onPress={() => setLocation('TOP_RIGHT')}>
-        <Txt label={'>'} color={'grey90'} typograph={'caption'} />
+        <Txt label=">" color="grey90" typograph="caption" />
       </Pressable>
       <Pressable
         style={{position: 'absolute', bottom: 0, left: -14, padding: 4}}
         onPress={() => setLocation('BOTTOM_LEFT')}>
-        <Txt label={'<'} color={'grey90'} typograph={'caption'} />
+        <Txt label="<" color="grey90" typograph="caption" />
       </Pressable>
       <Pressable
         style={{position: 'absolute', bottom: 0, right: -14, padding: 4}}
         onPress={() => setLocation('BOTTOM_RIGHT')}>
-        <Txt label={'>'} color={'grey90'} typograph={'caption'} />
+        <Txt label=">" color="grey90" typograph="caption" />
       </Pressable>
     </S.Container>
   );

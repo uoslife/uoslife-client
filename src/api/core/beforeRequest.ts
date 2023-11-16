@@ -1,11 +1,10 @@
-import ky, {BeforeRequestHook} from 'ky';
-import {storage} from '../../storage';
+import {BeforeRequestHook} from 'ky';
+import storage from '../../storage';
 
-export const setAuthorizationHeader: BeforeRequestHook = (
-  request,
-  _options,
-) => {
-  const accessToken = storage.getString('access_token');
+const setAuthorizationHeader: BeforeRequestHook = request => {
+  const accessToken = storage.getString('accessToken');
   if (accessToken)
     request.headers.set('Authorization', `Bearer ${accessToken}`);
 };
+
+export default setAuthorizationHeader;

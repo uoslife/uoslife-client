@@ -1,8 +1,8 @@
-import {storage} from '../storage';
+import storage from '../storage';
 
 const storeToken = (accessToken: string, refreshToken: string) => {
   if (!accessToken && !refreshToken) return;
-  storage.set('access_token', accessToken);
-  storage.set('refresh_token', refreshToken ?? '');
+  storage.set('accessToken', accessToken);
+  storage.set('refreshToken', refreshToken ?? '');
 };
 export default storeToken;

@@ -1,21 +1,19 @@
-import React, {useState} from 'react';
-import {Pressable} from 'react-native';
-import Header from '../../../components/header/Header';
+import React from 'react';
+import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
-import {MypageProfileNavigationProp} from '../../../navigators/MyPageStackNavigator';
-import NavigationList from '../../../components/navigations/navigationList/NavigationList';
-import {StyleSheet, View} from 'react-native';
-import useModal from '../../../hooks/useModal';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
-import usePhoto from '../../../hooks/usePhoto';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {UserService} from '../../../services/user';
+import Header from '../../../components/molecules/common/header/Header';
+import {MypageProfileNavigationProp} from '../../../navigators/MyPageStackNavigator';
+import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
+import useModal from '../../../hooks/useModal';
+import usePhoto from '../../../hooks/usePhoto';
+import UserService from '../../../services/user';
 import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
-import {useUserStatus} from '../../../atoms/user';
 
 const getPortalAccountInfoList = () => {
-  const userInfo = UserService.getAllUserInfo()!;
+  const userInfo = UserService.getAllUserInfoFromDevice()!;
   return [
     {name: '이름', value: userInfo.name},
     {name: '학과', value: '경제학부'},
@@ -27,13 +25,11 @@ const getPortalAccountInfoList = () => {
 
 const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
-  const {setIsLoggedIn} = useUserStatus();
   const navigation = useNavigation<MypageProfileNavigationProp>();
-  const rootNavigation = useNavigation<RootNavigationProps>();
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openModal, closeModal, Modal] = useModal('MODAL');
 
-  const isVerified = UserService.getUserInfo('isVerified') as boolean;
+  const isVerified = UserService.getUserInfoFromDevice('isVerified') as boolean;
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
@@ -81,36 +77,36 @@ const MypageProfileScreen = () => {
     <>
       <View style={{paddingTop: insets.top}}>
         <S.screenContainer bounces={false}>
-          <Header label={'마이페이지'} onPressBackButton={handleGoBack} />
+          <Header label="마이페이지" onPressBackButton={handleGoBack} />
           <S.myProfileContainer>
             <S.myProfileBox>
               <Pressable
                 // onPress={handleUpdateProfileImage}
                 style={{padding: 48}}>
                 <S.userCircleImageWrapper>
-                  {/*<S.userImage*/}
-                  {/*  source={*/}
-                  {/*    selectedPhotoUri*/}
-                  {/*      ? {uri: selectedPhotoUri}*/}
-                  {/*      : require('../../../assets/images/user.png')*/}
-                  {/*  }*/}
-                  {/*  selectedPhotoUri={!!selectedPhotoUri}*/}
-                  {/*/>*/}
-                  {/*TODO: 프로필 사진 변경 작업시, 해당 주석 코드 사용 */}
+                  {/* <S.userImage */}
+                  {/*  source={ */}
+                  {/*    selectedPhotoUri */}
+                  {/*      ? {uri: selectedPhotoUri} */}
+                  {/*      : require('../../../assets/images/user.png') */}
+                  {/*  } */}
+                  {/*  selectedPhotoUri={!!selectedPhotoUri} */}
+                  {/* /> */}
+                  {/* TODO: 프로필 사진 변경 작업시, 해당 주석 코드 사용 */}
                   <S.userImage
                     source={require('../../../assets/images/iroomae_character.png')}
                     selectedPhotoUri={!!selectedPhotoUri}
                   />
                 </S.userCircleImageWrapper>
-                {/*<S.cameraCircleImageWrapper style={styles.cameraImage}>*/}
-                {/*  <Icon*/}
-                {/*    name={'camera'}*/}
-                {/*    width={24}*/}
-                {/*    height={24}*/}
-                {/*    color={'grey190'}*/}
-                {/*  />*/}
-                {/*</S.cameraCircleImageWrapper>*/}
-                {/*TODO: 프로필 사진 변경 작업시, 해당 주석 코드 사용 */}
+                {/* <S.cameraCircleImageWrapper style={styles.cameraImage}> */}
+                {/*  <Icon */}
+                {/*    name={'camera'} */}
+                {/*    width={24} */}
+                {/*    height={24} */}
+                {/*    color={'grey190'} */}
+                {/*  /> */}
+                {/* </S.cameraCircleImageWrapper> */}
+                {/* TODO: 프로필 사진 변경 작업시, 해당 주석 코드 사용 */}
               </Pressable>
               <NavigationList
                 label="닉네임 변경"
@@ -119,7 +115,9 @@ const MypageProfileScreen = () => {
                     isMyPage: true,
                   })
                 }
-                pressLabel={UserService.getUserInfo('nickname') as string}
+                pressLabel={
+                  UserService.getUserInfoFromDevice('nickname') as string
+                }
               />
               <NavigationList
                 label="포털 계정 연동"
@@ -139,13 +137,13 @@ const MypageProfileScreen = () => {
                       <S.portalAccountInformation key={item.name}>
                         <Txt
                           label={item.name}
-                          typograph={'labelLarge'}
-                          color={'grey130'}
+                          typograph="labelLarge"
+                          color="grey130"
                         />
                         <Txt
                           label={item.value}
-                          typograph={'bodyMedium'}
-                          color={'grey130'}
+                          typograph="bodyMedium"
+                          color="grey130"
                         />
                       </S.portalAccountInformation>
                     );
@@ -164,7 +162,7 @@ const MypageProfileScreen = () => {
       <Modal>
         <S.UnregisterModalWrapper>
           <Txt
-            label={'시대생 회원을 탈퇴하시겠습니까?'}
+            label="시대생 회원을 탈퇴하시겠습니까?"
             color="grey190"
             typograph="titleMedium"
             style={{padding: 16, paddingTop: 24, textAlign: 'center'}}
@@ -177,9 +175,7 @@ const MypageProfileScreen = () => {
             variant="text"
             isFullWidth
             onPress={async () => {
-              await UserService.unregister(rootNavigation).finally(() =>
-                setIsLoggedIn(false),
-              );
+              await UserService.unregister();
             }}
           />
           <S.Devider />

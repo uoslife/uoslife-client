@@ -6,7 +6,7 @@ import {
   accountFlowInitStatus,
   accountFlowStatusAtom,
 } from '../../../atoms/account';
-import {useUserStatus} from '../../../atoms/user';
+import storage from '../../../storage';
 
 const REDIRECT_TO_MAIN_TIME = 3 * 1000;
 
@@ -21,10 +21,9 @@ const useAutoRedirect = (time: number, callback: () => void) => {
 
 const AccountFinishInfoScreen = () => {
   const setAccontFlowStatus = useSetAtom(accountFlowStatusAtom);
-  const {setIsLoggedIn} = useUserStatus();
 
   const useAutoRedirectCallback = () => {
-    setIsLoggedIn(true);
+    storage.set('isLoggedIn', true);
     setAccontFlowStatus(accountFlowInitStatus);
   };
 
@@ -32,7 +31,7 @@ const AccountFinishInfoScreen = () => {
 
   return (
     <View style={{paddingTop: 400, alignItems: 'center'}}>
-      <Txt label={'로그인 완료!'} color={'black'} typograph={'bodySmall'} />
+      <Txt label="로그인 완료!" color="black" typograph="bodySmall" />
     </View>
   );
 };

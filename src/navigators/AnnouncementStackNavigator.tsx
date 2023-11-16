@@ -5,11 +5,11 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScreen';
 import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
 import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
 import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
 type AnnouncementStackParamList = {

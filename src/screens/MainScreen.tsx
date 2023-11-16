@@ -6,15 +6,15 @@ import {View, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+import Carousel from '../components/molecules/common/carousel/Carousel';
+import {RootNavigationProps} from '../navigators/RootStackNavigator';
+import UserService from '../services/user';
 import {
-  AnnounceContents,
+  MainServiceBox,
   CafeteriaContents,
   LibraryContents,
-  MainServiceBox,
-} from '../components/molecules';
-import Carousel from '../components/molecules/carousel/Carousel';
-import {RootNavigationProps} from '../navigators/RootStackNavigator';
-import {UserService} from '../services/user';
+  AnnounceContents,
+} from '../components/molecules/screens/main';
 
 const {width} = Dimensions.get('window');
 
@@ -22,87 +22,81 @@ const MainScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
 
-  const id = UserService.getUserInfo('id');
-  const nickname = UserService.getUserInfo('nickname');
+  const id = UserService.getUserInfoFromDevice('id');
+  const nickname = UserService.getUserInfoFromDevice('nickname');
 
   return (
-    <>
-      <S.MainContainer bounces={false}>
+    <S.MainContainer bounces={false}>
+      <View
+        style={{
+          height: insets.top + 20,
+          backgroundColor: colors.primaryBrand,
+        }}
+      />
+      <View>
+        <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
+      </View>
+      <S.MainWrapper>
+        <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
+          <Icon name="person" width={24} height={24} color="white" />
+        </S.MypageButton>
         <View
-          style={{
-            height: insets.top + 20,
-            backgroundColor: colors.primaryBrand,
-          }}
-        />
-        <View>
-          <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
-        </View>
-        <S.MainWrapper>
-          <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
-            <Icon name={'person'} width={24} height={24} color={'white'} />
-          </S.MypageButton>
-          <View
-            style={css`
-              gap: 4px;
-              margin-top: 20px;
-              padding-left: 16px;
-            `}>
-            <S.WaveInfoWrapper>
-              <Txt
-                label={`${id}번째 파동`}
-                color={'primaryUi'}
-                typograph={'labelSmall'}
-                style={{textAlign: 'center'}}
-              />
-            </S.WaveInfoWrapper>
-            <View>
-              <Txt
-                label={`${nickname} 님`}
-                color={'white'}
-                typograph={'headlineMedium'}
-              />
-              <S.WelcomeMessage>
-                <Txt
-                  label={'환영해요'}
-                  color={'white'}
-                  typograph={'headlineMedium'}
-                />
-                <Icon name={'uoslife'} width={20} height={6} color={'white'} />
-              </S.WelcomeMessage>
-            </View>
+          style={css`
+            gap: 4px;
+            margin-top: 20px;
+            padding-left: 16px;
+          `}>
+          <S.WaveInfoWrapper>
             <Txt
-              label={'파동이 되어 새로운 물결을 만들어가요'}
-              color={'white'}
-              typograph={'headlineSmall'}
+              label={`${id}번째 파동`}
+              color="primaryUi"
+              typograph="labelSmall"
+              style={{textAlign: 'center'}}
             />
+          </S.WaveInfoWrapper>
+          <View>
+            <Txt
+              label={`${nickname} 님`}
+              color="white"
+              typograph="headlineMedium"
+            />
+            <S.WelcomeMessage>
+              <Txt label="환영해요" color="white" typograph="headlineMedium" />
+              <Icon name="uoslife" width={20} height={6} color="white" />
+            </S.WelcomeMessage>
           </View>
-          <Carousel
-            imageWidth={width - 32}
-            imageHeight={148}
-            imageUrls={[{uri: ''}, {uri: ''}]}
-            indicator="TOPRIGHT"
+          <Txt
+            label="파동이 되어 새로운 물결을 만들어가요"
+            color="white"
+            typograph="headlineSmall"
           />
-          <MainServiceBox
-            label={'오늘의 학식'}
-            iconName={'cafeteria'}
-            iconColor={'primaryDarker'}>
-            <CafeteriaContents />
-          </MainServiceBox>
-          <MainServiceBox
-            label={'도서관'}
-            iconName={'library'}
-            iconColor={'primaryDarker'}>
-            <LibraryContents />
-          </MainServiceBox>
-          <MainServiceBox
-            label={'공지사항'}
-            iconName={'campaign'}
-            iconColor={'primaryDarker'}>
-            <AnnounceContents />
-          </MainServiceBox>
-        </S.MainWrapper>
-      </S.MainContainer>
-    </>
+        </View>
+        <Carousel
+          imageWidth={width - 32}
+          imageHeight={148}
+          imageUrls={[{uri: ''}, {uri: ''}]}
+          indicator="TOPRIGHT"
+        />
+        <MainServiceBox
+          label="오늘의 학식"
+          iconName="cafeteria"
+          iconColor="primaryDarker">
+          <CafeteriaContents />
+        </MainServiceBox>
+        <MainServiceBox
+          label="도서관"
+          iconName="library"
+          iconColor="primaryDarker">
+          <LibraryContents />
+        </MainServiceBox>
+        <MainServiceBox
+          label="공지사항"
+          iconName="campaign"
+          iconColor="primaryDarker">
+          <AnnounceContents />
+        </MainServiceBox>
+      </S.MainWrapper>
+    </S.MainContainer>
   );
 };
 

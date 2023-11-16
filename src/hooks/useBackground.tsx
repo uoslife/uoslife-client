@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import Background from '../components/overlay/Background';
+import Background from '../components/molecules/overlay/Background';
 
 const useBackground = () => {
   const [bgZIndex, setBgZIndex] = useState<number>(3);

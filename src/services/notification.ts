@@ -3,10 +3,10 @@ import messaging, {
 } from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
 import {PermissionsAndroid, Platform} from 'react-native';
-import {storage} from '../storage';
 import {checkNotifications} from 'react-native-permissions';
+import storage from '../storage';
 
-export class NotificationService {
+export default class NotificationService {
   static async onMessageReceived(
     message: FirebaseMessagingTypes.RemoteMessage,
   ): Promise<string | undefined> {
@@ -56,6 +56,7 @@ export class NotificationService {
     const token = await this.getNotificationToken();
     return token;
   }
+
   static async setFirebasePushToken(): Promise<void> {
     const token = await this.getFirebasePushToken();
     storage.set('firebasePushToken', token ?? '');

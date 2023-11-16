@@ -1,6 +1,6 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import WebViewWithHeader from '../../../components/webView/WebViewWthHeader';
+import WebViewWithHeader from '../../../components/molecules/webView/WebViewWthHeader';
 import URLS from '../../../configs/urls';
 import {ServiceAgreementStackNavigation} from '../../../types/serviceAgreement.type';
 
@@ -11,7 +11,7 @@ const PrivacyandPoliciesScreen = () => {
     <WebViewWithHeader
       navigation={navigation}
       url={URLS.APP_INFORMATION.PRIVACY_AND_POLICIES}
-      label={'개인정보 처리방침'}
+      label="개인정보 처리방침"
     />
   );
 };
