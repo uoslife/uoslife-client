@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSetAtom} from 'jotai';
 import {Txt, Button} from '@uoslife/design-system';
 
+import {StackScreenProps} from '@react-navigation/stack';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -16,15 +17,21 @@ import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
+import {StudentIdStackParamList} from '../../../navigators/StudentIdStackNavigator';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
-const PortalAuthenticationScreen = () => {
+export type ScreenProps = StackScreenProps<
+  StudentIdStackParamList,
+  'StudentId_portalAuthentication'
+>;
+
+const PortalAuthenticationScreen = ({route}: ScreenProps) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
-
+  const isFromStudentIdScreen = route?.params.isFromStudentIdScreen;
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
   const [inputValue, setInputValue] = useState<InputValueType>({
@@ -62,6 +69,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePostponePortalAuth = () => {
+    if (isFromStudentIdScreen) navigation.navigate('Main', {screen: 'MainTab'});
     setAccountStatus(prev => {
       return {
         ...prev,
@@ -144,7 +152,7 @@ const PortalAuthenticationScreen = () => {
             />
           </View>
         </View>
-        <S.bottomContainer>
+        <S.bottomContainer isFromStudentIdScreen={isFromStudentIdScreen}>
           <S.postponePortalAuthButton>
             <Pressable onPress={handlePostponePortalAuth}>
               <Txt
@@ -178,10 +186,12 @@ const S = {
     justify-content: space-between;
     padding: 28px 16px 0;
   `,
-  bottomContainer: styled.View`
+  bottomContainer: styled.View<{isFromStudentIdScreen: boolean}>`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-bottom: ${({isFromStudentIdScreen}) =>
+      isFromStudentIdScreen ? '90px' : 0};
   `,
   postponePortalAuthButton: styled.View`
     padding-bottom: 1px;

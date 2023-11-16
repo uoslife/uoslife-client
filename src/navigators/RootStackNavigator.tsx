@@ -4,6 +4,7 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
+import {NavigatorScreenParams} from '@react-navigation/native';
 import {useConfigContext} from '../hooks/ConfigContext';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
@@ -12,7 +13,9 @@ import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import MyPageStackNavigator from './MyPageStackNavigator';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
-import RootBottomTapNavigator from './RootBottomTapNavigator';
+import RootBottomTapNavigator, {
+  RootTabParamList,
+} from './RootBottomTapNavigator';
 import UserService from '../services/user';
 import NotificationService from '../services/notification';
 import DeviceService from '../services/device';
@@ -20,7 +23,7 @@ import storage from '../storage';
 
 export type RootStackParamList = {
   Account: undefined;
-  Main: undefined;
+  Main: NavigatorScreenParams<RootTabParamList>;
   MyPage: undefined;
   Announcement: undefined;
   Library: undefined;

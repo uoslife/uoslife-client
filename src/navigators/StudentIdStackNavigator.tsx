@@ -6,7 +6,7 @@ import StudentIdPortalAuthenticationScreen from '../screens/account/portalAuthSc
 
 export type StudentIdStackParamList = {
   StudentId_main: undefined;
-  StudentId_portalAuthentication: undefined;
+  StudentId_portalAuthentication: {isFromStudentIdScreen: boolean};
 };
 
 export type StudentIdNavigationProp =
