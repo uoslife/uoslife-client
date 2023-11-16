@@ -1,6 +1,6 @@
 import {Txt} from '@uoslife/design-system';
 import styled from '@emotion/native';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import useBookmarkOnLocal from '../../../../../hooks/useBookmarkOnLocal';
 import ArticleList from '../article-list/ArticleList';
@@ -27,7 +27,8 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
   const [page, setPage] = useState(0);
 
   const {getBookmarkIdList} = useBookmarkOnLocal();
-  const loadNewArticles = async () => {
+
+  const loadNewArticles = useCallback(async () => {
     try {
       setIsPending(true);
 
@@ -50,30 +51,25 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
     } finally {
       setIsPending(false);
     }
-  };
+  }, [getBookmarkIdList, page, searchWord, searchedArticles]);
 
   useEffect(() => {
     loadNewArticles();
-  }, []);
+  }, [loadNewArticles]);
 
   const isInitiallyPending = searchedArticles.length === 0 && isPending;
   const isLoadedArticleListEmpty = searchedArticles.length === 0 && !isPending;
 
-  return (
-    <>
-      {isInitiallyPending ? (
-        <Spinner />
-      ) : isLoadedArticleListEmpty ? (
-        <SearchResultNotFound />
-      ) : (
-        <ArticleList
-          ListFooterComponent={isPending ? <Spinner /> : <></>}
-          ref={null}
-          onEndReached={loadNewArticles}
-          articles={searchedArticles}
-        />
-      )}
-    </>
+  if (isInitiallyPending) return <Spinner />;
+  return isLoadedArticleListEmpty ? (
+    <SearchResultNotFound />
+  ) : (
+    <ArticleList
+      ListFooterComponent={isPending ? <Spinner /> : null}
+      ref={null}
+      onEndReached={loadNewArticles}
+      articles={searchedArticles}
+    />
   );
 };
 

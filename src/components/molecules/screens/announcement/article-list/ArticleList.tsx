@@ -6,7 +6,7 @@ import {ArticleItemType} from '../../../../../types/announcement.type';
 type ArticleListProps = {
   articles: ArticleItemType[];
   showCategoryName?: boolean;
-  ListFooterComponent: JSX.Element;
+  ListFooterComponent: JSX.Element | null;
   onEndReached: () => void;
 };
 

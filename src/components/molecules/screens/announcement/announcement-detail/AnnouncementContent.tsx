@@ -32,7 +32,7 @@ const AnnouncementDetailScreenContent = ({
   const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
     useState<boolean>(isBookmarkedByMe);
 
-  const {saveBookmarkOnLocal, getBookmarkIdList} = useBookmarkOnLocal();
+  const {saveBookmarkOnLocal} = useBookmarkOnLocal();
 
   const onPressBookmarkToggle = async () => {
     if (isBookmarkedByMeOnClient) {
@@ -48,8 +48,6 @@ const AnnouncementDetailScreenContent = ({
         const {code} = error as any;
         // 이미 삭제되어 있는 상태도 아닌, Unexpected Error
         if (code === 'B01') {
-          console.log('B01');
-
           return;
         }
 
@@ -69,8 +67,6 @@ const AnnouncementDetailScreenContent = ({
         const {code} = error as any;
         // 이미 등록되어 있는 상태도 아닌, Unexpected Error
         if (code === 'B01') {
-          console.log('B01');
-
           return;
         }
 

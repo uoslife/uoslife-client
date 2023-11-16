@@ -17,14 +17,14 @@ const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
 
   return (
     <S.List>
-      {processedFilesData.map(({name, url}, i) => (
-        <S.Item key={i} onPress={downloadHandlerGenerator(url)}>
+      {processedFilesData.map(({name, url}) => (
+        <S.Item key={name} onPress={downloadHandlerGenerator(url)}>
           <Icon
             height={18}
             width={18}
             name="download"
             color="primaryBrand"
-            key={i}
+            key={name}
           />
           <Txt label={`${name}`} color="grey130" typograph="bodyMedium" />
         </S.Item>

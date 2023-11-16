@@ -5,7 +5,7 @@
  */
 
 import BookmarkAPI from '../api/services/util/bookmark/bookmarkAPI';
-import {storage} from '../storage';
+import storage from '../storage';
 
 const BOOKMARK_ID_LIST_LITERAL = 'bookmark-id-list';
 
