@@ -69,6 +69,7 @@ const PortalAuthenticationScreen = ({route}: ScreenProps) => {
   };
 
   const handlePostponePortalAuth = () => {
+    if (isFromStudentIdScreen) navigation.navigate('Main', {screen: 'MainTab'});
     setAccountStatus(prev => {
       return {
         ...prev,
