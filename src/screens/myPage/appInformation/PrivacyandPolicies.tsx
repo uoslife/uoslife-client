@@ -1,17 +1,11 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {MyPageAppInformationStackParamList} from '../../../navigators/MyPageStackNavigator';
 import WebViewWithHeader from '../../../components/molecules/webView/WebViewWthHeader';
 import URLS from '../../../configs/urls';
-
-type PrivacyPoliciesStackNavigation = StackNavigationProp<
-  MyPageAppInformationStackParamList,
-  'Mypage_privacyPolicies'
->;
+import {ServiceAgreementStackNavigation} from '../../../types/serviceAgreement.type';
 
 const PrivacyandPoliciesScreen = () => {
-  const navigation = useNavigation<PrivacyPoliciesStackNavigation>();
+  const navigation = useNavigation<ServiceAgreementStackNavigation>();
 
   return (
     <WebViewWithHeader

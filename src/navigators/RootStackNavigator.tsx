@@ -8,11 +8,11 @@ import {NavigatorScreenParams} from '@react-navigation/native';
 import {useConfigContext} from '../hooks/ConfigContext';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
-import AccountScreen from '../screens/account';
 import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import MyPageStackNavigator from './MyPageStackNavigator';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
+import AccountStackNavigator from './AccountStackNavigator';
 import RootBottomTapNavigator, {
   RootTabParamList,
 } from './RootBottomTapNavigator';
@@ -100,7 +100,7 @@ const RootStackNavigator: React.FC = () => {
           <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
         </>
       ) : (
-        <Stack.Screen name="Account" component={AccountScreen} />
+        <Stack.Screen name="Account" component={AccountStackNavigator} />
       )}
     </Stack.Navigator>
   );

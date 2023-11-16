@@ -1,13 +1,13 @@
 import React, {useRef} from 'react';
 import WebView from 'react-native-webview';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {ParamListBase} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import webview from '../../../configs/webview';
 import {useConfigContext} from '../../../hooks/ConfigContext';
 import Spinner from '../../atoms/spinner/Spinner';
 
 export type CustomWebviewProps = {
-  navigation: StackNavigationProp<ParamListBase>;
+  navigation: NativeStackNavigationProp<ParamListBase>;
   url: string;
 };
 
