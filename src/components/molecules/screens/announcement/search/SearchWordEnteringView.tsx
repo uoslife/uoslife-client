@@ -17,12 +17,10 @@ const SearchWordEnteringView = ({
     const gotten = storage.getString(HISTORIES_KEY);
     if (gotten) {
       setHistories(JSON.parse(gotten));
-      return;
     }
   }, []);
 
   useEffect(() => {
-    console.log({histories});
     storage.set(HISTORIES_KEY, JSON.stringify(histories));
   }, [histories]);
 

@@ -64,7 +64,6 @@ const AnnouncementSearchScreen = ({
           ...JSON.parse(storage.getString(HISTORIES_KEY) ?? '[]'),
         ]),
       );
-      console.log(storage.getString(HISTORIES_KEY));
     },
     onPressClear: () => {
       setSearchWord('');
