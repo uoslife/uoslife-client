@@ -3,9 +3,12 @@ import {Txt} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {ArticleItemType} from '../../types/announcement.type';
+import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
+import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
 import Header from '../../components/molecules/common/header/Header';
-import {ArticleListType} from '../../types/announcement.type';
+import Spinner from '../../components/atoms/spinner/Spinner';
 
 const NoBookmarkFound = () => (
   <S.NoBookmarkFoundContainer>
@@ -19,23 +22,46 @@ const NoBookmarkFound = () => (
 
 const AnnouncementBookmarkBoxScreen = () => {
   const insets = useSafeAreaInsets();
-  const [articles, setArticles] = useState<ArticleListType>([]);
+  const [articles, setArticles] = useState<ArticleItemType[]>([]);
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
+  const [isPending, setIsPending] = useState(true);
 
-  // TODO: API 부착
-  useEffect(() => {}, []);
+  const {getBookmarkIdList} = useBookmarkOnLocal();
+
+  // TODO: 요청에 페이지네이션 적용(현재는 경우에 따라 불필요한 통신량이 추가로 생김)
+  useEffect(() => {
+    (async () => {
+      const idList = await getBookmarkIdList();
+
+      setIsPending(true);
+      try {
+        const result = await AnnouncementAPI.getAnnouncementByIdList({
+          idList,
+        });
+        setArticles(result.map(item => ({...item, isBookmarkedByMe: true})));
+      } catch (error) {}
+      setIsPending(false);
+    })();
+  }, []);
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
       <Header label="북마크함" onPressBackButton={handleGoBack} />
       <S.BookmarkListContainer>
-        {articles.length === 0 ? (
+        {isPending ? (
+          <Spinner />
+        ) : articles.length === 0 && !isPending ? (
           <NoBookmarkFound />
         ) : (
-          <ArticleList onEndReached={() => {}} articles={articles} />
+          // TODO: 페이지네이션 적용시 onEndReached 수정
+          <ArticleList
+            ListFooterComponent={isPending ? <Spinner /> : <></>}
+            onEndReached={() => {}}
+            articles={articles}
+          />
         )}
       </S.BookmarkListContainer>
     </S.ScreenContainer>
@@ -45,7 +71,7 @@ const AnnouncementBookmarkBoxScreen = () => {
 export default AnnouncementBookmarkBoxScreen;
 
 const S = {
-  ScreenContainer: styled.ScrollView`
+  ScreenContainer: styled.View`
     width: 100%;
     height: 100%;
     display: flex;

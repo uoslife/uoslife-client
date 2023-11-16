@@ -1,20 +1,24 @@
 import {forwardRef} from 'react';
-import {FlatList} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import ArticleItem from './ArticleItem';
-import {ArticleListType} from '../../../../../types/announcement.type';
+import {ArticleItemType} from '../../../../../types/announcement.type';
 
 type ArticleListProps = {
-  articles: ArticleListType;
+  articles: ArticleItemType[];
   showCategoryName?: boolean;
+  ListFooterComponent: JSX.Element | null;
   onEndReached: () => void;
 };
 
 const ArticleList = forwardRef<FlatList, ArticleListProps>(
-  ({articles, showCategoryName = true, onEndReached}, ref) => {
+  (
+    {articles, showCategoryName = true, ListFooterComponent, onEndReached},
+    ref,
+  ) => {
     return (
       <FlatList
         ref={ref}
-        contentContainerStyle={{paddingBottom: 150}}
+        contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}
         renderItem={({item}) => (
           <ArticleItem
             showCategoryName={showCategoryName}
@@ -24,6 +28,7 @@ const ArticleList = forwardRef<FlatList, ArticleListProps>(
         )}
         data={articles}
         onEndReached={onEndReached}
+        ListFooterComponent={ListFooterComponent}
       />
     );
   },

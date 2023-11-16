@@ -1,27 +1,77 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import {getUploadTimeString} from '../../../../../utils/handle-date';
+import BookmarkAPI from '../../../../../api/services/util/bookmark/bookmarkAPI';
+import useBookmarkOnLocal from '../../../../../hooks/useBookmarkOnLocal';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
 
-type ArticleItemProps = {
+type ArticleItemComponentProps = {
   showCategoryName: boolean;
   articleItem: ArticleItemType;
 };
 
-const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
-  const {bookmarkCount, date, department, id, title, origin} = articleItem;
+const ArticleItem = ({
+  articleItem,
+  showCategoryName,
+}: ArticleItemComponentProps) => {
+  const {bookmarkCount, date, department, id, title, origin, isBookmarkedByMe} =
+    articleItem;
+  const [isPending, setIsPending] = useState(false);
 
-  // TODO: API를 통해 받아오도록 수정
-  const bookmarkedByMe = false;
+  // TODO: "이 component level에서 관리하는 게 맞는가"에 대해 다시 고민해보기
+  // 클라이언트 측에서 어떻게 보여질지 결정하는 부분(API 호출 시 변동되기에 state로 저장)
+  const [bookmarkCountOnClient, setBookmarkCountOnClient] =
+    useState(bookmarkCount);
+  const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
+    useState(isBookmarkedByMe);
+
+  const {saveBookmarkOnLocal, getBookmarkIdList} = useBookmarkOnLocal();
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  // TODO: bookmark toggle 구현
-  const onPressBookmark = () => {};
+  const onPressBookmarkToggle = async () => {
+    setIsPending(true);
+
+    if (isBookmarkedByMeOnClient) {
+      try {
+        setIsBookmarkedByMeOnClient(prev => !prev);
+        setBookmarkCountOnClient(prev => prev - 1);
+
+        const result = await BookmarkAPI.cancelBookmark({
+          announcementId: articleItem.id,
+        });
+        saveBookmarkOnLocal(result.bookmarkInformation);
+      } catch (error) {
+        const {code} = error as any;
+        // 이미 삭제되어 있는 상태도 아닌, Unexpected Error
+        if (code !== 'B01') {
+          setIsBookmarkedByMeOnClient(prev => !prev);
+          setBookmarkCountOnClient(prev => prev + 1);
+        }
+      }
+    } else {
+      try {
+        setIsBookmarkedByMeOnClient(prev => !prev);
+        setBookmarkCountOnClient(prev => prev + 1);
+
+        const result = await BookmarkAPI.postBookmark({
+          announcementId: articleItem.id,
+        });
+        saveBookmarkOnLocal(result.bookmarkInformation);
+      } catch (error) {
+        const {code} = error as any;
+        // 이미 등록되어 있는 상태도 아닌, Unexpected Error
+        if (code !== 'B01') {
+          setIsBookmarkedByMeOnClient(prev => !prev);
+          setBookmarkCountOnClient(prev => prev - 1);
+        }
+      }
+    }
+    setIsPending(false);
+  };
 
   // TODO: API 호출시의 형식이 예상과 다름 -> 기획팀에 전달 후 삭제
   // const processedUploadTimeString = getUploadTimeString(date);
@@ -51,16 +101,17 @@ const ArticleItem = ({articleItem, showCategoryName}: ArticleItemProps) => {
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
-      <S.BookmarkContainer onPress={onPressBookmark}>
+      <S.BookmarkContainer
+        onPress={!isPending ? onPressBookmarkToggle : () => {}}>
         <Icon
           width={24}
           height={24}
           name="bookmark"
-          color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
+          color={isBookmarkedByMeOnClient ? 'primaryBrand' : 'grey60'}
         />
         <Txt
-          label={bookmarkCount.toString()}
-          color={bookmarkedByMe ? 'primaryBrand' : 'grey60'}
+          label={bookmarkCountOnClient.toString()}
+          color={isBookmarkedByMeOnClient ? 'primaryBrand' : 'grey60'}
           typograph="labelSmall"
         />
       </S.BookmarkContainer>

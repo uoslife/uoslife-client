@@ -4,22 +4,21 @@ import {ArticleDetailType} from '../../../../../types/announcement.type';
 
 const AnnouncementDetailScreenBookmarkToggle = ({
   bookmarkCount,
-}: Pick<ArticleDetailType, 'bookmarkCount'>) => {
-  // TODO: 북마크 Toggle API 호출 지정 필요
-  const onToggleBookmark = () => {};
-
-  const bookmarkedByMe = false;
-
+  isBookmarkedByMe,
+  onPressBookmarkToggle,
+}: Pick<ArticleDetailType, 'bookmarkCount' | 'isBookmarkedByMe'> & {
+  onPressBookmarkToggle: () => void;
+}) => {
   return (
-    <S.Root onPress={onToggleBookmark}>
+    <S.Root onPress={onPressBookmarkToggle}>
       <Icon
         name="bookmark"
-        color={bookmarkedByMe ? 'primaryBrand' : 'grey90'}
+        color={isBookmarkedByMe ? 'primaryBrand' : 'grey90'}
         height={24}
         width={24}
       />
       <Txt
-        color={bookmarkedByMe ? 'primaryBrand' : 'grey90'}
+        color={isBookmarkedByMe ? 'primaryBrand' : 'grey90'}
         label={`${bookmarkCount}`}
         typograph="titleSmall"
       />

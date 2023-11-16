@@ -6,13 +6,21 @@ import {generateQueryString} from '../../../../utils/getQueryStringFromParams';
 const AnnouncementAPI: AnnouncementService = {
   getAnnouncements: params =>
     get<Type.GetAnnouncementsRes>(
-      `utility/announcement?${generateQueryString(params)}`,
+      `utility/announcement?${generateQueryString(params)}&sort=date,desc`,
     ),
   getAnnouncementById: params =>
     get<Type.GetAnnouncementByIdRes>(`utility/announcement/${params.id}`),
   searchAnnoucements: params =>
     get<Type.SearchAnnouncementsRes>(
-      `utility/announcement/search?${generateQueryString(params)}`,
+      `utility/announcement/search?${generateQueryString(
+        params,
+      )}&sort=date,desc`,
+    ),
+  getAnnouncementByIdList: params =>
+    get<Type.getAnnouncementByIdListRes>(
+      `utility/announcement/list?${params.idList
+        .map(id => `id=${id}`)
+        .join('&')}`,
     ),
 
   // NOT-IN-USE(23 / 10 / 14)

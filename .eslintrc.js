@@ -57,6 +57,13 @@ module.exports = {
       'error',
       {exceptAfterOverload: true},
     ],
+    // Resource: https://noogoonaa.tistory.com/62
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
   plugins: ['prettier'],
   ignorePatterns: ['**/storybook-static'],
