@@ -14,9 +14,9 @@ const SearchWordEnteringView = ({
   const [histories, setHistories] = useState<string[]>([]);
 
   useEffect(() => {
-    const gotten = storage.getString(HISTORIES_KEY);
-    if (gotten) {
-      setHistories(JSON.parse(gotten));
+    const storageSearchHistory = storage.getString(HISTORIES_KEY);
+    if (storageSearchHistory) {
+      setHistories(JSON.parse(storageSearchHistory));
     }
   }, []);
 
