@@ -1,25 +1,29 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {useConfigContext} from '../hooks/ConfigContext';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
+import {NavigatorScreenParams} from '@react-navigation/native';
+import {useConfigContext} from '../hooks/ConfigContext';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 import AccountScreen from '../screens/account';
 import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import MyPageStackNavigator from './MyPageStackNavigator';
-import {StackNavigationProp} from '@react-navigation/stack';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
-import {useAtomValue} from 'jotai';
-import RootBottomTapNavigator from './RootBottomTapNavigator';
-import {UserService} from '../services/user';
-import {NotificationService} from '../services/notification';
-import {useUserStatus, userStatusAtom} from '../atoms/user';
-import {DeviceService} from '../services/device';
+import RootBottomTapNavigator, {
+  RootTabParamList,
+} from './RootBottomTapNavigator';
+import UserService from '../services/user';
+import NotificationService from '../services/notification';
+import DeviceService from '../services/device';
+import storage from '../storage';
 
 export type RootStackParamList = {
   Account: undefined;
-  Main: undefined;
+  Main: NavigatorScreenParams<RootTabParamList>;
   MyPage: undefined;
   Announcement: undefined;
   Library: undefined;
@@ -33,25 +37,30 @@ const Stack = createStackNavigator<RootStackParamList>();
 const RootStackNavigator: React.FC = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
   const [isServiceInitLoading, setIsServiceInitLoading] = useState(true);
-  const userStatus = useAtomValue(userStatusAtom);
-  const {setIsLoggedIn} = useUserStatus();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const isMaintenance = useMemo(
     () => config.get('app.block') !== 'NO',
     [config],
   );
 
-  const callbackWhenLoggedIn = async () => {
-    await DeviceService.updateDeviceInfo();
-    setIsLoggedIn(true);
-  };
-
   useEffect(() => {
     (async () => {
       await NotificationService.setFirebasePushToken();
-      await UserService.setUserInfo(callbackWhenLoggedIn).finally(() => {
+      const hasRefreshToken = UserService.getHasRefreshToken();
+      if (!hasRefreshToken) {
         setIsServiceInitLoading(false);
-      });
+        return null;
+      }
+      await UserService.setUserInfoToClient();
+      await DeviceService.updateDeviceInfo();
+      storage.set('isLoggedIn', true);
+      setIsLoggedIn(true);
+      const showSplashScreenTerm = setTimeout(() => {
+        setIsServiceInitLoading(false);
+      }, 500);
+
+      return () => clearTimeout(showSplashScreenTerm);
     })();
   }, []);
 
@@ -60,6 +69,14 @@ const RootStackNavigator: React.FC = () => {
     SplashScreen.hide();
   }, [isLoading, isServiceInitLoading]);
 
+  /** isLoggedIn value를 감시합니다. */
+  useEffect(() => {
+    storage.addOnValueChangedListener(changedKey => {
+      if (changedKey !== 'isLoggedIn') return;
+      setIsLoggedIn(storage.getBoolean(changedKey) ?? false);
+    });
+  }, []);
+
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
@@ -67,9 +84,13 @@ const RootStackNavigator: React.FC = () => {
     <Stack.Navigator
       initialRouteName="Main"
       screenOptions={{headerShown: false}}>
-      {userStatus.isLoggedIn ? (
+      {isLoggedIn ? (
         <>
-          <Stack.Screen name="Main" component={RootBottomTapNavigator} />
+          <Stack.Screen
+            name="Main"
+            component={RootBottomTapNavigator}
+            options={{animationEnabled: false}}
+          />
           <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
           <Stack.Screen
             name="Announcement"

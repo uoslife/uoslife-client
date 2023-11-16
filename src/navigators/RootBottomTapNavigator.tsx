@@ -3,11 +3,11 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
-import MainScreen from '../screens/MainScreen';
-import StudentIdStackNavigator from '../navigators/StudentIdStackNavigator';
-import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
 import {Icon, Txt} from '@uoslife/design-system';
 import {Platform, StyleSheet} from 'react-native';
+import MainScreen from '../screens/MainScreen';
+import StudentIdStackNavigator from './StudentIdStackNavigator';
+import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
 
 export type RootTabParamList = {
   MainTab: undefined;
@@ -73,7 +73,7 @@ const RootBottomTabNavigation = () => {
               <Txt
                 label={item.label}
                 color={focused ? 'primaryBrand' : 'grey90'}
-                typograph={'labelMedium'}
+                typograph="labelMedium"
               />
             ),
           }}

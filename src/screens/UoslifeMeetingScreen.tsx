@@ -1,5 +1,6 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
+
 const UoslifeMeetingScreen = () => {
   return (
     <S.screenContainer>
@@ -9,9 +10,9 @@ const UoslifeMeetingScreen = () => {
       <S.titleContainer>
         <S.confettiImage source={require('../assets/images/confetti.png')} />
         <Txt
-          label={'시대팅 준비중에 있어요'}
-          color={'grey190'}
-          typograph={'headlineLarge'}
+          label="시대팅 준비중에 있어요"
+          color="grey190"
+          typograph="headlineLarge"
         />
         <S.confettiImage source={require('../assets/images/confetti.png')} />
       </S.titleContainer>

@@ -1,12 +1,12 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import StudentIdScreen from '../screens/StudentIdScreen';
 import StudentIdPortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type StudentIdStackParamList = {
   StudentId_main: undefined;
-  StudentId_portalAuthentication: undefined;
+  StudentId_portalAuthentication: {isFromStudentIdScreen: boolean};
 };
 
 export type StudentIdNavigationProp =

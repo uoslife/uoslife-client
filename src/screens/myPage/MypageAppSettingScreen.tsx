@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import Header from '../../components/header/Header';
 import styled from '@emotion/native/dist/emotion-native.cjs';
 import {Txt} from '@uoslife/design-system';
-import ToggleSwitch from '../../components/toggleSwitch/ToggleSwitch';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import ToggleSwitch from '../../components/atoms/toggleSwitch/ToggleSwitch';
+import Header from '../../components/molecules/common/header/Header';
 
 const UOSLIFE_NOTIFICATION_SETTING = [
   {
@@ -77,21 +77,13 @@ const MypageAppSettingScreen = () => {
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
-      <Header label={'알림 설정'} onPressBackButton={handleGoBack} />
+      <Header label="알림 설정" onPressBackButton={handleGoBack} />
       <S.mypageAppSettingContainer>
         <View style={{gap: 12}}>
-          <Txt
-            label={'시대생 알림'}
-            color={'grey150'}
-            typograph={'labelLarge'}
-          />
+          <Txt label="시대생 알림" color="grey150" typograph="labelLarge" />
           {UOSLIFE_NOTIFICATION_SETTING.map((item, i) => (
             <S.notificationSettingContainer key={i}>
-              <Txt
-                label={item.title}
-                color={'grey190'}
-                typograph={'bodyLarge'}
-              />
+              <Txt label={item.title} color="grey190" typograph="bodyLarge" />
               <ToggleSwitch
                 isOn={toggleValues[i].isToggleOn}
                 onToggle={() => handleOnToggle(i)}
@@ -100,18 +92,10 @@ const MypageAppSettingScreen = () => {
           ))}
         </View>
         <View style={{gap: 12}}>
-          <Txt
-            label={'공지사항 알림'}
-            color={'grey150'}
-            typograph={'labelLarge'}
-          />
+          <Txt label="공지사항 알림" color="grey150" typograph="labelLarge" />
           {ANNOUNCEMENT_NOTIFICATION_SETTING.map((item, i) => (
             <S.notificationSettingContainer key={i}>
-              <Txt
-                label={item.title}
-                color={'grey190'}
-                typograph={'bodyLarge'}
-              />
+              <Txt label={item.title} color="grey190" typograph="bodyLarge" />
               <ToggleSwitch
                 isOn={
                   toggleValues[i + UOSLIFE_NOTIFICATION_SETTING.length]
