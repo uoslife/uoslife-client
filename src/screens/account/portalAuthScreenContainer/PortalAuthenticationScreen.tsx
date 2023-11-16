@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {Pressable, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSetAtom} from 'jotai';
 import {Txt, Button} from '@uoslife/design-system';
 
+import {StackScreenProps} from '@react-navigation/stack';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -16,23 +17,21 @@ import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
-import {StackScreenProps} from '@react-navigation/stack';
-import {MyPageProfileStackParamList} from '../../../navigators/MyPageStackNavigator';
 import {StudentIdStackParamList} from '../../../navigators/StudentIdStackNavigator';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
-export type SetNickNameScreenProps = StackScreenProps<
+export type ScreenProps = StackScreenProps<
   StudentIdStackParamList,
   'StudentId_portalAuthentication'
 >;
 
-const PortalAuthenticationScreen = ({route}: SetNickNameScreenProps) => {
+const PortalAuthenticationScreen = ({route}: ScreenProps) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
-  const fromStudentId = route?.params.fromStudentId;
+  const isFromStudentIdScreen = route?.params.isFromStudentIdScreen;
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
   const [inputValue, setInputValue] = useState<InputValueType>({
@@ -152,7 +151,7 @@ const PortalAuthenticationScreen = ({route}: SetNickNameScreenProps) => {
             />
           </View>
         </View>
-        <S.bottomContainer fromStudentId={fromStudentId}>
+        <S.bottomContainer isFromStudentIdScreen={isFromStudentIdScreen}>
           <S.postponePortalAuthButton>
             <Pressable onPress={handlePostponePortalAuth}>
               <Txt
@@ -176,9 +175,6 @@ const PortalAuthenticationScreen = ({route}: SetNickNameScreenProps) => {
 
 export default PortalAuthenticationScreen;
 
-type test = {
-  fromStudentId: boolean;
-};
 const S = {
   screenContainer: styled.View`
     flex: 1;
@@ -189,11 +185,12 @@ const S = {
     justify-content: space-between;
     padding: 28px 16px 0;
   `,
-  bottomContainer: styled.View<test>`
+  bottomContainer: styled.View<{isFromStudentIdScreen: boolean}>`
     display: flex;
     flex-direction: column;
-    //gap: 16px;
-    gap: ${({fromStudentId}) => (fromStudentId ? 100 : 0)};
+    gap: 16px;
+    padding-bottom: ${({isFromStudentIdScreen}) =>
+      isFromStudentIdScreen ? '90px' : 0};
   `,
   postponePortalAuthButton: styled.View`
     padding-bottom: 1px;
