@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import notifee from '@notifee/react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {useConfigContext} from '../hooks/ConfigContext';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import {StackScreenProps} from '@react-navigation/stack';
+import {useConfigContext} from '../hooks/ConfigContext';
 import {RootStackParamList} from '../navigators/RootStackNavigator';
-import {storage} from '../storage';
+import storage from '../storage';
 
 const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
   navigation,

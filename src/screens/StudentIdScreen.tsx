@@ -11,13 +11,13 @@ import {
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import {StudentIdNavigationProp} from '../navigators/StudentIdStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import URLS from '../configs/urls';
 import QRCode from 'react-native-qrcode-svg';
+import {StudentIdNavigationProp} from '../navigators/StudentIdStackNavigator';
+import URLS from '../configs/urls';
 import {UtilAPI} from '../api/services';
 import useInterval from '../hooks/useInterval';
-import {UserService} from '../services/user';
+import UserService from '../services/user';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
@@ -26,7 +26,9 @@ const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdNavigationProp>();
 
   const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_portalAuthentication');
+    return navigation.navigate('StudentId_portalAuthentication', {
+      isFromStudentIdScreen: true,
+    });
   };
 
   return (
@@ -37,26 +39,26 @@ const PortalUnauthorizedComponent = () => {
       />
       <View style={{gap: 8, alignItems: 'center'}}>
         <Txt
-          label={'등록된 모바일학생증이 없습니다.'}
-          color={'grey190'}
-          typograph={'titleLarge'}
+          label="등록된 모바일학생증이 없습니다."
+          color="grey190"
+          typograph="titleLarge"
         />
         <View style={{gap: 0, alignItems: 'center'}}>
           <Txt
-            label={'포털 연동 후 시대생에서'}
-            color={'grey190'}
-            typograph={'bodyLarge'}
+            label="포털 연동 후 시대생에서"
+            color="grey190"
+            typograph="bodyLarge"
           />
           <Txt
-            label={'모바일 학생증을 사용해보세요.'}
-            color={'grey190'}
-            typograph={'bodyLarge'}
+            label="모바일 학생증을 사용해보세요."
+            color="grey190"
+            typograph="bodyLarge"
           />
         </View>
       </View>
       <Button
-        label={'포털 계정 연동하기'}
-        isFullWidth={true}
+        label="포털 계정 연동하기"
+        isFullWidth
         onPress={handleNavigatePortalAuthenticate}
       />
     </S.portalUnauthorizedScreen>
@@ -78,11 +80,11 @@ const StudentIdComponent = () => {
   };
 
   const getCurrentTime = () => {
-    let today = new Date();
-    let hours = ('0' + today.getHours()).slice(-2);
-    let minutes = ('0' + today.getMinutes()).slice(-2);
-    let seconds = ('0' + today.getSeconds()).slice(-2);
-    let timeString = hours + ':' + minutes + ':' + seconds;
+    const today = new Date();
+    const hours = `0${today.getHours()}`.slice(-2);
+    const minutes = `0${today.getMinutes()}`.slice(-2);
+    const seconds = `0${today.getSeconds()}`.slice(-2);
+    const timeString = `${hours}:${minutes}:${seconds}`;
     setCurrentTime(timeString);
   };
 
@@ -115,19 +117,11 @@ const StudentIdComponent = () => {
             ) : (
               <ActivityIndicator />
             )}
-            <Txt
-              label={currentTime}
-              color={'grey190'}
-              typograph={'titleMedium'}
-            />
+            <Txt label={currentTime} color="grey190" typograph="titleMedium" />
           </S.qrWrapper>
           <S.paycoButton onPress={openPayco}>
-            <Txt label={'PAYCO'} color={'red'} typograph={'titleSmall'} />
-            <Txt
-              label={' 바로가기'}
-              color={'grey190'}
-              typograph={'bodyLarge'}
-            />
+            <Txt label="PAYCO" color="red" typograph="titleSmall" />
+            <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
           </S.paycoButton>
         </View>
         <View style={Style.boxShadow}>
@@ -147,14 +141,14 @@ const StudentIdComponent = () => {
               <View style={{gap: 16}}>
                 <View style={{gap: 4}}>
                   <Txt
-                    label={'한유민'}
-                    color={'grey190'}
-                    typograph={'headlineMedium'}
+                    label="한유민"
+                    color="grey190"
+                    typograph="headlineMedium"
                   />
                   <Txt
-                    label={'2022280085'}
-                    color={'grey190'}
-                    typograph={'titleMedium'}
+                    label="2022280085"
+                    color="grey190"
+                    typograph="titleMedium"
                   />
                 </View>
                 <S.uosLogoImage
@@ -164,27 +158,23 @@ const StudentIdComponent = () => {
               <View style={{gap: 8}}>
                 <View>
                   <Txt
-                    label={'소속대학'}
-                    color={'grey130'}
-                    typograph={'bodyMedium'}
+                    label="소속대학"
+                    color="grey130"
+                    typograph="bodyMedium"
                   />
-                  <Txt
-                    label={'정경대학'}
-                    color={'grey190'}
-                    typograph={'bodyLarge'}
-                  />
+                  <Txt label="정경대학" color="grey190" typograph="bodyLarge" />
                 </View>
                 <View>
                   <Txt
-                    label={'소속학과'}
-                    color={'grey130'}
-                    typograph={'bodyMedium'}
+                    label="소속학과"
+                    color="grey130"
+                    typograph="bodyMedium"
                   />
 
                   <Txt
-                    label={'전기전자컴퓨터공학부'}
-                    color={'grey190'}
-                    typograph={'bodyLarge'}
+                    label="전기전자컴퓨터공학부"
+                    color="grey190"
+                    typograph="bodyLarge"
                   />
                 </View>
               </View>
@@ -192,9 +182,9 @@ const StudentIdComponent = () => {
           </S.studentInformationWrapper>
         </View>
         <Txt
-          label={'위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다.'}
-          color={'grey90'}
-          typograph={'caption'}
+          label="위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다."
+          color="grey90"
+          typograph="caption"
         />
       </S.studentIdScreen>
     </ScrollView>
@@ -206,7 +196,9 @@ const StudentIdScreen = () => {
   const insets = useSafeAreaInsets();
 
   useEffect(() => {
-    const isVerified = UserService.getUserInfo('isVerified') as boolean | null;
+    const isVerified = UserService.getUserInfoFromDevice('isVerified') as
+      | boolean
+      | null;
     setIsPortalAuthenticated(isVerified ?? false);
   }, []);
 

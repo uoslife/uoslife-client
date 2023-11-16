@@ -1,14 +1,14 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {Pressable, View} from 'react-native';
+import {useAtom, useSetAtom} from 'jotai';
+import {Txt, Button, colors} from '@uoslife/design-system';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Header from '../../../components/molecules/common/header/Header';
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
 } from '../../../atoms/account';
-import {useAtom, useSetAtom} from 'jotai';
-import Header from '../../../components/header/Header';
-import {Txt, Button, colors} from '@uoslife/design-system';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -30,7 +30,7 @@ const AccountIntegrationScreen = () => {
     <S.screenContainer
       style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
-        label={'계정 통합'}
+        label="계정 통합"
         onPressBackButton={() =>
           setAccountFlowStatus(prev => {
             return {
@@ -48,13 +48,13 @@ const AccountIntegrationScreen = () => {
           <View style={{gap: 8}}>
             <Txt
               label={'통합하고자 하는\n아이디를 선택해주세요.'}
-              color={'grey190'}
-              typograph={'headlineMedium'}
+              color="grey190"
+              typograph="headlineMedium"
             />
             <Txt
-              label={'선택한 계정을 제외한 기존 계정은 삭제됩니다.'}
-              color={'grey190'}
-              typograph={'bodyMedium'}
+              label="선택한 계정을 제외한 기존 계정은 삭제됩니다."
+              color="grey190"
+              typograph="bodyMedium"
             />
           </View>
           <S.idContainer>
@@ -73,8 +73,8 @@ const AccountIntegrationScreen = () => {
                 <S.idButtonSelected isSelected={item.isSelected}>
                   <Txt
                     label={item.nickname}
-                    color={'grey190'}
-                    typograph={'titleMedium'}
+                    color="grey190"
+                    typograph="titleMedium"
                   />
                 </S.idButtonSelected>
               </Pressable>
@@ -82,10 +82,10 @@ const AccountIntegrationScreen = () => {
           </S.idContainer>
         </View>
         <Button
-          label={'계정 통합하기'}
+          label="계정 통합하기"
           onPress={handlePressButton}
           isEnabled={existedAccountInfo.some(item => item.isSelected === true)}
-          isFullWidth={true}
+          isFullWidth
         />
       </S.accountIntegrationContainer>
     </S.screenContainer>

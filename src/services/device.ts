@@ -1,10 +1,10 @@
 import DeviceInfo from 'react-native-device-info';
 import {Platform} from 'react-native';
-import {storage} from '../storage';
+import storage from '../storage';
 import {CoreAPI} from '../api/services';
 import {DeviceInfoType} from '../api/services/core/device/deviceAPI.type';
 
-export class DeviceService {
+export default class DeviceService {
   static getDeviceInfoFromLocal(): DeviceInfoType {
     const firebasePushToken = storage.getString('firebasePushToken')!;
     const model = DeviceInfo.getModel();
@@ -34,6 +34,7 @@ export class DeviceService {
     const deviceInfo = this.getDeviceInfoFromLocal();
     await CoreAPI.patchDeviceInfo(deviceInfo);
   }
+
   static async updateDeviceInfo(): Promise<void> {
     const localDeviceInfo = this.getDeviceInfoFromLocal();
     const serverDeviceInfo = await this.getDeviceInfoFromServer();

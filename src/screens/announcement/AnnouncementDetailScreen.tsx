@@ -1,16 +1,15 @@
 import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
-import Header from '../../components/header/Header';
-import {View, useWindowDimensions, Text} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {ScrollView} from 'react-native-gesture-handler';
+import Header from '../../components/molecules/common/header/Header';
 import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
 import {ArticleDetailType} from '../../types/announcement.type';
 import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import {ScrollView} from 'react-native-gesture-handler';
-import AnnouncementDetailScreenContent from '../../components/molecules/announcement/announcement-detail/AnnouncementContent';
-import Spinner from '../../components/spinner/Spinner';
+import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementContent';
+import Spinner from '../../components/atoms/spinner/Spinner';
 import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 
 const AnnouncementDetailScreen = ({
@@ -49,23 +48,21 @@ const AnnouncementDetailScreen = ({
   };
 
   return (
-    <>
-      <S.Root style={{paddingTop: insets.top}}>
-        <Header
-          label={announcementFullName[origin]}
-          onPressBackButton={handleGoBack}
-        />
-        {isPending ? (
-          <Spinner />
-        ) : (
-          article && (
-            <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-              <AnnouncementDetailScreenContent {...article} />
-            </ScrollView>
-          )
-        )}
-      </S.Root>
-    </>
+    <S.Root style={{paddingTop: insets.top}}>
+      <Header
+        label={announcementFullName[origin]}
+        onPressBackButton={handleGoBack}
+      />
+      {isPending ? (
+        <Spinner />
+      ) : (
+        article && (
+          <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+            <AnnouncementDetailScreenContent {...article} />
+          </ScrollView>
+        )
+      )}
+    </S.Root>
   );
 };
 

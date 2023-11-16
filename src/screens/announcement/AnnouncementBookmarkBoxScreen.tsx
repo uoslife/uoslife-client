@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import Header from '../../components/header/Header';
 import {Txt} from '@uoslife/design-system';
-import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ArticleItemType} from '../../types/announcement.type';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
-import Spinner from '../../components/spinner/Spinner';
+import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
+import Header from '../../components/molecules/common/header/Header';
+import Spinner from '../../components/atoms/spinner/Spinner';
 
 const NoBookmarkFound = () => (
   <S.NoBookmarkFoundContainer>
     <Txt
-      color={'black'}
-      label={'자신이 북마크한 공지사항을 확인할 수 있어요'}
-      typograph={'bodyMedium'}
+      color="black"
+      label="자신이 북마크한 공지사항을 확인할 수 있어요"
+      typograph="bodyMedium"
     />
   </S.NoBookmarkFoundContainer>
 );

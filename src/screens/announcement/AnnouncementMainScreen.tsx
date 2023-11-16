@@ -1,17 +1,17 @@
 import {useState, useEffect, useRef, useCallback, ComponentProps} from 'react';
-import Header from '../../components/header/Header';
 import styled from '@emotion/native';
-import ArticleList from '../../components/molecules/announcement/article-list/ArticleList';
-import CategoryTab from '../../components/molecules/announcement/category-tab/CategoryTab';
 import {Icon, IconsNameType} from '@uoslife/design-system';
-import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {BackHandler, Keyboard, Text} from 'react-native';
-import SearchInput from '../../components/forms/searchInput/SearchInput';
+import {BackHandler, Keyboard} from 'react-native';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
-import SearchWordEnteringView from '../../components/molecules/announcement/search/SearchWordEnteringView';
 import {useAtomValue} from 'jotai';
+import SearchInput from '../../components/molecules/common/forms/searchInput/SearchInput';
+import SearchWordEnteringView from '../../components/molecules/screens/announcement/search/SearchWordEnteringView';
+import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
+import CategoryTab from '../../components/molecules/screens/announcement/category-tab/CategoryTab';
+import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
+import Header from '../../components/molecules/common/header/Header';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import {
   AnnouncementCategoryStatusType,
@@ -19,10 +19,10 @@ import {
 } from '../../atoms/announcement';
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
 import useModal from '../../hooks/useModal';
-import AlertSettingOverlay from '../../components/molecules/announcement/modalContents/AlertSettingOverlay';
-import Spinner from '../../components/spinner/Spinner';
+import Spinner from '../../components/atoms/spinner/Spinner';
 import {ArticleItemType} from '../../types/announcement.type';
 import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
+import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 
 const ELEMENTS_PER_PAGE = 10;
 
@@ -218,13 +218,13 @@ const AnnouncementMainScreen = () => {
           </>
         ) : (
           <>
-            <Header label={'공지사항'} onPressBackButton={onHeaderBackPress}>
+            <Header label="공지사항" onPressBackButton={onHeaderBackPress}>
               <S.HeaderIcons>
                 {icons.map((item, i) => (
                   <S.IconWrapper key={i} onPress={item.onPress}>
                     <Icon
                       name={item.iconName}
-                      color={'grey150'}
+                      color="grey150"
                       height={24}
                       width={24}
                     />
