@@ -199,11 +199,16 @@ const StudentIdScreen = () => {
     const isVerified = UserService.getUserInfoFromDevice('isVerified') as
       | boolean
       | null;
+    setIsPortalAuthenticated(isVerified ?? false);
   }, []);
 
   return (
     <View style={{paddingTop: insets.top}}>
-      <PortalUnauthorizedComponent />
+      {isPortalAuthenticated ? (
+        <StudentIdComponent />
+      ) : (
+        <PortalUnauthorizedComponent />
+      )}
     </View>
   );
 };
