@@ -4,6 +4,8 @@
 // #import <CodePush/CodePush.h>
 #import <Firebase.h>
 #import <RNSplashScreen.h>
+#import "SDImageCodersManager.h"
+#import <SDWebImageWebPCoder/SDImageWebPCoder.h>
 
 @implementation AppDelegate
 
@@ -11,13 +13,15 @@
 {
   self.moduleName = @"uoslife";
   self.initialProps = @{};
-  
+
   [FIRApp configure];
-  
+
   bool didFinish = [super application:application didFinishLaunchingWithOptions:launchOptions];
-  
+
+  [SDImageCodersManager.sharedManager addCoder:SDImageWebPCoder.sharedCoder];
+
   [RNSplashScreen show];
-  
+
   return didFinish;
 }
 
