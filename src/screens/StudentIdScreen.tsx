@@ -26,7 +26,9 @@ const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<StudentIdNavigationProp>();
 
   const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_portalAuthentication');
+    return navigation.navigate('StudentId_portalAuthentication', {
+      isFromStudentIdScreen: true,
+    });
   };
 
   return (
