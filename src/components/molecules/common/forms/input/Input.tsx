@@ -30,6 +30,7 @@ const Input = ({
           value={value}
           placeholderTextColor={placeholderTextColor}
           onChangeText={onChangeText}
+          autoCapitalize="none"
           {...props}
         />
         <S.InputRightBox>
