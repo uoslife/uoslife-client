@@ -1,37 +1,35 @@
 import React, {useState} from 'react';
 import {Pressable, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSetAtom} from 'jotai';
 import {Txt, Button} from '@uoslife/design-system';
 
-import {StackScreenProps} from '@react-navigation/stack';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 
 import {accountFlowStatusAtom} from '../../../atoms/account';
-import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+
+import {RootTabNavigationProps} from '../../../navigators/RootBottomTapNavigator';
 
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
-import {StudentIdStackParamList} from '../../../navigators/StudentIdStackNavigator';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
 
-export type ScreenProps = StackScreenProps<
-  StudentIdStackParamList,
-  'StudentId_portalAuthentication'
->;
-
-const PortalAuthenticationScreen = ({route}: ScreenProps) => {
+const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<RootNavigationProps>();
+
+  const navigation = useNavigation<RootTabNavigationProps>();
+  const route = useRoute();
+  const isFromStudentIdScreen = route.name === 'StudentId_PortalAuthentication';
+
   const setAccountStatus = useSetAtom(accountFlowStatusAtom);
-  const isFromStudentIdScreen = route?.params.isFromStudentIdScreen;
+
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
   const [inputValue, setInputValue] = useState<InputValueType>({
@@ -69,7 +67,10 @@ const PortalAuthenticationScreen = ({route}: ScreenProps) => {
   };
 
   const handlePostponePortalAuth = () => {
-    if (isFromStudentIdScreen) navigation.navigate('Main', {screen: 'MainTab'});
+    if (isFromStudentIdScreen) {
+      navigation.navigate('StudentId');
+      return;
+    }
     setAccountStatus(prev => {
       return {
         ...prev,
@@ -152,16 +153,18 @@ const PortalAuthenticationScreen = ({route}: ScreenProps) => {
             />
           </View>
         </View>
-        <S.bottomContainer isFromStudentIdScreen={isFromStudentIdScreen}>
-          <S.postponePortalAuthButton>
-            <Pressable onPress={handlePostponePortalAuth}>
-              <Txt
-                label="포털 연동 다음에 하기"
-                color="grey130"
-                typograph="bodySmall"
-              />
-            </Pressable>
-          </S.postponePortalAuthButton>
+        <S.bottomContainer>
+          {!isFromStudentIdScreen && (
+            <S.postponePortalAuthButton>
+              <Pressable onPress={handlePostponePortalAuth}>
+                <Txt
+                  label="포털 연동 다음에 하기"
+                  color="grey130"
+                  typograph="bodySmall"
+                />
+              </Pressable>
+            </S.postponePortalAuthButton>
+          )}
           <Button
             label="확인"
             onPress={handleSubmit}
@@ -186,12 +189,10 @@ const S = {
     justify-content: space-between;
     padding: 28px 16px 0;
   `,
-  bottomContainer: styled.View<{isFromStudentIdScreen: boolean}>`
+  bottomContainer: styled.View`
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding-bottom: ${({isFromStudentIdScreen}) =>
-      isFromStudentIdScreen ? '90px' : 0};
   `,
   postponePortalAuthButton: styled.View`
     padding-bottom: 1px;
