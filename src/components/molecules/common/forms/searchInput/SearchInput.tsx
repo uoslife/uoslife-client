@@ -38,6 +38,7 @@ const SearchInput = ({
             placeholderTextColor={placeholderTextColor}
             multiline={false}
             returnKeyType="search"
+            autoCapitalize="none"
             {...props}
           />
           {children}
