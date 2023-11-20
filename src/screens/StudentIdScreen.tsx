@@ -13,7 +13,8 @@ import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import QRCode from 'react-native-qrcode-svg';
-import {StudentIdNavigationProp} from '../navigators/StudentIdStackNavigator';
+
+import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import URLS from '../configs/urls';
 import {UtilAPI} from '../api/services';
 import useInterval from '../hooks/useInterval';
@@ -23,12 +24,10 @@ const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 
 const PortalUnauthorizedComponent = () => {
-  const navigation = useNavigation<StudentIdNavigationProp>();
+  const navigation = useNavigation<RootNavigationProps>();
 
   const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_portalAuthentication', {
-      isFromStudentIdScreen: true,
-    });
+    return navigation.navigate('StudentId_PortalAuthentication');
   };
 
   return (

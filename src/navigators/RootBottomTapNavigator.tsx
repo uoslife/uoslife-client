@@ -5,8 +5,9 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {Icon, Txt} from '@uoslife/design-system';
 import {Platform, StyleSheet} from 'react-native';
+
 import MainScreen from '../screens/MainScreen';
-import StudentIdStackNavigator from './StudentIdStackNavigator';
+import StudentIdScreen from '../screens/StudentIdScreen';
 import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
 
 export type RootTabParamList = {
@@ -34,7 +35,7 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     icon: 'menu',
   },
   {
-    component: StudentIdStackNavigator,
+    component: StudentIdScreen,
     screenName: 'StudentId',
     label: '학생증',
     icon: 'studentId',
@@ -53,11 +54,14 @@ const RootBottomTabNavigation = () => {
       initialRouteName="MainTab"
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {...Style.bottomTapLayout, ...Style.bottomTapShadow},
+        tabBarStyle: {
+          ...Style.bottomTapLayout,
+          ...Style.bottomTapShadow,
+        },
       }}>
-      {TAB_SCREEN_ITEMS.map((item, index) => (
+      {TAB_SCREEN_ITEMS.map(item => (
         <Tab.Screen
-          key={index}
+          key={item.screenName}
           name={item.screenName}
           component={item.component}
           options={{

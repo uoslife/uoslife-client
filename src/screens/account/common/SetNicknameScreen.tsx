@@ -3,28 +3,24 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {useAtom, useAtomValue} from 'jotai';
 import {Button, Txt} from '@uoslife/design-system';
-import {StackScreenProps} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
 } from '../../../atoms/account';
+
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
-import {MyPageProfileStackParamList} from '../../../navigators/MyPageStackNavigator';
+import ServiceAgreementOverlay from '../../../components/molecules/screens/account/modalContents/ServiceAgreementOverlay';
+import AdvertisingAgreementResult from '../../../components/molecules/screens/account/modalContents/AdvertisingAgreementResult';
+
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
-import ServiceAgreementOverlay from '../../../components/molecules/screens/account/modalContents/ServiceAgreementOverlay';
-import AdvertisingAgreementResult from '../../../components/molecules/screens/account/modalContents/AdvertisingAgreementResult';
 import UserService from '../../../services/user';
-
-export type SetNickNameScreenProps = StackScreenProps<
-  MyPageProfileStackParamList,
-  'Mypage_changeNickname'
->;
 
 type NicknameStatusMessageType =
   | 'BEFORE_CHECK'
@@ -32,14 +28,14 @@ type NicknameStatusMessageType =
   | 'CANNOT_USE'
   | 'DUPLICATED';
 
-const SetNicknameScreen = ({route}: SetNickNameScreenProps) => {
+const SetNicknameScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-
+  const route = useRoute();
   const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
   const [accountStatus, setAccountStatus] = useAtom(accountFlowStatusAtom);
 
-  const isMyPage = route?.params.isMyPage;
+  const isMyPage = route.name === 'Mypage_changeNickname';
 
   const selectedAccountInfo = existedAccountInfo.find(
     item => item.isSelected === true,
