@@ -32,7 +32,6 @@ const DEFAULT_MEALTIME = 'LUNCH' as MealTimeType;
 const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
   const date = new DateUtils(new Date());
-
   const [cafeterias, setCafeterias] = useState<CafeteriasType>();
   const [currentCafeteriaItem, setCurrentCafeteriaItem] =
     useState<CafeteriaItemType>();
@@ -168,7 +167,14 @@ const CafeteriaScreen = () => {
           },
         ]);
       } catch (err) {
-        console.error(err);
+        setCafeterias([
+          {
+            isCurrent: true,
+            commonDate: date.commonDate,
+            displayDate: date.displayDate,
+            mealTime: date.currentMealTime,
+          },
+        ]);
       }
     })();
   }, [date.commonDate, date.currentMealTime, date.displayDate]);
@@ -268,10 +274,12 @@ const S = {
   iconWrapper: styled.View`
     flex-direction: row;
     gap: 16px;
+    padding-top: 6px;
   `,
   selectorWrapper: styled.View`
     align-items: center;
     gap: 8px;
+    padding-top: 18px;
   `,
   cafeteriaPaginationBarWrapper: styled.View`
     align-items: center;
