@@ -59,7 +59,7 @@ export default class NotificationService {
   // tokens
 
   static async getCurrentPermission(): Promise<FirebaseMessagingTypes.AuthorizationStatus> {
-    return messaging().getInitialNotification.hasPermission();
+    return messaging().hasPermission();
   }
 
   static async getNotificationToken(): Promise<string> {
