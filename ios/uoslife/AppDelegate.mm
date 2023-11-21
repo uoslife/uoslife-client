@@ -3,7 +3,7 @@
 #import <React/RCTBundleURLProvider.h>
 // #import <CodePush/CodePush.h>
 #import <Firebase.h>
-#import <RNSplashScreen.h>
+#import "RNBootSplash.h"
 #import "SDImageCodersManager.h"
 #import <SDWebImageWebPCoder/SDImageWebPCoder.h>
 
@@ -20,8 +20,6 @@
 
   [SDImageCodersManager.sharedManager addCoder:SDImageWebPCoder.sharedCoder];
 
-  [RNSplashScreen show];
-
   return didFinish;
 }
 
@@ -33,6 +31,18 @@
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   // return [CodePush bundleURL];
 #endif
+}
+
+- (UIView *)createRootViewWithBridge:(RCTBridge *)bridge
+    moduleName:(NSString *)moduleName
+      initProps:(NSDictionary *)initProps {
+  UIView *rootView = [super createRootViewWithBridge:bridge
+    moduleName:moduleName
+      initProps:initProps];
+
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; // ⬅️ initialize the splash screen
+
+  return rootView;
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
