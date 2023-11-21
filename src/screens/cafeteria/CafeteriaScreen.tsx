@@ -32,7 +32,6 @@ const DEFAULT_MEALTIME = 'LUNCH' as MealTimeType;
 const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
   const date = new DateUtils(new Date());
-
   const [cafeterias, setCafeterias] = useState<CafeteriasType>();
   const [currentCafeteriaItem, setCurrentCafeteriaItem] =
     useState<CafeteriaItemType>();
@@ -168,7 +167,14 @@ const CafeteriaScreen = () => {
           },
         ]);
       } catch (err) {
-        console.error(err);
+        setCafeterias([
+          {
+            isCurrent: true,
+            commonDate: date.commonDate,
+            displayDate: date.displayDate,
+            mealTime: date.currentMealTime,
+          },
+        ]);
       }
     })();
   }, [date.commonDate, date.currentMealTime, date.displayDate]);
