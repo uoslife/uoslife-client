@@ -55,7 +55,7 @@ export default class UserService {
   }
 
   static async unregister(): Promise<void> {
-    await CoreAPI.unregister({});
+    await CoreAPI.unregister();
     this.deleteUserInfo();
   }
 

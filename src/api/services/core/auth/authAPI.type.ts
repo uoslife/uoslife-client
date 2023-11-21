@@ -15,7 +15,7 @@ export type SendSMSVerificationCodeRes = {
   mobile: string;
 };
 
-export type UnregisterParams = {};
+export type UnregisterParams = null;
 export type UnregisterRes = {
   id: number;
   name: string;

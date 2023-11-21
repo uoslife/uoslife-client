@@ -1,7 +1,7 @@
 import {ServiceFunc} from '../../type';
 import * as Type from './authAPI.type';
 
-export default interface authService {
+export default interface AuthService {
   sendSMSVerificationCode: ServiceFunc<
     Type.SendSMSVerificationCodeParams,
     Type.SendSMSVerificationCodeRes
