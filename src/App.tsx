@@ -4,10 +4,13 @@ import {StatusBar, useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 // import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
+
 import RootStackNavigator from './navigators/RootStackNavigator';
 import NotificationService from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import customBackgroundTheme from './styles/customBackgroundTheme';
+import toastConfig from './configs/toast/config';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,6 +28,7 @@ const App: React.FC = () => {
             translucent
           />
           <RootStackNavigator />
+          <Toast config={toastConfig} topOffset={60} />
         </NavigationContainer>
       </SafeAreaProvider>
     </ConfigContext>

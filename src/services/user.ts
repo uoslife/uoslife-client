@@ -3,6 +3,7 @@ import {UserInfoType} from '../api/services/core/user/userAPI.type';
 import storage from '../storage';
 import DeviceService from './device';
 import storeToken from '../utils/storeToken';
+import customShowToast from '../configs/toast';
 
 type OnRegisterParamsType = {
   accessToken: string;
@@ -50,13 +51,18 @@ export default class UserService {
   // 로그아웃 및 회원 탈퇴
 
   static async logout(): Promise<void> {
-    // await CoreAPI.logout({}); // TODO: logout API 호출하도록 변경
     this.deleteUserInfo();
+    customShowToast('logout');
   }
 
   static async unregister(): Promise<void> {
-    await CoreAPI.unregister();
-    this.deleteUserInfo();
+    try {
+      await CoreAPI.unregister();
+      this.deleteUserInfo();
+      customShowToast('unregister');
+    } catch (error) {
+      customShowToast('unregisterError');
+    }
   }
 
   static deleteUserInfo(): void {
