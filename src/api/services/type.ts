@@ -1,7 +1,7 @@
 export type KyJsonResponse<T> = Promise<T>;
 
-export type ServiceFunc<Params = unknown, Res = unknown> = (
-  params: Params,
+export type ServiceFunc<Params = unknown | undefined, Res = unknown> = (
+  params?: Params,
 ) => KyJsonResponse<Res>;
 
 export type ErrorResponseType = {
