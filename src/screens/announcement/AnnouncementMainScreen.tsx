@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import {Icon, IconsNameType} from '@uoslife/design-system';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {BackHandler, Keyboard, Text} from 'react-native';
+import {BackHandler, Keyboard} from 'react-native';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import {useAtomValue} from 'jotai';
 import SearchInput from '../../components/molecules/common/forms/searchInput/SearchInput';
@@ -18,8 +18,10 @@ import {
   categoryStatusAtom,
 } from '../../atoms/announcement';
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
-import {ArticleListType} from '../../types/announcement.type';
 import useModal from '../../hooks/useModal';
+import Spinner from '../../components/atoms/spinner/Spinner';
+import {ArticleItemType} from '../../types/announcement.type';
+import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 
 const ELEMENTS_PER_PAGE = 10;
@@ -37,12 +39,15 @@ const AnnouncementMainScreen = () => {
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
+  const [isPending, setIsPending] = useState(false);
   const navigation = useNavigation<AnnouncementNavigationProps>();
   const inputRef = useRef<TextInput>(null);
   const listRef = useRef<FlatList>(null);
 
+  const {getBookmarkIdList} = useBookmarkOnLocal();
+
   const [articleListObject, setArticleListObject] = useState<{
-    [key in AnnouncementOriginNameType]: ArticleListType;
+    [key in AnnouncementOriginNameType]: ArticleItemType[];
   }>({
     FA1: [],
     FA2: [],
@@ -67,26 +72,45 @@ const AnnouncementMainScreen = () => {
     listRef.current?.scrollToOffset({offset: 0});
   }, [currentOrigin, listRef]);
 
+  // 탭 이동시 북마크가 이전 상태로 보이는 UX 이슈 해결을 위한 코드
+  // TODO: 첫 의도대로 article 캐싱을 위해 대책 찾기(북마크 상태를 Global Level에서 관리하는 등..)
+  useEffect(() => {
+    setArticleListObject(prev => ({...prev, [currentOrigin]: []}));
+    setArticlePageObject(prev => ({...prev, [currentOrigin]: 0}));
+  }, [currentOrigin]);
+
   const loadNewArticlesByOrigin = async (
     origin: AnnouncementOriginNameType,
   ) => {
-    const params = {
-      origin,
-      page: articlePageObject[origin],
-      size: ELEMENTS_PER_PAGE,
-    };
-    const res = await AnnouncementAPI.getAnnouncements(params);
+    setIsPending(true);
+    try {
+      const params = {
+        origin,
+        page: articlePageObject[origin],
+        size: ELEMENTS_PER_PAGE,
+      };
+      const res = await AnnouncementAPI.getAnnouncements(params);
 
-    const loadedArticles = res.content;
+      const idList = await getBookmarkIdList();
 
-    setArticleListObject(prev => ({
-      ...prev,
-      [origin]: [...prev[origin], ...loadedArticles],
-    }));
-    setArticlePageObject(prev => ({
-      ...prev,
-      [origin]: prev[origin] + 1,
-    }));
+      const loadedArticles: ArticleItemType[] = res.content.map(item => ({
+        ...item,
+        isBookmarkedByMe: idList.includes(item.id),
+      }));
+
+      setArticleListObject(prev => ({
+        ...prev,
+        [origin]: [...prev[origin], ...loadedArticles],
+      }));
+      setArticlePageObject(prev => ({
+        ...prev,
+        [origin]: prev[origin] + 1,
+      }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
@@ -178,12 +202,14 @@ const AnnouncementMainScreen = () => {
     }, [onHeaderBackPress]),
   );
 
-  const articleListReachEndHandler = async () => {
-    await loadNewArticlesByOrigin(currentOrigin);
+  const articleListReachEndHandler = () => {
+    loadNewArticlesByOrigin(currentOrigin);
   };
 
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
     useModal('BOTTOM_SHEET');
+
+  const isInitiallyPending = isPending && currentArticles.length === 0;
 
   return (
     <>
@@ -215,15 +241,16 @@ const AnnouncementMainScreen = () => {
             </Header>
             <S.CategoryTabAndContents>
               <CategoryTab />
-              {currentArticles ? (
+              {isInitiallyPending ? (
+                <Spinner />
+              ) : (
                 <ArticleList
+                  ListFooterComponent={isPending ? <Spinner /> : <></>}
                   ref={listRef}
                   showCategoryName={false}
                   articles={currentArticles}
                   onEndReached={articleListReachEndHandler}
                 />
-              ) : (
-                <Text>로딩중</Text>
               )}
             </S.CategoryTabAndContents>
           </>
@@ -247,6 +274,8 @@ const S = {
     width: 100%;
     display: flex;
     gap: 4px;
+
+    flex: 1;
   `,
   HeaderIcons: styled.View`
     // 헤더에서 backArrow, Label 외 영역 전부 사용

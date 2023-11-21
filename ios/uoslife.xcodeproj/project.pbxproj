@@ -12,11 +12,13 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3A6335592AB3707500C79702 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3A6335582AB3707500C79702 /* Fonts */; };
+		3AB70A862B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
+		3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
 		796BCCE1154A961B4CD93FDD /* libPods-uoslife-prod-uoslifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		81AB9BB82411601600AC10FF /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* BootSplash.storyboard */; };
 		AB3DFD402A372F2D0011AA50 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		AB3DFD412A372F2D0011AA50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		AB3DFD452A372F2D0011AA50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* BootSplash.storyboard */; };
 		AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		DA339272654D4557A552A635 /* libPods-uoslife-prod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC37DC8108585442E09AE3C /* libPods-uoslife-prod.a */; };
 		F6F813E94A89317C63ABBD50 /* libPods-uoslife-alpha.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69EBC36BEA9480AE674CBD27 /* libPods-uoslife-alpha.a */; };
@@ -44,6 +46,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = uoslife/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = uoslife/main.m; sourceTree = "<group>"; };
 		3A6335582AB3707500C79702 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-uoslife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.debug.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.debug.xcconfig"; sourceTree = "<group>"; };
 		3EA239D6AACDAC8A41678887 /* Pods-uoslife-prod.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-uoslife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.release.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.release.xcconfig"; sourceTree = "<group>"; };
@@ -51,7 +54,7 @@
 		5B4768FD53E21C54A3B4F637 /* Pods-uoslife-prod-uoslifeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod-uoslifeTests.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-uoslife-uoslifeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-uoslifeTests.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-uoslifeTests/Pods-uoslife-uoslifeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		69EBC36BEA9480AE674CBD27 /* libPods-uoslife-alpha.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-alpha.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = uoslife/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = uoslife/BootSplash.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-uoslife-uoslifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-uoslifeTests.release.xcconfig"; path = "Target Support Files/Pods-uoslife-uoslifeTests/Pods-uoslife-uoslifeTests.release.xcconfig"; sourceTree = "<group>"; };
 		A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-prod-uoslifeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAF4517D6DDDEED742224BB3 /* Pods-uoslife-alpha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-alpha.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-alpha/Pods-uoslife-alpha.debug.xcconfig"; sourceTree = "<group>"; };
@@ -120,7 +123,8 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AB3DFD502A372F2D0011AA50 /* AlphaInfo.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				81AB9BB72411601600AC10FF /* BootSplash.storyboard */,
+				3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = uoslife;
@@ -332,7 +336,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A6335592AB3707500C79702 /* Fonts in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				3AB70A862B0BD8D4009FE9B7 /* Colors.xcassets in Resources */,
+				81AB9BB82411601600AC10FF /* BootSplash.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,7 +346,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB3DFD452A372F2D0011AA50 /* LaunchScreen.storyboard in Resources */,
+				3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */,
+				AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */,
 				AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

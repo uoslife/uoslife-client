@@ -13,9 +13,11 @@ const AlertSettingOverlay = () => {
 
   useEffect(() => {
     (async () => {
-      setIsNotificationAgree(
-        await NotificationService.getNotificationAgreement(),
-      );
+      const [isAuthorizedStatus] = await Promise.all([
+        NotificationService.checkPermissionIsAuthorizedStatus(),
+        NotificationService.handleFirebasePushToken(),
+      ]);
+      setIsNotificationAgree(isAuthorizedStatus);
       setIsLoading(false);
     })();
   }, []);

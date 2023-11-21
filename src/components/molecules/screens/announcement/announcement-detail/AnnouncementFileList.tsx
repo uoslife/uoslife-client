@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
+import {Linking} from 'react-native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
 
 const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
@@ -10,16 +11,20 @@ const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
     url: fileItem[1],
   }));
 
+  const downloadHandlerGenerator = (url: string) => () => {
+    Linking.openURL(url);
+  };
+
   return (
     <S.List>
-      {processedFilesData.map(({name, url}, i) => (
-        <S.Item key={i}>
+      {processedFilesData.map(({name, url}) => (
+        <S.Item key={name} onPress={downloadHandlerGenerator(url)}>
           <Icon
             height={18}
             width={18}
             name="download"
             color="primaryBrand"
-            key={i}
+            key={name}
           />
           <Txt label={`${name}`} color="grey130" typograph="bodyMedium" />
         </S.Item>
@@ -34,7 +39,7 @@ const S = {
   List: styled.View`
     gap: 4px;
   `,
-  Item: styled.View`
+  Item: styled.TouchableOpacity`
     display: flex;
     gap: 6px;
     flex-direction: row;

@@ -1,6 +1,7 @@
 package com.beyondconnect.uoslife;
 
 import android.os.Bundle;
+import com.zoontek.rnbootsplash.RNBootSplash;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -15,8 +16,8 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    RNBootSplash.init(this, R.style.BootTheme);
     super.onCreate(savedInstanceState);
-    org.devio.rn.splashscreen.SplashScreen.show(this);
   }
 
   @Override

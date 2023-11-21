@@ -1,6 +1,5 @@
 import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
-import {View, useWindowDimensions, Text} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -10,6 +9,8 @@ import {ArticleDetailType} from '../../types/announcement.type';
 import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementContent';
+import Spinner from '../../components/atoms/spinner/Spinner';
+import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 
 const AnnouncementDetailScreen = ({
   route: {
@@ -21,15 +22,22 @@ const AnnouncementDetailScreen = ({
   // TODO: API 호출 관련 상태관리 로직 - custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
+  const {getBookmarkIdList} = useBookmarkOnLocal();
+
   useEffect(() => {
     (async () => {
+      setIsPending(true);
       try {
         const loadedArticle = await AnnouncementAPI.getAnnouncementById({id});
-        const {description} = loadedArticle;
-        setArticle(loadedArticle);
+
+        setArticle({
+          ...loadedArticle,
+          isBookmarkedByMe: (await getBookmarkIdList()).includes(id),
+        });
       } catch (error) {
         console.log(error);
       }
+      setIsPending(false);
     })();
   }, []);
 
@@ -45,15 +53,14 @@ const AnnouncementDetailScreen = ({
         label={announcementFullName[origin]}
         onPressBackButton={handleGoBack}
       />
-      {article ? (
-        <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-          <AnnouncementDetailScreenContent {...article} />
-        </ScrollView>
+      {isPending ? (
+        <Spinner />
       ) : (
-        <View>
-          {/* TODO: LoadingSpinner 컴포넌트 대체하기 */}
-          <Text>로딩중</Text>
-        </View>
+        article && (
+          <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+            <AnnouncementDetailScreenContent {...article} />
+          </ScrollView>
+        )
       )}
     </S.Root>
   );

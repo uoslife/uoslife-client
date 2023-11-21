@@ -16,7 +16,7 @@ export type GetAnnouncementsParams = AnnouncementPageableParamsType & {
 
 export type GetAnnouncementsRes = {
   // 지금 시점에서 실사용하는 유일한 필드
-  content: ArticleItemType[];
+  content: Omit<ArticleItemType, 'isBookmarkedByMe'>[]; // TODO: 해당 endpoint가 isBookmarkedByMe 필드를 호출하도록 변경된다면 그에 맞춰 대응 필요
 
   totalPages: number;
   totalElements: number;
@@ -83,6 +83,9 @@ export type SearchAnnouncementsRes = {
   last: boolean;
   empty: boolean;
 };
+
+export type getAnnouncementByIdListParams = {idList: number[]};
+export type getAnnouncementByIdListRes = ArticleItemType[];
 
 // NOT-IN-USE(23 / 10 / 14)
 

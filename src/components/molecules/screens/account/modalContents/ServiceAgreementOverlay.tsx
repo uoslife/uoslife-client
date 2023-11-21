@@ -3,7 +3,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import {AccountNavigationProp} from '../../../../../navigators/AccountStackNavigator';
+
+import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
+
 import BottomSheetCheckItem from '../../../overlays/items/BottomSheetCheckItem';
 
 type OverlayType = 'CHECK_ALL' | 'REQUIRED' | 'OPTIONAL';
@@ -27,7 +29,7 @@ const ServiceAgreementOverlay = ({
   const insets = useSafeAreaInsets();
   const [overlayStatus, setStatus] =
     useState<OverlayStatusArray>(initOverlayStatus);
-  const navigation = useNavigation<AccountNavigationProp>();
+  const navigation = useNavigation<RootNavigationProps>();
 
   const getCheckedStatusById = (id: OverlayStatus['id']) =>
     overlayStatus.find(item => item.id === id)!.checked;

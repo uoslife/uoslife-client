@@ -14,6 +14,10 @@ export default interface AnnoucementService {
     Type.SearchAnnouncementsParams,
     Type.SearchAnnouncementsRes
   >;
+  getAnnouncementByIdList: ServiceFunc<
+    Type.getAnnouncementByIdListParams,
+    Type.getAnnouncementByIdListRes
+  >;
 
   // NOT-IN-USE(23 / 10 / 14)
 
