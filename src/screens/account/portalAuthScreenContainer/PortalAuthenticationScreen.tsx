@@ -99,8 +99,8 @@ const PortalAuthenticationScreen = () => {
       });
     } catch (err) {
       const error = err as ErrorResponseType;
-      if (error.code === 'V01') setMessageStatus('ERROR');
-      else console.log(error);
+      if (error.status !== 500) setMessageStatus('ERROR');
+      // console.error(error);
     }
   };
 

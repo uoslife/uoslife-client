@@ -10,9 +10,9 @@ export const get = async <T extends unknown>(
 
 export const post = async <T extends unknown>(
   url: string,
-  body: unknown,
+  body?: unknown,
 ): KyJsonResponse<T> => {
-  const postRes = await apiClient.post(url, {json: body});
+  const postRes = await apiClient.post(url, body ? {json: body} : undefined);
   return await postRes.json();
 };
 export const patch = async <T extends unknown>(
