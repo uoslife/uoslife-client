@@ -68,14 +68,14 @@ const CafeteriaContents = () => {
         });
         setCafeteria(res);
       } catch (err) {
-        console.error(err);
+        setCafeteria(undefined);
       }
     })();
   }, [commonDate, currentMealTime]);
 
   return (
     <S.ContentsWrapper horizontal>
-      {cafeteria &&
+      {cafeteria ? (
         cafeteria.map(item => (
           <CafeteriaBox
             key={item.location}
@@ -83,7 +83,17 @@ const CafeteriaContents = () => {
             operationTime={item.operationTime}
             attributes={item.attributes}
           />
-        ))}
+        ))
+      ) : (
+        <CardLayout style={{paddingHorizontal: 40, paddingVertical: 32}}>
+          <Txt
+            label="오늘은 운영하지 않아요."
+            color="grey160"
+            typograph="bodyLarge"
+            style={{textAlign: 'center'}}
+          />
+        </CardLayout>
+      )}
     </S.ContentsWrapper>
   );
 };
