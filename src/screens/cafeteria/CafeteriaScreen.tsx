@@ -274,10 +274,12 @@ const S = {
   iconWrapper: styled.View`
     flex-direction: row;
     gap: 16px;
+    padding-top: 6px;
   `,
   selectorWrapper: styled.View`
     align-items: center;
     gap: 8px;
+    padding-top: 18px;
   `,
   cafeteriaPaginationBarWrapper: styled.View`
     align-items: center;
