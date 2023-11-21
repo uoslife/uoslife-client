@@ -3,14 +3,17 @@ import messaging, {
 } from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
 import {PermissionsAndroid, Platform} from 'react-native';
-import {checkNotifications} from 'react-native-permissions';
+
 import {decode} from 'base-64';
+
 import storage from '../storage';
 
 // TODO: global 변수 다른 module로 옮기기
 global.btoa = decode;
 
 export default class NotificationService {
+  // notification
+
   static async onMessageReceived(
     message: FirebaseMessagingTypes.RemoteMessage,
   ): Promise<string | undefined> {
@@ -25,9 +28,12 @@ export default class NotificationService {
   }
 
   static registerMessageHandler(): void {
-    const fcm = messaging();
-    fcm.onMessage(NotificationService.onMessageReceived);
-    fcm.setBackgroundMessageHandler(NotificationService.onMessageReceived);
+    messaging().onMessage(NotificationService.onMessageReceived);
+  }
+  static registerMessageHandlerOnBackground(): void {
+    messaging().setBackgroundMessageHandler(
+      NotificationService.onMessageReceived,
+    );
   }
 
   static async requestNotificationPermissions(): Promise<FirebaseMessagingTypes.AuthorizationStatus> {
@@ -47,8 +53,13 @@ export default class NotificationService {
         }),
       ]);
     }
-
     return messaging().requestPermission();
+  }
+
+  // tokens
+
+  static async getCurrentPermission(): Promise<FirebaseMessagingTypes.AuthorizationStatus> {
+    return messaging().hasPermission();
   }
 
   static async getNotificationToken(): Promise<string> {
@@ -56,19 +67,27 @@ export default class NotificationService {
   }
 
   static async getFirebasePushToken(): Promise<string> {
-    if (Platform.OS === 'ios') messaging().setAPNSToken('app');
     const token = await this.getNotificationToken();
     return token;
   }
 
-  static async setFirebasePushToken(): Promise<void> {
-    const token = await this.getFirebasePushToken();
-    storage.set('firebasePushToken', token ?? '');
+  static async checkPermissionIsAuthorizedStatus(): Promise<boolean> {
+    const permissionStatus = await this.getCurrentPermission();
+    if (permissionStatus === messaging.AuthorizationStatus.AUTHORIZED)
+      return true;
+    return false;
   }
 
-  static async getNotificationAgreement(): Promise<boolean> {
-    const {status} = await checkNotifications();
-    if (status === 'granted') return true;
-    return false;
+  static setFirebasePushToken(token: string): void {
+    storage.set('firebasePushToken', token);
+  }
+
+  static async handleFirebasePushToken(): Promise<void> {
+    const isPermissionAuthorized =
+      await this.checkPermissionIsAuthorizedStatus();
+    if (!isPermissionAuthorized) return;
+
+    const token = await this.getFirebasePushToken();
+    this.setFirebasePushToken(token);
   }
 }

@@ -3,8 +3,9 @@ import {
   createStackNavigator,
   StackNavigationProp,
 } from '@react-navigation/stack';
-import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-bootsplash';
 import {NavigatorScreenParams} from '@react-navigation/native';
+import {useMMKVListener} from 'react-native-mmkv';
 import {useConfigContext} from '../hooks/ConfigContext';
 
 import MaintenanceScreen from '../screens/MaintenanceScreen';
@@ -44,38 +45,49 @@ const RootStackNavigator: React.FC = () => {
     [config],
   );
 
+  const setLoadingFinish = () => {
+    setIsServiceInitLoading(false);
+  };
+
+  const setAuthenticationSuccess = () => {
+    storage.set('isLoggedIn', true);
+    setIsLoggedIn(true);
+    setLoadingFinish();
+  };
+
   useEffect(() => {
     (async () => {
-      await NotificationService.setFirebasePushToken();
+      await NotificationService.requestNotificationPermissions();
+      await NotificationService.handleFirebasePushToken();
+
       const hasRefreshToken = UserService.getHasRefreshToken();
       if (!hasRefreshToken) {
-        setIsServiceInitLoading(false);
-        return null;
+        setLoadingFinish();
+        return;
       }
-      await UserService.setUserInfoToClient();
-      await DeviceService.updateDeviceInfo();
-      storage.set('isLoggedIn', true);
-      setIsLoggedIn(true);
-      const showSplashScreenTerm = setTimeout(() => {
-        setIsServiceInitLoading(false);
-      }, 500);
 
-      return () => clearTimeout(showSplashScreenTerm);
+      const userInfo = await UserService.getUserInfoFromServer();
+      if (!userInfo) {
+        setLoadingFinish();
+        return;
+      }
+      UserService.setUserInfoToDevice(userInfo);
+
+      await DeviceService.updateDeviceInfo();
+      setAuthenticationSuccess();
     })();
   }, []);
 
   useEffect(() => {
     if (isLoading || isServiceInitLoading) return;
-    SplashScreen.hide();
+    (async () => await SplashScreen.hide())();
   }, [isLoading, isServiceInitLoading]);
 
   /** isLoggedIn value를 감시합니다. */
-  useEffect(() => {
-    storage.addOnValueChangedListener(changedKey => {
-      if (changedKey !== 'isLoggedIn') return;
-      setIsLoggedIn(storage.getBoolean(changedKey) ?? false);
-    });
-  }, []);
+  useMMKVListener(changedKey => {
+    if (changedKey !== 'isLoggedIn') return;
+    setIsLoggedIn(storage.getBoolean(changedKey) ?? false);
+  }, storage);
 
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
