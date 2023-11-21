@@ -23,7 +23,7 @@ export default class UserService {
   static async onRegister(params: OnRegisterParamsType): Promise<void> {
     storeToken(params.accessToken, params.refreshToken);
     await DeviceService.setDeviceInfo();
-    await UserService.setUserInfoToClient();
+    await UserService.handleUserInfo();
     if (params.setNotLoggedIn) return;
     storage.set('isLoggedIn', true);
   }
@@ -37,9 +37,14 @@ export default class UserService {
     }
   }
 
-  static async setUserInfoToClient(): Promise<void> {
-    const userInfo = await this.getUserInfoFromServer();
+  static setUserInfoToDevice(userInfo: UserInfoType): void {
     storage.set('user', JSON.stringify(userInfo));
+  }
+
+  static async handleUserInfo(): Promise<void> {
+    const userInfo = await this.getUserInfoFromServer();
+    if (!userInfo) return;
+    this.setUserInfoToDevice(userInfo);
   }
 
   // 로그아웃 및 회원 탈퇴
@@ -54,12 +59,12 @@ export default class UserService {
     this.deleteUserInfo();
   }
 
-  static deleteUserInfo = (): void => {
+  static deleteUserInfo(): void {
     storage.delete('accessToken');
     storage.delete('refreshToken');
     storage.delete('user');
     storage.set('isLoggedIn', false);
-  };
+  }
 
   // Device에서 유저 정보 조회
 

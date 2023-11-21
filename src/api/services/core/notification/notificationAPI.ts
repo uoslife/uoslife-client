@@ -1,15 +1,10 @@
-import {post} from '../../../core/methods';
+import {get, post} from '../../../core/methods';
 import NotificationService from './notificationAPI.interface';
 import * as Type from './notificationAPI.type';
 
 const NotificationAPI: NotificationService = {
-  sendNotification: body =>
-    post<Type.sendNotificationResponse>('api/notification', body),
-
-  sendNotificationWithToken: body =>
-    post<Type.sendNotificationWithTokenResponse>(
-      'api/notification/token',
-      body,
-    ),
+  subscribeTopic: params =>
+    post<Type.SubscribeTopicResponse>('core/notification', params),
+  getUserTopics: () => get<Type.GetUserTopicsResponse>('core/topics/user'),
 };
 export default NotificationAPI;

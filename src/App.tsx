@@ -12,10 +12,7 @@ import customBackgroundTheme from './styles/customBackgroundTheme';
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   useEffect(() => {
-    (async () => {
-      NotificationService.registerMessageHandler();
-      await NotificationService.requestNotificationPermissions();
-    })();
+    NotificationService.registerMessageHandler();
   }, []);
 
   return (
