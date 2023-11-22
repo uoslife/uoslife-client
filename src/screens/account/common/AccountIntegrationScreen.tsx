@@ -8,7 +8,29 @@ import Header from '../../../components/molecules/common/header/Header';
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
+  ExistedAccountInfoType,
 } from '../../../atoms/account';
+
+const MOCK_DATA = [
+  {
+    id: '1234-1234',
+    nickname: 'dff',
+    username: 'example',
+    isSelected: false,
+  },
+  {
+    id: '1234-12734',
+    nickname: null,
+    username: 'example',
+    isSelected: false,
+  },
+  {
+    id: '1234-12314',
+    nickname: 'nickname',
+    username: 'example',
+    isSelected: false,
+  },
+];
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -16,6 +38,16 @@ const AccountIntegrationScreen = () => {
   const [existedAccountInfo, setExistedAccountInfo] = useAtom(
     existedAccountInfoAtom,
   );
+
+  const selectExistedAccount = (selectedAccount: ExistedAccountInfoType) => {
+    setExistedAccountInfo(prev => {
+      return prev.map(prevItem =>
+        prevItem.id === selectedAccount.id
+          ? {...prevItem, isSelected: true}
+          : {...prevItem, isSelected: false},
+      );
+    });
+  };
 
   const handlePressButton = () => {
     setAccountFlowStatus(prev => {
@@ -61,22 +93,16 @@ const AccountIntegrationScreen = () => {
             {existedAccountInfo.map(item => (
               <Pressable
                 key={item.id}
-                onPress={() =>
-                  setExistedAccountInfo(prev => {
-                    return prev.map(prevItem =>
-                      prevItem.id === item.id
-                        ? {...prevItem, isSelected: true}
-                        : {...prevItem, isSelected: false},
-                    );
-                  })
-                }>
-                <S.idButtonSelected isSelected={item.isSelected}>
-                  <Txt
-                    label={item.nickname}
-                    color="grey190"
-                    typograph="titleMedium"
-                  />
-                </S.idButtonSelected>
+                onPress={() => selectExistedAccount(item)}>
+                {item.nickname && (
+                  <S.idButtonSelected isSelected={item.isSelected}>
+                    <Txt
+                      label={item.nickname}
+                      color="grey190"
+                      typograph="titleMedium"
+                    />
+                  </S.idButtonSelected>
+                )}
               </Pressable>
             ))}
           </S.idContainer>
