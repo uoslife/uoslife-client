@@ -26,10 +26,10 @@ export const accountFlowStatusAtom = atom<AccountFlowStatusType>(
   accountFlowInitStatus,
 );
 
-export type ExistedAccountInfoType = Array<
-  MigrationUserInfoType & {
-    isSelected?: boolean;
-  }
->;
+export type ExistedAccountInfoType = MigrationUserInfoType & {
+  isSelected?: boolean;
+};
 
-export const existedAccountInfoAtom = atom<ExistedAccountInfoType>([]);
+export type ExistedAccountInfoArrayType = Array<ExistedAccountInfoType>;
+
+export const existedAccountInfoAtom = atom<ExistedAccountInfoArrayType>([]);
