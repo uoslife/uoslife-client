@@ -139,14 +139,11 @@ const S = {
     padding: 28px 16px 0;
   `,
   idContainer: styled.ScrollView`
-    gap: 16px;
     padding-bottom: 16px;
   `,
   idButtonSelected: styled.View<{isSelected: boolean}>`
-    display: flex;
-
-    height: 56px;
     border-radius: 10px;
+    margin-bottom: 16px;
     padding: 16px;
     border: 2px solid ${({isSelected}) => getBorderColor(isSelected)};
     justify-content: center;
