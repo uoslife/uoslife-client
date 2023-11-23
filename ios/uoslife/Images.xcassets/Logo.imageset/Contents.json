@@ -3,6 +3,16 @@
     {
       "filename" : "Logo.png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Logo_White.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

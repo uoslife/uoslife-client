@@ -13,17 +13,18 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" autoresizesSubviews="NO" contentMode="scaleAspectFit" id="Ze5-6b-2t3">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="4ux-xh-eXx">
                                 <rect key="frame" x="0.0" y="59" width="430" height="839"/>
+                                <color key="backgroundColor" name="splashBackgroundColor"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="f9a-tO-F9k"/>
                         <color key="backgroundColor" name="splashBackgroundColor"/>
-                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="4ux-xh-eXx" secondAttribute="bottom" constant="34" id="62l-3w-fAy"/>
                             <constraint firstItem="4ux-xh-eXx" firstAttribute="leading" secondItem="f9a-tO-F9k" secondAttribute="leading" id="Kcp-Mb-h0y"/>
