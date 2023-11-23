@@ -9,7 +9,7 @@ const AuthAPI: AuthService = {
   unregister: params =>
     post<Type.UnregisterRes>('core/auth/unregister', params),
 
-  signUp: params => post<Type.SignUpRes>('core/auth/signup/new', params),
+  signUp: params => post<Type.SignUpRes>('core/auth/signup', params),
 
   signIn: params => post<Type.SignInRes>('core/auth/signin', params),
 
