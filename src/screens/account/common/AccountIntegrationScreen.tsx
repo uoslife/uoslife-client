@@ -18,7 +18,7 @@ const AccountIntegrationScreen = () => {
   const handlePressHeaderBackButton = () =>
     changeAccountFlow({
       commonFlowName: 'SIGNIN',
-      resetSignUpFlow: true,
+      isResetSignUpFlow: true,
     });
 
   const handlePressNextButton = () => {

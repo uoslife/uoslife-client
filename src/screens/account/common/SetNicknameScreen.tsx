@@ -105,7 +105,7 @@ const SetNicknameScreen = () => {
   const handleClickSubmitModalButton = () => {
     changeAccountFlow({
       commonFlowName: 'PORTAL_VERIFICATION',
-      resetSignUpFlow: true,
+      isResetSignUpFlow: true,
     });
   };
 
