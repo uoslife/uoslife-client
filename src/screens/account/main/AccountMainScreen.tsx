@@ -40,7 +40,6 @@ const AccountMainScreen = () => {
           <Button
             label="시작하기"
             isFullWidth
-            variant="outline"
             onPress={handleClickAccountButton}
           />
         </S.BottomWrapper>
