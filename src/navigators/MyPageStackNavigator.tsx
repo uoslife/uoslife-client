@@ -12,8 +12,8 @@ import {
   PrivacyandPoliciesScreen,
 } from '../screens/myPage';
 import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
-import VerificationScreen from '../screens/account/common/VerificationScreen';
-import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
+import VerificationScreen from '../screens/account/signIn/VerificationScreen';
+import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;

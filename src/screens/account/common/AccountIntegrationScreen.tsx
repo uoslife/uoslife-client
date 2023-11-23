@@ -1,29 +1,33 @@
 import styled from '@emotion/native';
 import React from 'react';
 import {Pressable, View} from 'react-native';
-import {useAtom, useSetAtom} from 'jotai';
+import {useAtom} from 'jotai';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../../components/molecules/common/header/Header';
-import {
-  accountFlowStatusAtom,
-  existedAccountInfoAtom,
-} from '../../../atoms/account';
+import {existedAccountInfoAtom} from '../../../atoms/account';
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
-  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const [existedAccountInfo, setExistedAccountInfo] = useAtom(
     existedAccountInfoAtom,
   );
+  const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
 
-  const handlePressButton = () => {
-    setAccountFlowStatus(prev => {
-      return {
-        ...prev,
-        stepStatus: {userType: prev.stepStatus.userType, step: 1},
-      };
+  const handlePressHeaderBackButton = () =>
+    changeAccountFlow({
+      commonFlowName: 'SIGNIN',
+      resetSignUpFlow: true,
     });
+
+  const handlePressNextButton = () => {
+    const hasSelected = existedAccountInfo.some(
+      item => item.isSelected === true,
+    );
+    if (!hasSelected) return;
+
+    increaseSignUpFlowStep();
   };
 
   return (
@@ -31,17 +35,7 @@ const AccountIntegrationScreen = () => {
       style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label="계정 통합"
-        onPressBackButton={() =>
-          setAccountFlowStatus(prev => {
-            return {
-              ...prev,
-              stepStatus: {
-                userType: 'NONE',
-                step: 0,
-              },
-            };
-          })
-        }
+        onPressBackButton={handlePressHeaderBackButton}
       />
       <S.accountIntegrationContainer>
         <View style={{gap: 24}}>
@@ -83,7 +77,7 @@ const AccountIntegrationScreen = () => {
         </View>
         <Button
           label="계정 통합하기"
-          onPress={handlePressButton}
+          onPress={handlePressNextButton}
           isEnabled={existedAccountInfo.some(item => item.isSelected === true)}
           isFullWidth
         />

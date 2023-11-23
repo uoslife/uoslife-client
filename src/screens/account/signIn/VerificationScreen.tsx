@@ -7,16 +7,14 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTimer} from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
-import {
-  accountFlowStatusAtom,
-  existedAccountInfoAtom,
-} from '../../../atoms/account';
+import {existedAccountInfoAtom} from '../../../atoms/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
 import {ErrorResponseType} from '../../../api/services/type';
 import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
 import UserService from '../../../services/user';
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -39,8 +37,8 @@ type InputStatusMessageType =
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
 
-  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
+  const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
 
   const [inputValue, setInputValue] = useState('');
   const [storedPhoneNumber, setStoredPhoneNumber] = useState('');
@@ -86,12 +84,7 @@ const VerificationScreen = () => {
   const handleHeaderBackButton = () => {
     if (isVerificationCodeSent) setIsVerificationCodeSent(false);
 
-    setAccountFlowStatus(prev => {
-      return {
-        ...prev,
-        baseStatus: 'DEFAULT',
-      };
-    });
+    resetAccountFlow();
   };
 
   // 전화번호 입력 페이지
@@ -130,39 +123,45 @@ const VerificationScreen = () => {
         mobile: storedPhoneNumber,
         code: inputValue,
       });
-      await UserService.onRegister({
-        accessToken: signInRes.token.accessToken,
-        refreshToken: signInRes.token.refreshToken,
-      });
+      const {accessToken, refreshToken} = signInRes.token;
+      await UserService.onRegister({accessToken, refreshToken});
+      resetAccountFlow();
     } catch (err) {
       const error = err as SignInRes;
-      storeToken(error.token.accessToken, error.token.refreshToken);
-      setExistedAccountInfo(
-        error.migrationUserInfo.map(item => {
-          return {...item, isSelected: false};
-        }),
-      );
+      console.log(error);
+      const {tempToken} = error.token;
+      storeToken({tempToken});
+      switch (error.userStatus) {
+        case 'DELETED':
+          changeAccountFlow({
+            commonFlowName: 'SIGNUP',
+            signUpUser: 'DELETED',
+          });
+          break;
 
-      if (error.migrationNeeded) {
-        setAccountFlowStatus(prev => {
-          return {
-            ...prev,
-            stepStatus: {
-              userType: 'EXISTED',
-              step: 0,
-            },
-          };
-        });
-      } else {
-        setAccountFlowStatus(prev => {
-          return {
-            ...prev,
-            stepStatus: {
-              userType: 'NEW',
-              step: 0,
-            },
-          };
-        });
+        case 'MIGRATION_NEEDED':
+          setExistedAccountInfo(
+            error.migrationUserInfo.map(item => {
+              return {...item, isSelected: false};
+            }),
+          );
+          changeAccountFlow({
+            commonFlowName: 'SIGNUP',
+            signUpUser: 'MIGRATION',
+          });
+          break;
+
+        case 'NOT_REGISTERED':
+          setExistedAccountInfo(
+            error.migrationUserInfo.map(item => {
+              return {...item, isSelected: false};
+            }),
+          );
+          changeAccountFlow({
+            commonFlowName: 'SIGNUP',
+            signUpUser: 'NEW',
+          });
+          break;
       }
     }
     setIsVerificationCodeSent(false); // state 초기화

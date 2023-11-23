@@ -1,17 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
-
-import {Button} from '@uoslife/design-system';
-
-import {useSetAtom} from 'jotai';
 import styled from '@emotion/native';
+import {Button} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
-import Carousel from '../../components/molecules/common/carousel/Carousel';
-import {accountFlowStatusAtom} from '../../atoms/account';
+// import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
 
-import UserService from '../../services/user';
+import Carousel from '../../../components/molecules/common/carousel/Carousel';
+
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 const ONBOARDING_IMAGE_HEIGHT = 493;
@@ -19,19 +16,10 @@ const ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME = 4 * 1000;
 
 const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
-  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
-
-  const handleTemporaryLoginButtonClick = async () => {
-    await UserService.onRegister({
-      accessToken: DEV_ACCESS_TOKEN,
-      refreshToken: DEV_REFRESH_TOKEN,
-    });
-  };
+  const {changeAccountFlow} = useAccountFlow();
 
   const handleClickAccountButton = async () => {
-    setAccountFlowStatus(prev => {
-      return {...prev, baseStatus: 'ONPROGRESS'};
-    });
+    changeAccountFlow({commonFlowName: 'SIGNIN'});
   };
 
   return (
@@ -49,11 +37,6 @@ const AccountMainScreen = () => {
           </View>
         </S.TopWrapper>
         <S.BottomWrapper>
-          <Button
-            label="로그인(임시)"
-            isFullWidth
-            onPress={handleTemporaryLoginButtonClick}
-          />
           <Button
             label="시작하기"
             isFullWidth

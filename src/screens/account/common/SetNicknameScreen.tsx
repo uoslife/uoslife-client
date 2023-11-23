@@ -1,15 +1,13 @@
+/* eslint-disable consistent-return */
 import styled from '@emotion/native';
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {useAtom, useAtomValue} from 'jotai';
+import {useAtomValue} from 'jotai';
 import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {
-  accountFlowStatusAtom,
-  existedAccountInfoAtom,
-} from '../../../atoms/account';
+import {accountFlowAtom, existedAccountInfoAtom} from '../../../atoms/account';
 
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
@@ -21,6 +19,7 @@ import InputProps from '../../../components/molecules/common/forms/input/Input.t
 import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
 import UserService from '../../../services/user';
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 type NicknameStatusMessageType =
   | 'BEFORE_CHECK'
@@ -32,8 +31,10 @@ const SetNicknameScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const route = useRoute();
+
   const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
-  const [accountStatus, setAccountStatus] = useAtom(accountFlowStatusAtom);
+  const accountFlow = useAtomValue(accountFlowAtom);
+  const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
 
   const isMyPage = route.name === 'Mypage_changeNickname';
 
@@ -102,11 +103,9 @@ const SetNicknameScreen = () => {
     }
   };
   const handleClickSubmitModalButton = () => {
-    setAccountStatus(prev => {
-      return {
-        ...prev,
-        portalStatus: {isPortalStep: true, step: 0},
-      };
+    changeAccountFlow({
+      commonFlowName: 'PORTAL_VERIFICATION',
+      resetSignUpFlow: true,
     });
   };
 
@@ -152,28 +151,16 @@ const SetNicknameScreen = () => {
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
             if (isMyPage) return navigation.goBack();
-            switch (accountStatus.stepStatus.userType) {
-              case 'EXISTED':
-                setAccountStatus(prev => {
-                  return {
-                    ...prev,
-                    stepStatus: {
-                      userType: 'EXISTED',
-                      step: 0,
-                    },
-                  };
-                });
+            switch (accountFlow.signUpFlow.signUpUser) {
+              case 'MIGRATION':
+                decreaseSignUpFlowStep();
+                break;
+              case 'DELETED':
+                decreaseSignUpFlowStep();
                 break;
               case 'NEW':
-                setAccountStatus(prev => {
-                  return {
-                    ...prev,
-                    stepStatus: {
-                      userType: 'NONE',
-                      step: 0,
-                    },
-                  };
-                });
+                changeAccountFlow({commonFlowName: 'SIGNIN'});
+                break;
             }
           }}
         />

@@ -3,20 +3,18 @@ import {Pressable, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useSetAtom} from 'jotai';
 import {Txt, Button} from '@uoslife/design-system';
 
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 
-import {accountFlowStatusAtom} from '../../../atoms/account';
-
 import {RootTabNavigationProps} from '../../../navigators/RootBottomTapNavigator';
 
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
@@ -28,7 +26,7 @@ const PortalAuthenticationScreen = () => {
   const route = useRoute();
   const isFromStudentIdScreen = route.name === 'StudentId_PortalAuthentication';
 
-  const setAccountStatus = useSetAtom(accountFlowStatusAtom);
+  const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
 
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
@@ -45,6 +43,8 @@ const PortalAuthenticationScreen = () => {
         return '';
       case 'ERROR':
         return '아이디 또는 비밀번호를 확인해주세요.';
+      default:
+        return '';
     }
   };
   const handleInputStatus = (
@@ -55,6 +55,8 @@ const PortalAuthenticationScreen = () => {
         return 'default';
       case 'ERROR':
         return 'error';
+      default:
+        return 'default';
     }
   };
 
@@ -71,15 +73,7 @@ const PortalAuthenticationScreen = () => {
       navigation.navigate('StudentId');
       return;
     }
-    setAccountStatus(prev => {
-      return {
-        ...prev,
-        portalStatus: {
-          isPortalStep: prev.portalStatus.isPortalStep,
-          step: 1,
-        },
-      };
-    });
+    changeAccountFlow({commonFlowName: 'FINISH'});
   };
 
   const handleSubmit = async () => {
@@ -88,15 +82,7 @@ const PortalAuthenticationScreen = () => {
         username: inputValue.id,
         password: inputValue.password,
       });
-      setAccountStatus(prev => {
-        return {
-          ...prev,
-          portalStatus: {
-            isPortalStep: prev.portalStatus.isPortalStep,
-            step: 1,
-          },
-        };
-      });
+      changeAccountFlow({commonFlowName: 'FINISH'});
     } catch (err) {
       const error = err as ErrorResponseType;
       if (error.status !== 500) setMessageStatus('ERROR');
@@ -104,9 +90,13 @@ const PortalAuthenticationScreen = () => {
     }
   };
 
-  const handlePressBackButton = () => {
+  const handlePressHeaderBackButton = () => {
+    if (isFromStudentIdScreen) {
+      navigation.goBack();
+      return;
+    }
     storage.set('isLoggedIn', true);
-    navigation.goBack();
+    resetAccountFlow();
   };
 
   return (
@@ -114,7 +104,7 @@ const PortalAuthenticationScreen = () => {
       style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label="포털 계정 연동"
-        onPressBackButton={handlePressBackButton}
+        onPressBackButton={handlePressHeaderBackButton}
       />
       <S.portalAuthenticationContainer>
         <View style={{gap: 24}}>
