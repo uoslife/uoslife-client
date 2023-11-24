@@ -21,6 +21,8 @@ import useModal from '../../../hooks/useModal';
 import UserService from '../../../services/user';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 
+const NICKNAME_MAX_LENGTH = 8;
+
 type NicknameStatusMessageType =
   | 'BEFORE_CHECK'
   | 'CAN_USE'
@@ -51,8 +53,18 @@ const SetNicknameScreen = () => {
   const [openModal, __, Modal] = useModal('MODAL');
 
   const handleSetNicknameButton = async () => {
-    // TODO: 사용 불가능 닉네임 로직 추가
-    // setStatusMessage('CANNOT_USE');
+    if (inputValue.length > NICKNAME_MAX_LENGTH) {
+      setStatusMessage('CANNOT_USE');
+      return;
+    }
+
+    if (
+      accountFlow.signUpFlow.signUpUser === 'MIGRATION' &&
+      selectedAccountInfo?.nickname === inputValue
+    ) {
+      openBottomSheet();
+      return;
+    }
 
     try {
       const CheckDuplicateUserNicknameRes =
@@ -186,7 +198,7 @@ const SetNicknameScreen = () => {
             </View>
             <Input
               onChangeText={onChangeText}
-              maxLength={8}
+              maxLength={NICKNAME_MAX_LENGTH}
               onPress={onPressInputDelete}
               value={inputValue}
               label="닉네임"
