@@ -6,7 +6,7 @@ import {Pressable} from 'react-native';
 import {
   accountFlowInitStatus,
   accountFlowStatusAtom,
-} from '../../../atoms/account';
+} from '../../../store/account';
 
 type LocationType = 'TOP_LEFT' | 'TOP_RIGHT' | 'BOTTOM_LEFT' | 'BOTTOM_RIGHT';
 

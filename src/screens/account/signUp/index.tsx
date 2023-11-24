@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, View} from 'react-native';
 import {useAtomValue} from 'jotai';
 
-import {AccountFlowType, accountFlowAtom} from '../../../atoms/account';
+import {AccountFlowType, accountFlowAtom} from '../../../store/account';
 
 import NewUserScreen from './newUserScreenContainer';
 import ExistedUserScreen from './existedUserScreenContainer';

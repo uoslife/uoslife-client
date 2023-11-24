@@ -6,7 +6,7 @@ import {useAtomValue} from 'jotai';
 import {Button, Txt, colors} from '@uoslife/design-system';
 
 import URLS from '../../../../../configs/urls';
-import {categoryStatusAtom} from '../../../../../atoms/announcement';
+import {categoryStatusAtom} from '../../../../../store/announcement';
 import UtilityService from '../../../../../services/utility';
 import {AnnouncementOriginNameType} from '../../../../../api/services/util/announcement/announcementAPI.type';
 

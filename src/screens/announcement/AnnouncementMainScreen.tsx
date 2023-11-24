@@ -16,7 +16,7 @@ import AnnouncementAPI from '../../api/services/util/announcement/announcementAP
 import {
   AnnouncementCategoryStatusType,
   categoryStatusAtom,
-} from '../../atoms/announcement';
+} from '../../store/announcement';
 import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
 import useModal from '../../hooks/useModal';
 import Spinner from '../../components/atoms/spinner/Spinner';

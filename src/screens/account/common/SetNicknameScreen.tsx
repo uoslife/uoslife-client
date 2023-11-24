@@ -7,7 +7,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {accountFlowAtom, existedAccountInfoAtom} from '../../../atoms/account';
+import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
 
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';

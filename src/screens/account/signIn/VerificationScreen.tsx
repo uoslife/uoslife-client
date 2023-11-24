@@ -7,7 +7,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTimer} from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
-import {existedAccountInfoAtom} from '../../../atoms/account';
+import {existedAccountInfoAtom} from '../../../store/account';
 import {CoreAPI} from '../../../api/services';
 import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';

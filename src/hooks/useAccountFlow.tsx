@@ -4,7 +4,7 @@ import {
   CommonFlowNameType,
   accountFlowAtom,
   accountFlowInit,
-} from '../atoms/account/index';
+} from '../store/account/index';
 import AddUndefined from '../utils/addUndefined';
 
 type ChangeAccountFlowParams = {
