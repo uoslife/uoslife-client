@@ -65,7 +65,6 @@ export default class UserService {
       this.deleteUserInfo();
       customShowToast('unregister');
     } catch (error) {
-      console.log(error);
       customShowToast('unregisterError');
     }
   }
