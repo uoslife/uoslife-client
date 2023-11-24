@@ -1,8 +1,7 @@
 import {AuthTokenDefaultRes} from '../api/services/core/auth/authAPI.type';
 import storage from '../storage';
-import AddUndefined from './addUndefined';
 
-type StoreTokenType = AddUndefined<AuthTokenDefaultRes>;
+type StoreTokenType = Partial<AuthTokenDefaultRes>;
 
 const storeToken = ({accessToken, refreshToken, tempToken}: StoreTokenType) => {
   if (accessToken) storage.set('accessToken', accessToken);

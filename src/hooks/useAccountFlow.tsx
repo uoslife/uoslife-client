@@ -5,12 +5,11 @@ import {
   accountFlowAtom,
   accountFlowInit,
 } from '../store/account/index';
-import AddUndefined from '../utils/addUndefined';
 
 type ChangeAccountFlowParams = {
   commonFlowName?: CommonFlowNameType;
   isResetSignUpFlow?: boolean;
-} & AddUndefined<SignUpFlowType>;
+} & Partial<SignUpFlowType>;
 
 const useAccountFlow = () => {
   const [accountFlow, setAccountFlow] = useAtom(accountFlowAtom);
