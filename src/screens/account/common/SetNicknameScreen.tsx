@@ -87,7 +87,7 @@ const SetNicknameScreen = () => {
         tos: {
           privatePolicy: true,
           termsOfUse: true,
-          notification: false,
+          notification: false, // TODO: notification 동의 여부 받아오도록 수정
           marketing: isAdvertismentAgree,
         },
         migrationUserInfo: selectedAccountInfo ?? null,

@@ -4,7 +4,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Button, Txt} from '@uoslife/design-system';
 import Header from '../../../components/molecules/common/header/Header';
 import useAccountFlow from '../../../hooks/useAccountFlow';
-import storage from '../../../storage';
 
 const DeletedUserScreen = () => {
   const insets = useSafeAreaInsets();
@@ -12,12 +11,12 @@ const DeletedUserScreen = () => {
   const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
 
   const handlePressAgreeButton = () => {
-    // popup
+    increaseSignUpFlowStep();
   };
   const handlePressDisagreeButton = () => {
     increaseSignUpFlowStep();
+    // TODO: call rejoin/disagree API
   };
-  console.log(storage.getString('tempToken'));
 
   return (
     <S.ScreenContainer
