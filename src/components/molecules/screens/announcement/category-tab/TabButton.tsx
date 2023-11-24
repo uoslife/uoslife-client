@@ -1,6 +1,6 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
-import {AnnouncementCategoryNameType} from '../../../../../atoms/announcement';
+import {AnnouncementCategoryNameType} from '../../../../../store/announcement';
 
 type TabButtonProps = {
   label: AnnouncementCategoryNameType;

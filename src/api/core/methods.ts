@@ -12,9 +12,12 @@ export const post = async <T extends unknown>(
   url: string,
   body?: unknown,
 ): KyJsonResponse<T> => {
-  const postRes = await apiClient.post(url, body ? {json: body} : undefined);
+  const postRes = body
+    ? await apiClient.post(url, {json: body})
+    : await apiClient.post(url);
   return await postRes.json();
 };
+
 export const patch = async <T extends unknown>(
   url: string,
   body: unknown,

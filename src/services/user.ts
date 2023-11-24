@@ -21,11 +21,15 @@ export default class UserService {
    * SingIn 또는 SingUp시 실행되는 함수입니다.
    *  @return Promise<void>
    * */
-  static async onRegister(params: OnRegisterParamsType): Promise<void> {
-    storeToken(params.accessToken, params.refreshToken);
+  static async onRegister({
+    accessToken,
+    refreshToken,
+    setNotLoggedIn,
+  }: OnRegisterParamsType): Promise<void> {
+    storeToken({accessToken, refreshToken});
     await DeviceService.setDeviceInfo();
     await UserService.handleUserInfo();
-    if (params.setNotLoggedIn) return;
+    if (setNotLoggedIn) return;
     storage.set('isLoggedIn', true);
   }
 

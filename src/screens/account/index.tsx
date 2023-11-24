@@ -2,39 +2,38 @@ import React from 'react';
 import {useAtomValue} from 'jotai';
 import styled from '@emotion/native';
 
-import VerificationScreen from './common/VerificationScreen';
-import AccountMainScreen from './AccountMainScreen';
-import NewUserScreen from './newUserScreenContainer';
-import ExistedUserScreen from './existedUserScreenContainer';
-import PortalAuthScreenContainer from './portalAuthScreenContainer';
+import {AccountFlowType, accountFlowAtom} from '../../store/account';
 
-import {
-  AccountFlowStatusType,
-  accountFlowStatusAtom,
-} from '../../atoms/account';
-import AccountFlowStatusGuideForDev from './AccountFlowStatusGuideForDev';
+import AccountMainScreen from './main/AccountMainScreen';
+import SignUpScreen from './signUp';
+import AccountFinishInfoScreen from './common/AccountFinishInfoScreen';
+import PortalAuthenticationScreen from './common/PortalAuthenticationScreen';
+import VerificationScreen from './signIn/VerificationScreen';
+// import AccountFlowStatusGuideForDev from './dev/AccountFlowStatusGuideForDev';
 
 const AccountScreenContainer = () => {
-  const accountStatus = useAtomValue(accountFlowStatusAtom);
+  const accountFlow = useAtomValue(accountFlowAtom);
 
-  const handleAccountScreen = (accountStatus: AccountFlowStatusType) => {
-    if (accountStatus.baseStatus === 'DEFAULT') return <AccountMainScreen />;
-    if (accountStatus.portalStatus.isPortalStep)
-      return <PortalAuthScreenContainer />;
-
-    switch (accountStatus.stepStatus.userType) {
-      case 'NONE':
+  const handleAccountScreen = (accountFlow: AccountFlowType) => {
+    switch (accountFlow.commonFlow) {
+      case 'MAIN':
+        return <AccountMainScreen />;
+      case 'SIGNIN':
         return <VerificationScreen />;
-      case 'NEW':
-        return <NewUserScreen />;
-      case 'EXISTED':
-        return <ExistedUserScreen />;
+      case 'SIGNUP':
+        return <SignUpScreen />;
+      case 'PORTAL_VERIFICATION':
+        return <PortalAuthenticationScreen />;
+      case 'FINISH':
+        return <AccountFinishInfoScreen />;
+      default:
+        return <AccountMainScreen />;
     }
   };
   return (
-    <S.AccountContainer contentContainerStyle={{flexGrow: 1}}>
-      {handleAccountScreen(accountStatus)}
-      <AccountFlowStatusGuideForDev />
+    <S.AccountContainer contentContainerStyle={{flexGrow: 1}} bounces={false}>
+      {handleAccountScreen(accountFlow)}
+      {/* <AccountFlowStatusGuideForDev /> */}
     </S.AccountContainer>
   );
 };

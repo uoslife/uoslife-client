@@ -1,13 +1,10 @@
 import {Txt} from '@uoslife/design-system';
 import React, {useEffect} from 'react';
-import {useSetAtom} from 'jotai';
 import AnimatedPlayer from 'react-native-animated-webp';
 import styled from '@emotion/native';
-import {
-  accountFlowInitStatus,
-  accountFlowStatusAtom,
-} from '../../../atoms/account';
+
 import storage from '../../../storage';
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 const REDIRECT_TO_MAIN_TIME = 4 * 1000;
 
@@ -17,15 +14,14 @@ const useAutoRedirect = (time: number, callback: () => void) => {
       callback();
     }, time);
     return () => clearInterval(timeout);
-  }, []);
+  }, [callback, time]);
 };
 
 const AccountFinishInfoScreen = () => {
-  const setAccontFlowStatus = useSetAtom(accountFlowStatusAtom);
-
+  const {resetAccountFlow} = useAccountFlow();
   const useAutoRedirectCallback = () => {
     storage.set('isLoggedIn', true);
-    setAccontFlowStatus(accountFlowInitStatus);
+    resetAccountFlow();
   };
 
   useAutoRedirect(REDIRECT_TO_MAIN_TIME, useAutoRedirectCallback);

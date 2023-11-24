@@ -26,7 +26,7 @@ import {
   PrivacyandPoliciesScreen,
   ToSandPoliciesScreen,
 } from '../screens/myPage';
-import PortalAuthenticationScreen from '../screens/account/portalAuthScreenContainer/PortalAuthenticationScreen';
+import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 
 export type RootStackParamList = {
