@@ -9,7 +9,7 @@ import AddUndefined from '../utils/addUndefined';
 
 type ChangeAccountFlowParams = {
   commonFlowName?: CommonFlowNameType;
-  resetSignUpFlow?: boolean;
+  isResetSignUpFlow?: boolean;
 } & AddUndefined<SignUpFlowType>;
 
 const useAccountFlow = () => {
@@ -19,9 +19,9 @@ const useAccountFlow = () => {
     commonFlowName,
     signUpUser,
     step,
-    resetSignUpFlow,
+    isResetSignUpFlow,
   }: ChangeAccountFlowParams) => {
-    if (resetSignUpFlow) {
+    if (isResetSignUpFlow) {
       setAccountFlow(prev => {
         return {
           ...prev,
