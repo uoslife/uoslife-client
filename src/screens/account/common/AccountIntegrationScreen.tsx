@@ -89,19 +89,21 @@ const AccountIntegrationScreen = () => {
           </View>
           <S.idContainer style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT}}>
             {existedAccountInfo.map(item => (
-              <Pressable
-                key={item.id}
-                onPress={() => selectExistedAccount(item)}>
+              <View>
                 {item.nickname && (
-                  <S.idButtonSelected isSelected={item.isSelected}>
-                    <Txt
-                      label={item.nickname}
-                      color="grey190"
-                      typograph="titleMedium"
-                    />
-                  </S.idButtonSelected>
+                  <Pressable
+                    key={item.id}
+                    onPress={() => selectExistedAccount(item)}>
+                    <S.idButtonSelected isSelected={item.isSelected}>
+                      <Txt
+                        label={item.nickname}
+                        color="grey190"
+                        typograph="titleMedium"
+                      />
+                    </S.idButtonSelected>
+                  </Pressable>
                 )}
-              </Pressable>
+              </View>
             ))}
             <S.dummyBox />
           </S.idContainer>
