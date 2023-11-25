@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   createStackNavigator,
   StackNavigationProp,
@@ -60,11 +60,11 @@ const RootStackNavigator: React.FC = () => {
     setIsServiceInitLoading(false);
   };
 
-  const setAuthenticationSuccess = () => {
+  const setAuthenticationSuccess = useCallback(() => {
     storage.set('isLoggedIn', true);
     setIsLoggedIn(true);
     setLoadingFinish();
-  };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -87,7 +87,7 @@ const RootStackNavigator: React.FC = () => {
       await DeviceService.updateDeviceInfo();
       setAuthenticationSuccess();
     })();
-  }, []);
+  }, [setAuthenticationSuccess]);
 
   useEffect(() => {
     if (isLoading || isServiceInitLoading) return;
