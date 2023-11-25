@@ -4,10 +4,12 @@ import storage from '../storage';
 import DeviceService from './device';
 import storeToken from '../utils/storeToken';
 import customShowToast from '../configs/toast';
+import {DeleteUserInfoType, SetUserInfoType} from '../hooks/useUserState';
 
 type OnRegisterParamsType = {
   accessToken: string;
   refreshToken: string;
+  setUserInfo: SetUserInfoType;
   /** 바로 로그인하지 않을 때 사용하는 params입니다. */
   setNotLoggedIn?: true;
 };
@@ -25,10 +27,11 @@ export default class UserService {
     accessToken,
     refreshToken,
     setNotLoggedIn,
+    setUserInfo,
   }: OnRegisterParamsType): Promise<void> {
     storeToken({accessToken, refreshToken});
     await DeviceService.setDeviceInfo();
-    await UserService.handleUserInfo();
+    await UserService.updateUserInfo(setUserInfo);
     if (setNotLoggedIn) return;
     storage.set('isLoggedIn', true);
   }
@@ -42,53 +45,34 @@ export default class UserService {
     }
   }
 
-  static setUserInfoToDevice(userInfo: UserInfoType): void {
-    storage.set('user', JSON.stringify(userInfo));
-  }
-
-  static async handleUserInfo(): Promise<void> {
+  static async updateUserInfo(setUserInfo: SetUserInfoType): Promise<void> {
     const userInfo = await this.getUserInfoFromServer();
     if (!userInfo) return;
-    this.setUserInfoToDevice(userInfo);
+    setUserInfo(userInfo);
   }
 
   // 로그아웃 및 회원 탈퇴
 
-  static async logout(): Promise<void> {
-    this.deleteUserInfo();
+  static async logout(deleteUserInfo: DeleteUserInfoType): Promise<void> {
+    this.initializeUserState(deleteUserInfo);
     customShowToast('logout');
   }
 
-  static async unregister(): Promise<void> {
+  static async unregister(deleteUserInfo: DeleteUserInfoType): Promise<void> {
     try {
       await CoreAPI.unregister();
-      this.deleteUserInfo();
+      this.initializeUserState(deleteUserInfo);
       customShowToast('unregister');
     } catch (error) {
       customShowToast('unregisterError');
     }
   }
 
-  static deleteUserInfo(): void {
+  static initializeUserState(deleteUserInfo: DeleteUserInfoType): void {
     storage.delete('accessToken');
     storage.delete('refreshToken');
-    storage.delete('user');
+    storage.delete('tempToken');
+    deleteUserInfo();
     storage.set('isLoggedIn', false);
-  }
-
-  // Device에서 유저 정보 조회
-
-  static getAllUserInfoFromDevice(): UserInfoType | null {
-    const jsonUser = storage.getString('user');
-    if (!jsonUser) return null;
-    return JSON.parse(jsonUser) as UserInfoType;
-  }
-
-  static getUserInfoFromDevice(
-    item: keyof UserInfoType,
-  ): UserInfoType[keyof UserInfoType] {
-    const userInfo = this.getAllUserInfoFromDevice();
-    if (userInfo === null) return null;
-    return userInfo[item];
   }
 }

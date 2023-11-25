@@ -18,7 +18,7 @@ import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import URLS from '../configs/urls';
 import {UtilAPI} from '../api/services';
 import useInterval from '../hooks/useInterval';
-import UserService from '../services/user';
+import useUserState from '../hooks/useUserState';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
@@ -67,6 +67,8 @@ const PortalUnauthorizedComponent = () => {
 const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
   const [qrCode, setQrCode] = useState('');
+
+  const {user} = useUserState();
 
   const openPayco = async () => {
     const isPaycoInstalled = await Linking.canOpenURL(
@@ -140,12 +142,12 @@ const StudentIdComponent = () => {
               <View style={{gap: 16}}>
                 <View style={{gap: 4}}>
                   <Txt
-                    label="한유민"
+                    label={user?.name ?? ''}
                     color="grey190"
                     typograph="headlineMedium"
                   />
                   <Txt
-                    label="2022280085"
+                    label={user?.identities[0]?.studentId ?? ''}
                     color="grey190"
                     typograph="titleMedium"
                   />
@@ -161,7 +163,11 @@ const StudentIdComponent = () => {
                     color="grey130"
                     typograph="bodyMedium"
                   />
-                  <Txt label="정경대학" color="grey190" typograph="bodyLarge" />
+                  <Txt
+                    label={user?.identities[0]?.graduateSchool ?? ''}
+                    color="grey190"
+                    typograph="bodyLarge"
+                  />
                 </View>
                 <View>
                   <Txt
@@ -171,7 +177,7 @@ const StudentIdComponent = () => {
                   />
 
                   <Txt
-                    label="전기전자컴퓨터공학부"
+                    label={user?.identities[0]?.department ?? ''}
                     color="grey190"
                     typograph="bodyLarge"
                   />
@@ -194,12 +200,12 @@ const StudentIdScreen = () => {
   const [isPortalAuthenticated, setIsPortalAuthenticated] = useState(false);
   const insets = useSafeAreaInsets();
 
+  const {user} = useUserState();
+
   useEffect(() => {
-    const isVerified = UserService.getUserInfoFromDevice('isVerified') as
-      | boolean
-      | null;
+    const {isVerified} = user || {};
     setIsPortalAuthenticated(isVerified ?? false);
-  }, []);
+  }, [user]);
 
   return (
     <View style={{paddingTop: insets.top}}>

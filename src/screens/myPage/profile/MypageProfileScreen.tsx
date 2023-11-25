@@ -10,16 +10,16 @@ import NavigationList from '../../../components/molecules/common/navigationList/
 import useModal from '../../../hooks/useModal';
 import usePhoto from '../../../hooks/usePhoto';
 import UserService from '../../../services/user';
-import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
+import useUserState from '../../../hooks/useUserState';
+import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
 
-const getPortalAccountInfoList = () => {
-  const userInfo = UserService.getAllUserInfoFromDevice()!;
+const getPortalAccountInfoList = (user: UserInfoType) => {
   return [
-    {name: '이름', value: userInfo.name},
-    {name: '학과', value: '경제학부'},
-    {name: '학번', value: '20202020'},
-    {name: '학적', value: '재학'},
-    {name: '생일', value: userInfo.birthday},
+    {name: '이름', value: user.name},
+    {name: '학과', value: user.identities[0]?.department},
+    {name: '학번', value: user.identities[0]?.studentId},
+    {name: '학적', value: user.identities[0]?.status},
+    {name: '생일', value: user.birthday},
   ];
 };
 
@@ -29,7 +29,10 @@ const MypageProfileScreen = () => {
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openModal, closeModal, Modal] = useModal('MODAL');
 
-  const isVerified = UserService.getUserInfoFromDevice('isVerified') as boolean;
+  const {user, deleteUserInfo} = useUserState();
+
+  const isVerified = user?.isVerified;
+  const nickname = user?.nickname;
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
@@ -115,9 +118,7 @@ const MypageProfileScreen = () => {
                     isMyPage: true,
                   })
                 }
-                pressLabel={
-                  UserService.getUserInfoFromDevice('nickname') as string
-                }
+                pressLabel={nickname}
               />
               <NavigationList
                 label="포털 계정 연동"
@@ -132,7 +133,7 @@ const MypageProfileScreen = () => {
               />
               {isVerified && (
                 <S.portalAccountInformationWrapper>
-                  {getPortalAccountInfoList().map(item => {
+                  {getPortalAccountInfoList(user).map(item => {
                     return (
                       <S.portalAccountInformation key={item.name}>
                         <Txt
@@ -141,7 +142,7 @@ const MypageProfileScreen = () => {
                           color="grey130"
                         />
                         <Txt
-                          label={item.value}
+                          label={item.value ?? ''}
                           typograph="bodyMedium"
                           color="grey130"
                         />
@@ -175,7 +176,7 @@ const MypageProfileScreen = () => {
             variant="text"
             isFullWidth
             onPress={async () => {
-              await UserService.unregister();
+              await UserService.unregister(deleteUserInfo);
             }}
           />
           <S.Devider />

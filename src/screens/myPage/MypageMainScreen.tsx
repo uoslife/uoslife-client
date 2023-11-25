@@ -9,17 +9,19 @@ import Header from '../../components/molecules/common/header/Header';
 import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import UserService from '../../services/user';
+import useUserState from '../../hooks/useUserState';
 
 const MypageMainScreen = ({
   navigation,
 }: StackScreenProps<MyPageStackParamList>) => {
   const insets = useSafeAreaInsets();
 
-  const nickname = UserService.getUserInfoFromDevice('nickname') as string;
-  const isVerified = UserService.getUserInfoFromDevice('isVerified') as boolean;
+  const {user, deleteUserInfo} = useUserState();
+
+  const {nickname, isVerified} = user || {};
 
   const handlePressLogoutButton = async () => {
-    await UserService.logout();
+    await UserService.logout(deleteUserInfo);
   };
 
   return (
@@ -37,10 +39,16 @@ const MypageMainScreen = ({
             />
           </S.circleImageWrapper>
           <S.textWrapper>
-            <Txt label={nickname} color="grey190" typograph="titleLarge" />
+            <Txt
+              label={nickname ?? ''}
+              color="grey190"
+              typograph="titleLarge"
+            />
             <Txt
               label={
-                isVerified ? '경영학부(2000000000)' : '포털 계정을 연동해주세요'
+                isVerified
+                  ? `${user?.identities[0]?.department}(${user?.identities[0]?.studentId})`
+                  : '포털 계정을 연동해주세요'
               }
               color={isVerified ? 'grey130' : 'primaryBrand'}
               typograph="bodyMedium"
