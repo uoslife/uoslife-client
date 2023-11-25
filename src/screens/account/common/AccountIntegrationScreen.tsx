@@ -1,10 +1,11 @@
 import styled from '@emotion/native';
-import React from 'react';
-import {Pressable, View} from 'react-native';
+import React, {useState} from 'react';
+import {Pressable, ScrollView, View, Dimensions} from 'react-native';
 import {useAtom, useSetAtom} from 'jotai';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../../components/molecules/common/header/Header';
+
 import {
   accountFlowStatusAtom,
   existedAccountInfoAtom,
@@ -19,18 +20,15 @@ const MOCK_DATA = [
     isSelected: false,
   },
   {
-    id: '1234-12734',
-    nickname: null,
-    username: 'example',
-    isSelected: false,
-  },
-  {
-    id: '1234-12314',
-    nickname: 'nickname',
+    id: '1234-12343',
+    nickname: 'null',
     username: 'example',
     isSelected: false,
   },
 ];
+
+const DEVICE_HEIGHT = Dimensions.get('window').height;
+const HEADER_TO_TXT_HEIGHT = 270; // 헤더부터 설명 문구('선택한 ~ 삭제됩니다')까지의 높이
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -89,7 +87,7 @@ const AccountIntegrationScreen = () => {
               typograph="bodyMedium"
             />
           </View>
-          <S.idContainer>
+          <S.idContainer style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT}}>
             {existedAccountInfo.map(item => (
               <Pressable
                 key={item.id}
@@ -105,14 +103,19 @@ const AccountIntegrationScreen = () => {
                 )}
               </Pressable>
             ))}
+            <S.dummyBox />
           </S.idContainer>
         </View>
-        <Button
-          label="계정 통합하기"
-          onPress={handlePressButton}
-          isEnabled={existedAccountInfo.some(item => item.isSelected === true)}
-          isFullWidth
-        />
+        <S.buttonArea>
+          <Button
+            label="계정 통합하기"
+            onPress={handlePressButton}
+            isEnabled={existedAccountInfo.some(
+              item => item.isSelected === true,
+            )}
+            isFullWidth
+          />
+        </S.buttonArea>
       </S.accountIntegrationContainer>
     </S.screenContainer>
   );
@@ -134,8 +137,6 @@ const S = {
     flex: 1;
   `,
   accountIntegrationContainer: styled.View`
-    flex: 1;
-    justify-content: space-between;
     padding: 28px 16px 0;
   `,
   idContainer: styled.ScrollView`
@@ -152,5 +153,18 @@ const S = {
     padding-left: 16px;
     color: black;
     font-weight: bold;
+  `,
+  buttonArea: styled.View`
+    margin: 0 16px;
+    background-color: white;
+    height: 64px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  `,
+  dummyBox: styled.View`
+    height: 58px;
   `,
 };
