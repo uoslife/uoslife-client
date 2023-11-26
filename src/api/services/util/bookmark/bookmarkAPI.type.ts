@@ -1,6 +1,6 @@
 export type GetBookmarkedArticlesParams = {};
 export type GetBookmarkedArticlesRes = {
-  bookmarkInformation: number[];
+  bookmarkInformation: number[] | null;
 };
 
 export type CancelBookmarkParams = {
