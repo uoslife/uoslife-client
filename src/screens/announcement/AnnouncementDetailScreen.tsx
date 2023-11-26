@@ -39,7 +39,7 @@ const AnnouncementDetailScreen = ({
       }
       setIsPending(false);
     })();
-  }, []);
+  }, [id, setIsPending, setArticle, getBookmarkIdList]);
 
   const navigation = useNavigation();
 

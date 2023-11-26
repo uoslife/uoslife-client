@@ -132,9 +132,9 @@ const AnnouncementMainScreen = () => {
     },
   ];
 
-  const navigateToNewSearchScreen = (searchWord: string) => {
+  const navigateToNewSearchScreen = (word: string) => {
     navigation.push('AnnouncementSearch', {
-      initialSearchWord: searchWord,
+      initialSearchWord: word,
     });
     setTimeout(() => {
       setSearchWordEntering(false);
@@ -163,14 +163,14 @@ const AnnouncementMainScreen = () => {
     value: searchWord,
   };
 
-  const onHeaderBackPress = () => {
+  const onHeaderBackPress = useCallback(() => {
     if (isSearchWordEntering) {
       setSearchWordEntering(false);
       inputRef.current?.blur();
     } else {
       navigation.goBack();
     }
-  };
+  }, [setSearchWordEntering, navigation, inputRef, isSearchWordEntering]);
 
   useEffect(() => {
     const keyboardDidHideListener = () => {
@@ -206,8 +206,7 @@ const AnnouncementMainScreen = () => {
     loadNewArticlesByOrigin(currentOrigin);
   };
 
-  const [openBottomSheet, closeBottomSheet, BottomSheet] =
-    useModal('BOTTOM_SHEET');
+  const [openBottomSheet, , BottomSheet] = useModal('BOTTOM_SHEET');
 
   const isInitiallyPending = isPending && currentArticles.length === 0;
 
@@ -227,8 +226,8 @@ const AnnouncementMainScreen = () => {
           <>
             <Header label="공지사항" onPressBackButton={onHeaderBackPress}>
               <S.HeaderIcons>
-                {icons.map((item, i) => (
-                  <S.IconWrapper key={i} onPress={item.onPress}>
+                {icons.map(item => (
+                  <S.IconWrapper key={item.iconName} onPress={item.onPress}>
                     <Icon
                       name={item.iconName}
                       color="grey150"
@@ -245,7 +244,7 @@ const AnnouncementMainScreen = () => {
                 <Spinner />
               ) : (
                 <ArticleList
-                  ListFooterComponent={isPending ? <Spinner /> : <></>}
+                  ListFooterComponent={isPending ? <Spinner /> : null}
                   ref={listRef}
                   showCategoryName={false}
                   articles={currentArticles}

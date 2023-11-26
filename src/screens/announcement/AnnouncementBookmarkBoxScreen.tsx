@@ -20,6 +20,26 @@ const NoBookmarkFound = () => (
   </S.NoBookmarkFoundContainer>
 );
 
+const BookmarkResult = ({
+  isEmpty,
+  isPending,
+  articles,
+}: {
+  isEmpty: boolean;
+  isPending: boolean;
+  articles: ArticleItemType[];
+}) => {
+  return isEmpty ? (
+    <NoBookmarkFound />
+  ) : (
+    <ArticleList
+      ListFooterComponent={isPending ? <Spinner /> : null}
+      articles={articles}
+      onEndReached={() => {}}
+    />
+  );
+};
+
 const AnnouncementBookmarkBoxScreen = () => {
   const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<ArticleItemType[]>([]);
@@ -42,10 +62,12 @@ const AnnouncementBookmarkBoxScreen = () => {
           idList,
         });
         setArticles(result.map(item => ({...item, isBookmarkedByMe: true})));
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
       setIsPending(false);
     })();
-  }, []);
+  }, [setIsPending, getBookmarkIdList]);
 
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
@@ -53,13 +75,10 @@ const AnnouncementBookmarkBoxScreen = () => {
       <S.BookmarkListContainer>
         {isPending ? (
           <Spinner />
-        ) : articles.length === 0 && !isPending ? (
-          <NoBookmarkFound />
         ) : (
-          // TODO: 페이지네이션 적용시 onEndReached 수정
-          <ArticleList
-            ListFooterComponent={isPending ? <Spinner /> : <></>}
-            onEndReached={() => {}}
+          <BookmarkResult
+            isEmpty={articles.length === 0}
+            isPending={isPending}
             articles={articles}
           />
         )}
