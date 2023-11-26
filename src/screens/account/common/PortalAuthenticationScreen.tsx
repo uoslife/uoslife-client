@@ -25,9 +25,10 @@ const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
 
   const navigation = useNavigation<RootTabNavigationProps>();
-  const [isFromStudentIdScreen] = useIsCurrentScreen(
+  const [isFromStudentIdScreen] = useIsCurrentScreen([
     'StudentId_PortalAuthentication',
-  );
+    'Mypage_portalAuthentication',
+  ]);
 
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
 

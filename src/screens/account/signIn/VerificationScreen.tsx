@@ -95,6 +95,10 @@ const VerificationScreen = () => {
   };
 
   const handleHeaderBackButton = () => {
+    if (isMyPage) {
+      navigation.goBack();
+      return;
+    }
     if (isVerificationCodeSent) setIsVerificationCodeSent(false);
 
     resetAccountFlow();
