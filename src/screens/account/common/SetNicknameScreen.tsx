@@ -20,6 +20,7 @@ import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
 import UserService from '../../../services/user';
 import useAccountFlow from '../../../hooks/useAccountFlow';
+import useUserState from '../../../hooks/useUserState';
 
 const NICKNAME_MAX_LENGTH = 8;
 
@@ -37,6 +38,7 @@ const SetNicknameScreen = () => {
   const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
   const accountFlow = useAtomValue(accountFlowAtom);
   const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
+  const {setUserInfo} = useUserState();
 
   const isMyPage = route.name === 'Mypage_changeNickname';
 
@@ -49,8 +51,8 @@ const SetNicknameScreen = () => {
   const [statusMessage, setStatusMessage] =
     useState<NicknameStatusMessageType>('BEFORE_CHECK');
 
-  const [openBottomSheet, _, BottomSheet] = useModal('BOTTOM_SHEET');
-  const [openModal, __, Modal] = useModal('MODAL');
+  const [openBottomSheet, , BottomSheet] = useModal('BOTTOM_SHEET');
+  const [openModal, , Modal] = useModal('MODAL');
 
   const handleSetNicknameButton = async () => {
     if (inputValue.length > NICKNAME_MAX_LENGTH) {
@@ -107,6 +109,7 @@ const SetNicknameScreen = () => {
       await UserService.onRegister({
         accessToken: signUpRes.accessToken,
         refreshToken: signUpRes.refreshToken,
+        setUserInfo,
         setNotLoggedIn: true,
       });
       openModal();

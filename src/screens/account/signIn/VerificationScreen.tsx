@@ -15,6 +15,7 @@ import {ErrorResponseType} from '../../../api/services/type';
 import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
 import UserService from '../../../services/user';
 import useAccountFlow from '../../../hooks/useAccountFlow';
+import useUserState from '../../../hooks/useUserState';
 
 const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -36,6 +37,7 @@ type InputStatusMessageType =
 
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
+  const {setUserInfo} = useUserState();
 
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
@@ -124,13 +126,14 @@ const VerificationScreen = () => {
         code: inputValue,
       });
       const {accessToken, refreshToken} = signInRes.token;
-      await UserService.onRegister({accessToken, refreshToken});
+      await UserService.onRegister({accessToken, refreshToken, setUserInfo});
       resetAccountFlow();
     } catch (err) {
       const error = err as SignInRes;
-      console.log(error);
+
       const {tempToken} = error.token;
       storeToken({tempToken});
+
       switch (error.userStatus) {
         case 'DELETED':
           changeAccountFlow({

@@ -7,8 +7,17 @@ export type UserInfoType = {
   avatarUrl: string;
   loginAt: string;
   nicknameUpdatedAt: null;
-  identities: [];
-  isVerified: false;
+  identities: Array<
+    | {
+        degree: string;
+        graduateSchool: string;
+        studentId: string;
+        department: string;
+        status: string;
+      }
+    | undefined
+  >;
+  isVerified: boolean;
   organizations: [];
 };
 

@@ -8,13 +8,13 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Carousel from '../components/molecules/common/carousel/Carousel';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
-import UserService from '../services/user';
 import {
   MainServiceBox,
   CafeteriaContents,
   LibraryContents,
   AnnounceContents,
 } from '../components/molecules/screens/main';
+import useUserState from '../hooks/useUserState';
 
 const {width} = Dimensions.get('window');
 
@@ -22,8 +22,9 @@ const MainScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
 
-  const id = UserService.getUserInfoFromDevice('id');
-  const nickname = UserService.getUserInfoFromDevice('nickname');
+  const {user} = useUserState();
+
+  const {id, nickname} = user || {};
 
   return (
     <S.MainContainer bounces={false}>
