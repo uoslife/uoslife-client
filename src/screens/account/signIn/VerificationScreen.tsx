@@ -5,19 +5,27 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTimer} from '@uoslife/react';
+
+import {useNavigation} from '@react-navigation/native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import {existedAccountInfoAtom} from '../../../store/account';
-import {CoreAPI} from '../../../api/services';
+
 import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
+
+import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
+
 import UserService from '../../../services/user';
+
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useUserState from '../../../hooks/useUserState';
+import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
+import customShowToast from '../../../configs/toast';
 
-const MAX_SMS_TRIAL_COUNT = 5;
+// const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
 const MAX_VERIFICATION_CODE_LENGTH = 6;
 
@@ -38,6 +46,9 @@ type InputStatusMessageType =
 const VerificationScreen = () => {
   const insets = useSafeAreaInsets();
   const {setUserInfo} = useUserState();
+  const navigation = useNavigation();
+
+  const [isMyPage] = useIsCurrentScreen('Mypage_changeNumber');
 
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
@@ -119,6 +130,31 @@ const VerificationScreen = () => {
   const handleOnPressVerifyIdentify = async () => {
     const currentInputLength = inputValue.length;
     if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
+
+    if (isMyPage) {
+      try {
+        await CoreAPI.changePhone({
+          mobile: storedPhoneNumber,
+          code: inputValue,
+        });
+        customShowToast('changePhone');
+        navigation.goBack();
+      } catch (error) {
+        const err = error as ErrorResponseType;
+        switch (err.code) {
+          case 'S02':
+            setInputMessageStatus('REQUEST_EXCEED');
+            return;
+          case 'S03':
+            setInputMessageStatus('NOT_MATCHING_CODE');
+            return;
+          default:
+            customShowToast('changePhoneError');
+            return;
+        }
+      }
+      return;
+    }
 
     try {
       const signInRes = await CoreAPI.signIn({
