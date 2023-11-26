@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Pressable, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
@@ -14,7 +14,9 @@ import {RootTabNavigationProps} from '../../../navigators/RootBottomTapNavigator
 import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
+
 import useAccountFlow from '../../../hooks/useAccountFlow';
+import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 
 type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
 type InputValueType = {id: string; password: string};
@@ -23,8 +25,9 @@ const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
 
   const navigation = useNavigation<RootTabNavigationProps>();
-  const route = useRoute();
-  const isFromStudentIdScreen = route.name === 'StudentId_PortalAuthentication';
+  const [isFromStudentIdScreen] = useIsCurrentScreen(
+    'StudentId_PortalAuthentication',
+  );
 
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
 
