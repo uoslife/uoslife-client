@@ -25,7 +25,7 @@ const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
 
   const navigation = useNavigation<RootTabNavigationProps>();
-  const [isFromStudentIdScreen] = useIsCurrentScreen([
+  const [isNotAccountFlow] = useIsCurrentScreen([
     'StudentId_PortalAuthentication',
     'Mypage_portalAuthentication',
   ]);
@@ -73,7 +73,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePostponePortalAuth = () => {
-    if (isFromStudentIdScreen) {
+    if (isNotAccountFlow) {
       navigation.navigate('StudentId');
       return;
     }
@@ -95,7 +95,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePressHeaderBackButton = () => {
-    if (isFromStudentIdScreen) {
+    if (isNotAccountFlow) {
       navigation.goBack();
       return;
     }
@@ -148,7 +148,7 @@ const PortalAuthenticationScreen = () => {
           </View>
         </View>
         <S.bottomContainer>
-          {!isFromStudentIdScreen && (
+          {!isNotAccountFlow && (
             <S.postponePortalAuthButton>
               <Pressable onPress={handlePostponePortalAuth}>
                 <Txt
