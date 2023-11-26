@@ -32,6 +32,7 @@
     "@uoslife/react": "^1.0.14",
     "base-64": "^1.0.0",
     "jotai": "^2.3.1",
+    "jotai-cache": "^0.3.0",
     "ky": "^0.33.3",
     "react": "18.2.0",
     "react-native": "0.71.10",
