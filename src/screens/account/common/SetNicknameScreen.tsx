@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {useAtomValue} from 'jotai';
 import {Button, Txt} from '@uoslife/design-system';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
@@ -16,11 +16,12 @@ import AdvertisingAgreementResult from '../../../components/molecules/screens/ac
 
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
-import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
 import UserService from '../../../services/user';
 import useAccountFlow from '../../../hooks/useAccountFlow';
+import customShowToast from '../../../configs/toast';
 import useUserState from '../../../hooks/useUserState';
+import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 
 const NICKNAME_MAX_LENGTH = 8;
 
@@ -33,14 +34,12 @@ type NicknameStatusMessageType =
 const SetNicknameScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const route = useRoute();
 
   const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
   const accountFlow = useAtomValue(accountFlowAtom);
   const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
   const {setUserInfo} = useUserState();
-
-  const isMyPage = route.name === 'Mypage_changeNickname';
+  const [isMyPage] = useIsCurrentScreen('Mypage_changeNickname');
 
   const selectedAccountInfo = existedAccountInfo.find(
     item => item.isSelected === true,
@@ -79,13 +78,20 @@ const SetNicknameScreen = () => {
       }
       setStatusMessage('CAN_USE');
       if (isMyPage) {
+        try {
+          await CoreAPI.changeNickname({nickname: inputValue});
+          await UserService.updateUserInfo(setUserInfo);
+          customShowToast('changeNickname');
+          navigation.goBack();
+        } catch (error) {
+          console.log(error);
+          customShowToast('changeNicknameError');
+        }
         return;
-        // TODO: 닉네임 업데이트 API 연동 필요
       }
       openBottomSheet();
     } catch (err) {
-      const error = err as ErrorResponseType;
-      console.error(error);
+      console.error(err);
     }
   };
 

@@ -30,3 +30,9 @@ export type CheckDuplicateUserNicknameRes = {
 
 export type GetUserInfoParams = {};
 export type GetUserInfoRes = UserInfoType;
+
+export type ChangePhoneParams = {mobile: string; code: string};
+export type ChangePhoneRes = UserInfoType;
+
+export type ChangeNicknameParams = {nickname: string};
+export type ChangeNicknameRes = UserInfoType;
