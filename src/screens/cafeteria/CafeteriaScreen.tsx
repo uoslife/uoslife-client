@@ -1,11 +1,10 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {Txt} from '@uoslife/design-system';
-import {useAtom, useSetAtom} from 'jotai';
-import {Text} from 'react-native';
+import {useAtom} from 'jotai';
 import Header from '../../components/molecules/common/header/Header';
 import Card from '../../components/molecules/common/card/Card';
 import CafeteriaCard from '../../components/molecules/screens/cafeteria/card/CafeteriaCard';
