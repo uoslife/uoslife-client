@@ -18,7 +18,10 @@ import storage from '../../../storage';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 
-type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
+type PortalVerificationStatusMessageType =
+  | 'BEFORE_VERIFICATION'
+  | 'UNFILLED_INPUT'
+  | 'MISMATCHED';
 type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
@@ -45,7 +48,9 @@ const PortalAuthenticationScreen = () => {
     switch (status) {
       case 'BEFORE_VERIFICATION':
         return '';
-      case 'ERROR':
+      case 'UNFILLED_INPUT':
+        return '아이디 또는 비밀번호를 모두 입력해주세요.';
+      case 'MISMATCHED':
         return '아이디 또는 비밀번호를 확인해주세요.';
       default:
         return '';
@@ -57,7 +62,9 @@ const PortalAuthenticationScreen = () => {
     switch (status) {
       case 'BEFORE_VERIFICATION':
         return 'default';
-      case 'ERROR':
+      case 'UNFILLED_INPUT':
+        return 'error';
+      case 'MISMATCHED':
         return 'error';
       default:
         return 'default';
@@ -81,16 +88,19 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handleSubmit = async () => {
+    if (!(inputValue.id && inputValue.password)) {
+      setMessageStatus('UNFILLED_INPUT');
+      return;
+    }
     try {
-      const res = await CoreAPI.portalVerification({
+      await CoreAPI.portalVerification({
         username: inputValue.id,
         password: inputValue.password,
       });
       changeAccountFlow({commonFlowName: 'FINISH'});
     } catch (err) {
       const error = err as ErrorResponseType;
-      if (error.status !== 500) setMessageStatus('ERROR');
-      // console.error(error);
+      if (error.status !== 500) setMessageStatus('MISMATCHED');
     }
   };
 
