@@ -28,11 +28,9 @@ const S = {
   `,
   headerContainter: styled.View`
     width: 100%;
-    //padding: 12px 20px 12px 16px;
     padding: 6px 20px 6px 8px;
     flex-direction: row;
     align-items: center;
-    //gap: 16px;
     gap: 8px;
     border-bottom-width: 1px;
     border-color: ${colors.grey40};
