@@ -24,14 +24,16 @@ export default Header;
 
 const S = {
   buttonArea: styled.View`
-    padding: 6px;
+    padding: 8px;
   `,
   headerContainter: styled.View`
     width: 100%;
-    padding: 8px 14px 8px 10px;
+    //padding: 12px 20px 12px 16px;
+    padding: 6px 20px 6px 8px;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    //gap: 16px;
+    gap: 8px;
     border-bottom-width: 1px;
     border-color: ${colors.grey40};
     border-style: solid;
