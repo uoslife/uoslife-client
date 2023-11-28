@@ -15,7 +15,6 @@ export default CardLayout;
 
 const S = {
   CardLayoutWrapper: styled.View`
-    width: 100%;
     border-radius: 20px;
     border: 1px solid ${colors.grey40};
     background: ${colors.white};

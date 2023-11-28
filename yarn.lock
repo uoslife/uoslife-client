@@ -9178,6 +9178,11 @@ joi@^17.2.1:
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
 
+jotai-cache@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/jotai-cache/-/jotai-cache-0.3.0.tgz#a7799b5e0b9c859d063276c5de54ab1b04cd30ca"
+  integrity sha512-hV6DUD1frRpW0EN8Ss7n4KNaMZRBokQw6KPT3seA4P35QRXctMNUn4pHRlg3hzO+KBPpEZw+fyKlWAqagmuIwQ==
+
 jotai@^2.3.1:
   version "2.3.1"
   resolved "https://registry.npmjs.org/jotai/-/jotai-2.3.1.tgz"
