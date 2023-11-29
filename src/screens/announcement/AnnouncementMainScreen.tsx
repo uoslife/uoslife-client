@@ -77,18 +77,20 @@ const AnnouncementMainScreen = () => {
   useEffect(() => {
     setArticleListObject(prev => ({...prev, [currentOrigin]: []}));
     setArticlePageObject(prev => ({...prev, [currentOrigin]: 0}));
-  }, [currentOrigin]);
+  }, [setArticleListObject, setArticlePageObject, currentOrigin]);
 
   const loadNewArticlesByOrigin = async (
     origin: AnnouncementOriginNameType,
   ) => {
     setIsPending(true);
+
     try {
       const params = {
         origin,
         page: articlePageObject[origin],
         size: ELEMENTS_PER_PAGE,
       };
+
       const res = await AnnouncementAPI.getAnnouncements(params);
 
       const idList = await getBookmarkIdList();
@@ -106,11 +108,9 @@ const AnnouncementMainScreen = () => {
         ...prev,
         [origin]: prev[origin] + 1,
       }));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsPending(false);
-    }
+    } catch (error) {}
+
+    setIsPending(false);
   };
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
