@@ -1,6 +1,6 @@
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import BookmarkAPI from '../../../../../api/services/util/bookmark/bookmarkAPI';
 import useBookmarkOnLocal from '../../../../../hooks/useBookmarkOnLocal';
@@ -28,7 +28,7 @@ const ArticleItem = ({
   const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
     useState(isBookmarkedByMe);
 
-  const {saveBookmarkOnLocal, getBookmarkIdList} = useBookmarkOnLocal();
+  const {saveBookmarkOnLocal} = useBookmarkOnLocal();
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
@@ -146,4 +146,4 @@ const S = {
   `,
 };
 
-export default ArticleItem;
+export default memo(ArticleItem);
