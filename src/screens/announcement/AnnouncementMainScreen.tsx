@@ -21,7 +21,7 @@ import {AnnouncementOriginNameType} from '../../api/services/util/announcement/a
 import useModal from '../../hooks/useModal';
 import Spinner from '../../components/atoms/spinner/Spinner';
 import {ArticleItemType} from '../../types/announcement.type';
-import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
+import useBookmark from '../../hooks/useBookmark';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 
 const ELEMENTS_PER_PAGE = 10;
@@ -44,7 +44,7 @@ const AnnouncementMainScreen = () => {
   const inputRef = useRef<TextInput>(null);
   const listRef = useRef<FlatList>(null);
 
-  const {getBookmarkIdList} = useBookmarkOnLocal();
+  const {getBookmarkIdList} = useBookmark();
 
   const [articleListObject, setArticleListObject] = useState<{
     [key in AnnouncementOriginNameType]: ArticleItemType[];

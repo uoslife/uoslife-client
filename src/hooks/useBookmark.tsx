@@ -1,16 +1,10 @@
-/* 
-  TODO: 
-    해당 훅 포함하여 로컬스토리지에 id 저장하고 사용하는 로직 날리고,
-    개별 endpoint에서 북마크 정보를 받아오도록 고치기
- */
-
 import {useCallback} from 'react';
 import BookmarkAPI from '../api/services/util/bookmark/bookmarkAPI';
 import storage from '../storage';
 
 const BOOKMARK_ID_LIST_LITERAL = 'bookmark-id-list';
 
-const useBookmarkOnLocal = () => {
+const useBookmark = () => {
   const loadBookmarkOnLocal = useCallback(() => {
     const idListJson = storage.getString(BOOKMARK_ID_LIST_LITERAL);
     return idListJson ? (JSON.parse(idListJson) as number[]) : null;
@@ -43,4 +37,4 @@ const useBookmarkOnLocal = () => {
   };
 };
 
-export default useBookmarkOnLocal;
+export default useBookmark;

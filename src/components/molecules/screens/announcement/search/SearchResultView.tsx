@@ -2,7 +2,7 @@ import {Txt} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useCallback, useEffect, useState} from 'react';
 import {ArticleItemType} from '../../../../../types/announcement.type';
-import useBookmarkOnLocal from '../../../../../hooks/useBookmarkOnLocal';
+import useBookmark from '../../../../../hooks/useBookmark';
 import ArticleList from '../article-list/ArticleList';
 import AnnouncementAPI from '../../../../../api/services/util/announcement/announcementAPI';
 import Spinner from '../../../../atoms/spinner/Spinner';
@@ -26,7 +26,7 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
   );
   const [page, setPage] = useState(0);
 
-  const {getBookmarkIdList} = useBookmarkOnLocal();
+  const {getBookmarkIdList} = useBookmark();
 
   const loadNewArticles = useCallback(async () => {
     try {

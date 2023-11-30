@@ -5,7 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ArticleItemType} from '../../types/announcement.type';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
+import useBookmark from '../../hooks/useBookmark';
 import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
 import Header from '../../components/molecules/common/header/Header';
 import Spinner from '../../components/atoms/spinner/Spinner';
@@ -49,7 +49,7 @@ const AnnouncementBookmarkBoxScreen = () => {
   };
   const [isPending, setIsPending] = useState(true);
 
-  const {getBookmarkIdList} = useBookmarkOnLocal();
+  const {getBookmarkIdList} = useBookmark();
 
   // TODO: 요청에 페이지네이션 적용(현재는 경우에 따라 불필요한 통신량이 추가로 생김)
   useEffect(() => {

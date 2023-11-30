@@ -10,7 +10,7 @@ import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementContent';
 import Spinner from '../../components/atoms/spinner/Spinner';
-import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
+import useBookmark from '../../hooks/useBookmark';
 
 const AnnouncementDetailScreen = ({
   route: {
@@ -22,7 +22,7 @@ const AnnouncementDetailScreen = ({
   // TODO: API 호출 관련 상태관리 로직 - custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  const {getBookmarkIdList} = useBookmarkOnLocal();
+  const {getBookmarkIdList} = useBookmark();
 
   useEffect(() => {
     (async () => {

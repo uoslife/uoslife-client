@@ -7,7 +7,7 @@ import AnnouncementDetailScreenBookmarkToggle from './AnnouncementDetailScreenBo
 import {announcementFullName} from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
-import useBookmarkOnLocal from '../../../../../hooks/useBookmarkOnLocal';
+import useBookmark from '../../../../../hooks/useBookmark';
 import BookmarkAPI from '../../../../../api/services/util/bookmark/bookmarkAPI';
 
 const AnnouncementDetailScreenContent = ({
@@ -32,7 +32,7 @@ const AnnouncementDetailScreenContent = ({
   const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
     useState<boolean>(isBookmarkedByMe);
 
-  const {saveBookmarkOnLocal} = useBookmarkOnLocal();
+  const {saveBookmarkOnLocal} = useBookmark();
 
   const onPressBookmarkToggle = async () => {
     if (isBookmarkedByMeOnClient) {

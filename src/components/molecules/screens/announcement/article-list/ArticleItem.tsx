@@ -3,7 +3,7 @@ import {Icon, Txt} from '@uoslife/design-system';
 import React, {useState, memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import BookmarkAPI from '../../../../../api/services/util/bookmark/bookmarkAPI';
-import useBookmarkOnLocal from '../../../../../hooks/useBookmarkOnLocal';
+import useBookmark from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
@@ -28,7 +28,7 @@ const ArticleItem = ({
   const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
     useState(isBookmarkedByMe);
 
-  const {saveBookmarkOnLocal} = useBookmarkOnLocal();
+  const {saveBookmarkOnLocal} = useBookmark();
 
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
