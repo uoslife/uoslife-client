@@ -5,16 +5,25 @@ export const get = async <T extends unknown>(
   url: string,
 ): KyJsonResponse<T> => {
   const getRes = await apiClient.get(url);
-  return await getRes.json();
+  const getJsonRes = (await getRes.json()) as KyJsonResponse<T>;
+  return getJsonRes;
 };
 
 export const post = async <T extends unknown>(
   url: string,
   body?: unknown,
 ): KyJsonResponse<T> => {
-  const postRes = await apiClient.post(url, body ? {json: body} : undefined);
-  return await postRes.json();
+  const postRes = body
+    ? await apiClient.post(url, {json: body})
+    : await apiClient.post(url);
+  try {
+    const postJsonRes = (await postRes.json()) as KyJsonResponse<T>;
+    return postJsonRes;
+  } catch (error) {
+    return null as unknown as KyJsonResponse<T>;
+  }
 };
+
 export const patch = async <T extends unknown>(
   url: string,
   body: unknown,

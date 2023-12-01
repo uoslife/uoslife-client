@@ -4,7 +4,7 @@ import {useAtom} from 'jotai';
 import {
   AnnouncmentCategoryOriginType,
   categoryStatusAtom,
-} from '../../../../../atoms/announcement';
+} from '../../../../../store/announcement';
 import TabButton from './TabButton';
 
 const CategoryTab = () => {

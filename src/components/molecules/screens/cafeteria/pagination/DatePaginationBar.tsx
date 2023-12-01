@@ -1,18 +1,35 @@
 import React, {useState} from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
+import {useAtom, useSetAtom} from 'jotai';
 import DatePaginationProps from './DatePaginationBar.type';
+import {
+  cafeteriaCommonDateAtom,
+  cafeteriaDisplayDateAtom,
+  cafeteriaMealTimeAtom,
+} from '../../../../../store/cafeteria';
+import {MealTimeType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
 
 const MIN_PAGE = 0;
 const MAX_PAGE = 6;
+const DEFAULT_MEALTIME = 'LUNCH' as MealTimeType;
 
-const DatePaginationBar = ({
-  date,
-  displayDate,
-  changeCafeteriaByDate,
-}: DatePaginationProps) => {
+const DatePaginationBar = ({date}: DatePaginationProps) => {
   const [currentPage, setCurrentPage] = useState<number>(date.day);
   const {thisWeekCommonDates, thisWeekDisplayDates} = date;
+
+  const setCafeteriaMealTime = useSetAtom(cafeteriaMealTimeAtom);
+  const setCafeteriaCommonDate = useSetAtom(cafeteriaCommonDateAtom);
+  const [cafeteriaDisplayDate, setCafeteriaDisplayDate] = useAtom(
+    cafeteriaDisplayDateAtom,
+  );
+
+  const changeCafeteriaDate = (commonDate: string, displayDate: string) => {
+    setCafeteriaMealTime(DEFAULT_MEALTIME);
+    setCafeteriaCommonDate(commonDate);
+    setCafeteriaDisplayDate(displayDate);
+  };
+
   const handleClickPageButton = (type: 'BACKWARD' | 'FORWARD') => {
     if (
       (currentPage === MIN_PAGE && type === 'BACKWARD') ||
@@ -22,14 +39,14 @@ const DatePaginationBar = ({
 
     switch (type) {
       case 'BACKWARD':
-        changeCafeteriaByDate(
+        changeCafeteriaDate(
           thisWeekCommonDates[currentPage - 1],
           thisWeekDisplayDates[currentPage - 1],
         );
         setCurrentPage(prev => prev - 1);
         break;
       case 'FORWARD':
-        changeCafeteriaByDate(
+        changeCafeteriaDate(
           thisWeekCommonDates[currentPage + 1],
           thisWeekDisplayDates[currentPage + 1],
         );
@@ -50,9 +67,11 @@ const DatePaginationBar = ({
         )}
       </TabBarButton>
 
-      {displayDate && (
-        <Txt label={displayDate} color="grey150" typograph="titleMedium" />
-      )}
+      <Txt
+        label={cafeteriaDisplayDate}
+        color="grey150"
+        typograph="titleMedium"
+      />
 
       <TabBarButton
         onPress={() => handleClickPageButton('FORWARD')}

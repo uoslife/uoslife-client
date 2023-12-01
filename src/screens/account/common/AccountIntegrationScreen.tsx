@@ -1,41 +1,26 @@
+import React from 'react';
+import {Dimensions, Pressable, View} from 'react-native';
+import {useAtom} from 'jotai';
 import styled from '@emotion/native';
-import React, {useState} from 'react';
-import {Pressable, ScrollView, View, Dimensions} from 'react-native';
-import {useAtom, useSetAtom} from 'jotai';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import Header from '../../../components/molecules/common/header/Header';
-
 import {
-  accountFlowStatusAtom,
-  existedAccountInfoAtom,
   ExistedAccountInfoType,
-} from '../../../atoms/account';
-
-const MOCK_DATA = [
-  {
-    id: '1234-1234',
-    nickname: 'dff',
-    username: 'example',
-    isSelected: false,
-  },
-  {
-    id: '1234-12343',
-    nickname: 'null',
-    username: 'example',
-    isSelected: false,
-  },
-];
+  existedAccountInfoAtom,
+} from '../../../store/account';
+import useAccountFlow from '../../../hooks/useAccountFlow';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const HEADER_TO_TXT_HEIGHT = 270; // 헤더부터 설명 문구('선택한 ~ 삭제됩니다')까지의 높이
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
-  const setAccountFlowStatus = useSetAtom(accountFlowStatusAtom);
   const [existedAccountInfo, setExistedAccountInfo] = useAtom(
     existedAccountInfoAtom,
   );
+  const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
 
   const selectExistedAccount = (selectedAccount: ExistedAccountInfoType) => {
     setExistedAccountInfo(prev => {
@@ -47,13 +32,19 @@ const AccountIntegrationScreen = () => {
     });
   };
 
-  const handlePressButton = () => {
-    setAccountFlowStatus(prev => {
-      return {
-        ...prev,
-        stepStatus: {userType: prev.stepStatus.userType, step: 1},
-      };
+  const handlePressHeaderBackButton = () =>
+    changeAccountFlow({
+      commonFlowName: 'SIGNIN',
+      isResetSignUpFlow: true,
     });
+
+  const handlePressNextButton = () => {
+    const hasSelected = existedAccountInfo.some(
+      item => item.isSelected === true,
+    );
+    if (!hasSelected) return;
+
+    increaseSignUpFlowStep();
   };
 
   return (
@@ -61,17 +52,7 @@ const AccountIntegrationScreen = () => {
       style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
       <Header
         label="계정 통합"
-        onPressBackButton={() =>
-          setAccountFlowStatus(prev => {
-            return {
-              ...prev,
-              stepStatus: {
-                userType: 'NONE',
-                step: 0,
-              },
-            };
-          })
-        }
+        onPressBackButton={handlePressHeaderBackButton}
       />
       <S.accountIntegrationContainer>
         <View style={{gap: 24}}>
@@ -111,7 +92,7 @@ const AccountIntegrationScreen = () => {
         <S.buttonArea>
           <Button
             label="계정 통합하기"
-            onPress={handlePressButton}
+            onPress={handlePressNextButton}
             isEnabled={existedAccountInfo.some(
               item => item.isSelected === true,
             )}
@@ -123,11 +104,13 @@ const AccountIntegrationScreen = () => {
   );
 };
 
-const getBorderColor = (isSelected: boolean) => {
+const getBorderColor = (isSelected?: boolean) => {
   switch (isSelected) {
     case true:
       return colors.primaryBrand;
     case false:
+      return colors.grey40;
+    default:
       return colors.grey40;
   }
 };
@@ -144,7 +127,7 @@ const S = {
   idContainer: styled.ScrollView`
     padding-bottom: 16px;
   `,
-  idButtonSelected: styled.View<{isSelected: boolean}>`
+  idButtonSelected: styled.View<{isSelected?: boolean}>`
     border-radius: 10px;
     margin-bottom: 16px;
     padding: 16px;

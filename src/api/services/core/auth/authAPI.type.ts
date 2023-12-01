@@ -1,7 +1,14 @@
-type AuthTokenDefaultRes = {
+export type AuthTokenDefaultRes = {
   accessToken: string;
   refreshToken: string;
+  tempToken: string;
 };
+export type UserStatusType =
+  | 'REGISTERED'
+  | 'NOT_REGISTERED'
+  | 'MIGRATION_NEEDED'
+  | 'DELETED';
+
 export type MigrationUserInfoType = {
   id: string;
   nickname: string | null;
@@ -45,8 +52,7 @@ export type SignInParams = {
 export type SignInRes = {
   token: AuthTokenDefaultRes;
   migrationUserInfo: Array<MigrationUserInfoType>;
-  migrationNeeded: boolean;
-  isTokenEmpty: boolean;
+  userStatus: UserStatusType;
 };
 
 export type GetRefreshTokenRes = AuthTokenDefaultRes;

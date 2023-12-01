@@ -5,15 +5,16 @@ import UserService from '../../services/user';
 import storeToken from '../../utils/storeToken';
 
 const handleToken: AfterResponseHook = async (request, _options, response) => {
-  const refreshToken = storage.getString('refreshToken');
+  const refreshTokenInStorage = storage.getString('refreshToken');
   if (response.status !== 401 || request.url.includes('refresh')) {
     return response;
   }
   try {
-    request.headers.set('Authorization', `Bearer ${refreshToken}`);
+    request.headers.set('Authorization', `Bearer ${refreshTokenInStorage}`);
     const res = await CoreAPI.getRefreshToken({});
     if (res) {
-      storeToken(res.accessToken, res.refreshToken);
+      const {accessToken, refreshToken} = res;
+      storeToken({accessToken, refreshToken});
       return ky(request);
     }
   } catch (error) {

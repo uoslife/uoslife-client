@@ -1,15 +1,13 @@
+/* eslint-disable consistent-return */
 import styled from '@emotion/native';
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {useAtom, useAtomValue} from 'jotai';
+import {useAtomValue} from 'jotai';
 import {Button, Txt} from '@uoslife/design-system';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {
-  accountFlowStatusAtom,
-  existedAccountInfoAtom,
-} from '../../../atoms/account';
+import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
 
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
@@ -18,9 +16,14 @@ import AdvertisingAgreementResult from '../../../components/molecules/screens/ac
 
 import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
-import {ErrorResponseType} from '../../../api/services/type';
 import useModal from '../../../hooks/useModal';
 import UserService from '../../../services/user';
+import useAccountFlow from '../../../hooks/useAccountFlow';
+import customShowToast from '../../../configs/toast';
+import useUserState from '../../../hooks/useUserState';
+import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
+
+const NICKNAME_MAX_LENGTH = 8;
 
 type NicknameStatusMessageType =
   | 'BEFORE_CHECK'
@@ -31,11 +34,12 @@ type NicknameStatusMessageType =
 const SetNicknameScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const route = useRoute();
-  const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
-  const [accountStatus, setAccountStatus] = useAtom(accountFlowStatusAtom);
 
-  const isMyPage = route.name === 'Mypage_changeNickname';
+  const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
+  const accountFlow = useAtomValue(accountFlowAtom);
+  const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
+  const {setUserInfo} = useUserState();
+  const [isMyPage] = useIsCurrentScreen('Mypage_changeNickname');
 
   const selectedAccountInfo = existedAccountInfo.find(
     item => item.isSelected === true,
@@ -46,12 +50,22 @@ const SetNicknameScreen = () => {
   const [statusMessage, setStatusMessage] =
     useState<NicknameStatusMessageType>('BEFORE_CHECK');
 
-  const [openBottomSheet, _, BottomSheet] = useModal('BOTTOM_SHEET');
-  const [openModal, __, Modal] = useModal('MODAL');
+  const [openBottomSheet, , BottomSheet] = useModal('BOTTOM_SHEET');
+  const [openModal, , Modal] = useModal('MODAL');
 
   const handleSetNicknameButton = async () => {
-    // TODO: 사용 불가능 닉네임 로직 추가
-    // setStatusMessage('CANNOT_USE');
+    if (inputValue.length > NICKNAME_MAX_LENGTH) {
+      setStatusMessage('CANNOT_USE');
+      return;
+    }
+
+    if (
+      accountFlow.signUpFlow.signUpUser === 'MIGRATION' &&
+      selectedAccountInfo?.nickname === inputValue
+    ) {
+      openBottomSheet();
+      return;
+    }
 
     try {
       const CheckDuplicateUserNicknameRes =
@@ -64,13 +78,20 @@ const SetNicknameScreen = () => {
       }
       setStatusMessage('CAN_USE');
       if (isMyPage) {
+        try {
+          await CoreAPI.changeNickname({nickname: inputValue});
+          await UserService.updateUserInfo(setUserInfo);
+          customShowToast('changeNickname');
+          navigation.goBack();
+        } catch (error) {
+          console.log(error);
+          customShowToast('changeNicknameError');
+        }
         return;
-        // TODO: 닉네임 업데이트 API 연동 필요
       }
       openBottomSheet();
     } catch (err) {
-      const error = err as ErrorResponseType;
-      console.error(error);
+      console.error(err);
     }
   };
 
@@ -86,7 +107,7 @@ const SetNicknameScreen = () => {
         tos: {
           privatePolicy: true,
           termsOfUse: true,
-          notification: false,
+          notification: false, // TODO: notification 동의 여부 받아오도록 수정
           marketing: isAdvertismentAgree,
         },
         migrationUserInfo: selectedAccountInfo ?? null,
@@ -94,6 +115,7 @@ const SetNicknameScreen = () => {
       await UserService.onRegister({
         accessToken: signUpRes.accessToken,
         refreshToken: signUpRes.refreshToken,
+        setUserInfo,
         setNotLoggedIn: true,
       });
       openModal();
@@ -102,11 +124,9 @@ const SetNicknameScreen = () => {
     }
   };
   const handleClickSubmitModalButton = () => {
-    setAccountStatus(prev => {
-      return {
-        ...prev,
-        portalStatus: {isPortalStep: true, step: 0},
-      };
+    changeAccountFlow({
+      commonFlowName: 'PORTAL_VERIFICATION',
+      isResetSignUpFlow: true,
     });
   };
 
@@ -152,28 +172,16 @@ const SetNicknameScreen = () => {
           label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
             if (isMyPage) return navigation.goBack();
-            switch (accountStatus.stepStatus.userType) {
-              case 'EXISTED':
-                setAccountStatus(prev => {
-                  return {
-                    ...prev,
-                    stepStatus: {
-                      userType: 'EXISTED',
-                      step: 0,
-                    },
-                  };
-                });
+            switch (accountFlow.signUpFlow.signUpUser) {
+              case 'MIGRATION':
+                decreaseSignUpFlowStep();
+                break;
+              case 'DELETED':
+                decreaseSignUpFlowStep();
                 break;
               case 'NEW':
-                setAccountStatus(prev => {
-                  return {
-                    ...prev,
-                    stepStatus: {
-                      userType: 'NONE',
-                      step: 0,
-                    },
-                  };
-                });
+                changeAccountFlow({commonFlowName: 'SIGNIN'});
+                break;
             }
           }}
         />
@@ -199,7 +207,7 @@ const SetNicknameScreen = () => {
             </View>
             <Input
               onChangeText={onChangeText}
-              maxLength={8}
+              maxLength={NICKNAME_MAX_LENGTH}
               onPress={onPressInputDelete}
               value={inputValue}
               label="닉네임"

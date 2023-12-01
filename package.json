@@ -32,6 +32,7 @@
     "@uoslife/react": "^1.0.14",
     "base-64": "^1.0.0",
     "jotai": "^2.3.1",
+    "jotai-cache": "^0.3.0",
     "ky": "^0.33.3",
     "react": "18.2.0",
     "react-native": "0.71.10",
@@ -51,6 +52,7 @@
     "react-native-safe-area-context": "^4.7.1",
     "react-native-screens": "^3.20.0",
     "react-native-svg": "^13.14.0",
+    "react-native-toast-message": "^2.1.7",
     "react-native-url-polyfill": "^1.3.0",
     "react-native-webview": "^13.2.1",
     "yarn": "^1.22.19"
