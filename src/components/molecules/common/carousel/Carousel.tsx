@@ -3,6 +3,7 @@ import {Txt} from '@uoslife/design-system';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeSyntheticEvent, NativeScrollEvent, FlatList} from 'react-native';
 import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
+import {ONBOARDING_1} from '../../../../assets/images/images';
 
 type IndicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
 
@@ -71,12 +72,12 @@ const Carousel = ({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={onMomentumScrollEnd}
-        data={Array.from({length: imageUrlsLength})}
+        data={imageUrls}
         renderItem={({item}) => {
           return (
             <S.CarouselImage
               style={{width: imageWidth, height: imageHeight}}
-              source={require('../../../../assets/images/banner_sample_img.png')}
+              source={item as any}
             />
           );
         }}
