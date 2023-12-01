@@ -17,6 +17,7 @@ import storage from '../../../storage';
 
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
+import customShowToast from '../../../configs/toast';
 
 type PortalVerificationStatusMessageType =
   | 'BEFORE_VERIFICATION'
@@ -80,10 +81,6 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePostponePortalAuth = () => {
-    if (isNotAccountFlow) {
-      navigation.navigate('StudentId');
-      return;
-    }
     changeAccountFlow({commonFlowName: 'FINISH'});
   };
 
@@ -97,6 +94,11 @@ const PortalAuthenticationScreen = () => {
         username: inputValue.id,
         password: inputValue.password,
       });
+      if (isNotAccountFlow) {
+        customShowToast('portalAuthenticationSuccess');
+        navigation.goBack();
+        return;
+      }
       changeAccountFlow({commonFlowName: 'FINISH'});
     } catch (err) {
       const error = err as ErrorResponseType;
