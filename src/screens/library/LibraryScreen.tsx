@@ -5,7 +5,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import LibraryUserInfo from '../../components/molecules/screens/library/LibraryUserInfo';
-import {LibraryStatus} from '../../components/molecules/screens/library/LibararyStatus';
+import LibrarySeatStatus from '../../components/molecules/screens/library/LibararySeatStatus';
 import Header from '../../components/molecules/common/header/Header';
 
 const LibraryScreen = () => {
@@ -21,11 +21,11 @@ const LibraryScreen = () => {
 
   return (
     <ScrollView style={{paddingTop: insets.top}} bounces={false}>
-      <S.screenContainer>
+      <S.ScreenContainer>
         <Header label="도서관" onPressBackButton={handleGoBack} />
         <LibraryUserInfo />
-        <LibraryStatus />
-      </S.screenContainer>
+        <LibrarySeatStatus />
+      </S.ScreenContainer>
     </ScrollView>
   );
 };
@@ -33,7 +33,7 @@ const LibraryScreen = () => {
 export default LibraryScreen;
 
 const S = {
-  screenContainer: styled.View`
+  ScreenContainer: styled.View`
     height: 100%;
     width: 100%;
     align-items: center;
