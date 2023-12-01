@@ -50,7 +50,7 @@ const Carousel = ({
   };
 
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay) return () => null;
     const carouselInterval = setInterval(() => {
       if (currentIndex === imageUrlsLength) {
         setIndex(0);
@@ -59,7 +59,8 @@ const Carousel = ({
       setIndex(currentIndex);
     }, autoPlayIntervalTime);
     return () => clearInterval(carouselInterval);
-  }, [currentIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, setIndex]);
 
   return (
     <S.CarouselContainer indicator={indicator}>
