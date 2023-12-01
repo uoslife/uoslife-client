@@ -70,7 +70,7 @@ const AccountIntegrationScreen = () => {
           </View>
           <S.idContainer style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT}}>
             {existedAccountInfo.map(item => (
-              <View>
+              <View key={item.id}>
                 {item.nickname && (
                   <Pressable
                     key={item.id}
