@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import styled from '@emotion/native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -30,10 +30,10 @@ const AnnouncementSearchScreen = ({
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
-  const navigateToNewSearchScreen = (searchWord: string) => {
+  const navigateToNewSearchScreen = (word: string) => {
     // 1. 입력된 검색어로 새로운 검색 결과 screen stack 생성
     navigation.push('AnnouncementSearch', {
-      initialSearchWord: searchWord,
+      initialSearchWord: word,
     });
     // 2. 새로운 screen stack에서 뒤로가기를 눌렀을 때, 이전의 검색결과 페이지로 복귀
     setTimeout(() => {
@@ -73,14 +73,14 @@ const AnnouncementSearchScreen = ({
     value: searchWord,
   };
 
-  const onHeaderBackPress = () => {
+  const onHeaderBackPress = useCallback(() => {
     if (isSearchWordEntering) {
       setSearchWordEntering(false);
       inputRef.current?.blur();
     } else {
       navigation.goBack();
     }
-  };
+  }, [setSearchWordEntering, isSearchWordEntering, inputRef, navigation]);
 
   useEffect(() => {
     const keyboardDidHideListener = () => {
