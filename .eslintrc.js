@@ -65,6 +65,7 @@ module.exports = {
       },
     ],
     'react-native/no-inline-styles': 'off',
+    radix: 'off',
   },
   plugins: ['prettier'],
   ignorePatterns: ['**/storybook-static'],

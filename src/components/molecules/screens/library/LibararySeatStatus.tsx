@@ -1,22 +1,23 @@
 import styled from '@emotion/native';
-import {Txt, colors} from '@uoslife/design-system';
+import {Txt} from '@uoslife/design-system';
 
 import {useEffect, useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import LibraryRoomItem from './LibraryRoomItem';
 import {UtilAPI} from '../../../../api/services';
 import {GetAllLibraryStatusRes} from '../../../../api/services/util/library/libraryAPI.type';
 import LibraryStatusCard from './LibraryStatusCard';
 
-export const LibraryStatus = () => {
+const LibrarySeatStatus = () => {
   const insets = useSafeAreaInsets();
   const [libraryStatus, setLibraryStatus] = useState<GetAllLibraryStatusRes>();
+
   useEffect(() => {
     (async () => {
       const libraryStatusRes = await UtilAPI.getAllLibraryStatus({});
       setLibraryStatus(libraryStatusRes);
     })();
   }, []);
+
   return (
     <S.seatStatusWrapper style={{paddingBottom: insets.bottom}}>
       <Txt
@@ -41,6 +42,8 @@ export const LibraryStatus = () => {
     </S.seatStatusWrapper>
   );
 };
+
+export default LibrarySeatStatus;
 
 const S = {
   seatStatusWrapper: styled.View`

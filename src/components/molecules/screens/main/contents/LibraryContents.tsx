@@ -1,13 +1,14 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
+import {useAtom} from 'jotai';
+import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
-
-import {useNavigation} from '@react-navigation/native';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import UtilityService from '../../../../../services/utility';
 import {LibraryReservationType} from '../../../../../api/services/util/library/libraryAPI.type';
 import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
+import libraryReservationAtom from '../../../../../store/library';
 
 const LibraryContentsInUsing = ({
   seatRoomName,
@@ -59,22 +60,24 @@ const LibraryContentsInNotUsing = () => {
 };
 
 const LibraryContents = () => {
-  const [libraryInfo, setLibraryInfo] = useState<LibraryReservationType>();
+  const [{reservationInfo}, setLibraryReservation] = useAtom(
+    libraryReservationAtom,
+  );
 
   useEffect(() => {
     (async () => {
-      const libraryReservationInfo =
-        await UtilityService.getLibraryReservationInfo();
-      setLibraryInfo(libraryReservationInfo);
+      const res = await UtilityService.getLibraryReservation();
+      setLibraryReservation(res);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <CardLayout>
-      {libraryInfo ? (
+      {reservationInfo ? (
         <LibraryContentsInUsing
-          seatRoomName={libraryInfo!.seatRoomName}
-          seatNo={libraryInfo!.seatNo}
+          seatRoomName={reservationInfo.seatRoomName}
+          seatNo={reservationInfo.seatNo}
         />
       ) : (
         <LibraryContentsInNotUsing />
