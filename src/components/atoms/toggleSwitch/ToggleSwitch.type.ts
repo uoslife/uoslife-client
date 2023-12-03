@@ -1,6 +1,8 @@
+import {PressableProps} from 'react-native';
+
 export type ToggleSwitchProps = {
   isOn?: boolean;
-  onToggle?: () => void;
+  onToggle?: PressableProps['onPress'];
 };
 
 export default ToggleSwitchProps;
