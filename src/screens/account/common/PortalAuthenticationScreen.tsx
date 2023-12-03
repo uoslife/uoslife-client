@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import {Pressable, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Platform, Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
 
+import KeyboardManager from 'react-native-keyboard-manager';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -19,6 +20,11 @@ import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
 
+if (Platform.OS === 'ios') {
+  KeyboardManager.setEnable(true);
+  KeyboardManager.setEnableDebugging(true);
+}
+
 type PortalVerificationStatusMessageType =
   | 'BEFORE_VERIFICATION'
   | 'UNFILLED_INPUT'
@@ -27,6 +33,7 @@ type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
+  const passwordRef = useRef<TextInput | null>(null);
 
   const navigation = useNavigation<RootTabNavigationProps>();
   const [isNotAccountFlow] = useIsCurrentScreen([
@@ -146,6 +153,9 @@ const PortalAuthenticationScreen = () => {
               label="포털 아이디"
               status={handleInputStatus(messageStatus)}
               placeholder="아이디"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+              returnKeyType="next"
+              blurOnSubmit={false}
             />
             <Input
               onChangeText={text => onChangeText(text, 'password')}
@@ -156,6 +166,9 @@ const PortalAuthenticationScreen = () => {
               status={handleInputStatus(messageStatus)}
               statusMessage={handleInputStatusMessage(messageStatus)}
               placeholder="비밀번호"
+              ref={passwordRef}
+              returnKeyType="done"
+              onSubmitEditing={handleSubmit}
             />
           </View>
         </View>
