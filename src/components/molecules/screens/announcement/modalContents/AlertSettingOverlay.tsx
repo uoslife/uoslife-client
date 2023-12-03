@@ -11,6 +11,11 @@ const AlertSettingOverlay = () => {
   const [isNotificationAgree, setIsNotificationAgree] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [firstToggle, setFirstToggle] = useState(false);
+  const [secondToggle, setSecondToggle] = useState(false);
+  const [thirdToggle, setThirdToggle] = useState(false);
+  const [fourthToggle, setFourthToggle] = useState(false);
+
   useEffect(() => {
     (async () => {
       const [isAuthorizedStatus] = await Promise.all([
@@ -51,24 +56,24 @@ const AlertSettingOverlay = () => {
             )}
           </S.Description>
           <BottomSheetToggleItem
-            isOn={false}
+            isOn={firstToggle}
             description="일반공지"
-            onPress={() => {}}
+            onPress={() => setFirstToggle(prev => !prev)}
           />
           <BottomSheetToggleItem
-            isOn={false}
+            isOn={secondToggle}
             description="학사공지"
-            onPress={() => {}}
+            onPress={() => setSecondToggle(prev => !prev)}
           />
           <BottomSheetToggleItem
-            isOn={false}
+            isOn={thirdToggle}
             description="직원채용"
-            onPress={() => {}}
+            onPress={() => setThirdToggle(prev => !prev)}
           />
           <BottomSheetToggleItem
-            isOn={false}
+            isOn={fourthToggle}
             description="창업공지"
-            onPress={() => {}}
+            onPress={() => setFourthToggle(prev => !prev)}
           />
           {!isNotificationAgree && (
             <Button
