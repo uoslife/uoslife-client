@@ -12,6 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3A6335592AB3707500C79702 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3A6335582AB3707500C79702 /* Fonts */; };
+		3A65699D2B1D20E50092E1FB /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A65699C2B1D20E50092E1FB /* Swift.swift */; };
 		3AB70A862B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
 		3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
 		796BCCE1154A961B4CD93FDD /* libPods-uoslife-prod-uoslifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */; };
@@ -46,6 +47,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = uoslife/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = uoslife/main.m; sourceTree = "<group>"; };
 		3A6335582AB3707500C79702 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		3A65699B2B1D20E50092E1FB /* uoslife-prod-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uoslife-prod-Bridging-Header.h"; sourceTree = "<group>"; };
+		3A65699C2B1D20E50092E1FB /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-uoslife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.debug.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.debug.xcconfig"; sourceTree = "<group>"; };
 		3EA239D6AACDAC8A41678887 /* Pods-uoslife-prod.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod.debug.xcconfig"; sourceTree = "<group>"; };
@@ -151,6 +154,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3A65699C2B1D20E50092E1FB /* Swift.swift */,
 				3A6335582AB3707500C79702 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* uoslife */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -158,6 +162,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				3A65699B2B1D20E50092E1FB /* uoslife-prod-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -300,7 +305,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1430;
 					};
 				};
 			};
@@ -660,6 +665,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				3A65699D2B1D20E50092E1FB /* Swift.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,6 +694,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B4768FD53E21C54A3B4F637 /* Pods-uoslife-prod-uoslifeTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8D6H7NVXQW;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -720,6 +727,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BFC3F492FBD70B66EEF3A522 /* Pods-uoslife-prod-uoslifeTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 8D6H7NVXQW;
@@ -774,6 +782,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "uoslife-prod-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -809,6 +818,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "uoslife-prod-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
