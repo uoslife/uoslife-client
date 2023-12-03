@@ -69,3 +69,7 @@ storybook-static
 
 # env
 .env
+
+# Sentry
+ios/sentry.properties
+android/sentry.properties
