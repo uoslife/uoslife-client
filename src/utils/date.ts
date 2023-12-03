@@ -79,13 +79,15 @@ export default class DateUtils {
   }
 
   get commonDate() {
-    return `${this._year}-${this._month}-${this._date}`;
+    return `${this._year}-${this.addZero(this._month)}-${this.addZero(
+      this._date,
+    )}`;
   }
 
   get displayDate() {
-    return `${this.year}.${this.month}.${this.date} (${
-      this.korDays[this.day]
-    })`;
+    return `${this.year}.${this.addZero(this.month)}.${this.addZero(
+      this.date,
+    )} (${this.korDays[this.day]})`;
   }
 
   get currentMealTime(): MealTimeType {
@@ -104,14 +106,21 @@ export default class DateUtils {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  addZero(number: number) {
+    if (number >= 10) return number.toString();
+    return `0${number}`;
+  }
+
   generateCommonDate(date: Date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return `${date.getFullYear()}-${this.addZero(
+      date.getMonth() + 1,
+    )}-${this.addZero(date.getDate())}`;
   }
 
   generateDisplayDate(date: Date) {
-    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} (${
-      this.korDays[date.getDay()]
-    })`;
+    return `${date.getFullYear()}.${this.addZero(
+      date.getMonth() + 1,
+    )}.${this.addZero(date.getDate())} (${this.korDays[date.getDay()]})`;
   }
 
   generateWeekCommonDates() {
