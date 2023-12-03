@@ -18,6 +18,7 @@ const ArticleList = forwardRef<FlatList, ArticleListProps>(
     return (
       <FlatList
         ref={ref}
+        scrollIndicatorInsets={{right: 1}}
         contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}
         renderItem={({item}) => (
           <ArticleItem
