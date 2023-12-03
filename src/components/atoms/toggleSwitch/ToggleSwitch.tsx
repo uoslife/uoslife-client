@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Animated, StyleSheet, Pressable, Easing, Platform} from 'react-native';
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
 import ToggleSwitchProps from './ToggleSwitch.type';
 
 const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
+  const animatedValue = useMemo(() => new Animated.Value(isOn ? 0 : 1), [isOn]);
+
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: isOn ? 1 : 0,
@@ -12,9 +14,7 @@ const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
       easing: Easing.linear,
       useNativeDriver: false,
     }).start();
-  }, [isOn]);
-
-  const animatedValue = new Animated.Value(isOn ? 0 : 1);
+  }, [animatedValue, isOn]);
 
   const switchTranslateX = animatedValue.interpolate({
     inputRange: [0, 1],
