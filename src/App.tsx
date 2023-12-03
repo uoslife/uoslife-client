@@ -7,7 +7,6 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
 import * as Sentry from '@sentry/react-native';
-// @ts-ignore
 import {SENTRY_DSN_KEY} from '@env';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import NotificationService from './services/notification';

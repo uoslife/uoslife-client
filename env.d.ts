@@ -1,4 +1,3 @@
 declare module '@env' {
-  export const DEV_ACCESS_TOKEN: string;
-  export const DEV_REFRESH_TOKEN: string;
+  export const SENTRY_DSN_KEY: string;
 }
