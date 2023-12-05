@@ -7,8 +7,11 @@ import {
   FlatList,
   Pressable,
   Linking,
+  Platform,
 } from 'react-native';
 import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
+
+const INIT_DISPLAY_INDEX = 1;
 
 type IndicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
 type CarouselData = {uri: any; link?: string};
@@ -31,8 +34,11 @@ const Carousel = ({
   autoPlayIntervalTime = 3000,
 }: CarouselProps) => {
   const carouselRef = useRef<FlatList>(null);
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const imageUrlsLength = carouselData.length;
+  const [currentDisplayIndex, setCurrentDisplayIndex] =
+    useState(INIT_DISPLAY_INDEX);
+  const [isMomentum, setIsMomentum] = useState(false);
+
+  const carouselDataLength = carouselData.length;
 
   const setIndex = useCallback((index: number) => {
     carouselRef.current?.scrollToIndex({
@@ -41,33 +47,44 @@ const Carousel = ({
     });
   }, []);
 
+  const onMomentumScrollBegin = () => {
+    setIsMomentum(true);
+  };
+
   const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentContentOffset = e.nativeEvent.contentOffset.x;
-    const imageWidth = e.nativeEvent.layoutMeasurement.width;
-
-    setCurrentIndex(Math.floor(currentContentOffset / imageWidth + 1));
-    if (currentIndex === imageUrlsLength) setIndex(0);
+    const carouselWidth = e.nativeEvent.layoutMeasurement.width;
+    setCurrentDisplayIndex(
+      Math.floor(currentContentOffset / carouselWidth) + 1,
+    );
+    setIsMomentum(false);
+    if (Platform.OS === 'android') return;
+    if (currentDisplayIndex === carouselDataLength) setIndex(0);
   };
 
   useEffect(() => {
-    if (!autoPlay) return () => null;
+    if (!autoPlay || isMomentum) return () => null;
+
     const carouselInterval = setInterval(() => {
-      if (currentIndex === imageUrlsLength) {
+      if (currentDisplayIndex === carouselDataLength) {
         setIndex(0);
+        setCurrentDisplayIndex(1);
         return;
       }
-      setIndex(currentIndex);
+      setIndex(currentDisplayIndex);
+      setCurrentDisplayIndex(prev => prev + 1);
     }, autoPlayIntervalTime);
     return () => clearInterval(carouselInterval);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, setIndex]);
+  }, [currentDisplayIndex, setIndex]);
 
   return (
     <S.CarouselContainer indicator={indicator}>
       {indicator === 'TOPRIGHT' && (
         <S.CarouselOrderMarker>
           <Txt
-            label={`${currentIndex} / ${imageUrlsLength}`}
+            label={`${currentDisplayIndex} / ${carouselDataLength}`}
             color="white"
             typograph="labelSmall"
           />
@@ -78,6 +95,7 @@ const Carousel = ({
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        onMomentumScrollBegin={onMomentumScrollBegin}
         onMomentumScrollEnd={onMomentumScrollEnd}
         data={carouselData}
         renderItem={({item}) => {
@@ -91,9 +109,10 @@ const Carousel = ({
             </Pressable>
           );
         }}
+        onScrollToIndexFailed={() => {}}
       />
       {indicator === 'BOTTOM' && (
-        <OnboardingSlideGuide currentImageLocation={currentIndex - 1} />
+        <OnboardingSlideGuide currentImageLocation={currentDisplayIndex - 1} />
       )}
     </S.CarouselContainer>
   );
