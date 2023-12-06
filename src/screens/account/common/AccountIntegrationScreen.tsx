@@ -122,6 +122,7 @@ const S = {
     flex: 1;
   `,
   accountIntegrationContainer: styled.View`
+    flex: 1;
     padding: 28px 16px 0;
   `,
   idContainer: styled.ScrollView`
@@ -144,7 +145,7 @@ const S = {
     background-color: white;
     height: 64px;
     position: absolute;
-    bottom: 0;
+    bottom: -16px;
     left: 0;
     right: 0;
     width: 100%;
