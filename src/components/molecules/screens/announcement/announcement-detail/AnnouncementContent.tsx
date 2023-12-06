@@ -1,14 +1,19 @@
+import {atom, useAtom, PrimitiveAtom} from 'jotai';
 import {Linking, View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
-import {useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
 import AnnouncementDetailScreenBookmarkToggle from './AnnouncementDetailScreenBookmarkToggle';
 import {announcementFullName} from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
-import useBookmark from '../../../../../hooks/useBookmark';
+import useBookmark from '../../../../../hooks/useBookmark_';
 import BookmarkAPI from '../../../../../api/services/util/bookmark/bookmarkAPI';
+import {
+  BookmarkKeyValueMap,
+  bookmarksAtom,
+} from '../../../../../store/announcement/bookmark';
 
 const AnnouncementDetailScreenContent = ({
   title,
@@ -18,63 +23,37 @@ const AnnouncementDetailScreenContent = ({
   files,
   origin,
   url,
-  isBookmarkedByMe,
   id,
-}: ArticleDetailType) => {
-  const GoToOriginUrl = () => {
+  bookmarkAtom,
+}: ArticleDetailType & {bookmarkAtom: PrimitiveAtom<boolean>}) => {
+  const goToOriginUrl = () => {
     Linking.openURL(url);
   };
 
-  // TODO: "해당 state를 이 component level에서 관리하는 게 맞는가"에 대해 다시 고민해보기
-  // 클라이언트 측에서 어떻게 보여질지 결정하는 부분(API 호출 시 변동되기에 state로 저장)
-  const [bookmarkCountOnClient, setBookmarkCountOnClient] =
-    useState<number>(bookmarkCount);
-  const [isBookmarkedByMeOnClient, setIsBookmarkedByMeOnClient] =
-    useState<boolean>(isBookmarkedByMe);
+  const {isBookmarked, setBookmarkOn, setBookmarkOff} = useBookmark(
+    id,
+    bookmarkAtom,
+  );
 
-  const {saveBookmarkOnLocal} = useBookmark();
+  const isInitiallyBookmarked = useMemo(() => isBookmarked, []);
 
-  const onPressBookmarkToggle = async () => {
-    if (isBookmarkedByMeOnClient) {
-      try {
-        setIsBookmarkedByMeOnClient(prev => !prev);
-        setBookmarkCountOnClient(prev => prev - 1);
+  const bookmarkCountOffset = (() => {
+    if (isInitiallyBookmarked === isBookmarked) return 0;
+    if (!isInitiallyBookmarked && isBookmarked) return 1;
+    if (isInitiallyBookmarked && !isBookmarked) return -1;
 
-        const result = await BookmarkAPI.cancelBookmark({
-          announcementId: id,
-        });
-        saveBookmarkOnLocal(result.bookmarkInformation);
-      } catch (error) {
-        const {code} = error as any;
-        // 이미 삭제되어 있는 상태도 아닌, Unexpected Error
-        if (code === 'B01') {
-          return;
-        }
+    return 99999;
+  })();
 
-        setIsBookmarkedByMeOnClient(prev => !prev);
-        setBookmarkCountOnClient(prev => prev + 1);
+  const onPressBookmarkToggle = isBookmarked
+    ? async () => {
+        await setBookmarkOff();
       }
-    } else {
-      try {
-        setIsBookmarkedByMeOnClient(prev => !prev);
-        setBookmarkCountOnClient(prev => prev + 1);
+    : async () => {
+        await setBookmarkOn();
+      };
 
-        const result = await BookmarkAPI.postBookmark({
-          announcementId: id,
-        });
-        saveBookmarkOnLocal(result.bookmarkInformation);
-      } catch (error) {
-        const {code} = error as any;
-        // 이미 등록되어 있는 상태도 아닌, Unexpected Error
-        if (code === 'B01') {
-          return;
-        }
-
-        setIsBookmarkedByMeOnClient(prev => !prev);
-        setBookmarkCountOnClient(prev => prev - 1);
-      }
-    }
-  };
+  if (!bookmarkAtom) return null;
 
   return (
     <S.Root>
@@ -88,7 +67,7 @@ const AnnouncementDetailScreenContent = ({
               typograph="bodySmall"
             />
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <S.GoToOriginUrl onPress={GoToOriginUrl}>
+              <S.GoToOriginUrl onPress={goToOriginUrl}>
                 <Txt
                   color="grey90"
                   label="원본 글 보기"
@@ -96,8 +75,8 @@ const AnnouncementDetailScreenContent = ({
                 />
               </S.GoToOriginUrl>
               <AnnouncementDetailScreenBookmarkToggle
-                isBookmarkedByMe={isBookmarkedByMeOnClient}
-                bookmarkCount={bookmarkCountOnClient}
+                isBookmarkedByMe={isBookmarked}
+                bookmarkCount={bookmarkCount + bookmarkCountOffset}
                 {...{onPressBookmarkToggle}}
               />
             </View>

@@ -1,6 +1,6 @@
 import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {View, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
@@ -15,8 +15,17 @@ import {
   AnnounceContents,
 } from '../components/molecules/screens/main';
 import useUserState from '../hooks/useUserState';
+import {BANNER_1, BANNER_2} from '../assets/images';
 
 const {width} = Dimensions.get('window');
+
+const BANNER_WIDTH = width - 32;
+const BANNER_HEIGHT = 84;
+
+const BANNER_1_LINK =
+  'https://even-maize-68a.notion.site/55eb7b449c9b461c8ba1c3a01a6209e1';
+const BANNER_2_LINK =
+  'https://danthe00813.notion.site/danthe00813/d1776073f61248b6b719ec62bf9a57fd';
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
@@ -24,10 +33,17 @@ const MainScreen = () => {
 
   const {user} = useUserState();
 
+  useEffect(() => {
+    navigation.push('Announcement');
+  }, [navigation]);
+
   const {id, nickname} = user || {};
 
   return (
     <S.MainContainer bounces={false}>
+      <View>
+        <Txt color="black" label="asdflkjafk" typograph="bodyLarge" />
+      </View>
       <View
         style={{
           height: insets.top + 20,
@@ -72,12 +88,15 @@ const MainScreen = () => {
             typograph="headlineSmall"
           />
         </View>
-        <Carousel
-          imageWidth={width - 32}
-          imageHeight={148}
-          imageUrls={[{uri: ''}, {uri: ''}]}
+        {/* <Carousel
+          imageWidth={BANNER_WIDTH}
+          imageHeight={BANNER_HEIGHT}
+          carouselData={[
+            {uri: BANNER_1, link: BANNER_1_LINK},
+            {uri: BANNER_2, link: BANNER_2_LINK},
+          ]}
           indicator="TOPRIGHT"
-        />
+        /> */}
         <MainServiceBox
           label="오늘의 학식"
           iconName="cafeteria"

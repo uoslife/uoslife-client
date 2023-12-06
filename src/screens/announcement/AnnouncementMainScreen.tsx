@@ -44,8 +44,6 @@ const AnnouncementMainScreen = () => {
   const inputRef = useRef<TextInput>(null);
   const listRef = useRef<FlatList>(null);
 
-  const {getBookmarkIdList} = useBookmark();
-
   const [articleListObject, setArticleListObject] = useState<{
     [key in AnnouncementOriginNameType]: ArticleItemType[];
   }>({
@@ -93,11 +91,9 @@ const AnnouncementMainScreen = () => {
 
       const res = await AnnouncementAPI.getAnnouncements(params);
 
-      const idList = await getBookmarkIdList();
-
       const loadedArticles: ArticleItemType[] = res.content.map(item => ({
         ...item,
-        isBookmarkedByMe: idList.includes(item.id),
+        isBookmarkedByMe: false,
       }));
 
       setArticleListObject(prev => ({

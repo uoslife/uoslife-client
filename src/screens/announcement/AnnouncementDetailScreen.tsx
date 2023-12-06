@@ -1,3 +1,4 @@
+import {atom, useAtom} from 'jotai';
 import styled from '@emotion/native';
 import React, {useEffect, useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -10,7 +11,11 @@ import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementContent';
 import Spinner from '../../components/atoms/spinner/Spinner';
-import useBookmark from '../../hooks/useBookmark';
+import {
+  BookmarkKeyValueMap,
+  bookmarksAtom,
+} from '../../store/announcement/bookmark';
+import BookmarkAPI from '../../api/services/util/bookmark/bookmarkAPI';
 
 const AnnouncementDetailScreen = ({
   route: {
@@ -22,8 +27,6 @@ const AnnouncementDetailScreen = ({
   // TODO: API 호출 관련 상태관리 로직 - custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  const {getBookmarkIdList} = useBookmark();
-
   useEffect(() => {
     (async () => {
       setIsPending(true);
@@ -32,20 +35,51 @@ const AnnouncementDetailScreen = ({
 
         setArticle({
           ...loadedArticle,
-          isBookmarkedByMe: (await getBookmarkIdList()).includes(id),
+          isBookmarkedByMe: false,
         });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
       setIsPending(false);
     })();
-  }, [id, getBookmarkIdList]);
+  }, []);
 
   const navigation = useNavigation();
 
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
+
+  useEffect(() => {
+    if (Object.keys(bookmarks).length !== 0) return;
+
+    (async () => {
+      const converted: BookmarkKeyValueMap = {};
+
+      converted[id] = atom(false);
+
+      const loadedFromServer = (await BookmarkAPI.getBookmarkedArticles({}))
+        .bookmarkInformation;
+
+      if (!loadedFromServer) {
+        setBookmarks({});
+        return;
+      }
+
+      loadedFromServer.forEach(item => {
+        converted[item] = atom(true);
+      });
+
+      setBookmarks(converted);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (bookmarks[id] === undefined)
+      setBookmarks(prev => ({...prev, [id]: atom(false)}));
+  }, []);
+
+  const bookmarkAtom = bookmarks[id];
 
   return (
     <S.Root style={{paddingTop: insets.top}}>
@@ -56,9 +90,13 @@ const AnnouncementDetailScreen = ({
       {isPending ? (
         <Spinner />
       ) : (
-        article && (
+        article &&
+        bookmarkAtom && (
           <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-            <AnnouncementDetailScreenContent {...article} />
+            <AnnouncementDetailScreenContent
+              {...article}
+              bookmarkAtom={bookmarkAtom}
+            />
           </ScrollView>
         )
       )}
