@@ -20,6 +20,7 @@ const useInitApp = () => {
 
   const setLoadingFinish = () => {
     setIsServiceInitLoading(false);
+    storage.set('isNotFirstLoading', true);
   };
 
   const setAuthenticationSuccess = () => {
@@ -27,6 +28,7 @@ const useInitApp = () => {
     setIsLoggedIn(true);
     setLoadingFinish();
   };
+
   useEffect(() => {
     (async () => {
       await NotificationService.requestNotificationPermissions();
