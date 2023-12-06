@@ -4,7 +4,7 @@ import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
 import ToggleSwitchProps from './ToggleSwitch.type';
 
-const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
+const ToggleSwitch = ({isOn, onToggle, disable}: ToggleSwitchProps) => {
   const animatedValue = useMemo(() => new Animated.Value(isOn ? 0 : 1), [isOn]);
 
   useEffect(() => {
@@ -27,7 +27,12 @@ const ToggleSwitch = ({isOn, onToggle}: ToggleSwitchProps) => {
         <ToggleContainerWrapper style={styles.toggleContainer}>
           <ToggleContainer
             style={{
-              backgroundColor: isOn ? '#3A88F5' : '#B2B2B2',
+              // eslint-disable-next-line no-nested-ternary
+              backgroundColor: disable
+                ? colors.grey40
+                : isOn
+                ? colors.primaryBrand
+                : colors.grey60,
             }}>
             <ToggleWheel
               style={[

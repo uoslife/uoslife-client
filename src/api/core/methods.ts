@@ -34,7 +34,10 @@ export const patch = async <T extends unknown>(
 
 export const del = async <T extends unknown>(
   url: string,
+  body?: unknown,
 ): KyJsonResponse<T> => {
-  const deleteRes = await apiClient.delete(url);
+  const deleteRes = body
+    ? await apiClient.delete(url, {json: body})
+    : await apiClient.delete(url);
   return await deleteRes.json();
 };

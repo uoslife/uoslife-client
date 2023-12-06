@@ -7,20 +7,30 @@ export type BottomSheetToggleItemProps = {
   isOn: boolean;
   description: string;
   onPress: PressableProps['onPress'];
+  disable?: boolean;
 };
 
 const BottomSheetToggleItem = ({
   isOn,
   description,
   onPress,
+  disable,
 }: BottomSheetToggleItemProps) => {
   return (
-    <S.Root onPress={onPress}>
+    <S.Root onPress={disable ? undefined : onPress}>
       <S.TextContainer>
-        <Txt color="grey190" label={description} typograph="bodyLarge" />
+        <Txt
+          color={disable ? 'grey40' : 'grey190'}
+          label={description}
+          typograph="bodyLarge"
+        />
       </S.TextContainer>
       <S.ToggleContainer>
-        <ToggleSwitch isOn={isOn} onToggle={onPress} />
+        <ToggleSwitch
+          isOn={disable ? false : isOn}
+          onToggle={disable ? undefined : onPress}
+          disable={disable}
+        />
       </S.ToggleContainer>
     </S.Root>
   );

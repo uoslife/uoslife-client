@@ -36,8 +36,11 @@ export default class NotificationService {
     );
   }
 
-  static async requestNotificationPermissions(): Promise<FirebaseMessagingTypes.AuthorizationStatus> {
+  static async requestNotificationPermissions(): Promise<
+    FirebaseMessagingTypes.AuthorizationStatus | undefined
+  > {
     if (Platform.OS === 'android') {
+      if (storage.getBoolean('isNotFirstLoading')) return;
       await Promise.all([
         PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
@@ -53,6 +56,7 @@ export default class NotificationService {
         }),
       ]);
     }
+    // eslint-disable-next-line consistent-return
     return messaging().requestPermission();
   }
 
