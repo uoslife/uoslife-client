@@ -19,4 +19,6 @@ export default {
     ADVERTISING_AND_MARKETING_CONSENT: 'https://www.uoslife.team/notices/7',
   },
   KAKAOTALK_UOSLIFE: 'https://pf.kakao.com/_gMEHK',
+  CONTACT_UOSLIFE:
+    'https://even-maize-68a.notion.site/55eb7b449c9b461c8ba1c3a01a6209e1',
 };

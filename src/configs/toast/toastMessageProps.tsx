@@ -1,4 +1,6 @@
+import {Linking} from 'react-native';
 import {ShowToastProps} from '.';
+import urls from '../urls';
 
 const toastMessage = {
   logout: '로그아웃에 성공했어요.',
@@ -11,6 +13,7 @@ const toastMessage = {
   changePhoneError: '전화번호를 변경하는 중 문제가 발생했어요.',
   portalAuthenticationSuccess: '포털 연동을 성공적으로 완료했어요.',
   notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
+  unRegisterTwiceUserError: `회원탈퇴 이력이 2회 이상인 유저입니다.\n해당 팝업을 클릭하여 고객센터로 문의해주세요.`,
 };
 export type ToastMessageType = keyof typeof toastMessage;
 
@@ -49,6 +52,13 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   notificationError: {
     type: 'error',
     title: toastMessage.notificationError,
+  },
+  unRegisterTwiceUserError: {
+    type: 'error',
+    title: toastMessage.unRegisterTwiceUserError,
+    onPress: () => {
+      Linking.openURL(urls.CONTACT_UOSLIFE);
+    },
   },
 };
 export default toastMessageProps;
