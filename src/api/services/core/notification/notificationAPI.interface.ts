@@ -6,6 +6,10 @@ export default interface NotificationService {
     Type.SubscribeTopicParams,
     Type.SubscribeTopicResponse
   >;
+  unSubscribeTopic: ServiceFunc<
+    Type.UnSubscribeTopicParams,
+    Type.UnSubscribeTopicResponse
+  >;
   getUserTopics: ServiceFunc<
     Type.GetUserTopicsParams,
     Type.GetUserTopicsResponse

@@ -1,16 +1,25 @@
+import {TopicName} from '../../../../store/topic';
+
 export type SubscribeTopicParams = {
-  topicName: 'string';
+  topicName: TopicName;
 };
 
 export type SubscribeTopicResponse = {
-  topicName: 'string';
+  topicName: TopicName;
+};
+export type UnSubscribeTopicParams = {
+  topicName: TopicName;
+};
+
+export type UnSubscribeTopicResponse = {
+  topicName: TopicName;
 };
 
 export type GetUserTopicsParams = {};
 
 export type GetUserTopicsResponse = Array<{
   id: number;
-  name: string;
+  name: TopicName;
   description: string;
   type: string;
   subscriberCount: number;
