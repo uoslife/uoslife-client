@@ -170,6 +170,11 @@ const VerificationScreen = () => {
       resetAccountFlow();
     } catch (err) {
       const error = err as SignInRes;
+      // @ts-ignore
+      if (error.code === 400) {
+        customShowToast('unRegisterTwiceUserError');
+        return;
+      }
 
       const {tempToken} = error.token;
       storeToken({tempToken});
