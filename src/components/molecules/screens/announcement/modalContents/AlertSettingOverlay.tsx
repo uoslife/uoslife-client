@@ -1,40 +1,35 @@
+import {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Linking, View} from 'react-native';
-import {useEffect, useState} from 'react';
-import NotificationService from '../../../../../services/notification';
+
+import {useNavigation} from '@react-navigation/native';
 import BottomSheetToggleItem from '../../../overlays/items/BottomSheetToggleItem';
+import useTopicState from '../../../../../hooks/useTopicState';
 
 const AlertSettingOverlay = () => {
   const insets = useSafeAreaInsets();
   const [isNotificationAgree, setIsNotificationAgree] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [firstToggle, setFirstToggle] = useState(false);
-  const [secondToggle, setSecondToggle] = useState(false);
-  const [thirdToggle, setThirdToggle] = useState(false);
-  const [fourthToggle, setFourthToggle] = useState(false);
+  const {topicList, setTopic, deleteTopic, isLoading} = useTopicState();
+  const navigation = useNavigation();
 
   useEffect(() => {
-    (async () => {
-      const [isAuthorizedStatus] = await Promise.all([
-        NotificationService.checkPermissionIsAuthorizedStatus(),
-        NotificationService.handleFirebasePushToken(),
-      ]);
-      setIsNotificationAgree(isAuthorizedStatus);
-      setIsLoading(false);
-    })();
-  }, []);
+    const isServiceNotificationToggledOn = topicList.find(
+      item => item.name === 'SERVICE_NOTIFICATION',
+    )!.isToggleOn;
+    setIsNotificationAgree(isServiceNotificationToggledOn);
+  }, [topicList]);
 
   const handlePressRedirectNotificationSetting = () => {
-    Linking.openSettings();
+    // @ts-ignore
+    navigation.navigate('MyPage', {screen: 'Mypage_appSetting'});
   };
 
   return (
     <S.Container style={{paddingBottom: insets.bottom + 12}}>
       {isLoading ? (
-        <View style={{height: 300}} />
+        <View style={{height: 340}} />
       ) : (
         <>
           <S.Description>
@@ -54,27 +49,22 @@ const AlertSettingOverlay = () => {
                 typograph="bodyMedium"
               />
             )}
+            {topicList.map(item =>
+              item.type === 'ANNOUNCEMENT' ? (
+                <BottomSheetToggleItem
+                  key={item.name}
+                  isOn={item.isToggleOn}
+                  description={item.title}
+                  onPress={() =>
+                    item.isToggleOn
+                      ? deleteTopic(item.name)
+                      : setTopic(item.name)
+                  }
+                  disable={!isNotificationAgree}
+                />
+              ) : null,
+            )}
           </S.Description>
-          <BottomSheetToggleItem
-            isOn={firstToggle}
-            description="일반공지"
-            onPress={() => setFirstToggle(prev => !prev)}
-          />
-          <BottomSheetToggleItem
-            isOn={secondToggle}
-            description="학사공지"
-            onPress={() => setSecondToggle(prev => !prev)}
-          />
-          <BottomSheetToggleItem
-            isOn={thirdToggle}
-            description="직원채용"
-            onPress={() => setThirdToggle(prev => !prev)}
-          />
-          <BottomSheetToggleItem
-            isOn={fourthToggle}
-            description="창업공지"
-            onPress={() => setFourthToggle(prev => !prev)}
-          />
           {!isNotificationAgree && (
             <Button
               label="알림 설정으로 이동"
@@ -96,7 +86,7 @@ const S = {
     padding: 16px 24px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
   `,
   Description: styled.View`
     padding: 12px 0;

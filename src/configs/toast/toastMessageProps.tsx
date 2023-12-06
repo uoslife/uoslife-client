@@ -10,6 +10,7 @@ const toastMessage = {
   changePhone: '전화번호 변경에 성공했어요.',
   changePhoneError: '전화번호를 변경하는 중 문제가 발생했어요.',
   portalAuthenticationSuccess: '포털 연동을 성공적으로 완료했어요.',
+  notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
 };
 export type ToastMessageType = keyof typeof toastMessage;
 
@@ -44,6 +45,10 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   },
   portalAuthenticationSuccess: {
     title: toastMessage.portalAuthenticationSuccess,
+  },
+  notificationError: {
+    type: 'error',
+    title: toastMessage.notificationError,
   },
 };
 export default toastMessageProps;

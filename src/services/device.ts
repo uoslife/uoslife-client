@@ -25,8 +25,12 @@ export default class DeviceService {
   }
 
   static async getDeviceInfoFromServer(): Promise<DeviceInfoType> {
-    const deviceInfo = await CoreAPI.getDeviceInfo({});
-    return deviceInfo;
+    try {
+      const deviceInfo = await CoreAPI.getDeviceInfo({});
+      return deviceInfo;
+    } catch (error) {
+      throw new Error('deviceInfo를 서버에서 가져오지 못했습니다.');
+    }
   }
 
   /** SignIn or SignUp 시 DeviceInfo를 patch합니다. */
