@@ -22,6 +22,7 @@ import useAccountFlow from '../../../hooks/useAccountFlow';
 import customShowToast from '../../../configs/toast';
 import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
+import NotificationService from '../../../services/notification';
 
 const NICKNAME_MAX_LENGTH = 8;
 
@@ -99,6 +100,8 @@ const SetNicknameScreen = () => {
   const handleClickSubmitBottomSheetButton = async (
     isAdvertismentAgree: boolean,
   ) => {
+    const isAuthorized =
+      await NotificationService.checkPermissionIsAuthorizedStatus();
     setIsAdvertismentAgree(isAdvertismentAgree);
     if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
     try {
@@ -107,7 +110,7 @@ const SetNicknameScreen = () => {
         tos: {
           privatePolicy: true,
           termsOfUse: true,
-          notification: false, // TODO: notification 동의 여부 받아오도록 수정
+          notification: isAuthorized,
           marketing: isAdvertismentAgree,
         },
         migrationUserInfo: selectedAccountInfo ?? null,

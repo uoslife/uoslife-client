@@ -39,6 +39,10 @@ const ServiceAgreementOverlay = ({
     );
     return requiredStatus.every(obj => obj.checked);
   };
+  const isAllRequiredStatusChecked = () => {
+    const requiredStatus = overlayStatus.filter(obj => obj.type === 'REQUIRED');
+    return requiredStatus.every(obj => obj.checked);
+  };
 
   const handleClickCheckAllItem = () => {
     const firstItemCheckedStatus = getCheckedStatusById(0);
@@ -68,7 +72,7 @@ const ServiceAgreementOverlay = ({
   }, [getCheckedStatusById(1), getCheckedStatusById(2)]);
 
   return (
-    <S.Container style={{paddingBottom: insets.bottom}}>
+    <S.Container style={{paddingBottom: insets.bottom + 8}}>
       <BottomSheetCheckItem
         checked={getCheckedStatusById(0)}
         title="약관에 모두 동의"
@@ -95,7 +99,7 @@ const ServiceAgreementOverlay = ({
       <Button
         label="확인"
         isFullWidth
-        isEnabled={areAllStatusChecked()}
+        isEnabled={isAllRequiredStatusChecked()}
         onPress={() =>
           handleClickSubmitBottomSheetButton(getCheckedStatusById(3))
         }
