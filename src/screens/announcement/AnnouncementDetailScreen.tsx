@@ -8,7 +8,7 @@ import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackN
 import {ArticleDetailType} from '../../types/announcement.type';
 import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementContent';
+import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementDetailScreenContent';
 import Spinner from '../../components/atoms/spinner/Spinner';
 
 const AnnouncementDetailScreen = ({
@@ -31,6 +31,7 @@ const AnnouncementDetailScreen = ({
           ...loadedArticle,
         });
       } catch (error) {
+        // TODO: console.log 삭제, 에러 시 보여줄 UI 작성
         console.log(error);
       }
       setIsPending(false);

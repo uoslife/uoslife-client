@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import React, {useState, memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import useBookmark_ from '../../../../../hooks/useBookmark';
+import useBookmark, {BookmarkInfo} from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
@@ -12,6 +12,30 @@ type ArticleItemComponentProps = {
   articleItem: ArticleItemType;
 };
 
+const BookmarkToggle = ({
+  bookmarkCount,
+  bookmarked,
+  onPressBookmarkToggle,
+}: BookmarkInfo & {
+  onPressBookmarkToggle: () => {};
+}) => {
+  return (
+    <S.BookmarkToggleContainer onPress={onPressBookmarkToggle}>
+      <Icon
+        width={24}
+        height={24}
+        name="bookmark"
+        color={bookmarked ? 'primaryBrand' : 'grey60'}
+      />
+      <Txt
+        label={`${bookmarkCount}`}
+        color={bookmarked ? 'primaryBrand' : 'grey60'}
+        typograph="labelSmall"
+      />
+    </S.BookmarkToggleContainer>
+  );
+};
+
 const ArticleItem = ({
   articleItem,
   showCategoryName,
@@ -19,7 +43,7 @@ const ArticleItem = ({
   const {date, department, id, title, origin, bookmarkCount, bookmarked} =
     articleItem;
   const [isPending, setIsPending] = useState(false);
-  const {bookmarkCountNow, bookmarkedNow, onPressBookmarkToggle} = useBookmark_(
+  const {bookmarkCountNow, bookmarkedNow, onPressBookmarkToggle} = useBookmark(
     id,
     {
       bookmarkCount,
@@ -48,20 +72,11 @@ const ArticleItem = ({
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
-      <S.BookmarkContainer
-        onPress={!isPending ? onPressBookmarkToggle : () => {}}>
-        <Icon
-          width={24}
-          height={24}
-          name="bookmark"
-          color={bookmarkedNow ? 'primaryBrand' : 'grey60'}
-        />
-        <Txt
-          label={bookmarkCountNow.toString()}
-          color={bookmarkedNow ? 'primaryBrand' : 'grey60'}
-          typograph="labelSmall"
-        />
-      </S.BookmarkContainer>
+      <BookmarkToggle
+        bookmarkCount={bookmarkCountNow}
+        bookmarked={bookmarkedNow}
+        onPressBookmarkToggle={onPressBookmarkToggle}
+      />
     </S.Root>
   );
 };
@@ -83,7 +98,7 @@ const S = {
     display: flex;
     gap: 4px;
   `,
-  BookmarkContainer: styled.Pressable`
+  BookmarkToggleContainer: styled.Pressable`
     display: flex;
     align-items: center;
     justify-content: center;

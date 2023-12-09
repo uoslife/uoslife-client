@@ -4,7 +4,10 @@ import {atom, useAtom} from 'jotai';
 import BookmarkAPI from '../api/services/util/bookmark/bookmarkAPI';
 import {ArticleItemType} from '../types/announcement.type';
 
-type BookmarkInfo = Pick<ArticleItemType, 'bookmarkCount' | 'bookmarked'>;
+export type BookmarkInfo = Pick<
+  ArticleItemType,
+  'bookmarkCount' | 'bookmarked'
+>;
 
 // Reference(AtmoFamily API): https://jotai.org/docs/utilities/family
 export const bookmarkAtomFamily = atomFamily(
@@ -13,14 +16,16 @@ export const bookmarkAtomFamily = atomFamily(
   (before, after) => before.id === after.id,
 );
 
-/** Intercept and control bookmark information(total count, if bookmarked by me) globally */
+/** Intercept and control bookmark information(total count, if bookmarked by me) globally.
+ *  Once atom is created(using id), by atomFamily's caching machanism, initialBookmarkInfo will not be overrided.
+ */
 const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
   const [
     {bookmarkCount: bookmarkCountNow, bookmarked: bookmarkedNow},
     setBookmarkInfo,
   ] = useAtom(bookmarkAtomFamily({id, bookmarkInfo: initialBookmarkInfo}));
 
-  const setBookmarkOn = useCallback(async () => {
+  const addBookmark = useCallback(async () => {
     try {
       setBookmarkInfo(prev => ({
         bookmarkCount: prev.bookmarkCount + 1,
@@ -36,7 +41,7 @@ const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
     }
   }, [setBookmarkInfo, id]);
 
-  const setBookmarkOff = useCallback(async () => {
+  const cancelBookmark = useCallback(async () => {
     try {
       setBookmarkInfo(prev => ({
         bookmarkCount: prev.bookmarkCount - 1,
@@ -52,7 +57,7 @@ const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
     }
   }, [setBookmarkInfo, id]);
 
-  const onPressBookmarkToggle = bookmarkedNow ? setBookmarkOff : setBookmarkOn;
+  const onPressBookmarkToggle = bookmarkedNow ? cancelBookmark : addBookmark;
 
   return {
     onPressBookmarkToggle,

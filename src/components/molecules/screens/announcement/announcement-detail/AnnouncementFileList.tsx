@@ -5,20 +5,21 @@ import {Linking} from 'react-native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
 
 const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
-  // 받아온 files를 객체를 배열로 변환
-  const processedFilesData = Object.entries(files).map((fileItem, i) => ({
+  // 받아온 files를 객체를 배열로 변환(Server API Response 형식에 대응하기 위함)
+  const processedFilesData = Object.entries(files).map(fileItem => ({
     name: fileItem[0],
     url: fileItem[1],
   }));
 
-  const downloadHandlerGenerator = (url: string) => () => {
+  // Feedback please: Component Prop부에 콜백 함수를 넣기 싫어서 이렇게 작성하였습니다.
+  const downloadLinkOpenerGenerator = (url: string) => () => {
     Linking.openURL(url);
   };
 
   return (
     <S.List>
       {processedFilesData.map(({name, url}) => (
-        <S.Item key={name} onPress={downloadHandlerGenerator(url)}>
+        <S.Item key={name} onPress={downloadLinkOpenerGenerator(url)}>
           <Icon
             height={18}
             width={18}

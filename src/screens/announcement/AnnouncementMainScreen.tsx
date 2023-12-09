@@ -101,6 +101,7 @@ const AnnouncementMainScreen = () => {
         [origin]: prev[origin] + 1,
       }));
     } catch (error) {
+      // TODO: console.log 삭제, 에러 시 보여줄 UI 작성
       console.log(error);
     }
 
