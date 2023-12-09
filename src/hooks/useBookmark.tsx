@@ -1,39 +1,63 @@
+import {atomFamily} from 'jotai/utils';
 import {useCallback} from 'react';
+import {atom, useAtom} from 'jotai';
 import BookmarkAPI from '../api/services/util/bookmark/bookmarkAPI';
-import storage from '../storage';
+import {ArticleItemType} from '../types/announcement.type';
 
-const BOOKMARK_ID_LIST_LITERAL = 'bookmark-id-list';
+type BookmarkInfo = Pick<ArticleItemType, 'bookmarkCount' | 'bookmarked'>;
 
-const useBookmark = () => {
-  const loadBookmarkOnLocal = useCallback(() => {
-    const idListJson = storage.getString(BOOKMARK_ID_LIST_LITERAL);
-    return idListJson ? (JSON.parse(idListJson) as number[]) : null;
-  }, []);
+// Reference(AtmoFamily API): https://jotai.org/docs/utilities/family
+export const bookmarkAtomFamily = atomFamily(
+  ({bookmarkInfo}: {id: number; bookmarkInfo: BookmarkInfo}) =>
+    atom(bookmarkInfo),
+  (before, after) => before.id === after.id,
+);
 
-  const saveBookmarkOnLocal = useCallback((bookmarkIdList: number[]) => {
-    storage.set(BOOKMARK_ID_LIST_LITERAL, JSON.stringify(bookmarkIdList));
-  }, []);
+/** Intercept and control bookmark information(total count, if bookmarked by me) globally */
+const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
+  const [
+    {bookmarkCount: bookmarkCountNow, bookmarked: bookmarkedNow},
+    setBookmarkInfo,
+  ] = useAtom(bookmarkAtomFamily({id, bookmarkInfo: initialBookmarkInfo}));
 
-  /** 북마크 정보를 로컬에서 가져와 반환, 없다면 새로 요청해서 반환 */
-  const getBookmarkIdList = useCallback(async () => {
-    const loadedFromLocal = loadBookmarkOnLocal();
-    if (loadedFromLocal) {
-      return loadedFromLocal;
+  const setBookmarkOn = useCallback(async () => {
+    try {
+      setBookmarkInfo(prev => ({
+        bookmarkCount: prev.bookmarkCount + 1,
+        bookmarked: true,
+      }));
+
+      await BookmarkAPI.postBookmark({announcementId: id});
+    } catch (error) {
+      setBookmarkInfo(prev => ({
+        bookmarkCount: prev.bookmarkCount - 1,
+        bookmarked: false,
+      }));
     }
+  }, [setBookmarkInfo, id]);
 
-    const loadedFromServer = (await BookmarkAPI.getBookmarkedArticles({}))
-      .bookmarkInformation;
+  const setBookmarkOff = useCallback(async () => {
+    try {
+      setBookmarkInfo(prev => ({
+        bookmarkCount: prev.bookmarkCount - 1,
+        bookmarked: false,
+      }));
 
-    const idList: number[] = loadedFromServer || ([] as number[]);
+      await BookmarkAPI.cancelBookmark({announcementId: id});
+    } catch (error) {
+      setBookmarkInfo(prev => ({
+        bookmarkCount: prev.bookmarkCount + 1,
+        bookmarked: true,
+      }));
+    }
+  }, [setBookmarkInfo, id]);
 
-    saveBookmarkOnLocal(idList);
-
-    return idList;
-  }, [loadBookmarkOnLocal, saveBookmarkOnLocal]);
+  const onPressBookmarkToggle = bookmarkedNow ? setBookmarkOff : setBookmarkOn;
 
   return {
-    saveBookmarkOnLocal,
-    getBookmarkIdList,
+    onPressBookmarkToggle,
+    bookmarkCountNow,
+    bookmarkedNow,
   };
 };
 

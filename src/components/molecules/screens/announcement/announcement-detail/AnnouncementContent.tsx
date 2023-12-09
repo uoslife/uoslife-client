@@ -1,19 +1,12 @@
-import {atom, useAtom, PrimitiveAtom} from 'jotai';
 import {Linking, View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
-import {useEffect, useMemo, useState} from 'react';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
 import AnnouncementDetailScreenBookmarkToggle from './AnnouncementDetailScreenBookmarkToggle';
 import {announcementFullName} from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
-import useBookmark from '../../../../../hooks/useBookmark_';
-import BookmarkAPI from '../../../../../api/services/util/bookmark/bookmarkAPI';
-import {
-  BookmarkKeyValueMap,
-  bookmarksAtom,
-} from '../../../../../store/announcement/bookmark';
+import useBookmark from '../../../../../hooks/useBookmark';
 
 const AnnouncementDetailScreenContent = ({
   title,
@@ -24,36 +17,19 @@ const AnnouncementDetailScreenContent = ({
   origin,
   url,
   id,
-  bookmarkAtom,
-}: ArticleDetailType & {bookmarkAtom: PrimitiveAtom<boolean>}) => {
+  bookmarked,
+}: ArticleDetailType) => {
   const goToOriginUrl = () => {
     Linking.openURL(url);
   };
 
-  const {isBookmarked, setBookmarkOn, setBookmarkOff} = useBookmark(
+  const {bookmarkCountNow, bookmarkedNow, onPressBookmarkToggle} = useBookmark(
     id,
-    bookmarkAtom,
+    {
+      bookmarkCount,
+      bookmarked,
+    },
   );
-
-  const isInitiallyBookmarked = useMemo(() => isBookmarked, []);
-
-  const bookmarkCountOffset = (() => {
-    if (isInitiallyBookmarked === isBookmarked) return 0;
-    if (!isInitiallyBookmarked && isBookmarked) return 1;
-    if (isInitiallyBookmarked && !isBookmarked) return -1;
-
-    return 99999;
-  })();
-
-  const onPressBookmarkToggle = isBookmarked
-    ? async () => {
-        await setBookmarkOff();
-      }
-    : async () => {
-        await setBookmarkOn();
-      };
-
-  if (!bookmarkAtom) return null;
 
   return (
     <S.Root>
@@ -75,9 +51,9 @@ const AnnouncementDetailScreenContent = ({
                 />
               </S.GoToOriginUrl>
               <AnnouncementDetailScreenBookmarkToggle
-                isBookmarkedByMe={isBookmarked}
-                bookmarkCount={bookmarkCount + bookmarkCountOffset}
-                {...{onPressBookmarkToggle}}
+                isBookmarkedByMe={bookmarkedNow}
+                bookmarkCount={bookmarkCountNow}
+                onPressBookmarkToggle={onPressBookmarkToggle}
               />
             </View>
           </S.CategoryAndDateAndBookmarkContainer>

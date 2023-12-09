@@ -21,7 +21,6 @@ import {AnnouncementOriginNameType} from '../../api/services/util/announcement/a
 import useModal from '../../hooks/useModal';
 import Spinner from '../../components/atoms/spinner/Spinner';
 import {ArticleItemType} from '../../types/announcement.type';
-import useBookmark from '../../hooks/useBookmark';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 
 const ELEMENTS_PER_PAGE = 10;
@@ -91,10 +90,7 @@ const AnnouncementMainScreen = () => {
 
       const res = await AnnouncementAPI.getAnnouncements(params);
 
-      const loadedArticles: ArticleItemType[] = res.content.map(item => ({
-        ...item,
-        isBookmarkedByMe: false,
-      }));
+      const loadedArticles: ArticleItemType[] = res.content;
 
       setArticleListObject(prev => ({
         ...prev,
@@ -104,7 +100,9 @@ const AnnouncementMainScreen = () => {
         ...prev,
         [origin]: prev[origin] + 1,
       }));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
     setIsPending(false);
   };

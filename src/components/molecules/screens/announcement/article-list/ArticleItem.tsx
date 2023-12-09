@@ -1,50 +1,32 @@
-import {PrimitiveAtom} from 'jotai';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
-import React, {useState, memo, useEffect, useMemo} from 'react';
+import React, {useState, memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import useBookmark_ from '../../../../../hooks/useBookmark_';
+import useBookmark_ from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
 
 type ArticleItemComponentProps = {
-  bookmarkAtom: PrimitiveAtom<boolean>;
   showCategoryName: boolean;
   articleItem: ArticleItemType;
 };
 
 const ArticleItem = ({
-  bookmarkAtom,
   articleItem,
   showCategoryName,
 }: ArticleItemComponentProps) => {
-  const {bookmarkCount, date, department, id, title, origin} = articleItem;
+  const {date, department, id, title, origin, bookmarkCount, bookmarked} =
+    articleItem;
   const [isPending, setIsPending] = useState(false);
-  const {isBookmarked, setBookmarkOn, setBookmarkOff} = useBookmark_(
+  const {bookmarkCountNow, bookmarkedNow, onPressBookmarkToggle} = useBookmark_(
     id,
-    bookmarkAtom,
+    {
+      bookmarkCount,
+      bookmarked,
+    },
   );
-
-  const isInitiallyBookmarked = useMemo(() => isBookmarked, []);
-
-  const bookmarkCountOffset = (() => {
-    if (isInitiallyBookmarked === isBookmarked) return 0;
-    if (!isInitiallyBookmarked && isBookmarked) return 1;
-    if (isInitiallyBookmarked && !isBookmarked) return -1;
-
-    return 99999;
-  })();
-
   const navigation = useNavigation<AnnouncementNavigationProps>();
-
-  const onPressBookmarkToggle = isBookmarked
-    ? async () => {
-        await setBookmarkOff();
-      }
-    : async () => {
-        await setBookmarkOn();
-      };
 
   return (
     <S.Root>
@@ -72,11 +54,11 @@ const ArticleItem = ({
           width={24}
           height={24}
           name="bookmark"
-          color={isBookmarked ? 'primaryBrand' : 'grey60'}
+          color={bookmarkedNow ? 'primaryBrand' : 'grey60'}
         />
         <Txt
-          label={(bookmarkCount + bookmarkCountOffset).toString()}
-          color={isBookmarked ? 'primaryBrand' : 'grey60'}
+          label={bookmarkCountNow.toString()}
+          color={bookmarkedNow ? 'primaryBrand' : 'grey60'}
           typograph="labelSmall"
         />
       </S.BookmarkContainer>

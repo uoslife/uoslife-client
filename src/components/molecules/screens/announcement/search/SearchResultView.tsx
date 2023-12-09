@@ -2,7 +2,6 @@ import {Txt} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useCallback, useEffect, useState} from 'react';
 import {ArticleItemType} from '../../../../../types/announcement.type';
-import useBookmark from '../../../../../hooks/useBookmark';
 import ArticleList from '../article-list/ArticleList';
 import AnnouncementAPI from '../../../../../api/services/util/announcement/announcementAPI';
 import Spinner from '../../../../atoms/spinner/Spinner';
@@ -18,15 +17,12 @@ const SearchResultNotFound = () => {
 // 페이지네이션 설정
 const ELEMENTS_PER_PAGE = 10;
 
-// TODO: pending state 추가, 해당 상태에 보여줄 컴포넌트 띄우기
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
   const [isPending, setIsPending] = useState(true);
   const [searchedArticles, setSearchedArticles] = useState<ArticleItemType[]>(
     [],
   );
   const [page, setPage] = useState(0);
-
-  const {getBookmarkIdList} = useBookmark();
 
   const loadNewArticles = useCallback(async () => {
     try {
@@ -37,12 +33,8 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
         page,
         size: ELEMENTS_PER_PAGE,
       };
-      const idList = await getBookmarkIdList();
       const res = await AnnouncementAPI.searchAnnoucements(params);
-      const loadedArticles = res.content.map(item => ({
-        ...item,
-        isBookmarkedByMe: idList.includes(item.id),
-      }));
+      const loadedArticles = res.content;
 
       setPage(prev => prev + 1);
       setSearchedArticles([...searchedArticles, ...loadedArticles]);
@@ -51,11 +43,11 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
     } finally {
       setIsPending(false);
     }
-  }, [getBookmarkIdList, page, searchWord, searchedArticles]);
+  }, [page, searchWord, searchedArticles]);
 
   useEffect(() => {
-    loadNewArticles();
-  }, [loadNewArticles]);
+    if (page === 0) loadNewArticles();
+  }, [page, loadNewArticles]);
 
   const isInitiallyPending = searchedArticles.length === 0 && isPending;
   const isLoadedArticleListEmpty = searchedArticles.length === 0 && !isPending;
