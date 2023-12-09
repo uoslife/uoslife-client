@@ -10,10 +10,10 @@ export type BookmarkInfo = Pick<
 >;
 
 // Reference(AtmoFamily API): https://jotai.org/docs/utilities/family
-export const bookmarkAtomFamily = atomFamily(
+const bookmarkAtomFamily = atomFamily(
   ({bookmarkInfo}: {id: number; bookmarkInfo: BookmarkInfo}) =>
     atom(bookmarkInfo),
-  (before, after) => before.id === after.id,
+  (a, b) => a.id === b.id,
 );
 
 /** Intercept and control bookmark information(total count, if bookmarked by me) globally.
