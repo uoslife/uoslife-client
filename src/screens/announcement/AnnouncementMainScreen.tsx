@@ -65,16 +65,9 @@ const AnnouncementMainScreen = () => {
   const currentOrigin = getOriginFromCategoryState(categoryStatus);
   const currentArticles = articleListObject[currentOrigin];
 
-  useEffect(() => {
+  const pullUpScroll = useCallback(() => {
     listRef.current?.scrollToOffset({offset: 0});
-  }, [currentOrigin, listRef]);
-
-  // 탭 이동시 북마크가 이전 상태로 보이는 UX 이슈 해결을 위한 코드
-  // TODO: 첫 의도대로 article 캐싱을 위해 대책 찾기(북마크 상태를 Global Level에서 관리하는 등..)
-  useEffect(() => {
-    setArticleListObject(prev => ({...prev, [currentOrigin]: []}));
-    setArticlePageObject(prev => ({...prev, [currentOrigin]: 0}));
-  }, [setArticleListObject, setArticlePageObject, currentOrigin]);
+  }, [listRef]);
 
   const loadNewArticlesByOrigin = async (
     origin: AnnouncementOriginNameType,
@@ -234,11 +227,12 @@ const AnnouncementMainScreen = () => {
               </S.HeaderIcons>
             </Header>
             <S.CategoryTabAndContents>
-              <CategoryTab />
+              <CategoryTab tabPressAdditionalAction={pullUpScroll} />
               {isInitiallyPending ? (
                 <Spinner />
               ) : (
                 <ArticleList
+                  key={currentOrigin}
                   ListFooterComponent={isPending ? <Spinner /> : null}
                   ref={listRef}
                   showCategoryName={false}
