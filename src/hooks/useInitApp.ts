@@ -1,11 +1,13 @@
-import {useState, useEffect, useMemo, useCallback} from 'react';
-import SplashScreen from 'react-native-bootsplash';
+import {useState, useEffect, useMemo} from 'react';
+import {useSetAtom} from 'jotai';
+
 import DeviceService from '../services/device';
 import NotificationService from '../services/notification';
 import UserService from '../services/user';
 import storage from '../storage';
 import {useConfigContext} from './ConfigContext';
 import useUserState from './useUserState';
+import bootSplashVisibleAtom from '../store/bootsplash';
 
 const useInitApp = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
@@ -13,6 +15,8 @@ const useInitApp = () => {
     () => config.get('app.block') !== 'NO',
     [config],
   );
+
+  const setVisible = useSetAtom(bootSplashVisibleAtom);
 
   const [isServiceInitLoading, setIsServiceInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,14 +60,16 @@ const useInitApp = () => {
   /** hide splash screen if loading finish */
   useEffect(() => {
     if (isLoading || isServiceInitLoading) return;
-    (async () => await SplashScreen.hide())();
-  }, [isLoading, isServiceInitLoading]);
+    setVisible(true);
+  }, [isLoading, isServiceInitLoading, setVisible]);
 
   return {
     hasNetworkError,
     isMaintenance,
     isLoggedIn,
     setIsLoggedIn,
+    isLoading: isLoading || isServiceInitLoading,
+    setLoadingFinish,
   };
 };
 

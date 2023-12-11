@@ -8,11 +8,14 @@ import Toast from 'react-native-toast-message';
 
 import * as Sentry from '@sentry/react-native';
 import {SENTRY_DSN_KEY} from '@env';
+import {useAtom} from 'jotai';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import NotificationService from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import customBackgroundTheme from './styles/customBackgroundTheme';
 import toastConfig from './configs/toast/config';
+import AnimatedBootSplash from './screens/etc/AnimatedBootSplash';
+import bootSplashVisibleAtom from './store/bootsplash';
 
 Sentry.init({
   dsn: SENTRY_DSN_KEY,
@@ -20,6 +23,7 @@ Sentry.init({
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [visible, setVisible] = useAtom(bootSplashVisibleAtom);
   useEffect(() => {
     NotificationService.registerMessageHandler();
   }, []);
@@ -34,6 +38,13 @@ const App: React.FC = () => {
             translucent
           />
           <RootStackNavigator />
+          {visible && (
+            <AnimatedBootSplash
+              onAnimationEnd={() => {
+                setVisible(false);
+              }}
+            />
+          )}
           <Toast config={toastConfig} topOffset={60} />
         </NavigationContainer>
       </SafeAreaProvider>
