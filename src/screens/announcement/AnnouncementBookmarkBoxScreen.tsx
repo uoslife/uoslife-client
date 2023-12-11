@@ -47,6 +47,7 @@ const BookmarkResult = ({
 const AnnouncementBookmarkBoxScreen = () => {
   const insets = useSafeAreaInsets();
   const [articles, setArticles] = useState<ArticleItemType[]>([]);
+  const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
@@ -55,9 +56,10 @@ const AnnouncementBookmarkBoxScreen = () => {
 
   // TODO: 요청에 페이지네이션 적용(현재는 경우에 따라 불필요한 통신량이 추가로 생김)
   useEffect(() => {
-    if (isPending)
+    if (articles.length === 0) {
       (async () => {
         setIsPending(true);
+
         try {
           // TODO: 해당 endpoint 통합 후 클라이언트 코드에서도 대응
           const {bookmarkInformation} =
@@ -69,16 +71,20 @@ const AnnouncementBookmarkBoxScreen = () => {
           const loadedArticles = await AnnouncementAPI.getAnnouncementByIdList({
             idList: bookmarkInformation,
           });
+
           setArticles(loadedArticles);
         } catch (error) {
+          // TODO: error case UX
           console.log(error);
         }
+
         setIsPending(false);
       })();
-  }, [isPending, setIsPending]);
+    }
+  }, [articles.length, setIsPending]);
 
   const onRefresh = () => {
-    setIsPending(true);
+    setArticles([]);
   };
 
   return (
