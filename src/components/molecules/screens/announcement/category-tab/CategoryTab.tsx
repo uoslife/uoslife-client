@@ -10,7 +10,7 @@ import TabButton from './TabButton';
 const CategoryTab = ({
   tabPressAdditionalAction,
 }: {
-  tabPressAdditionalAction?: (origin?: AnnouncmentCategoryOriginType) => void;
+  tabPressAdditionalAction?: (origin: AnnouncmentCategoryOriginType) => void;
 }) => {
   const [categoryStatus, setCategoryStatus] = useAtom(categoryStatusAtom);
 
