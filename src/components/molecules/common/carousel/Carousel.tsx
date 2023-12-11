@@ -58,7 +58,7 @@ const Carousel = ({
       Math.floor(currentContentOffset / carouselWidth) + 1,
     );
     setIsMomentum(false);
-    if (Platform.OS === 'android') return;
+    if (!isMomentum) return;
     if (currentDisplayIndex === carouselDataLength) setIndex(0);
   };
 
