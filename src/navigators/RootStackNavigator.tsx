@@ -7,7 +7,7 @@ import {
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {useMMKVListener} from 'react-native-mmkv';
 
-import MaintenanceScreen from '../screens/MaintenanceScreen';
+import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
 import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
