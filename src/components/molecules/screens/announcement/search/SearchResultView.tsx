@@ -46,6 +46,11 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
     }
   }, [page, searchWord, searchedArticles]);
 
+  const onRefreshList = () => {
+    setSearchedArticles([]);
+    setPage(0);
+  };
+
   useEffect(() => {
     if (page === 0) loadNewArticles();
   }, [page, loadNewArticles]);
@@ -58,6 +63,8 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
     <SearchResultNotFound />
   ) : (
     <ArticleList
+      refreshing={false}
+      onRefresh={onRefreshList}
       ListFooterComponent={isPending ? <Spinner /> : null}
       ref={null}
       onEndReached={loadNewArticles}
