@@ -4,107 +4,23 @@ import {Icon, IconsNameType} from '@uoslife/design-system';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BackHandler, Keyboard} from 'react-native';
-import {FlatList, TextInput} from 'react-native-gesture-handler';
-import {useAtomValue} from 'jotai';
+import {TextInput} from 'react-native-gesture-handler';
 import SearchInput from '../../components/molecules/common/forms/searchInput/SearchInput';
 import SearchWordEnteringView from '../../components/molecules/screens/announcement/search/SearchWordEnteringView';
 import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNavigator';
-import CategoryTab from '../../components/molecules/screens/announcement/category-tab/CategoryTab';
-import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
 import Header from '../../components/molecules/common/header/Header';
-import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import {
-  AnnouncementCategoryStatusType,
-  categoryStatusAtom,
-} from '../../store/announcement';
-import {AnnouncementOriginNameType} from '../../api/services/util/announcement/announcementAPI.type';
 import useModal from '../../hooks/useModal';
-import Spinner from '../../components/atoms/spinner/Spinner';
-import {ArticleItemType} from '../../types/announcement.type';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
+import MainArticleListsControl from '../../components/molecules/screens/announcement/main/MainArticleListsControl';
 
-const ELEMENTS_PER_PAGE = 10;
-
-const getOriginFromCategoryState = (
-  categoryState: AnnouncementCategoryStatusType,
-) => {
-  const selectedState = categoryState.find(item => item.isSelected === true);
-  return selectedState!.origin;
-};
-
-// TODO: 지저분한 Search 관련 코드와 컴포넌트 구조 정리
+// TODO: 혼재되어있는 검색 관련 로직 분리, 컴포넌트 추상화 수준 맞추기
 const AnnouncementMainScreen = () => {
   const insets = useSafeAreaInsets();
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
-  const [isPending, setIsPending] = useState(false);
   const navigation = useNavigation<AnnouncementNavigationProps>();
   const inputRef = useRef<TextInput>(null);
-  const listRef = useRef<FlatList>(null);
-
-  const [articleListObject, setArticleListObject] = useState<{
-    [key in AnnouncementOriginNameType]: ArticleItemType[];
-  }>({
-    FA1: [],
-    FA2: [],
-    FA34: [],
-    FA35: [],
-  });
-
-  const [articlePageObject, setArticlePageObject] = useState<{
-    [key in AnnouncementOriginNameType]: number;
-  }>({
-    FA1: 0,
-    FA2: 0,
-    FA34: 0,
-    FA35: 0,
-  });
-
-  const categoryStatus = useAtomValue(categoryStatusAtom);
-  const currentOrigin = getOriginFromCategoryState(categoryStatus);
-  const currentArticles = articleListObject[currentOrigin];
-
-  const pullUpScroll = useCallback(() => {
-    listRef.current?.scrollToOffset({offset: 0});
-  }, [listRef]);
-
-  const loadNewArticlesByOrigin = async (
-    origin: AnnouncementOriginNameType,
-  ) => {
-    setIsPending(true);
-
-    try {
-      const params = {
-        origin,
-        page: articlePageObject[origin],
-        size: ELEMENTS_PER_PAGE,
-      };
-
-      const res = await AnnouncementAPI.getAnnouncements(params);
-
-      const loadedArticles: ArticleItemType[] = res.content;
-
-      setArticleListObject(prev => ({
-        ...prev,
-        [origin]: [...prev[origin], ...loadedArticles],
-      }));
-      setArticlePageObject(prev => ({
-        ...prev,
-        [origin]: prev[origin] + 1,
-      }));
-    } catch (error) {
-      // TODO: console.log 삭제, 에러 시 보여줄 UI 작성
-      console.log(error);
-    }
-
-    setIsPending(false);
-  };
-
-  const onRefresh = () => {
-    setArticleListObject(prev => ({...prev, [currentOrigin]: []}));
-    setArticlePageObject(prev => ({...prev, [currentOrigin]: 0}));
-  };
 
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
@@ -195,13 +111,7 @@ const AnnouncementMainScreen = () => {
     }, [onHeaderBackPress]),
   );
 
-  const articleListReachEndHandler = () => {
-    loadNewArticlesByOrigin(currentOrigin);
-  };
-
   const [openBottomSheet, , BottomSheet] = useModal('BOTTOM_SHEET');
-
-  const isInitiallyPending = isPending && currentArticles.length === 0;
 
   return (
     <>
@@ -232,21 +142,7 @@ const AnnouncementMainScreen = () => {
               </S.HeaderIcons>
             </Header>
             <S.CategoryTabAndContents>
-              <CategoryTab tabPressAdditionalAction={pullUpScroll} />
-              {isInitiallyPending ? (
-                <Spinner />
-              ) : (
-                <ArticleList
-                  refreshing={false}
-                  onRefresh={onRefresh}
-                  key={currentOrigin}
-                  ListFooterComponent={isPending ? <Spinner /> : null}
-                  ref={listRef}
-                  showCategoryName={false}
-                  articles={currentArticles}
-                  onEndReached={articleListReachEndHandler}
-                />
-              )}
+              <MainArticleListsControl />
             </S.CategoryTabAndContents>
           </>
         )}
