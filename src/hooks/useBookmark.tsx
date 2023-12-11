@@ -9,7 +9,7 @@ export type BookmarkInfo = Pick<
   'bookmarkCount' | 'bookmarked'
 >;
 
-// Reference(AtmoFamily API): https://jotai.org/docs/utilities/family
+// Reference(atomFamily API): https://jotai.org/docs/utilities/family
 const bookmarkAtomFamily = atomFamily(
   ({bookmarkInfo}: {id: number; bookmarkInfo: BookmarkInfo}) =>
     atom(bookmarkInfo),
@@ -21,7 +21,7 @@ const bookmarkAtomFamily = atomFamily(
  */
 const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
   const [
-    {bookmarkCount: bookmarkCountNow, bookmarked: bookmarkedNow},
+    {bookmarkCount: bookmarkCountCurrent, bookmarked: bookmarkedCurrent},
     setBookmarkInfo,
   ] = useAtom(bookmarkAtomFamily({id, bookmarkInfo: initialBookmarkInfo}));
 
@@ -57,12 +57,14 @@ const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
     }
   }, [setBookmarkInfo, id]);
 
-  const onPressBookmarkToggle = bookmarkedNow ? cancelBookmark : addBookmark;
+  const onPressBookmarkToggle = bookmarkedCurrent
+    ? cancelBookmark
+    : addBookmark;
 
   return {
     onPressBookmarkToggle,
-    bookmarkCountNow,
-    bookmarkedNow,
+    bookmarkCountCurrent,
+    bookmarkedCurrent,
   };
 };
 

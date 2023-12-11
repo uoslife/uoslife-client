@@ -46,13 +46,11 @@ const AnnouncementDetailScreenContent = ({
     Linking.openURL(url);
   };
 
-  const {bookmarkCountNow, bookmarkedNow, onPressBookmarkToggle} = useBookmark(
-    id,
-    {
+  const {bookmarkCountCurrent, bookmarkedCurrent, onPressBookmarkToggle} =
+    useBookmark(id, {
       bookmarkCount,
       bookmarked,
-    },
-  );
+    });
 
   return (
     <S.Root>
@@ -74,8 +72,8 @@ const AnnouncementDetailScreenContent = ({
                 />
               </S.GoToOriginUrl>
               <BookmarkToggle
-                bookmarked={bookmarkedNow}
-                bookmarkCount={bookmarkCountNow}
+                bookmarked={bookmarkedCurrent}
+                bookmarkCount={bookmarkCountCurrent}
                 onPressBookmarkToggle={onPressBookmarkToggle}
               />
             </View>

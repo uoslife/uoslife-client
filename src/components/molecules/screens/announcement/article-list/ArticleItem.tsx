@@ -43,13 +43,11 @@ const ArticleItem = ({
   const {date, department, id, title, origin, bookmarkCount, bookmarked} =
     articleItem;
   const [isPending, setIsPending] = useState(false);
-  const {bookmarkCountNow, bookmarkedNow, onPressBookmarkToggle} = useBookmark(
-    id,
-    {
+  const {bookmarkCountCurrent, bookmarkedCurrent, onPressBookmarkToggle} =
+    useBookmark(id, {
       bookmarkCount,
       bookmarked,
-    },
-  );
+    });
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
   return (
@@ -73,8 +71,8 @@ const ArticleItem = ({
         />
       </S.DescriptionContainer>
       <BookmarkToggle
-        bookmarkCount={bookmarkCountNow}
-        bookmarked={bookmarkedNow}
+        bookmarkCount={bookmarkCountCurrent}
+        bookmarked={bookmarkedCurrent}
         onPressBookmarkToggle={onPressBookmarkToggle}
       />
     </S.Root>
