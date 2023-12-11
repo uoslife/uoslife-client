@@ -101,6 +101,11 @@ const AnnouncementMainScreen = () => {
     setIsPending(false);
   };
 
+  const onRefresh = () => {
+    setArticleListObject(prev => ({...prev, [currentOrigin]: []}));
+    setArticlePageObject(prev => ({...prev, [currentOrigin]: 0}));
+  };
+
   const icons: {iconName: IconsNameType; onPress: () => void}[] = [
     {
       iconName: 'search',
@@ -232,6 +237,8 @@ const AnnouncementMainScreen = () => {
                 <Spinner />
               ) : (
                 <ArticleList
+                  refreshing={false}
+                  onRefresh={onRefresh}
                   key={currentOrigin}
                   ListFooterComponent={isPending ? <Spinner /> : null}
                   ref={listRef}
