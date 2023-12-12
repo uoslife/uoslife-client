@@ -1,33 +1,49 @@
-import {Txt} from '@uoslife/design-system';
+import {RefreshControl} from 'react-native-gesture-handler';
+import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useCallback, useEffect, useState} from 'react';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import ArticleList from '../article-list/ArticleList';
 import AnnouncementAPI from '../../../../../api/services/util/announcement/announcementAPI';
 import Spinner from '../../../../atoms/spinner/Spinner';
+import LoadingFailed from '../LoadingFailed/LoadingFailed';
 
-const SearchResultNotFound = () => {
+const SearchResultNotFound = ({onRefresh}: {onRefresh: () => void}) => {
+  const refreshControl = (
+    <RefreshControl
+      onRefresh={onRefresh}
+      colors={[colors.primaryBrand, colors.primaryBrand]}
+      refreshing={false}
+    />
+  );
+
   return (
-    <S.SearchResultNotFoundRoot>
-      <Txt label="검색 결과가 없어요." color="grey90" typograph="bodyMedium" />
-    </S.SearchResultNotFoundRoot>
+    <S.NotFoundContainer refreshControl={refreshControl}>
+      <S.NotFoundInner>
+        <Txt
+          label="검색 결과가 없어요."
+          color="grey90"
+          typograph="bodyMedium"
+        />
+      </S.NotFoundInner>
+    </S.NotFoundContainer>
   );
 };
 
-// 페이지네이션 설정
 const ELEMENTS_PER_PAGE = 10;
 
 const SearchResultView = ({searchWord}: {searchWord: string}) => {
-  const [isPending, setIsPending] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [searchedArticles, setSearchedArticles] = useState<ArticleItemType[]>(
     [],
   );
   const [page, setPage] = useState(0);
 
   const loadNewArticles = useCallback(async () => {
-    try {
-      setIsPending(true);
+    setIsLoading(true);
 
+    try {
       const params = {
         title: searchWord,
         page,
@@ -39,33 +55,37 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
       setPage(prev => prev + 1);
       setSearchedArticles([...searchedArticles, ...loadedArticles]);
     } catch (error) {
-      // TODO: console.log 삭제, 에러 시 보여줄 UI 작성
-      console.log(error);
-    } finally {
-      setIsPending(false);
+      setIsError(true);
     }
+
+    setIsLoading(false);
   }, [page, searchWord, searchedArticles]);
 
-  const onRefreshList = () => {
+  const onRefresh = () => {
     setSearchedArticles([]);
     setPage(0);
+    setIsError(false);
   };
 
   useEffect(() => {
     if (page === 0) loadNewArticles();
   }, [page, loadNewArticles]);
 
-  const isInitiallyPending = searchedArticles.length === 0 && isPending;
-  const isLoadedArticleListEmpty = searchedArticles.length === 0 && !isPending;
+  const isInitiallyLoading = searchedArticles.length === 0 && isLoading;
+  const isLoadedArticleListEmpty = searchedArticles.length === 0 && !isLoading;
 
-  if (isInitiallyPending) return <Spinner />;
-  return isLoadedArticleListEmpty ? (
-    <SearchResultNotFound />
-  ) : (
+  if (isError) return <LoadingFailed onRefresh={onRefresh} />;
+
+  if (isInitiallyLoading) return <Spinner />;
+
+  if (isLoadedArticleListEmpty)
+    return <SearchResultNotFound onRefresh={onRefresh} />;
+
+  return (
     <ArticleList
       refreshing={false}
-      onRefresh={onRefreshList}
-      ListFooterComponent={isPending ? <Spinner /> : null}
+      onRefresh={onRefresh}
+      ListFooterComponent={isLoading ? <Spinner /> : null}
       ref={null}
       onEndReached={loadNewArticles}
       articles={searchedArticles}
@@ -74,9 +94,10 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
 };
 
 const S = {
-  SearchResultNotFoundRoot: styled.View`
+  NotFoundContainer: styled.ScrollView`
     padding: 48px 0;
-    justify-content: center;
+  `,
+  NotFoundInner: styled.View`
     align-items: center;
   `,
 };

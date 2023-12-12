@@ -9,6 +9,7 @@ import {
   GetAnnouncementsParams,
 } from '../../../../../api/services/util/announcement/announcementAPI.type';
 import AnnouncementAPI from '../../../../../api/services/util/announcement/announcementAPI';
+import LoadingFailed from '../LoadingFailed/LoadingFailed';
 
 const ELEMENTS_PER_PAGE = 10;
 
@@ -20,8 +21,10 @@ const MainArticleList = forwardRef<
 >(({origin}, ref) => {
   const [articles, setArticles] = useState<ArticleItemType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const onRefresh = () => {
+    setIsError(false);
     setArticles([]);
   };
 
@@ -42,8 +45,7 @@ const MainArticleList = forwardRef<
 
       setArticles(prev => [...prev, ...loadedArticles]);
     } catch (error) {
-      // TODO: console.log 삭제, 에러 시의 UX 대응
-      console.log(error);
+      setIsError(true);
     }
 
     setIsLoading(false);
@@ -51,7 +53,6 @@ const MainArticleList = forwardRef<
 
   const onEndReached = useCallback(() => {
     if (articles.length === 0) return;
-
     if (isLoading) return;
 
     loadNewArticles();
@@ -64,22 +65,32 @@ const MainArticleList = forwardRef<
 
   const isInitiallyLoading = articles.length === 0;
 
-  return (
-    <S.Root key={origin}>
-      {isInitiallyLoading ? (
+  if (isError)
+    return (
+      <S.Root>
+        <LoadingFailed onRefresh={onRefresh} />
+      </S.Root>
+    );
+
+  if (isInitiallyLoading)
+    return (
+      <S.Root>
         <Spinner />
-      ) : (
-        <ArticleList
-          key={origin}
-          refreshing={false}
-          onRefresh={onRefresh}
-          ListFooterComponent={isLoading ? <Spinner /> : null}
-          ref={ref}
-          showCategoryName={false}
-          articles={articles}
-          onEndReached={onEndReached}
-        />
-      )}
+      </S.Root>
+    );
+
+  return (
+    <S.Root>
+      <ArticleList
+        key={origin}
+        refreshing={false}
+        onRefresh={onRefresh}
+        ListFooterComponent={isLoading ? <Spinner /> : null}
+        ref={ref}
+        showCategoryName={false}
+        articles={articles}
+        onEndReached={onEndReached}
+      />
     </S.Root>
   );
 });
