@@ -21,7 +21,6 @@ import {AnnouncementOriginNameType} from '../../api/services/util/announcement/a
 import useModal from '../../hooks/useModal';
 import Spinner from '../../components/atoms/spinner/Spinner';
 import {ArticleItemType} from '../../types/announcement.type';
-import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 
 const ELEMENTS_PER_PAGE = 10;
@@ -43,8 +42,6 @@ const AnnouncementMainScreen = () => {
   const navigation = useNavigation<AnnouncementNavigationProps>();
   const inputRef = useRef<TextInput>(null);
   const listRef = useRef<FlatList>(null);
-
-  const {getBookmarkIdList} = useBookmarkOnLocal();
 
   const [articleListObject, setArticleListObject] = useState<{
     [key in AnnouncementOriginNameType]: ArticleItemType[];
@@ -68,16 +65,9 @@ const AnnouncementMainScreen = () => {
   const currentOrigin = getOriginFromCategoryState(categoryStatus);
   const currentArticles = articleListObject[currentOrigin];
 
-  useEffect(() => {
+  const pullUpScroll = useCallback(() => {
     listRef.current?.scrollToOffset({offset: 0});
-  }, [currentOrigin, listRef]);
-
-  // 탭 이동시 북마크가 이전 상태로 보이는 UX 이슈 해결을 위한 코드
-  // TODO: 첫 의도대로 article 캐싱을 위해 대책 찾기(북마크 상태를 Global Level에서 관리하는 등..)
-  useEffect(() => {
-    setArticleListObject(prev => ({...prev, [currentOrigin]: []}));
-    setArticlePageObject(prev => ({...prev, [currentOrigin]: 0}));
-  }, [setArticleListObject, setArticlePageObject, currentOrigin]);
+  }, [listRef]);
 
   const loadNewArticlesByOrigin = async (
     origin: AnnouncementOriginNameType,
@@ -93,12 +83,7 @@ const AnnouncementMainScreen = () => {
 
       const res = await AnnouncementAPI.getAnnouncements(params);
 
-      const idList = await getBookmarkIdList();
-
-      const loadedArticles: ArticleItemType[] = res.content.map(item => ({
-        ...item,
-        isBookmarkedByMe: idList.includes(item.id),
-      }));
+      const loadedArticles: ArticleItemType[] = res.content;
 
       setArticleListObject(prev => ({
         ...prev,
@@ -108,7 +93,10 @@ const AnnouncementMainScreen = () => {
         ...prev,
         [origin]: prev[origin] + 1,
       }));
-    } catch (error) {}
+    } catch (error) {
+      // TODO: console.log 삭제, 에러 시 보여줄 UI 작성
+      console.log(error);
+    }
 
     setIsPending(false);
   };
@@ -239,11 +227,12 @@ const AnnouncementMainScreen = () => {
               </S.HeaderIcons>
             </Header>
             <S.CategoryTabAndContents>
-              <CategoryTab />
+              <CategoryTab tabPressAdditionalAction={pullUpScroll} />
               {isInitiallyPending ? (
                 <Spinner />
               ) : (
                 <ArticleList
+                  key={currentOrigin}
                   ListFooterComponent={isPending ? <Spinner /> : null}
                   ref={listRef}
                   showCategoryName={false}

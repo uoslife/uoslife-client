@@ -1,6 +1,6 @@
 import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
-/** List 내부의 ArticleItem(상세 정보 미포함 */
+/** List 내부의 ArticleItem(상세 정보 미포함) */
 export type ArticleItemType = {
   id: number;
   title: string;
@@ -8,7 +8,7 @@ export type ArticleItemType = {
   date: Date;
   bookmarkCount: number;
   origin: AnnouncementOriginNameType;
-  isBookmarkedByMe: boolean;
+  bookmarked: boolean;
 };
 
 /** 게시글 상세 정보 */

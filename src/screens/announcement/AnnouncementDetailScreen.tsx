@@ -8,9 +8,8 @@ import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackN
 import {ArticleDetailType} from '../../types/announcement.type';
 import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementContent';
+import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementDetailScreenContent';
 import Spinner from '../../components/atoms/spinner/Spinner';
-import useBookmarkOnLocal from '../../hooks/useBookmarkOnLocal';
 
 const AnnouncementDetailScreen = ({
   route: {
@@ -22,8 +21,6 @@ const AnnouncementDetailScreen = ({
   // TODO: API 호출 관련 상태관리 로직 - custom hook 추상화 이용
   const [isPending, setIsPending] = useState<boolean>(false);
 
-  const {getBookmarkIdList} = useBookmarkOnLocal();
-
   useEffect(() => {
     (async () => {
       setIsPending(true);
@@ -32,14 +29,14 @@ const AnnouncementDetailScreen = ({
 
         setArticle({
           ...loadedArticle,
-          isBookmarkedByMe: (await getBookmarkIdList()).includes(id),
         });
       } catch (error) {
+        // TODO: console.log 삭제, 에러 시 보여줄 UI 작성
         console.log(error);
       }
       setIsPending(false);
     })();
-  }, [id, getBookmarkIdList]);
+  }, [setIsPending, id]);
 
   const navigation = useNavigation();
 
