@@ -90,18 +90,16 @@ const AnnouncementBookmarkBoxScreen = () => {
   return (
     <S.ScreenContainer style={{paddingTop: insets.top}}>
       <Header label="북마크함" onPressBackButton={handleGoBack} />
-      <S.BookmarkListContainer>
-        {isPending ? (
-          <Spinner />
-        ) : (
-          <BookmarkResult
-            onRefresh={onRefresh}
-            isEmpty={articles.length === 0}
-            isPending={isPending}
-            articles={articles}
-          />
-        )}
-      </S.BookmarkListContainer>
+      {isPending ? (
+        <Spinner />
+      ) : (
+        <BookmarkResult
+          onRefresh={onRefresh}
+          isEmpty={articles.length === 0}
+          isPending={isPending}
+          articles={articles}
+        />
+      )}
     </S.ScreenContainer>
   );
 };
@@ -113,11 +111,6 @@ const S = {
     width: 100%;
     height: 100%;
     display: flex;
-  `,
-  BookmarkListContainer: styled.View`
-    width: 100%;
-    display: flex;
-    gap: 4px;
   `,
   NoBookmarkFoundContainer: styled.View`
     padding-top: 48px;
