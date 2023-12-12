@@ -9,9 +9,10 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Carousel from '../../../components/molecules/common/carousel/Carousel';
 
 import useAccountFlow from '../../../hooks/useAccountFlow';
+import {ONBOARDING_1, ONBOARDING_2, ONBOARDING_3} from '../../../assets/images';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
-const ONBOARDING_IMAGE_HEIGHT = 493;
+const ONBOARDING_IMAGE_HEIGHT = 484;
 const ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME = 4 * 1000;
 
 const AccountMainScreen = () => {
@@ -30,7 +31,11 @@ const AccountMainScreen = () => {
             <Carousel
               imageWidth={ONBOARDING_IMAGE_WIDTH}
               imageHeight={ONBOARDING_IMAGE_HEIGHT}
-              imageUrls={[{uri: ''}, {uri: ''}, {uri: ''}]}
+              carouselData={[
+                {uri: ONBOARDING_1},
+                {uri: ONBOARDING_2},
+                {uri: ONBOARDING_3},
+              ]}
               indicator="BOTTOM"
               autoPlayIntervalTime={ONBOARDING_CAROUSEL_AUTO_PLAY_INTERVAL_TIME}
             />
@@ -60,6 +65,7 @@ const S = {
   `,
   TopWrapper: styled.View`
     display: flex;
+    margin-top: 36px;
     flex-direction: column;
     gap: 16px;
     align-items: center;

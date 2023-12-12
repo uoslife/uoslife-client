@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import {Pressable, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Platform, Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
 
+import KeyboardManager from 'react-native-keyboard-manager';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -17,12 +18,22 @@ import storage from '../../../storage';
 
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
+import customShowToast from '../../../configs/toast';
 
-type PortalVerificationStatusMessageType = 'BEFORE_VERIFICATION' | 'ERROR';
+if (Platform.OS === 'ios') {
+  KeyboardManager.setEnable(true);
+  KeyboardManager.setEnableDebugging(true);
+}
+
+type PortalVerificationStatusMessageType =
+  | 'BEFORE_VERIFICATION'
+  | 'UNFILLED_INPUT'
+  | 'MISMATCHED';
 type InputValueType = {id: string; password: string};
 
 const PortalAuthenticationScreen = () => {
   const insets = useSafeAreaInsets();
+  const passwordRef = useRef<TextInput | null>(null);
 
   const navigation = useNavigation<RootTabNavigationProps>();
   const [isNotAccountFlow] = useIsCurrentScreen([
@@ -45,7 +56,9 @@ const PortalAuthenticationScreen = () => {
     switch (status) {
       case 'BEFORE_VERIFICATION':
         return '';
-      case 'ERROR':
+      case 'UNFILLED_INPUT':
+        return '아이디 또는 비밀번호를 모두 입력해주세요.';
+      case 'MISMATCHED':
         return '아이디 또는 비밀번호를 확인해주세요.';
       default:
         return '';
@@ -57,7 +70,9 @@ const PortalAuthenticationScreen = () => {
     switch (status) {
       case 'BEFORE_VERIFICATION':
         return 'default';
-      case 'ERROR':
+      case 'UNFILLED_INPUT':
+        return 'error';
+      case 'MISMATCHED':
         return 'error';
       default:
         return 'default';
@@ -73,24 +88,28 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePostponePortalAuth = () => {
-    if (isNotAccountFlow) {
-      navigation.navigate('StudentId');
-      return;
-    }
     changeAccountFlow({commonFlowName: 'FINISH'});
   };
 
   const handleSubmit = async () => {
+    if (!(inputValue.id && inputValue.password)) {
+      setMessageStatus('UNFILLED_INPUT');
+      return;
+    }
     try {
-      const res = await CoreAPI.portalVerification({
+      await CoreAPI.portalVerification({
         username: inputValue.id,
         password: inputValue.password,
       });
+      if (isNotAccountFlow) {
+        customShowToast('portalAuthenticationSuccess');
+        navigation.goBack();
+        return;
+      }
       changeAccountFlow({commonFlowName: 'FINISH'});
     } catch (err) {
       const error = err as ErrorResponseType;
-      if (error.status !== 500) setMessageStatus('ERROR');
-      // console.error(error);
+      if (error.status !== 500) setMessageStatus('MISMATCHED');
     }
   };
 
@@ -134,6 +153,9 @@ const PortalAuthenticationScreen = () => {
               label="포털 아이디"
               status={handleInputStatus(messageStatus)}
               placeholder="아이디"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+              returnKeyType="next"
+              blurOnSubmit={false}
             />
             <Input
               onChangeText={text => onChangeText(text, 'password')}
@@ -144,6 +166,9 @@ const PortalAuthenticationScreen = () => {
               status={handleInputStatus(messageStatus)}
               statusMessage={handleInputStatusMessage(messageStatus)}
               placeholder="비밀번호"
+              ref={passwordRef}
+              returnKeyType="done"
+              onSubmitEditing={handleSubmit}
             />
           </View>
         </View>

@@ -1,189 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {Txt} from '@uoslife/design-system';
+import {useAtom} from 'jotai';
 import Header from '../../components/molecules/common/header/Header';
 import Card from '../../components/molecules/common/card/Card';
 import CafeteriaCard from '../../components/molecules/screens/cafeteria/card/CafeteriaCard';
 import DatePaginationBar from '../../components/molecules/screens/cafeteria/pagination/DatePaginationBar';
-import {UtilAPI} from '../../api/services';
-import {
-  GetCafeteriasResponse,
-  MealTimeType,
-} from '../../api/services/util/cafeteria/cafeteriaAPI.type';
+import {MealTimeType} from '../../api/services/util/cafeteria/cafeteriaAPI.type';
 import IconWithText from '../../components/molecules/common/iconWithText/IconWithText';
 import DateUtils from '../../utils/date';
 import CardLayout from '../../components/molecules/common/cardLayout/CardLayout';
-
-type CafeteriaItemType = {
-  isCurrent: boolean;
-  commonDate: string;
-  displayDate: string;
-  mealTime: MealTimeType;
-  items?: GetCafeteriasResponse;
-};
-
-type CafeteriasType = Array<CafeteriaItemType>;
-
-const DEFAULT_MEALTIME = 'LUNCH' as MealTimeType;
+import cachedCafeteriaItemAtom, {
+  cafeteriaMealTimeAtom,
+} from '../../store/cafeteria';
 
 const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
-  const date = new DateUtils(new Date());
-  const [cafeterias, setCafeterias] = useState<CafeteriasType>();
-  const [currentCafeteriaItem, setCurrentCafeteriaItem] =
-    useState<CafeteriaItemType>();
-
   const navigation = useNavigation();
+
+  const date = new DateUtils(new Date());
+
+  const [cafeteriaMealTime, setCafeteriaMealTime] = useAtom(
+    cafeteriaMealTimeAtom,
+  );
+  const [{items}] = useAtom(cachedCafeteriaItemAtom);
 
   const handleGoBack = () => {
     navigation.goBack();
   };
 
-  const getCafeteriaItemByParams = async (
-    params: Pick<CafeteriaItemType, 'commonDate' | 'displayDate' | 'mealTime'>,
-  ): Promise<CafeteriaItemType> => {
-    const {commonDate, displayDate, mealTime} = params;
-    try {
-      const res = await UtilAPI.getCafeterias({
-        mealTime,
-        openDate: commonDate,
-      });
-      return {
-        isCurrent: true,
-        commonDate,
-        mealTime,
-        displayDate,
-        items: res,
-      };
-    } catch (err) {
-      return {
-        isCurrent: true,
-        commonDate,
-        mealTime,
-        displayDate,
-      };
-    }
+  const handleClickMealTimeButton = (mealTime: MealTimeType) => {
+    setCafeteriaMealTime(mealTime);
   };
-
-  const handleClickMealTimeButton = async (mealTime: MealTimeType) => {
-    const currentCommonDate = currentCafeteriaItem!.commonDate;
-    const currentDisplayDate = currentCafeteriaItem!.displayDate;
-    const currentMealTime = currentCafeteriaItem!.mealTime;
-
-    if (currentMealTime === mealTime) return;
-
-    if (
-      cafeterias?.some(
-        item =>
-          item.commonDate === currentCommonDate && item.mealTime === mealTime,
-      )
-    ) {
-      setCafeterias(prev => {
-        if (!prev) return prev;
-        return [
-          ...prev.map(item =>
-            item.mealTime === mealTime && item.commonDate === currentCommonDate
-              ? {...item, isCurrent: true}
-              : {...item, isCurrent: false},
-          ),
-        ];
-      });
-      return;
-    }
-
-    const cafeteriaItem = await getCafeteriaItemByParams({
-      mealTime,
-      commonDate: currentCommonDate,
-      displayDate: currentDisplayDate,
-    });
-    setCafeterias(prev => {
-      if (!prev) return prev;
-      return [
-        ...prev.map(item => {
-          return {...item, isCurrent: false};
-        }),
-        cafeteriaItem,
-      ];
-    });
-  };
-
-  const changeCafeteriaByDate = async (
-    commonDate: string,
-    displayDate: string,
-  ) => {
-    if (
-      cafeterias?.some(
-        item =>
-          item.mealTime === DEFAULT_MEALTIME && item.commonDate === commonDate,
-      )
-    ) {
-      setCafeterias(prev => {
-        if (!prev) return prev;
-        return [
-          ...prev.map(item =>
-            item.mealTime === DEFAULT_MEALTIME && item.commonDate === commonDate
-              ? {...item, isCurrent: true}
-              : {...item, isCurrent: false},
-          ),
-        ];
-      });
-      return;
-    }
-
-    const cafeteriaItem = await getCafeteriaItemByParams({
-      mealTime: DEFAULT_MEALTIME,
-      commonDate,
-      displayDate,
-    });
-    setCafeterias(prev => {
-      if (!prev) return prev;
-      return [
-        ...prev.map(item => {
-          return {...item, isCurrent: false};
-        }),
-        cafeteriaItem,
-      ];
-    });
-  };
-
-  // get first cafeteria item
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await UtilAPI.getCafeterias({
-          mealTime: date.currentMealTime,
-          openDate: date.commonDate,
-        });
-        setCafeterias([
-          {
-            isCurrent: true,
-            commonDate: date.commonDate,
-            displayDate: date.displayDate,
-            items: res,
-            mealTime: date.currentMealTime,
-          },
-        ]);
-      } catch (err) {
-        setCafeterias([
-          {
-            isCurrent: true,
-            commonDate: date.commonDate,
-            displayDate: date.displayDate,
-            mealTime: date.currentMealTime,
-          },
-        ]);
-      }
-    })();
-  }, [date.commonDate, date.currentMealTime, date.displayDate]);
-
-  // set current cafeteria item
-  useEffect(() => {
-    const cafeteriaItem = cafeterias?.find(item => item.isCurrent === true);
-    setCurrentCafeteriaItem(cafeteriaItem);
-  }, [cafeterias]);
 
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
@@ -191,38 +42,34 @@ const CafeteriaScreen = () => {
       <ScrollView bounces={false}>
         <S.bodyContainer style={{paddingBottom: insets.bottom + 12}}>
           <S.selectorWrapper>
-            <DatePaginationBar
-              date={date}
-              displayDate={currentCafeteriaItem?.displayDate}
-              changeCafeteriaByDate={changeCafeteriaByDate}
-            />
+            <DatePaginationBar date={date} />
             <S.iconWrapper>
               <IconWithText
                 iconName="breakfast"
                 text="조식"
-                isClick={currentCafeteriaItem?.mealTime === 'BREAKFAST'}
+                isClick={cafeteriaMealTime === 'BREAKFAST'}
                 onPress={() => handleClickMealTimeButton('BREAKFAST')}
                 style={{paddingTop: 6, paddingBottom: 4}}
               />
               <IconWithText
                 iconName="lunch"
                 text="중식"
-                isClick={currentCafeteriaItem?.mealTime === 'LUNCH'}
+                isClick={cafeteriaMealTime === 'LUNCH'}
                 onPress={() => handleClickMealTimeButton('LUNCH')}
                 style={{paddingTop: 6, paddingBottom: 4}}
               />
               <IconWithText
                 iconName="dinner"
                 text="석식"
-                isClick={currentCafeteriaItem?.mealTime === 'DINNER'}
+                isClick={cafeteriaMealTime === 'DINNER'}
                 onPress={() => handleClickMealTimeButton('DINNER')}
                 style={{paddingTop: 6, paddingBottom: 4}}
               />
             </S.iconWrapper>
           </S.selectorWrapper>
           <S.menuContainer>
-            {currentCafeteriaItem?.items ? (
-              currentCafeteriaItem?.items.map(item => (
+            {items ? (
+              items.map(item => (
                 <Card
                   key={item.location}
                   title={item.location}
@@ -259,8 +106,8 @@ const S = {
     justify-content: center;
     padding: 0px 16px;
     flex-direction: column;
-    align-items: flex-start;
     gap: 16px;
+    width: 100%;
   `,
   iconContainer: styled.View`
     width: 56px;

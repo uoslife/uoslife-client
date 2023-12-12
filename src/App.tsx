@@ -6,11 +6,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
+import * as Sentry from '@sentry/react-native';
+import {SENTRY_DSN_KEY} from '@env';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import NotificationService from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
 import customBackgroundTheme from './styles/customBackgroundTheme';
 import toastConfig from './configs/toast/config';
+
+Sentry.init({
+  dsn: SENTRY_DSN_KEY,
+});
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -36,4 +42,4 @@ const App: React.FC = () => {
 };
 
 // if (!__DEV__) App = codePush(App);
-export default App;
+export default Sentry.wrap(App);

@@ -20,7 +20,7 @@ const BottomSheetToggleItem = ({
         <Txt color="grey190" label={description} typograph="bodyLarge" />
       </S.TextContainer>
       <S.ToggleContainer>
-        <ToggleSwitch isOn={isOn} />
+        <ToggleSwitch isOn={isOn} onToggle={onPress} />
       </S.ToggleContainer>
     </S.Root>
   );

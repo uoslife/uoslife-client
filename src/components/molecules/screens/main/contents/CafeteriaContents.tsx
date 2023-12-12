@@ -1,18 +1,15 @@
 import styled from '@emotion/native';
+import {useAtom} from 'jotai';
 import {Txt, colors} from '@uoslife/design-system';
 
-import {useEffect, useState} from 'react';
 import CardLayout from '../../../common/cardLayout/CardLayout';
-import DateUtils from '../../../../../utils/date';
-import {UtilAPI} from '../../../../../api/services';
-import {
-  CafeteriaItemType,
-  GetCafeteriasResponse,
-} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
+
+import {CafeteriaItemType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
+import cachedCafeteriaItemAtom from '../../../../../store/cafeteria';
 
 const CafeteriaBox = ({
   location,
-  operationTime,
+  // operationTime,
   attributes,
 }: CafeteriaItemType) => {
   return (
@@ -20,9 +17,9 @@ const CafeteriaBox = ({
       <S.BoxWrapper>
         <S.BoxTopArea>
           <Txt label={location} color="grey190" typograph="titleSmall" />
-          <S.BoxTimeIndicator>
+          {/* <S.BoxTimeIndicator>
             <Txt label={operationTime} color="grey130" typograph="caption" />
-          </S.BoxTimeIndicator>
+          </S.BoxTimeIndicator> */}
         </S.BoxTopArea>
         <S.BoxBottomArea>
           {attributes.map(item => (
@@ -33,6 +30,7 @@ const CafeteriaBox = ({
                     label={item.corner}
                     color="secondaryUi"
                     typograph="labelLarge"
+                    style={{width: 40}}
                   />
                 )}
                 <Txt
@@ -55,28 +53,12 @@ const CafeteriaBox = ({
 };
 
 const CafeteriaContents = () => {
-  const date = new DateUtils(new Date());
-  const {commonDate, currentMealTime} = date;
-  const [cafeteria, setCafeteria] = useState<GetCafeteriasResponse>();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await UtilAPI.getCafeterias({
-          mealTime: currentMealTime,
-          openDate: commonDate,
-        });
-        setCafeteria(res);
-      } catch (err) {
-        setCafeteria(undefined);
-      }
-    })();
-  }, [commonDate, currentMealTime]);
+  const [{items}] = useAtom(cachedCafeteriaItemAtom);
 
   return (
     <S.ContentsWrapper horizontal>
-      {cafeteria ? (
-        cafeteria.map(item => (
+      {items ? (
+        items.map(item => (
           <CafeteriaBox
             key={item.location}
             location={item.location}

@@ -1,12 +1,19 @@
-import styled from '@emotion/native';
 import React from 'react';
-import {Pressable, View} from 'react-native';
+import {Dimensions, Pressable, View} from 'react-native';
 import {useAtom} from 'jotai';
+import styled from '@emotion/native';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import Header from '../../../components/molecules/common/header/Header';
-import {existedAccountInfoAtom} from '../../../store/account';
+import {
+  ExistedAccountInfoType,
+  existedAccountInfoAtom,
+} from '../../../store/account';
 import useAccountFlow from '../../../hooks/useAccountFlow';
+
+const DEVICE_HEIGHT = Dimensions.get('window').height;
+const HEADER_TO_TXT_HEIGHT = 270; // 헤더부터 설명 문구('선택한 ~ 삭제됩니다')까지의 높이
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -14,6 +21,16 @@ const AccountIntegrationScreen = () => {
     existedAccountInfoAtom,
   );
   const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
+
+  const selectExistedAccount = (selectedAccount: ExistedAccountInfoType) => {
+    setExistedAccountInfo(prev => {
+      return prev.map(prevItem =>
+        prevItem.id === selectedAccount.id
+          ? {...prevItem, isSelected: true}
+          : {...prevItem, isSelected: false},
+      );
+    });
+  };
 
   const handlePressHeaderBackButton = () =>
     changeAccountFlow({
@@ -51,46 +68,49 @@ const AccountIntegrationScreen = () => {
               typograph="bodyMedium"
             />
           </View>
-          <S.idContainer>
+          <S.idContainer style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT}}>
             {existedAccountInfo.map(item => (
-              <Pressable
-                key={item.id}
-                onPress={() =>
-                  setExistedAccountInfo(prev => {
-                    return prev.map(prevItem =>
-                      prevItem.id === item.id
-                        ? {...prevItem, isSelected: true}
-                        : {...prevItem, isSelected: false},
-                    );
-                  })
-                }>
-                <S.idButtonSelected isSelected={item.isSelected}>
-                  <Txt
-                    label={item.nickname}
-                    color="grey190"
-                    typograph="titleMedium"
-                  />
-                </S.idButtonSelected>
-              </Pressable>
+              <View key={item.id}>
+                {item.nickname && (
+                  <Pressable
+                    key={item.id}
+                    onPress={() => selectExistedAccount(item)}>
+                    <S.idButtonSelected isSelected={item.isSelected}>
+                      <Txt
+                        label={item.nickname}
+                        color="grey190"
+                        typograph="titleMedium"
+                      />
+                    </S.idButtonSelected>
+                  </Pressable>
+                )}
+              </View>
             ))}
+            <S.dummyBox />
           </S.idContainer>
         </View>
-        <Button
-          label="계정 통합하기"
-          onPress={handlePressNextButton}
-          isEnabled={existedAccountInfo.some(item => item.isSelected === true)}
-          isFullWidth
-        />
+        <S.buttonArea>
+          <Button
+            label="계정 통합하기"
+            onPress={handlePressNextButton}
+            isEnabled={existedAccountInfo.some(
+              item => item.isSelected === true,
+            )}
+            isFullWidth
+          />
+        </S.buttonArea>
       </S.accountIntegrationContainer>
     </S.screenContainer>
   );
 };
 
-const getBorderColor = (isSelected: boolean) => {
+const getBorderColor = (isSelected?: boolean) => {
   switch (isSelected) {
     case true:
       return colors.primaryBrand;
     case false:
+      return colors.grey40;
+    default:
       return colors.grey40;
   }
 };
@@ -102,19 +122,14 @@ const S = {
     flex: 1;
   `,
   accountIntegrationContainer: styled.View`
-    flex: 1;
-    justify-content: space-between;
     padding: 28px 16px 0;
   `,
   idContainer: styled.ScrollView`
-    gap: 16px;
     padding-bottom: 16px;
   `,
-  idButtonSelected: styled.View<{isSelected: boolean}>`
-    display: flex;
-
-    height: 56px;
+  idButtonSelected: styled.View<{isSelected?: boolean}>`
     border-radius: 10px;
+    margin-bottom: 16px;
     padding: 16px;
     border: 2px solid ${({isSelected}) => getBorderColor(isSelected)};
     justify-content: center;
@@ -123,5 +138,18 @@ const S = {
     padding-left: 16px;
     color: black;
     font-weight: bold;
+  `,
+  buttonArea: styled.View`
+    margin: 0 16px;
+    background-color: white;
+    height: 64px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  `,
+  dummyBox: styled.View`
+    height: 58px;
   `,
 };

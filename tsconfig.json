@@ -1,4 +1,4 @@
 {
-  "include": ["src", ".eslintrc.js"],
+  "include": ["src", ".eslintrc.js", "env.d.ts"],
   "extends": "@tsconfig/react-native/tsconfig.json"
 }

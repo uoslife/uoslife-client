@@ -11,7 +11,7 @@ export type UserStatusType =
 
 export type MigrationUserInfoType = {
   id: string;
-  nickname: string;
+  nickname: string | null;
   username: string;
 };
 

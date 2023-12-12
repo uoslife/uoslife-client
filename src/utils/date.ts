@@ -1,5 +1,7 @@
 import {MealTimeType} from '../api/services/util/cafeteria/cafeteriaAPI.type';
 
+const MEALTIME_BEFORE_LUNCH = 10;
+const MEALTIME_AFTER_LUNCH = 15;
 export default class DateUtils {
   private _today: Date;
 
@@ -11,7 +13,7 @@ export default class DateUtils {
   private _minutes: number;
 
   private _korDays: Array<string>;
-  private _mealTime: Array<MealTimeType>;
+  private _mealTimeList: Array<MealTimeType>;
 
   private _startOfWeek: Date;
   private _thisWeekCommonDates: Array<string>;
@@ -28,7 +30,7 @@ export default class DateUtils {
     this._minutes = date.getMinutes();
 
     this._korDays = ['일', '월', '화', '수', '목', '금', '토'];
-    this._mealTime = ['BREAKFAST', 'LUNCH', 'DINNER'];
+    this._mealTimeList = ['BREAKFAST', 'LUNCH', 'DINNER'];
 
     this._startOfWeek = new Date(date);
     this._startOfWeek.setDate(date.getDate() - date.getDay());
@@ -68,8 +70,8 @@ export default class DateUtils {
     return this._korDays;
   }
 
-  get mealTime() {
-    return this._mealTime;
+  get mealTimeList() {
+    return this._mealTimeList;
   }
 
   get startOfWeek() {
@@ -77,20 +79,22 @@ export default class DateUtils {
   }
 
   get commonDate() {
-    return `${this._year}-${this._month}-${this._date}`;
+    return `${this._year}-${this.addZero(this._month)}-${this.addZero(
+      this._date,
+    )}`;
   }
 
   get displayDate() {
-    return `${this.year}.${this.month}.${this.date} (${
-      this.korDays[this.day]
-    })`;
+    return `${this.year}.${this.addZero(this.month)}.${this.addZero(
+      this.date,
+    )} (${this.korDays[this.day]})`;
   }
 
   get currentMealTime(): MealTimeType {
     const currentHour = this.hour;
-    if (currentHour < 10) return this.mealTime[0];
-    if (currentHour >= 17) return this.mealTime[2];
-    return this.mealTime[1];
+    if (currentHour < MEALTIME_BEFORE_LUNCH) return this.mealTimeList[0];
+    if (currentHour >= MEALTIME_AFTER_LUNCH) return this.mealTimeList[2];
+    return this.mealTimeList[1];
   }
 
   get thisWeekCommonDates() {
@@ -102,14 +106,21 @@ export default class DateUtils {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  addZero(number: number) {
+    if (number >= 10) return number.toString();
+    return `0${number}`;
+  }
+
   generateCommonDate(date: Date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return `${date.getFullYear()}-${this.addZero(
+      date.getMonth() + 1,
+    )}-${this.addZero(date.getDate())}`;
   }
 
   generateDisplayDate(date: Date) {
-    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} (${
-      this.korDays[date.getDay()]
-    })`;
+    return `${date.getFullYear()}.${this.addZero(
+      date.getMonth() + 1,
+    )}.${this.addZero(date.getDate())} (${this.korDays[date.getDay()]})`;
   }
 
   generateWeekCommonDates() {

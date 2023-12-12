@@ -27,7 +27,13 @@ export type LibraryStatusItemType = {
   remain_seat: string;
 };
 
+export type ReservationStatusTypeFromServer =
+  | 'SEAT' // 좌석
+  | 'STUDY_ROOM' // 스터디룸
+  | 'OUTSIDE'; // 외출
+
 export type LibraryReservationType = {
+  status: ReservationStatusTypeFromServer;
   seatRoomName: string;
   seatNo: string;
   seatUseTime: string;

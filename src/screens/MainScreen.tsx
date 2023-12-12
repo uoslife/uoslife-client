@@ -1,6 +1,6 @@
 import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {View, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
@@ -33,17 +33,10 @@ const MainScreen = () => {
 
   const {user} = useUserState();
 
-  useEffect(() => {
-    navigation.push('Announcement');
-  }, [navigation]);
-
   const {id, nickname} = user || {};
 
   return (
     <S.MainContainer bounces={false}>
-      <View>
-        <Txt color="black" label="asdflkjafk" typograph="bodyLarge" />
-      </View>
       <View
         style={{
           height: insets.top + 20,
@@ -88,7 +81,7 @@ const MainScreen = () => {
             typograph="headlineSmall"
           />
         </View>
-        {/* <Carousel
+        <Carousel
           imageWidth={BANNER_WIDTH}
           imageHeight={BANNER_HEIGHT}
           carouselData={[
@@ -96,7 +89,7 @@ const MainScreen = () => {
             {uri: BANNER_2, link: BANNER_2_LINK},
           ]}
           indicator="TOPRIGHT"
-        /> */}
+        />
         <MainServiceBox
           label="오늘의 학식"
           iconName="cafeteria"

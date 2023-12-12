@@ -1,15 +1,22 @@
 import styled, {css} from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import {NativeSyntheticEvent, NativeScrollEvent, FlatList} from 'react-native';
+import {
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  FlatList,
+  Pressable,
+  Linking,
+} from 'react-native';
 import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
 
 type IndicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
+type CarouselData = {uri: any; link?: string};
 
 type CarouselProps = {
   imageWidth: number;
   imageHeight: number;
-  imageUrls: Array<{uri: string}>;
+  carouselData: Array<CarouselData>;
   indicator: IndicatorType;
   autoPlay?: boolean;
   autoPlayIntervalTime?: number;
@@ -18,14 +25,14 @@ type CarouselProps = {
 const Carousel = ({
   imageWidth,
   imageHeight,
-  imageUrls,
+  carouselData,
   indicator = 'NONE',
   autoPlay = true,
   autoPlayIntervalTime = 3000,
 }: CarouselProps) => {
   const carouselRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(1);
-  const imageUrlsLength = imageUrls.length;
+  const imageUrlsLength = carouselData.length;
 
   const setIndex = useCallback((index: number) => {
     carouselRef.current?.scrollToIndex({
@@ -43,7 +50,7 @@ const Carousel = ({
   };
 
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay) return () => null;
     const carouselInterval = setInterval(() => {
       if (currentIndex === imageUrlsLength) {
         setIndex(0);
@@ -52,7 +59,8 @@ const Carousel = ({
       setIndex(currentIndex);
     }, autoPlayIntervalTime);
     return () => clearInterval(carouselInterval);
-  }, [currentIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, setIndex]);
 
   return (
     <S.CarouselContainer indicator={indicator}>
@@ -71,13 +79,16 @@ const Carousel = ({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={onMomentumScrollEnd}
-        data={Array.from({length: imageUrlsLength})}
+        data={carouselData}
         renderItem={({item}) => {
+          const {uri, link} = item as CarouselData;
           return (
-            <S.CarouselImage
-              style={{width: imageWidth, height: imageHeight}}
-              source={require('../../../../assets/images/banner_sample_img.png')}
-            />
+            <Pressable onPress={() => (link ? Linking.openURL(link) : null)}>
+              <S.CarouselImage
+                style={{width: imageWidth, height: imageHeight}}
+                source={uri}
+              />
+            </Pressable>
           );
         }}
       />

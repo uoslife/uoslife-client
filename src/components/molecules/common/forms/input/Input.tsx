@@ -1,56 +1,62 @@
-import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
+import React, {forwardRef} from 'react';
+import {Pressable, StyleSheet, TextInput} from 'react-native';
 import styled from '@emotion/native';
 import {Icon, Timer, colors, typographs} from '@uoslife/design-system';
 import InputProps from './Input.type';
 
-const Input = ({
-  keyboardType = 'default',
-  status = 'default',
-  label,
-  statusMessage,
-  value,
-  placeholder,
-  placeholderTextColor = colors.grey60,
-  showTimer,
-  currentTime,
-  onChangeText,
-  onPress,
-  children,
-  ...props
-}: InputProps) => {
-  return (
-    <S.Container>
-      <S.Label status={status}>{label}</S.Label>
-      <S.InputContainer status={status}>
-        <S.TextInput
-          style={Styles.paddingVertical}
-          keyboardType={keyboardType}
-          placeholder={placeholder}
-          value={value}
-          placeholderTextColor={placeholderTextColor}
-          onChangeText={onChangeText}
-          autoCapitalize="none"
-          {...props}
-        />
-        <S.InputRightBox>
-          {showTimer && <Timer currentTime={currentTime!} />}
-          {!!value && (
-            <Pressable onPress={onPress}>
-              <Icon name="clear" width={24} height={24} />
-            </Pressable>
-          )}
-        </S.InputRightBox>
-      </S.InputContainer>
-      {children}
-      {!!statusMessage && (
-        <S.StatusMessageWrapper>
-          <S.StatusMessage status={status}>{statusMessage}</S.StatusMessage>
-        </S.StatusMessageWrapper>
-      )}
-    </S.Container>
-  );
-};
+const Input = forwardRef(
+  (
+    {
+      keyboardType = 'default',
+      status = 'default',
+      label,
+      statusMessage,
+      value,
+      placeholder,
+      placeholderTextColor = colors.grey60,
+      showTimer,
+      currentTime,
+      onChangeText,
+      onPress,
+      children,
+      ...props
+    }: InputProps,
+    ref: React.ForwardedRef<TextInput>,
+  ) => {
+    return (
+      <S.Container>
+        <S.Label status={status}>{label}</S.Label>
+        <S.InputContainer status={status}>
+          <S.TextInput
+            style={Styles.paddingVertical}
+            keyboardType={keyboardType}
+            placeholder={placeholder}
+            value={value}
+            placeholderTextColor={placeholderTextColor}
+            onChangeText={onChangeText}
+            autoCapitalize="none"
+            ref={ref}
+            {...props}
+          />
+          <S.InputRightBox>
+            {showTimer && <Timer currentTime={currentTime!} />}
+            {!!value && (
+              <Pressable onPress={onPress}>
+                <Icon name="clear" width={24} height={24} />
+              </Pressable>
+            )}
+          </S.InputRightBox>
+        </S.InputContainer>
+        {children}
+        {!!statusMessage && (
+          <S.StatusMessageWrapper>
+            <S.StatusMessage status={status}>{statusMessage}</S.StatusMessage>
+          </S.StatusMessageWrapper>
+        )}
+      </S.Container>
+    );
+  },
+);
 
 export default Input;
 

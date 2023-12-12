@@ -54,7 +54,9 @@ const AnnouncementDetailScreen = ({
         <Spinner />
       ) : (
         article && (
-          <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+          <ScrollView
+            contentContainerStyle={{paddingBottom: 100}}
+            scrollIndicatorInsets={{right: 1}}>
             <AnnouncementDetailScreenContent {...article} />
           </ScrollView>
         )
