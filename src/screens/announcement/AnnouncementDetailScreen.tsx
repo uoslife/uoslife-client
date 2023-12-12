@@ -8,7 +8,7 @@ import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackN
 import {ArticleDetailType} from '../../types/announcement.type';
 import {announcementFullName} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/announcement-detail/AnnouncementDetailScreenContent';
+import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/detail/AnnouncementDetailScreenContent';
 import Spinner from '../../components/atoms/spinner/Spinner';
 
 const AnnouncementDetailScreen = ({

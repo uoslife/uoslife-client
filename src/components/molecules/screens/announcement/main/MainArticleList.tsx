@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {FlatList} from 'react-native-gesture-handler';
 import {forwardRef, useCallback, useEffect, useState} from 'react';
 import {ArticleItemType} from '../../../../../types/announcement.type';
-import ArticleList from '../article-list/ArticleList';
+import ArticleList from '../list/ArticleList';
 import Spinner from '../../../../atoms/spinner/Spinner';
 import {
   AnnouncementOriginNameType,

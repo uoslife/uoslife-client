@@ -3,7 +3,7 @@ import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useCallback, useEffect, useState} from 'react';
 import {ArticleItemType} from '../../../../../types/announcement.type';
-import ArticleList from '../article-list/ArticleList';
+import ArticleList from '../list/ArticleList';
 import AnnouncementAPI from '../../../../../api/services/util/announcement/announcementAPI';
 import Spinner from '../../../../atoms/spinner/Spinner';
 import LoadingFailed from '../LoadingFailed/LoadingFailed';

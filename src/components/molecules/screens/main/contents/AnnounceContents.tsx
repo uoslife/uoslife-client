@@ -11,7 +11,7 @@ import UtilityService from '../../../../../services/utility';
 import {AnnouncementOriginNameType} from '../../../../../api/services/util/announcement/announcementAPI.type';
 
 import CardLayout from '../../../common/cardLayout/CardLayout';
-import CategoryTab from '../../announcement/category-tab/CategoryTab';
+import CategoryTab from '../../announcement/tab/CategoryTab';
 
 const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;
 const DEFAULT_ANNOUNCEMENT_ORIGIN = 'FA1';

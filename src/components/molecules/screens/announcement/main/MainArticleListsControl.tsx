@@ -6,7 +6,7 @@ import {
   AnnouncmentCategoryOriginType,
   categoryStatusAtom,
 } from '../../../../../store/announcement';
-import CategoryTab from '../category-tab/CategoryTab';
+import CategoryTab from '../tab/CategoryTab';
 import MainArticleList from './MainArticleList';
 
 const {width} = Dimensions.get('window');

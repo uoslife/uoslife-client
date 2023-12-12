@@ -5,7 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ArticleItemType} from '../../types/announcement.type';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
+import ArticleList from '../../components/molecules/screens/announcement/list/ArticleList';
 import Header from '../../components/molecules/common/header/Header';
 import Spinner from '../../components/atoms/spinner/Spinner';
 import BookmarkAPI from '../../api/services/util/bookmark/bookmarkAPI';
