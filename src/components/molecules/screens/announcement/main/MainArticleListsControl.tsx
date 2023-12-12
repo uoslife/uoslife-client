@@ -64,9 +64,8 @@ const MainArticleListsControl = () => {
           setCategoryStatusByIndex(currentPage);
         }}>
         {categoryStatus.map((_, index) => (
-          <View style={{width}}>
+          <View style={{width}} key={categoryStatus[index].origin}>
             <MainArticleList
-              key={categoryStatus[index].origin}
               ref={listRefArray[index]}
               origin={categoryStatus[index].origin}
             />
