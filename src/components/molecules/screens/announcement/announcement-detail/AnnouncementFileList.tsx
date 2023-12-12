@@ -11,15 +11,14 @@ const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
     url: fileItem[1],
   }));
 
-  // Feedback please: Component Prop부에 콜백 함수를 넣기 싫어서 이렇게 작성하였습니다.
-  const downloadLinkOpenerGenerator = (url: string) => () => {
-    Linking.openURL(url);
+  const handlePressFileDownload = (downloadUrl: string) => () => {
+    Linking.openURL(downloadUrl);
   };
 
   return (
     <S.List>
       {processedFilesData.map(({name, url}) => (
-        <S.Item key={name} onPress={downloadLinkOpenerGenerator(url)}>
+        <S.Item key={name} onPress={handlePressFileDownload(url)}>
           <Icon
             height={18}
             width={18}
