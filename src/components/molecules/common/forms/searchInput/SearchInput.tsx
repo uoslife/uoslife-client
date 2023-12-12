@@ -20,14 +20,14 @@ const SearchInput = ({
   return (
     <View>
       <Pressable>
-        <S.roundInputContainer value={value} status={status}>
+        <S.RoundInputContainer value={value} status={status}>
           <Icon
             name="search"
             width={24}
             height={24}
             color={value ? 'grey190' : 'grey60'}
           />
-          <S.textInput
+          <S.TextInput
             style={Styles.paddingVertical}
             value={value}
             onChangeText={onChangeText}
@@ -42,14 +42,14 @@ const SearchInput = ({
             {...props}
           />
           {children}
-          {!!value && (
-            <S.deleteTextWrapper>
+          <S.DeleteIconContainer>
+            {!!value && (
               <Pressable onPress={onPressClear}>
                 <Icon name="clear" width={24} height={24} color="grey90" />
               </Pressable>
-            </S.deleteTextWrapper>
-          )}
-        </S.roundInputContainer>
+            )}
+          </S.DeleteIconContainer>
+        </S.RoundInputContainer>
       </Pressable>
     </View>
   );
@@ -71,7 +71,7 @@ const getStatusColor = (status: SearchInputProps['status']) => {
 };
 
 const S = {
-  roundInputContainer: styled.Pressable<SearchInputProps>`
+  RoundInputContainer: styled.Pressable<SearchInputProps>`
     position: relative;
     flex-direction: row;
     align-items: center;
@@ -82,16 +82,15 @@ const S = {
     border-color: ${({status}) => getStatusColor(status!)};
     border-radius: 100px;
   `,
-  textInput: styled.TextInput<SearchInputProps>`
-    ${() => typographs.bodyLarge};
+  TextInput: styled.TextInput<SearchInputProps>`
     line-height: 20px;
-    width: 80%;
+    width: 75%;
   `,
-  deleteTextWrapper: styled.View<SearchInputProps>`
+  DeleteIconContainer: styled.View<SearchInputProps>`
     position: absolute;
-    left: 97%;
+    right: 20px;
   `,
-  searchIcon: styled.Image<SearchInputProps>`
+  SearchIcon: styled.Image<SearchInputProps>`
     height: 24px;
     width: 24px;
   `,
