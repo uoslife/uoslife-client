@@ -5,9 +5,9 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import {StackScreenProps} from '@react-navigation/stack';
-import {useConfigContext} from '../hooks/ConfigContext';
-import {RootStackParamList} from '../navigators/RootStackNavigator';
-import storage from '../storage';
+import {useConfigContext} from '../../hooks/ConfigContext';
+import {RootStackParamList} from '../../navigators/RootStackNavigator';
+import storage from '../../storage';
 
 const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
   navigation,
