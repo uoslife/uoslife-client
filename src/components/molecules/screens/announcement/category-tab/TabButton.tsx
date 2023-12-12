@@ -23,7 +23,7 @@ const TabButton = ({isSelected, label, onPress}: TabButtonProps) => {
 export default TabButton;
 
 const S = {
-  Container: styled.Pressable<Pick<TabButtonProps, 'isSelected'>>`
+  Container: styled.TouchableOpacity<Pick<TabButtonProps, 'isSelected'>>`
     height: 48px;
     flex: 1;
 

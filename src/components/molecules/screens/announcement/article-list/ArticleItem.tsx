@@ -90,13 +90,13 @@ const S = {
 
     align-items: center;
   `,
-  DescriptionContainer: styled.Pressable`
+  DescriptionContainer: styled.TouchableOpacity`
     flex: 1;
 
     display: flex;
     gap: 4px;
   `,
-  BookmarkToggleContainer: styled.Pressable`
+  BookmarkToggleContainer: styled.TouchableOpacity`
     display: flex;
     align-items: center;
     justify-content: center;

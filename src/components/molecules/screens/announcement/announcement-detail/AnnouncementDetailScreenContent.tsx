@@ -118,7 +118,7 @@ const S = {
 
     margin-top: 8px;
   `,
-  BookmarkToggleContainer: styled.Pressable`
+  BookmarkToggleContainer: styled.TouchableOpacity`
     display: flex;
     flex-direction: row;
     align-items: center;
