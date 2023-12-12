@@ -1,35 +1,12 @@
 import {Linking, View} from 'react-native';
-import {Icon, Txt, colors} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
-import useBookmark, {BookmarkInfo} from '../../../../../hooks/useBookmark';
-
-const BookmarkToggle = ({
-  bookmarkCount,
-  bookmarked,
-  onPressBookmarkToggle,
-}: BookmarkInfo & {
-  onPressBookmarkToggle: () => {};
-}) => {
-  return (
-    <S.BookmarkToggleContainer onPress={onPressBookmarkToggle}>
-      <Icon
-        name="bookmark"
-        color={bookmarked ? 'primaryBrand' : 'grey90'}
-        height={24}
-        width={24}
-      />
-      <Txt
-        color={bookmarked ? 'primaryBrand' : 'grey90'}
-        label={`${bookmarkCount}`}
-        typograph="titleSmall"
-      />
-    </S.BookmarkToggleContainer>
-  );
-};
+import useBookmark from '../../../../../hooks/useBookmark';
+import DetailBookmarkToggle from './DetailBookmarkToggle';
 
 const AnnouncementDetailScreenContent = ({
   title,
@@ -71,7 +48,7 @@ const AnnouncementDetailScreenContent = ({
                   typograph="bodyLarge"
                 />
               </S.GoToOriginUrl>
-              <BookmarkToggle
+              <DetailBookmarkToggle
                 bookmarked={bookmarkedCurrent}
                 bookmarkCount={bookmarkCountCurrent}
                 onPressBookmarkToggle={onPressBookmarkToggle}
@@ -117,16 +94,5 @@ const S = {
     justify-content: space-between;
 
     margin-top: 8px;
-  `,
-  BookmarkToggleContainer: styled.TouchableOpacity`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    padding: 6px 12px 6px 8px;
-    border-radius: 10px;
-
-    border: 1px ${colors.grey40};
   `,
 };

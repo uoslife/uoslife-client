@@ -1,39 +1,16 @@
 import styled from '@emotion/native';
-import {Icon, Txt} from '@uoslife/design-system';
-import React, {useState, memo} from 'react';
+import {Txt} from '@uoslife/design-system';
+import React, {memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import useBookmark, {BookmarkInfo} from '../../../../../hooks/useBookmark';
+import useBookmark from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
+import ItemBookmarkToggle from './ItemBookmarkToggle';
 
 type ArticleItemComponentProps = {
   showCategoryName: boolean;
   articleItem: ArticleItemType;
-};
-
-const BookmarkToggle = ({
-  bookmarkCount,
-  bookmarked,
-  onPressBookmarkToggle,
-}: BookmarkInfo & {
-  onPressBookmarkToggle: () => {};
-}) => {
-  return (
-    <S.BookmarkToggleContainer onPress={onPressBookmarkToggle}>
-      <Icon
-        width={24}
-        height={24}
-        name="bookmark"
-        color={bookmarked ? 'primaryBrand' : 'grey60'}
-      />
-      <Txt
-        label={`${bookmarkCount}`}
-        color={bookmarked ? 'primaryBrand' : 'grey60'}
-        typograph="labelSmall"
-      />
-    </S.BookmarkToggleContainer>
-  );
 };
 
 const ArticleItem = ({
@@ -42,7 +19,6 @@ const ArticleItem = ({
 }: ArticleItemComponentProps) => {
   const {date, department, id, title, origin, bookmarkCount, bookmarked} =
     articleItem;
-  const [isPending, setIsPending] = useState(false);
   const {bookmarkCountCurrent, bookmarkedCurrent, onPressBookmarkToggle} =
     useBookmark(id, {
       bookmarkCount,
@@ -70,7 +46,7 @@ const ArticleItem = ({
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
-      <BookmarkToggle
+      <ItemBookmarkToggle
         bookmarkCount={bookmarkCountCurrent}
         bookmarked={bookmarkedCurrent}
         onPressBookmarkToggle={onPressBookmarkToggle}
