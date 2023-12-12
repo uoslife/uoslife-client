@@ -3,6 +3,7 @@ import AnnouncementService from './announcementAPI.interface';
 import * as Type from './announcementAPI.type';
 import {generateQueryString} from '../../../../utils/getQueryStringFromParams';
 
+// TODO: ServiceFunc 변경 이후 발생하는 것으로 예상되는 타입에러 대응
 const AnnouncementAPI: AnnouncementService = {
   getAnnouncements: params =>
     get<Type.GetAnnouncementsRes>(
@@ -17,17 +18,17 @@ const AnnouncementAPI: AnnouncementService = {
       )}&sort=date,desc`,
     ),
   getAnnouncementByIdList: params =>
-    get<Type.getAnnouncementByIdListRes>(
+    get<Type.GetAnnouncementByIdListRes>(
       `utility/announcement/list?${params.idList
         .map(id => `id=${id}`)
         .join('&')}`,
     ),
-
-  // NOT-IN-USE(23 / 10 / 14)
-
-  // searchAnnoucementsOptionally: params =>
-  //   get<Type.SearchAnnouncementsOptionallyRes>(`
-  //     utility/announcement/search/option?${generateQueryString(params)}`),
+  searchAnnoucementsOptionally: params =>
+    get<Type.SearchAnnouncementsOptionallyRes>(
+      `utility/announcement/search/option?${generateQueryString(
+        params,
+      )}&sort=date,desc`,
+    ),
 };
 
 export default AnnouncementAPI;

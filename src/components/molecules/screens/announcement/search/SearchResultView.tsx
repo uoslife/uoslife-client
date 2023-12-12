@@ -29,11 +29,11 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
       setIsPending(true);
 
       const params = {
-        keyword: searchWord,
+        title: searchWord,
         page,
         size: ELEMENTS_PER_PAGE,
       };
-      const res = await AnnouncementAPI.searchAnnoucements(params);
+      const res = await AnnouncementAPI.searchAnnoucementsOptionally(params);
       const loadedArticles = res.content;
 
       setPage(prev => prev + 1);
