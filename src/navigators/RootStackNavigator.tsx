@@ -12,7 +12,7 @@ import AnnouncementStackNavigator from './AnnouncementStackNavigator';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
-import MyPageStackNavigator from './MyPageStackNavigator';
+import MypageStackNavigator from './MypageStackNavigator';
 import RootBottomTapNavigator, {
   RootTabParamList,
 } from './RootBottomTapNavigator';
@@ -28,7 +28,7 @@ import useInitApp from '../hooks/useInitApp';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
-  MyPage: undefined;
+  Mypage: undefined;
   Announcement: undefined;
   Library: undefined;
   Cafeteria: undefined;
@@ -56,6 +56,7 @@ const RootStackNavigator: React.FC = () => {
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
+
   return (
     <Stack.Navigator
       initialRouteName="Main"
@@ -67,7 +68,7 @@ const RootStackNavigator: React.FC = () => {
             component={RootBottomTapNavigator}
             options={{animationEnabled: false}}
           />
-          <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
+          <Stack.Screen name="Mypage" component={MypageStackNavigator} />
           <Stack.Screen
             name="Announcement"
             component={AnnouncementStackNavigator}

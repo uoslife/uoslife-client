@@ -7,7 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 
 import Header from '../../components/molecules/common/header/Header';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
-import {MypageAppInformationNavigationProp} from '../../navigators/MyPageStackNavigator';
+import {MypageAppInformationNavigationProp} from '../../navigators/MypageStackNavigator';
 
 const MypageAppInformationScreen = () => {
   const insets = useSafeAreaInsets();

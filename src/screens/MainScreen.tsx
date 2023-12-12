@@ -47,7 +47,7 @@ const MainScreen = () => {
         <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
       </View>
       <S.MainWrapper>
-        <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
+        <S.MypageButton onPress={() => navigation.navigate('Mypage')}>
           <Icon name="person" width={24} height={24} color="white" />
         </S.MypageButton>
         <View
