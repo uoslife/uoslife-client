@@ -17,12 +17,12 @@ const ArticleItem = ({
   articleItem,
   showCategoryName,
 }: ArticleItemComponentProps) => {
-  const {date, department, id, title, origin, bookmarkCount, bookmarked} =
+  const {date, department, id, title, origin, bookmarkCount, isBookmarked} =
     articleItem;
-  const {bookmarkCountCurrent, bookmarkedCurrent, onPressBookmarkToggle} =
+  const {bookmarkCountCurrent, isBookmarkedCurrent, onPressBookmarkToggle} =
     useBookmark(id, {
       bookmarkCount,
-      bookmarked,
+      isBookmarked,
     });
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
@@ -48,7 +48,7 @@ const ArticleItem = ({
       </S.DescriptionContainer>
       <ItemBookmarkToggle
         bookmarkCount={bookmarkCountCurrent}
-        bookmarked={bookmarkedCurrent}
+        isBookmarked={isBookmarkedCurrent}
         onPressBookmarkToggle={onPressBookmarkToggle}
       />
     </S.Root>
@@ -61,19 +61,15 @@ const S = {
 
     width: 100%;
 
-    display: flex;
     flex-direction: row;
-
     align-items: center;
   `,
   DescriptionContainer: styled.TouchableOpacity`
     flex: 1;
 
-    display: flex;
     gap: 4px;
   `,
   BookmarkToggleContainer: styled.TouchableOpacity`
-    display: flex;
     align-items: center;
     justify-content: center;
 

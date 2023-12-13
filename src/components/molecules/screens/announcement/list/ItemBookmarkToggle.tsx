@@ -4,7 +4,7 @@ import {BookmarkInfo} from '../../../../../hooks/useBookmark';
 
 const ItemBookmarkToggle = ({
   bookmarkCount,
-  bookmarked,
+  isBookmarked,
   onPressBookmarkToggle,
 }: BookmarkInfo & {
   onPressBookmarkToggle: () => {};
@@ -15,11 +15,11 @@ const ItemBookmarkToggle = ({
         width={24}
         height={24}
         name="bookmark"
-        color={bookmarked ? 'primaryBrand' : 'grey60'}
+        color={isBookmarked ? 'primaryBrand' : 'grey60'}
       />
       <Txt
         label={`${bookmarkCount}`}
-        color={bookmarked ? 'primaryBrand' : 'grey60'}
+        color={isBookmarked ? 'primaryBrand' : 'grey60'}
         typograph="labelSmall"
       />
     </S.BookmarkToggleContainer>

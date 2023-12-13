@@ -4,7 +4,7 @@ import {BookmarkInfo} from '../../../../../hooks/useBookmark';
 
 const DetailBookmarkToggle = ({
   bookmarkCount,
-  bookmarked,
+  isBookmarked,
   onPressBookmarkToggle,
 }: BookmarkInfo & {
   onPressBookmarkToggle: () => {};
@@ -13,12 +13,12 @@ const DetailBookmarkToggle = ({
     <S.BookmarkToggleContainer onPress={onPressBookmarkToggle}>
       <Icon
         name="bookmark"
-        color={bookmarked ? 'primaryBrand' : 'grey90'}
+        color={isBookmarked ? 'primaryBrand' : 'grey90'}
         height={24}
         width={24}
       />
       <Txt
-        color={bookmarked ? 'primaryBrand' : 'grey90'}
+        color={isBookmarked ? 'primaryBrand' : 'grey90'}
         label={`${bookmarkCount}`}
         typograph="titleSmall"
       />
@@ -28,7 +28,6 @@ const DetailBookmarkToggle = ({
 
 const S = {
   BookmarkToggleContainer: styled.TouchableOpacity`
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;

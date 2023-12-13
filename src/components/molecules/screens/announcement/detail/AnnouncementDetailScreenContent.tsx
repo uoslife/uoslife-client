@@ -17,16 +17,16 @@ const AnnouncementDetailScreenContent = ({
   origin,
   url,
   id,
-  bookmarked,
+  isBookmarked,
 }: ArticleDetailType) => {
   const openOriginalUrl = () => {
     Linking.openURL(url);
   };
 
-  const {bookmarkCountCurrent, bookmarkedCurrent, onPressBookmarkToggle} =
+  const {bookmarkCountCurrent, isBookmarkedCurrent, onPressBookmarkToggle} =
     useBookmark(id, {
       bookmarkCount,
-      bookmarked,
+      isBookmarked,
     });
 
   return (
@@ -49,7 +49,7 @@ const AnnouncementDetailScreenContent = ({
                 />
               </S.GoToOriginUrl>
               <DetailBookmarkToggle
-                bookmarked={bookmarkedCurrent}
+                isBookmarked={isBookmarkedCurrent}
                 bookmarkCount={bookmarkCountCurrent}
                 onPressBookmarkToggle={onPressBookmarkToggle}
               />
