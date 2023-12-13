@@ -17,9 +17,9 @@ import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenti
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;
-  Mypage_profile: undefined;
+  Mypage_profile: MyPageProfileStackParamList;
   Mypage_appSetting: undefined;
-  Mypage_appInformation: undefined;
+  Mypage_appInformation: MyPageAppInformationStackParamList;
 };
 
 export type MyPageProfileStackParamList = {
