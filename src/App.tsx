@@ -9,13 +9,15 @@ import Toast from 'react-native-toast-message';
 import * as Sentry from '@sentry/react-native';
 import {SENTRY_DSN_KEY} from '@env';
 import {useAtom} from 'jotai';
+
+import customBackgroundTheme from './styles/customBackgroundTheme';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import NotificationService from './services/notification';
 import ConfigContext from './hooks/ConfigContext';
-import customBackgroundTheme from './styles/customBackgroundTheme';
-import toastConfig from './configs/toast/config';
 import AnimatedBootSplash from './screens/etc/AnimatedBootSplash';
 import bootSplashVisibleAtom from './store/bootsplash';
+import toastConfig from './configs/toast/config';
+import linking from './configs/deepLinking';
 
 Sentry.init({
   dsn: SENTRY_DSN_KEY,
@@ -24,14 +26,16 @@ Sentry.init({
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [visible, setVisible] = useAtom(bootSplashVisibleAtom);
+
   useEffect(() => {
     NotificationService.registerMessageHandler();
+    NotificationService.onForegroundEvent();
   }, []);
 
   return (
     <ConfigContext>
       <SafeAreaProvider>
-        <NavigationContainer theme={customBackgroundTheme}>
+        <NavigationContainer linking={linking} theme={customBackgroundTheme}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             backgroundColor="transparent"
