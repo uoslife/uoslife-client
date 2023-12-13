@@ -12,9 +12,21 @@ import {AnnouncementOriginNameType} from '../../../../../api/services/util/annou
 
 import CardLayout from '../../../common/cardLayout/CardLayout';
 import CategoryTab from '../../announcement/category-tab/CategoryTab';
+import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
+import Skeleton from '../../../common/skeleton/Skeleton';
 
 const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;
 const DEFAULT_ANNOUNCEMENT_ORIGIN = 'FA1';
+
+const AnnounceContentsSkeleton = () => {
+  return (
+    <View style={{gap: 16, paddingTop: 8, paddingBottom: 8}}>
+      <Skeleton variant="text" />
+      <Skeleton variant="text" />
+      <Skeleton variant="text" />
+    </View>
+  );
+};
 
 type AnnouncementsType = {
   origin: AnnouncementOriginNameType;
@@ -31,7 +43,7 @@ const findIsOriginExist = (
 
 const AnnounceContents = () => {
   const categoryStatus = useAtomValue(categoryStatusAtom);
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootNavigationProps>();
 
   const [announcements, setAnnouncements] = useState<AnnouncementsStateType>();
   const [currentOrigin, setCurrentOrigin] =
@@ -108,7 +120,7 @@ const AnnounceContents = () => {
                 </Pressable>
               ))
           ) : (
-            <View style={{height: 200}} />
+            <AnnounceContentsSkeleton />
           )}
         </S.AnnounceTextWrapper>
         <S.Divider />

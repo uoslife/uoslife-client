@@ -16,6 +16,7 @@ import {
 } from '../components/molecules/screens/main';
 import useUserState from '../hooks/useUserState';
 import {BANNER_1, BANNER_2} from '../assets/images';
+import Skeleton from '../components/molecules/common/skeleton/Skeleton';
 
 const {width} = Dimensions.get('window');
 
@@ -94,7 +95,7 @@ const MainScreen = () => {
           label="오늘의 학식"
           iconName="cafeteria"
           iconColor="primaryDarker">
-          <Suspense fallback={<View />}>
+          <Suspense fallback={<Skeleton variant="card" />}>
             <CafeteriaContents />
           </Suspense>
         </MainServiceBox>
