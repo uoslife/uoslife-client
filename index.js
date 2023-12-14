@@ -4,5 +4,6 @@ import {name as appName} from './app.json';
 import NotificationService from './src/services/notification';
 
 NotificationService.registerMessageHandlerOnBackground();
+NotificationService.onBackgroundEvent();
 
 AppRegistry.registerComponent(appName, () => App);

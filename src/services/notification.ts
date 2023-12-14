@@ -1,15 +1,11 @@
 import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
-import {PermissionsAndroid, Platform} from 'react-native';
-
-import {decode} from 'base-64';
+import notifee, {EventType, Event} from '@notifee/react-native';
+import {Linking, PermissionsAndroid, Platform} from 'react-native';
 
 import storage from '../storage';
-
-// TODO: global 변수 다른 module로 옮기기
-global.btoa = decode;
+import decodeUtf8 from '../utils/decodeUtf8';
 
 export default class NotificationService {
   // notification
@@ -19,7 +15,7 @@ export default class NotificationService {
   ): Promise<string | undefined> {
     if (!message.data || !message.data.notifee) return;
     try {
-      const notifeeData = btoa(message.data.notifee);
+      const notifeeData = decodeUtf8(message.data.notifee);
       const notifeePayload = JSON.parse(notifeeData);
       notifee.displayNotification(notifeePayload);
     } catch (e) {
@@ -58,6 +54,24 @@ export default class NotificationService {
     }
     // eslint-disable-next-line consistent-return
     return messaging().requestPermission();
+  }
+
+  static async onPressEvent({type, detail}: Event): Promise<void> {
+    if (type !== EventType.PRESS) return;
+    const {notification} = detail;
+    if (!notification || !notification.data || !notification.data.deepLinkUrl)
+      return;
+    await Linking.openURL(notification.data.deepLinkUrl as string);
+  }
+
+  static onForegroundEvent(): () => void {
+    return notifee.onForegroundEvent(
+      async event => await this.onPressEvent(event),
+    );
+  }
+
+  static onBackgroundEvent() {
+    // background event
   }
 
   // tokens

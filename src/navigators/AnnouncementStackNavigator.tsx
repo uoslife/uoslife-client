@@ -12,7 +12,7 @@ import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearch
 import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
 import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
-type AnnouncementStackParamList = {
+export type AnnouncementStackParamList = {
   AnnouncementMain: undefined;
   AnnouncementBookmark: undefined;
   AnnouncementDetail: {id: number; origin: AnnouncementOriginNameType};
