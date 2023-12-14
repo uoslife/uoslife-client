@@ -1,6 +1,6 @@
 import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import React from 'react';
+import React, {Suspense} from 'react';
 
 import {View, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
@@ -94,7 +94,9 @@ const MainScreen = () => {
           label="오늘의 학식"
           iconName="cafeteria"
           iconColor="primaryDarker">
-          <CafeteriaContents />
+          <Suspense fallback={<View />}>
+            <CafeteriaContents />
+          </Suspense>
         </MainServiceBox>
         <MainServiceBox
           label="도서관"

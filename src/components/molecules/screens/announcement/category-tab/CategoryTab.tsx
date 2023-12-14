@@ -7,11 +7,14 @@ import {
 } from '../../../../../store/announcement';
 import TabButton from './TabButton';
 
-const CategoryTab = () => {
+const CategoryTab = ({
+  tabPressAdditionalAction,
+}: {
+  tabPressAdditionalAction?: (origin?: AnnouncmentCategoryOriginType) => void;
+}) => {
   const [categoryStatus, setCategoryStatus] = useAtom(categoryStatusAtom);
-  const handlePressCategoryTabButton = (
-    origin: AnnouncmentCategoryOriginType,
-  ) => {
+
+  const changeCategory = (origin: AnnouncmentCategoryOriginType) => {
     setCategoryStatus(prev => {
       return prev.map(item =>
         origin === item.origin
@@ -19,6 +22,11 @@ const CategoryTab = () => {
           : {...item, isSelected: false},
       );
     });
+  };
+
+  const handlePressTab = (origin: AnnouncmentCategoryOriginType) => {
+    changeCategory(origin);
+    tabPressAdditionalAction?.(origin);
   };
 
   return (
@@ -29,7 +37,7 @@ const CategoryTab = () => {
             key={item.origin}
             label={item.name}
             isSelected={item.isSelected}
-            onPress={() => handlePressCategoryTabButton(item.origin)}
+            onPress={() => handlePressTab(item.origin)}
           />
         );
       })}
