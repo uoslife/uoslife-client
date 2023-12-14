@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {UtilAPI} from '../../../../api/services';
 import {GetAllLibraryStatusRes} from '../../../../api/services/util/library/libraryAPI.type';
 import LibraryStatusCard from './LibraryStatusCard';
+import Skeleton from '../../common/skeleton/Skeleton';
 
 const LibrarySeatStatus = () => {
   const insets = useSafeAreaInsets();
@@ -28,7 +29,7 @@ const LibrarySeatStatus = () => {
       />
       <S.cardsWrapper>
         {!libraryStatus ? (
-          <></>
+          <Skeleton variant="card" />
         ) : (
           libraryStatus.map(item => (
             <LibraryStatusCard
