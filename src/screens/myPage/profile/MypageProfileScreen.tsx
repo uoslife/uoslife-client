@@ -5,7 +5,7 @@ import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../../components/molecules/common/header/Header';
-import {MypageProfileNavigationProp} from '../../../navigators/MyPageStackNavigator';
+import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
 import useModal from '../../../hooks/useModal';
 import usePhoto from '../../../hooks/usePhoto';

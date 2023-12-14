@@ -8,11 +8,15 @@ import {NavigatorScreenParams} from '@react-navigation/native';
 import {useMMKVListener} from 'react-native-mmkv';
 
 import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
-import AnnouncementStackNavigator from './AnnouncementStackNavigator';
+import AnnouncementStackNavigator, {
+  AnnouncementStackParamList,
+} from './AnnouncementStackNavigator';
 import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
-import MyPageStackNavigator from './MyPageStackNavigator';
+import MypageStackNavigator, {
+  MyPageStackParamList,
+} from './MypageStackNavigator';
 import RootBottomTapNavigator, {
   RootTabParamList,
 } from './RootBottomTapNavigator';
@@ -28,8 +32,8 @@ import useInitApp from '../hooks/useInitApp';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
-  MyPage: undefined;
-  Announcement: undefined;
+  Mypage: MyPageStackParamList;
+  Announcement: AnnouncementStackParamList;
   Library: undefined;
   Cafeteria: undefined;
   StudentId_PortalAuthentication: undefined;
@@ -56,6 +60,7 @@ const RootStackNavigator: React.FC = () => {
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
   }
+
   return (
     <Stack.Navigator
       initialRouteName="Main"
@@ -67,7 +72,7 @@ const RootStackNavigator: React.FC = () => {
             component={RootBottomTapNavigator}
             options={{animationEnabled: false}}
           />
-          <Stack.Screen name="MyPage" component={MyPageStackNavigator} />
+          <Stack.Screen name="Mypage" component={MypageStackNavigator} />
           <Stack.Screen
             name="Announcement"
             component={AnnouncementStackNavigator}
