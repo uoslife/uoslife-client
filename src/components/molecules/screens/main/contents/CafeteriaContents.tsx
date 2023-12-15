@@ -5,7 +5,7 @@ import {Txt, colors} from '@uoslife/design-system';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import {CafeteriaItemType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
-import cachedCafeteriaItemAtom from '../../../../../store/cafeteria';
+import {mainScreenCafeteriaItemAtom} from '../../../../../store/cafeteria';
 
 const CafeteriaBox = ({
   location,
@@ -53,8 +53,7 @@ const CafeteriaBox = ({
 };
 
 const CafeteriaContents = () => {
-  const [{items}] = useAtom(cachedCafeteriaItemAtom);
-
+  const [{items}] = useAtom(mainScreenCafeteriaItemAtom);
   return (
     <S.ContentsWrapper horizontal>
       {items ? (

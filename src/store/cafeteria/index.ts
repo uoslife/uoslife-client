@@ -1,18 +1,7 @@
 import {atom} from 'jotai';
 import {atomWithCache} from 'jotai-cache';
-import {UtilAPI} from '../../api/services';
-import {
-  GetCafeteriasResponse,
-  MealTimeType,
-} from '../../api/services/util/cafeteria/cafeteriaAPI.type';
 import DateUtils from '../../utils/date';
-
-type CafeteriaItemType = {
-  commonDate: string;
-  displayDate: string;
-  mealTime: MealTimeType;
-  items?: GetCafeteriasResponse;
-};
+import UtilityService, {GetCafeteriaItemsType} from '../../services/utility';
 
 const date = new DateUtils(new Date());
 
@@ -26,31 +15,31 @@ export const cafeteriaDisplayDateAtom = atom<DateUtils['displayDate']>(
   date.displayDate,
 );
 
+export const mainScreenCafeteriaItemAtom = atom<Promise<GetCafeteriaItemsType>>(
+  async () => {
+    const mealTime = date.currentMealTime;
+    const {commonDate} = date;
+    const {displayDate} = date;
+    return await UtilityService.getCafeteriaItems({
+      mealTime,
+      commonDate,
+      displayDate,
+    });
+  },
+);
+
 export const cachedCafeteriaItemAtom = atomWithCache<
-  Promise<CafeteriaItemType>
+  Promise<GetCafeteriaItemsType>
 >(async get => {
   const mealTime = get(cafeteriaMealTimeAtom);
   const commonDate = get(cafeteriaCommonDateAtom);
   const displayDate = get(cafeteriaDisplayDateAtom);
 
-  try {
-    const response = await UtilAPI.getCafeterias({
-      mealTime,
-      openDate: commonDate,
-    });
-    return {
-      commonDate,
-      mealTime,
-      displayDate,
-      items: response,
-    };
-  } catch (error) {
-    return {
-      commonDate,
-      mealTime,
-      displayDate,
-    };
-  }
+  return await UtilityService.getCafeteriaItems({
+    mealTime,
+    commonDate,
+    displayDate,
+  });
 });
 
 export default cachedCafeteriaItemAtom;
