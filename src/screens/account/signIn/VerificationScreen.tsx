@@ -4,7 +4,7 @@ import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useTimer} from '@uoslife/react';
+import useThrottle, {useTimer} from '@uoslife/react';
 
 import {useNavigation} from '@react-navigation/native';
 import Header from '../../../components/molecules/common/header/Header';
@@ -24,7 +24,6 @@ import useAccountFlow from '../../../hooks/useAccountFlow';
 import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
-import useThrottle from '../../../hooks/useThrottle';
 
 // const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;

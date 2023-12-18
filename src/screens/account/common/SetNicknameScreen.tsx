@@ -7,6 +7,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+import useThrottle from '@uoslife/react';
 import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
 
 import Header from '../../../components/molecules/common/header/Header';
@@ -23,7 +24,6 @@ import customShowToast from '../../../configs/toast';
 import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import NotificationService from '../../../services/notification';
-import useThrottle from '../../../hooks/useThrottle';
 
 const NICKNAME_MAX_LENGTH = 8;
 

@@ -4,6 +4,7 @@ import styled from '@emotion/native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import useThrottle from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
@@ -12,7 +13,6 @@ import usePhoto from '../../../hooks/usePhoto';
 import UserService from '../../../services/user';
 import useUserState from '../../../hooks/useUserState';
 import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
-import useThrottle from '../../../hooks/useThrottle';
 
 const getPortalAccountInfoList = (user: UserInfoType) => {
   return [

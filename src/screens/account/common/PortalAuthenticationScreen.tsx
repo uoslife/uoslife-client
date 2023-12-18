@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
 
 import KeyboardManager from 'react-native-keyboard-manager';
+import useThrottle from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -19,7 +20,6 @@ import storage from '../../../storage';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
-import useThrottle from '../../../hooks/useThrottle';
 
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
