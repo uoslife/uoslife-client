@@ -23,7 +23,7 @@ const AlertSettingOverlay = () => {
 
   const handlePressRedirectNotificationSetting = () => {
     // @ts-ignore
-    navigation.navigate('MyPage', {screen: 'Mypage_appSetting'});
+    navigation.navigate('Mypage', {screen: 'Mypage_appSetting'});
   };
 
   return (
@@ -44,7 +44,7 @@ const AlertSettingOverlay = () => {
             />
             {isNotificationAgree && (
               <Txt
-                label="알림 설정은 MY Page > [알림 설정]에서 변경 가능합니다."
+                label="알림 설정은 마이페이지 > [알림 설정]에서 변경 가능합니다."
                 color="grey190"
                 typograph="bodyMedium"
               />
