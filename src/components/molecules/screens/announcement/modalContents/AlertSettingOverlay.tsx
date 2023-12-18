@@ -7,6 +7,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import BottomSheetToggleItem from '../../../overlays/items/BottomSheetToggleItem';
 import useTopicState from '../../../../../hooks/useTopicState';
+import Skeleton from '../../../common/skeleton/Skeleton';
 
 const AlertSettingOverlay = () => {
   const insets = useSafeAreaInsets();
@@ -29,7 +30,11 @@ const AlertSettingOverlay = () => {
   return (
     <S.Container style={{paddingBottom: insets.bottom + 12}}>
       {isLoading ? (
-        <View style={{height: 340}} />
+        <View style={{height: 356, paddingTop: 28, gap: 28}}>
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+        </View>
       ) : (
         <>
           <S.Description>
