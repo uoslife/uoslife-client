@@ -110,6 +110,7 @@ const PortalAuthenticationScreen = () => {
     } catch (err) {
       const error = err as ErrorResponseType;
       if (error.status !== 500) setMessageStatus('MISMATCHED');
+      customShowToast('portalAuthenticationSuccess');
     }
   };
 
