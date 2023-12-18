@@ -23,7 +23,7 @@ const AlertSettingOverlay = () => {
 
   const handlePressRedirectNotificationSetting = () => {
     // @ts-ignore
-    navigation.navigate('MyPage', {screen: 'Mypage_appSetting'});
+    navigation.navigate('Mypage', {screen: 'Mypage_appSetting'});
   };
 
   return (
