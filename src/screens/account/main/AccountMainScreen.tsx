@@ -19,7 +19,7 @@ const AccountMainScreen = () => {
   const insets = useSafeAreaInsets();
   const {changeAccountFlow} = useAccountFlow();
 
-  const handleClickAccountButton = async () => {
+  const handleClickAccountButton = () => {
     changeAccountFlow({commonFlowName: 'SIGNIN'});
   };
 

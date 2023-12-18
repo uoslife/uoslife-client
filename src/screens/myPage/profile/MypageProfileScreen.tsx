@@ -4,6 +4,7 @@ import styled from '@emotion/native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import useThrottle from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
@@ -74,6 +75,10 @@ const MypageProfileScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  const handleOnPressUnregister = useThrottle(async () => {
+    await UserService.unregister(deleteUserInfo);
+  });
 
   return (
     <>
@@ -174,9 +179,7 @@ const MypageProfileScreen = () => {
             size="medium"
             variant="text"
             isFullWidth
-            onPress={async () => {
-              await UserService.unregister(deleteUserInfo);
-            }}
+            onPress={handleOnPressUnregister}
           />
           <S.Devider />
           <Button

@@ -7,6 +7,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
+import useThrottle from '@uoslife/react';
 import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
 
 import Header from '../../../components/molecules/common/header/Header';
@@ -97,35 +98,35 @@ const SetNicknameScreen = () => {
   };
 
   const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
-  const handleClickSubmitBottomSheetButton = async (
-    isAdvertismentAgree: boolean,
-  ) => {
-    const isAuthorized =
-      await NotificationService.checkPermissionIsAuthorizedStatus();
-    setIsAdvertismentAgree(isAdvertismentAgree);
-    if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
-    try {
-      const signUpRes = await CoreAPI.signUp({
-        nickname: inputValue,
-        tos: {
-          privatePolicy: true,
-          termsOfUse: true,
-          notification: isAuthorized,
-          marketing: isAdvertismentAgree,
-        },
-        migrationUserInfo: selectedAccountInfo ?? null,
-      });
-      await UserService.onRegister({
-        accessToken: signUpRes.accessToken,
-        refreshToken: signUpRes.refreshToken,
-        setUserInfo,
-        setNotLoggedIn: true,
-      });
-      openModal();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const handleClickSubmitBottomSheetButton = useThrottle(
+    async (isAdvertismentAgree: boolean) => {
+      const isAuthorized =
+        await NotificationService.checkPermissionIsAuthorizedStatus();
+      setIsAdvertismentAgree(isAdvertismentAgree);
+      if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
+      try {
+        const signUpRes = await CoreAPI.signUp({
+          nickname: inputValue,
+          tos: {
+            privatePolicy: true,
+            termsOfUse: true,
+            notification: isAuthorized,
+            marketing: isAdvertismentAgree,
+          },
+          migrationUserInfo: selectedAccountInfo ?? null,
+        });
+        await UserService.onRegister({
+          accessToken: signUpRes.accessToken,
+          refreshToken: signUpRes.refreshToken,
+          setUserInfo,
+          setNotLoggedIn: true,
+        });
+        openModal();
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  );
   const handleClickSubmitModalButton = () => {
     changeAccountFlow({
       commonFlowName: 'PORTAL_VERIFICATION',
