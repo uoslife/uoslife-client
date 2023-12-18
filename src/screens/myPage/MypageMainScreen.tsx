@@ -6,7 +6,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import URLS from '../../configs/urls';
 import Header from '../../components/molecules/common/header/Header';
-import {MyPageStackParamList} from '../../navigators/MyPageStackNavigator';
+import {MyPageStackParamList} from '../../navigators/MypageStackNavigator';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import UserService from '../../services/user';
 import useUserState from '../../hooks/useUserState';
@@ -18,7 +18,7 @@ const MypageMainScreen = ({
 
   const {user, deleteUserInfo} = useUserState();
 
-  const {nickname, isVerified} = user || {};
+  const {nickname, isverified} = user || {};
 
   const handlePressLogoutButton = async () => {
     await UserService.logout(deleteUserInfo);
@@ -46,11 +46,11 @@ const MypageMainScreen = ({
             />
             <Txt
               label={
-                isVerified
-                  ? `${user?.identities[0]?.department}(${user?.identities[0]?.studentId})`
+                isverified
+                  ? `${user?.departmentName}(${user?.studentId})`
                   : '포털 계정을 연동해주세요'
               }
-              color={isVerified ? 'grey130' : 'primaryBrand'}
+              color={isverified ? 'grey130' : 'primaryBrand'}
               typograph="bodyMedium"
             />
           </S.textWrapper>
