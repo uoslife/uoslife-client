@@ -5,20 +5,12 @@ export type UserInfoType = {
   birthday: string;
   phone: string;
   avatarUrl: string;
-  loginAt: string;
-  nicknameUpdatedAt: null;
-  identities: Array<
-    | {
-        degree: string;
-        graduateSchool: string;
-        studentId: string;
-        department: string;
-        status: string;
-      }
-    | undefined
-  >;
-  isVerified: boolean;
-  organizations: [];
+  isverified: boolean;
+  degree: string;
+  enrollmentStatus: string;
+  studentId: string;
+  departmentName: string;
+  collegeName: string;
 };
 
 export type CheckDuplicateUserNicknameParams = {

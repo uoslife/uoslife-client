@@ -16,9 +16,9 @@ import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
 const getPortalAccountInfoList = (user: UserInfoType) => {
   return [
     {name: '이름', value: user.name},
-    {name: '학과', value: user.identities[0]?.department},
-    {name: '학번', value: user.identities[0]?.studentId},
-    {name: '학적', value: user.identities[0]?.status},
+    {name: '학과', value: user.departmentName},
+    {name: '학번', value: user.studentId},
+    {name: '학적', value: user.enrollmentStatus},
     {name: '생일', value: user.birthday},
   ];
 };
@@ -31,14 +31,13 @@ const MypageProfileScreen = () => {
 
   const {user, deleteUserInfo} = useUserState();
 
-  const isVerified = user?.isVerified;
-  const nickname = user?.nickname;
+  const {isverified, nickname} = user!;
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
   // };
   // const handlePortalAccountPress = () => {
-  //   if (isVerified) {
+  //   if (isverified) {
   //       <S.modalWrapper>
   //         <Txt
   //           label={'포털 계정 연동을 해지하시겠습니까?'}
@@ -123,17 +122,17 @@ const MypageProfileScreen = () => {
               <NavigationList
                 label="포털 계정 연동"
                 onPress={
-                  !isVerified
+                  !isverified
                     ? () => navigation.navigate('Mypage_portalAuthentication')
                     : undefined
                 }
-                pressLabel={isVerified ? '연동되었습니다.' : '연동하기'}
-                pressLabelColor={isVerified ? 'grey130' : 'primaryBrand'}
-                isPressIconShown={!isVerified}
+                pressLabel={isverified ? '연동되었습니다.' : '연동하기'}
+                pressLabelColor={isverified ? 'grey130' : 'primaryBrand'}
+                isPressIconShown={!isverified}
               />
-              {isVerified && (
+              {isverified && (
                 <S.portalAccountInformationWrapper>
-                  {getPortalAccountInfoList(user).map(item => {
+                  {getPortalAccountInfoList(user!).map(item => {
                     return (
                       <S.portalAccountInformation key={item.name}>
                         <Txt

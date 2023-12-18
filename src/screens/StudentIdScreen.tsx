@@ -147,7 +147,7 @@ const StudentIdComponent = () => {
                     typograph="headlineMedium"
                   />
                   <Txt
-                    label={user?.identities[0]?.studentId ?? ''}
+                    label={user?.studentId ?? ''}
                     color="grey190"
                     typograph="titleMedium"
                   />
@@ -164,7 +164,7 @@ const StudentIdComponent = () => {
                     typograph="bodyMedium"
                   />
                   <Txt
-                    label={user?.identities[0]?.graduateSchool ?? ''}
+                    label={user?.collegeName ?? ''}
                     color="grey190"
                     typograph="bodyLarge"
                   />
@@ -177,7 +177,7 @@ const StudentIdComponent = () => {
                   />
 
                   <Txt
-                    label={user?.identities[0]?.department ?? ''}
+                    label={user?.departmentName ?? ''}
                     color="grey190"
                     typograph="bodyLarge"
                   />
@@ -203,8 +203,8 @@ const StudentIdScreen = () => {
   const {user} = useUserState();
 
   useEffect(() => {
-    const {isVerified} = user || {};
-    setIsPortalAuthenticated(isVerified ?? false);
+    const {isverified} = user || {};
+    setIsPortalAuthenticated(isverified ?? false);
   }, [user]);
 
   return (
