@@ -24,6 +24,7 @@ import useAccountFlow from '../../../hooks/useAccountFlow';
 import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
+import useThrottle from '../../../hooks/useThrottle';
 
 // const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -105,7 +106,7 @@ const VerificationScreen = () => {
   };
 
   // 전화번호 입력 페이지
-  const handleOnPressRequestCode = async () => {
+  const handleOnPressRequestCode = useThrottle(async () => {
     if (isRetryTerm) {
       Alert.alert('제한시간(1분)이 지난 후에 다시 요청해주세요.');
       return;
@@ -128,10 +129,10 @@ const VerificationScreen = () => {
       setIsVerificationCodeSent(true);
       setInputValue('');
     }
-  };
+  });
 
   // 인증번호 입력 페이지
-  const handleOnPressVerifyIdentify = async () => {
+  const handleOnPressVerifyIdentify = useThrottle(async () => {
     const currentInputLength = inputValue.length;
     if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
 
@@ -214,7 +215,7 @@ const VerificationScreen = () => {
     }
     setIsVerificationCodeSent(false); // state 초기화
     setStoredPhoneNumber(''); // state 초기화
-  };
+  });
 
   const {currentTime, isFinish, startTimer, resetTimer} = useTimer({
     initMin: VERIFICATION_TIMER_MIN,

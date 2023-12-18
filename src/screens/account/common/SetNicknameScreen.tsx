@@ -23,6 +23,7 @@ import customShowToast from '../../../configs/toast';
 import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import NotificationService from '../../../services/notification';
+import useThrottle from '../../../hooks/useThrottle';
 
 const NICKNAME_MAX_LENGTH = 8;
 
@@ -97,35 +98,35 @@ const SetNicknameScreen = () => {
   };
 
   const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
-  const handleClickSubmitBottomSheetButton = async (
-    isAdvertismentAgree: boolean,
-  ) => {
-    const isAuthorized =
-      await NotificationService.checkPermissionIsAuthorizedStatus();
-    setIsAdvertismentAgree(isAdvertismentAgree);
-    if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
-    try {
-      const signUpRes = await CoreAPI.signUp({
-        nickname: inputValue,
-        tos: {
-          privatePolicy: true,
-          termsOfUse: true,
-          notification: isAuthorized,
-          marketing: isAdvertismentAgree,
-        },
-        migrationUserInfo: selectedAccountInfo ?? null,
-      });
-      await UserService.onRegister({
-        accessToken: signUpRes.accessToken,
-        refreshToken: signUpRes.refreshToken,
-        setUserInfo,
-        setNotLoggedIn: true,
-      });
-      openModal();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const handleClickSubmitBottomSheetButton = useThrottle(
+    async (isAdvertismentAgree: boolean) => {
+      const isAuthorized =
+        await NotificationService.checkPermissionIsAuthorizedStatus();
+      setIsAdvertismentAgree(isAdvertismentAgree);
+      if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
+      try {
+        const signUpRes = await CoreAPI.signUp({
+          nickname: inputValue,
+          tos: {
+            privatePolicy: true,
+            termsOfUse: true,
+            notification: isAuthorized,
+            marketing: isAdvertismentAgree,
+          },
+          migrationUserInfo: selectedAccountInfo ?? null,
+        });
+        await UserService.onRegister({
+          accessToken: signUpRes.accessToken,
+          refreshToken: signUpRes.refreshToken,
+          setUserInfo,
+          setNotLoggedIn: true,
+        });
+        openModal();
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  );
   const handleClickSubmitModalButton = () => {
     changeAccountFlow({
       commonFlowName: 'PORTAL_VERIFICATION',

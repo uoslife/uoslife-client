@@ -12,6 +12,7 @@ import usePhoto from '../../../hooks/usePhoto';
 import UserService from '../../../services/user';
 import useUserState from '../../../hooks/useUserState';
 import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
+import useThrottle from '../../../hooks/useThrottle';
 
 const getPortalAccountInfoList = (user: UserInfoType) => {
   return [
@@ -74,6 +75,10 @@ const MypageProfileScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  const handleOnPressUnregister = useThrottle(async () => {
+    await UserService.unregister(deleteUserInfo);
+  });
 
   return (
     <>
@@ -174,9 +179,7 @@ const MypageProfileScreen = () => {
             size="medium"
             variant="text"
             isFullWidth
-            onPress={async () => {
-              await UserService.unregister(deleteUserInfo);
-            }}
+            onPress={handleOnPressUnregister}
           />
           <S.Devider />
           <Button

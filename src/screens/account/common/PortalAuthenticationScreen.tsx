@@ -19,6 +19,7 @@ import storage from '../../../storage';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
+import useThrottle from '../../../hooks/useThrottle';
 
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
@@ -91,7 +92,7 @@ const PortalAuthenticationScreen = () => {
     changeAccountFlow({commonFlowName: 'FINISH'});
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useThrottle(async () => {
     if (!(inputValue.id && inputValue.password)) {
       setMessageStatus('UNFILLED_INPUT');
       return;
@@ -112,7 +113,7 @@ const PortalAuthenticationScreen = () => {
       if (error.status !== 500) setMessageStatus('MISMATCHED');
       customShowToast('portalAuthenticationSuccess');
     }
-  };
+  });
 
   const handlePressHeaderBackButton = () => {
     if (isNotAccountFlow) {
