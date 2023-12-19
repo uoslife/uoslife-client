@@ -105,7 +105,7 @@ const StudentIdComponent = () => {
   });
 
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
       <S.studentIdScreen>
         <View style={{gap: 24}}>
           <S.qrWrapper>
