@@ -4,7 +4,7 @@ import styled from '@emotion/native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import useThrottle from '@uoslife/react';
+import {useThrottle} from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
@@ -32,13 +32,13 @@ const MypageProfileScreen = () => {
 
   const {user, deleteUserInfo} = useUserState();
 
-  const {isverified, nickname} = user!;
+  const {isVerified, nickname} = user!;
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
   // };
   // const handlePortalAccountPress = () => {
-  //   if (isverified) {
+  //   if (isVerified) {
   //       <S.modalWrapper>
   //         <Txt
   //           label={'포털 계정 연동을 해지하시겠습니까?'}
@@ -127,15 +127,15 @@ const MypageProfileScreen = () => {
               <NavigationList
                 label="포털 계정 연동"
                 onPress={
-                  !isverified
+                  !isVerified
                     ? () => navigation.navigate('Mypage_portalAuthentication')
                     : undefined
                 }
-                pressLabel={isverified ? '연동되었습니다.' : '연동하기'}
-                pressLabelColor={isverified ? 'grey130' : 'primaryBrand'}
-                isPressIconShown={!isverified}
+                pressLabel={isVerified ? '연동되었습니다.' : '연동하기'}
+                pressLabelColor={isVerified ? 'grey130' : 'primaryBrand'}
+                isPressIconShown={!isVerified}
               />
-              {isverified && (
+              {isVerified && (
                 <S.portalAccountInformationWrapper>
                   {getPortalAccountInfoList(user!).map(item => {
                     return (

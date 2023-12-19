@@ -4,7 +4,7 @@ import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import useThrottle, {useTimer} from '@uoslife/react';
+import {useThrottle, useTimer} from '@uoslife/react';
 
 import {useNavigation} from '@react-navigation/native';
 import Header from '../../../components/molecules/common/header/Header';

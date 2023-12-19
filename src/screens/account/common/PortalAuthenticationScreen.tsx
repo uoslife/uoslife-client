@@ -6,7 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
 
 import KeyboardManager from 'react-native-keyboard-manager';
-import useThrottle from '@uoslife/react';
+import {useThrottle} from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -111,7 +111,6 @@ const PortalAuthenticationScreen = () => {
     } catch (err) {
       const error = err as ErrorResponseType;
       if (error.status !== 500) setMessageStatus('MISMATCHED');
-      customShowToast('portalAuthenticationSuccess');
     }
   });
 

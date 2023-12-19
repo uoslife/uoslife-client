@@ -7,7 +7,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import useThrottle from '@uoslife/react';
+import {useThrottle} from '@uoslife/react';
 import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
 
 import Header from '../../../components/molecules/common/header/Header';
