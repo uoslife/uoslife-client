@@ -57,7 +57,7 @@ const CafeteriaScreen = () => {
   return (
     <S.screenContainer style={{paddingTop: insets.top}}>
       <Header label="학식" onPressBackButton={handleGoBack} />
-      <ScrollView bounces={false}>
+      <ScrollView bounces={false} style={{right: 1}}>
         <S.bodyContainer style={{paddingBottom: insets.bottom + 12}}>
           <S.selectorWrapper>
             <DatePaginationBar date={date} />
