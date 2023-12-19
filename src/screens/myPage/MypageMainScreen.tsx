@@ -18,7 +18,7 @@ const MypageMainScreen = ({
 
   const {user, deleteUserInfo} = useUserState();
 
-  const {nickname, isverified} = user || {};
+  const {nickname, isVerified} = user || {};
 
   const handlePressLogoutButton = async () => {
     await UserService.logout(deleteUserInfo);
@@ -46,11 +46,11 @@ const MypageMainScreen = ({
             />
             <Txt
               label={
-                isverified
+                isVerified
                   ? `${user?.departmentName}(${user?.studentId})`
                   : '포털 계정을 연동해주세요'
               }
-              color={isverified ? 'grey130' : 'primaryBrand'}
+              color={isVerified ? 'grey130' : 'primaryBrand'}
               typograph="bodyMedium"
             />
           </S.textWrapper>

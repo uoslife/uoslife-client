@@ -203,8 +203,8 @@ const StudentIdScreen = () => {
   const {user} = useUserState();
 
   useEffect(() => {
-    const {isverified} = user || {};
-    setIsPortalAuthenticated(isverified ?? false);
+    const {isVerified} = user || {};
+    setIsPortalAuthenticated(isVerified ?? false);
   }, [user]);
 
   return (
