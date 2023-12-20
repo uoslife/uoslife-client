@@ -83,8 +83,6 @@ const SearchResultView = ({searchWord}: {searchWord: string}) => {
 
   return (
     <ArticleList
-      refreshing={false}
-      onRefresh={onRefresh}
       ListFooterComponent={isLoading ? <Spinner /> : null}
       ref={null}
       onEndReached={loadNewArticles}

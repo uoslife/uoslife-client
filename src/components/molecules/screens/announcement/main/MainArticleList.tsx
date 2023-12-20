@@ -83,8 +83,6 @@ const MainArticleList = forwardRef<
     <S.Root>
       <ArticleList
         key={origin}
-        refreshing={false}
-        onRefresh={onRefresh}
         ListFooterComponent={isLoading ? <Spinner /> : null}
         ref={ref}
         showCategoryName={false}

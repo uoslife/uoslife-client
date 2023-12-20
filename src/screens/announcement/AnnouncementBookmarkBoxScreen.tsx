@@ -25,19 +25,15 @@ const BookmarkResult = ({
   isEmpty,
   isLoading,
   articles,
-  onRefresh,
 }: {
   isEmpty: boolean;
   isLoading: boolean;
   articles: ArticleItemType[];
-  onRefresh: () => void;
 }) => {
   return isEmpty ? (
     <NoBookmarkFound />
   ) : (
     <ArticleList
-      onRefresh={onRefresh}
-      refreshing={false}
       ListFooterComponent={isLoading ? <Spinner /> : null}
       articles={articles}
       onEndReached={() => {}}
@@ -111,7 +107,6 @@ const AnnouncementBookmarkBoxScreen = () => {
         <Spinner />
       ) : (
         <BookmarkResult
-          onRefresh={onRefresh}
           isEmpty={articles.length === 0}
           isLoading={isLoading}
           articles={articles}
