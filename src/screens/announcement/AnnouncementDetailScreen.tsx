@@ -19,7 +19,7 @@ const AnnouncementDetailScreen = ({
 }: AnnouncementDetailScreenProps) => {
   const insets = useSafeAreaInsets();
   const [article, setArticle] = useState<ArticleDetailType>();
-  const [isError, setIsError] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const loadArticle = useCallback(async () => {
