@@ -58,18 +58,17 @@ const ArticleItem = ({
 const S = {
   Root: styled.View`
     padding: 8px 16px;
-
     width: 100%;
 
     flex-direction: row;
     align-items: center;
   `,
-  DescriptionContainer: styled.TouchableOpacity`
+  DescriptionContainer: styled.Pressable`
     flex: 1;
 
     gap: 4px;
   `,
-  BookmarkToggleContainer: styled.TouchableOpacity`
+  BookmarkToggleContainer: styled.Pressable`
     align-items: center;
     justify-content: center;
 

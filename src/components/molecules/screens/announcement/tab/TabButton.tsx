@@ -23,11 +23,10 @@ const TabButton = ({isSelected, label, onPress}: TabButtonProps) => {
 export default TabButton;
 
 const S = {
-  Container: styled.TouchableOpacity<Pick<TabButtonProps, 'isSelected'>>`
+  Container: styled.Pressable<Pick<TabButtonProps, 'isSelected'>>`
     height: 48px;
     flex: 1;
 
-    display: flex;
     justify-content: center;
     align-items: center;
 
