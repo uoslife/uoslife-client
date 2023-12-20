@@ -3,8 +3,9 @@ import styled from '@emotion/native';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {Linking} from 'react-native';
 
-const comment1 = `공지사항을 가져오는 데 실패하였습니다.`;
-const comment2 = `잠시 후 다시 시도해 주세요.`;
+const failComment1 = `공지사항을 가져오는 데 실패했어요.`;
+const failComment2 = `잠시 후 다시 시도해 주세요.`;
+const checkInHomepageComment = '홈페이지에서 전체 공지사항 확인하기';
 
 const LoadingFailed = ({onRefresh}: {onRefresh: () => void}) => {
   const refreshControl = (
@@ -26,12 +27,12 @@ const LoadingFailed = ({onRefresh}: {onRefresh: () => void}) => {
     <S.Root refreshControl={refreshControl}>
       <S.Inner>
         <S.Descriptions>
-          <Txt color="grey160" typograph="bodyMedium" label={comment1} />
-          <Txt color="grey160" typograph="bodyMedium" label={comment2} />
+          <Txt color="grey160" typograph="bodyMedium" label={failComment1} />
+          <Txt color="grey160" typograph="bodyMedium" label={failComment2} />
         </S.Descriptions>
         <Button
           onPress={openSiteUrl}
-          label="공지사항 사이트 열기"
+          label={checkInHomepageComment}
           variant="filled"
           size="medium"
         />
