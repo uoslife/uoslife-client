@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -16,6 +16,7 @@ import CardLayout from '../../components/molecules/common/cardLayout/CardLayout'
 import cachedCafeteriaItemAtom, {
   cafeteriaMealTimeAtom,
 } from '../../store/cafeteria';
+import Skeleton from '../../components/molecules/common/skeleton/Skeleton';
 
 const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
@@ -68,25 +69,27 @@ const CafeteriaScreen = () => {
             </S.iconWrapper>
           </S.selectorWrapper>
           <S.menuContainer>
-            {items ? (
-              items.map(item => (
-                <Card
-                  key={item.location}
-                  title={item.location}
-                  caption={item.operationTime}>
-                  <CafeteriaCard cafeteriaItem={item.attributes} />
-                </Card>
-              ))
-            ) : (
-              <CardLayout style={{padding: 24}}>
-                <Txt
-                  label="오늘은 운영하지 않아요."
-                  color="grey160"
-                  typograph="bodyMedium"
-                  style={{textAlign: 'center'}}
-                />
-              </CardLayout>
-            )}
+            <Suspense fallback={<Skeleton variant="card" />}>
+              {items ? (
+                items.map(item => (
+                  <Card
+                    key={item.location}
+                    title={item.location}
+                    caption={item.operationTime}>
+                    <CafeteriaCard cafeteriaItem={item.attributes} />
+                  </Card>
+                ))
+              ) : (
+                <CardLayout style={{padding: 24}}>
+                  <Txt
+                    label="오늘은 운영하지 않아요."
+                    color="grey160"
+                    typograph="bodyMedium"
+                    style={{textAlign: 'center'}}
+                  />
+                </CardLayout>
+              )}
+            </Suspense>
           </S.menuContainer>
         </S.bodyContainer>
       </ScrollView>

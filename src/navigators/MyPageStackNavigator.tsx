@@ -17,14 +17,14 @@ import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenti
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;
-  Mypage_profile: undefined;
+  Mypage_profile: MyPageProfileStackParamList;
   Mypage_appSetting: undefined;
-  Mypage_appInformation: undefined;
+  Mypage_appInformation: MyPageAppInformationStackParamList;
 };
 
 export type MyPageProfileStackParamList = {
   Mypage_profile_Main: undefined;
-  Mypage_changeNickname: {isMyPage: boolean};
+  Mypage_changeNickname: undefined;
   Mypage_portalAuthentication: undefined;
   Mypage_changeNumber: undefined;
 };
@@ -95,7 +95,7 @@ const MyPageAppInformationStackNavigator = () => {
   );
 };
 
-const MyPageStackNavigator = () => {
+const MypageStackNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Mypage_main"
@@ -114,4 +114,4 @@ const MyPageStackNavigator = () => {
   );
 };
 
-export default MyPageStackNavigator;
+export default MypageStackNavigator;

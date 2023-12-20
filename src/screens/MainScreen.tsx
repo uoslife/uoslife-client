@@ -1,6 +1,6 @@
 import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import React from 'react';
+import React, {Suspense} from 'react';
 
 import {View, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
@@ -16,6 +16,7 @@ import {
 } from '../components/molecules/screens/main';
 import useUserState from '../hooks/useUserState';
 import {BANNER_1, BANNER_2} from '../assets/images';
+import Skeleton from '../components/molecules/common/skeleton/Skeleton';
 
 const {width} = Dimensions.get('window');
 
@@ -47,7 +48,7 @@ const MainScreen = () => {
         <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
       </View>
       <S.MainWrapper>
-        <S.MypageButton onPress={() => navigation.navigate('MyPage')}>
+        <S.MypageButton onPress={() => navigation.navigate('Mypage')}>
           <Icon name="person" width={24} height={24} color="white" />
         </S.MypageButton>
         <View
@@ -94,7 +95,9 @@ const MainScreen = () => {
           label="오늘의 학식"
           iconName="cafeteria"
           iconColor="primaryDarker">
-          <CafeteriaContents />
+          <Suspense fallback={<Skeleton variant="card" />}>
+            <CafeteriaContents />
+          </Suspense>
         </MainServiceBox>
         <MainServiceBox
           label="도서관"
