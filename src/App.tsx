@@ -24,7 +24,6 @@ Sentry.init({
 });
 
 const App: React.FC = () => {
-  const isDarkMode = useColorScheme() === 'dark';
   const [visible, setVisible] = useAtom(bootSplashVisibleAtom);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const App: React.FC = () => {
       <SafeAreaProvider>
         <NavigationContainer linking={linking} theme={customBackgroundTheme}>
           <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            barStyle="dark-content"
             backgroundColor="transparent"
             translucent
           />
