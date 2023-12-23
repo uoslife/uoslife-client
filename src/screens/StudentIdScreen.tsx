@@ -19,6 +19,7 @@ import URLS from '../configs/urls';
 import {UtilAPI} from '../api/services';
 import useInterval from '../hooks/useInterval';
 import useUserState from '../hooks/useUserState';
+import setUserInformationMessage from '../utils/setUserInformationMessage';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
@@ -142,12 +143,12 @@ const StudentIdComponent = () => {
               <View style={{gap: 16}}>
                 <View style={{gap: 4}}>
                   <Txt
-                    label={user?.name ?? ''}
+                    label={setUserInformationMessage(user?.name)}
                     color="grey190"
                     typograph="headlineMedium"
                   />
                   <Txt
-                    label={user?.studentId ?? ''}
+                    label={setUserInformationMessage(user?.studentId)}
                     color="grey190"
                     typograph="titleMedium"
                   />
@@ -164,7 +165,7 @@ const StudentIdComponent = () => {
                     typograph="bodyMedium"
                   />
                   <Txt
-                    label={user?.collegeName ?? ''}
+                    label={setUserInformationMessage(user?.collegeName)}
                     color="grey190"
                     typograph="bodyLarge"
                   />
@@ -177,7 +178,7 @@ const StudentIdComponent = () => {
                   />
 
                   <Txt
-                    label={user?.departmentName ?? ''}
+                    label={setUserInformationMessage(user?.departmentName)}
                     color="grey190"
                     typograph="bodyLarge"
                   />

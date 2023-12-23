@@ -1,26 +1,30 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
-import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import {useThrottle} from '@uoslife/react';
+import {Button, colors, Txt} from '@uoslife/design-system';
+
 import Header from '../../../components/molecules/common/header/Header';
 import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
+
+import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
+import UserService from '../../../services/user';
 import useModal from '../../../hooks/useModal';
 import usePhoto from '../../../hooks/usePhoto';
-import UserService from '../../../services/user';
 import useUserState from '../../../hooks/useUserState';
-import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
+import setUserInformationMessage from '../../../utils/setUserInformationMessage';
 
 const getPortalAccountInfoList = (user: UserInfoType) => {
   return [
-    {name: '이름', value: user.name},
-    {name: '학과', value: user.departmentName},
-    {name: '학번', value: user.studentId},
-    {name: '학적', value: user.enrollmentStatus},
-    {name: '생일', value: user.birthday},
+    {name: '이름', value: setUserInformationMessage(user.name)},
+    {name: '학과', value: setUserInformationMessage(user.departmentName)},
+    {name: '학번', value: setUserInformationMessage(user.studentId)},
+    {name: '학적', value: setUserInformationMessage(user.enrollmentStatus)},
+    {name: '생일', value: setUserInformationMessage(user.birthday)},
   ];
 };
 
