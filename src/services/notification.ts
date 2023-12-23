@@ -45,12 +45,12 @@ export default class NotificationService {
           id: 'notification',
           name: '알림',
         }),
-        notifee.createChannel({
-          id: 'ETC',
-          name: '알림',
-          groupId: 'notification',
-        }),
       ]);
+      await notifee.createChannel({
+        id: 'ETC',
+        name: '알림',
+        groupId: 'notification',
+      });
     }
     // eslint-disable-next-line consistent-return
     return messaging().requestPermission();
