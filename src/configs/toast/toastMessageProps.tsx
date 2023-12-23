@@ -14,6 +14,7 @@ const toastMessage = {
   changePhoneError: '전화번호를 변경하는 중 문제가 발생했어요.',
   portalAuthenticationSuccess: '포털 연동을 성공적으로 완료했어요.',
   portalAuthenticationError: '포털 연동을 처리하는 중 문제가 발생했어요.',
+  portalAuthenticationDuplicatedError: '중복된 포털 연동 요청이에요.',
   notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
   unRegisterTwiceUserError: '회원탈퇴 이력이 2회 이상인 유저입니다.',
 
@@ -66,6 +67,10 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   portalAuthenticationError: {
     type: 'error',
     title: toastMessage.portalAuthenticationError,
+  },
+  portalAuthenticationDuplicatedError: {
+    type: 'error',
+    title: toastMessage.portalAuthenticationDuplicatedError,
   },
   notificationError: {
     type: 'error',

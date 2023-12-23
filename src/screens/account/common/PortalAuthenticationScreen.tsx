@@ -114,7 +114,19 @@ const PortalAuthenticationScreen = () => {
       changeAccountFlow({commonFlowName: 'FINISH'});
     } catch (err) {
       const error = err as ErrorResponseType;
-      if (error.status !== 500) setMessageStatus('MISMATCHED');
+      switch (error.code) {
+        case 'V01': {
+          setMessageStatus('MISMATCHED');
+          return;
+        }
+        case 'V02': {
+          customShowToast('portalAuthenticationDuplicatedError');
+          return;
+        }
+        default: {
+          customShowToast('portalAuthenticationError');
+        }
+      }
     }
   });
 
