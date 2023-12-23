@@ -32,7 +32,7 @@ const MypageProfileScreen = () => {
 
   const {user, deleteUserInfo} = useUserState();
 
-  const {isVerified, nickname} = user!;
+  const {isVerified, nickname} = user || {};
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
