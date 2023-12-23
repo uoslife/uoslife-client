@@ -121,7 +121,16 @@ const VerificationScreen = () => {
       setIsRetryTerm(true);
       startTimer();
     } catch (error) {
-      customShowToast('SmsVerificationError');
+      const err = error as ErrorResponseType;
+      switch (err.code) {
+        case 'S02': {
+          setInputMessageStatus('REQUEST_EXCEED');
+          break;
+        }
+        default: {
+          customShowToast('SmsVerificationError');
+        }
+      }
       setStoredPhoneNumber(inputValue);
       setIsVerificationCodeSent(true);
       setInputValue('');
