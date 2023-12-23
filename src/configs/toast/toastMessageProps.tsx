@@ -15,6 +15,7 @@ const toastMessage = {
   portalAuthenticationError: '포털 연동을 처리하는 중 문제가 발생했어요.',
   notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
   unRegisterTwiceUserError: `회원탈퇴 이력이 2회 이상인 유저입니다.\n해당 팝업을 클릭하여 고객센터로 문의해주세요.`,
+  SmsVerificationError: `전화번호 인증 과정에서 문제가 발생했어요.\n잠시후 다시 시도해주세요`,
 };
 export type ToastMessageType = keyof typeof toastMessage;
 
@@ -64,6 +65,10 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     onPress: () => {
       Linking.openURL(urls.CONTACT_UOSLIFE);
     },
+  },
+  SmsVerificationError: {
+    type: 'error',
+    title: toastMessage.SmsVerificationError,
   },
 };
 export default toastMessageProps;
