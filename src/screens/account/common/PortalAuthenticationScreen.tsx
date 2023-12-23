@@ -6,7 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
 
 import KeyboardManager from 'react-native-keyboard-manager';
-import useThrottle from '@uoslife/react';
+import {useThrottle} from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -20,6 +20,8 @@ import storage from '../../../storage';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
+import UserService from '../../../services/user';
+import useUserState from '../../../hooks/useUserState';
 
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
@@ -43,6 +45,7 @@ const PortalAuthenticationScreen = () => {
   ]);
 
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
+  const {setUserInfo} = useUserState();
 
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
@@ -102,6 +105,7 @@ const PortalAuthenticationScreen = () => {
         username: inputValue.id,
         password: inputValue.password,
       });
+      await UserService.updateUserInfo(setUserInfo);
       if (isNotAccountFlow) {
         customShowToast('portalAuthenticationSuccess');
         navigation.goBack();
@@ -111,7 +115,6 @@ const PortalAuthenticationScreen = () => {
     } catch (err) {
       const error = err as ErrorResponseType;
       if (error.status !== 500) setMessageStatus('MISMATCHED');
-      customShowToast('portalAuthenticationSuccess');
     }
   });
 

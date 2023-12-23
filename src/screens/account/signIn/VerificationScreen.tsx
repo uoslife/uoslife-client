@@ -4,14 +4,13 @@ import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import useThrottle, {useTimer} from '@uoslife/react';
+import {useThrottle, useTimer} from '@uoslife/react';
 
 import {useNavigation} from '@react-navigation/native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import {existedAccountInfoAtom} from '../../../store/account';
 
-import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
 
 import {CoreAPI} from '../../../api/services';
@@ -122,8 +121,7 @@ const VerificationScreen = () => {
       setIsRetryTerm(true);
       startTimer();
     } catch (error) {
-      // TODO: error인 경우 수정
-      showErrorMessage(error);
+      customShowToast('SmsVerificationError');
       setStoredPhoneNumber(inputValue);
       setIsVerificationCodeSent(true);
       setInputValue('');

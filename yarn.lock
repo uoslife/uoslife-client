@@ -4177,15 +4177,15 @@
     "@typescript-eslint/types" "6.9.1"
     eslint-visitor-keys "^3.4.1"
 
-"@uoslife/design-system@^1.1.1":
-  version "1.1.1"
-  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.1.1/ebf596ad1bd68944381d77932fd24abf2e3645fa#ebf596ad1bd68944381d77932fd24abf2e3645fa"
-  integrity sha512-4jxke2b5VLfJOLKiMQe8RIquB5h1qa08Vp8q2wSLrUGFWaZKYMEhCZbQOsiFAC5KjNX0nbNRTLoEETE8ABYk0w==
+"@uoslife/design-system@^1.1.2":
+  version "1.1.2"
+  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.1.2/e7650adf26aec64ddc8e7854180e61b0bdf3b8f2#e7650adf26aec64ddc8e7854180e61b0bdf3b8f2"
+  integrity sha512-RrYew0JHb7/IIHxDRkdWEGdZlMzDyF2QsdpLg1rlwJp52TGEfjLNSlTMplGwnthsBUGYNzKHGMURlOn4YJCegQ==
 
-"@uoslife/react@^1.1.1":
-  version "1.1.1"
-  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.1.1/53f47c493919e29a3643e4b6d45d9ef8224d0024#53f47c493919e29a3643e4b6d45d9ef8224d0024"
-  integrity sha512-lDqVeNIEw6jaWkVBLxxI72c0aUIvp8jX4hxVrbGbFoKDez28NjU8nnj3tN+Ku1q40cjhuTjTv95hejf6d7wzVg==
+"@uoslife/react@^1.1.2":
+  version "1.1.2"
+  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.1.2/7b0452b356b0baa471b59bce49d780cd1d8c3af5#7b0452b356b0baa471b59bce49d780cd1d8c3af5"
+  integrity sha512-+pf1L7154DD+r1oc1jPz37fceX0JDClR9NUGbBpCvigB+si6w+SeE6EHqCCGOZG9BuV4eg64QdhN3IUuL1ZKRg==
   dependencies:
     react "^18.2.0"
     react-dom "^18.2.0"

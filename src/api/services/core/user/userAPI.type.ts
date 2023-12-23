@@ -5,7 +5,7 @@ export type UserInfoType = {
   birthday: string;
   phone: string;
   avatarUrl: string;
-  isverified: boolean;
+  isVerified: boolean;
   degree: string;
   enrollmentStatus: string;
   studentId: string;

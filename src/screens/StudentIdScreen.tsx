@@ -105,7 +105,7 @@ const StudentIdComponent = () => {
   });
 
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
       <S.studentIdScreen>
         <View style={{gap: 24}}>
           <S.qrWrapper>
@@ -203,8 +203,8 @@ const StudentIdScreen = () => {
   const {user} = useUserState();
 
   useEffect(() => {
-    const {isverified} = user || {};
-    setIsPortalAuthenticated(isverified ?? false);
+    const {isVerified} = user || {};
+    setIsPortalAuthenticated(isVerified ?? false);
   }, [user]);
 
   return (

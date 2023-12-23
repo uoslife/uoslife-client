@@ -85,7 +85,7 @@ export default class NotificationService {
   }
 
   static async getFirebasePushToken(): Promise<string> {
-    if (Platform.OS === 'ios' && !storage.getBoolean('isNotFirstLoading')) {
+    if (Platform.OS === 'ios') {
       messaging().setAPNSToken('app');
     }
     const token = await this.getNotificationToken();
