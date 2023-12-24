@@ -1,52 +1,28 @@
 import styled from '@emotion/native';
-import {Icon, Txt} from '@uoslife/design-system';
-import React, {useState, memo} from 'react';
+import {Txt} from '@uoslife/design-system';
+import React, {memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import useBookmark, {BookmarkInfo} from '../../../../../hooks/useBookmark';
+import useBookmark from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import {announcementFullName} from '../../../../../configs/announcement';
+import ItemBookmarkToggle from './ItemBookmarkToggle';
 
 type ArticleItemComponentProps = {
   showCategoryName: boolean;
   articleItem: ArticleItemType;
 };
 
-const BookmarkToggle = ({
-  bookmarkCount,
-  bookmarked,
-  onPressBookmarkToggle,
-}: BookmarkInfo & {
-  onPressBookmarkToggle: () => {};
-}) => {
-  return (
-    <S.BookmarkToggleContainer onPress={onPressBookmarkToggle}>
-      <Icon
-        width={24}
-        height={24}
-        name="bookmark"
-        color={bookmarked ? 'primaryBrand' : 'grey60'}
-      />
-      <Txt
-        label={`${bookmarkCount}`}
-        color={bookmarked ? 'primaryBrand' : 'grey60'}
-        typograph="labelSmall"
-      />
-    </S.BookmarkToggleContainer>
-  );
-};
-
 const ArticleItem = ({
   articleItem,
   showCategoryName,
 }: ArticleItemComponentProps) => {
-  const {date, department, id, title, origin, bookmarkCount, bookmarked} =
+  const {date, department, id, title, origin, bookmarkCount, isBookmarked} =
     articleItem;
-  const [isPending, setIsPending] = useState(false);
-  const {bookmarkCountCurrent, bookmarkedCurrent, onPressBookmarkToggle} =
+  const {bookmarkCountCurrent, isBookmarkedCurrent, onPressBookmarkToggle} =
     useBookmark(id, {
       bookmarkCount,
-      bookmarked,
+      isBookmarked,
     });
   const navigation = useNavigation<AnnouncementNavigationProps>();
 
@@ -70,9 +46,9 @@ const ArticleItem = ({
           label={`${department} | ${date}`}
         />
       </S.DescriptionContainer>
-      <BookmarkToggle
+      <ItemBookmarkToggle
         bookmarkCount={bookmarkCountCurrent}
-        bookmarked={bookmarkedCurrent}
+        isBookmarked={isBookmarkedCurrent}
         onPressBookmarkToggle={onPressBookmarkToggle}
       />
     </S.Root>
@@ -82,22 +58,17 @@ const ArticleItem = ({
 const S = {
   Root: styled.View`
     padding: 8px 16px;
-
     width: 100%;
 
-    display: flex;
     flex-direction: row;
-
     align-items: center;
   `,
   DescriptionContainer: styled.Pressable`
     flex: 1;
 
-    display: flex;
     gap: 4px;
   `,
   BookmarkToggleContainer: styled.Pressable`
-    display: flex;
     align-items: center;
     justify-content: center;
 

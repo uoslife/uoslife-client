@@ -6,7 +6,7 @@ import {ArticleItemType} from '../types/announcement.type';
 
 export type BookmarkInfo = Pick<
   ArticleItemType,
-  'bookmarkCount' | 'bookmarked'
+  'bookmarkCount' | 'isBookmarked'
 >;
 
 // Reference(atomFamily API): https://jotai.org/docs/utilities/family
@@ -21,7 +21,7 @@ const bookmarkAtomFamily = atomFamily(
  */
 const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
   const [
-    {bookmarkCount: bookmarkCountCurrent, bookmarked: bookmarkedCurrent},
+    {bookmarkCount: bookmarkCountCurrent, isBookmarked: isBookmarkedCurrent},
     setBookmarkInfo,
   ] = useAtom(bookmarkAtomFamily({id, bookmarkInfo: initialBookmarkInfo}));
 
@@ -29,14 +29,14 @@ const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
     try {
       setBookmarkInfo(prev => ({
         bookmarkCount: prev.bookmarkCount + 1,
-        bookmarked: true,
+        isBookmarked: true,
       }));
 
       await BookmarkAPI.postBookmark({announcementId: id});
     } catch (error) {
       setBookmarkInfo(prev => ({
         bookmarkCount: prev.bookmarkCount - 1,
-        bookmarked: false,
+        isBookmarked: false,
       }));
     }
   }, [setBookmarkInfo, id]);
@@ -45,26 +45,26 @@ const useBookmark = (id: number, initialBookmarkInfo: BookmarkInfo) => {
     try {
       setBookmarkInfo(prev => ({
         bookmarkCount: prev.bookmarkCount - 1,
-        bookmarked: false,
+        isBookmarked: false,
       }));
 
       await BookmarkAPI.cancelBookmark({announcementId: id});
     } catch (error) {
       setBookmarkInfo(prev => ({
         bookmarkCount: prev.bookmarkCount + 1,
-        bookmarked: true,
+        isBookmarked: true,
       }));
     }
   }, [setBookmarkInfo, id]);
 
-  const onPressBookmarkToggle = bookmarkedCurrent
+  const onPressBookmarkToggle = isBookmarkedCurrent
     ? cancelBookmark
     : addBookmark;
 
   return {
     onPressBookmarkToggle,
     bookmarkCountCurrent,
-    bookmarkedCurrent,
+    isBookmarkedCurrent,
   };
 };
 

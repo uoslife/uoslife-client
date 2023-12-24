@@ -5,10 +5,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ArticleItemType} from '../../types/announcement.type';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
-import ArticleList from '../../components/molecules/screens/announcement/article-list/ArticleList';
+import ArticleList from '../../components/molecules/screens/announcement/list/ArticleList';
 import Header from '../../components/molecules/common/header/Header';
 import Spinner from '../../components/atoms/spinner/Spinner';
 import BookmarkAPI from '../../api/services/util/bookmark/bookmarkAPI';
+import LoadingFailed from '../../components/molecules/screens/announcement/LoadingFailed/LoadingFailed';
 
 const NoBookmarkFound = () => (
   <S.NoBookmarkFoundContainer>
@@ -22,18 +23,18 @@ const NoBookmarkFound = () => (
 
 const BookmarkResult = ({
   isEmpty,
-  isPending,
+  isLoading,
   articles,
 }: {
   isEmpty: boolean;
-  isPending: boolean;
+  isLoading: boolean;
   articles: ArticleItemType[];
 }) => {
   return isEmpty ? (
     <NoBookmarkFound />
   ) : (
     <ArticleList
-      ListFooterComponent={isPending ? <Spinner /> : null}
+      ListFooterComponent={isLoading ? <Spinner /> : null}
       articles={articles}
       onEndReached={() => {}}
     />
@@ -47,60 +48,80 @@ const AnnouncementBookmarkBoxScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const [isPending, setIsPending] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   // TODO: 요청에 페이지네이션 적용(현재는 경우에 따라 불필요한 통신량이 추가로 생김)
   useEffect(() => {
-    (async () => {
-      setIsPending(true);
-      try {
-        // TODO: 해당 endpoint 통합 후 클라이언트 코드에서도 대응
-        const {bookmarkInformation} = await BookmarkAPI.getBookmarkedArticles();
-        if (!bookmarkInformation) {
-          throw new Error('북마크된 공지 없음!!');
+    if (articles.length === 0) {
+      (async () => {
+        setIsLoading(true);
+
+        try {
+          // TODO: 해당 endpoint 통합 후 클라이언트 코드에서도 대응
+          const {bookmarkInformation} =
+            await BookmarkAPI.getBookmarkedArticles();
+          if (!bookmarkInformation) {
+            throw new Error();
+          }
+
+          const loadedArticles = await AnnouncementAPI.getAnnouncementByIdList({
+            idList: bookmarkInformation,
+          });
+
+          setArticles(loadedArticles);
+        } catch (error) {
+          setIsError(true);
         }
 
-        const loadedArticles = await AnnouncementAPI.getAnnouncementByIdList({
-          idList: bookmarkInformation,
-        });
-        setArticles(loadedArticles);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsPending(false);
-    })();
-  }, [setIsPending]);
+        setIsLoading(false);
+      })();
+    }
+  }, [articles.length, setIsLoading, setIsError]);
+
+  const onRefresh = () => {
+    setIsError(false);
+    setArticles([]);
+  };
+
+  if (isError)
+    return (
+      <S.Root style={{paddingTop: insets.top}}>
+        <Header label="북마크함" onPressBackButton={handleGoBack} />
+        <LoadingFailed onRefresh={onRefresh} />
+      </S.Root>
+    );
+
+  if (isLoading)
+    return (
+      <S.Root style={{paddingTop: insets.top}}>
+        <Header label="북마크함" onPressBackButton={handleGoBack} />
+        <Spinner />
+      </S.Root>
+    );
 
   return (
-    <S.ScreenContainer style={{paddingTop: insets.top}}>
+    <S.Root style={{paddingTop: insets.top}}>
       <Header label="북마크함" onPressBackButton={handleGoBack} />
-      <S.BookmarkListContainer>
-        {isPending ? (
-          <Spinner />
-        ) : (
-          <BookmarkResult
-            isEmpty={articles.length === 0}
-            isPending={isPending}
-            articles={articles}
-          />
-        )}
-      </S.BookmarkListContainer>
-    </S.ScreenContainer>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <BookmarkResult
+          isEmpty={articles.length === 0}
+          isLoading={isLoading}
+          articles={articles}
+        />
+      )}
+    </S.Root>
   );
 };
 
 export default AnnouncementBookmarkBoxScreen;
 
 const S = {
-  ScreenContainer: styled.View`
+  Root: styled.View`
     width: 100%;
     height: 100%;
-    display: flex;
-  `,
-  BookmarkListContainer: styled.View`
-    width: 100%;
-    display: flex;
-    gap: 4px;
   `,
   NoBookmarkFoundContainer: styled.View`
     padding-top: 48px;

@@ -11,7 +11,7 @@ import UtilityService from '../../../../../services/utility';
 import {AnnouncementOriginNameType} from '../../../../../api/services/util/announcement/announcementAPI.type';
 
 import CardLayout from '../../../common/cardLayout/CardLayout';
-import CategoryTab from '../../announcement/category-tab/CategoryTab';
+import CategoryTab from '../../announcement/tab/CategoryTab';
 import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
 import Skeleton from '../../../common/skeleton/Skeleton';
 

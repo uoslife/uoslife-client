@@ -8,7 +8,7 @@ export type ArticleItemType = {
   date: Date;
   bookmarkCount: number;
   origin: AnnouncementOriginNameType;
-  bookmarked: boolean;
+  isBookmarked: boolean;
 };
 
 /** 게시글 상세 정보 */
