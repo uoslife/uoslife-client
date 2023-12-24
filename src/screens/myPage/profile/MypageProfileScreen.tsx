@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
@@ -18,7 +18,8 @@ import usePhoto from '../../../hooks/usePhoto';
 import useUserState from '../../../hooks/useUserState';
 import setUserInformationMessage from '../../../utils/setUserInformationMessage';
 
-const getPortalAccountInfoList = (user: UserInfoType) => {
+const getPortalAccountInfoList = (user: UserInfoType | null) => {
+  if (!user) return [];
   return [
     {name: '이름', value: setUserInformationMessage(user.name)},
     {name: '학과', value: setUserInformationMessage(user.departmentName)},
@@ -84,6 +85,11 @@ const MypageProfileScreen = () => {
     await UserService.unregister(deleteUserInfo);
   });
 
+  const portalAccountInfoList = useMemo(
+    () => getPortalAccountInfoList(user),
+    [user],
+  );
+
   return (
     <>
       <View style={{paddingTop: insets.top}}>
@@ -141,7 +147,7 @@ const MypageProfileScreen = () => {
               />
               {isVerified && (
                 <S.portalAccountInformationWrapper>
-                  {getPortalAccountInfoList(user!).map(item => {
+                  {portalAccountInfoList.map(item => {
                     return (
                       <S.portalAccountInformation key={item.name}>
                         <Txt
