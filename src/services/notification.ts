@@ -45,12 +45,12 @@ export default class NotificationService {
           id: 'notification',
           name: '알림',
         }),
-        notifee.createChannel({
-          id: 'ETC',
-          name: '알림',
-          groupId: 'notification',
-        }),
       ]);
+      await notifee.createChannel({
+        id: 'ETC',
+        name: '알림',
+        groupId: 'notification',
+      });
     }
     // eslint-disable-next-line consistent-return
     return messaging().requestPermission();
@@ -85,7 +85,7 @@ export default class NotificationService {
   }
 
   static async getFirebasePushToken(): Promise<string> {
-    if (Platform.OS === 'ios' && !storage.getBoolean('isNotFirstLoading')) {
+    if (Platform.OS === 'ios') {
       messaging().setAPNSToken('app');
     }
     const token = await this.getNotificationToken();

@@ -42,7 +42,7 @@ export type SignUpParams = {
     marketing: boolean;
   };
   migrationUserInfo: MigrationUserInfoType | null;
-};
+} & {isDelete: boolean};
 export type SignUpRes = AuthTokenDefaultRes;
 
 export type SignInParams = {

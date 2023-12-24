@@ -1,25 +1,30 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
-import {Button, colors, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+import {useThrottle} from '@uoslife/react';
+import {Button, colors, Txt} from '@uoslife/design-system';
+
 import Header from '../../../components/molecules/common/header/Header';
 import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
+
+import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
+import UserService from '../../../services/user';
 import useModal from '../../../hooks/useModal';
 import usePhoto from '../../../hooks/usePhoto';
-import UserService from '../../../services/user';
 import useUserState from '../../../hooks/useUserState';
-import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
+import setUserInformationMessage from '../../../utils/setUserInformationMessage';
 
 const getPortalAccountInfoList = (user: UserInfoType) => {
   return [
-    {name: '이름', value: user.name},
-    {name: '학과', value: user.identities[0]?.department},
-    {name: '학번', value: user.identities[0]?.studentId},
-    {name: '학적', value: user.identities[0]?.status},
-    {name: '생일', value: user.birthday},
+    {name: '이름', value: setUserInformationMessage(user.name)},
+    {name: '학과', value: setUserInformationMessage(user.departmentName)},
+    {name: '학번', value: setUserInformationMessage(user.studentId)},
+    {name: '학적', value: setUserInformationMessage(user.enrollmentStatus)},
+    {name: '생일', value: setUserInformationMessage(user.birthday)},
   ];
 };
 
@@ -31,8 +36,7 @@ const MypageProfileScreen = () => {
 
   const {user, deleteUserInfo} = useUserState();
 
-  const isVerified = user?.isVerified;
-  const nickname = user?.nickname;
+  const {isVerified, nickname} = user || {};
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
@@ -75,6 +79,10 @@ const MypageProfileScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  const handleOnPressUnregister = useThrottle(async () => {
+    await UserService.unregister(deleteUserInfo);
+  });
 
   return (
     <>
@@ -133,7 +141,7 @@ const MypageProfileScreen = () => {
               />
               {isVerified && (
                 <S.portalAccountInformationWrapper>
-                  {getPortalAccountInfoList(user).map(item => {
+                  {getPortalAccountInfoList(user!).map(item => {
                     return (
                       <S.portalAccountInformation key={item.name}>
                         <Txt
@@ -175,9 +183,7 @@ const MypageProfileScreen = () => {
             size="medium"
             variant="text"
             isFullWidth
-            onPress={async () => {
-              await UserService.unregister(deleteUserInfo);
-            }}
+            onPress={handleOnPressUnregister}
           />
           <S.Devider />
           <Button

@@ -19,7 +19,7 @@ const getInformationMessage = (
   reservationStatus: ReservationStatusTypeInUsing,
   user: UserAtomType['user'],
 ) => {
-  return `${user || 'undefined'}님 ${
+  return `${user?.nickname || 'undefined'}님 ${
     libraryInformationMessage[reservationStatus]
   }`;
 };

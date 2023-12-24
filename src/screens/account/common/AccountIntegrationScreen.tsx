@@ -13,7 +13,7 @@ import {
 import useAccountFlow from '../../../hooks/useAccountFlow';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
-const HEADER_TO_TXT_HEIGHT = 270; // 헤더부터 설명 문구('선택한 ~ 삭제됩니다')까지의 높이
+const HEADER_TO_TXT_HEIGHT = 270 + 100; // 헤더부터 설명 문구('선택한 ~ 삭제됩니다')까지의 높이
 
 const AccountIntegrationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -48,8 +48,7 @@ const AccountIntegrationScreen = () => {
   };
 
   return (
-    <S.screenContainer
-      style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
+    <S.screenContainer style={{paddingTop: insets.top}}>
       <Header
         label="계정 통합"
         onPressBackButton={handlePressHeaderBackButton}
@@ -68,7 +67,8 @@ const AccountIntegrationScreen = () => {
               typograph="bodyMedium"
             />
           </View>
-          <S.idContainer style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT}}>
+          <S.idContainer
+            style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT, right: 1}}>
             {existedAccountInfo.map(item => (
               <View key={item.id}>
                 {item.nickname && (
@@ -89,7 +89,7 @@ const AccountIntegrationScreen = () => {
             <S.dummyBox />
           </S.idContainer>
         </View>
-        <S.buttonArea>
+        <S.buttonArea style={{bottom: insets.bottom - 8}}>
           <Button
             label="계정 통합하기"
             onPress={handlePressNextButton}

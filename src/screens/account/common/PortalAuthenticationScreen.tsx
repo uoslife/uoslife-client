@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Txt, Button} from '@uoslife/design-system';
 
 import KeyboardManager from 'react-native-keyboard-manager';
+import {useThrottle} from '@uoslife/react';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
@@ -19,6 +20,8 @@ import storage from '../../../storage';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
+import UserService from '../../../services/user';
+import useUserState from '../../../hooks/useUserState';
 
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
@@ -42,6 +45,7 @@ const PortalAuthenticationScreen = () => {
   ]);
 
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
+  const {setUserInfo} = useUserState();
 
   const [messageStatus, setMessageStatus] =
     useState<PortalVerificationStatusMessageType>('BEFORE_VERIFICATION');
@@ -91,7 +95,7 @@ const PortalAuthenticationScreen = () => {
     changeAccountFlow({commonFlowName: 'FINISH'});
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useThrottle(async () => {
     if (!(inputValue.id && inputValue.password)) {
       setMessageStatus('UNFILLED_INPUT');
       return;
@@ -101,6 +105,7 @@ const PortalAuthenticationScreen = () => {
         username: inputValue.id,
         password: inputValue.password,
       });
+      await UserService.updateUserInfo(setUserInfo);
       if (isNotAccountFlow) {
         customShowToast('portalAuthenticationSuccess');
         navigation.goBack();
@@ -109,9 +114,21 @@ const PortalAuthenticationScreen = () => {
       changeAccountFlow({commonFlowName: 'FINISH'});
     } catch (err) {
       const error = err as ErrorResponseType;
-      if (error.status !== 500) setMessageStatus('MISMATCHED');
+      switch (error.code) {
+        case 'V01': {
+          setMessageStatus('MISMATCHED');
+          return;
+        }
+        case 'V02': {
+          customShowToast('portalAuthenticationDuplicatedError');
+          return;
+        }
+        default: {
+          customShowToast('portalAuthenticationError');
+        }
+      }
     }
-  };
+  });
 
   const handlePressHeaderBackButton = () => {
     if (isNotAccountFlow) {
@@ -143,6 +160,11 @@ const PortalAuthenticationScreen = () => {
               label={
                 '포털 계정 연동을 통해 다양한 기능을 이용할 수 있습니다.\n계정 정보는 안전한 암호화 방식으로 서버에 저장됩니다.'
               }
+            />
+            <Txt
+              typograph="bodyMedium"
+              color="grey130"
+              label="졸업생은 현재 연동이 불가능합니다."
             />
           </View>
           <View>

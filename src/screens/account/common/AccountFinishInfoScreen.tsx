@@ -34,7 +34,7 @@ const AccountFinishInfoScreen = () => {
         style={{width: 400, height: 300}}
       />
       <Txt
-        label="회원가입 축하드립니다!"
+        label="시대생 회원이 되신 것을 축하해요!"
         color="grey130"
         typograph="titleLarge"
       />

@@ -2,20 +2,24 @@ import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Button, Txt} from '@uoslife/design-system';
+import {useSetAtom} from 'jotai';
 import Header from '../../../components/molecules/common/header/Header';
 import useAccountFlow from '../../../hooks/useAccountFlow';
+import {deletedUserStatusAtom} from '../../../store/account';
 
 const DeletedUserScreen = () => {
   const insets = useSafeAreaInsets();
+  const setDeletedUserStatus = useSetAtom(deletedUserStatusAtom);
 
   const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
 
   const handlePressAgreeButton = () => {
+    setDeletedUserStatus({isDelete: false});
     increaseSignUpFlowStep();
   };
   const handlePressDisagreeButton = () => {
+    setDeletedUserStatus({isDelete: true});
     increaseSignUpFlowStep();
-    // TODO: call rejoin/disagree API
   };
 
   return (

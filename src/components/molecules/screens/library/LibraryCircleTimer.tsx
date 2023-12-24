@@ -19,22 +19,6 @@ const LibraryCircleTimer = ({
   remainingSeconds,
   seatStartTime,
 }: LibraryCustomCircleTimerProps) => {
-  if (reservationStatus === 'NOT_USING')
-    return (
-      // @ts-ignore
-      <CountdownCircleTimer
-        {...LibraryCircleTimerDefaultProps}
-        colors={DEFAULT_TRAIL_COLOR}>
-        {() => (
-          <Txt
-            color="grey130"
-            label={`이용 중인 좌석이\n없어요`}
-            typograph="titleLarge"
-            style={{textAlign: 'center'}}
-          />
-        )}
-      </CountdownCircleTimer>
-    );
   if (reservationStatus === 'NOT_PORTAL_VERIFICATION')
     return (
       // @ts-ignore
@@ -51,6 +35,23 @@ const LibraryCircleTimer = ({
         )}
       </CountdownCircleTimer>
     );
+  if (reservationStatus === 'NOT_USING')
+    return (
+      // @ts-ignore
+      <CountdownCircleTimer
+        {...LibraryCircleTimerDefaultProps}
+        colors={DEFAULT_TRAIL_COLOR}>
+        {() => (
+          <Txt
+            color="grey130"
+            label={`이용 중인 좌석이\n없어요`}
+            typograph="titleLarge"
+            style={{textAlign: 'center'}}
+          />
+        )}
+      </CountdownCircleTimer>
+    );
+
   const isUsingStatus = reservationStatus === 'USING';
   return (
     <CountdownCircleTimer

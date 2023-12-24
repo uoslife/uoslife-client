@@ -4,14 +4,13 @@ import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useTimer} from '@uoslife/react';
+import {useThrottle, useTimer} from '@uoslife/react';
 
 import {useNavigation} from '@react-navigation/native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import {existedAccountInfoAtom} from '../../../store/account';
 
-import showErrorMessage from '../../../utils/showErrorMessage';
 import storeToken from '../../../utils/storeToken';
 
 import {CoreAPI} from '../../../api/services';
@@ -105,7 +104,7 @@ const VerificationScreen = () => {
   };
 
   // 전화번호 입력 페이지
-  const handleOnPressRequestCode = async () => {
+  const handleOnPressRequestCode = useThrottle(async () => {
     if (isRetryTerm) {
       Alert.alert('제한시간(1분)이 지난 후에 다시 요청해주세요.');
       return;
@@ -122,16 +121,24 @@ const VerificationScreen = () => {
       setIsRetryTerm(true);
       startTimer();
     } catch (error) {
-      // TODO: error인 경우 수정
-      showErrorMessage(error);
+      const err = error as ErrorResponseType;
+      switch (err.code) {
+        case 'S02': {
+          setInputMessageStatus('REQUEST_EXCEED');
+          break;
+        }
+        default: {
+          customShowToast('SmsVerificationError');
+        }
+      }
       setStoredPhoneNumber(inputValue);
       setIsVerificationCodeSent(true);
       setInputValue('');
     }
-  };
+  });
 
   // 인증번호 입력 페이지
-  const handleOnPressVerifyIdentify = async () => {
+  const handleOnPressVerifyIdentify = useThrottle(async () => {
     const currentInputLength = inputValue.length;
     if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
 
@@ -214,7 +221,7 @@ const VerificationScreen = () => {
     }
     setIsVerificationCodeSent(false); // state 초기화
     setStoredPhoneNumber(''); // state 초기화
-  };
+  });
 
   const {currentTime, isFinish, startTimer, resetTimer} = useTimer({
     initMin: VERIFICATION_TIMER_MIN,

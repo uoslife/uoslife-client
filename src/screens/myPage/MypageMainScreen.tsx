@@ -24,6 +24,10 @@ const MypageMainScreen = ({
     await UserService.logout(deleteUserInfo);
   };
 
+  const portalInfoMessage = isVerified
+    ? `${user?.departmentName}(${user?.studentId})`
+    : '포털 계정을 연동해주세요';
+
   return (
     <S.screenContainer style={{paddingTop: insets.top}} bounces={false}>
       <Header
@@ -45,11 +49,7 @@ const MypageMainScreen = ({
               typograph="titleLarge"
             />
             <Txt
-              label={
-                isVerified
-                  ? `${user?.identities[0]?.department}(${user?.identities[0]?.studentId})`
-                  : '포털 계정을 연동해주세요'
-              }
+              label={portalInfoMessage}
               color={isVerified ? 'grey130' : 'primaryBrand'}
               typograph="bodyMedium"
             />

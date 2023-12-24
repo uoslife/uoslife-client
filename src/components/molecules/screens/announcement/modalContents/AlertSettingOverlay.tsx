@@ -7,6 +7,7 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import BottomSheetToggleItem from '../../../overlays/items/BottomSheetToggleItem';
 import useTopicState from '../../../../../hooks/useTopicState';
+import Skeleton from '../../../common/skeleton/Skeleton';
 
 const AlertSettingOverlay = () => {
   const insets = useSafeAreaInsets();
@@ -23,13 +24,17 @@ const AlertSettingOverlay = () => {
 
   const handlePressRedirectNotificationSetting = () => {
     // @ts-ignore
-    navigation.navigate('MyPage', {screen: 'Mypage_appSetting'});
+    navigation.navigate('Mypage', {screen: 'Mypage_appSetting'});
   };
 
   return (
     <S.Container style={{paddingBottom: insets.bottom + 12}}>
       {isLoading ? (
-        <View style={{height: 340}} />
+        <View style={{height: 356, paddingTop: 28, gap: 28}}>
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+        </View>
       ) : (
         <>
           <S.Description>
@@ -44,7 +49,7 @@ const AlertSettingOverlay = () => {
             />
             {isNotificationAgree && (
               <Txt
-                label="알림 설정은 MY Page > [알림 설정]에서 변경 가능합니다."
+                label="알림 설정은 마이페이지 > [알림 설정]에서 변경 가능합니다."
                 color="grey190"
                 typograph="bodyMedium"
               />

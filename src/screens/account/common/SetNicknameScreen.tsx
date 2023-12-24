@@ -7,7 +7,12 @@ import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {accountFlowAtom, existedAccountInfoAtom} from '../../../store/account';
+import {useThrottle} from '@uoslife/react';
+import {
+  accountFlowAtom,
+  deletedUserStatusAtom,
+  existedAccountInfoAtom,
+} from '../../../store/account';
 
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
@@ -23,6 +28,7 @@ import customShowToast from '../../../configs/toast';
 import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import NotificationService from '../../../services/notification';
+import {ErrorResponseType} from '../../../api/services/type';
 
 const NICKNAME_MAX_LENGTH = 8;
 
@@ -38,8 +44,10 @@ const SetNicknameScreen = () => {
 
   const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
   const accountFlow = useAtomValue(accountFlowAtom);
+  const {isDelete} = useAtomValue(deletedUserStatusAtom);
   const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
   const {setUserInfo} = useUserState();
+
   const [isMyPage] = useIsCurrentScreen('Mypage_changeNickname');
 
   const selectedAccountInfo = existedAccountInfo.find(
@@ -97,35 +105,43 @@ const SetNicknameScreen = () => {
   };
 
   const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
-  const handleClickSubmitBottomSheetButton = async (
-    isAdvertismentAgree: boolean,
-  ) => {
-    const isAuthorized =
-      await NotificationService.checkPermissionIsAuthorizedStatus();
-    setIsAdvertismentAgree(isAdvertismentAgree);
-    if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
-    try {
-      const signUpRes = await CoreAPI.signUp({
-        nickname: inputValue,
-        tos: {
-          privatePolicy: true,
-          termsOfUse: true,
-          notification: isAuthorized,
-          marketing: isAdvertismentAgree,
-        },
-        migrationUserInfo: selectedAccountInfo ?? null,
-      });
-      await UserService.onRegister({
-        accessToken: signUpRes.accessToken,
-        refreshToken: signUpRes.refreshToken,
-        setUserInfo,
-        setNotLoggedIn: true,
-      });
-      openModal();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const handleClickSubmitBottomSheetButton = useThrottle(
+    async (isAdvertismentAgree: boolean) => {
+      const isAuthorized =
+        await NotificationService.checkPermissionIsAuthorizedStatus();
+      setIsAdvertismentAgree(isAdvertismentAgree);
+      if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
+      try {
+        const signUpRes = await CoreAPI.signUp({
+          nickname: inputValue,
+          tos: {
+            privatePolicy: true,
+            termsOfUse: true,
+            notification: isAuthorized,
+            marketing: isAdvertismentAgree,
+          },
+          migrationUserInfo: selectedAccountInfo ?? null,
+          isDelete,
+        });
+
+        await UserService.onRegister({
+          accessToken: signUpRes.accessToken,
+          refreshToken: signUpRes.refreshToken,
+          setUserInfo,
+          setNotLoggedIn: true,
+        });
+        openModal();
+      } catch (err) {
+        const error = err as ErrorResponseType;
+        if (error.code === 'CS01') {
+          customShowToast('unRegisterTwiceUserError');
+          return;
+        }
+        customShowToast('signUpError');
+      }
+    },
+  );
+
   const handleClickSubmitModalButton = () => {
     changeAccountFlow({
       commonFlowName: 'PORTAL_VERIFICATION',

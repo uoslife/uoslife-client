@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo, useCallback} from 'react';
 
 type Props = {
   isUsingStatus: boolean;
@@ -38,8 +38,11 @@ const useLibraryDisplayTime = ({
   const minuteNotUsing = Math.floor((remainingTime % 3600) / 60);
   const secondNotUsing = remainingTime % 60;
 
-  const [hourInUsing, minuteInUsing, secondInUsing] =
-    getTimeDifference(seatStartTime);
+  const [hourInUsing, minuteInUsing, secondInUsing] = useMemo(
+    () => getTimeDifference(seatStartTime),
+    [seatStartTime],
+  );
+
   const [hours, setHours] = useState(
     isUsingStatus ? hourInUsing : hourNotUsing,
   );
@@ -49,8 +52,8 @@ const useLibraryDisplayTime = ({
   const [seconds, setSeconds] = useState(
     isUsingStatus ? secondInUsing : secondNotUsing,
   );
-
   useEffect(() => {
+    if (!isUsingStatus) return () => null;
     const intervalId = setInterval(() => {
       // 초 카운트 업
       setSeconds(prevSeconds => prevSeconds + 1);
@@ -68,15 +71,38 @@ const useLibraryDisplayTime = ({
     }, 1000);
 
     return () => clearInterval(intervalId);
+  }, [isUsingStatus, hours, minutes, seconds]);
+  useEffect(() => {
+    if (isUsingStatus) return () => null;
+    const intervalId = setInterval(() => {
+      if (hours === 0 && minutes === 0 && seconds === 0) return;
+      setSeconds(prevSeconds => prevSeconds - 1);
+
+      if (minutes === 0 && seconds === 0) {
+        setMinutes(59);
+        setHours(prevHours => prevHours - 1);
+      }
+      if (seconds === 0) {
+        setSeconds(59);
+        setMinutes(prevMinutes => prevMinutes - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [isUsingStatus, hours, minutes, seconds]);
+
+  const getDisplayTimeString = useCallback(() => {
+    if (hours) return `${hours}시간 ${minutes}분 ${seconds}초`;
+    if (minutes) return `${minutes}분 ${seconds}초`;
+    return `${seconds}초`;
   }, [hours, minutes, seconds]);
 
-  const getDisplayTimeString = () => {
-    if (!hours) return `${minutes}분 ${seconds}초`;
-    if (!minutes) return `${seconds}초`;
-    return `${hours}시간 ${minutes}분 ${seconds}초`;
-  };
+  const displayTime = useMemo(
+    () => getDisplayTimeString(),
+    [getDisplayTimeString],
+  );
 
-  return {displayTime: getDisplayTimeString()};
+  return {displayTime};
 };
 
 export default useLibraryDisplayTime;

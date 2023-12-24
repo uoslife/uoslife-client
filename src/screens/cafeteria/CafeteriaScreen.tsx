@@ -1,22 +1,26 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
-import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import {useAtom, useSetAtom} from 'jotai';
 import {Txt} from '@uoslife/design-system';
-import {useAtom} from 'jotai';
-import Header from '../../components/molecules/common/header/Header';
+import styled from '@emotion/native';
+
 import Card from '../../components/molecules/common/card/Card';
+import Header from '../../components/molecules/common/header/Header';
+import Skeleton from '../../components/molecules/common/skeleton/Skeleton';
+import CardLayout from '../../components/molecules/common/cardLayout/CardLayout';
+import IconWithText from '../../components/molecules/common/iconWithText/IconWithText';
 import CafeteriaCard from '../../components/molecules/screens/cafeteria/card/CafeteriaCard';
 import DatePaginationBar from '../../components/molecules/screens/cafeteria/pagination/DatePaginationBar';
-import {MealTimeType} from '../../api/services/util/cafeteria/cafeteriaAPI.type';
-import IconWithText from '../../components/molecules/common/iconWithText/IconWithText';
-import DateUtils from '../../utils/date';
-import CardLayout from '../../components/molecules/common/cardLayout/CardLayout';
+
 import cachedCafeteriaItemAtom, {
+  cafeteriaCommonDateAtom,
+  cafeteriaDisplayDateAtom,
   cafeteriaMealTimeAtom,
 } from '../../store/cafeteria';
-import Skeleton from '../../components/molecules/common/skeleton/Skeleton';
+import DateUtils from '../../utils/date';
+import {MealTimeType} from '../../api/services/util/cafeteria/cafeteriaAPI.type';
 
 const CafeteriaScreen = () => {
   const insets = useSafeAreaInsets();
@@ -27,6 +31,8 @@ const CafeteriaScreen = () => {
   const [cafeteriaMealTime, setCafeteriaMealTime] = useAtom(
     cafeteriaMealTimeAtom,
   );
+  const setCafeteriaCommonDate = useSetAtom(cafeteriaCommonDateAtom);
+  const setCafeteriaDisplayDate = useSetAtom(cafeteriaDisplayDateAtom);
   const [{items}] = useAtom(cachedCafeteriaItemAtom);
 
   const handleGoBack = () => {
@@ -37,10 +43,21 @@ const CafeteriaScreen = () => {
     setCafeteriaMealTime(mealTime);
   };
 
+  // focus out시 현재 date로 초기화합니다.
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) return;
+    setCafeteriaMealTime(date.currentMealTime);
+    setCafeteriaCommonDate(date.commonDate);
+    setCafeteriaDisplayDate(date.displayDate);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused]);
+
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <S.screenContainer style={{paddingTop: insets.top, right: 1}}>
       <Header label="학식" onPressBackButton={handleGoBack} />
-      <ScrollView bounces={false}>
+      <ScrollView bounces={false} style={{right: 1}}>
         <S.bodyContainer style={{paddingBottom: insets.bottom + 12}}>
           <S.selectorWrapper>
             <DatePaginationBar date={date} />
