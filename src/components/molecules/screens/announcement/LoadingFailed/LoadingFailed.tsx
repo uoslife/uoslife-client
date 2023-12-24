@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {Linking} from 'react-native';
 
-const failComment1 = '공지사항을 가져오는 데 실패했어요.';
+const failComment1 = '공지사항을 가져오는 데 실패했습니다.';
 const failComment2 = '잠시 후 다시 시도해 주세요.';
 const checkInHomepageComment = '홈페이지에서 전체 공지사항 확인하기';
 
