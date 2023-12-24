@@ -11,9 +11,9 @@ const NavigationList = ({
   onPress,
 }: NavigationListProps) => {
   return (
-    <S.Container>
+    <S.Container onPress={onPress}>
       <Txt label={label} color="grey190" typograph="bodyLarge" />
-      <S.PressableArea onPress={onPress}>
+      <S.RightWrapper>
         {pressLabel && (
           <Txt
             label={pressLabel}
@@ -24,7 +24,7 @@ const NavigationList = ({
         {isPressIconShown && (
           <Icon name="forwardArrow" width={24} height={24} color="grey130" />
         )}
-      </S.PressableArea>
+      </S.RightWrapper>
     </S.Container>
   );
 };
@@ -32,7 +32,7 @@ const NavigationList = ({
 export default NavigationList;
 
 const S = {
-  Container: styled.View`
+  Container: styled.Pressable`
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -40,7 +40,7 @@ const S = {
     align-items: center;
     padding: 12px 4px 12px 8px;
   `,
-  PressableArea: styled.Pressable`
+  RightWrapper: styled.View`
     display: flex;
     flex-direction: row;
     align-items: center;
