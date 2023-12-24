@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
-import {StatusBar, useColorScheme} from 'react-native';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-// import codePush from 'react-native-code-push';
+import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
@@ -23,7 +23,7 @@ Sentry.init({
   dsn: SENTRY_DSN_KEY,
 });
 
-const App: React.FC = () => {
+let App: React.FC = () => {
   const [visible, setVisible] = useAtom(bootSplashVisibleAtom);
 
   useEffect(() => {
@@ -55,5 +55,5 @@ const App: React.FC = () => {
   );
 };
 
-// if (!__DEV__) App = codePush(App);
+if (!__DEV__) App = codePush(App);
 export default Sentry.wrap(App);
