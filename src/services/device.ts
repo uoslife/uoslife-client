@@ -1,17 +1,18 @@
 import DeviceInfo from 'react-native-device-info';
 import {Platform} from 'react-native';
+import codePush from 'react-native-code-push';
 import storage from '../storage';
 import {CoreAPI} from '../api/services';
 import {DeviceInfoType} from '../api/services/core/device/deviceAPI.type';
 
 export default class DeviceService {
-  static getDeviceInfoFromLocal(): DeviceInfoType {
+  static async getDeviceInfoFromLocal(): Promise<DeviceInfoType> {
     const firebasePushToken = storage.getString('firebasePushToken')!;
     const model = DeviceInfo.getModel();
     const os = Platform.OS.toUpperCase();
     const osVersion = Platform.Version.toString();
     const appVersion = DeviceInfo.getVersion();
-    const codePushVersion = storage.getString('codePushVersion') ?? '';
+    const codePushVersion = await this.getCodePushVersion();
 
     const deviceInfo: DeviceInfoType = {
       firebasePushToken,
@@ -33,14 +34,20 @@ export default class DeviceService {
     }
   }
 
+  static async getCodePushVersion(): Promise<string> {
+    const metadata = await codePush.getUpdateMetadata();
+    if (!metadata) return '';
+    return metadata.label;
+  }
+
   /** SignIn or SignUp 시 DeviceInfo를 patch합니다. */
   static async setDeviceInfo(): Promise<void> {
-    const deviceInfo = this.getDeviceInfoFromLocal();
+    const deviceInfo = await this.getDeviceInfoFromLocal();
     await CoreAPI.patchDeviceInfo(deviceInfo);
   }
 
   static async updateDeviceInfo(): Promise<void> {
-    const localDeviceInfo = this.getDeviceInfoFromLocal();
+    const localDeviceInfo = await this.getDeviceInfoFromLocal();
     const serverDeviceInfo = await this.getDeviceInfoFromServer();
     if (
       localDeviceInfo.appVersion !== serverDeviceInfo.appVersion ||
