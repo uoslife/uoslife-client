@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>373133861380-crbign2ph65vod6bjtndr5s5eelsvv7j.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.373133861380-crbign2ph65vod6bjtndr5s5eelsvv7j</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBO1LSEaFVZBlm1T8_wIG2U6KOdxuhA9a0</string>
+	<string>AIzaSyBZ5Dy4jDK0NTifuOIF0OpsaJBPSWIe1EE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>373133861380</string>
+	<string>316769946877</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.beyondconnect.uoslife</string>
 	<key>PROJECT_ID</key>
-	<string>uoslife-client</string>
+	<string>uoslife-app-37d50</string>
 	<key>STORAGE_BUCKET</key>
-	<string>uoslife-client.appspot.com</string>
+	<string>uoslife-app-37d50.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:373133861380:ios:52ca000705dad0bcd1cb51</string>
+	<string>1:316769946877:ios:48fd69aa53808a2fb50294</string>
 </dict>
 </plist>
