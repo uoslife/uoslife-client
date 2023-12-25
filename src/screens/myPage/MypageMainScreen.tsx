@@ -21,7 +21,7 @@ const MypageMainScreen = ({
   const {nickname, isVerified} = user || {};
 
   const handlePressLogoutButton = async () => {
-    await UserService.logout(deleteUserInfo);
+    await UserService.logout({deleteUserInfo, user: user!});
   };
 
   const portalInfoMessage = isVerified

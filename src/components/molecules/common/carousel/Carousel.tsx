@@ -8,11 +8,14 @@ import {
   Pressable,
   Linking,
 } from 'react-native';
-import analytics from '@react-native-firebase/analytics';
 import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
+import AnalyticsService from '../../../../services/analytics';
+import {
+  DEFAULT_LOG_EVENT_NAME,
+  LogEventNameType,
+} from '../../../../configs/analytics';
 
 const INIT_DISPLAY_INDEX = 1;
-const DEFAULT_LOG_EVENT_NAME = 'unknown';
 
 type IndicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
 type CarouselData = {uri: any; link?: string; id?: number};
@@ -24,7 +27,7 @@ type CarouselProps = {
   indicator: IndicatorType;
   autoPlay?: boolean;
   autoPlayIntervalTime?: number;
-  logEventName?: string;
+  logEventName?: Extract<LogEventNameType, 'banner'>;
 };
 
 const Carousel = ({
@@ -107,10 +110,10 @@ const Carousel = ({
             if (!link) return;
             Promise.all([
               await Linking.openURL(link),
-              await analytics().logEvent(
+              await AnalyticsService.logAnalyticsEvent(
                 logEventName ?? DEFAULT_LOG_EVENT_NAME,
                 {
-                  bannerId: id,
+                  bannerId: id ?? DEFAULT_LOG_EVENT_NAME,
                   bannerLinkUrl: link,
                 },
               ),
