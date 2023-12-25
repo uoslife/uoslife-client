@@ -7,14 +7,18 @@ import {
   FlatList,
   Pressable,
   Linking,
-  Platform,
 } from 'react-native';
 import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
+import AnalyticsService from '../../../../services/analytics';
+import {
+  DEFAULT_LOG_EVENT_NAME,
+  LogEventNameType,
+} from '../../../../configs/analytics';
 
 const INIT_DISPLAY_INDEX = 1;
 
 type IndicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
-type CarouselData = {uri: any; link?: string};
+type CarouselData = {uri: any; link?: string; id?: number};
 
 type CarouselProps = {
   imageWidth: number;
@@ -23,6 +27,7 @@ type CarouselProps = {
   indicator: IndicatorType;
   autoPlay?: boolean;
   autoPlayIntervalTime?: number;
+  logEventName?: Extract<LogEventNameType, 'banner'>;
 };
 
 const Carousel = ({
@@ -32,6 +37,7 @@ const Carousel = ({
   indicator = 'NONE',
   autoPlay = true,
   autoPlayIntervalTime = 3000,
+  logEventName,
 }: CarouselProps) => {
   const carouselRef = useRef<FlatList>(null);
   const [currentDisplayIndex, setCurrentDisplayIndex] =
@@ -99,9 +105,22 @@ const Carousel = ({
         onMomentumScrollEnd={onMomentumScrollEnd}
         data={carouselData}
         renderItem={({item}) => {
-          const {uri, link} = item as CarouselData;
+          const {uri, link, id} = item as CarouselData;
+          const handleOnPressCarousel = async () => {
+            if (!link) return;
+            Promise.all([
+              await Linking.openURL(link),
+              await AnalyticsService.logAnalyticsEvent(
+                logEventName ?? DEFAULT_LOG_EVENT_NAME,
+                {
+                  bannerId: id ?? DEFAULT_LOG_EVENT_NAME,
+                  bannerLinkUrl: link,
+                },
+              ),
+            ]);
+          };
           return (
-            <Pressable onPress={() => (link ? Linking.openURL(link) : null)}>
+            <Pressable onPress={handleOnPressCarousel}>
               <S.CarouselImage
                 style={{width: imageWidth, height: imageHeight}}
                 source={uri}

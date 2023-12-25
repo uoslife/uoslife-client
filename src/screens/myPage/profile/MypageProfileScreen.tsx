@@ -82,7 +82,7 @@ const MypageProfileScreen = () => {
   };
 
   const handleOnPressUnregister = useThrottle(async () => {
-    await UserService.unregister(deleteUserInfo);
+    await UserService.unregister({deleteUserInfo, user: user!});
   });
 
   const portalAccountInfoList = useMemo(

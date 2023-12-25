@@ -5,6 +5,7 @@ import DeviceService from './device';
 import storeToken from '../utils/storeToken';
 import customShowToast from '../configs/toast';
 import {DeleteUserInfoType, SetUserInfoType} from '../hooks/useUserState';
+import AnalyticsService from './analytics';
 
 type OnRegisterParamsType = {
   accessToken: string;
@@ -12,6 +13,10 @@ type OnRegisterParamsType = {
   setUserInfo: SetUserInfoType;
   /** 바로 로그인하지 않을 때 사용하는 params입니다. */
   setNotLoggedIn?: true;
+};
+type InitializeUserParamsType = {
+  deleteUserInfo: DeleteUserInfoType;
+  user: UserInfoType;
 };
 
 export default class UserService {
@@ -53,26 +58,46 @@ export default class UserService {
 
   // 로그아웃 및 회원 탈퇴
 
-  static async logout(deleteUserInfo: DeleteUserInfoType): Promise<void> {
-    this.initializeUserState(deleteUserInfo);
-    customShowToast('logout');
+  static async logout({
+    deleteUserInfo,
+    user,
+  }: Partial<InitializeUserParamsType>): Promise<void> {
+    if (!deleteUserInfo || !user) {
+      this.initializeUserState(undefined);
+      return;
+    }
+    await AnalyticsService.logAnalyticsEvent('logout', {
+      logoutUserId: user.id,
+    }).finally(() => {
+      this.initializeUserState(deleteUserInfo);
+      customShowToast('logout');
+    });
   }
 
-  static async unregister(deleteUserInfo: DeleteUserInfoType): Promise<void> {
+  static async unregister({
+    deleteUserInfo,
+    user,
+  }: InitializeUserParamsType): Promise<void> {
     try {
       await CoreAPI.unregister();
-      this.initializeUserState(deleteUserInfo);
-      customShowToast('unregister');
+      await AnalyticsService.logAnalyticsEvent('unregister', {
+        unregisterUserId: user.id,
+      }).finally(() => {
+        this.initializeUserState(deleteUserInfo);
+        customShowToast('unregister');
+      });
     } catch (error) {
       customShowToast('unregisterError');
     }
   }
 
-  static initializeUserState(deleteUserInfo: DeleteUserInfoType): void {
+  static initializeUserState(
+    deleteUserInfo: DeleteUserInfoType | undefined,
+  ): void {
     storage.delete('accessToken');
     storage.delete('refreshToken');
     storage.delete('tempToken');
-    deleteUserInfo();
+    if (deleteUserInfo) deleteUserInfo();
     storage.set('isLoggedIn', false);
   }
 }

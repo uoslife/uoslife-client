@@ -8,7 +8,8 @@ import UserService from '../services/user';
 import storage from '../storage';
 import {useConfigContext} from './ConfigContext';
 import useUserState from './useUserState';
-import bootSplashVisibleAtom from '../store/bootsplash';
+import bootSplashVisibleAtom from '../store/app/bootSplashVisible';
+import initLoadingAtom from '../store/app/initLoading';
 
 const useInitApp = () => {
   const {config, isLoading, hasNetworkError} = useConfigContext();
@@ -17,7 +18,8 @@ const useInitApp = () => {
     [config],
   );
 
-  const setVisible = useSetAtom(bootSplashVisibleAtom);
+  const setAnimatedBootSplashVisible = useSetAtom(bootSplashVisibleAtom);
+  const setInitLoadingFinish = useSetAtom(initLoadingAtom);
 
   const [isServiceInitLoading, setIsServiceInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -61,8 +63,14 @@ const useInitApp = () => {
   /** hide splash screen if loading finish */
   useEffect(() => {
     if (isLoading || isServiceInitLoading) return;
-    setVisible(true);
-  }, [isLoading, isServiceInitLoading, setVisible]);
+    setAnimatedBootSplashVisible(true);
+    setInitLoadingFinish(true);
+  }, [
+    isLoading,
+    isServiceInitLoading,
+    setAnimatedBootSplashVisible,
+    setInitLoadingFinish,
+  ]);
 
   /** 백그라운드에서 deepLink가 포함된 알림을 클릭하여 들어왔을 때 */
   useEffect(() => {
