@@ -7,14 +7,15 @@ import {
   FlatList,
   Pressable,
   Linking,
-  Platform,
 } from 'react-native';
+import analytics from '@react-native-firebase/analytics';
 import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
 
 const INIT_DISPLAY_INDEX = 1;
+const DEFAULT_LOG_EVENT_NAME = 'unknown';
 
 type IndicatorType = 'NONE' | 'TOPRIGHT' | 'BOTTOM';
-type CarouselData = {uri: any; link?: string};
+type CarouselData = {uri: any; link?: string; id?: number};
 
 type CarouselProps = {
   imageWidth: number;
@@ -23,6 +24,7 @@ type CarouselProps = {
   indicator: IndicatorType;
   autoPlay?: boolean;
   autoPlayIntervalTime?: number;
+  logEventName?: string;
 };
 
 const Carousel = ({
@@ -32,6 +34,7 @@ const Carousel = ({
   indicator = 'NONE',
   autoPlay = true,
   autoPlayIntervalTime = 3000,
+  logEventName,
 }: CarouselProps) => {
   const carouselRef = useRef<FlatList>(null);
   const [currentDisplayIndex, setCurrentDisplayIndex] =
@@ -99,9 +102,22 @@ const Carousel = ({
         onMomentumScrollEnd={onMomentumScrollEnd}
         data={carouselData}
         renderItem={({item}) => {
-          const {uri, link} = item as CarouselData;
+          const {uri, link, id} = item as CarouselData;
+          const handleOnPressCarousel = async () => {
+            if (!link) return;
+            Promise.all([
+              await Linking.openURL(link),
+              await analytics().logEvent(
+                logEventName ?? DEFAULT_LOG_EVENT_NAME,
+                {
+                  bannerId: id,
+                  bannerLinkUrl: link,
+                },
+              ),
+            ]);
+          };
           return (
-            <Pressable onPress={() => (link ? Linking.openURL(link) : null)}>
+            <Pressable onPress={handleOnPressCarousel}>
               <S.CarouselImage
                 style={{width: imageWidth, height: imageHeight}}
                 source={uri}

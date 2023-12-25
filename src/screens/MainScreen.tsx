@@ -86,10 +86,11 @@ const MainScreen = () => {
           imageWidth={BANNER_WIDTH}
           imageHeight={BANNER_HEIGHT}
           carouselData={[
-            {uri: BANNER_1, link: BANNER_1_LINK},
-            {uri: BANNER_2, link: BANNER_2_LINK},
+            {uri: BANNER_1, link: BANNER_1_LINK, id: 0},
+            {uri: BANNER_2, link: BANNER_2_LINK, id: 1},
           ]}
           indicator="TOPRIGHT"
+          logEventName="banner"
         />
         <MainServiceBox
           label="오늘의 학식"
