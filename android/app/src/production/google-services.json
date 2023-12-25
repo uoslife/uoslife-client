@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "373133861380",
-    "project_id": "uoslife-client",
-    "storage_bucket": "uoslife-client.appspot.com"
+    "project_number": "316769946877",
+    "project_id": "uoslife-app-37d50",
+    "storage_bucket": "uoslife-app-37d50.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:373133861380:android:ab224ddcb59d68dbd1cb51",
+        "mobilesdk_app_id": "1:316769946877:android:6380314e8dd00599b50294",
         "android_client_info": {
           "package_name": "com.beyondconnect.uoslife"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "373133861380-asou36mt6r2vlm2b8c2g0a1lqtf36nnn.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBdU41lqhu1ee2sMnACjhoS0s8jh2BO3SM"
+          "current_key": "AIzaSyCh_EbxU6VmBgcKhSrc-BM2oAlOMmtA8qE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "373133861380-asou36mt6r2vlm2b8c2g0a1lqtf36nnn.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "373133861380-crbign2ph65vod6bjtndr5s5eelsvv7j.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.beyondconnect.uoslife",
-                "app_store_id": "1514073192"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
