@@ -18,7 +18,7 @@ const handleToken: AfterResponseHook = async (request, _options, response) => {
       return ky(request);
     }
   } catch (error) {
-    await UserService.logout();
+    await UserService.logout({});
     storage.set('isLoggedIn', false);
     return response;
   }
