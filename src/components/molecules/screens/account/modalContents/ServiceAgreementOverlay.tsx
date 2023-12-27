@@ -20,7 +20,9 @@ const initOverlayStatus: OverlayStatusArray = [
 ];
 
 type Props = {
-  handleClickSubmitBottomSheetButton: (isAdvertismentAgree: boolean) => void;
+  handleClickSubmitBottomSheetButton: (
+    isAdvertismentAgreeChecked: boolean,
+  ) => void;
 };
 
 const ServiceAgreementOverlay = ({
