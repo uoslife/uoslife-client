@@ -4182,10 +4182,10 @@
   resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.1.2/e7650adf26aec64ddc8e7854180e61b0bdf3b8f2#e7650adf26aec64ddc8e7854180e61b0bdf3b8f2"
   integrity sha512-RrYew0JHb7/IIHxDRkdWEGdZlMzDyF2QsdpLg1rlwJp52TGEfjLNSlTMplGwnthsBUGYNzKHGMURlOn4YJCegQ==
 
-"@uoslife/react@^1.1.2":
-  version "1.1.2"
-  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.1.2/7b0452b356b0baa471b59bce49d780cd1d8c3af5#7b0452b356b0baa471b59bce49d780cd1d8c3af5"
-  integrity sha512-+pf1L7154DD+r1oc1jPz37fceX0JDClR9NUGbBpCvigB+si6w+SeE6EHqCCGOZG9BuV4eg64QdhN3IUuL1ZKRg==
+"@uoslife/react@^1.1.4":
+  version "1.1.4"
+  resolved "https://npm.pkg.github.com/download/@uoslife/react/1.1.4/cd0c45a9c929472822ae8ae6358c9f7d48a450d0#cd0c45a9c929472822ae8ae6358c9f7d48a450d0"
+  integrity sha512-Gh/R91KmxQmUjN+u+/4/0v5KvqmysCrux/aFmprQejnXS6A1T/whwNTiWGhP0bnp7KUYRdaoSLFpNsNghATTYA==
   dependencies:
     react "^18.2.0"
     react-dom "^18.2.0"

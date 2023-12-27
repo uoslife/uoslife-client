@@ -31,7 +31,7 @@
     "@sentry/react-native": "^5.14.1",
     "@supabase/supabase-js": "^2.25.0",
     "@uoslife/design-system": "^1.1.2",
-    "@uoslife/react": "^1.1.2",
+    "@uoslife/react": "^1.1.4",
     "base-64": "^1.0.0",
     "jotai": "^2.3.1",
     "jotai-cache": "^0.3.0",
