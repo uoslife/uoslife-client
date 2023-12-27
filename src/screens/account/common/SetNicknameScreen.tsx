@@ -106,10 +106,10 @@ const SetNicknameScreen = () => {
 
   const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
   const handleClickSubmitBottomSheetButton = useThrottle(
-    async (isAdvertismentAgree: boolean) => {
+    async (isAdvertismentAgreeChecked: boolean) => {
       const isAuthorized =
         await NotificationService.checkPermissionIsAuthorizedStatus();
-      setIsAdvertismentAgree(isAdvertismentAgree);
+      setIsAdvertismentAgree(isAdvertismentAgreeChecked);
       if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
       try {
         const signUpRes = await CoreAPI.signUp({
@@ -118,12 +118,11 @@ const SetNicknameScreen = () => {
             privatePolicy: true,
             termsOfUse: true,
             notification: isAuthorized,
-            marketing: isAdvertismentAgree,
+            marketing: isAdvertismentAgreeChecked,
           },
           migrationUserInfo: selectedAccountInfo ?? null,
           isDelete,
         });
-
         await UserService.onRegister({
           accessToken: signUpRes.accessToken,
           refreshToken: signUpRes.refreshToken,
