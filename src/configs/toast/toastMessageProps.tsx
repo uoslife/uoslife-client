@@ -19,6 +19,7 @@ const toastMessage = {
   unRegisterTwiceUserError: '회원탈퇴 이력이 2회 이상인 유저입니다.',
 
   SmsVerificationError: '전화번호 인증 과정에서 문제가 발생했어요.',
+  loginDurationExpiredInfo: '로그인 기한이 만료되었어요.',
 };
 const toastMessageSubTitle = {
   waitForRestart: '잠시후 다시 시도해주세요.',
@@ -89,6 +90,11 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     type: 'error',
     title: toastMessage.SmsVerificationError,
     subTitle: toastMessageSubTitle.waitForRestart,
+  },
+  loginDurationExpiredInfo: {
+    type: 'info',
+    visibilityTime: 8000,
+    title: toastMessage.loginDurationExpiredInfo,
   },
 };
 export default toastMessageProps;

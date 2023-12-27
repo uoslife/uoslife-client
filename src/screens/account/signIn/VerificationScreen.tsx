@@ -176,16 +176,21 @@ const VerificationScreen = () => {
       await UserService.onRegister({accessToken, refreshToken, setUserInfo});
       resetAccountFlow();
     } catch (err) {
-      const error = err as SignInRes;
-      // @ts-ignore
-      if (error.code === 400) {
-        customShowToast('unRegisterTwiceUserError');
-        return;
+      const error = err as SignInRes & ErrorResponseType;
+      switch (error.code) {
+        case 'S02':
+          setInputMessageStatus('REQUEST_EXCEED');
+          return;
+        case 'S03':
+          setInputMessageStatus('NOT_MATCHING_CODE');
+          return;
+        case 'CS01':
+          customShowToast('unRegisterTwiceUserError');
+          return;
       }
 
       const {tempToken} = error.token;
       storeToken({tempToken});
-
       switch (error.userStatus) {
         case 'DELETED':
           changeAccountFlow({
@@ -247,6 +252,7 @@ const VerificationScreen = () => {
       Alert.alert('제한시간(1분)이 지난 후에 다시 요청해주세요.');
       return;
     }
+    setInputMessageStatus('DEFAULT');
     try {
       await CoreAPI.sendSMSVerificationCode({
         mobile: storedPhoneNumber,
