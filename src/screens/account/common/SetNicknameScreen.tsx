@@ -137,6 +137,7 @@ const SetNicknameScreen = () => {
           return;
         }
         customShowToast('signUpError');
+        selectedAccountInfo!.isSelected = true;
       }
     },
   );
