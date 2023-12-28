@@ -4,22 +4,23 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
-import {Icon, Txt} from '@uoslife/design-system';
+import {Icon, IconsNameType, Txt} from '@uoslife/design-system';
 import {Platform, StyleSheet} from 'react-native';
 
 import MainScreen from '../screens/MainScreen';
 import StudentIdScreen from '../screens/StudentIdScreen';
-import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
+// import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
+import CheckGradeScreen from '../screens/CheckGradeScreen';
 
 export type RootTabParamList = {
   MainTab: undefined;
   StudentId: undefined;
-  UoslifeMeeting: undefined;
+  ThirdTab: undefined;
 };
 
 type TabScreenItemType = {
   label: string;
-  icon: 'menu' | 'studentId' | 'heart';
+  icon: Extract<IconsNameType, 'menu' | 'studentId' | 'heart' | 'library'>;
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
 };
@@ -42,10 +43,10 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     icon: 'studentId',
   },
   {
-    component: UoslifeMeetingScreen,
-    screenName: 'UoslifeMeeting',
-    label: '시대팅',
-    icon: 'heart',
+    component: CheckGradeScreen,
+    screenName: 'ThirdTab',
+    label: '숨은학점',
+    icon: 'library',
   },
 ];
 
