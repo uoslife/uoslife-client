@@ -45,6 +45,7 @@ const switchFromVariant = ({variant, width, height}: Props) => {
                   width="80%"
                   height={28}
                   borderRadius={13}
+                  marginBottom={80}
                 />
               </SkeletonPlaceholder.Item>
             </SkeletonPlaceholder.Item>
