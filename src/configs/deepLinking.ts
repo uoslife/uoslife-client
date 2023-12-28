@@ -14,7 +14,7 @@ const deepLinksConfig = {
       screens: {
         MainTab: 'main',
         StudentId: 'main/studentId',
-        UoslifeMeeting: 'main/uoslifeMeeting',
+        ThirdTab: 'main/thirdTab',
       },
     },
     Mypage: {
