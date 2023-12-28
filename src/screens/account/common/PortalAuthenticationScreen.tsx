@@ -161,11 +161,6 @@ const PortalAuthenticationScreen = () => {
                 '포털 계정 연동을 통해 다양한 기능을 이용할 수 있습니다.\n계정 정보는 안전한 암호화 방식으로 서버에 저장됩니다.'
               }
             />
-            <Txt
-              typograph="bodyMedium"
-              color="grey130"
-              label="졸업생은 현재 연동이 불가능합니다."
-            />
           </View>
           <View>
             <Input
