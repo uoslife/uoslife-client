@@ -158,7 +158,6 @@ const S = {
   CarouselWrapper: styled.FlatList`
     position: relative;
     border-radius: 20px;
-    overflow: hidden;
   `,
   CarouselImage: styled.Image`
     object-fit: fill;
