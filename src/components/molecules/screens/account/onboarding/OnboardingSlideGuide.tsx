@@ -2,14 +2,17 @@ import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
 import React from 'react';
 
-type Props = {currentImageLocation: number};
+type Props = {currentImageLocation: number; carouselDataLength: number};
 
-const OnboardingSlideGuide = ({currentImageLocation}: Props) => {
+const OnboardingSlideGuide = ({
+  currentImageLocation,
+  carouselDataLength,
+}: Props) => {
   const switchIsEnabledStatus = (index: number) =>
     currentImageLocation === index;
   return (
     <S.Wrapper>
-      {Array(3)
+      {Array(carouselDataLength)
         .fill(undefined)
         .map((_value, index) => (
           <S.Dot key={index} isEnabled={switchIsEnabledStatus(index)} />

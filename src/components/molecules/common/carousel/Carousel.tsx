@@ -131,7 +131,10 @@ const Carousel = ({
         onScrollToIndexFailed={() => {}}
       />
       {indicator === 'BOTTOM' && (
-        <OnboardingSlideGuide currentImageLocation={currentDisplayIndex - 1} />
+        <OnboardingSlideGuide
+          carouselDataLength={carouselDataLength}
+          currentImageLocation={currentDisplayIndex - 1}
+        />
       )}
     </S.CarouselContainer>
   );
@@ -155,6 +158,7 @@ const S = {
   CarouselWrapper: styled.FlatList`
     position: relative;
     border-radius: 20px;
+    overflow: hidden;
   `,
   CarouselImage: styled.Image`
     object-fit: fill;
