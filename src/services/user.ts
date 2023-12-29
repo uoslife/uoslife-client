@@ -27,7 +27,7 @@ export default class UserService {
   /**
    * SingIn 또는 SingUp시 실행되는 함수입니다.
    *  @return Promise<void>
-   * */
+   */
   static async onRegister({
     accessToken,
     refreshToken,
@@ -99,5 +99,28 @@ export default class UserService {
     storage.delete('tempToken');
     if (deleteUserInfo) deleteUserInfo();
     storage.set('isLoggedIn', false);
+  }
+
+  // JWT 토큰 관리
+
+  /**
+   * refresh token 만료시 실행되는 함수로,
+   * 로그인 상태를 초기화 하고 로그아웃 시킵니다.
+   */
+  static async onLoginDurationExpired(): Promise<void> {
+    await this.logout({});
+    storage.set('isLoggedIn', false);
+    customShowToast('loginDurationExpiredInfo');
+  }
+
+  /** refresh token을 이용하여 access token을 가져옵니다. */
+  static async getAccessTokenByRefreshToken(): Promise<void> {
+    try {
+      const res = await CoreAPI.getRefreshToken();
+      const {accessToken, refreshToken} = res;
+      storeToken({accessToken, refreshToken});
+    } catch {
+      console.error('failed get refresh token!');
+    }
   }
 }
