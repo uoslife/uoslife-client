@@ -3,7 +3,7 @@ import {Txt, colors} from '@uoslife/design-system';
 import {useCallback} from 'react';
 import {DownloadProgress} from 'react-native-code-push';
 
-const Trail = ({useRate}: {useRate: number}) => {
+const ProgressBar = ({useRate}: {useRate: number}) => {
   return (
     <S.ProgressBarTrail>
       <S.ProgressBarInner useRate={useRate} />
@@ -35,7 +35,7 @@ const CodePushUpdateScreen = ({
         />
       </S.TitleWrapper>
       {syncProgress && (
-        <Trail
+        <ProgressBar
           useRate={calculateReceivedRate(
             syncProgress.receivedBytes,
             syncProgress.totalBytes,
