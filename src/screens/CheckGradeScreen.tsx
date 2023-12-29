@@ -1,5 +1,11 @@
 import {useState, useCallback, useEffect} from 'react';
-import {Animated, Platform, RefreshControl, View} from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  Platform,
+  RefreshControl,
+  View,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
@@ -23,10 +29,11 @@ import {
   MYGRADE_ONBOARDING_4,
 } from '../assets/images';
 
+const DEVICE_WIDTH = Dimensions.get('window').width;
 const ACCURACY_LOW = 1;
 const ACCURACY_MIDDLE = 2;
 const ACCURACY_HIGH = 3;
-const MYGRADE_ONBOARDING_IMAGE_WIDTH = 400;
+const MYGRADE_ONBOARDING_IMAGE_WIDTH = DEVICE_WIDTH;
 const MYGRADE_ONBOARDING_IMAGE_HEIGHT = 520;
 
 type AccuracyWeightType =
@@ -329,7 +336,10 @@ const MyGradeScreen = () => {
                     <Txt
                       label={
                         myCurrentAverage
-                          ? `${myCurrentAverage.totalCredit}`
+                          ? `${
+                              parseInt(myCurrentAverage.totalCredit) -
+                              parseInt(myCurrentAverage.hiddenCredit)
+                            }`
                           : '- '
                       }
                       color="grey160"
