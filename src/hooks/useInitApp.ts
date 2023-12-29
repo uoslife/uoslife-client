@@ -1,7 +1,8 @@
 import {useState, useEffect, useMemo} from 'react';
-import {useSetAtom} from 'jotai';
+import {useAtom, useSetAtom} from 'jotai';
 
 import {Linking} from 'react-native';
+import CodePush, {DownloadProgress, LocalPackage} from 'react-native-code-push';
 import DeviceService from '../services/device';
 import NotificationService from '../services/notification';
 import UserService from '../services/user';
@@ -19,7 +20,7 @@ const useInitApp = () => {
   );
 
   const setAnimatedBootSplashVisible = useSetAtom(bootSplashVisibleAtom);
-  const setInitLoadingFinish = useSetAtom(initLoadingAtom);
+  const [initLoadingFinish, setInitLoadingFinish] = useAtom(initLoadingAtom);
 
   const [isServiceInitLoading, setIsServiceInitLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -84,6 +85,41 @@ const useInitApp = () => {
     })();
   }, [isLoading, isLoggedIn, isServiceInitLoading]);
 
+  /** Code Push 업데이트 여부를 확인합니다. */
+  const [hasUpdate, setHasUpdate] = useState(false);
+  const [syncProgress, setSyncProgress] = useState<DownloadProgress>();
+
+  useEffect(() => {
+    const checkCodePush = async () => {
+      if (!initLoadingFinish) return;
+
+      try {
+        const update = await CodePush.checkForUpdate();
+        if (!update) {
+          setHasUpdate(false);
+          return;
+        }
+        setHasUpdate(true);
+        try {
+          update
+            .download((progress: DownloadProgress) => setSyncProgress(progress))
+            .then((newPackage: LocalPackage) =>
+              newPackage
+                .install(CodePush.InstallMode.IMMEDIATE)
+                .then(() => CodePush.restartApp()),
+            )
+            .finally(() => setHasUpdate(false));
+        } catch {
+          setHasUpdate(false);
+        }
+      } catch (err) {
+        setHasUpdate(false);
+      }
+    };
+
+    checkCodePush();
+  }, [initLoadingFinish]);
+
   return {
     hasNetworkError,
     isMaintenance,
@@ -91,6 +127,8 @@ const useInitApp = () => {
     setIsLoggedIn,
     isLoading: isLoading || isServiceInitLoading,
     setLoadingFinish,
+    hasUpdate,
+    syncProgress,
   };
 };
 

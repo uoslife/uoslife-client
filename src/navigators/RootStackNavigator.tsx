@@ -29,6 +29,7 @@ import {
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
+import CodePushUpdateScreen from '../screens/etc/CodePushUpdateScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -48,8 +49,14 @@ export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
-  const {hasNetworkError, isMaintenance, isLoggedIn, setIsLoggedIn} =
-    useInitApp();
+  const {
+    hasNetworkError,
+    isMaintenance,
+    isLoggedIn,
+    setIsLoggedIn,
+    hasUpdate,
+    syncProgress,
+  } = useInitApp();
 
   /** isLoggedIn value를 감시합니다. */
   useMMKVListener(changedKey => {
@@ -59,6 +66,10 @@ const RootStackNavigator: React.FC = () => {
 
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
+  }
+
+  if (hasUpdate) {
+    return <CodePushUpdateScreen syncProgress={syncProgress} />;
   }
 
   return (
