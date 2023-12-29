@@ -69,7 +69,7 @@ const VerificationScreen = () => {
       case 'NOT_MATCHING_CODE':
         return '입력하신 인증번호가 일치하지 않습니다.';
       case 'REQUEST_EXCEED':
-        return '1일 인증 요청 가능 횟수(5회)를 초과하였습니다.';
+        return '서버 요청 과부하로 인해 잠시후 다시 시도해주세요.';
       case 'TIME_EXPIRED':
         return '요청된 시간이 만료되었습니다.';
     }
