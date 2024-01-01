@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, Pressable, View} from 'react-native';
-import {useAtom} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import styled from '@emotion/native';
 import {Txt, Button, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -15,12 +15,10 @@ import useAccountFlow from '../../../hooks/useAccountFlow';
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 const HEADER_TO_TXT_HEIGHT = 270 + 100; // 헤더부터 설명 문구('선택한 ~ 삭제됩니다')까지의 높이
 
-const AccountIntegrationScreen = () => {
-  const insets = useSafeAreaInsets();
+const ExistedAccountInfoList = () => {
   const [existedAccountInfo, setExistedAccountInfo] = useAtom(
     existedAccountInfoAtom,
   );
-  const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
 
   const selectExistedAccount = (selectedAccount: ExistedAccountInfoType) => {
     setExistedAccountInfo(prev => {
@@ -31,6 +29,45 @@ const AccountIntegrationScreen = () => {
       );
     });
   };
+
+  // accountInfo에 기존 nickname이 존재하지 않는 경우 || 기존 accountInfo가 없는 경우
+  if (
+    !existedAccountInfo.some(item => item.nickname) ||
+    existedAccountInfo.length === 0
+  ) {
+    const firstItem = existedAccountInfo[0];
+    return (
+      <View>
+        <Pressable onPress={() => selectExistedAccount(firstItem)}>
+          <S.idButtonSelected isSelected={firstItem.isSelected}>
+            <Txt label="" color="grey190" typograph="titleMedium" />
+          </S.idButtonSelected>
+        </Pressable>
+      </View>
+    );
+  }
+
+  return existedAccountInfo.map(item => (
+    <View key={item.id}>
+      {item.nickname && (
+        <Pressable onPress={() => selectExistedAccount(item)}>
+          <S.idButtonSelected isSelected={item.isSelected}>
+            <Txt
+              label={item.nickname}
+              color="grey190"
+              typograph="titleMedium"
+            />
+          </S.idButtonSelected>
+        </Pressable>
+      )}
+    </View>
+  ));
+};
+
+const AccountIntegrationScreen = () => {
+  const insets = useSafeAreaInsets();
+  const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
+  const {changeAccountFlow, increaseSignUpFlowStep} = useAccountFlow();
 
   const handlePressHeaderBackButton = () =>
     changeAccountFlow({
@@ -69,23 +106,7 @@ const AccountIntegrationScreen = () => {
           </View>
           <S.idContainer
             style={{height: DEVICE_HEIGHT - HEADER_TO_TXT_HEIGHT, right: 1}}>
-            {existedAccountInfo.map(item => (
-              <View key={item.id}>
-                {item.nickname && (
-                  <Pressable
-                    key={item.id}
-                    onPress={() => selectExistedAccount(item)}>
-                    <S.idButtonSelected isSelected={item.isSelected}>
-                      <Txt
-                        label={item.nickname}
-                        color="grey190"
-                        typograph="titleMedium"
-                      />
-                    </S.idButtonSelected>
-                  </Pressable>
-                )}
-              </View>
-            ))}
+            <ExistedAccountInfoList />
             <S.dummyBox />
           </S.idContainer>
         </View>
