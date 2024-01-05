@@ -8,6 +8,7 @@ import ToggleSwitch from '../../components/atoms/toggleSwitch/ToggleSwitch';
 import Header from '../../components/molecules/common/header/Header';
 import useTopicState from '../../hooks/useTopicState';
 import NotificationService from '../../services/notification';
+import DeviceService from '../../services/device';
 
 const MypageAppSettingScreen = () => {
   const insets = useSafeAreaInsets();
@@ -20,8 +21,8 @@ const MypageAppSettingScreen = () => {
         NotificationService.checkPermissionIsAuthorizedStatus(),
         NotificationService.handleFirebasePushToken(),
       ]);
-
       setIsAuthorized(isAuthorizedStatus);
+      if (isAuthorizedStatus) await DeviceService.updateDeviceInfo();
     })();
   }, []);
 
