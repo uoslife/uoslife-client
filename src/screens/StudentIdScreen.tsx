@@ -130,8 +130,8 @@ const StudentIdComponent = () => {
           <S.studentInformationWrapper>
             <S.uoslifeLogoWrapper>
               <S.uoslifeBrandLogo
-                source={require('../assets/images/uoslifeBrandLogo.png')}
                 style={Style.imageScale}
+                source={require('../assets/images/uoslifeBrandLogo.png')}
               />
             </S.uoslifeLogoWrapper>
             <S.iroomaeCharacterImageWrapper>
@@ -233,10 +233,6 @@ const S = {
     padding: 0 16px 0 16px;
     justify-content: center;
   `,
-  uoslifeBrandLogo: styled.Image`
-    width: 100%;
-    height: 25%;
-  `,
   studentIdScreen: styled.View`
     flex: 1;
     gap: 32px;
@@ -270,8 +266,9 @@ const S = {
   uoslifeLogoWrapper: styled.View`
     position: absolute;
     top: -30%;
-    left: -57%;
+    left: -75%;
   `,
+  uoslifeBrandLogo: styled.Image``,
   iroomaeCharacterImageWrapper: styled.View`
     border: 1.25px solid ${colors.grey60};
     padding: 12.5px;
@@ -312,6 +309,6 @@ const Style = StyleSheet.create({
     }),
   },
   imageScale: {
-    transform: [{scale: 0.68}],
+    transform: [{scale: 0.5}],
   },
 });
