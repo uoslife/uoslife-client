@@ -113,6 +113,7 @@ const StudentIdComponent = () => {
             <QRCode
               value={qrCode}
               logoSize={30}
+              size={140}
               logoBackgroundColor="transparent"
             />
           ) : (
