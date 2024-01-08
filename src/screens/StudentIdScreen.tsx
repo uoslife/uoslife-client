@@ -108,24 +108,24 @@ const StudentIdComponent = () => {
   return (
     <ScrollView bounces={false}>
       <S.studentIdScreen>
-        <View style={{gap: 24}}>
-          <S.qrWrapper>
-            {qrCode ? (
-              <QRCode
-                value={qrCode}
-                logoSize={30}
-                logoBackgroundColor="transparent"
-              />
-            ) : (
-              <ActivityIndicator />
-            )}
-            <Txt label={currentTime} color="grey190" typograph="titleMedium" />
-          </S.qrWrapper>
+        <S.qrWrapper>
+          {qrCode ? (
+            <QRCode
+              value={qrCode}
+              logoSize={30}
+              logoBackgroundColor="transparent"
+            />
+          ) : (
+            <ActivityIndicator />
+          )}
+          <Txt label={currentTime} color="grey190" typograph="titleMedium" />
+        </S.qrWrapper>
+        <S.paycoWrapper>
           <S.paycoButton onPress={openPayco}>
             <Txt label="PAYCO" color="red" typograph="titleSmall" />
             <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
           </S.paycoButton>
-        </View>
+        </S.paycoWrapper>
         <View style={Style.boxShadow}>
           <S.studentInformationWrapper>
             <S.uoslifeLogoWrapper>
@@ -187,11 +187,13 @@ const StudentIdComponent = () => {
             </S.infoContainer>
           </S.studentInformationWrapper>
         </View>
-        <Txt
-          label="위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다."
-          color="grey90"
-          typograph="caption"
-        />
+        <S.cautionWrapper>
+          <Txt
+            label="위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다."
+            color="grey90"
+            typograph="caption"
+          />
+        </S.cautionWrapper>
       </S.studentIdScreen>
     </ScrollView>
   );
@@ -222,9 +224,6 @@ const StudentIdScreen = () => {
 export default StudentIdScreen;
 
 const S = {
-  screenContainer: styled.ScrollView`
-    flex: 1;
-  `,
   portalUnauthorizedScreen: styled.View`
     gap: 24px;
     display: flex;
@@ -234,27 +233,25 @@ const S = {
     justify-content: center;
   `,
   studentIdScreen: styled.View`
-    flex: 1;
-    gap: 32px;
+    gap: 24px;
     padding: 40px 16px 0 16px;
-    align-items: center;
-    margin-bottom: 125px;
+    flex: 1;
   `,
   qrWrapper: styled.View`
     gap: 8px;
     align-items: center;
   `,
-  qrImage: styled.Image`
-    width: 140px;
-    height: 140px;
+  paycoWrapper: styled.View`
+    align-items: center;
+    margin-bottom: 12px;
   `,
   paycoButton: styled.TouchableOpacity`
     padding: 12px 24px;
     border: 1px solid ${colors.grey190};
     border-radius: 100px;
-    display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
   `,
   studentInformationWrapper: styled.View`
     position: relative;
@@ -266,7 +263,7 @@ const S = {
   uoslifeLogoWrapper: styled.View`
     position: absolute;
     top: -30%;
-    left: -75%;
+    left: -50%;
   `,
   uoslifeBrandLogo: styled.Image``,
   iroomaeCharacterImageWrapper: styled.View`
@@ -286,6 +283,9 @@ const S = {
   uosLogoImage: styled.Image`
     width: 30px;
     height: 15px;
+  `,
+  cautionWrapper: styled.View`
+    align-items: center;
   `,
 };
 
@@ -309,6 +309,6 @@ const Style = StyleSheet.create({
     }),
   },
   imageScale: {
-    transform: [{scale: 0.5}],
+    transform: [{scale: 0.9}],
   },
 });
