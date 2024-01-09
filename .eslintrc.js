@@ -8,6 +8,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:storybook/recommended',
     'eslint-config-prettier',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -67,6 +68,6 @@ module.exports = {
     'react-native/no-inline-styles': 'off',
     radix: 'off',
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', '@tanstack/query'],
   ignorePatterns: ['**/storybook-static'],
 };
