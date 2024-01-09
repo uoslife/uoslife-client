@@ -33,17 +33,22 @@ const PortalUnauthorizedComponent = () => {
 
   return (
     <S.portalUnauthorizedScreen
-      style={{height: DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT}}>
-      <S.uoslifeBrandLogo
-        source={require('../assets/images/uoslifeBrandLogo.png')}
-      />
+      style={{
+        height: DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT,
+      }}>
+      <View style={{alignItems: 'center'}}>
+        <S.uoslifeBrandLogo
+          resizeMode="contain"
+          source={require('../assets/images/uoslifeBrandLogo.png')}
+        />
+      </View>
       <View style={{gap: 8, alignItems: 'center'}}>
         <Txt
           label="등록된 모바일학생증이 없습니다."
           color="grey190"
           typograph="titleLarge"
         />
-        <View style={{gap: 0, alignItems: 'center'}}>
+        <View style={{alignItems: 'center'}}>
           <Txt
             label="포털 연동 후 시대생에서"
             color="grey190"
@@ -225,6 +230,12 @@ const StudentIdScreen = () => {
 export default StudentIdScreen;
 
 const S = {
+  // 공통 사용
+  uoslifeBrandLogo: styled.Image`
+    width: 328px;
+    height: 158px;
+  `,
+  // 포탈 미인증 시, 화면
   portalUnauthorizedScreen: styled.View`
     gap: 24px;
     display: flex;
