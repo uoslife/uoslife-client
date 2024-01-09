@@ -22,6 +22,7 @@ import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
+const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
 const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 
 const PortalUnauthorizedComponent = () => {
@@ -112,7 +113,7 @@ const StudentIdComponent = () => {
 
   return (
     <ScrollView bounces={false}>
-      <S.studentIdScreen>
+      <S.studentIdScreen deviceHeight={DEVICE_HEIGHT}>
         <S.qrWrapper>
           {qrCode ? (
             <QRCode
@@ -244,9 +245,13 @@ const S = {
     padding: 0 16px 0 16px;
     justify-content: center;
   `,
-  studentIdScreen: styled.View`
+  // 포탈 인증 시, 화면
+  studentIdScreen: styled.View<{deviceHeight: number}>`
     gap: 24px;
-    padding: 40px 16px 0 16px;
+    padding: ${({deviceHeight}) =>
+      `40px 16px ${
+        deviceHeight > STUDENT_ID_CONTENT_HEIGHT ? 0 : '120px'
+      } 16px`};
     flex: 1;
   `,
   qrWrapper: styled.View`
@@ -274,10 +279,9 @@ const S = {
   `,
   uoslifeLogoWrapper: styled.View`
     position: absolute;
-    top: -30%;
-    left: -50%;
+    top: 0;
+    left: 0;
   `,
-  uoslifeBrandLogo: styled.Image``,
   iroomaeCharacterImageWrapper: styled.View`
     border: 1.25px solid ${colors.grey60};
     padding: 12.5px;
@@ -301,6 +305,7 @@ const S = {
   `,
 };
 
+// 이모션으로 구현 불가능한 네이티브 스타일링
 const Style = StyleSheet.create({
   boxShadow: {
     backgroundColor: 'white',
@@ -321,6 +326,6 @@ const Style = StyleSheet.create({
     }),
   },
   imageScale: {
-    transform: [{scale: 0.9}],
+    transform: [{scale: 1.35}],
   },
 });
