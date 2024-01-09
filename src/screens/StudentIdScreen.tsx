@@ -22,6 +22,7 @@ import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
+const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
 const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 
 const PortalUnauthorizedComponent = () => {
@@ -33,17 +34,22 @@ const PortalUnauthorizedComponent = () => {
 
   return (
     <S.portalUnauthorizedScreen
-      style={{height: DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT}}>
-      <S.uoslifeBrandLogo
-        source={require('../assets/images/uoslifeBrandLogo.png')}
-      />
+      style={{
+        height: DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT,
+      }}>
+      <View style={{alignItems: 'center'}}>
+        <S.uoslifeBrandLogo
+          resizeMode="contain"
+          source={require('../assets/images/uoslifeBrandLogo.png')}
+        />
+      </View>
       <View style={{gap: 8, alignItems: 'center'}}>
         <Txt
           label="등록된 모바일학생증이 없습니다."
           color="grey190"
           typograph="titleLarge"
         />
-        <View style={{gap: 0, alignItems: 'center'}}>
+        <View style={{alignItems: 'center'}}>
           <Txt
             label="포털 연동 후 시대생에서"
             color="grey190"
@@ -107,31 +113,32 @@ const StudentIdComponent = () => {
 
   return (
     <ScrollView bounces={false}>
-      <S.studentIdScreen>
-        <View style={{gap: 24}}>
-          <S.qrWrapper>
-            {qrCode ? (
-              <QRCode
-                value={qrCode}
-                logoSize={30}
-                logoBackgroundColor="transparent"
-              />
-            ) : (
-              <ActivityIndicator />
-            )}
-            <Txt label={currentTime} color="grey190" typograph="titleMedium" />
-          </S.qrWrapper>
+      <S.studentIdScreen deviceHeight={DEVICE_HEIGHT}>
+        <S.qrWrapper>
+          {qrCode ? (
+            <QRCode
+              value={qrCode}
+              logoSize={30}
+              size={140}
+              logoBackgroundColor="transparent"
+            />
+          ) : (
+            <ActivityIndicator />
+          )}
+          <Txt label={currentTime} color="grey190" typograph="titleMedium" />
+        </S.qrWrapper>
+        <S.paycoWrapper>
           <S.paycoButton onPress={openPayco}>
             <Txt label="PAYCO" color="red" typograph="titleSmall" />
             <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
           </S.paycoButton>
-        </View>
+        </S.paycoWrapper>
         <View style={Style.boxShadow}>
           <S.studentInformationWrapper>
             <S.uoslifeLogoWrapper>
               <S.uoslifeBrandLogo
-                source={require('../assets/images/uoslifeBrandLogo.png')}
                 style={Style.imageScale}
+                source={require('../assets/images/uoslifeBrandLogo.png')}
               />
             </S.uoslifeLogoWrapper>
             <S.iroomaeCharacterImageWrapper>
@@ -187,11 +194,13 @@ const StudentIdComponent = () => {
             </S.infoContainer>
           </S.studentInformationWrapper>
         </View>
-        <Txt
-          label="위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다."
-          color="grey90"
-          typograph="caption"
-        />
+        <S.cautionWrapper>
+          <Txt
+            label="위의 정보는 신분 증명을 위한 목적으로 사용할 수 없습니다."
+            color="grey90"
+            typograph="caption"
+          />
+        </S.cautionWrapper>
       </S.studentIdScreen>
     </ScrollView>
   );
@@ -222,9 +231,12 @@ const StudentIdScreen = () => {
 export default StudentIdScreen;
 
 const S = {
-  screenContainer: styled.ScrollView`
-    flex: 1;
+  // 공통 사용
+  uoslifeBrandLogo: styled.Image`
+    width: 328px;
+    height: 158px;
   `,
+  // 포탈 미인증 시, 화면
   portalUnauthorizedScreen: styled.View`
     gap: 24px;
     display: flex;
@@ -233,32 +245,30 @@ const S = {
     padding: 0 16px 0 16px;
     justify-content: center;
   `,
-  uoslifeBrandLogo: styled.Image`
-    width: 100%;
-    height: 25%;
-  `,
-  studentIdScreen: styled.View`
+  // 포탈 인증 시, 화면
+  studentIdScreen: styled.View<{deviceHeight: number}>`
+    gap: 24px;
+    padding: ${({deviceHeight}) =>
+      `40px 16px ${
+        deviceHeight > STUDENT_ID_CONTENT_HEIGHT ? 0 : '120px'
+      } 16px`};
     flex: 1;
-    gap: 32px;
-    padding: 40px 16px 0 16px;
-    align-items: center;
-    margin-bottom: 125px;
   `,
   qrWrapper: styled.View`
     gap: 8px;
     align-items: center;
   `,
-  qrImage: styled.Image`
-    width: 140px;
-    height: 140px;
+  paycoWrapper: styled.View`
+    align-items: center;
+    margin-bottom: 12px;
   `,
   paycoButton: styled.TouchableOpacity`
     padding: 12px 24px;
     border: 1px solid ${colors.grey190};
     border-radius: 100px;
-    display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
   `,
   studentInformationWrapper: styled.View`
     position: relative;
@@ -269,8 +279,8 @@ const S = {
   `,
   uoslifeLogoWrapper: styled.View`
     position: absolute;
-    top: -30%;
-    left: -57%;
+    top: 0;
+    left: 0;
   `,
   iroomaeCharacterImageWrapper: styled.View`
     border: 1.25px solid ${colors.grey60};
@@ -290,8 +300,12 @@ const S = {
     width: 30px;
     height: 15px;
   `,
+  cautionWrapper: styled.View`
+    align-items: center;
+  `,
 };
 
+// 이모션으로 구현 불가능한 네이티브 스타일링
 const Style = StyleSheet.create({
   boxShadow: {
     backgroundColor: 'white',
@@ -312,6 +326,6 @@ const Style = StyleSheet.create({
     }),
   },
   imageScale: {
-    transform: [{scale: 0.68}],
+    transform: [{scale: 1.35}],
   },
 });
