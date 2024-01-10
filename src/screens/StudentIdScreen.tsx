@@ -7,19 +7,21 @@ import {
   Linking,
   ActivityIndicator,
   Dimensions,
+  AppState,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
-import {useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import QRCode from 'react-native-qrcode-svg';
 
+import {useSuspenseQuery} from '@tanstack/react-query';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import URLS from '../configs/urls';
 import {UtilAPI} from '../api/services';
-import useInterval from '../hooks/useInterval';
 import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
+import useInterval from '../hooks/useInterval';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -28,9 +30,8 @@ const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<RootNavigationProps>();
 
-  const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_PortalAuthentication');
-  };
+  const handleNavigatePortalAuthenticate = async () =>
+    navigation.navigate('StudentId_PortalAuthentication');
 
   return (
     <S.portalUnauthorizedScreen
@@ -71,9 +72,49 @@ const PortalUnauthorizedComponent = () => {
   );
 };
 
+const QrCode = () => {
+  const [refetchInterval, setRefetchInterval] = useState<number | false>(3000);
+
+  const {data, refetch} = useSuspenseQuery({
+    queryKey: ['qrCode'],
+    queryFn: () => UtilAPI.getStudentId({}),
+    refetchInterval,
+    select: qrCode => qrCode.data,
+  });
+
+  const handleAppStateChange = () => {
+    switch (AppState.currentState) {
+      case 'active':
+        refetch();
+        setRefetchInterval(1000 * 3);
+        break;
+      case 'background':
+        setRefetchInterval(false);
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = AppState.addEventListener('change', () => {
+      handleAppStateChange();
+    });
+    return () => unsubscribe.remove();
+  }, []);
+
+  return (
+    <QRCode
+      value={data}
+      logoSize={30}
+      size={140}
+      logoBackgroundColor="transparent"
+    />
+  );
+};
+
 const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
-  const [qrCode, setQrCode] = useState('');
 
   const {user} = useUserState();
 
@@ -81,7 +122,6 @@ const StudentIdComponent = () => {
     const isPaycoInstalled = await Linking.canOpenURL(
       URLS.PAYCO.PAYCO_PAYMENT!,
     );
-
     return Linking.openURL(
       isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
     );
@@ -95,17 +135,6 @@ const StudentIdComponent = () => {
     const timeString = `${hours}:${minutes}:${seconds}`;
     setCurrentTime(timeString);
   };
-
-  const getStudentIdQrCode = async () => {
-    const res = await UtilAPI.getStudentId({});
-    setQrCode(res.data);
-  };
-
-  useInterval({
-    onInterval: getStudentIdQrCode,
-    delay: 1000 * 10,
-  });
-
   useInterval({
     onInterval: getCurrentTime,
     delay: 1000,
@@ -115,16 +144,9 @@ const StudentIdComponent = () => {
     <ScrollView bounces={false}>
       <S.studentIdScreen deviceHeight={DEVICE_HEIGHT}>
         <S.qrWrapper>
-          {qrCode ? (
-            <QRCode
-              value={qrCode}
-              logoSize={30}
-              size={140}
-              logoBackgroundColor="transparent"
-            />
-          ) : (
-            <ActivityIndicator />
-          )}
+          <Suspense fallback={<ActivityIndicator />}>
+            <QrCode />
+          </Suspense>
           <Txt label={currentTime} color="grey190" typograph="titleMedium" />
         </S.qrWrapper>
         <S.paycoWrapper>
