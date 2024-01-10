@@ -73,7 +73,9 @@ const PortalUnauthorizedComponent = () => {
 };
 
 const QrCode = () => {
-  const [refetchInterval, setRefetchInterval] = useState<number | false>(3000);
+  const [refetchInterval, setRefetchInterval] = useState<number | false>(
+    1000 * 10,
+  );
 
   const {data, refetch} = useSuspenseQuery({
     queryKey: ['qrCode'],
