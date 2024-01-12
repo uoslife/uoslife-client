@@ -88,7 +88,7 @@ const QrCode = () => {
     switch (AppState.currentState) {
       case 'active':
         refetch();
-        setRefetchInterval(1000 * 3);
+        setRefetchInterval(1000 * 10);
         break;
       case 'background':
         setRefetchInterval(false);
