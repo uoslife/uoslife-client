@@ -7,21 +7,17 @@ import {
   Linking,
   ActivityIndicator,
   Dimensions,
-  AppState,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import React, {Suspense, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import QRCode from 'react-native-qrcode-svg';
-
-import {useSuspenseQuery} from '@tanstack/react-query';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import URLS from '../configs/urls';
-import {UtilAPI} from '../api/services';
 import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
 import useInterval from '../hooks/useInterval';
+import StudentIdQrCode from '../components/molecules/screens/studentId/StudentIdQrCode';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -72,49 +68,6 @@ const PortalUnauthorizedComponent = () => {
   );
 };
 
-const QrCode = () => {
-  const [refetchInterval, setRefetchInterval] = useState<number | false>(
-    1000 * 10,
-  );
-
-  const {data, refetch} = useSuspenseQuery({
-    queryKey: ['qrCode'],
-    queryFn: () => UtilAPI.getStudentId({}),
-    refetchInterval,
-    select: qrCode => qrCode.data,
-  });
-
-  const handleAppStateChange = () => {
-    switch (AppState.currentState) {
-      case 'active':
-        refetch();
-        setRefetchInterval(1000 * 10);
-        break;
-      case 'background':
-        setRefetchInterval(false);
-        break;
-      default:
-        break;
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = AppState.addEventListener('change', () => {
-      handleAppStateChange();
-    });
-    return () => unsubscribe.remove();
-  }, []);
-
-  return (
-    <QRCode
-      value={data}
-      logoSize={30}
-      size={140}
-      logoBackgroundColor="transparent"
-    />
-  );
-};
-
 const StudentIdComponent = () => {
   const [currentTime, setCurrentTime] = useState('');
 
@@ -135,6 +88,7 @@ const StudentIdComponent = () => {
     const minutes = `0${today.getMinutes()}`.slice(-2);
     const seconds = `0${today.getSeconds()}`.slice(-2);
     const timeString = `${hours}:${minutes}:${seconds}`;
+
     setCurrentTime(timeString);
   };
   useInterval({
@@ -147,7 +101,7 @@ const StudentIdComponent = () => {
       <S.studentIdScreen deviceHeight={DEVICE_HEIGHT}>
         <S.qrWrapper>
           <Suspense fallback={<ActivityIndicator />}>
-            <QrCode />
+            <StudentIdQrCode />
           </Suspense>
           <Txt label={currentTime} color="grey190" typograph="titleMedium" />
         </S.qrWrapper>
