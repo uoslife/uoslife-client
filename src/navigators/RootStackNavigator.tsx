@@ -16,7 +16,7 @@ import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
 import MypageStackNavigator, {
   MyPageStackParamList,
-} from './MyPageStackNavigator';
+} from './MypageStackNavigator';
 import RootBottomTapNavigator, {
   RootTabParamList,
 } from './RootBottomTapNavigator';
