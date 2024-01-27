@@ -87,52 +87,65 @@ const StudentIdComponent = () => {
     );
   };
 
-  const getCurrentTime = () => {
-    const today = new Date();
-    const hours = `0${today.getHours()}`.slice(-2);
-    const minutes = `0${today.getMinutes()}`.slice(-2);
-    const seconds = `0${today.getSeconds()}`.slice(-2);
-    const timeString = `${hours}:${minutes}:${seconds}`;
-    setCurrentTime(timeString);
-  };
+  // const openPayco = async () => {
+  //   const isPaycoInstalled = await Linking.canOpenURL(
+  //     URLS.PAYCO.PAYCO_PAYMENT!,
+  //   );
+  //
+  //   return Linking.openURL(
+  //     isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
+  //   );
+  // };
 
-  const getStudentIdQrCode = async () => {
-    const res = await UtilAPI.getStudentId({});
-    setQrCode(res.data);
-  };
+  // const [currentTime, setCurrentTime] = useState('');
+  // const getCurrentTime = () => {
+  //   const today = new Date();
+  //   const hours = `0${today.getHours()}`.slice(-2);
+  //   const minutes = `0${today.getMinutes()}`.slice(-2);
+  //   const seconds = `0${today.getSeconds()}`.slice(-2);
+  //   const timeString = `${hours}:${minutes}:${seconds}`;
+  //   setCurrentTime(timeString);
+  // };
 
-  useInterval({
-    onInterval: getStudentIdQrCode,
-    delay: 1000 * 10,
-  });
+  // useInterval({
+  //   onInterval: getCurrentTime,
+  //   delay: 1000,
+  // });
 
-  useInterval({
-    onInterval: getCurrentTime,
-    delay: 1000,
-  });
+  // const [qrCode, setQrCode] = useState('');
+
+  // const getStudentIdQrCode = async () => {
+  //   const res = await UtilAPI.getStudentId({});
+  //   setQrCode(res.data);
+  // };
+
+  // useInterval({
+  //   onInterval: getStudentIdQrCode,
+  //   delay: 1000 * 10,
+  // });
 
   return (
     <ScrollView bounces={false}>
       <S.studentIdScreen deviceHeight={DEVICE_HEIGHT}>
-        <S.qrWrapper>
-          {qrCode ? (
-            <QRCode
-              value={qrCode}
-              logoSize={30}
-              size={140}
-              logoBackgroundColor="transparent"
-            />
-          ) : (
-            <ActivityIndicator />
-          )}
-          <Txt label={currentTime} color="grey190" typograph="titleMedium" />
-        </S.qrWrapper>
-        <S.paycoWrapper>
-          <S.paycoButton onPress={openPayco}>
-            <Txt label="PAYCO" color="red" typograph="titleSmall" />
-            <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
-          </S.paycoButton>
-        </S.paycoWrapper>
+        {/* <S.qrWrapper> */}
+        {/* {qrCode ? ( */}
+        {/*  <QRCode */}
+        {/*    value={qrCode} */}
+        {/*    logoSize={30} */}
+        {/*    size={140} */}
+        {/*    logoBackgroundColor="transparent" */}
+        {/*  /> */}
+        {/* ) : ( */}
+        {/*  <ActivityIndicator /> */}
+        {/* )} */}
+        {/* <Txt label={currentTime} color="grey190" typograph="titleMedium" /> */}
+        {/* </S.qrWrapper> */}
+        {/* <S.paycoWrapper> */}
+        {/*  <S.paycoButton onPress={openPayco}> */}
+        {/*    <Txt label="PAYCO" color="red" typograph="titleSmall" /> */}
+        {/*    <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" /> */}
+        {/*  </S.paycoButton> */}
+        {/* </S.paycoWrapper> */}
         <View style={Style.boxShadow}>
           <S.studentInformationWrapper>
             <S.uoslifeLogoWrapper>
@@ -249,7 +262,7 @@ const S = {
   studentIdScreen: styled.View<{deviceHeight: number}>`
     gap: 24px;
     padding: ${({deviceHeight}) =>
-      `40px 16px ${
+      `120px 16px ${
         deviceHeight > STUDENT_ID_CONTENT_HEIGHT ? 0 : '120px'
       } 16px`};
     flex: 1;
