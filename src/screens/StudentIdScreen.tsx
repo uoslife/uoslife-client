@@ -20,6 +20,7 @@ import {UtilAPI} from '../api/services';
 import useInterval from '../hooks/useInterval';
 import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
+import customShowToast from '../configs/toast';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -72,20 +73,19 @@ const PortalUnauthorizedComponent = () => {
 };
 
 const StudentIdComponent = () => {
-  const [currentTime, setCurrentTime] = useState('');
-  const [qrCode, setQrCode] = useState('');
-
   const {user} = useUserState();
+  const navigation = useNavigation();
 
-  const openPayco = async () => {
-    const isPaycoInstalled = await Linking.canOpenURL(
-      URLS.PAYCO.PAYCO_PAYMENT!,
+  // 학생증 스크린에 접속하면 토스트 메시지를 보여줍니다.
+  useEffect(() => {
+    const showToastMessage = navigation.addListener('focus', () =>
+      customShowToast('qrCodeInfection'),
     );
 
-    return Linking.openURL(
-      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
-    );
-  };
+    return () => {
+      navigation.removeListener('focus', showToastMessage);
+    };
+  }, []);
 
   // const openPayco = async () => {
   //   const isPaycoInstalled = await Linking.canOpenURL(

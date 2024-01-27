@@ -20,6 +20,8 @@ const toastMessage = {
 
   SmsVerificationError: '전화번호 인증 과정에서 문제가 발생했어요.',
   loginDurationExpiredInfo: '로그인 기한이 만료되었어요.',
+
+  qrCodeInfection: '학생증 QR 코드는 현재 점검 중이에요!',
 };
 const toastMessageSubTitle = {
   waitForRestart: '잠시후 다시 시도해주세요.',
@@ -95,6 +97,11 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     type: 'info',
     visibilityTime: 8000,
     title: toastMessage.loginDurationExpiredInfo,
+  },
+  qrCodeInfection: {
+    type: 'info',
+    visibilityTime: 3000,
+    title: toastMessage.qrCodeInfection,
   },
 };
 export default toastMessageProps;
