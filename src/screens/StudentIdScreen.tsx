@@ -22,6 +22,7 @@ import useInterval from '../hooks/useInterval';
 import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
 import customShowToast from '../configs/toast';
+import getCurrentTime from '../utils/getCurrentTime';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -83,43 +84,30 @@ const StudentIdComponent = () => {
     }, []),
   );
 
-    return () => {
-      navigation.removeListener('focus', showToastMessage);
-    };
-  }, []);
-
+  // 페이코 버튼 로직
   // const openPayco = async () => {
   //   const isPaycoInstalled = await Linking.canOpenURL(
   //     URLS.PAYCO.PAYCO_PAYMENT!,
   //   );
-  //
   //   return Linking.openURL(
   //     isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
   //   );
   // };
 
-  // const [currentTime, setCurrentTime] = useState('');
-  // const getCurrentTime = () => {
-  //   const today = new Date();
-  //   const hours = `0${today.getHours()}`.slice(-2);
-  //   const minutes = `0${today.getMinutes()}`.slice(-2);
-  //   const seconds = `0${today.getSeconds()}`.slice(-2);
-  //   const timeString = `${hours}:${minutes}:${seconds}`;
-  //   setCurrentTime(timeString);
-  // };
-
+  // 현재 시간 구하기 로직.
+  // const [currentTime, setCurrentTime] = useState(getCurrentTime());
+  // const getCurrentTimeState = () => setCurrentTime(getCurrentTime());
   // useInterval({
-  //   onInterval: getCurrentTime,
+  //   onInterval: getCurrentTimeState,
   //   delay: 1000,
   // });
 
+  // QR 코드 생성 로직.
   // const [qrCode, setQrCode] = useState('');
-
   // const getStudentIdQrCode = async () => {
   //   const res = await UtilAPI.getStudentId({});
   //   setQrCode(res.data);
   // };
-
   // useInterval({
   //   onInterval: getStudentIdQrCode,
   //   delay: 1000 * 10,
