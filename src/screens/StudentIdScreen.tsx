@@ -9,11 +9,12 @@ import {
   Dimensions,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import QRCode from 'react-native-qrcode-svg';
 
+import {useFocusEffect} from '@react-navigation/native';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import URLS from '../configs/urls';
 import {UtilAPI} from '../api/services';
@@ -74,13 +75,13 @@ const PortalUnauthorizedComponent = () => {
 
 const StudentIdComponent = () => {
   const {user} = useUserState();
-  const navigation = useNavigation();
 
   // 학생증 스크린에 접속하면 토스트 메시지를 보여줍니다.
-  useEffect(() => {
-    const showToastMessage = navigation.addListener('focus', () =>
-      customShowToast('qrCodeInfection'),
-    );
+  useFocusEffect(
+    useCallback(() => {
+      customShowToast('qrCodeInfection');
+    }, []),
+  );
 
     return () => {
       navigation.removeListener('focus', showToastMessage);
