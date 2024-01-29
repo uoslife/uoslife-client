@@ -1,10 +1,9 @@
 import {useEffect, useRef} from 'react';
 import WebView from 'react-native-webview';
-import {onMessageFromWebView} from '@uoslife/webview';
+import {onMessageFromWebView, useAndroidBackPress} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StatusBar, View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/core';
-import useAndroidBackPress from '@uoslife/webview/dist/client/hooks';
 import useUserState from '../hooks/useUserState';
 import storage from '../storage';
 
