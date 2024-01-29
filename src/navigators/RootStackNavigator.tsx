@@ -30,6 +30,7 @@ import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenti
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
 import CodePushUpdateScreen from '../screens/etc/CodePushUpdateScreen';
+import LibraryRecapScreen from '../screens/LibraryRecapScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -38,6 +39,7 @@ export type RootStackParamList = {
   Library: undefined;
   Cafeteria: undefined;
   StudentId_PortalAuthentication: undefined;
+  LibraryRecap: undefined;
 
   Account: undefined;
   Account_ToSandPolicies: undefined;
@@ -94,6 +96,7 @@ const RootStackNavigator: React.FC = () => {
             name="StudentId_PortalAuthentication"
             component={PortalAuthenticationScreen}
           />
+          <Stack.Screen name="LibraryRecap" component={LibraryRecapScreen} />
         </>
       ) : (
         <>
