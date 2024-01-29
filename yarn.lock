@@ -4209,10 +4209,10 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
-"@uoslife/webview@^0.0.9":
-  version "0.0.9"
-  resolved "https://npm.pkg.github.com/download/@uoslife/webview/0.0.9/603cdbcb45d91e81dd9924abab7761b328c67d7b#603cdbcb45d91e81dd9924abab7761b328c67d7b"
-  integrity sha512-tn/pPoRfG7imqO/9BbZ17ti48yaZ8mfqR5+8thg6JBaibw++X5+lqnnB0fHv/Y/iVRcBC9Q0b0+RHYlgigFfoQ==
+"@uoslife/webview@^0.0.10":
+  version "0.0.10"
+  resolved "https://npm.pkg.github.com/download/@uoslife/webview/0.0.10/1656ca4325810055019087bc15c3617d81cfb936#1656ca4325810055019087bc15c3617d81cfb936"
+  integrity sha512-2Gs1qBSI8uynMy862ZsLR5mQNKxN6a92xFg6viziTBouTp4VJUHKM2Y4PJ+iQRVg7zMuryvBhldPQCqJu1dExw==
 
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"
