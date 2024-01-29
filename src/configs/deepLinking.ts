@@ -54,6 +54,7 @@ const deepLinksConfig = {
         AnnouncementSearch: 'announcement/search',
       },
     },
+    LibraryRecap: 'libraryRecap',
   },
 };
 

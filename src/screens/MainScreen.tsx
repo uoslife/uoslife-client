@@ -15,7 +15,7 @@ import {
   AnnounceContents,
 } from '../components/molecules/screens/main';
 import useUserState from '../hooks/useUserState';
-import {BANNER_1, BANNER_2, BANNER_3} from '../assets/images';
+import {BANNER_1, BANNER_2, BANNER_3, BANNER_4} from '../assets/images';
 import Skeleton from '../components/molecules/common/skeleton/Skeleton';
 
 const {width} = Dimensions.get('window');
@@ -23,11 +23,14 @@ const {width} = Dimensions.get('window');
 const BANNER_WIDTH = width - 32;
 const BANNER_HEIGHT = 84;
 
-const BANNER_1_LINK = 'uoslife://main/thirdTab';
-const BANNER_2_LINK =
-  'https://even-maize-68a.notion.site/55eb7b449c9b461c8ba1c3a01a6209e1';
+const BANNER_1_LINK = 'uoslife://libraryRecap';
+const BANNER_2_LINK = 'uoslife://main/thirdTab';
 const BANNER_3_LINK =
+  'https://even-maize-68a.notion.site/55eb7b449c9b461c8ba1c3a01a6209e1';
+const BANNER_4_LINK =
   'https://danthe00813.notion.site/danthe00813/d1776073f61248b6b719ec62bf9a57fd';
+
+const MAIN_AUTOPLAY_INTERVAL_TIME = 4500;
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
@@ -90,9 +93,11 @@ const MainScreen = () => {
             {uri: BANNER_1, link: BANNER_1_LINK, id: 0},
             {uri: BANNER_2, link: BANNER_2_LINK, id: 1},
             {uri: BANNER_3, link: BANNER_3_LINK, id: 2},
+            {uri: BANNER_4, link: BANNER_4_LINK, id: 3},
           ]}
           indicator="TOPRIGHT"
           logEventName="banner"
+          autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
         />
         <MainServiceBox
           label="오늘의 학식"
