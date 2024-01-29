@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {Suspense, useEffect} from 'react';
+import {Suspense} from 'react';
 
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -17,9 +17,6 @@ const LibraryScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-
-  // 정보 불러오는 API 붙이기
-  useEffect(() => {}, []);
 
   return (
     <ScrollView style={{paddingTop: insets.top}} bounces={false}>
