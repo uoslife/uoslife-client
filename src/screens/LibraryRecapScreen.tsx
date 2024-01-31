@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import WebView from 'react-native-webview';
 import {onMessageFromWebView, useAndroidBackPress} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -7,9 +7,11 @@ import {useIsFocused, useNavigation} from '@react-navigation/core';
 
 import useUserState from '../hooks/useUserState';
 import storage from '../storage';
+import Spinner from '../components/atoms/spinner/Spinner';
 
 const LibraryRecapScreen = () => {
   const webviewRef = useRef<WebView | null>(null);
+  const [loading, setLoading] = useState(true);
   const accessToken = storage.getString('accessToken');
   const {user} = useUserState();
 
@@ -45,7 +47,9 @@ const LibraryRecapScreen = () => {
           })
         }
         userAgent={Platform.OS === 'ios' ? 'ios' : 'android'}
+        onLoad={() => setLoading(false)}
       />
+      {loading ? <Spinner /> : null}
     </>
   );
 };
