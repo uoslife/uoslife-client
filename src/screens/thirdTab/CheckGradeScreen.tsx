@@ -11,23 +11,23 @@ import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import CardLayout from '../components/molecules/common/cardLayout/CardLayout';
-import useModal from '../hooks/useModal';
-import useUserState from '../hooks/useUserState';
-import {RootNavigationProps} from '../navigators/RootStackNavigator';
+import CardLayout from '../../components/molecules/common/cardLayout/CardLayout';
+import useModal from '../../hooks/useModal';
+import useUserState from '../../hooks/useUserState';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 import {
   MygradeInfoType,
   MygradeCurrentAverageGradeType,
-} from '../api/services/core/mygrade/mygradeAPI.type';
-import {CoreAPI} from '../api/services';
-import Skeleton from '../components/molecules/common/skeleton/Skeleton';
-import Carousel from '../components/molecules/common/carousel/Carousel';
+} from '../../api/services/core/mygrade/mygradeAPI.type';
+import {CoreAPI} from '../../api/services';
+import Skeleton from '../../components/molecules/common/skeleton/Skeleton';
+import Carousel from '../../components/molecules/common/carousel/Carousel';
 import {
   MYGRADE_ONBOARDING_1,
   MYGRADE_ONBOARDING_2,
   MYGRADE_ONBOARDING_3,
   MYGRADE_ONBOARDING_4,
-} from '../assets/images';
+} from '../../assets/images';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const ACCURACY_LOW = 1;
