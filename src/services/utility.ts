@@ -1,4 +1,5 @@
-import {UtilAPI} from '../api/services';
+import {CoreAPI, UtilAPI} from '../api/services';
+import {RecapInfoType} from '../api/services/core/libraryHistory/libraryHistoryAPI.type';
 import {ErrorResponseType} from '../api/services/type';
 import {GetAnnouncementsParams} from '../api/services/util/announcement/announcementAPI.type';
 import {
@@ -119,6 +120,16 @@ export default class UtilityService {
         reservationInfo: null,
         isStudyRoom: null,
       };
+    }
+  }
+  static async getLibraryUsageStatus(): Promise<RecapInfoType | null> {
+    try {
+      const res = await CoreAPI.getLibraryHistories({year: 2024});
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   }
 }

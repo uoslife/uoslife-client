@@ -73,6 +73,7 @@ const StudentIdComponent = () => {
 
   const {user} = useUserState();
 
+  // 페이코 버튼 로직
   const openPayco = async () => {
     const isPaycoInstalled = await Linking.canOpenURL(
       URLS.PAYCO.PAYCO_PAYMENT!,
@@ -227,7 +228,7 @@ const S = {
   studentIdScreen: styled.View<{deviceHeight: number}>`
     gap: 24px;
     padding: ${({deviceHeight}) =>
-      `40px 16px ${
+      `100px 16px ${
         deviceHeight > STUDENT_ID_CONTENT_HEIGHT ? 0 : '120px'
       } 16px`};
     flex: 1;

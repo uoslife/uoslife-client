@@ -4196,10 +4196,10 @@
     "@typescript-eslint/types" "6.9.1"
     eslint-visitor-keys "^3.4.1"
 
-"@uoslife/design-system@^1.1.2":
-  version "1.1.2"
-  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.1.2/e7650adf26aec64ddc8e7854180e61b0bdf3b8f2#e7650adf26aec64ddc8e7854180e61b0bdf3b8f2"
-  integrity sha512-RrYew0JHb7/IIHxDRkdWEGdZlMzDyF2QsdpLg1rlwJp52TGEfjLNSlTMplGwnthsBUGYNzKHGMURlOn4YJCegQ==
+"@uoslife/design-system@^1.2.5":
+  version "1.2.5"
+  resolved "https://npm.pkg.github.com/download/@uoslife/design-system/1.2.5/5a8cddede4bcb4b7242e08383fe3d50fe7af71e0#5a8cddede4bcb4b7242e08383fe3d50fe7af71e0"
+  integrity sha512-6u2erSc8Td42JNp05/HXcpM925dQ+L+ZNcN3/V9Ai8MkrDDKGF/FkKpqHNp1spoWs/WQmGzrY71xMr/1R9aVxg==
 
 "@uoslife/react@^1.1.4":
   version "1.1.4"
@@ -4208,6 +4208,11 @@
   dependencies:
     react "^18.2.0"
     react-dom "^18.2.0"
+
+"@uoslife/webview@^0.0.11":
+  version "0.0.11"
+  resolved "https://npm.pkg.github.com/download/@uoslife/webview/0.0.11/4982f5ce310ff5fc076962b200d3bf4e0698295a#4982f5ce310ff5fc076962b200d3bf4e0698295a"
+  integrity sha512-o6FFUThGUO+Lm1997qkTxUGsPjWFhCIydLtwVISV2u+VIcAXa5nv/69Fuzx/0RK56Ij2IvgWDNYaHqEo11Yelw==
 
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"

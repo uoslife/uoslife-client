@@ -18,8 +18,16 @@ const toastMessage = {
   notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
   unRegisterTwiceUserError: '회원탈퇴 이력이 2회 이상인 유저입니다.',
 
+  // 포털 연동 관리
+  portalVerificationSuccess: '포털 연동을 성공적으로 변경했어요.',
+  portalVerificationError: '포털 연동을 처리하는 중 오류가 발생했어요.',
+  deletePortalVerificationSuccess: '포털 연동을 성공적으로 해지했어요.',
+  deletePortalVerificationError: '포털 연동을 해지하는 중 오류가 발생했어요.',
+
   SmsVerificationError: '전화번호 인증 과정에서 문제가 발생했어요.',
   loginDurationExpiredInfo: '로그인 기한이 만료되었어요.',
+
+  // qrCodeInfection: '학생증 QR 코드는 현재 점검 중이에요!',
 };
 const toastMessageSubTitle = {
   waitForRestart: '잠시후 다시 시도해주세요.',
@@ -86,6 +94,20 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     },
     autoHide: false,
   },
+  portalVerificationSuccess: {
+    title: toastMessage.portalVerificationSuccess,
+  },
+  portalVerificationError: {
+    type: 'error',
+    title: toastMessage.portalVerificationError,
+  },
+  deletePortalVerificationSuccess: {
+    title: toastMessage.deletePortalVerificationSuccess,
+  },
+  deletePortalVerificationError: {
+    type: 'error',
+    title: toastMessage.deletePortalVerificationError,
+  },
   SmsVerificationError: {
     type: 'error',
     title: toastMessage.SmsVerificationError,
@@ -96,5 +118,10 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     visibilityTime: 8000,
     title: toastMessage.loginDurationExpiredInfo,
   },
+  // qrCodeInfection: {
+  //   type: 'info',
+  //   visibilityTime: 3000,
+  //   title: toastMessage.qrCodeInfection,
+  // },
 };
 export default toastMessageProps;

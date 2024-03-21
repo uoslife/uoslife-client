@@ -23,11 +23,13 @@ const {width} = Dimensions.get('window');
 const BANNER_WIDTH = width - 32;
 const BANNER_HEIGHT = 84;
 
-const BANNER_1_LINK = 'uoslife://main/thirdTab';
+const BANNER_1_LINK = 'uoslife://libraryRecap';
 const BANNER_2_LINK =
   'https://even-maize-68a.notion.site/55eb7b449c9b461c8ba1c3a01a6209e1';
 const BANNER_3_LINK =
   'https://danthe00813.notion.site/danthe00813/d1776073f61248b6b719ec62bf9a57fd';
+
+const MAIN_AUTOPLAY_INTERVAL_TIME = 4500;
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
@@ -93,6 +95,7 @@ const MainScreen = () => {
           ]}
           indicator="TOPRIGHT"
           logEventName="banner"
+          autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
         />
         <MainServiceBox
           label="오늘의 학식"

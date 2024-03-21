@@ -33,7 +33,8 @@ const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<MypageProfileNavigationProp>();
   const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
-  const [openModal, closeModal, Modal] = useModal('MODAL');
+  const [openUnregisterModal, closeUnregisterModal, UnregisterModal] =
+    useModal('MODAL');
 
   const {user, deleteUserInfo} = useUserState();
 
@@ -41,40 +42,6 @@ const MypageProfileScreen = () => {
 
   // const handleUpdateProfileImage = async () => {
   //   openPhotoSelectionAlert();
-  // };
-  // const handlePortalAccountPress = () => {
-  //   if (isVerified) {
-  //       <S.modalWrapper>
-  //         <Txt
-  //           label={'포털 계정 연동을 해지하시겠습니까?'}
-  //           color="grey190"
-  //           typograph="titleMedium"
-  //         />
-  //         <Txt
-  //           label={'연동 해지 시 일부 서비스가 제한될 수 있습니다.'}
-  //           color="grey130"
-  //           typograph="bodySmall"
-  //         />
-  //         <S.Devider />
-  //         <TouchableOpacity
-  //           onPress={() => {
-  //             setIsPortalAuthenticated(false);
-  //             closeModal();
-  //           }}>
-  //           <Txt label={'연동 해지'} color="red" typograph="bodyMedium" />
-  //         </TouchableOpacity>
-  //         <S.Devider />
-  //         <TouchableOpacity onPress={closeModal}>
-  //           <Txt label={'취소'} color="grey90" typograph="bodyMedium" />
-  //         </TouchableOpacity>
-  //       </S.modalWrapper>,
-  //     openModal();
-  //   } else {
-  //     setIsPortalAuthenticated(true);
-  //     navigation.navigate('Mypage_profile', {
-  //       screen: 'Mypage_portalAuthentication',
-  //     });
-  //   }
   // };
 
   const handleGoBack = () => {
@@ -137,13 +104,15 @@ const MypageProfileScreen = () => {
               <NavigationList
                 label="포털 계정 연동"
                 onPress={
-                  !isVerified
-                    ? () => navigation.navigate('Mypage_portalAuthentication')
-                    : undefined
+                  isVerified
+                    ? () =>
+                        navigation.navigate(
+                          'Mypage_portalAuthenticationManagement',
+                        )
+                    : () => navigation.navigate('Mypage_portalAuthentication')
                 }
-                pressLabel={isVerified ? '연동되었습니다.' : '연동하기'}
+                pressLabel={isVerified ? '포털 연동 관리하기' : '연동하기'}
                 pressLabelColor={isVerified ? 'grey130' : 'primaryBrand'}
-                isPressIconShown={!isVerified}
               />
               {isVerified && (
                 <S.portalAccountInformationWrapper>
@@ -169,12 +138,15 @@ const MypageProfileScreen = () => {
                 label="전화번호 변경"
                 onPress={() => navigation.navigate('Mypage_changeNumber')}
               />
-              <NavigationList label="회원탈퇴" onPress={() => openModal()} />
+              <NavigationList
+                label="회원탈퇴"
+                onPress={() => openUnregisterModal()}
+              />
             </S.myProfileBox>
           </S.myProfileContainer>
         </S.screenContainer>
       </View>
-      <Modal>
+      <UnregisterModal>
         <S.UnregisterModalWrapper>
           <Txt
             label="시대생 회원을 탈퇴하시겠습니까?"
@@ -197,10 +169,10 @@ const MypageProfileScreen = () => {
             size="medium"
             variant="text"
             isFullWidth
-            onPress={closeModal}
+            onPress={closeUnregisterModal}
           />
         </S.UnregisterModalWrapper>
-      </Modal>
+      </UnregisterModal>
     </>
   );
 };
@@ -282,6 +254,11 @@ const S = {
   cameraImage: styled.Image`
     width: 13px;
     height: 10.56px;
+  `,
+  PortalTerminationTextWrapper: styled.View`
+    padding: 24px 16px 16px;
+    align-items: center;
+    gap: 8px;
   `,
 };
 

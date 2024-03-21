@@ -9,8 +9,7 @@ import {Platform, StyleSheet} from 'react-native';
 
 import MainScreen from '../screens/MainScreen';
 import StudentIdScreen from '../screens/StudentIdScreen';
-// import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
-import CheckGradeScreen from '../screens/CheckGradeScreen';
+import RedirectLibraryRecapScreen from '../screens/thirdTab/RedirectLibraryRecapScreen';
 
 export type RootTabParamList = {
   MainTab: undefined;
@@ -43,9 +42,9 @@ const TAB_SCREEN_ITEMS: TabScreenItemType[] = [
     icon: 'studentId',
   },
   {
-    component: CheckGradeScreen,
+    component: RedirectLibraryRecapScreen,
     screenName: 'ThirdTab',
-    label: '숨은학점',
+    label: '도서관',
     icon: 'library',
   },
 ];
