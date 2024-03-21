@@ -14,6 +14,7 @@ import {
 import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
 import VerificationScreen from '../screens/account/signIn/VerificationScreen';
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
+import PortalAuthenticationManagementScreen from '../screens/myPage/profile/PortalAuthenticationManagementScreen';
 
 export type MyPageStackParamList = {
   Mypage_main: undefined;
@@ -24,8 +25,9 @@ export type MyPageStackParamList = {
 
 export type MyPageProfileStackParamList = {
   Mypage_profile_Main: undefined;
-  Mypage_changeNickname: undefined;
+  Mypage_changeNickname: {isMyPage: boolean};
   Mypage_portalAuthentication: undefined;
+  Mypage_portalAuthenticationManagement: undefined;
   Mypage_changeNumber: undefined;
 };
 export type MypageProfileNavigationProp =
@@ -61,6 +63,10 @@ const MypageProfileNavigator = () => {
       <ProfileStack.Screen
         name="Mypage_portalAuthentication"
         component={PortalAuthenticationScreen}
+      />
+      <ProfileStack.Screen
+        name="Mypage_portalAuthenticationManagement"
+        component={PortalAuthenticationManagementScreen}
       />
       <ProfileStack.Screen
         name="Mypage_changeNumber"
