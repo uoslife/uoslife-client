@@ -39,5 +39,10 @@ export const del = async <T extends unknown>(
   const deleteRes = body
     ? await apiClient.delete(url, {json: body})
     : await apiClient.delete(url);
-  return await deleteRes.json();
+  try {
+    const postJsonRes = (await deleteRes.json()) as KyJsonResponse<T>;
+    return postJsonRes;
+  } catch (error) {
+    return null as unknown as KyJsonResponse<T>;
+  }
 };
