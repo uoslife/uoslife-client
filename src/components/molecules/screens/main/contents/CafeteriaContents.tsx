@@ -2,10 +2,15 @@ import styled from '@emotion/native';
 import {useAtom} from 'jotai';
 import {Txt, colors} from '@uoslife/design-system';
 
+import {useSuspenseQuery} from '@tanstack/react-query';
+import {useFocusEffect} from '@react-navigation/core';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import {CafeteriaItemType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
 import {mainScreenCafeteriaItemAtom} from '../../../../../store/cafeteria';
+import UtilityService from '../../../../../services/utility';
+import DateUtils from '../../../../../utils/date';
+import useRefreshOnFocus from '../../../../../hooks/useRefreshOnFocus';
 
 const CafeteriaBox = ({
   location,
@@ -53,11 +58,31 @@ const CafeteriaBox = ({
 };
 
 const CafeteriaContents = () => {
-  const [{items}] = useAtom(mainScreenCafeteriaItemAtom);
+  const {data, refetch} = useSuspenseQuery({
+    queryKey: ['getMainScreenCafeterias'],
+    queryFn: async () => {
+      const date = new DateUtils(new Date());
+      const mealTime = date.currentMealTime;
+      const {commonDate} = date;
+      const {displayDate} = date;
+      return await UtilityService.getCafeteriaItems({
+        mealTime,
+        commonDate,
+        displayDate,
+      });
+    },
+  });
+
+  // 메인페이지 진입 시 mealTime이 다를 때 refetch
+  useFocusEffect(() => {
+    const currentDateUtil = new DateUtils(new Date());
+    if (currentDateUtil.currentMealTime !== data.mealTime) refetch();
+  });
+
   return (
     <S.ContentsWrapper horizontal>
-      {items ? (
-        items.map(item => (
+      {data.items ? (
+        data.items.map(item => (
           <CafeteriaBox
             key={item.location}
             location={item.location}
