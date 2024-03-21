@@ -228,7 +228,7 @@ const S = {
   studentIdScreen: styled.View<{deviceHeight: number}>`
     gap: 24px;
     padding: ${({deviceHeight}) =>
-      `100px 16px ${
+      `52px 16px ${
         deviceHeight > STUDENT_ID_CONTENT_HEIGHT ? 0 : '120px'
       } 16px`};
     flex: 1;
