@@ -9,20 +9,15 @@ import {
   Dimensions,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
-import {useCallback, useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import QRCode from 'react-native-qrcode-svg';
-
-import {useFocusEffect} from '@react-navigation/native';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import URLS from '../configs/urls';
-import {UtilAPI} from '../api/services';
-import useInterval from '../hooks/useInterval';
 import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
-import customShowToast from '../configs/toast';
-import getCurrentTime from '../utils/getCurrentTime';
+import useInterval from '../hooks/useInterval';
+import StudentIdQrCode from '../components/molecules/screens/studentId/StudentIdQrCode';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -31,9 +26,8 @@ const DEVICE_HEIGHT_WITHOUT_GUIDE_HEIGHT = DEVICE_HEIGHT - 136;
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<RootNavigationProps>();
 
-  const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_PortalAuthentication');
-  };
+  const handleNavigatePortalAuthenticate = async () =>
+    navigation.navigate('StudentId_PortalAuthentication');
 
   return (
     <S.portalUnauthorizedScreen
@@ -75,66 +69,49 @@ const PortalUnauthorizedComponent = () => {
 };
 
 const StudentIdComponent = () => {
+  const [currentTime, setCurrentTime] = useState('');
+
   const {user} = useUserState();
 
-  // 학생증 스크린에 접속하면 토스트 메시지를 보여줍니다.
-  useFocusEffect(
-    useCallback(() => {
-      customShowToast('qrCodeInfection');
-    }, []),
-  );
-
   // 페이코 버튼 로직
-  // const openPayco = async () => {
-  //   const isPaycoInstalled = await Linking.canOpenURL(
-  //     URLS.PAYCO.PAYCO_PAYMENT!,
-  //   );
-  //   return Linking.openURL(
-  //     isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
-  //   );
-  // };
+  const openPayco = async () => {
+    const isPaycoInstalled = await Linking.canOpenURL(
+      URLS.PAYCO.PAYCO_PAYMENT!,
+    );
+    return Linking.openURL(
+      isPaycoInstalled ? URLS.PAYCO.PAYCO_PAYMENT! : URLS.PAYCO.PAYCO_INSTALL!,
+    );
+  };
 
-  // 현재 시간 구하기 로직.
-  // const [currentTime, setCurrentTime] = useState(getCurrentTime());
-  // const getCurrentTimeState = () => setCurrentTime(getCurrentTime());
-  // useInterval({
-  //   onInterval: getCurrentTimeState,
-  //   delay: 1000,
-  // });
+  const getCurrentTime = () => {
+    const today = new Date();
+    const hours = `0${today.getHours()}`.slice(-2);
+    const minutes = `0${today.getMinutes()}`.slice(-2);
+    const seconds = `0${today.getSeconds()}`.slice(-2);
+    const timeString = `${hours}:${minutes}:${seconds}`;
 
-  // QR 코드 생성 로직.
-  // const [qrCode, setQrCode] = useState('');
-  // const getStudentIdQrCode = async () => {
-  //   const res = await UtilAPI.getStudentId({});
-  //   setQrCode(res.data);
-  // };
-  // useInterval({
-  //   onInterval: getStudentIdQrCode,
-  //   delay: 1000 * 10,
-  // });
+    setCurrentTime(timeString);
+  };
+  useInterval({
+    onInterval: getCurrentTime,
+    delay: 1000,
+  });
 
   return (
     <ScrollView bounces={false}>
       <S.studentIdScreen deviceHeight={DEVICE_HEIGHT}>
-        {/* <S.qrWrapper> */}
-        {/* {qrCode ? ( */}
-        {/*  <QRCode */}
-        {/*    value={qrCode} */}
-        {/*    logoSize={30} */}
-        {/*    size={140} */}
-        {/*    logoBackgroundColor="transparent" */}
-        {/*  /> */}
-        {/* ) : ( */}
-        {/*  <ActivityIndicator /> */}
-        {/* )} */}
-        {/* <Txt label={currentTime} color="grey190" typograph="titleMedium" /> */}
-        {/* </S.qrWrapper> */}
-        {/* <S.paycoWrapper> */}
-        {/*  <S.paycoButton onPress={openPayco}> */}
-        {/*    <Txt label="PAYCO" color="red" typograph="titleSmall" /> */}
-        {/*    <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" /> */}
-        {/*  </S.paycoButton> */}
-        {/* </S.paycoWrapper> */}
+        <S.qrWrapper>
+          <Suspense fallback={<ActivityIndicator />}>
+            <StudentIdQrCode />
+          </Suspense>
+          <Txt label={currentTime} color="grey190" typograph="titleMedium" />
+        </S.qrWrapper>
+        <S.paycoWrapper>
+          <S.paycoButton onPress={openPayco}>
+            <Txt label="PAYCO" color="red" typograph="titleSmall" />
+            <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
+          </S.paycoButton>
+        </S.paycoWrapper>
         <View style={Style.boxShadow}>
           <S.studentInformationWrapper>
             <S.uoslifeLogoWrapper>
@@ -251,7 +228,7 @@ const S = {
   studentIdScreen: styled.View<{deviceHeight: number}>`
     gap: 24px;
     padding: ${({deviceHeight}) =>
-      `120px 16px ${
+      `52px 16px ${
         deviceHeight > STUDENT_ID_CONTENT_HEIGHT ? 0 : '120px'
       } 16px`};
     flex: 1;
