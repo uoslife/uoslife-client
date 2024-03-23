@@ -31,7 +31,7 @@
     "@sentry/react-native": "^5.14.1",
     "@supabase/supabase-js": "^2.25.0",
     "@tanstack/react-query": "^5.17.9",
-    "@uoslife/design-system": "^1.2.5",
+    "@uoslife/design-system": "^1.2.6",
     "@uoslife/react": "^1.1.4",
     "@uoslife/webview": "^0.0.11",
     "base-64": "^1.0.0",
