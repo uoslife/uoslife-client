@@ -1,4 +1,3 @@
-import {useEffect} from 'react';
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import {useAtom} from 'jotai';
@@ -8,7 +7,6 @@ import TextItems from '../../common/textItems/TextItems';
 
 import useUserState from '../../../../hooks/useUserState';
 
-import UtilityService from '../../../../services/utility';
 import {UserAtomType} from '../../../../store/account/user';
 import libraryReservationAtom, {
   ReservationStatusTypeInUsing,
@@ -26,66 +24,55 @@ const getInformationMessage = (
 
 const LibraryUserInfo = () => {
   const {user} = useUserState();
-  const [
-    {reservationStatus, reservationInfo, isStudyRoom},
-    setLibraryReservation,
-  ] = useAtom(libraryReservationAtom);
-
-  useEffect(() => {
-    (async () => {
-      const res = await UtilityService.getLibraryReservation();
-      setLibraryReservation(res);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [{data}] = useAtom(libraryReservationAtom);
 
   return (
     <S.userInfoWrapper>
-      {reservationInfo ? (
+      {data.reservationInfo ? (
         <Txt
           color="grey190"
           label={getInformationMessage(
-            reservationStatus as ReservationStatusTypeInUsing,
+            data.reservationStatus as ReservationStatusTypeInUsing,
             user,
           )}
           typograph="titleLarge"
         />
       ) : null}
       <LibraryCircleTimer
-        reservationStatus={reservationStatus}
-        remainingSeconds={reservationInfo?.remainingSeconds || null}
-        seatStartTime={reservationInfo?.seatStartTime || null}
+        reservationStatus={data.reservationStatus}
+        remainingSeconds={data.reservationInfo?.remainingSeconds || null}
+        seatStartTime={data.reservationInfo?.seatStartTime || null}
       />
-      {reservationInfo ? (
+      {data.reservationInfo ? (
         <S.InformationTextWrapper>
           <TextItems
             label="열람실"
             item={
-              isStudyRoom
-                ? reservationInfo.studyRoomName
-                : reservationInfo.seatRoomName
+              data.isStudyRoom
+                ? data.reservationInfo.studyRoomName
+                : data.reservationInfo.seatRoomName
             }
           />
           <TextItems
             label="좌석번호"
             item={`${
-              isStudyRoom
-                ? reservationInfo.studyRoomNo
-                : `${reservationInfo.seatNo}번`
+              data.isStudyRoom
+                ? data.reservationInfo.studyRoomNo
+                : `${data.reservationInfo.seatNo}번`
             }`}
           />
           <TextItems
             label="이용시간"
             item={
-              isStudyRoom
-                ? reservationInfo.studyRoomUseTime
-                : reservationInfo.seatUseTime
+              data.isStudyRoom
+                ? data.reservationInfo.studyRoomUseTime
+                : data.reservationInfo.seatUseTime
             }
           />
-          {!isStudyRoom && (
+          {!data.isStudyRoom && (
             <TextItems
               label="연장횟수"
-              item={`${reservationInfo.extendUsed}회 / ${reservationInfo.extendRemaining}회`}
+              item={`${data.reservationInfo.extendUsed}회 / ${data.reservationInfo.extendRemaining}회`}
             />
           )}
         </S.InformationTextWrapper>

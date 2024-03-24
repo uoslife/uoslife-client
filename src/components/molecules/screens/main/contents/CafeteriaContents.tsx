@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-import {useAtom} from 'jotai';
 import {Txt, colors} from '@uoslife/design-system';
 
 import {useSuspenseQuery} from '@tanstack/react-query';
@@ -7,10 +6,8 @@ import {useFocusEffect} from '@react-navigation/core';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import {CafeteriaItemType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
-import {mainScreenCafeteriaItemAtom} from '../../../../../store/cafeteria';
 import UtilityService from '../../../../../services/utility';
 import DateUtils from '../../../../../utils/date';
-import useRefreshOnFocus from '../../../../../hooks/useRefreshOnFocus';
 
 const CafeteriaBox = ({
   location,
