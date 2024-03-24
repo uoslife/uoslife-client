@@ -109,7 +109,9 @@ const MainScreen = () => {
           label="도서관"
           iconName="library"
           iconColor="primaryDarker">
-          <LibraryContents />
+          <Suspense fallback={<Skeleton variant="card" />}>
+            <LibraryContents />
+          </Suspense>
         </MainServiceBox>
         <MainServiceBox
           label="공지사항"

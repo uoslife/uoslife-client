@@ -60,24 +60,14 @@ const LibraryContentsInNotUsing = () => {
 };
 
 const LibraryContents = () => {
-  const [{reservationInfo}, setLibraryReservation] = useAtom(
-    libraryReservationAtom,
-  );
-
-  useEffect(() => {
-    (async () => {
-      const res = await UtilityService.getLibraryReservation();
-      setLibraryReservation(res);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [{data}] = useAtom(libraryReservationAtom);
 
   return (
     <CardLayout>
-      {reservationInfo ? (
+      {data.reservationInfo ? (
         <LibraryContentsInUsing
-          seatRoomName={reservationInfo.seatRoomName}
-          seatNo={reservationInfo.seatNo}
+          seatRoomName={data.reservationInfo.seatRoomName}
+          seatNo={data.reservationInfo.seatNo}
         />
       ) : (
         <LibraryContentsInNotUsing />
