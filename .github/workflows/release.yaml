@@ -1,0 +1,59 @@
+name: 'Release Codepush'
+
+on:
+  pull_request:
+    branches:
+      - release
+    # types: closed
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Setup Node 18.16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.16.x'
+          cache: 'yarn'
+
+      - name: Set Yarn Version
+        id: set-version
+        run: |
+          yarn set version 3.6.4
+          echo "YARN_VERSION=$(yarn -v)" >> $GITHUB_OUTPUT
+
+      - name: Get cache dir path
+        id: yarn-cache-dir-path
+        run: echo "CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+      - name: Yarn cache
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.CACHE_DIR }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ steps.set-version.outputs.YARN_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-
+
+      - name: Install dependencies
+        run: |
+          CACHE_HIT="${{ steps.yarn-cache.outputs.cache-hit }}"
+          NODE_MODULES_EXISTS=$(test -d "node_modules" && echo "true" || echo "false")
+          if [[ "$CACHE_HIT" != 'true' || "$NODE_MODULES_EXISTS" == 'false' ]]; then
+            yarn install
+          fi
+      - name: Deploy to Codepush
+        run: yarn codepush:ios
+      # - name: Merge publish to main
+      #   run: |
+      #     git config user.name "${{ github.actor }}"
+      #     git config user.email "${{ github.actor }}@users.noreply.github.com"
+      #     git checkout main
+      #     git merge --no-ff --no-edit release
+      #     git push origin main
