@@ -75,6 +75,7 @@ const SetNicknameScreen = () => {
       openBottomSheet();
       return;
     }
+<<<<<<< HEAD
     openBottomSheet();
     // try {
     //   const CheckDuplicateUserNicknameRes =
@@ -101,6 +102,33 @@ const SetNicknameScreen = () => {
     // } catch (err) {
     //   console.error(err);
     // }
+=======
+    try {
+      const CheckDuplicateUserNicknameRes =
+        await CoreAPI.checkDuplicateUserNickname({
+          nickname: inputValue,
+        });
+      if (CheckDuplicateUserNicknameRes.duplicate) {
+        setStatusMessage('DUPLICATED');
+        return;
+      }
+      setStatusMessage('CAN_USE');
+      if (isMypage) {
+        try {
+          await CoreAPI.changeNickname({nickname: inputValue});
+          await UserService.updateUserInfo(setUserInfo);
+          customShowToast('changeNickname');
+          navigation.goBack();
+        } catch (error) {
+          customShowToast('changeNicknameError');
+        }
+        return;
+      }
+      openBottomSheet();
+    } catch (err) {
+      console.error(err);
+    }
+>>>>>>> 1fb465a (fix: 테스트용 화면 수정)
   };
 
   const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
