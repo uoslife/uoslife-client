@@ -10,42 +10,42 @@ import {
   ToSandPoliciesScreen,
   AdvertisingandMarketingConsentScreen,
   PrivacyandPoliciesScreen,
-} from '../screens/myPage';
+} from '../screens/mypage';
 import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
 import VerificationScreen from '../screens/account/signIn/VerificationScreen';
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
-import PortalAuthenticationManagementScreen from '../screens/myPage/profile/PortalAuthenticationManagementScreen';
+import PortalAuthenticationManagementScreen from '../screens/mypage/profile/PortalAuthenticationManagementScreen';
 
-export type MyPageStackParamList = {
+export type MypageStackParamList = {
   Mypage_main: undefined;
-  Mypage_profile: MyPageProfileStackParamList;
+  Mypage_profile: MypageProfileStackParamList;
   Mypage_appSetting: undefined;
-  Mypage_appInformation: MyPageAppInformationStackParamList;
+  Mypage_appInformation: MypageAppInformationStackParamList;
 };
 
-export type MyPageProfileStackParamList = {
+export type MypageProfileStackParamList = {
   Mypage_profile_Main: undefined;
-  Mypage_changeNickname: {isMyPage: boolean};
+  Mypage_changeNickname: {isMypage: boolean};
   Mypage_portalAuthentication: undefined;
   Mypage_portalAuthenticationManagement: undefined;
   Mypage_changeNumber: undefined;
 };
 export type MypageProfileNavigationProp =
-  NativeStackNavigationProp<MyPageProfileStackParamList>;
+  NativeStackNavigationProp<MypageProfileStackParamList>;
 
-export type MyPageAppInformationStackParamList = {
+export type MypageAppInformationStackParamList = {
   Mypage_appInformation_Main: undefined;
   Mypage_ToSandPolicies: undefined;
   Mypage_privacyPolicies: undefined;
   Mypage_advertisingandMarketing: undefined;
 };
 export type MypageAppInformationNavigationProp =
-  NativeStackNavigationProp<MyPageAppInformationStackParamList>;
+  NativeStackNavigationProp<MypageAppInformationStackParamList>;
 
-const Stack = createStackNavigator<MyPageStackParamList>();
-const ProfileStack = createStackNavigator<MyPageProfileStackParamList>();
+const Stack = createStackNavigator<MypageStackParamList>();
+const ProfileStack = createStackNavigator<MypageProfileStackParamList>();
 const AppInformationStack =
-  createStackNavigator<MyPageAppInformationStackParamList>();
+  createStackNavigator<MypageAppInformationStackParamList>();
 
 const MypageProfileNavigator = () => {
   return (
@@ -76,7 +76,7 @@ const MypageProfileNavigator = () => {
   );
 };
 
-const MyPageAppInformationStackNavigator = () => {
+const MypageAppInformationStackNavigator = () => {
   return (
     <AppInformationStack.Navigator
       initialRouteName="Mypage_appInformation_Main"
@@ -114,7 +114,7 @@ const MypageStackNavigator = () => {
       />
       <Stack.Screen
         name="Mypage_appInformation"
-        component={MyPageAppInformationStackNavigator}
+        component={MypageAppInformationStackNavigator}
       />
     </Stack.Navigator>
   );

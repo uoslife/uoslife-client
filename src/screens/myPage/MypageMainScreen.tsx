@@ -6,14 +6,14 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {Button, colors, Txt} from '@uoslife/design-system';
 import URLS from '../../configs/urls';
 import Header from '../../components/molecules/common/header/Header';
-import {MyPageStackParamList} from '../../navigators/MypageStackNavigator';
+import {MypageStackParamList} from '../../navigators/MypageStackNavigator';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import UserService from '../../services/user';
 import useUserState from '../../hooks/useUserState';
 
 const MypageMainScreen = ({
   navigation,
-}: StackScreenProps<MyPageStackParamList>) => {
+}: StackScreenProps<MypageStackParamList>) => {
   const insets = useSafeAreaInsets();
 
   const {user, deleteUserInfo} = useUserState();

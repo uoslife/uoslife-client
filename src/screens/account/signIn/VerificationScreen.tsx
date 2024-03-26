@@ -47,7 +47,7 @@ const VerificationScreen = () => {
   const {setUserInfo} = useUserState();
   const navigation = useNavigation();
 
-  const [isMyPage] = useIsCurrentScreen('Mypage_changeNumber');
+  const [isMypage] = useIsCurrentScreen('Mypage_changeNumber');
 
   const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
@@ -94,7 +94,7 @@ const VerificationScreen = () => {
   };
 
   const handleHeaderBackButton = () => {
-    if (isMyPage) {
+    if (isMypage) {
       navigation.goBack();
       return;
     }
@@ -142,7 +142,7 @@ const VerificationScreen = () => {
     const currentInputLength = inputValue.length;
     if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
 
-    if (isMyPage) {
+    if (isMypage) {
       try {
         await CoreAPI.changePhone({
           mobile: storedPhoneNumber,
