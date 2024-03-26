@@ -12,11 +12,9 @@ const OnboardingSlideGuide = ({
     currentImageLocation === index;
   return (
     <S.Wrapper>
-      {Array(carouselDataLength)
-        .fill(undefined)
-        .map((_value, index) => (
-          <S.Dot key={index} isEnabled={switchIsEnabledStatus(index)} />
-        ))}
+      {Array.from(Array(carouselDataLength).keys()).map(index => (
+        <S.Dot key={index} isEnabled={switchIsEnabledStatus(index)} />
+      ))}
     </S.Wrapper>
   );
 };

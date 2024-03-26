@@ -77,6 +77,7 @@ export default class UtilityService {
       return undefined;
     }
   }
+
   static getOutingStatus(
     remainingSeconds: LibraryReservationType['remainingSeconds'],
   ): ReservationStatusType {
@@ -122,13 +123,12 @@ export default class UtilityService {
       };
     }
   }
+
   static async getLibraryUsageStatus(): Promise<RecapInfoType | null> {
     try {
       const res = await CoreAPI.getLibraryHistories({year: 2024});
-      console.log(res);
       return res;
     } catch (error) {
-      console.log(error);
       return null;
     }
   }

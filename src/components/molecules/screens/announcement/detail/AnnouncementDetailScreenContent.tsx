@@ -2,7 +2,7 @@ import {Linking, View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
-import {announcementFullName} from '../../../../../configs/announcement';
+import announcementFullName from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
 import useBookmark from '../../../../../hooks/useBookmark';

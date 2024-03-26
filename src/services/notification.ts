@@ -26,6 +26,7 @@ export default class NotificationService {
   static registerMessageHandler(): void {
     messaging().onMessage(NotificationService.onMessageReceived);
   }
+
   static registerMessageHandlerOnBackground(): void {
     messaging().setBackgroundMessageHandler(
       NotificationService.onMessageReceived,

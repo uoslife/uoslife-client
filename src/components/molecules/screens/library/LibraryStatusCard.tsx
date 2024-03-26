@@ -9,10 +9,10 @@ type Props = LibraryStatusType;
 const LibraryStatusCard = ({type, item}: Props) => {
   return (
     <Card title={type.korName}>
-      {item.map((item, i) => (
-        <S.CardItemWrapper key={item.room_no}>
+      {item.map((items, i) => (
+        <S.CardItemWrapper key={items.room_no}>
           {i !== 0 && <S.Divider />}
-          <LibraryRoomItem item={item} />
+          <LibraryRoomItem item={items} />
         </S.CardItemWrapper>
       ))}
     </Card>

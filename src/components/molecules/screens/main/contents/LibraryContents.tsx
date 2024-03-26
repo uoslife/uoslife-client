@@ -1,11 +1,9 @@
-import {useEffect} from 'react';
 import {useAtom} from 'jotai';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
-import UtilityService from '../../../../../services/utility';
 import {LibraryReservationType} from '../../../../../api/services/util/library/libraryAPI.type';
 import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
 import libraryReservationAtom from '../../../../../store/library';

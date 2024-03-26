@@ -83,7 +83,7 @@ const AnnounceContents = () => {
         prev ? [...prev, {origin, contents: contentsArray}] : undefined,
       );
     })();
-  }, [categoryStatus]);
+  }, [announcements, categoryStatus]);
 
   const handlePressLinkButton = useCallback(async () => {
     const supported = await Linking.canOpenURL(URLS.UOSTORY);
@@ -93,7 +93,7 @@ const AnnounceContents = () => {
     } else {
       Alert.alert(`Don't know how to open this URL: ${URLS.UOSTORY}`);
     }
-  }, [URLS.UOSTORY]);
+  }, []);
   return (
     <CardLayout>
       <S.Container>

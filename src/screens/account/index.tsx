@@ -14,7 +14,7 @@ import VerificationScreen from './signIn/VerificationScreen';
 const AccountScreenContainer = () => {
   const accountFlow = useAtomValue(accountFlowAtom);
 
-  const handleAccountScreen = (accountFlow: AccountFlowType) => {
+  const handleAccountScreen = () => {
     switch (accountFlow.commonFlow) {
       case 'MAIN':
         return <AccountMainScreen />;
@@ -32,7 +32,7 @@ const AccountScreenContainer = () => {
   };
   return (
     <S.AccountContainer contentContainerStyle={{flexGrow: 1}} bounces={false}>
-      {handleAccountScreen(accountFlow)}
+      {handleAccountScreen()}
       {/* <AccountFlowStatusGuideForDev /> */}
     </S.AccountContainer>
   );

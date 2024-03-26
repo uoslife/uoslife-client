@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {View} from 'react-native';
 import ModalLayout from '../components/molecules/overlays/layouts/ModalLayout';
 import BottomSheetLayout from '../components/molecules/overlays/layouts/BottomSheetLayout';
 
@@ -23,8 +24,9 @@ const useModal = (modalType: UseModalParams): UseModalReturnValue => {
     setIsOpen(false);
   };
 
+  // eslint-disable-next-line consistent-return
   const Modal = ({children}: {children: React.ReactNode}) => {
-    if (!isOpen) return <></>;
+    if (!isOpen) return <View />;
 
     switch (modalType) {
       case 'MODAL':

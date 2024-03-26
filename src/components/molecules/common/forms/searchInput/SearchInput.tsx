@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import styled from '@emotion/native';
-import {colors, Icon, typographs} from '@uoslife/design-system';
+import {colors, Icon} from '@uoslife/design-system';
 import SearchInputProps from './SearchInput.type';
 
 const SearchInput = ({

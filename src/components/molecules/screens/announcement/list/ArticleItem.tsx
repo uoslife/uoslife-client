@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/core';
 import useBookmark from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
-import {announcementFullName} from '../../../../../configs/announcement';
+import announcementFullName from '../../../../../configs/announcement';
 import ItemBookmarkToggle from './ItemBookmarkToggle';
 
 type ArticleItemComponentProps = {

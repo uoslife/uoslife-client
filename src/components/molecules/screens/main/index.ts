@@ -1,5 +1,4 @@
 export {default as MainServiceBox} from './mainServiceBox/MainServiceBox';
-export {default as BottomNavigation} from './bottomNavigation/BottomNavigation';
 
 // contents
 export {default as LibraryContents} from './contents/LibraryContents';

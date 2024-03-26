@@ -1,0 +1,9 @@
+# React Native
+index.js
+babel.config.js
+metro.config.js
+
+env.d.ts
+
+# Storybook
+**/storybook-static

@@ -75,6 +75,7 @@ const SetNicknameScreen = () => {
       openBottomSheet();
       return;
     }
+    openBottomSheet();
     try {
       const CheckDuplicateUserNicknameRes =
         await CoreAPI.checkDuplicateUserNickname({
