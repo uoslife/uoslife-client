@@ -73,3 +73,12 @@ storybook-static
 # Sentry
 ios/sentry.properties
 android/sentry.properties
+
+# Yarn
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
