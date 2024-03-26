@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {View} from 'react-native';
 import styled from '@emotion/native';
 import BottomSheet from '../components/molecules/overlay/BottomSheet';
 
@@ -6,7 +7,7 @@ import BottomSheet from '../components/molecules/overlay/BottomSheet';
 const useBottomSheet = () => {
   const [bottomSheetOpened, setBottomSheetOpened] = useState<boolean>(false);
   const [bottomSheetContent, setBottomSheetContent] =
-    useState<React.ReactElement>(<></>);
+    useState<React.ReactElement>(<View />);
   const [bottomSheetZIndex, setBottomSheetZIndex] = useState<number>(5);
   const [bottomSheetBgDark, setBottomSheetBgDark] = useState<boolean>(true);
 

@@ -2,13 +2,13 @@ import React from 'react';
 import {View} from 'react-native';
 
 import {useAtomValue} from 'jotai';
-import {AccountFlowType, accountFlowAtom} from '../../../../store/account';
+import {accountFlowAtom} from '../../../../store/account';
 
 import SetNicknameScreen from '../../common/SetNicknameScreen';
 
 const NewUserScreenContainer = () => {
   const accountFlow = useAtomValue(accountFlowAtom);
-  const handleNewUserScreen = (accountFlow: AccountFlowType) => {
+  const handleNewUserScreen = () => {
     switch (accountFlow.signUpFlow.step) {
       case 0:
         return <SetNicknameScreen />;
@@ -16,7 +16,7 @@ const NewUserScreenContainer = () => {
         return <SetNicknameScreen />;
     }
   };
-  return <View style={{flex: 1}}>{handleNewUserScreen(accountFlow)}</View>;
+  return <View style={{flex: 1}}>{handleNewUserScreen()}</View>;
 };
 
 export default NewUserScreenContainer;

@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Header from '../../components/molecules/common/header/Header';
 import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
 import {ArticleDetailType} from '../../types/announcement.type';
-import {announcementFullName} from '../../configs/announcement';
+import announcementFullName from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/detail/AnnouncementDetailScreenContent';
 import Spinner from '../../components/atoms/spinner/Spinner';

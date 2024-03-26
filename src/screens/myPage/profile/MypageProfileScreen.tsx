@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -262,17 +262,17 @@ const S = {
   `,
 };
 
-const styles = StyleSheet.create({
-  cameraImage: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 2.5,
-    elevation: 1.5,
-  },
-});
+// const styles = StyleSheet.create({
+//   cameraImage: {
+//     shadowColor: '#000',
+//     shadowOffset: {
+//       width: 0,
+//       height: 2,
+//     },
+//     shadowOpacity: 0.2,
+//     shadowRadius: 2.5,
+//     elevation: 1.5,
+//   },
+// });
 
 export default MypageProfileScreen;

@@ -6,17 +6,25 @@ export default class DateUtils {
   private _today: Date;
 
   private _year: number;
+
   private _month: number;
+
   private _date: number;
+
   private _day: number;
+
   private _hour: number;
+
   private _minutes: number;
 
   private _korDays: Array<string>;
+
   private _mealTimeList: Array<MealTimeType>;
 
   private _startOfWeek: Date;
+
   private _thisWeekCommonDates: Array<string>;
+
   private _thisWeekDisplayDates: Array<string>;
 
   constructor(date: Date) {

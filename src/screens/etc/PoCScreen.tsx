@@ -9,9 +9,7 @@ import {useConfigContext} from '../../hooks/ConfigContext';
 import {RootStackParamList} from '../../navigators/RootStackNavigator';
 import storage from '../../storage';
 
-const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
-  navigation,
-}) => {
+const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = () => {
   const {isLoading, config, environment} = useConfigContext();
   const [codePushVersion, setCodePushVersion] =
     useState<string>('NO_CODE_PUSH');
@@ -22,7 +20,7 @@ const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
       if (metadata) setCodePushVersion(metadata.label);
     })();
     storage.set('codePushVersion', codePushVersion);
-  }, []);
+  }, [codePushVersion]);
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
@@ -57,7 +55,7 @@ const PoCScreen: React.FC<StackScreenProps<RootStackParamList>> = ({
         />
         <Button
           title="Go WebView"
-          onPress={() => navigation.push('WebView', {})}
+          // onPress={() => navigation.push('WebView', {})}
         />
       </View>
     </View>

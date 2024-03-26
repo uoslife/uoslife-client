@@ -1,6 +1,6 @@
 import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
-export const announcementFullName: {
+const announcementFullName: {
   [Origin in AnnouncementOriginNameType]: string;
 } = {
   FA1: '일반공지',
@@ -8,3 +8,5 @@ export const announcementFullName: {
   FA34: '직원채용',
   FA35: '창업공지',
 };
+
+export default announcementFullName;

@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import React, {useEffect} from 'react';
+import React from 'react';
 
 interface BottomSheetProps {
   children: React.ReactNode | React.ReactNode[];

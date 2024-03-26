@@ -12,8 +12,8 @@ const ModalInformationBox = ({
 }: ModalInformationBoxProps) => {
   return (
     <S.Box>
-      {informationBoxObject.map(({key, value}, i) => (
-        <S.Item key={i} style={{gap: 8}}>
+      {informationBoxObject.map(({key, value}) => (
+        <S.Item key={key} style={{gap: 8}}>
           <Txt
             label={key}
             color="primaryBrand"

@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, View} from 'react-native';
 import {useAtomValue} from 'jotai';
 
-import {AccountFlowType, accountFlowAtom} from '../../../store/account';
+import {accountFlowAtom} from '../../../store/account';
 
 import NewUserScreen from './newUserScreenContainer';
 import ExistedUserScreen from './existedUserScreenContainer';
@@ -11,7 +11,7 @@ import DeletedUserScreen from './deletedUserScreenContainer';
 const SignUpScreenContainer = () => {
   const accountFlow = useAtomValue(accountFlowAtom);
 
-  const handleSignUpScreen = (accountFlow: AccountFlowType) => {
+  const handleSignUpScreen = () => {
     switch (accountFlow.signUpFlow.signUpUser) {
       case 'NEW':
         return <NewUserScreen />;
@@ -27,7 +27,7 @@ const SignUpScreenContainer = () => {
   };
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
-      {handleSignUpScreen(accountFlow)}
+      {handleSignUpScreen()}
     </ScrollView>
   );
 };

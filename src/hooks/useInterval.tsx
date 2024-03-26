@@ -17,7 +17,7 @@ const useInterval = ({onInterval, delay}: Props) => {
 
   useEffect(() => {
     // useInterval을 적용하지 않은 다른 화면에서 앱을 껏다 켰을 때, interval 동작 방지.
-    if (!isFocusedScreen) return;
+    if (!isFocusedScreen) return () => {};
 
     let intervalHandler: NodeJS.Timeout | null = null;
     const startInterval = () => {
@@ -39,7 +39,7 @@ const useInterval = ({onInterval, delay}: Props) => {
       navigation.removeListener('blur', stopInterval);
       stopInterval(); // 컴포넌트 언마운트 이후, clearInterval.
     };
-  }, [isFocusedScreen]);
+  }, [delay, isFocusedScreen, navigation]);
 };
 
 export default useInterval;

@@ -75,33 +75,32 @@ const SetNicknameScreen = () => {
       openBottomSheet();
       return;
     }
-
-    try {
-      const CheckDuplicateUserNicknameRes =
-        await CoreAPI.checkDuplicateUserNickname({
-          nickname: inputValue,
-        });
-      if (CheckDuplicateUserNicknameRes.duplicate) {
-        setStatusMessage('DUPLICATED');
-        return;
-      }
-      setStatusMessage('CAN_USE');
-      if (isMypage) {
-        try {
-          await CoreAPI.changeNickname({nickname: inputValue});
-          await UserService.updateUserInfo(setUserInfo);
-          customShowToast('changeNickname');
-          navigation.goBack();
-        } catch (error) {
-          console.log(error);
-          customShowToast('changeNicknameError');
-        }
-        return;
-      }
-      openBottomSheet();
-    } catch (err) {
-      console.error(err);
-    }
+    openBottomSheet();
+    // try {
+    //   const CheckDuplicateUserNicknameRes =
+    //     await CoreAPI.checkDuplicateUserNickname({
+    //       nickname: inputValue,
+    //     });
+    //   if (CheckDuplicateUserNicknameRes.duplicate) {
+    //     setStatusMessage('DUPLICATED');
+    //     return;
+    //   }
+    //   setStatusMessage('CAN_USE');
+    //   if (isMypage) {
+    //     try {
+    //       await CoreAPI.changeNickname({nickname: inputValue});
+    //       await UserService.updateUserInfo(setUserInfo);
+    //       customShowToast('changeNickname');
+    //       navigation.goBack();
+    //     } catch (error) {
+    //       customShowToast('changeNicknameError');
+    //     }
+    //     return;
+    //   }
+    //   openBottomSheet();
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   const [isAdvertismentAgree, setIsAdvertismentAgree] = useState(false);
