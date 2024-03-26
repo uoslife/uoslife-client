@@ -55,6 +55,8 @@ jobs:
           if [[ "$CACHE_HIT" != 'true' || "$NODE_MODULES_EXISTS" == 'false' ]]; then
             yarn install
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to Codepush
         run: yarn codepush:ios && yarn codepush:android
       - name: Create Pull Request
