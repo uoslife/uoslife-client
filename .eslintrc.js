@@ -65,7 +65,8 @@ module.exports = {
     ],
     'react-native/no-inline-styles': 'off',
     radix: 'off',
+    'no-throw-literal': 'off',
+    '@typescript-eslint/no-throw-literal': 'error',
   },
   plugins: ['prettier', '@tanstack/query'],
-  ignorePatterns: ['**/storybook-static'],
 };
