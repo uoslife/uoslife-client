@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import WebView from 'react-native-webview';
-import {onMessageFromWebView, useAndroidBackPress} from '@uoslife/webview';
+import {onMessageFromWebView} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Platform, StatusBar, View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/core';

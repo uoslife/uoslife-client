@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-
 import {colors} from '@uoslife/design-system';
 import {BaseToast, ToastConfigParams} from 'react-native-toast-message';
 

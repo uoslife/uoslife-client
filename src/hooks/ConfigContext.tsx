@@ -66,7 +66,14 @@ const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
 
   return (
     <ConfigContext.Provider
-      value={{isLoading, hasNetworkError, environment, config}}>
+      value={useMemo(() => {
+        return {
+          isLoading,
+          hasNetworkError,
+          environment,
+          config,
+        };
+      }, [config, environment, hasNetworkError, isLoading])}>
       {children}
     </ConfigContext.Provider>
   );

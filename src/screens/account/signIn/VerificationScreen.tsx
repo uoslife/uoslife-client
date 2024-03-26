@@ -62,6 +62,7 @@ const VerificationScreen = () => {
   const [isRetryTerm, setIsRetryTerm] = useState(false);
 
   // 공통
+  // eslint-disable-next-line consistent-return
   const handleInputStatusMessage = (status: InputStatusMessageType) => {
     switch (status) {
       case 'DEFAULT':

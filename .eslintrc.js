@@ -5,6 +5,7 @@ module.exports = {
     'airbnb',
     'airbnb-typescript',
     'prettier',
+    'plugin:jest/recommended',
     'plugin:prettier/recommended',
     'plugin:storybook/recommended',
     'eslint-config-prettier',
@@ -54,10 +55,7 @@ module.exports = {
       },
     ],
     'no-plusplus': ['error', {allowForLoopAfterthoughts: true}],
-    '@typescript-eslint/lines-between-class-members': [
-      'error',
-      {exceptAfterOverload: true},
-    ],
+    '@typescript-eslint/lines-between-class-members': ['error'],
     // Resource: https://noogoonaa.tistory.com/62
     'prettier/prettier': [
       'error',
@@ -67,7 +65,8 @@ module.exports = {
     ],
     'react-native/no-inline-styles': 'off',
     radix: 'off',
+    'no-throw-literal': 'off',
+    '@typescript-eslint/no-throw-literal': 'error',
   },
   plugins: ['prettier', '@tanstack/query'],
-  ignorePatterns: ['**/storybook-static'],
 };
