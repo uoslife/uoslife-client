@@ -31,7 +31,6 @@ import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
 import CodePushUpdateScreen from '../screens/etc/CodePushUpdateScreen';
 import LibraryRecapScreen from '../screens/LibraryRecapScreen';
-import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -83,7 +82,7 @@ const RootStackNavigator: React.FC = () => {
         <>
           <Stack.Screen
             name="Main"
-            component={SetNicknameScreen}
+            component={RootBottomTapNavigator}
             options={{animationEnabled: false}}
           />
           <Stack.Screen name="Mypage" component={MypageStackNavigator} />
