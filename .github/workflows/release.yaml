@@ -20,6 +20,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN }}
 
 jobs:
   release:
@@ -66,6 +67,11 @@ jobs:
 
       - name: Install Appcenter CLI
         run: npm install -g appcenter-cli
+
+      - name: Login to Appcenter
+        run: appcenter login --token ${{ env.APP_CENTER_TOKEN }}
+        env:
+          APP_CENTER_TOKEN: ${{ env.APP_CENTER_TOKEN }}
 
       - name: Deploy to Codepush
         run: yarn codepush:ios && yarn codepush:android
