@@ -96,7 +96,7 @@ const MypageProfileScreen = () => {
                 label="닉네임 변경"
                 onPress={() =>
                   navigation.navigate('Mypage_changeNickname', {
-                    isMyPage: true,
+                    isMypage: true,
                   })
                 }
                 pressLabel={nickname}

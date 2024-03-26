@@ -48,7 +48,7 @@ const SetNicknameScreen = () => {
   const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
   const {setUserInfo} = useUserState();
 
-  const [isMyPage] = useIsCurrentScreen('Mypage_changeNickname');
+  const [isMypage] = useIsCurrentScreen('Mypage_changeNickname');
 
   const selectedAccountInfo = existedAccountInfo.find(
     item => item.isSelected === true,
@@ -86,7 +86,7 @@ const SetNicknameScreen = () => {
         return;
       }
       setStatusMessage('CAN_USE');
-      if (isMyPage) {
+      if (isMypage) {
         try {
           await CoreAPI.changeNickname({nickname: inputValue});
           await UserService.updateUserInfo(setUserInfo);
@@ -188,9 +188,9 @@ const SetNicknameScreen = () => {
       <S.screenContainer
         style={{paddingTop: insets.top, paddingBottom: insets.bottom + 8}}>
         <Header
-          label={isMyPage ? '닉네임 변경' : '닉네임 설정'}
+          label={isMypage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
-            if (isMyPage) return navigation.goBack();
+            if (isMypage) return navigation.goBack();
             switch (accountFlow.signUpFlow.signUpUser) {
               case 'MIGRATION':
                 decreaseSignUpFlowStep();
@@ -209,7 +209,7 @@ const SetNicknameScreen = () => {
             <View style={{gap: 8}}>
               <Txt
                 label={
-                  isMyPage
+                  isMypage
                     ? '변경하실 닉네임을 입력해주세요.'
                     : '사용하실 닉네임을 입력해주세요.'
                 }

@@ -15,7 +15,7 @@ import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
 import MypageStackNavigator, {
-  MyPageStackParamList,
+  MypageStackParamList,
 } from './MypageStackNavigator';
 import RootBottomTapNavigator, {
   RootTabParamList,
@@ -25,7 +25,7 @@ import storage from '../storage';
 import {
   PrivacyandPoliciesScreen,
   ToSandPoliciesScreen,
-} from '../screens/myPage';
+} from '../screens/mypage';
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
@@ -34,7 +34,7 @@ import LibraryRecapScreen from '../screens/LibraryRecapScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
-  Mypage: MyPageStackParamList;
+  Mypage: MypageStackParamList;
   Announcement: AnnouncementStackParamList;
   Library: undefined;
   Cafeteria: undefined;
