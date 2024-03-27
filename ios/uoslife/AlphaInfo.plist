@@ -41,6 +41,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+		<array>
+			<string>Fonts/Pretendard-Bold.otf</string>
+			<string>Fonts/Pretendard-Light.otf</string>
+			<string>Fonts/Pretendard-Medium.otf</string>
+			<string>Fonts/Pretendard-Regular.otf</string>
+			<string>Fonts/Pretendard-SemiBold.otf</string>
+		</array>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

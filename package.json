@@ -5,8 +5,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "codepush:android": "appcenter apps set-current uoslife/UOSLIFE-Android && appcenter codepush release-react -d Alpha",
-    "codepush:ios": "appcenter apps set-current uoslife/UOSLIFE-iOS && appcenter codepush release-react --plist-file=ios/uoslife/Info.plist -d Alpha",
+    "codepush:android": "appcenter apps set-current uoslife/UOSLIFE-Android && appcenter codepush release-react -d Alpha --mandatory",
+    "codepush:ios": "appcenter apps set-current uoslife/UOSLIFE-iOS && appcenter codepush release-react --plist-file=ios/uoslife/Info.plist -d Alpha --mandatory",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
