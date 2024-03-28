@@ -7,65 +7,87 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* uoslifeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* uoslifeTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3A6335592AB3707500C79702 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3A6335582AB3707500C79702 /* Fonts */; };
-		3A65699D2B1D20E50092E1FB /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A65699C2B1D20E50092E1FB /* Swift.swift */; };
-		3AABFB312BB368CA007BF783 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3A6335582AB3707500C79702 /* Fonts */; };
-		3AB70A862B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
-		3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
-		796BCCE1154A961B4CD93FDD /* libPods-uoslife-prod-uoslifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */; };
+		18D026D4F9ADFD18FA0782DB /* libPods-uoslife-prod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B05B5706546BE0206C8337B /* libPods-uoslife-prod.a */; };
 		81AB9BB82411601600AC10FF /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* BootSplash.storyboard */; };
 		AB3DFD402A372F2D0011AA50 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		AB3DFD412A372F2D0011AA50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* BootSplash.storyboard */; };
 		AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		DA339272654D4557A552A635 /* libPods-uoslife-prod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC37DC8108585442E09AE3C /* libPods-uoslife-prod.a */; };
-		F6F813E94A89317C63ABBD50 /* libPods-uoslife-alpha.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69EBC36BEA9480AE674CBD27 /* libPods-uoslife-alpha.a */; };
+		AB833C832BB549DB007DD7D5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB833C822BB549DB007DD7D5 /* WidgetKit.framework */; };
+		AB833C852BB549DB007DD7D5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB833C842BB549DB007DD7D5 /* SwiftUI.framework */; };
+		AB833C882BB549DB007DD7D5 /* WidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB833C872BB549DB007DD7D5 /* WidgetsBundle.swift */; };
+		AB833C8A2BB549DB007DD7D5 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB833C892BB549DB007DD7D5 /* Widgets.swift */; };
+		AB833C8C2BB549DD007DD7D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB833C8B2BB549DD007DD7D5 /* Assets.xcassets */; };
+		AB833C902BB549DD007DD7D5 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AB833C812BB549DB007DD7D5 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AB833C9F2BB54A3F007DD7D5 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9A2BB54A3C007DD7D5 /* Pretendard-Light.otf */; };
+		AB833CA02BB54A3F007DD7D5 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9B2BB54A3D007DD7D5 /* Pretendard-Regular.otf */; };
+		AB833CA12BB54A3F007DD7D5 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9C2BB54A3E007DD7D5 /* Pretendard-Bold.otf */; };
+		AB833CA22BB54A3F007DD7D5 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */; };
+		AB833CA32BB54A3F007DD7D5 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */; };
+		E3DF3EC3EFD619B7E8BA0D99 /* libPods-uoslife-alpha.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90416302FB37709595332082 /* libPods-uoslife-alpha.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
+		AB833C8E2BB549DD007DD7D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = uoslife;
+			remoteGlobalIDString = AB833C802BB549DB007DD7D5;
+			remoteInfo = WidgetsExtension;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AB833C912BB549DD007DD7D5 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AB833C902BB549DD007DD7D5 /* WidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* uoslifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uoslifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* uoslifeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = uoslifeTests.m; sourceTree = "<group>"; };
-		0BC37DC8108585442E09AE3C /* libPods-uoslife-prod.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-prod.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* uoslife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uoslife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = uoslife/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = uoslife/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = uoslife/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = uoslife/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = uoslife/main.m; sourceTree = "<group>"; };
-		3A6335582AB3707500C79702 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		3A65699B2B1D20E50092E1FB /* uoslife-prod-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uoslife-prod-Bridging-Header.h"; sourceTree = "<group>"; };
-		3A65699C2B1D20E50092E1FB /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
-		3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-uoslife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.debug.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.debug.xcconfig"; sourceTree = "<group>"; };
 		3EA239D6AACDAC8A41678887 /* Pods-uoslife-prod.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-uoslife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.release.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.release.xcconfig"; sourceTree = "<group>"; };
 		5A3F1268332E2E8A111CE226 /* Pods-uoslife-alpha.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-alpha.release.xcconfig"; path = "Target Support Files/Pods-uoslife-alpha/Pods-uoslife-alpha.release.xcconfig"; sourceTree = "<group>"; };
 		5B4768FD53E21C54A3B4F637 /* Pods-uoslife-prod-uoslifeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod-uoslifeTests.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-uoslife-uoslifeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-uoslifeTests.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-uoslifeTests/Pods-uoslife-uoslifeTests.debug.xcconfig"; sourceTree = "<group>"; };
-		69EBC36BEA9480AE674CBD27 /* libPods-uoslife-alpha.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-alpha.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B05B5706546BE0206C8337B /* libPods-uoslife-prod.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-prod.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = uoslife/BootSplash.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-uoslife-uoslifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-uoslifeTests.release.xcconfig"; path = "Target Support Files/Pods-uoslife-uoslifeTests/Pods-uoslife-uoslifeTests.release.xcconfig"; sourceTree = "<group>"; };
-		A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-prod-uoslifeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		90416302FB37709595332082 /* libPods-uoslife-alpha.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-alpha.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DD4D4481C7D5587C569456C /* libPods-uoslife-prod-uoslifeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uoslife-prod-uoslifeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAF4517D6DDDEED742224BB3 /* Pods-uoslife-alpha.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-alpha.debug.xcconfig"; path = "Target Support Files/Pods-uoslife-alpha/Pods-uoslife-alpha.debug.xcconfig"; sourceTree = "<group>"; };
 		AB3DFD4F2A372F2D0011AA50 /* uoslife-alpha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "uoslife-alpha.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3DFD502A372F2D0011AA50 /* AlphaInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = AlphaInfo.plist; path = uoslife/AlphaInfo.plist; sourceTree = SOURCE_ROOT; };
-		ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "firebase/alpha/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "firebase/prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AB833C812BB549DB007DD7D5 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB833C822BB549DB007DD7D5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		AB833C842BB549DB007DD7D5 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		AB833C872BB549DB007DD7D5 /* WidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetsBundle.swift; sourceTree = "<group>"; };
+		AB833C892BB549DB007DD7D5 /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
+		AB833C8B2BB549DD007DD7D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AB833C8D2BB549DD007DD7D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB833C9A2BB54A3C007DD7D5 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
+		AB833C9B2BB54A3D007DD7D5 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		AB833C9C2BB54A3E007DD7D5 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/Firebase/Prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		ABF02DF92A353EDD008F8A34 /* uoslife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = uoslife.entitlements; path = uoslife/uoslife.entitlements; sourceTree = "<group>"; };
 		B42D456715BC620156916E20 /* Pods-uoslife-prod.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod.release.xcconfig"; path = "Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod.release.xcconfig"; sourceTree = "<group>"; };
 		BFC3F492FBD70B66EEF3A522 /* Pods-uoslife-prod-uoslifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod-uoslifeTests.release.xcconfig"; path = "Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -73,19 +95,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		00E356EB1AD99517003FC87E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				796BCCE1154A961B4CD93FDD /* libPods-uoslife-prod-uoslifeTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA339272654D4557A552A635 /* libPods-uoslife-prod.a in Frameworks */,
+				18D026D4F9ADFD18FA0782DB /* libPods-uoslife-prod.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +107,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6F813E94A89317C63ABBD50 /* libPods-uoslife-alpha.a in Frameworks */,
+				E3DF3EC3EFD619B7E8BA0D99 /* libPods-uoslife-alpha.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB833C7E2BB549DB007DD7D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB833C852BB549DB007DD7D5 /* SwiftUI.framework in Frameworks */,
+				AB833C832BB549DB007DD7D5 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,15 +143,13 @@
 		13B07FAE1A68108700A75B9A /* uoslife */ = {
 			isa = PBXGroup;
 			children = (
-				ABDE44442A39CC7600516E94 /* Firebase */,
+				AB833C972BB54A2B007DD7D5 /* Resources */,
 				ABF02DF92A353EDD008F8A34 /* uoslife.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AB3DFD502A372F2D0011AA50 /* AlphaInfo.plist */,
 				81AB9BB72411601600AC10FF /* BootSplash.storyboard */,
-				3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = uoslife;
@@ -138,27 +159,20 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				69EBC36BEA9480AE674CBD27 /* libPods-uoslife-alpha.a */,
-				0BC37DC8108585442E09AE3C /* libPods-uoslife-prod.a */,
-				A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */,
+				90416302FB37709595332082 /* libPods-uoslife-alpha.a */,
+				7B05B5706546BE0206C8337B /* libPods-uoslife-prod.a */,
+				9DD4D4481C7D5587C569456C /* libPods-uoslife-prod-uoslifeTests.a */,
+				AB833C822BB549DB007DD7D5 /* WidgetKit.framework */,
+				AB833C842BB549DB007DD7D5 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Libraries;
 			sourceTree = "<group>";
 		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				3A65699C2B1D20E50092E1FB /* Swift.swift */,
-				3A6335582AB3707500C79702 /* Fonts */,
+				AB833C952BB549E9007DD7D5 /* Extensions */,
 				13B07FAE1A68108700A75B9A /* uoslife */,
-				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* uoslifeTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -174,44 +188,81 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* uoslife.app */,
-				00E356EE1AD99517003FC87E /* uoslifeTests.xctest */,
 				AB3DFD4F2A372F2D0011AA50 /* uoslife-alpha.app */,
+				AB833C812BB549DB007DD7D5 /* WidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ABDE44442A39CC7600516E94 /* Firebase */ = {
+		AB833C862BB549DB007DD7D5 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				ABDE44482A39CCDF00516E94 /* Prod */,
-				ABDE44452A39CC7B00516E94 /* Alpha */,
+				AB833C872BB549DB007DD7D5 /* WidgetsBundle.swift */,
+				AB833C892BB549DB007DD7D5 /* Widgets.swift */,
+				AB833C8B2BB549DD007DD7D5 /* Assets.xcassets */,
+				AB833C8D2BB549DD007DD7D5 /* Info.plist */,
 			);
-			name = Firebase;
+			path = Widgets;
 			sourceTree = "<group>";
 		};
-		ABDE44452A39CC7B00516E94 /* Alpha */ = {
+		AB833C952BB549E9007DD7D5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */,
+				AB833C862BB549DB007DD7D5 /* Widgets */,
 			);
-			name = Alpha;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
-		ABDE44482A39CCDF00516E94 /* Prod */ = {
+		AB833C972BB54A2B007DD7D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB833CA42BB54A64007DD7D5 /* Firebase */,
+				AB833C992BB54A35007DD7D5 /* Fonts */,
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AB833C992BB54A35007DD7D5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				AB833C9C2BB54A3E007DD7D5 /* Pretendard-Bold.otf */,
+				AB833C9A2BB54A3C007DD7D5 /* Pretendard-Light.otf */,
+				AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */,
+				AB833C9B2BB54A3D007DD7D5 /* Pretendard-Regular.otf */,
+				AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		AB833CA42BB54A64007DD7D5 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				AB833CA62BB54A7A007DD7D5 /* Alpha */,
+				AB833CA52BB54A76007DD7D5 /* Prod */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		AB833CA52BB54A76007DD7D5 /* Prod */ = {
 			isa = PBXGroup;
 			children = (
 				ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */,
 			);
-			name = Prod;
+			path = Prod;
+			sourceTree = "<group>";
+		};
+		AB833CA62BB54A7A007DD7D5 /* Alpha */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */,
+			);
+			path = Alpha;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-uoslife.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-uoslife.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-uoslife-uoslifeTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-uoslife-uoslifeTests.release.xcconfig */,
 				AAF4517D6DDDEED742224BB3 /* Pods-uoslife-alpha.debug.xcconfig */,
 				5A3F1268332E2E8A111CE226 /* Pods-uoslife-alpha.release.xcconfig */,
 				3EA239D6AACDAC8A41678887 /* Pods-uoslife-prod.debug.xcconfig */,
@@ -225,27 +276,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* uoslifeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "uoslifeTests" */;
-			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
-				00E356EA1AD99517003FC87E /* Sources */,
-				00E356EB1AD99517003FC87E /* Frameworks */,
-				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				3DDF4AB1EF52867634B78934 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				00E356F51AD99517003FC87E /* PBXTargetDependency */,
-			);
-			name = uoslifeTests;
-			productName = uoslifeTests;
-			productReference = 00E356EE1AD99517003FC87E /* uoslifeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		13B07F861A680F5B00A75B9A /* uoslife-prod */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "uoslife-prod" */;
@@ -260,10 +290,12 @@
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				C08F3705EF79B814BF5EC5FC /* [CP] Copy Pods Resources */,
 				C1A7BA1C1F4A4DD2AFE9BF60 /* Upload Debug Symbols to Sentry */,
+				AB833C912BB549DD007DD7D5 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AB833C8F2BB549DD007DD7D5 /* PBXTargetDependency */,
 			);
 			name = "uoslife-prod";
 			productName = uoslife;
@@ -293,20 +325,37 @@
 			productReference = AB3DFD4F2A372F2D0011AA50 /* uoslife-alpha.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AB833C802BB549DB007DD7D5 /* WidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB833C942BB549DD007DD7D5 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
+			buildPhases = (
+				AB833C7D2BB549DB007DD7D5 /* Sources */,
+				AB833C7E2BB549DB007DD7D5 /* Frameworks */,
+				AB833C7F2BB549DB007DD7D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WidgetsExtension;
+			productName = WidgetsExtension;
+			productReference = AB833C812BB549DB007DD7D5 /* WidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
-					00E356ED1AD99517003FC87E = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = 13B07F861A680F5B00A75B9A;
-					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1430;
+					};
+					AB833C802BB549DB007DD7D5 = {
+						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
@@ -325,27 +374,23 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* uoslife-prod */,
 				AB3DFD3C2A372F2D0011AA50 /* uoslife-alpha */,
-				00E356ED1AD99517003FC87E /* uoslifeTests */,
+				AB833C802BB549DB007DD7D5 /* WidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		00E356EC1AD99517003FC87E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8E1A680F5B00A75B9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A6335592AB3707500C79702 /* Fonts in Resources */,
-				3AB70A862B0BD8D4009FE9B7 /* Colors.xcassets in Resources */,
+				AB833CA02BB54A3F007DD7D5 /* Pretendard-Regular.otf in Resources */,
+				AB833CA12BB54A3F007DD7D5 /* Pretendard-Bold.otf in Resources */,
+				AB833CA22BB54A3F007DD7D5 /* Pretendard-SemiBold.otf in Resources */,
 				81AB9BB82411601600AC10FF /* BootSplash.storyboard in Resources */,
+				AB833C9F2BB54A3F007DD7D5 /* Pretendard-Light.otf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AB833CA32BB54A3F007DD7D5 /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,10 +398,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AABFB312BB368CA007BF783 /* Fonts in Resources */,
-				3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */,
 				AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */,
 				AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB833C7F2BB549DB007DD7D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB833C8C2BB549DD007DD7D5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,45 +445,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3DDF4AB1EF52867634B78934 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-uoslife-prod-uoslifeTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AB3DFD3D2A372F2D0011AA50 /* [CP] Check Pods Manifest.lock */ = {
@@ -525,7 +537,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\nGOOGLESERVICE_INFO=${PROJECT_DIR}/firebase/alpha/${GOOGLESERVICE_INFO_PLIST}\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\ncp \"${GOOGLESERVICE_INFO}\" \"${PLIST_DESTINATION}\"\n\necho \"Using ${GOOGLESERVICE_INFO}\"\n";
+			shellScript = "GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\nGOOGLESERVICE_INFO=${PROJECT_DIR}/Resources/Firebase/Alpha/${GOOGLESERVICE_INFO_PLIST}\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\ncp \"${GOOGLESERVICE_INFO}\" \"${PLIST_DESTINATION}\"\n\necho \"Using ${GOOGLESERVICE_INFO}\"\n";
 		};
 		ABDE44412A39CB2600516E94 /* GoogleService-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -543,7 +555,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\nGOOGLESERVICE_INFO=${PROJECT_DIR}/firebase/prod/${GOOGLESERVICE_INFO_PLIST}\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\ncp \"${GOOGLESERVICE_INFO}\" \"${PLIST_DESTINATION}\"\n\necho \"Using ${GOOGLESERVICE_INFO}\"\n";
+			shellScript = "GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\nGOOGLESERVICE_INFO=${PROJECT_DIR}/Resources/Firebase/Prod/${GOOGLESERVICE_INFO_PLIST}\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\ncp \"${GOOGLESERVICE_INFO}\" \"${PLIST_DESTINATION}\"\n\necho \"Using ${GOOGLESERVICE_INFO}\"\n";
 		};
 		C08F3705EF79B814BF5EC5FC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -598,23 +610,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E8EC53EEF66E19E0D35E19A5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -654,20 +649,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		00E356EA1AD99517003FC87E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00E356F31AD99517003FC87E /* uoslifeTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				3A65699D2B1D20E50092E1FB /* Swift.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,84 +667,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AB833C7D2BB549DB007DD7D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB833C882BB549DB007DD7D5 /* WidgetsBundle.swift in Sources */,
+				AB833C8A2BB549DB007DD7D5 /* Widgets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
+		AB833C8F2BB549DD007DD7D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* uoslife-prod */;
-			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+			target = AB833C802BB549DB007DD7D5 /* WidgetsExtension */;
+			targetProxy = AB833C8E2BB549DD007DD7D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		00E356F61AD99517003FC87E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B4768FD53E21C54A3B4F637 /* Pods-uoslife-prod-uoslifeTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 8D6H7NVXQW;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = uoslifeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/uoslife.app/uoslife";
-			};
-			name = Debug;
-		};
-		00E356F71AD99517003FC87E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFC3F492FBD70B66EEF3A522 /* Pods-uoslife-prod-uoslifeTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 8D6H7NVXQW;
-				INFOPLIST_FILE = uoslifeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/uoslife.app/uoslife";
-			};
-			name = Release;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3EA239D6AACDAC8A41678887 /* Pods-uoslife-prod.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -796,6 +729,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B42D456715BC620156916E20 /* Pods-uoslife-prod.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -968,7 +902,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AAF4517D6DDDEED742224BB3 /* Pods-uoslife-alpha.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AlphaAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1006,7 +940,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5A3F1268332E2E8A111CE226 /* Pods-uoslife-alpha.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AlphaAppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1038,18 +972,94 @@
 			};
 			name = Release;
 		};
+		AB833C922BB549DD007DD7D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8D6H7NVXQW;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extensions/Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.Widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AB833C932BB549DD007DD7D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8D6H7NVXQW;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extensions/Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.Widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "uoslifeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				00E356F61AD99517003FC87E /* Debug */,
-				00E356F71AD99517003FC87E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "uoslife-prod" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1073,6 +1083,15 @@
 			buildConfigurations = (
 				AB3DFD4D2A372F2D0011AA50 /* Debug */,
 				AB3DFD4E2A372F2D0011AA50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB833C942BB549DD007DD7D5 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB833C922BB549DD007DD7D5 /* Debug */,
+				AB833C932BB549DD007DD7D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
