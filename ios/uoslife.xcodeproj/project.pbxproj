@@ -86,9 +86,10 @@
 		AB833C9C2BB54A3E007DD7D5 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		AB833CA92BB5539C007DD7D5 /* uoslife.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = uoslife.entitlements; path = uoslife/uoslife.entitlements; sourceTree = "<group>"; };
+		AB833CAA2BB553C6007DD7D5 /* WidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetsExtension.entitlements; sourceTree = "<group>"; };
 		ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/Firebase/Prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		ABF02DF92A353EDD008F8A34 /* uoslife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = uoslife.entitlements; path = uoslife/uoslife.entitlements; sourceTree = "<group>"; };
 		B42D456715BC620156916E20 /* Pods-uoslife-prod.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod.release.xcconfig"; path = "Target Support Files/Pods-uoslife-prod/Pods-uoslife-prod.release.xcconfig"; sourceTree = "<group>"; };
 		BFC3F492FBD70B66EEF3A522 /* Pods-uoslife-prod-uoslifeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife-prod-uoslifeTests.release.xcconfig"; path = "Target Support Files/Pods-uoslife-prod-uoslifeTests/Pods-uoslife-prod-uoslifeTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -144,12 +145,12 @@
 			isa = PBXGroup;
 			children = (
 				AB833C972BB54A2B007DD7D5 /* Resources */,
-				ABF02DF92A353EDD008F8A34 /* uoslife.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AB3DFD502A372F2D0011AA50 /* AlphaInfo.plist */,
 				81AB9BB72411601600AC10FF /* BootSplash.storyboard */,
+				AB833CA92BB5539C007DD7D5 /* uoslife.entitlements */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = uoslife;
@@ -200,6 +201,7 @@
 				AB833C872BB549DB007DD7D5 /* WidgetsBundle.swift */,
 				AB833C892BB549DB007DD7D5 /* Widgets.swift */,
 				AB833C8B2BB549DD007DD7D5 /* Assets.xcassets */,
+				AB833CAA2BB553C6007DD7D5 /* WidgetsExtension.entitlements */,
 				AB833C8D2BB549DD007DD7D5 /* Info.plist */,
 			);
 			path = Widgets;
@@ -984,6 +986,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1027,6 +1030,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
