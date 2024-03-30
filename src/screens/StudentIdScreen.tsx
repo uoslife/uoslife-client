@@ -18,6 +18,7 @@ import useUserState from '../hooks/useUserState';
 import setUserInformationMessage from '../utils/setUserInformationMessage';
 import useInterval from '../hooks/useInterval';
 import StudentIdQrCode from '../components/molecules/screens/studentId/StudentIdQrCode';
+import AnimatePress from '../components/animations/pressable_icon/AnimatePress';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -107,10 +108,12 @@ const StudentIdComponent = () => {
           <Txt label={currentTime} color="grey190" typograph="titleMedium" />
         </S.qrWrapper>
         <S.paycoWrapper>
-          <S.paycoButton onPress={openPayco}>
-            <Txt label="PAYCO" color="red" typograph="titleSmall" />
-            <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
-          </S.paycoButton>
+          <AnimatePress variant="scale_down" onPress={openPayco}>
+            <S.paycoButton>
+              <Txt label="PAYCO" color="red" typograph="titleSmall" />
+              <Txt label=" 바로가기" color="grey190" typograph="bodyLarge" />
+            </S.paycoButton>
+          </AnimatePress>
         </S.paycoWrapper>
         <View style={Style.boxShadow}>
           <S.studentInformationWrapper>
@@ -241,7 +244,7 @@ const S = {
     align-items: center;
     margin-bottom: 12px;
   `,
-  paycoButton: styled.TouchableOpacity`
+  paycoButton: styled.View`
     padding: 12px 24px;
     border: 1px solid ${colors.grey190};
     border-radius: 100px;

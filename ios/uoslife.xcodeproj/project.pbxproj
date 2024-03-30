@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3A6335592AB3707500C79702 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3A6335582AB3707500C79702 /* Fonts */; };
 		3A65699D2B1D20E50092E1FB /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A65699C2B1D20E50092E1FB /* Swift.swift */; };
+		3AABFB312BB368CA007BF783 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 3A6335582AB3707500C79702 /* Fonts */; };
 		3AB70A862B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
 		3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AB70A852B0BD8D4009FE9B7 /* Colors.xcassets */; };
 		796BCCE1154A961B4CD93FDD /* libPods-uoslife-prod-uoslifeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4F0261C415F96C428462ED3 /* libPods-uoslife-prod-uoslifeTests.a */; };
@@ -352,6 +353,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AABFB312BB368CA007BF783 /* Fonts in Resources */,
 				3AB70A872B0BD8D4009FE9B7 /* Colors.xcassets in Resources */,
 				AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */,
 				AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */,

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import NavigationListProps from './NavigationList.type';
+import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
 const NavigationList = ({
   label,
@@ -22,7 +23,9 @@ const NavigationList = ({
           />
         )}
         {isPressIconShown && (
-          <Icon name="forwardArrow" width={24} height={24} color="grey130" />
+          <AnimatePress variant="scale_up" onPress={onPress}>
+            <Icon name="forwardArrow" width={24} height={24} color="grey130" />
+          </AnimatePress>
         )}
       </S.RightWrapper>
     </S.Container>

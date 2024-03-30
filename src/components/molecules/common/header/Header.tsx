@@ -1,19 +1,19 @@
 import React from 'react';
-import {Pressable} from 'react-native';
 
 import styled from '@emotion/native';
 
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import HeaderProps from './Header.type';
+import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
 const Header = ({label, onPressBackButton, children}: HeaderProps) => {
   return (
     <S.headerContainter>
-      <Pressable onPress={onPressBackButton}>
+      <AnimatePress onPress={onPressBackButton} variant="scale_up">
         <S.buttonArea>
           <Icon name="backArrow" width={24} height={24} color="grey130" />
         </S.buttonArea>
-      </Pressable>
+      </AnimatePress>
       {!!label && <Txt label={label} color="grey190" typograph="titleLarge" />}
       {children}
     </S.headerContainter>
