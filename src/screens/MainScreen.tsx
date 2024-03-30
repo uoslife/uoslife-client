@@ -17,6 +17,7 @@ import {
 import useUserState from '../hooks/useUserState';
 import {BANNER_1, BANNER_2} from '../assets/images';
 import Skeleton from '../components/molecules/common/skeleton/Skeleton';
+import AnimatePress from '../components/animations/pressable_icon/AnimatePress';
 
 const {width} = Dimensions.get('window');
 
@@ -49,8 +50,12 @@ const MainScreen = () => {
         <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
       </View>
       <S.MainWrapper>
-        <S.MypageButton onPress={() => navigation.navigate('Mypage')}>
-          <Icon name="person" width={24} height={24} color="white" />
+        <S.MypageButton>
+          <AnimatePress
+            onPress={() => navigation.navigate('Mypage')}
+            variant="scale_up">
+            <Icon name="person" width={24} height={24} color="white" />
+          </AnimatePress>
         </S.MypageButton>
         <View
           style={css`

@@ -4,10 +4,10 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {Suspense} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSuspenseQuery} from '@tanstack/react-query';
-import {Pressable} from 'react-native';
 import {UtilAPI} from '../../../../api/services';
 import LibraryStatusCard from './LibraryStatusCard';
 import Skeleton from '../../common/skeleton/Skeleton';
+import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
 const LibrarySeatStatus = () => {
   const insets = useSafeAreaInsets();
@@ -20,9 +20,9 @@ const LibrarySeatStatus = () => {
     <S.seatStatusWrapper style={{paddingBottom: insets.bottom}}>
       <S.TitleWrapper>
         <Txt label="도서관 좌석 현황" color="grey190" typograph="titleLarge" />
-        <Pressable onPress={() => refetch()}>
+        <AnimatePress onPress={() => refetch()} variant="scale_up">
           <Icon name="refresh" width={24} height={24} color="grey90" />
-        </Pressable>
+        </AnimatePress>
       </S.TitleWrapper>
 
       <Suspense fallback={<Skeleton variant="card" />}>

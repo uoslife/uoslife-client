@@ -12,6 +12,7 @@ import Header from '../../components/molecules/common/header/Header';
 import useModal from '../../hooks/useModal';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
 import MainArticleListsControl from '../../components/molecules/screens/announcement/main/MainArticleListsControl';
+import AnimatePress from '../../components/animations/pressable_icon/AnimatePress';
 
 // TODO: 혼재되어있는 검색 관련 로직 분리, 컴포넌트 추상화 수준 맞추기
 const AnnouncementMainScreen = () => {
@@ -130,14 +131,18 @@ const AnnouncementMainScreen = () => {
             <Header label="공지사항" onPressBackButton={onHeaderBackPress}>
               <S.HeaderIcons>
                 {icons.map(item => (
-                  <S.IconWrapper key={item.iconName} onPress={item.onPress}>
+                  <AnimatePress
+                    key={item.iconName}
+                    variant="scale_up"
+                    onPress={item.onPress}
+                    style={{padding: 4}}>
                     <Icon
                       name={item.iconName}
                       color="grey150"
                       height={24}
                       width={24}
                     />
-                  </S.IconWrapper>
+                  </AnimatePress>
                 ))}
               </S.HeaderIcons>
             </Header>
@@ -176,8 +181,5 @@ const S = {
     justify-content: flex-end;
     align-items: center;
     gap: 8px;
-  `,
-  IconWrapper: styled.Pressable`
-    padding: 4px;
   `,
 };

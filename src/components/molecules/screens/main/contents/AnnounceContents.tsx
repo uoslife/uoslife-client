@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import {Linking, Alert, View, Pressable} from 'react-native';
+import {Linking, Alert, View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
 import {useAtomValue} from 'jotai';
@@ -14,6 +14,7 @@ import CardLayout from '../../../common/cardLayout/CardLayout';
 import CategoryTab from '../../announcement/tab/CategoryTab';
 import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
 import Skeleton from '../../../common/skeleton/Skeleton';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;
 const DEFAULT_ANNOUNCEMENT_ORIGIN = 'FA1';
@@ -103,21 +104,22 @@ const AnnounceContents = () => {
             announcements
               ?.find(item => item.origin === currentOrigin)
               ?.contents.map(item => (
-                <Pressable
+                <AnimatePress
                   key={item.id}
                   onPress={() =>
                     navigation.navigate('Announcement', {
                       screen: 'AnnouncementDetail',
                       params: {id: item.id, origin: currentOrigin},
                     })
-                  }>
+                  }
+                  variant="scale_down">
                   <Txt
                     label={item.text}
                     color="grey190"
                     typograph="bodyMedium"
                     style={{padding: 8}}
                   />
-                </Pressable>
+                </AnimatePress>
               ))
           ) : (
             <AnnounceContentsSkeleton />

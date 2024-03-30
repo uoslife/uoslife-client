@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import {BookmarkInfo} from '../../../../../hooks/useBookmark';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 const DetailBookmarkToggle = ({
   bookmarkCount,
@@ -8,9 +9,9 @@ const DetailBookmarkToggle = ({
   onPressBookmarkToggle,
 }: BookmarkInfo & {
   onPressBookmarkToggle: () => {};
-}) => {
-  return (
-    <S.BookmarkToggleContainer onPress={onPressBookmarkToggle}>
+}) => (
+  <AnimatePress onPress={onPressBookmarkToggle} variant="scale_up">
+    <S.BookmarkToggleContainer>
       <Icon
         name="bookmark"
         color={isBookmarked ? 'primaryBrand' : 'grey90'}
@@ -23,11 +24,11 @@ const DetailBookmarkToggle = ({
         typograph="titleSmall"
       />
     </S.BookmarkToggleContainer>
-  );
-};
+  </AnimatePress>
+);
 
 const S = {
-  BookmarkToggleContainer: styled.TouchableOpacity`
+  BookmarkToggleContainer: styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: center;
