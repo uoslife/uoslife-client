@@ -6,4 +6,8 @@ export default interface LibraryHisoryService {
     Type.GetLibraryHistoriesParams,
     Type.GetLibraryHistoriesResponse
   >;
+  saveLibraryHistories: ServiceFunc<
+    Type.SaveLibraryHistoriesParams,
+    Type.SaveLibraryHistoriesResponse
+  >;
 }

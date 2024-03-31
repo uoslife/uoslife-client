@@ -23,3 +23,5 @@ export type RecapInfoType = {
 
 export type GetLibraryHistoriesParams = {year: number};
 export type GetLibraryHistoriesResponse = RecapInfoType;
+export type SaveLibraryHistoriesParams = {year: number};
+export type SaveLibraryHistoriesResponse = {};
