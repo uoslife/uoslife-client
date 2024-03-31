@@ -1,4 +1,4 @@
-name: 'Release Codepush'
+name: 'Release Codepush Alpha Environment'
 
 run-name: Release to ${{ inputs.environment }} by @${{ github.actor }}
 

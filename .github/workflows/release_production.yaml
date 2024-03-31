@@ -1,0 +1,38 @@
+name: 'Release Codepush Production Environment'
+
+run-name: Release to Production by @${{ github.actor }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on: workflow_dispatch
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  APP_CENTER_TOKEN: ${{ secrets.APP_CENTER_TOKEN }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node 18.16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.16.x'
+          cache: 'yarn'
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+      - name: Install Appcenter CLI
+        run: npm install -g appcenter-cli
+
+      - name: Login to Appcenter
+        run: appcenter login --token ${{ env.APP_CENTER_TOKEN }}
+        env:
+          APP_CENTER_TOKEN: ${{ env.APP_CENTER_TOKEN }}
+
+      - name: Release to Codepush Production
+        run: appcenter codepush promote -s Alpha -d Production
