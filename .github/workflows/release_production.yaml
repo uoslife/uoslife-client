@@ -1,4 +1,4 @@
-name: 'Release Codepush'
+name: 'Release Codepush Production Environment'
 
 run-name: Release to Production by @${{ github.actor }}
 
@@ -35,4 +35,4 @@ jobs:
           APP_CENTER_TOKEN: ${{ env.APP_CENTER_TOKEN }}
 
       - name: Release to Codepush Production
-        run: appcenter codepush promote -s Staging -d Production
+        run: appcenter codepush promote -s Alpha -d Production
