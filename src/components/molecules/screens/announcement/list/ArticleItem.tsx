@@ -7,6 +7,7 @@ import {AnnouncementNavigationProps} from '../../../../../navigators/Announcemen
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import announcementFullName from '../../../../../configs/announcement';
 import ItemBookmarkToggle from './ItemBookmarkToggle';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 type ArticleItemComponentProps = {
   showCategoryName: boolean;
@@ -28,23 +29,26 @@ const ArticleItem = ({
 
   return (
     <S.Root>
-      <S.DescriptionContainer
-        onPress={() => {
-          navigation.navigate('AnnouncementDetail', {id, origin: 'FA1'});
-        }}>
-        {showCategoryName && (
+      <S.DescriptionContainer>
+        <AnimatePress
+          variant="scale_down"
+          onPress={() => {
+            navigation.navigate('AnnouncementDetail', {id, origin: 'FA1'});
+          }}>
+          {showCategoryName && (
+            <Txt
+              color="primaryBrand"
+              label={announcementFullName[origin]}
+              typograph="labelMedium"
+            />
+          )}
+          <Txt color="grey190" typograph="bodyMedium" label={title} />
           <Txt
-            color="primaryBrand"
-            label={announcementFullName[origin]}
-            typograph="labelMedium"
+            color="grey90"
+            typograph="labelSmall"
+            label={`${department} | ${date}`}
           />
-        )}
-        <Txt color="grey190" typograph="bodyMedium" label={title} />
-        <Txt
-          color="grey90"
-          typograph="labelSmall"
-          label={`${department} | ${date}`}
-        />
+        </AnimatePress>
       </S.DescriptionContainer>
       <ItemBookmarkToggle
         bookmarkCount={bookmarkCountCurrent}
@@ -59,13 +63,10 @@ const S = {
   Root: styled.View`
     padding: 8px 16px;
     width: 100%;
-
     flex-direction: row;
-    align-items: center;
   `,
-  DescriptionContainer: styled.Pressable`
+  DescriptionContainer: styled.View`
     flex: 1;
-
     gap: 4px;
   `,
   BookmarkToggleContainer: styled.Pressable`

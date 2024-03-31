@@ -126,8 +126,12 @@ export default class UtilityService {
 
   static async getLibraryUsageStatus(): Promise<RecapInfoType | null> {
     try {
-      const res = await CoreAPI.getLibraryHistories({year: 2024});
-      return res;
+      const res = await Promise.all([
+        CoreAPI.getLibraryHistories({year: 2024}),
+        CoreAPI.saveLibraryHistories(),
+      ]);
+
+      return res[0];
     } catch (error) {
       return null;
     }
