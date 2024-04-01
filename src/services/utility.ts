@@ -128,7 +128,7 @@ export default class UtilityService {
     try {
       const res = await Promise.all([
         CoreAPI.getLibraryHistories({year: 2024}),
-        CoreAPI.saveLibraryHistories(),
+        CoreAPI.saveLibraryHistories({year: 2024}),
       ]);
 
       return res[0];
