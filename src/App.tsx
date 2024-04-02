@@ -9,7 +9,7 @@ import Toast from 'react-native-toast-message';
 
 import * as Sentry from '@sentry/react-native';
 import {SENTRY_DSN_KEY} from '@env';
-import {useAtom} from 'jotai';
+import {useAtomValue} from 'jotai';
 
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import RootStackNavigator from './navigators/RootStackNavigator';
@@ -25,15 +25,13 @@ Sentry.init({
 });
 
 let App: React.FC = () => {
-  const [animatedBootSplashvisible, setAnimatedBootSplashVisible] = useAtom(
-    bootSplashVisibleAtom,
-  );
+  const queryClient = new QueryClient();
+  const animatedBootSplashvisible = useAtomValue(bootSplashVisibleAtom);
 
   useEffect(() => {
     NotificationService.registerMessageHandler();
     NotificationService.onForegroundEvent();
   }, []);
-  const queryClient = new QueryClient();
 
   return (
     <ConfigContext>
@@ -46,13 +44,7 @@ let App: React.FC = () => {
               translucent
             />
             <RootStackNavigator />
-            {animatedBootSplashvisible && (
-              <AnimatedBootSplash
-                onAnimationEnd={() => {
-                  setAnimatedBootSplashVisible(false);
-                }}
-              />
-            )}
+            {animatedBootSplashvisible && <AnimatedBootSplash />}
             <Toast config={toastConfig} topOffset={60} />
           </CustomNavigationContainer>
         </QueryClientProvider>
