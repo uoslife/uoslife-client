@@ -1,4 +1,11 @@
-import {useState, useEffect, useRef, useCallback, ComponentProps} from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  ComponentProps,
+  Suspense,
+} from 'react';
 import styled from '@emotion/native';
 import {Icon, IconsNameType} from '@uoslife/design-system';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -11,8 +18,11 @@ import {AnnouncementNavigationProps} from '../../navigators/AnnouncementStackNav
 import Header from '../../components/molecules/common/header/Header';
 import useModal from '../../hooks/useModal';
 import AlertSettingOverlay from '../../components/molecules/screens/announcement/modalContents/AlertSettingOverlay';
-import MainArticleListsControl from '../../components/molecules/screens/announcement/main/MainArticleListsControl';
+// import MainArticleListsControl from '../../components/molecules/screens/announcement/main/MainArticleListsControl';
 import AnimatePress from '../../components/animations/pressable_icon/AnimatePress';
+import CategoryTab from '../../components/molecules/screens/announcement/tab/CategoryTab';
+import MainArticleList from '../../components/molecules/screens/announcement/main/MainArticleList';
+import Spinner from '../../components/atoms/spinner/Spinner';
 
 // TODO: 혼재되어있는 검색 관련 로직 분리, 컴포넌트 추상화 수준 맞추기
 const AnnouncementMainScreen = () => {
@@ -147,7 +157,11 @@ const AnnouncementMainScreen = () => {
               </S.HeaderIcons>
             </Header>
             <S.CategoryTabAndContents>
-              <MainArticleListsControl />
+              {/* <MainArticleListsControl /> */}
+              <CategoryTab />
+              <Suspense fallback={<Spinner />}>
+                <MainArticleList />
+              </Suspense>
             </S.CategoryTabAndContents>
           </>
         )}

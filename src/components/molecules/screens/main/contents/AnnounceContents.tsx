@@ -1,23 +1,20 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback} from 'react';
 import {Linking, Alert, View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
-import {useAtomValue} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import {Button, Txt, colors} from '@uoslife/design-system';
 
 import URLS from '../../../../../configs/urls';
-import {categoryStatusAtom} from '../../../../../store/announcement';
-import UtilityService from '../../../../../services/utility';
-import {AnnouncementOriginNameType} from '../../../../../api/services/util/announcement/announcementAPI.type';
 
 import CardLayout from '../../../common/cardLayout/CardLayout';
 import CategoryTab from '../../announcement/tab/CategoryTab';
 import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
 import Skeleton from '../../../common/skeleton/Skeleton';
 import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
-
-const DEFAULT_GET_ANNOOUNCEMENT_SIZE = 3;
-const DEFAULT_ANNOUNCEMENT_ORIGIN = 'FA1';
+import announcementCurrentOriginAtom from '../../../../../store/announcement/announcementCurrentOrigin';
+import getAnnouncement from '../../../../../store/announcement/getAnnouncement';
+import customShowToast from '../../../../../configs/toast';
 
 const AnnounceContentsSkeleton = () => {
   return (
@@ -29,62 +26,10 @@ const AnnounceContentsSkeleton = () => {
   );
 };
 
-type AnnouncementsType = {
-  origin: AnnouncementOriginNameType;
-  contents: Array<{id: number; text: string}>;
-};
-type AnnouncementsStateType = Array<AnnouncementsType>;
-
-const findIsOriginExist = (
-  announcements: AnnouncementsStateType,
-  origin: AnnouncementOriginNameType,
-) => {
-  return announcements.some(item => item.origin === origin);
-};
-
 const AnnounceContents = () => {
-  const categoryStatus = useAtomValue(categoryStatusAtom);
   const navigation = useNavigation<RootNavigationProps>();
-
-  const [announcements, setAnnouncements] = useState<AnnouncementsStateType>();
-  const [currentOrigin, setCurrentOrigin] =
-    useState<AnnouncementOriginNameType>(DEFAULT_ANNOUNCEMENT_ORIGIN);
-  useEffect(() => {
-    (async () => {
-      const res = await UtilityService.getAnnouncementsInMainScreen(
-        DEFAULT_ANNOUNCEMENT_ORIGIN,
-        DEFAULT_GET_ANNOOUNCEMENT_SIZE,
-      );
-      if (!res) return;
-      const contentsArray = res?.content.map(item => {
-        return {id: item.id, text: item.title};
-      });
-      setAnnouncements([
-        {origin: DEFAULT_ANNOUNCEMENT_ORIGIN, contents: contentsArray},
-      ]);
-    })();
-  }, []);
-
-  useEffect(() => {
-    const origin = categoryStatus.find(item => item.isSelected === true)
-      ?.origin as AnnouncementOriginNameType;
-    setCurrentOrigin(origin);
-
-    (async () => {
-      if (announcements && findIsOriginExist(announcements, origin)) return;
-      const res = await UtilityService.getAnnouncementsInMainScreen(
-        origin,
-        DEFAULT_GET_ANNOOUNCEMENT_SIZE,
-      );
-      if (!res) return;
-      const contentsArray = res.content.map(item => {
-        return {id: item.id, text: item.title};
-      });
-      setAnnouncements(prev =>
-        prev ? [...prev, {origin, contents: contentsArray}] : undefined,
-      );
-    })();
-  }, [announcements, categoryStatus]);
+  const currentOrigin = useAtomValue(announcementCurrentOriginAtom);
+  const [{data}] = useAtom(getAnnouncement);
 
   const handlePressLinkButton = useCallback(async () => {
     const supported = await Linking.canOpenURL(URLS.UOSTORY);
@@ -92,7 +37,7 @@ const AnnounceContents = () => {
     if (supported) {
       await Linking.openURL(URLS.UOSTORY);
     } else {
-      Alert.alert(`Don't know how to open this URL: ${URLS.UOSTORY}`);
+      customShowToast('cannotOpenUrlError');
     }
   }, []);
   return (
@@ -100,27 +45,25 @@ const AnnounceContents = () => {
       <S.Container>
         <CategoryTab />
         <S.AnnounceTextWrapper>
-          {announcements?.find(item => item.origin === currentOrigin) ? (
-            announcements
-              ?.find(item => item.origin === currentOrigin)
-              ?.contents.map(item => (
-                <AnimatePress
-                  key={item.id}
-                  onPress={() =>
-                    navigation.navigate('Announcement', {
-                      screen: 'AnnouncementDetail',
-                      params: {id: item.id, origin: currentOrigin},
-                    })
-                  }
-                  variant="scale_down">
-                  <Txt
-                    label={item.text}
-                    color="grey190"
-                    typograph="bodyMedium"
-                    style={{padding: 8}}
-                  />
-                </AnimatePress>
-              ))
+          {data ? (
+            data.pages[0].content.slice(0, 3).map(item => (
+              <AnimatePress
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate('Announcement', {
+                    screen: 'AnnouncementDetail',
+                    params: {id: item.id, origin: currentOrigin},
+                  })
+                }
+                variant="scale_down">
+                <Txt
+                  label={item.title}
+                  color="grey190"
+                  typograph="bodyMedium"
+                  style={{padding: 8}}
+                />
+              </AnimatePress>
+            ))
           ) : (
             <AnnounceContentsSkeleton />
           )}

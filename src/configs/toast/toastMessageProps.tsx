@@ -18,6 +18,8 @@ const toastMessage = {
   notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
   unRegisterTwiceUserError: '회원탈퇴 이력이 2회 이상인 유저입니다.',
 
+  cannotOpenUrlError: '오류로 인해 해당 url을 열 수 없어요.',
+
   // 포털 연동 관리
   portalVerificationSuccess: '포털 연동을 성공적으로 변경했어요.',
   portalVerificationError: '포털 연동을 처리하는 중 오류가 발생했어요.',
@@ -94,6 +96,12 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     },
     autoHide: false,
   },
+  cannotOpenUrlError: {
+    type: 'error',
+    title: toastMessage.cannotOpenUrlError,
+  },
+
+  // 포털 연동 관리
   portalVerificationSuccess: {
     title: toastMessage.portalVerificationSuccess,
   },

@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/core';
 import useBookmark from '../../../../../hooks/useBookmark';
 import {AnnouncementNavigationProps} from '../../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../../../../types/announcement.type';
-import announcementFullName from '../../../../../configs/announcement';
+import {AnnouncementFullNameEnum} from '../../../../../configs/announcement';
 import ItemBookmarkToggle from './ItemBookmarkToggle';
 import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
@@ -38,7 +38,7 @@ const ArticleItem = ({
           {showCategoryName && (
             <Txt
               color="primaryBrand"
-              label={announcementFullName[origin]}
+              label={AnnouncementFullNameEnum[origin]}
               typograph="labelMedium"
             />
           )}
