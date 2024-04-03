@@ -51,14 +51,8 @@ export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
-  const {
-    hasNetworkError,
-    isMaintenance,
-    isLoggedIn,
-    setIsLoggedIn,
-    hasUpdate,
-    syncProgress,
-  } = useInitApp();
+  const {hasNetworkError, isMaintenance, isLoggedIn, setIsLoggedIn} =
+    useInitApp();
 
   /** isLoggedIn value를 감시합니다. */
   useMMKVListener(changedKey => {
@@ -68,10 +62,6 @@ const RootStackNavigator: React.FC = () => {
 
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
-  }
-
-  if (hasUpdate) {
-    return <CodePushUpdateScreen syncProgress={syncProgress} />;
   }
 
   return (

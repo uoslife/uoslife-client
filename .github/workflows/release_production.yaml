@@ -34,5 +34,8 @@ jobs:
         env:
           APP_CENTER_TOKEN: ${{ env.APP_CENTER_TOKEN }}
 
-      - name: Release to Codepush Production
-        run: appcenter codepush promote -s Alpha -d Production
+      - name: Release to Codepush iOS Production
+        run: appcenter apps set-current uoslife/UOSLIFE-iOS && appcenter codepush promote -s Alpha -d Production
+
+      - name: Release to Codepush Android Production
+        run: appcenter apps set-current uoslife/UOSLIFE-Android && appcenter codepush promote -s Alpha -d Production

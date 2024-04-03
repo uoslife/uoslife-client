@@ -1,12 +1,18 @@
-import {useState} from 'react';
-import {Animated, Dimensions} from 'react-native';
+import {useAtomValue, useSetAtom} from 'jotai';
+import {useCallback, useState} from 'react';
+import {Animated, Dimensions, View} from 'react-native';
 import BootSplash from 'react-native-bootsplash';
+import {css} from '@emotion/native';
+import {Txt} from '@uoslife/design-system';
+import bootSplashVisibleAtom from '../../store/app/bootSplashVisible';
+import syncProgressAtom from '../../store/app/codepush';
+import ProgressBar from '../../components/molecules/common/progress_bar/ProgressBar';
 
-type Props = {
-  onAnimationEnd: () => void;
-};
+const AnimatedBootSplash = () => {
+  const setAnimatedBootSplashvisible = useSetAtom(bootSplashVisibleAtom);
+  const {isUpdate, syncProgress} = useAtomValue(syncProgressAtom);
 
-const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
+  // style
   const [opacity] = useState(() => new Animated.Value(1));
   const [translateY] = useState(() => new Animated.Value(0));
 
@@ -19,6 +25,8 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
     navigationBarTranslucent: false,
 
     animate: () => {
+      if (isUpdate) return;
+
       const {height} = Dimensions.get('window');
 
       Animated.stagger(250, [
@@ -38,10 +46,15 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
         duration: 150,
         delay: 350,
       }).start(() => {
-        onAnimationEnd();
+        setAnimatedBootSplashvisible(false);
       });
     },
   });
+
+  const calculateReceivedRate = useCallback(
+    (recieved: number, total: number) => Math.floor((recieved / total) * 100),
+    [],
+  );
 
   return (
     <Animated.View {...container} style={[container.style, {opacity}]}>
@@ -49,6 +62,28 @@ const AnimatedBootSplash = ({onAnimationEnd}: Props) => {
         {...logo}
         style={[logo.style, {transform: [{translateY}]}]}
       />
+      {isUpdate && syncProgress && (
+        <View
+          style={css`
+            width: 100%;
+            padding: 42px 16px 0;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+          `}>
+          <Txt
+            label="안정적인 사용을 위해 앱을 업데이트 중이에요."
+            color="black"
+            typograph="labelLarge"
+          />
+          <ProgressBar
+            useRate={calculateReceivedRate(
+              syncProgress.receivedBytes,
+              syncProgress.totalBytes,
+            )}
+          />
+        </View>
+      )}
     </Animated.View>
   );
 };
