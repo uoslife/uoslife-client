@@ -2,7 +2,7 @@ import {Linking, View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
-import announcementFullName from '../../../../../configs/announcement';
+import {AnnouncementFullNameEnum} from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
 import useBookmark from '../../../../../hooks/useBookmark';
@@ -37,7 +37,7 @@ const AnnouncementDetailScreenContent = ({
           <Txt label={title} color="black" typograph="titleLarge" />
           <S.CategoryAndDateAndBookmarkContainer>
             <Txt
-              label={`${announcementFullName[origin]} | ${date}`}
+              label={`${AnnouncementFullNameEnum[origin]} | ${date}`}
               color="grey90"
               typograph="bodySmall"
             />

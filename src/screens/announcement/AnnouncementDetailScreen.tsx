@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Header from '../../components/molecules/common/header/Header';
 import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
 import {ArticleDetailType} from '../../types/announcement.type';
-import announcementFullName from '../../configs/announcement';
+import {AnnouncementFullNameEnum} from '../../configs/announcement';
 import AnnouncementAPI from '../../api/services/util/announcement/announcementAPI';
 import AnnouncementDetailScreenContent from '../../components/molecules/screens/announcement/detail/AnnouncementDetailScreenContent';
 import Spinner from '../../components/atoms/spinner/Spinner';
@@ -55,7 +55,7 @@ const AnnouncementDetailScreen = ({
     return (
       <S.Root style={{paddingTop: insets.top}}>
         <Header
-          label={announcementFullName[origin]}
+          label={AnnouncementFullNameEnum[origin]}
           onPressBackButton={handleGoBack}
         />
         <LoadingFailed onRefresh={onRefresh} />
@@ -67,7 +67,7 @@ const AnnouncementDetailScreen = ({
     return (
       <S.Root style={{paddingTop: insets.top}}>
         <Header
-          label={announcementFullName[origin]}
+          label={AnnouncementFullNameEnum[origin]}
           onPressBackButton={handleGoBack}
         />
         <Spinner />
@@ -78,7 +78,7 @@ const AnnouncementDetailScreen = ({
   return (
     <S.Root style={{paddingTop: insets.top}}>
       <Header
-        label={announcementFullName[origin]}
+        label={AnnouncementFullNameEnum[origin]}
         onPressBackButton={handleGoBack}
       />
       <ScrollView

@@ -1,46 +1,39 @@
-import styled from '@emotion/native';
 import React from 'react';
 import {useAtom} from 'jotai';
-import {
-  AnnouncmentCategoryOriginType,
-  categoryStatusAtom,
-} from '../../../../../store/announcement';
+import styled from '@emotion/native';
+
 import TabButton from './TabButton';
+import {
+  AnnouncementOriginEnum,
+  AnnouncementOriginNameType,
+  AnnouncementOrigins,
+} from '../../../../../configs/announcement';
+import announcementCurrentOriginAtom from '../../../../../store/announcement/announcementCurrentOrigin';
 
-const CategoryTab = ({
-  tabPressAdditionalAction,
-}: {
-  tabPressAdditionalAction?: (origin: AnnouncmentCategoryOriginType) => void;
-}) => {
-  const [categoryStatus, setCategoryStatus] = useAtom(categoryStatusAtom);
+type Props = {
+  tabPressAdditionalAction?: (origin: AnnouncementOriginNameType) => void;
+};
 
-  const changeCategory = (origin: AnnouncmentCategoryOriginType) => {
-    setCategoryStatus(prev => {
-      return prev.map(item =>
-        origin === item.origin
-          ? {...item, isSelected: true}
-          : {...item, isSelected: false},
-      );
-    });
-  };
+const CategoryTab = ({tabPressAdditionalAction}: Props) => {
+  const [currentOrigin, setCurrentOrigin] = useAtom(
+    announcementCurrentOriginAtom,
+  );
 
-  const handlePressTab = (origin: AnnouncmentCategoryOriginType) => {
-    changeCategory(origin);
+  const handlePressTab = (origin: AnnouncementOriginNameType) => {
+    setCurrentOrigin(origin);
     tabPressAdditionalAction?.(origin);
   };
 
   return (
     <S.Container>
-      {categoryStatus.map(item => {
-        return (
-          <TabButton
-            key={item.origin}
-            label={item.name}
-            isSelected={item.isSelected}
-            onPress={() => handlePressTab(item.origin)}
-          />
-        );
-      })}
+      {AnnouncementOrigins.map(origin => (
+        <TabButton
+          key={origin}
+          label={AnnouncementOriginEnum[origin]}
+          isSelected={origin === currentOrigin}
+          onPress={() => handlePressTab(origin)}
+        />
+      ))}
     </S.Container>
   );
 };

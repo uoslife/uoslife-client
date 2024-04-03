@@ -1,9 +1,8 @@
+import {AnnouncementOriginNameType} from '../../../../configs/announcement';
 import {
   ArticleDetailType,
   ArticleItemType,
 } from '../../../../types/announcement.type';
-
-export type AnnouncementOriginNameType = 'FA1' | 'FA2' | 'FA34' | 'FA35';
 
 type AnnouncementPageableParamsType = {
   page: number;
