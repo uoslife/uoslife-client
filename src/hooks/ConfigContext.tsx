@@ -39,7 +39,6 @@ const ConfigContextProvider: React.FC<PropsWithChildren> = ({children}) => {
     () => environment === 'production',
     [environment],
   );
-
   useEffect(() => {
     (async () => {
       try {

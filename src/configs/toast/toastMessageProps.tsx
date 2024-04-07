@@ -30,6 +30,9 @@ const toastMessage = {
   loginDurationExpiredInfo: '로그인 기한이 만료되었어요.',
 
   // qrCodeInfection: '학생증 QR 코드는 현재 점검 중이에요!',
+
+  // alpha environment
+  alphaEnvironmentInfo: 'Alpha 환경에서 앱이 실행되었어요.',
 };
 const toastMessageSubTitle = {
   waitForRestart: '잠시후 다시 시도해주세요.',
@@ -131,5 +134,11 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   //   visibilityTime: 3000,
   //   title: toastMessage.qrCodeInfection,
   // },
+  // alpha environment
+  alphaEnvironmentInfo: {
+    type: 'info',
+    visibilityTime: 6000,
+    title: toastMessage.alphaEnvironmentInfo,
+  },
 };
 export default toastMessageProps;
