@@ -16,9 +16,10 @@ import useUserState from './useUserState';
 import bootSplashVisibleAtom from '../store/app/bootSplashVisible';
 import initLoadingAtom from '../store/app/initLoading';
 import syncProgressAtom from '../store/app/codepush';
+import customShowToast from '../configs/toast';
 
 const useInitApp = () => {
-  const {config, isLoading, hasNetworkError} = useConfigContext();
+  const {config, isLoading, hasNetworkError, environment} = useConfigContext();
   const isMaintenance = useMemo(
     () => config.get('app.block') !== 'NO',
     [config],
@@ -81,8 +82,9 @@ const useInitApp = () => {
     checkForUpdateCodePush().finally(() => {
       setIsServiceInitLoading(false);
       storage.set('isNotFirstLoading', true);
+      if (environment === 'alpha') customShowToast('alphaEnvironmentInfo');
     });
-  }, [checkForUpdateCodePush]);
+  }, [checkForUpdateCodePush, environment]);
 
   const setAuthenticationSuccess = useCallback(async () => {
     storage.set('isLoggedIn', true);
