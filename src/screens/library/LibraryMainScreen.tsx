@@ -10,13 +10,18 @@ import LibrarySeatStatus from '../../components/molecules/screens/library/Libara
 import Header from '../../components/molecules/common/header/Header';
 import LibraryUsageHistory from '../../components/molecules/screens/library/LibraryUsageHistory';
 import {isFocusedLibraryAtom} from '../../store/library';
+import {LibraryMainScreenProps} from '../../navigators/types/library';
 
-const LibraryScreen = () => {
+const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
+  const initialStatus = (params?.status ?? 'MY_SEAT') satisfies
+    | 'MY_SEAT'
+    | 'SEAT_LIST'
+    | 'RECORD';
+
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const setIsFocusedLibraryScreen = useSetAtom(isFocusedLibraryAtom);
-
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -38,7 +43,7 @@ const LibraryScreen = () => {
   );
 };
 
-export default LibraryScreen;
+export default LibraryMainScreen;
 
 const S = {
   ScreenContainer: styled.View`
