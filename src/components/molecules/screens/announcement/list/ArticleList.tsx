@@ -1,23 +1,52 @@
-import {forwardRef} from 'react';
-import {Dimensions, ListRenderItem} from 'react-native';
+import {forwardRef, useCallback, useState} from 'react';
+import {Dimensions, ListRenderItem, RefreshControl} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
+import {DefinedInfiniteQueryObserverResult} from '@tanstack/react-query';
 import ArticleItem from './ArticleItem';
 import {ArticleItemType} from '../../../../../types/announcement.type';
+
+const REFRESH_STOP_TIME = 0.5 * 1000;
 
 type ArticleListProps = {
   articles: ArticleItemType[];
   showCategoryName?: boolean;
   ListFooterComponent: JSX.Element | null;
   onEndReached: () => void;
+  refetch?: DefinedInfiniteQueryObserverResult['refetch'];
 };
 
 const {width} = Dimensions.get('window');
 
 const ArticleList = forwardRef<FlatList, ArticleListProps>(
   (
-    {articles, showCategoryName = true, ListFooterComponent, onEndReached},
+    {
+      articles,
+      showCategoryName = true,
+      ListFooterComponent,
+      onEndReached,
+      refetch,
+    },
     ref,
   ) => {
+    // pull to refresh
+    const [refreshing, setRefreshing] = useState(false);
+    const setRefreshFinish = () =>
+      setTimeout(() => {
+        setRefreshing(false);
+      }, REFRESH_STOP_TIME);
+
+    const onRefresh = useCallback(() => {
+      if (!refetch) return;
+      setRefreshing(true);
+      try {
+        refetch();
+      } catch (err) {
+        setRefreshFinish();
+      }
+      setRefreshFinish();
+    }, [refetch]);
+
+    // render item
     const renderItem: ListRenderItem<any> = ({item}) => (
       <ArticleItem
         showCategoryName={showCategoryName}
@@ -28,6 +57,11 @@ const ArticleList = forwardRef<FlatList, ArticleListProps>(
 
     return (
       <FlatList
+        refreshControl={
+          refetch ? (
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          ) : undefined
+        }
         style={{width}}
         ref={ref}
         scrollIndicatorInsets={{right: 1}}

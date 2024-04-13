@@ -29,7 +29,6 @@ import {
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
-import CodePushUpdateScreen from '../screens/etc/CodePushUpdateScreen';
 import LibraryRecapScreen from '../screens/LibraryRecapScreen';
 
 export type RootStackParamList = {
