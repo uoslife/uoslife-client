@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {Txt} from '@uoslife/design-system';
+import {Button, Txt} from '@uoslife/design-system';
 import {useAtom} from 'jotai';
 
 import LibraryCircleTimer from './LibraryCircleTimer';
@@ -77,6 +77,16 @@ const LibraryUserInfo = () => {
           )}
         </S.InformationTextWrapper>
       ) : null}
+      {data.reservationInfo ? (
+        <S.ButtonWrapper>
+          <Button label="좌석 연장하기" isFullWidth isRounded />
+          <Button label="좌석 반납하기" isFullWidth isRounded />
+        </S.ButtonWrapper>
+      ) : (
+        <S.ButtonWrapper>
+          <Button label="좌석 발권하기" isFullWidth isRounded />
+        </S.ButtonWrapper>
+      )}
     </S.userInfoWrapper>
   );
 };
@@ -87,12 +97,18 @@ const S = {
   userInfoWrapper: styled.View`
     align-items: center;
     width: 100%;
-    padding-top: 20px;
+    padding: 20px 16px 0px;
     gap: 24px;
   `,
   InformationTextWrapper: styled.View`
     gap: 8px;
     width: 100%;
     padding: 0 32px;
+  `,
+  ButtonWrapper: styled.View`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   `,
 };
