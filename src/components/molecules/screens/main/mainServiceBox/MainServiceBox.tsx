@@ -24,7 +24,9 @@ const MainServiceBox = ({
         navigation.navigate('Cafeteria');
         break;
       case 'campaign':
-        navigation.navigate('Announcement');
+        navigation.navigate('Announcement', {
+          screen: 'AnnouncementMain',
+        });
         break;
       default:
         break;

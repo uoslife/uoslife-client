@@ -11,7 +11,6 @@ import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
 import AnnouncementStackNavigator, {
   AnnouncementStackParamList,
 } from './AnnouncementStackNavigator';
-import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
 import MypageStackNavigator, {
@@ -30,12 +29,14 @@ import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenti
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
 import LibraryRecapScreen from '../screens/LibraryRecapScreen';
+import LibraryStackNavigator from './LibraryStackNavigator';
+import {LibraryStackParamList} from './types/library';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
-  Mypage: MypageStackParamList;
-  Announcement: AnnouncementStackParamList;
-  Library: undefined;
+  Mypage: NavigatorScreenParams<MypageStackParamList>;
+  Announcement: NavigatorScreenParams<AnnouncementStackParamList>;
+  Library: NavigatorScreenParams<LibraryStackParamList>;
   Cafeteria: undefined;
   StudentId_PortalAuthentication: undefined;
   LibraryRecap: undefined;
@@ -79,7 +80,7 @@ const RootStackNavigator: React.FC = () => {
             name="Announcement"
             component={AnnouncementStackNavigator}
           />
-          <Stack.Screen name="Library" component={LibraryScreen} />
+          <Stack.Screen name="Library" component={LibraryStackNavigator} />
           <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
           <Stack.Screen
             name="StudentId_PortalAuthentication"
