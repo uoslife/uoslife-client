@@ -1,22 +1,22 @@
-import styled from '@emotion/native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {useEffect} from 'react';
+import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 
-import {useEffect} from 'react';
-import {useSetAtom} from 'jotai';
-import LibraryUserInfo from '../../components/molecules/screens/library/LibraryUserInfo';
-import LibrarySeatStatus from '../../components/molecules/screens/library/LibararySeatStatus';
 import Header from '../../components/molecules/common/header/Header';
-import LibraryUsageHistory from '../../components/molecules/screens/library/LibraryUsageHistory';
 import {isFocusedLibraryAtom} from '../../store/library';
 import {LibraryMainScreenProps} from '../../navigators/types/library';
+import TabView from '../../components/molecules/common/tab_view/TabView';
+import {
+  LibraryTabsEnum,
+  LibraryTabsType,
+} from '../../configs/utility/libraryTabs';
+import MySeatScreen from './main_screen/MySeatScreen';
+import RecordScreen from './main_screen/RecordScreen';
+import SeatListScreen from './main_screen/SeatListScreen';
 
 const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
-  const initialStatus = (params?.status ?? 'MY_SEAT') satisfies
-    | 'MY_SEAT'
-    | 'SEAT_LIST'
-    | 'RECORD';
+  const initialStatus = (params?.status ?? 'MY_SEAT') satisfies LibraryTabsType;
 
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
@@ -32,24 +32,32 @@ const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
   }, [isFocused, setIsFocusedLibraryScreen]);
 
   return (
-    <ScrollView style={{paddingTop: insets.top}} bounces={false}>
-      <S.ScreenContainer>
-        <Header label="도서관" onPressBackButton={handleGoBack} />
-        <LibraryUserInfo />
-        <LibraryUsageHistory />
-        <LibrarySeatStatus />
-      </S.ScreenContainer>
-    </ScrollView>
+    // <LibrarySeatStatus />
+    <>
+      <Header
+        label="도서관"
+        onPressBackButton={handleGoBack}
+        style={{paddingTop: insets.top}}
+      />
+      <TabView initialStatus={initialStatus}>
+        <TabView.Screen
+          tabKey="MY_SEAT"
+          tabTitle={LibraryTabsEnum.MY_SEAT}
+          component={<MySeatScreen />}
+        />
+        <TabView.Screen
+          tabKey="SEAT_LIST"
+          tabTitle={LibraryTabsEnum.SEAT_LIST}
+          component={<SeatListScreen />}
+        />
+        <TabView.Screen
+          tabKey="RECORD"
+          tabTitle={LibraryTabsEnum.RECORD}
+          component={<RecordScreen />}
+        />
+      </TabView>
+    </>
   );
 };
 
 export default LibraryMainScreen;
-
-const S = {
-  ScreenContainer: styled.View`
-    height: 100%;
-    width: 100%;
-    align-items: center;
-    padding-bottom: 70px;
-  `,
-};
