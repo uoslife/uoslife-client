@@ -16,26 +16,36 @@ const EventScreen = () => {
   return (
     <S.screenContainer>
       <S.DescriptionWrapper>
-        <S.TopContainer>
+        <S.TxtContainer>
           <Txt
-            label={'도서관  이벤트'}
-            color="primaryBrand"
+            label={'도서관 이벤트'}
+            color="grey190"
             typograph="headlineLarge"
+            style={{textAlign: 'center'}}
           />
-          <S.ImageContainer
-            source={require('../../assets/images/library_iroomae.png')}
+          <Txt
+            label={
+              '시험 기간 동안의 도서관 이용을 통해\n 도전과제를 달성하고 시대생 유저들과\n 순위 경쟁을 벌여보세요.'
+            }
+            color="grey190"
+            typograph="bodyMedium"
+            style={{textAlign: 'center'}}
           />
-        </S.TopContainer>
-        <Button
-          label="순위 보기"
-          isFullWidth
-          onPress={() => handleOnpressButton(RANK_DEEPLINK)}
-        />
-        <Button
-          label="도전 과제"
-          isFullWidth
-          onPress={() => handleOnpressButton(CHALLENGE_DEEPLINK)}
-        />
+        </S.TxtContainer>
+        <S.ButtonContainer>
+          <Button
+            label="도서관 순위"
+            isFullWidth
+            onPress={() => handleOnpressButton(RANK_DEEPLINK)}
+            isRounded={true}
+          />
+          <Button
+            label="도전과제"
+            isFullWidth
+            onPress={() => handleOnpressButton(CHALLENGE_DEEPLINK)}
+            isRounded={true}
+          />
+        </S.ButtonContainer>
       </S.DescriptionWrapper>
     </S.screenContainer>
   );
@@ -46,7 +56,6 @@ export default EventScreen;
 const S = {
   screenContainer: styled.View`
     flex: 1;
-    background-color: ${colors.primaryLighterAlt};
     padding-top: 164px;
     height: 100%;
     align-items: center;
@@ -56,17 +65,21 @@ const S = {
     width: 135px;
     height: 135px;
   `,
-  TopContainer: styled.View`
+  TxtContainer: styled.View`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 32px;
+    text-align: center;
+    gap: 16px;
+  `,
+  ButtonContainer: styled.View`
+    gap: 12px;
   `,
   DescriptionWrapper: styled.View`
     flex-direction: column;
     padding: 0 20px;
     width: 100%;
     justify-content: center;
-    gap: 32px;
+    gap: 88px;
   `,
 };
