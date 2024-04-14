@@ -1,5 +1,7 @@
+import LibraryManageSeat from '../../../components/molecules/screens/library/LibraryManageSeat';
+
 const SeatListScreen = () => {
-  return <></>;
+  return <LibraryManageSeat />;
 };
 
 export default SeatListScreen;
