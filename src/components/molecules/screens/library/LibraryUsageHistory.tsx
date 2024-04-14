@@ -1,6 +1,6 @@
 import {Suspense} from 'react';
 import styled from '@emotion/native';
-import {Icon, Txt} from '@uoslife/design-system';
+import {Button, Icon, Txt} from '@uoslife/design-system';
 import {useSuspenseQuery} from '@tanstack/react-query';
 
 import CardLayout from '../../common/cardLayout/CardLayout';
@@ -16,6 +16,13 @@ const LibraryUsageHistory = () => {
 
   return (
     <S.Container>
+      <S.EventWrapper>
+        <S.TitleWrapper>
+          <Txt label="도서관 이벤트" color="grey190" typograph="titleLarge" />
+        </S.TitleWrapper>
+        <Button label="도서관 순위" isFullWidth isRounded />
+        <Button label="도전과제" isFullWidth isRounded />
+      </S.EventWrapper>
       <S.TitleWrapper>
         <Txt
           label="올해의 도서관 이용 내역"
@@ -100,7 +107,7 @@ export default LibraryUsageHistory;
 const S = {
   Container: styled.View`
     width: 100%;
-    padding: 48px 16px 0 16px;
+    padding: 24px 16px 0 16px;
     gap: 12px;
   `,
   LibraryHistoryCardWrapper: styled.View`
@@ -125,5 +132,11 @@ const S = {
   `,
   CardTextWrapper: styled.View`
     flex-direction: row;
+  `,
+  EventWrapper: styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 48px;
   `,
 };
