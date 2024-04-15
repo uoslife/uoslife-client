@@ -41,7 +41,6 @@ const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
   }, [isFocused, setIsFocusedLibraryScreen]);
 
   return (
-    // <LibrarySeatStatus />
     <>
       <Header
         label="도서관"

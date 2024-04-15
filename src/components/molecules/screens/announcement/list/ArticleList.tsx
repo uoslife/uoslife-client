@@ -4,6 +4,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {DefinedInfiniteQueryObserverResult} from '@tanstack/react-query';
 import ArticleItem from './ArticleItem';
 import {ArticleItemType} from '../../../../../types/announcement.type';
+import usePullToRefresh from '../../../../../hooks/usePullToRefresh';
 
 const REFRESH_STOP_TIME = 0.5 * 1000;
 
@@ -29,22 +30,9 @@ const ArticleList = forwardRef<FlatList, ArticleListProps>(
     ref,
   ) => {
     // pull to refresh
-    const [refreshing, setRefreshing] = useState(false);
-    const setRefreshFinish = () =>
-      setTimeout(() => {
-        setRefreshing(false);
-      }, REFRESH_STOP_TIME);
-
-    const onRefresh = useCallback(() => {
-      if (!refetch) return;
-      setRefreshing(true);
-      try {
-        refetch();
-      } catch (err) {
-        setRefreshFinish();
-      }
-      setRefreshFinish();
-    }, [refetch]);
+    const {onRefresh, refreshing} = usePullToRefresh(() =>
+      refetch ? refetch() : undefined,
+    );
 
     // render item
     const renderItem: ListRenderItem<any> = ({item}) => (
