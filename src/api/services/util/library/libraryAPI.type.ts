@@ -1,3 +1,5 @@
+import {LibraryRoomStatusTabsType} from '../../../../configs/utility/libraryTabs';
+
 export type LibraryStatusType = {
   type: LibraryStatusTypeType;
   item: Array<LibraryStatusItemType>;
@@ -52,6 +54,10 @@ export type LibraryReservationType = {
 export type GetAllLibraryStatusParams = {};
 
 export type GetAllLibraryStatusRes = Array<LibraryStatusType>;
+
+export type GetLibraryRoomStatusParams = {type: LibraryRoomStatusTabsType};
+
+export type GetLibraryRoomStatusRes = {item: Array<LibraryStatusItemType>};
 
 export type GetLibraryReservationParams = {};
 

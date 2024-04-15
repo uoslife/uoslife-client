@@ -6,13 +6,13 @@ import {
 export type LibraryStackParamList = {
   Library_main?: {status?: 'MY_SEAT' | 'SEAT_LIST' | 'RECORD'};
   Library_ranking: undefined;
-  Library_room_status: LibraryRoomStatusStackParamList;
+  Library_room_status?: LibraryRoomStatusStackParamList;
   Library_challenge: undefined;
 };
 
 export type LibraryRoomStatusStackParamList = {
-  Library_room_status_main: {roomType: 'ECONOMY' | 'LAW' | 'CENTRAL'};
-  Library_seat_list: {roomNumber: number};
+  Library_room_status_main?: {roomType?: 'ECONOMY' | 'LAW' | 'CENTRAL'};
+  Library_seat_list: {roomNumber: string};
   Library_portal_authentication: undefined;
 };
 

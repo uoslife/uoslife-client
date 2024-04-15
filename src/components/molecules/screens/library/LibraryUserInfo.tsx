@@ -87,7 +87,7 @@ const S = {
   userInfoWrapper: styled.View`
     align-items: center;
     width: 100%;
-    padding-top: 20px;
+    padding: 20px 16px 0px;
     gap: 24px;
   `,
   InformationTextWrapper: styled.View`
