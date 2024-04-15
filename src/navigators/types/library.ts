@@ -6,7 +6,7 @@ import {
 export type LibraryStackParamList = {
   Library_main?: {status?: 'MY_SEAT' | 'SEAT_LIST' | 'RECORD'};
   Library_ranking: undefined;
-  Library_room_status: LibraryRoomStatusStackParamList;
+  Library_room_status?: LibraryRoomStatusStackParamList;
   Library_challenge: undefined;
 };
 

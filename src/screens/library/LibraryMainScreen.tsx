@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -16,12 +16,21 @@ import RecordScreen from './main_screen/RecordScreen';
 import SeatListScreen from './main_screen/SeatListScreen';
 
 const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
-  const initialStatus = (params?.status ?? 'MY_SEAT') satisfies LibraryTabsType;
-
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const setIsFocusedLibraryScreen = useSetAtom(isFocusedLibraryAtom);
+
+  const initialStatus = useMemo(
+    () => (params?.status ?? 'MY_SEAT') satisfies LibraryTabsType,
+    [params?.status],
+  );
+  const initialIndex = useMemo(
+    () => Object.keys(LibraryTabsEnum).findIndex(i => i.match(initialStatus)),
+    [initialStatus],
+  );
+  const [index, setIndex] = useState(initialIndex);
+
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -39,11 +48,11 @@ const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
         onPressBackButton={handleGoBack}
         style={{paddingTop: insets.top}}
       />
-      <TabView initialStatus={initialStatus}>
+      <TabView index={index} setIndex={setIndex}>
         <TabView.Screen
           tabKey="MY_SEAT"
           tabTitle={LibraryTabsEnum.MY_SEAT}
-          component={<MySeatScreen />}
+          component={<MySeatScreen redirectSeatList={() => setIndex(1)} />}
         />
         <TabView.Screen
           tabKey="SEAT_LIST"
