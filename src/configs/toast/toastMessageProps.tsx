@@ -20,7 +20,7 @@ const toastMessage = {
   unRegisterTwiceUserError: '회원탈퇴 이력이 2회 이상인 유저입니다.',
 
   // utils
-  preparingLibraryReservationInfo: '해당 공간은 준비 중이에요.',
+  preparingLibraryReservationInfo: '해당 열람실은 서비스 준비 중이에요.',
 
   // etc
   cannotOpenUrlError: '오류로 인해 해당 url을 열 수 없어요.',
