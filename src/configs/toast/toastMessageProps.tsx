@@ -3,6 +3,7 @@ import {ShowToastProps} from '.';
 import urls from '../urls';
 
 const toastMessage = {
+  // core
   logout: '로그아웃에 성공했어요.',
   unregister: '회원탈퇴에 성공했어요.',
   unregisterError: '회원탈퇴를 처리하는 중 문제가 발생했어요.',
@@ -18,6 +19,10 @@ const toastMessage = {
   notificationError: '알림 설정을 처리하는 중 문제가 발생했어요.',
   unRegisterTwiceUserError: '회원탈퇴 이력이 2회 이상인 유저입니다.',
 
+  // utils
+  preparingLibraryReservationInfo: '해당 공간은 준비 중이에요.',
+
+  // etc
   cannotOpenUrlError: '오류로 인해 해당 url을 열 수 없어요.',
 
   // 포털 연동 관리
@@ -43,6 +48,7 @@ const toastMessageSubTitle = {
 export type ToastMessageType = keyof typeof toastMessage;
 
 const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
+  // core
   logout: {
     title: toastMessage.logout,
   },
@@ -99,6 +105,14 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     },
     autoHide: false,
   },
+
+  // utils
+
+  preparingLibraryReservationInfo: {
+    title: toastMessage.preparingLibraryReservationInfo,
+  },
+
+  // etc
   cannotOpenUrlError: {
     type: 'error',
     title: toastMessage.cannotOpenUrlError,
