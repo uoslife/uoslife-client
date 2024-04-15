@@ -6,6 +6,10 @@ export default interface LibraryService {
     Type.GetAllLibraryStatusParams,
     Type.GetAllLibraryStatusRes
   >;
+  getLibraryRoomStatus: ServiceFunc<
+    Type.GetLibraryRoomStatusParams,
+    Type.GetLibraryRoomStatusRes
+  >;
   getLibraryReservation: ServiceFunc<
     Type.GetLibraryReservationParams,
     Type.GetLibraryReservationRes
