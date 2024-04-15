@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import {colors} from '@uoslife/design-system';
-import {Children, PropsWithChildren, useState} from 'react';
+import {Children, PropsWithChildren} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {TabView as RNTabView, SceneMap, TabBar} from 'react-native-tab-view';
 
@@ -11,23 +11,25 @@ type TabViewScreenProps = {
   tabTitle: string;
   component: React.ReactNode;
 };
-type TabViewProps = PropsWithChildren & {initialStatus: string};
+
+type TabViewProps = PropsWithChildren & {
+  index: number;
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
+};
 
 const Screen = ({component}: TabViewScreenProps) => {
   return component;
 };
 
-const TabView = ({children, initialStatus}: TabViewProps) => {
+const TabView = ({children, index, setIndex}: TabViewProps) => {
+  const layout = useWindowDimensions();
+
   // @ts-ignore
   const routes = Children.toArray(children).map(({props}) => {
     const {tabKey, tabTitle, component} = props as TabViewScreenProps;
     return {key: tabKey, title: tabTitle, component};
   });
   const renderScene = SceneMap(transformSceneMap(routes));
-
-  const layout = useWindowDimensions();
-  const initialIndex = routes.findIndex(i => i.key === initialStatus);
-  const [index, setIndex] = useState(initialIndex);
 
   return (
     <RNTabView
