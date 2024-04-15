@@ -6,9 +6,14 @@ import {Icon, Txt, colors} from '@uoslife/design-system';
 import HeaderProps from './Header.type';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
-const Header = ({label, onPressBackButton, children}: HeaderProps) => {
+const Header = ({
+  label,
+  onPressBackButton,
+  children,
+  ...props
+}: HeaderProps) => {
   return (
-    <S.headerContainter>
+    <S.headerContainter {...props}>
       <AnimatePress onPress={onPressBackButton} variant="scale_up">
         <S.buttonArea>
           <Icon name="backArrow" width={24} height={24} color="grey130" />

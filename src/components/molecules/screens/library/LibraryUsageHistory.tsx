@@ -99,8 +99,6 @@ export default LibraryUsageHistory;
 
 const S = {
   Container: styled.View`
-    width: 100%;
-    padding: 48px 16px 0 16px;
     gap: 12px;
   `,
   LibraryHistoryCardWrapper: styled.View`
