@@ -1,53 +1,138 @@
 import styled from '@emotion/native';
 import {Button, Txt, colors} from '@uoslife/design-system';
-import {View, Linking} from 'react-native';
-import useUserState from '../../hooks/useUserState';
+import {useNavigation} from '@react-navigation/native';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
+import {ScrollView, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const RANK_DEEPLINK = 'uoslife://rank';
-const CHALLENGE_DEEPLINK = 'uoslife://challenge';
-
-type DeepLinkType = typeof RANK_DEEPLINK | typeof CHALLENGE_DEEPLINK;
+type navigationType = 'Library_challenge' | 'Library_ranking';
 
 const EventScreen = () => {
-  const handleOnpressButton = async (deepLink: DeepLinkType): Promise<void> => {
-    await Linking.openURL(deepLink);
+  const navigation = useNavigation<RootNavigationProps>();
+  const insets = useSafeAreaInsets();
+  const handleOnpressButton = async (path: navigationType): Promise<void> => {
+    switch (path) {
+      case 'Library_challenge':
+        navigation.navigate('Library', {
+          screen: 'Library_challenge',
+        });
+        break;
+      case 'Library_ranking':
+        navigation.navigate('Library', {
+          screen: 'Library_ranking',
+        });
+        break;
+    }
   };
 
   return (
-    <S.screenContainer>
-      <S.DescriptionWrapper>
-        <S.TxtContainer>
-          <Txt
-            label={'도서관 이벤트'}
-            color="grey190"
-            typograph="headlineLarge"
-            style={{textAlign: 'center'}}
-          />
-          <Txt
-            label={
-              '시험 기간 동안의 도서관 이용을 통해\n 도전과제를 달성하고 시대생 유저들과\n 순위 경쟁을 벌여보세요.'
-            }
-            color="grey190"
-            typograph="bodyMedium"
-            style={{textAlign: 'center'}}
-          />
-        </S.TxtContainer>
-        <S.ButtonContainer>
-          <Button
-            label="도서관 순위"
-            isFullWidth
-            onPress={() => handleOnpressButton(RANK_DEEPLINK)}
-            isRounded={true}
-          />
-          <Button
-            label="도전과제"
-            isFullWidth
-            onPress={() => handleOnpressButton(CHALLENGE_DEEPLINK)}
-            isRounded={true}
-          />
-        </S.ButtonContainer>
-      </S.DescriptionWrapper>
-    </S.screenContainer>
+    <ScrollView>
+      <S.screenContainer style={{paddingTop: insets.top + 16}}>
+        <S.ImageContainer
+          source={require('../../assets/images/iroomae_event_page.png')}
+        />
+        <S.DescriptionWrapper>
+          <S.TxtContainer>
+            <View style={{gap: 8}}>
+              <S.CategoryContainer>
+                <S.CategoryContent>
+                  <Txt
+                    label={'#도서관 좌석 서비스 도입'}
+                    color="grey190"
+                    typograph="labelSmall"
+                    style={{textAlign: 'center'}}
+                  />
+                </S.CategoryContent>
+                <S.CategoryContent>
+                  <Txt
+                    label={'#도서관 순위'}
+                    color="grey190"
+                    typograph="labelSmall"
+                    style={{textAlign: 'center'}}
+                  />
+                </S.CategoryContent>
+                <S.CategoryContent>
+                  <Txt
+                    label={'#도전 과제'}
+                    color="grey190"
+                    typograph="labelSmall"
+                    style={{textAlign: 'center'}}
+                  />
+                </S.CategoryContent>
+              </S.CategoryContainer>
+              <Txt
+                label={'도서관 이벤트'}
+                color="grey190"
+                typograph="headlineLarge"
+                style={{textAlign: 'center', fontSize: 44, lineHeight: 53}}
+              />
+              <Txt
+                label={'4월18일 - 31일'}
+                color="grey190"
+                typograph="bodyLarge"
+                style={{textAlign: 'center', fontSize: 22, lineHeight: 26}}
+              />
+            </View>
+            <View style={{alignItems: 'center'}}>
+              <S.TxtWrapper>
+                <Txt
+                  label={'시험 기간 동안의 도서관 이용을 통해'}
+                  color="grey190"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+                <Txt
+                  label={'도전과제를'}
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+              </S.TxtWrapper>
+              <S.TxtWrapper>
+                <Txt
+                  label={'달성'}
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+                <Txt
+                  label={'하고 시대생'}
+                  color="grey190"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+                <Txt
+                  label={'유저들과 순위 경쟁'}
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+                <Txt
+                  label={'을 벌여보세요.'}
+                  color="grey190"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
+                />
+              </S.TxtWrapper>
+            </View>
+          </S.TxtContainer>
+          <S.ButtonContainer>
+            <Button
+              label="도서관 순위"
+              isFullWidth
+              onPress={() => handleOnpressButton('Library_ranking')}
+              isRounded={true}
+            />
+            <Button
+              label="도전과제"
+              isFullWidth
+              onPress={() => handleOnpressButton('Library_challenge')}
+              isRounded={true}
+            />
+          </S.ButtonContainer>
+        </S.DescriptionWrapper>
+      </S.screenContainer>
+    </ScrollView>
   );
 };
 
@@ -56,21 +141,30 @@ export default EventScreen;
 const S = {
   screenContainer: styled.View`
     flex: 1;
-    padding-top: 164px;
+    padding-top: 80px;
     height: 100%;
-    align-items: center;
-    gap: 60px;
   `,
   ImageContainer: styled.Image`
-    width: 135px;
-    height: 135px;
+    width: 100%;
+    height: 300px;
+  `,
+  CategoryContainer: styled.View`
+    flex-direction: row;
+    gap: 8px;
+  `,
+  CategoryContent: styled.View`
+    padding: 8px;
+    border-radius: 16px;
+    background-color: ${colors.secondaryLight};
   `,
   TxtContainer: styled.View`
-    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 16px;
+    margin: 16px;
+  `,
+  TxtWrapper: styled.View`
+    flex-direction: row;
   `,
   ButtonContainer: styled.View`
     gap: 12px;
@@ -80,6 +174,6 @@ const S = {
     padding: 0 20px;
     width: 100%;
     justify-content: center;
-    gap: 88px;
+    gap: 40px;
   `,
 };

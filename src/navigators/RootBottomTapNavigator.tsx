@@ -44,12 +44,6 @@ const tabs: TabScreenItemType[] = [
     label: '학생증',
     icon: 'studentId',
   },
-  // {
-  //   component: RedirectLibraryRecapScreen,
-  //   screenName: 'ThirdTab',
-  //   label: '도서관',
-  //   icon: 'library',
-  // },
   {
     component: EventScreen,
     screenName: 'ThirdTab',
