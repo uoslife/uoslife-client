@@ -1,6 +1,6 @@
 import {LibrarySeatListScreenProps} from '../../../navigators/types/library';
 
-const LibrarySeatListScreen = ({
+const LibrarySeatingChartScreen = ({
   route: {
     params: {roomNumber},
   },
@@ -8,4 +8,4 @@ const LibrarySeatListScreen = ({
   return <></>;
 };
 
-export default LibrarySeatListScreen;
+export default LibrarySeatingChartScreen;

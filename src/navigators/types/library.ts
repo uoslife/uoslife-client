@@ -12,7 +12,7 @@ export type LibraryStackParamList = {
 
 export type LibraryRoomStatusStackParamList = {
   Library_room_status_main?: {roomType?: 'ECONOMY' | 'LAW' | 'CENTRAL'};
-  Library_seat_list: {roomNumber: string};
+  Library_seating_chart: {roomNumber: string};
   Library_portal_authentication: undefined;
 };
 
@@ -33,5 +33,5 @@ export type LibraryRoomStatusScreenProps = NativeStackScreenProps<
 >;
 export type LibrarySeatListScreenProps = NativeStackScreenProps<
   LibraryRoomStatusStackParamList,
-  'Library_seat_list'
+  'Library_seating_chart'
 >;
