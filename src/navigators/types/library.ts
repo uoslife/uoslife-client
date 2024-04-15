@@ -11,8 +11,8 @@ export type LibraryStackParamList = {
 };
 
 export type LibraryRoomStatusStackParamList = {
-  Library_room_status_main: {roomType: 'ECONOMY' | 'LAW' | 'CENTRAL'};
-  Library_seat_list: {roomNumber: number};
+  Library_room_status_main?: {roomType?: 'ECONOMY' | 'LAW' | 'CENTRAL'};
+  Library_seat_list: {roomNumber: string};
   Library_portal_authentication: undefined;
 };
 
