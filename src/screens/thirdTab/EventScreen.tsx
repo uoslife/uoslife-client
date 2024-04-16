@@ -10,24 +10,22 @@ type navigationType = 'Library_challenge' | 'Library_ranking';
 const EventScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const insets = useSafeAreaInsets();
-  const handleOnpressButton = async (path: navigationType): Promise<void> => {
+  const handleOnpressButton = (path: navigationType) => {
     switch (path) {
       case 'Library_challenge':
-        navigation.navigate('Library', {
+        return navigation.navigate('Library', {
           screen: 'Library_challenge',
         });
-        break;
       case 'Library_ranking':
-        navigation.navigate('Library', {
+        return navigation.navigate('Library', {
           screen: 'Library_ranking',
         });
-        break;
     }
   };
 
   return (
     <ScrollView>
-      <S.screenContainer style={{paddingTop: insets.top + 16}}>
+      <S.ScreenContainer style={{paddingTop: insets.top + 16}}>
         <S.ImageContainer
           source={require('../../assets/images/iroomae_event_page.png')}
         />
@@ -131,7 +129,7 @@ const EventScreen = () => {
             />
           </S.ButtonContainer>
         </S.DescriptionWrapper>
-      </S.screenContainer>
+      </S.ScreenContainer>
     </ScrollView>
   );
 };
@@ -139,7 +137,7 @@ const EventScreen = () => {
 export default EventScreen;
 
 const S = {
-  screenContainer: styled.View`
+  ScreenContainer: styled.View`
     flex: 1;
     padding-top: 80px;
     height: 100%;
