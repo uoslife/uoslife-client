@@ -19,7 +19,7 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
     <>
       <S.Container>
         <LibraryUserInfo />
-        {!data.reservationInfo ? (
+        {data.reservationInfo ? (
           <S.ButtonWrapper>
             <Button label="좌석 연장하기" isFullWidth isRounded />
             <Button
