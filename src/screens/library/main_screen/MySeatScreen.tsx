@@ -1,33 +1,73 @@
 import {useAtom} from 'jotai';
 import styled from '@emotion/native';
-import {Button} from '@uoslife/design-system';
+import {Button, Txt, colors} from '@uoslife/design-system';
 
 import libraryReservationAtom from '../../../store/library';
 import LibraryUserInfo from '../../../components/molecules/screens/library/LibraryUserInfo';
+import useModal from '../../../hooks/useModal';
 
 type Props = {redirectSeatList: () => void};
 
 const MySeatScreen = ({redirectSeatList}: Props) => {
   const [{data}] = useAtom(libraryReservationAtom);
+  const [openExtendModal, closeExtendModal, ExtendModal] = useModal('MODAL');
+
+  const handleOnPressExtend = () => {
+    console.error('좌석 연장 api 연결하기');
+  };
+
   return (
-    <S.Container>
-      <LibraryUserInfo />
-      {data.reservationInfo ? (
-        <S.ButtonWrapper>
-          <Button label="좌석 연장하기" isFullWidth isRounded />
-          <Button label="좌석 반납하기" isFullWidth isRounded />
-        </S.ButtonWrapper>
-      ) : (
-        <S.ButtonWrapper>
-          <Button
-            label="좌석 발권하기"
-            isFullWidth
-            isRounded
-            onPress={redirectSeatList}
+    <>
+      <S.Container>
+        <LibraryUserInfo />
+        {!data.reservationInfo ? (
+          <S.ButtonWrapper>
+            <Button
+              label="좌석 연장하기"
+              isFullWidth
+              isRounded
+              onPress={openExtendModal}
+            />
+            <Button label="좌석 반납하기" isFullWidth isRounded />
+          </S.ButtonWrapper>
+        ) : (
+          <S.ButtonWrapper>
+            <Button
+              label="좌석 발권하기"
+              isFullWidth
+              isRounded
+              onPress={redirectSeatList}
+            />
+          </S.ButtonWrapper>
+        )}
+      </S.Container>
+      <ExtendModal>
+        <S.ExtendModalWrapper>
+          <Txt
+            label="좌석을 반납하시겠습니까?"
+            color="grey190"
+            typograph="titleMedium"
+            style={{padding: 16, paddingTop: 24, textAlign: 'center'}}
           />
-        </S.ButtonWrapper>
-      )}
-    </S.Container>
+          <S.Devider />
+          <Button
+            label="연장하기"
+            size="medium"
+            variant="text"
+            isFullWidth
+            onPress={handleOnPressExtend}
+          />
+          <S.Devider />
+          <Button
+            label="닫기"
+            size="medium"
+            variant="text"
+            isFullWidth
+            onPress={closeExtendModal}
+          />
+        </S.ExtendModalWrapper>
+      </ExtendModal>
+    </>
   );
 };
 
@@ -43,5 +83,11 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 12px;
+  `,
+  ExtendModalWrapper: styled.View``,
+  Devider: styled.View`
+    width: 100%;
+    height: 1px;
+    background-color: ${colors.grey40};
   `,
 };
