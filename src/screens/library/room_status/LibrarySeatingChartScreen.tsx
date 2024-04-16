@@ -78,7 +78,6 @@ const LibrarySeatingChartScreen = ({
       </S.StatusInfo>
       <ReactNativeZoomableView
         maxZoom={4}
-        minZoom={0.5}
         zoomStep={2}
         initialZoom={1}
         bindToBorders
