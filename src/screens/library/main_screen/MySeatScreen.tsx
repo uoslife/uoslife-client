@@ -11,11 +11,15 @@ type Props = {redirectSeatList: () => void};
 const MySeatScreen = ({redirectSeatList}: Props) => {
   const [{data}] = useAtom(libraryReservationAtom);
   const [openExtendModal, closeExtendModal, ExtendModal] = useModal('MODAL');
-
+  const [openReturnModal, closeReturnModal, ReturnModal] = useModal('MODAL');
+  
   const handleOnPressExtend = () => {
     console.error('좌석 연장 api 연결하기');
   };
-
+  const handleOnPressReturn = () => {
+    console.error('좌석 반납 api 연결하기');
+  };
+  
   return (
     <>
       <S.Container>
@@ -28,7 +32,8 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
               isRounded
               onPress={openExtendModal}
             />
-            <Button label="좌석 반납하기" isFullWidth isRounded />
+            <Button label="좌석 반납하기" isFullWidth isRounded onPress={openReturnModal}/>
+
           </S.ButtonWrapper>
         ) : (
           <S.ButtonWrapper>
@@ -67,6 +72,32 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
           />
         </S.ExtendModalWrapper>
       </ExtendModal>
+      <ReturnModal>
+        <S.ReturnModalWrapper>
+          <Txt
+            label="좌석을 반납하시겠습니까?"
+            color="grey190"
+            typograph="titleMedium"
+            style={{padding: 16, paddingTop: 24, textAlign: 'center'}}
+          />
+          <S.Devider />
+          <Button
+            label="반납하기"
+            size="medium"
+            variant="text"
+            isFullWidth
+            onPress={handleOnPressReturn}
+          />
+          <S.Devider />
+          <Button
+            label="닫기"
+            size="medium"
+            variant="text"
+            isFullWidth
+            onPress={closeReturnModal}
+          />
+        </S.ReturnModalWrapper>
+      </ReturnModal>
     </>
   );
 };
@@ -85,6 +116,7 @@ const S = {
     gap: 12px;
   `,
   ExtendModalWrapper: styled.View``,
+  ReturnModalWrapper: styled.View``,
   Devider: styled.View`
     width: 100%;
     height: 1px;
