@@ -3113,6 +3113,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openspacelabs/react-native-zoomable-view@npm:^2.1.6":
+  version: 2.2.0
+  resolution: "@openspacelabs/react-native-zoomable-view@npm:2.2.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16.8.0"
+    react-native: ">=0.54.0"
+  checksum: 3227ec0954b52440ed3a69781582c08901df7a8fc265ceed4eef3d948a1826f4ccf293a45fe14d2f93e1d8863e5122563543ba506c11bfe37a3679f12ddb6027
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -19426,6 +19438,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@native-html/table-plugin": ^5.3.1
     "@notifee/react-native": ^7.7.1
+    "@openspacelabs/react-native-zoomable-view": ^2.1.6
     "@react-native-async-storage/async-storage": ^1.18.2
     "@react-native-community/eslint-config": ^3.2.0
     "@react-native-firebase/analytics": ^18.0.0
