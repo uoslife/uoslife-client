@@ -44,7 +44,7 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
       <ExtendModal>
         <S.ExtendModalWrapper>
           <Txt
-            label="좌석을 반납하시겠습니까?"
+            label="좌석을 연장하시겠습니까?"
             color="grey190"
             typograph="titleMedium"
             style={{padding: 16, paddingTop: 24, textAlign: 'center'}}
