@@ -42,9 +42,9 @@ type TailProps = {tail: 'LEFT' | 'CENTER' | 'RIGHT'};
 const TriangleWrapper = styled.View<TailProps>`
   ${props =>
     props.tail === 'LEFT'
-      ? 'align-items: flex-start; left:5%;'
+      ? 'align-items: flex-start; left:8px;'
       : props.tail === 'RIGHT'
-      ? 'align-items: flex-end; right:5%;'
+      ? 'align-items: flex-end; right:8px;'
       : 'align-items: center;'}
   width: 100%;
 `;
