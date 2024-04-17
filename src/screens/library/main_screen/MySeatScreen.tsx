@@ -23,7 +23,7 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
   const handleOnPressReturn = () => {
     console.error('좌석 반납 api 연결하기');
   };
-  const close = () => {
+  const closeGuidePopup = () => {
     setIsGuidePopupOpen(false);
   };
   return (
@@ -35,7 +35,7 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
             <GuidePopup
               label="포털 계정 연동하면 좌석을 발권할 수 있어요!"
               tail="RIGHT"
-              onPress={close}></GuidePopup>
+              onPress={closeGuidePopup}></GuidePopup>
           )}
           <S.InformationButtonWrapper onPress={() => setIsGuidePopupOpen(true)}>
             <Icon color={'grey190'} name={'clear'} width={24} height={24} />
