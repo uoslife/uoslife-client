@@ -30,7 +30,6 @@ const LibraryRoomStatusScreen = ({
     [initialRoomType],
   );
   const [index, setIndex] = useState(initialIndex);
-
   return (
     <>
       <Header

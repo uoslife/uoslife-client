@@ -6,6 +6,7 @@ import {UtilAPI} from '../../../../api/services';
 import LibraryRoomItem from './LibraryRoomItem';
 import usePullToRefresh from '../../../../hooks/usePullToRefresh';
 import {LibraryRoomStatusTabsType} from '../../../../configs/utility/libraryTabs';
+import {LibraryStatusItemType} from '../../../../api/services/util/library/libraryAPI.type';
 
 type Props = {roomType: LibraryRoomStatusTabsType};
 
@@ -22,7 +23,12 @@ const LibraryRoomStatus = ({roomType}: Props) => {
       data={data?.item}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      renderItem={({item}) => <LibraryRoomItem item={item} boxWidth={width} />}
+      renderItem={({item}) => (
+        <LibraryRoomItem
+          item={item as LibraryStatusItemType}
+          boxWidth={width}
+        />
+      )}
       numColumns={2}
       onLayout={event => setWidth(event.nativeEvent.layout.width)}
     />

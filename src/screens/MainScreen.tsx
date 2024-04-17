@@ -88,7 +88,7 @@ const MainScreen = () => {
             typograph="headlineSmall"
           />
         </View>
-        <Carousel
+        {/* <Carousel
           imageWidth={BANNER_WIDTH}
           imageHeight={BANNER_HEIGHT}
           carouselData={[
@@ -98,7 +98,7 @@ const MainScreen = () => {
           indicator="TOPRIGHT"
           logEventName="banner"
           autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
-        />
+        /> */}
         <MainServiceBox
           label="오늘의 학식"
           iconName="cafeteria"

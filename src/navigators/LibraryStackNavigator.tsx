@@ -4,7 +4,7 @@ import LibraryMainScreen from '../screens/library/LibraryMainScreen';
 import LibraryChallengeScreen from '../screens/library/LibraryChallengeScreen';
 import LibraryRankingScreen from '../screens/library/LibraryRankingScreen';
 import LibraryRoomStatusScreen from '../screens/library/room_status/LibraryRoomStatusScreen';
-import LibraryRoomListScreen from '../screens/library/room_status/LibrarySeatListScreen';
+import LibrarySeatingChartScreen from '../screens/library/room_status/LibrarySeatingChartScreen';
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 
 import {
@@ -26,8 +26,8 @@ const LibraryRoomStatusNavigator = () => {
         component={LibraryRoomStatusScreen}
       />
       <LibraryRoomStatusStack.Screen
-        name="Library_seat_list"
-        component={LibraryRoomListScreen}
+        name="Library_seating_chart"
+        component={LibrarySeatingChartScreen}
       />
       <LibraryRoomStatusStack.Screen
         name="Library_portal_authentication"
