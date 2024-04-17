@@ -7,12 +7,54 @@ import {
 } from '../../../../configs/utility/librarySeatingChart';
 import {RoomNameType} from '../../../../configs/utility/librarySeatingChart/roomName';
 import SeatItem from '../../../atoms/seat_item/SeatItem';
+import {SeatStatusType} from '../../../../configs/utility/librarySeatingChart/seatStatus';
+import {
+  ROOM_2_FOR_DISABLED_PERSON_LIST,
+  ROOM_4_FOR_DISABLED_PERSON_LIST,
+} from '../../../../configs/utility/librarySeatingChart/forDisabledPersonList';
 
 const {width} = Dimensions.get('screen');
 
 type Props = {
   roomNumber: RoomNameType;
   handlePressItem: () => void;
+};
+
+const mock: Array<{seatId: number; status: SeatStatusType}> = [
+  {
+    seatId: 12,
+    status: 'NOT_AVAILABLE',
+  },
+  {
+    seatId: 14,
+    status: 'RESERVED',
+  },
+  {
+    seatId: 23,
+    status: 'SPECIFIED',
+  },
+];
+
+const findStatusBySeatId = (seatId: number) => {
+  return mock.find(item => item.seatId === seatId)?.status;
+};
+
+const findForDisabledPerson = (
+  roomNumber: Props['roomNumber'],
+  seatId: number,
+): boolean | null => {
+  switch (roomNumber) {
+    case '2':
+      return (
+        ROOM_2_FOR_DISABLED_PERSON_LIST.some(item => item === seatId) ?? null
+      );
+    case '4':
+      return (
+        ROOM_4_FOR_DISABLED_PERSON_LIST.some(item => item === seatId) ?? null
+      );
+    default:
+      return null;
+  }
 };
 
 const LibrarySeatingChart = ({roomNumber, handlePressItem}: Props) => {
@@ -47,15 +89,24 @@ const LibrarySeatingChart = ({roomNumber, handlePressItem}: Props) => {
               horizontal
               scrollEnabled={false}
               data={rowItem}
-              renderItem={({item}) => (
-                <SeatItem
-                  key={item}
-                  label={item}
-                  itemWidth={itemWidth}
-                  textSize={changeTextSize()}
-                  onPress={handlePressItem}
-                />
-              )}
+              renderItem={({item}) => {
+                const status = findStatusBySeatId(item);
+                const forDisabledPerson = findForDisabledPerson(
+                  roomNumber,
+                  item,
+                );
+                return (
+                  <SeatItem
+                    key={item}
+                    label={item}
+                    status={status}
+                    itemWidth={itemWidth}
+                    textSize={changeTextSize()}
+                    onPress={handlePressItem}
+                    forDisabledPerson={forDisabledPerson}
+                  />
+                );
+              }}
               getItemLayout={(_, index) => ({
                 length: itemWidth + 2,
                 offset: (itemWidth + 2) * index,

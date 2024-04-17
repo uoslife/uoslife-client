@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 import {useSetAtom} from 'jotai';
 import styled from '@emotion/native';
-import {colors} from '@uoslife/design-system';
+import {Icon, colors} from '@uoslife/design-system';
 
 import AnimatePress from '../../animations/pressable_icon/AnimatePress';
 import {SeatItemEnum} from '../../../configs/utility/librarySeatingChart/seatItemEnum';
@@ -19,7 +19,7 @@ type Props = {
   status?: SeatStatusType;
   itemWidth?: number;
   textSize?: 'large' | 'medium';
-  forDisabledPerson?: boolean;
+  forDisabledPerson: boolean | null;
   onPress: () => void;
 };
 
@@ -28,7 +28,7 @@ const SeatItem = ({
   status = 'AVAILABLE',
   itemWidth = DEFAULT_ITEM_WIDTH,
   textSize = 'medium',
-  forDisabledPerson = false,
+  forDisabledPerson,
   onPress,
 }: Props) => {
   const setSelectedSeat = useSetAtom(selectedSeatAtom);
@@ -211,6 +211,16 @@ const SeatItem = ({
               height: itemWidth,
               backgroundColor: SeatStatusColorEnum[status],
             }}>
+            {forDisabledPerson && (
+              <Icon
+                name="menu" // TODO: 장애인 icon으로 변경
+                width={6}
+                height={6}
+                color={
+                  isAvailable || status === 'SPECIFIED' ? 'grey190' : 'white'
+                }
+              />
+            )}
             <Text
               style={{
                 color:
