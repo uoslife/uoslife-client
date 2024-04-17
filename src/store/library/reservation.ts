@@ -1,4 +1,14 @@
-/* eslint-disable import/prefer-default-export */
 import {atom} from 'jotai';
 
-export const selectedSeatAtom = atom<number | null>(null);
+export type SelectedSeatAtomType = {
+  seatId: number | null;
+  forDisabledPerson: boolean | null;
+};
+
+export const initSelectedSeatAtom = {
+  seatId: null,
+  forDisabledPerson: null,
+};
+
+export const selectedSeatAtom =
+  atom<SelectedSeatAtomType>(initSelectedSeatAtom);

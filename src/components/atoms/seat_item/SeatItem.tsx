@@ -203,7 +203,10 @@ const SeatItem = ({
           onPress={() => {
             if (!isAvailable) return;
             onPress();
-            setSelectedSeat(label ?? null);
+            setSelectedSeat({
+              seatId: label ?? null,
+              forDisabledPerson,
+            });
           }}>
           <S.Container
             style={{

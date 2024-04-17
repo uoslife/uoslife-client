@@ -16,7 +16,10 @@ import {
 import LibrarySeatingChart from '../../../components/molecules/screens/library/LibrarySeatingChart';
 import useModal from '../../../hooks/useModal';
 import LibraryStatusInfoBox from '../../../components/molecules/screens/library/LibraryStatusInfoBox';
-import {selectedSeatAtom} from '../../../store/library/reservation';
+import {
+  initSelectedSeatAtom,
+  selectedSeatAtom,
+} from '../../../store/library/reservation';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -47,7 +50,7 @@ const LibrarySeatingChartScreen = ({
       key: navigation.getParent()?.getState().routes[0].key ?? '',
       params: {status: 'MY_SEAT'},
     });
-    setSelectedSeat(null);
+    setSelectedSeat(initSelectedSeatAtom);
   };
   return (
     <>
@@ -76,17 +79,28 @@ const LibrarySeatingChartScreen = ({
       </ReactNativeZoomableView>
       <BottomSheet>
         <S.SheetContainer style={{paddingBottom: insets.bottom + 8}}>
-          <View>
-            <Txt
-              label={`중앙도서관 ${roomName}의 ${selectedSeat ?? ''}번 좌석을`}
-              color="grey190"
-              typograph="titleLarge"
-            />
-            <Txt
-              label="발권하시겠습니까?"
-              color="grey190"
-              typograph="titleLarge"
-            />
+          <View style={{gap: 6}}>
+            <View>
+              <Txt
+                label={`중앙도서관 ${roomName}의 ${
+                  selectedSeat.seatId ?? ''
+                }번 좌석을`}
+                color="grey190"
+                typograph="titleLarge"
+              />
+              <Txt
+                label="발권하시겠습니까?"
+                color="grey190"
+                typograph="titleLarge"
+              />
+            </View>
+            {selectedSeat.forDisabledPerson && (
+              <Txt
+                label="* 선택하신 좌석은 장애인석 입니다."
+                color="red"
+                typograph="titleSmall"
+              />
+            )}
           </View>
           <View style={{gap: 8}}>
             <Button
