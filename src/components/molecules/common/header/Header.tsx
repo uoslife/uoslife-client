@@ -13,32 +13,41 @@ const Header = ({
   ...props
 }: HeaderProps) => {
   return (
-    <S.headerContainter {...props}>
-      <AnimatePress onPress={onPressBackButton} variant="scale_up">
-        <S.buttonArea>
-          <Icon name="backArrow" width={24} height={24} color="grey130" />
-        </S.buttonArea>
-      </AnimatePress>
-      {!!label && <Txt label={label} color="grey190" typograph="titleLarge" />}
+    <S.HeaderContainter {...props}>
+      <S.LeftWrapper>
+        <AnimatePress onPress={onPressBackButton} variant="scale_up">
+          <S.ButtonArea>
+            <Icon name="backArrow" width={24} height={24} color="grey130" />
+          </S.ButtonArea>
+        </AnimatePress>
+        {!!label && (
+          <Txt label={label} color="grey190" typograph="titleLarge" />
+        )}
+      </S.LeftWrapper>
       {children}
-    </S.headerContainter>
+    </S.HeaderContainter>
   );
 };
 
 export default Header;
 
 const S = {
-  buttonArea: styled.View`
+  ButtonArea: styled.View`
     padding: 8px;
   `,
-  headerContainter: styled.View`
+  HeaderContainter: styled.View`
     width: 100%;
     padding: 6px 20px 6px 8px;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+
     border-bottom-width: 1px;
     border-color: ${colors.grey40};
     border-style: solid;
+  `,
+  LeftWrapper: styled.View`
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
   `,
 };

@@ -1,8 +1,8 @@
-import {useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {useAtom} from 'jotai';
 import {View} from 'react-native';
 import styled from '@emotion/native';
-import {Button, Txt, colors} from '@uoslife/design-system';
+import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ReactNativeZoomableView} from '@openspacelabs/react-native-zoomable-view';
@@ -20,6 +20,7 @@ import {
   initSelectedSeatAtom,
   selectedSeatAtom,
 } from '../../../store/library/reservation';
+import AnimatePress from '../../../components/animations/pressable_icon/AnimatePress';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -57,8 +58,15 @@ const LibrarySeatingChartScreen = ({
       <Header
         label={roomName}
         onPressBackButton={handleGoBack}
-        style={{paddingTop: insets.top}}
-      />
+        style={{
+          paddingTop: insets.top,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <AnimatePress variant="scale_up_2">
+          <Icon name="refresh" width={24} height={24} color="grey160" />
+        </AnimatePress>
+      </Header>
       <LibraryStatusInfoBox />
       <ReactNativeZoomableView
         maxZoom={4}
