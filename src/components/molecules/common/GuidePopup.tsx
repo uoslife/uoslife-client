@@ -2,19 +2,15 @@ import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
 import {TouchableOpacity} from 'react-native';
 type GuidePopupProps = {
-  children: React.ReactNode;
+  label: string;
   tail: 'LEFT' | 'CENTER' | 'RIGHT';
   onPress: () => void;
 };
-const GuidePopup = ({children, tail, onPress}: GuidePopupProps) => {
+const GuidePopup = ({label, tail, onPress}: GuidePopupProps) => {
   return (
     <GuidePopupContainer>
       <GuidePopupBody>
-        <Txt
-          label={children ? children.toString() : ''}
-          color="grey190"
-          typograph="labelMedium"
-        />
+        <Txt label={label} color="grey190" typograph="labelMedium" />
         <IconWrapper onPress={() => onPress()}>
           <Icon color={'secondaryUi'} name={'clear'} width={24} height={24} />
         </IconWrapper>

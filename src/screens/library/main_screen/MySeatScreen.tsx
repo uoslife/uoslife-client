@@ -32,9 +32,10 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
         <LibraryUserInfo />
         <S.InformationWrapper>
           {isGuidePopupOpen && (
-            <GuidePopup tail="RIGHT" onPress={close}>
-              포털 계정 연동하면 좌석을 발권할 수 있어요!
-            </GuidePopup>
+            <GuidePopup
+              label="포털 계정 연동하면 좌석을 발권할 수 있어요!"
+              tail="RIGHT"
+              onPress={close}></GuidePopup>
           )}
           <S.InformationButtonWrapper onPress={() => setIsGuidePopupOpen(true)}>
             <Icon color={'grey190'} name={'clear'} width={24} height={24} />
