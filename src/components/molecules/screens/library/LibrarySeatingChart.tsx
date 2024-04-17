@@ -12,9 +12,10 @@ const {width} = Dimensions.get('screen');
 
 type Props = {
   roomNumber: RoomNameType;
+  handlePressItem: () => void;
 };
 
-const LibrarySeatingChart = ({roomNumber}: Props) => {
+const LibrarySeatingChart = ({roomNumber, handlePressItem}: Props) => {
   const itemWidth = useMemo(() => {
     const libraryRowCount = LIBRARY_ROW_COUNT.get(roomNumber);
     if (!libraryRowCount) return 0;
@@ -31,6 +32,7 @@ const LibrarySeatingChart = ({roomNumber}: Props) => {
     if (isRoom5) return 'large';
     return 'medium';
   };
+
   return (
     <S.MapContainer
       data={currentSeat}
@@ -39,7 +41,6 @@ const LibrarySeatingChart = ({roomNumber}: Props) => {
         const rowItem = row.item as number[];
         if (rowItem.length === 0)
           return <View style={{width: itemWidth, height: itemWidth}} />;
-
         return (
           <S.Wrapper>
             <FlatList
@@ -52,6 +53,7 @@ const LibrarySeatingChart = ({roomNumber}: Props) => {
                   label={item}
                   itemWidth={itemWidth}
                   textSize={changeTextSize()}
+                  onPress={handlePressItem}
                 />
               )}
               getItemLayout={(_, index) => ({

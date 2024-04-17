@@ -1,13 +1,16 @@
-import styled from '@emotion/native';
-import {colors} from '@uoslife/design-system';
 import React, {memo} from 'react';
 import {Text, View} from 'react-native';
+import {useSetAtom} from 'jotai';
+import styled from '@emotion/native';
+import {colors} from '@uoslife/design-system';
+
 import AnimatePress from '../../animations/pressable_icon/AnimatePress';
 import {SeatItemEnum} from '../../../configs/utility/librarySeatingChart/seatItemEnum';
 import {
   SeatStatusColorEnum,
   SeatStatusType,
 } from '../../../configs/utility/librarySeatingChart/seatStatus';
+import {selectedSeatAtom} from '../../../store/library/reservation';
 
 const DEFAULT_ITEM_WIDTH = 13;
 
@@ -17,6 +20,7 @@ type Props = {
   itemWidth?: number;
   textSize?: 'large' | 'medium';
   forDisabledPerson?: boolean;
+  onPress: () => void;
 };
 
 const SeatItem = ({
@@ -25,13 +29,12 @@ const SeatItem = ({
   itemWidth = DEFAULT_ITEM_WIDTH,
   textSize = 'medium',
   forDisabledPerson = false,
+  onPress,
 }: Props) => {
+  const setSelectedSeat = useSetAtom(selectedSeatAtom);
   const seatItemSize = itemWidth + 2;
   const isAvailable = status === 'AVAILABLE';
-  const handlePressItem = () => {
-    if (!isAvailable) return;
-    console.log('reserve');
-  };
+
   switch (label) {
     case SeatItemEnum.NONE:
       return (
@@ -196,8 +199,12 @@ const SeatItem = ({
     default:
       return (
         <AnimatePress
-          variant={status === 'AVAILABLE' ? 'scale_up_2' : 'none'}
-          onPress={handlePressItem}>
+          variant={isAvailable ? 'scale_up_2' : 'none'}
+          onPress={() => {
+            if (!isAvailable) return;
+            onPress();
+            setSelectedSeat(label ?? null);
+          }}>
           <S.Container
             style={{
               width: itemWidth,
@@ -207,7 +214,7 @@ const SeatItem = ({
             <Text
               style={{
                 color:
-                  status === 'AVAILABLE' || status === 'SPECIFIED'
+                  isAvailable || status === 'SPECIFIED'
                     ? colors.grey190
                     : colors.white,
                 fontSize: textSize === 'large' ? 9 : 4.5,

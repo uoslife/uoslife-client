@@ -1,5 +1,8 @@
+import {useMemo} from 'react';
+import {useAtom} from 'jotai';
+import {View} from 'react-native';
 import styled from '@emotion/native';
-import {Txt, colors} from '@uoslife/design-system';
+import {Button, Txt, colors} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ReactNativeZoomableView} from '@openspacelabs/react-native-zoomable-view';
@@ -10,11 +13,10 @@ import {
   RoomNameEnum,
   RoomNameType,
 } from '../../../configs/utility/librarySeatingChart/roomName';
-import {
-  SeatStatusColorEnum,
-  SeatStatusEnum,
-} from '../../../configs/utility/librarySeatingChart/seatStatus';
 import LibrarySeatingChart from '../../../components/molecules/screens/library/LibrarySeatingChart';
+import useModal from '../../../hooks/useModal';
+import LibraryStatusInfoBox from '../../../components/molecules/screens/library/LibraryStatusInfoBox';
+import {selectedSeatAtom} from '../../../store/library/reservation';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -27,55 +29,34 @@ const LibrarySeatingChartScreen = ({
     navigation.goBack();
   };
 
+  const roomName = useMemo(
+    () => RoomNameEnum[roomNumber as RoomNameType],
+    [roomNumber],
+  );
+
+  // reservation
+  const [openBottomSheet, closeBottomSheet, BottomSheet] =
+    useModal('BOTTOM_SHEET');
+  const [selectedSeat, setSelectedSeat] = useAtom(selectedSeatAtom);
+  const handlePressItem = () => {
+    openBottomSheet();
+  };
+  const handlePressReservation = () => {
+    // @ts-ignore
+    navigation.navigate({
+      key: navigation.getParent()?.getState().routes[0].key ?? '',
+      params: {status: 'MY_SEAT'},
+    });
+    setSelectedSeat(null);
+  };
   return (
     <>
       <Header
-        label={RoomNameEnum[roomNumber as RoomNameType]}
+        label={roomName}
         onPressBackButton={handleGoBack}
         style={{paddingTop: insets.top}}
       />
-      <S.StatusInfo>
-        <S.StatusItemWrapper>
-          <S.StatusColorBox
-            style={{backgroundColor: SeatStatusColorEnum.AVAILABLE}}
-          />
-          <Txt
-            label={SeatStatusEnum.AVAILABLE}
-            color="grey190"
-            typograph="labelMedium"
-          />
-        </S.StatusItemWrapper>
-        <S.StatusItemWrapper>
-          <S.StatusColorBox
-            style={{backgroundColor: SeatStatusColorEnum.RESERVED}}
-          />
-          <Txt
-            label={SeatStatusEnum.RESERVED}
-            color="grey190"
-            typograph="labelMedium"
-          />
-        </S.StatusItemWrapper>
-        <S.StatusItemWrapper>
-          <S.StatusColorBox
-            style={{backgroundColor: SeatStatusColorEnum.SPECIFIED}}
-          />
-          <Txt
-            label={SeatStatusEnum.SPECIFIED}
-            color="grey190"
-            typograph="labelMedium"
-          />
-        </S.StatusItemWrapper>
-        <S.StatusItemWrapper>
-          <S.StatusColorBox
-            style={{backgroundColor: SeatStatusColorEnum.NOT_AVAILABLE}}
-          />
-          <Txt
-            label={SeatStatusEnum.NOT_AVAILABLE}
-            color="grey190"
-            typograph="labelMedium"
-          />
-        </S.StatusItemWrapper>
-      </S.StatusInfo>
+      <LibraryStatusInfoBox />
       <ReactNativeZoomableView
         maxZoom={4}
         minZoom={1}
@@ -87,9 +68,41 @@ const LibrarySeatingChartScreen = ({
           marginBottom: insets.bottom,
         }}>
         <S.Container>
-          <LibrarySeatingChart roomNumber={roomNumber as RoomNameType} />
+          <LibrarySeatingChart
+            roomNumber={roomNumber as RoomNameType}
+            handlePressItem={handlePressItem}
+          />
         </S.Container>
       </ReactNativeZoomableView>
+      <BottomSheet>
+        <S.SheetContainer style={{paddingBottom: insets.bottom + 8}}>
+          <View>
+            <Txt
+              label={`중앙도서관 ${roomName}의 ${selectedSeat ?? ''}번 좌석을`}
+              color="grey190"
+              typograph="titleLarge"
+            />
+            <Txt
+              label="발권하시겠습니까?"
+              color="grey190"
+              typograph="titleLarge"
+            />
+          </View>
+          <View style={{gap: 8}}>
+            <Button
+              label="발권하기"
+              isFullWidth
+              onPress={handlePressReservation}
+            />
+            <Button
+              label="취소"
+              variant="outline"
+              isFullWidth
+              onPress={closeBottomSheet}
+            />
+          </View>
+        </S.SheetContainer>
+      </BottomSheet>
     </>
   );
 };
@@ -102,22 +115,10 @@ const S = {
     align-items: center;
     justify-content: center;
   `,
-
-  StatusInfo: styled.View`
-    padding: 14px 10px;
+  SheetContainer: styled.View`
     width: 100%;
-    gap: 14px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  `,
-  StatusItemWrapper: styled.View`
-    flex-direction: row;
-    gap: 4px;
-  `,
-  StatusColorBox: styled.View`
-    width: 18px;
-    height: 18px;
-    border-radius: 6px;
+    margin: 0 auto;
+    padding: 28px 20px;
+    gap: 40px;
   `,
 };
