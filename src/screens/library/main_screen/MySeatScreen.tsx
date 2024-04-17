@@ -37,9 +37,9 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
               tail="RIGHT"
               onPress={closeGuidePopup}></GuidePopup>
           )}
-          <S.InformationButtonWrapper onPress={() => setIsGuidePopupOpen(true)}>
+          <S.IconWrapper onPress={() => setIsGuidePopupOpen(true)}>
             <Icon color={'grey190'} name={'clear'} width={24} height={24} />
-          </S.InformationButtonWrapper>
+          </S.IconWrapper>
         </S.InformationWrapper>
         {data.reservationInfo ? (
           <S.ButtonWrapper>
@@ -148,7 +148,7 @@ const S = {
     align-items: flex-end;
     right: 20px;
   `,
-  InformationButtonWrapper: styled(TouchableOpacity)`
+  IconWrapper: styled(TouchableOpacity)`
     width: 40px;
     height: 40px;
     background: ${colors.secondaryBrand};
