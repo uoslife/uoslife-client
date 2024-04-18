@@ -14,4 +14,12 @@ export default interface LibraryService {
     Type.GetLibraryReservationParams,
     Type.GetLibraryReservationRes
   >;
+  getLibraryRanking: ServiceFunc<
+    Type.GetLibraryRankingParams,
+    Type.GetLibraryRankingRes
+  >;
+  getMyLibraryRanking: ServiceFunc<
+    Type.GetMyLibraryRankingParams,
+    Type.GetMyLibraryRankingRes
+  >;
 }

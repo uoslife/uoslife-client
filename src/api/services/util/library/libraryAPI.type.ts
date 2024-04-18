@@ -1,4 +1,8 @@
-import {LibraryRoomStatusTabsType} from '../../../../configs/utility/libraryTabs';
+import {LibraryRankingMajorType} from '../../../../configs/utility/libraryRanking/libraryRanking';
+import {
+  LibraryRankingTabsType,
+  LibraryRoomStatusTabsType,
+} from '../../../../configs/utility/libraryTabs';
 
 export type LibraryStatusType = {
   type: LibraryStatusTypeType;
@@ -62,3 +66,61 @@ export type GetLibraryRoomStatusRes = {item: Array<LibraryStatusItemType>};
 export type GetLibraryReservationParams = {};
 
 export type GetLibraryReservationRes = LibraryReservationType;
+
+export type GetLibraryRankingParams = {
+  major: LibraryRankingMajorType;
+  duration: LibraryRankingTabsType;
+  pageable?: {
+    page: number;
+    size: number;
+  };
+};
+
+export type GetLibraryRankingRes = {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: LibraryRankingContentType[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+};
+
+export type LibraryRankingContentType = {
+  rank: number;
+  time: number;
+  userId: number;
+  nickname: string;
+  departmentName: string;
+};
+
+export type GetMyLibraryRankingParams = {
+  major: LibraryRankingMajorType;
+  duration: LibraryRankingTabsType;
+};
+export type GetMyLibraryRankingRes = {
+  rank: number;
+  time: number;
+  userId: number;
+  nickname: string;
+  totalRank: number;
+};
