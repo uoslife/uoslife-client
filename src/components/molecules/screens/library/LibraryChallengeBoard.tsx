@@ -7,14 +7,14 @@ const LibraryChallengeBoard = () => {
   return (
     <S.Container>
       <S.Row>
-        <LibraryChallengeItem label="시작!" finish />
-        <LibraryChallengeItem label="5시간" finish={false} />
-        <LibraryChallengeItem label="10시간" finish={false} />
+        <LibraryChallengeItem label="시작!" isEnabled />
+        <LibraryChallengeItem label="5시간" isEnabled={false} />
+        <LibraryChallengeItem label="10시간" isEnabled={false} />
       </S.Row>
       <S.Row>
-        <LibraryChallengeItem label="25시간" finish={false} />
-        <LibraryChallengeItem label="50시간" finish={false} />
-        <LibraryChallengeItem label="100시간" finish={false} />
+        <LibraryChallengeItem label="25시간" isEnabled={false} />
+        <LibraryChallengeItem label="50시간" isEnabled={false} />
+        <LibraryChallengeItem label="100시간" isEnabled={false} />
       </S.Row>
     </S.Container>
   );

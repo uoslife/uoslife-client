@@ -3,12 +3,12 @@ import {Txt, colors} from '@uoslife/design-system';
 
 type Props = {
   label: string;
-  finish: boolean;
+  isEnabled: boolean;
 };
 
-const LibraryChallengeItem = ({label, finish}: Props) => {
+const LibraryChallengeItem = ({label, isEnabled}: Props) => {
   return (
-    <S.Container finish={finish}>
+    <S.Container isEnabled={isEnabled}>
       <Txt label={label} color="black" typograph="bodyMedium" />
     </S.Container>
   );
@@ -17,11 +17,11 @@ const LibraryChallengeItem = ({label, finish}: Props) => {
 export default LibraryChallengeItem;
 
 const S = {
-  Container: styled.View<{finish: boolean}>`
+  Container: styled.View<{isEnabled: boolean}>`
     width: 80px;
     height: 80px;
-    background-color: ${({finish}) =>
-      finish ? colors.secondaryLight : colors.grey10};
+    background-color: ${({isEnabled}) =>
+      isEnabled ? colors.secondaryLight : colors.grey10};
     border-radius: 40px;
     display: flex;
     justify-content: center;
