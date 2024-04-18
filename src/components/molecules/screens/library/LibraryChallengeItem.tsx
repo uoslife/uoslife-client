@@ -9,7 +9,11 @@ type Props = {
 const LibraryChallengeItem = ({label, isEnabled}: Props) => {
   return (
     <S.Container isEnabled={isEnabled}>
-      <Txt label={label} color="black" typograph="bodyMedium" />
+      <Txt
+        label={label}
+        color="black"
+        typograph={isEnabled ? 'titleSmall' : 'bodyMedium'}
+      />
     </S.Container>
   );
 };

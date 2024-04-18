@@ -8,7 +8,7 @@ const LibraryChallengeBoard = () => {
     <S.Container>
       <S.Row>
         <LibraryChallengeItem label="시작!" isEnabled />
-        <LibraryChallengeItem label="5시간" isEnabled={false} />
+        <LibraryChallengeItem label="5시간" isEnabled />
         <LibraryChallengeItem label="10시간" isEnabled={false} />
       </S.Row>
       <S.Row>
