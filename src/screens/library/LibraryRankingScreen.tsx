@@ -27,12 +27,12 @@ const LibraryRankingScreen = () => {
         <TabView.Screen
           tabKey="DAY"
           tabTitle={LibraryRankingTabsEnum.DAY}
-          component={<LibraryRanking />}
+          component={<LibraryRanking duration="DAY" />}
         />
         <TabView.Screen
           tabKey="WEEK"
           tabTitle={LibraryRankingTabsEnum.WEEK}
-          component={<LibraryRanking />}
+          component={<LibraryRanking duration="WEEK" />}
         />
       </TabView>
     </>

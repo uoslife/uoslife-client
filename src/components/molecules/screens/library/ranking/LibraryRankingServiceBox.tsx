@@ -8,7 +8,7 @@ const LibraryRankingServiceBox = ({
   label,
 }: PropsWithChildren & {label: string}) => {
   return (
-    <S.Container style={{...boxShadowStyle.bottomTapShadow}}>
+    <S.Container style={{...boxShadowStyle.LibraryShadow}}>
       <Txt label={label} color="grey190" typograph="titleLarge" />
       {children}
     </S.Container>

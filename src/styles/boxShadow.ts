@@ -17,5 +17,13 @@ const boxShadowStyle = StyleSheet.create({
       },
     }),
   },
+  LibraryShadow: {
+    shadowOpacity: 0.8,
+    shadowColor: 'rgba(70, 134, 255, 0.20)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
 });
 export default boxShadowStyle;
