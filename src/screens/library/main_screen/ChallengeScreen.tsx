@@ -2,16 +2,32 @@ import styled, {css} from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
 import {View} from 'react-native';
 import LibraryChallengeBoard from '../../../components/molecules/screens/library/LibraryChallengeBoard';
+import {
+  ChallengeUserStatusDes1Enum,
+  ChallengeUserStatusDes2Enum,
+  ChallengeUserStatusEnum,
+} from '../../../configs/utility/libraryChallenge/challengeUserStatus';
+
+export const ChallengUserStatusImgEnum = {
+  EGG: require('../../../assets/images/iroomae_egg.png'),
+  BABY: require('../../../assets/images/iroomae_baby.png'),
+  CHICK: require('../../../assets/images/iroomae_chick.png'),
+  JUNGDO: require('../../../assets/images/iroomae_jungdo.png'),
+  CHEONJAE: require('../../../assets/images/iroomae_cheonjae.png'),
+  MANJAE: require('../../../assets/images/iroomae_manjae.png'),
+};
 
 const ChallengeScreen = () => {
   return (
     <S.Container>
       <S.CharacterBox>
-        <S.ImageContainer
-          source={require('../../../assets/images/iroomae_baby.png')}
-        />
+        <S.ImageContainer source={ChallengUserStatusImgEnum.BABY} />
         <S.TextBox>
-          <Txt label="아기루매" color="grey190" typograph="headlineMedium" />
+          <Txt
+            label={ChallengeUserStatusEnum.BABY}
+            color="grey190"
+            typograph="headlineMedium"
+          />
           <View
             style={css`
               display: flex;
@@ -19,12 +35,12 @@ const ChallengeScreen = () => {
               gap: 4px;
             `}>
             <Txt
-              label="5시간 달성!"
+              label={ChallengeUserStatusDes1Enum.BABY}
               color="primaryBrand"
               typograph="titleSmall"
             />
             <Txt
-              label="루매가 부화했어요!"
+              label={ChallengeUserStatusDes2Enum.BABY}
               color="grey190"
               typograph="bodyMedium"
             />
