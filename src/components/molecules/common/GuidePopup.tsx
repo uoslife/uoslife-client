@@ -1,19 +1,18 @@
+import {PressableProps} from 'react-native';
 import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
-import {TouchableOpacity} from 'react-native';
+
 type GuidePopupProps = {
   label: string;
   tail: 'LEFT' | 'CENTER' | 'RIGHT';
   onPress: () => void;
-};
-const GuidePopup = ({label, tail, onPress}: GuidePopupProps) => {
+} & PressableProps;
+const GuidePopup = ({label, tail, onPress, ...props}: GuidePopupProps) => {
   return (
-    <GuidePopupContainer>
+    <GuidePopupContainer onPress={() => onPress()} {...props}>
       <GuidePopupBody>
         <Txt label={label} color="grey190" typograph="labelMedium" />
-        <IconWrapper onPress={() => onPress()}>
-          <Icon color={'secondaryUi'} name={'clear'} width={24} height={24} />
-        </IconWrapper>
+        <Icon color="secondaryUi" name="clear" width={20} height={20} />
       </GuidePopupBody>
       <TriangleWrapper tail={tail}>
         <Triangle />
@@ -23,24 +22,26 @@ const GuidePopup = ({label, tail, onPress}: GuidePopupProps) => {
 };
 export default GuidePopup;
 
-const GuidePopupContainer = styled.View`
+const GuidePopupContainer = styled.Pressable`
   position: absolute;
   bottom: 40px;
 `;
 
 const GuidePopupBody = styled.View`
   flex-direction: row;
-  padding: 10px 8px 10px 16px;
+  padding: 8px 10px 8px 16px;
   border-radius: 30px;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 6px;
   background: ${colors.secondaryBrand};
 `;
 
 type TailProps = {tail: 'LEFT' | 'CENTER' | 'RIGHT'};
+
 const TriangleWrapper = styled.View<TailProps>`
   ${props =>
+    // eslint-disable-next-line no-nested-ternary
     props.tail === 'LEFT'
       ? 'align-items: flex-start; left:8px;'
       : props.tail === 'RIGHT'
@@ -57,5 +58,3 @@ const Triangle = styled.View`
   width: 0;
   top: -10px;
 `;
-type IconWrapperProps = {onPress: () => void};
-const IconWrapper = styled(TouchableOpacity)<IconWrapperProps>``;

@@ -2,12 +2,13 @@ import {useAtom} from 'jotai';
 import styled from '@emotion/native';
 import {Button, Txt, colors, Icon} from '@uoslife/design-system';
 import {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
 
 import libraryReservationAtom from '../../../store/library';
 import LibraryUserInfo from '../../../components/molecules/screens/library/LibraryUserInfo';
 import useModal from '../../../hooks/useModal';
 import GuidePopup from '../../../components/molecules/common/GuidePopup';
+import AnimatePress from '../../../components/animations/pressable_icon/AnimatePress';
+import boxShadowStyle from '../../../styles/boxShadow';
 
 type Props = {redirectSeatList: () => void};
 
@@ -33,13 +34,19 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
         <S.InformationWrapper>
           {isGuidePopupOpen && (
             <GuidePopup
-              label="포털 계정 연동하면 좌석을 발권할 수 있어요!"
+              label="포털 계정을 연동하면 좌석을 발권할 수 있어요!"
               tail="RIGHT"
-              onPress={closeGuidePopup}></GuidePopup>
+              onPress={closeGuidePopup}
+              style={{...boxShadowStyle.bottomTapShadow}}
+            />
           )}
-          <S.IconWrapper onPress={() => setIsGuidePopupOpen(true)}>
-            <Icon color={'grey190'} name={'clear'} width={24} height={24} />
-          </S.IconWrapper>
+          <AnimatePress
+            variant="scale_up_3"
+            onPress={() => setIsGuidePopupOpen(prev => !prev)}>
+            <S.IconWrapper style={{...boxShadowStyle.bottomTapShadow}}>
+              <Icon color="grey190" name="clear" width={24} height={24} />
+            </S.IconWrapper>
+          </AnimatePress>
         </S.InformationWrapper>
         {data.reservationInfo ? (
           <S.ButtonWrapper>
@@ -148,7 +155,7 @@ const S = {
     align-items: flex-end;
     right: 20px;
   `,
-  IconWrapper: styled(TouchableOpacity)`
+  IconWrapper: styled.View`
     width: 40px;
     height: 40px;
     background: ${colors.secondaryBrand};
