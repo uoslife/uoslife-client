@@ -12,14 +12,14 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
   const [{data}] = useAtom(libraryReservationAtom);
   const [openExtendModal, closeExtendModal, ExtendModal] = useModal('MODAL');
   const [openReturnModal, closeReturnModal, ReturnModal] = useModal('MODAL');
-  
+
   const handleOnPressExtend = () => {
     console.error('좌석 연장 api 연결하기');
   };
   const handleOnPressReturn = () => {
     console.error('좌석 반납 api 연결하기');
   };
-  
+
   return (
     <>
       <S.Container>
@@ -32,8 +32,12 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
               isRounded
               onPress={openExtendModal}
             />
-            <Button label="좌석 반납하기" isFullWidth isRounded onPress={openReturnModal}/>
-
+            <Button
+              label="좌석 반납하기"
+              isFullWidth
+              isRounded
+              onPress={openReturnModal}
+            />
           </S.ButtonWrapper>
         ) : (
           <S.ButtonWrapper>
