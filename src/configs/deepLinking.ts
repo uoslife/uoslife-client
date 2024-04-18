@@ -51,7 +51,7 @@ const deepLinksConfig = {
           initialRouteName: 'Library_seat_status_main',
           screens: {
             Library_seat_status_main: 'library/seatStatus',
-            Library_seat_list: 'library/seatList',
+            Library_seating_chart: 'library/seatingChart',
             Library_portal_authentication: 'library/portalAuthentication',
           },
         },

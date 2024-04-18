@@ -20,16 +20,24 @@ const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const setIsFocusedLibraryScreen = useSetAtom(isFocusedLibraryAtom);
+  const findIndexByStatus = (status: LibraryTabsType) =>
+    Object.keys(LibraryTabsEnum).findIndex(i => i.match(status));
 
   const initialStatus = useMemo(
     () => (params?.status ?? 'MY_SEAT') satisfies LibraryTabsType,
     [params?.status],
   );
   const initialIndex = useMemo(
-    () => Object.keys(LibraryTabsEnum).findIndex(i => i.match(initialStatus)),
+    () => findIndexByStatus(initialStatus),
     [initialStatus],
   );
   const [index, setIndex] = useState(initialIndex);
+
+  useEffect(() => {
+    if (!params || !params.status) return;
+    const i = findIndexByStatus(params.status);
+    setIndex(i);
+  }, [params, params?.status]);
 
   const handleGoBack = () => {
     navigation.goBack();
