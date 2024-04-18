@@ -1,10 +1,14 @@
 import {useAtom} from 'jotai';
 import styled from '@emotion/native';
-import {Button, Txt, colors} from '@uoslife/design-system';
+import {Button, Txt, colors, Icon} from '@uoslife/design-system';
+import {useState} from 'react';
 
 import libraryReservationAtom from '../../../store/library';
 import LibraryUserInfo from '../../../components/molecules/screens/library/LibraryUserInfo';
 import useModal from '../../../hooks/useModal';
+import GuidePopup from '../../../components/molecules/common/GuidePopup';
+import AnimatePress from '../../../components/animations/pressable_icon/AnimatePress';
+import boxShadowStyle from '../../../styles/boxShadow';
 
 type Props = {redirectSeatList: () => void};
 
@@ -12,18 +16,38 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
   const [{data}] = useAtom(libraryReservationAtom);
   const [openExtendModal, closeExtendModal, ExtendModal] = useModal('MODAL');
   const [openReturnModal, closeReturnModal, ReturnModal] = useModal('MODAL');
-  
+  const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(false);
+
   const handleOnPressExtend = () => {
     console.error('좌석 연장 api 연결하기');
   };
   const handleOnPressReturn = () => {
     console.error('좌석 반납 api 연결하기');
   };
-  
+  const closeGuidePopup = () => {
+    setIsGuidePopupOpen(false);
+  };
   return (
     <>
       <S.Container>
         <LibraryUserInfo />
+        <S.InformationWrapper>
+          {isGuidePopupOpen && (
+            <GuidePopup
+              label="포털 계정을 연동하면 좌석을 발권할 수 있어요!"
+              tail="RIGHT"
+              onPress={closeGuidePopup}
+              style={{...boxShadowStyle.bottomTapShadow}}
+            />
+          )}
+          <AnimatePress
+            variant="scale_up_3"
+            onPress={() => setIsGuidePopupOpen(prev => !prev)}>
+            <S.IconWrapper style={{...boxShadowStyle.bottomTapShadow}}>
+              <Icon color="grey190" name="clear" width={24} height={24} />
+            </S.IconWrapper>
+          </AnimatePress>
+        </S.InformationWrapper>
         {data.reservationInfo ? (
           <S.ButtonWrapper>
             <Button
@@ -32,8 +56,12 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
               isRounded
               onPress={openExtendModal}
             />
-            <Button label="좌석 반납하기" isFullWidth isRounded onPress={openReturnModal}/>
-
+            <Button
+              label="좌석 반납하기"
+              isFullWidth
+              isRounded
+              onPress={openReturnModal}
+            />
           </S.ButtonWrapper>
         ) : (
           <S.ButtonWrapper>
@@ -107,7 +135,8 @@ export default MySeatScreen;
 const S = {
   Container: styled.View`
     padding: 0 16px;
-    gap: 24px;
+    gap: 12px;
+    margin-top: 12px;
   `,
   ButtonWrapper: styled.View`
     width: 100%;
@@ -121,5 +150,17 @@ const S = {
     width: 100%;
     height: 1px;
     background-color: ${colors.grey40};
+  `,
+  InformationWrapper: styled.View`
+    align-items: flex-end;
+    right: 20px;
+  `,
+  IconWrapper: styled.View`
+    width: 40px;
+    height: 40px;
+    background: ${colors.secondaryBrand};
+    border-radius: 100px;
+    justify-content: center;
+    align-items: center;
   `,
 };
