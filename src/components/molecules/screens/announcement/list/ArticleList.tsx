@@ -1,12 +1,10 @@
-import {forwardRef, useCallback, useState} from 'react';
+import {forwardRef} from 'react';
 import {Dimensions, ListRenderItem, RefreshControl} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {DefinedInfiniteQueryObserverResult} from '@tanstack/react-query';
 import ArticleItem from './ArticleItem';
 import {ArticleItemType} from '../../../../../types/announcement.type';
 import usePullToRefresh from '../../../../../hooks/usePullToRefresh';
-
-const REFRESH_STOP_TIME = 0.5 * 1000;
 
 type ArticleListProps = {
   articles: ArticleItemType[];

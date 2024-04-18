@@ -11,5 +11,15 @@ const LibraryAPI: LibraryService = {
     ),
   getLibraryReservation: () =>
     get<Type.GetLibraryReservationRes>(`utility/libraries/reservation`),
+  getLibraryRanking: params =>
+    get<Type.GetLibraryRankingRes>(
+      `utility/libraries/leader-board?major=${params?.major}&duration=${params?.duration}&page=${
+        params?.pageable?.page ?? 0
+      }&size=${params?.pageable?.size ?? 3}`,
+    ),
+  getMyLibraryRanking: params =>
+    get<Type.GetMyLibraryRankingRes>(
+      `utility/libraries/leader-board/me?major=${params?.major}&duration=${params?.duration}`,
+    ),
 };
 export default LibraryAPI;
