@@ -1,16 +1,17 @@
 import styled from '@emotion/native';
 import {Button, Txt, colors} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
-import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 import {ScrollView, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 
-type navigationType = 'Library_challenge' | 'Library_ranking';
+type NavigationType = 'Library_challenge' | 'Library_ranking';
 
 const EventScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const insets = useSafeAreaInsets();
-  const handleOnpressButton = (path: navigationType) => {
+  const handleOnpressButton = (path: NavigationType) => {
     switch (path) {
       case 'Library_challenge':
         return navigation.navigate('Library', {
@@ -24,7 +25,11 @@ const EventScreen = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
+      <LinearGradient
+        style={{width: '100%', height: '100%', position: 'absolute'}}
+        colors={['#E9F3FF', '#ffffff']}
+      />
       <S.ScreenContainer style={{paddingTop: insets.top + 16}}>
         <S.ImageContainer
           source={require('../../assets/images/iroomae_event_page.png')}
@@ -35,7 +40,7 @@ const EventScreen = () => {
               <S.CategoryContainer>
                 <S.CategoryContent>
                   <Txt
-                    label={'#도서관 좌석 서비스 도입'}
+                    label="#도서관 좌석 서비스 도입"
                     color="grey190"
                     typograph="labelSmall"
                     style={{textAlign: 'center'}}
@@ -43,7 +48,7 @@ const EventScreen = () => {
                 </S.CategoryContent>
                 <S.CategoryContent>
                   <Txt
-                    label={'#도서관 순위'}
+                    label="#도서관 순위"
                     color="grey190"
                     typograph="labelSmall"
                     style={{textAlign: 'center'}}
@@ -51,7 +56,7 @@ const EventScreen = () => {
                 </S.CategoryContent>
                 <S.CategoryContent>
                   <Txt
-                    label={'#도전 과제'}
+                    label="#도전 과제"
                     color="grey190"
                     typograph="labelSmall"
                     style={{textAlign: 'center'}}
@@ -59,13 +64,13 @@ const EventScreen = () => {
                 </S.CategoryContent>
               </S.CategoryContainer>
               <Txt
-                label={'도서관 이벤트'}
+                label="도서관 이벤트"
                 color="grey190"
                 typograph="headlineLarge"
                 style={{textAlign: 'center', fontSize: 44, lineHeight: 53}}
               />
               <Txt
-                label={'4월18일 - 31일'}
+                label="4월 18일 - 31일"
                 color="grey190"
                 typograph="bodyLarge"
                 style={{textAlign: 'center', fontSize: 22, lineHeight: 26}}
@@ -74,39 +79,39 @@ const EventScreen = () => {
             <View style={{alignItems: 'center'}}>
               <S.TxtWrapper>
                 <Txt
-                  label={'시험 기간 동안의 도서관 이용을 통해'}
+                  label="시험 기간 동안의 도서관 이용을 통해"
                   color="grey190"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
                 />
                 <Txt
-                  label={'도전과제를'}
+                  label="도전과제를"
                   color="primaryBrand"
                   typograph="bodyMedium"
-                  style={{textAlign: 'center'}}
+                  style={{textAlign: 'center', marginLeft: 4}}
                 />
               </S.TxtWrapper>
               <S.TxtWrapper>
                 <Txt
-                  label={'달성'}
+                  label="달성"
                   color="primaryBrand"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
                 />
                 <Txt
-                  label={'하고 시대생'}
+                  label="하고 시대생"
                   color="grey190"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
                 />
                 <Txt
-                  label={'유저들과 순위 경쟁'}
+                  label="유저들과 순위 경쟁"
                   color="primaryBrand"
                   typograph="bodyMedium"
-                  style={{textAlign: 'center'}}
+                  style={{textAlign: 'center', marginLeft: 4}}
                 />
                 <Txt
-                  label={'을 벌여보세요.'}
+                  label="을 벌여보세요."
                   color="grey190"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
@@ -119,16 +124,17 @@ const EventScreen = () => {
               label="도서관 순위"
               isFullWidth
               onPress={() => handleOnpressButton('Library_ranking')}
-              isRounded={true}
+              isRounded
             />
             <Button
               label="도전과제"
               isFullWidth
               onPress={() => handleOnpressButton('Library_challenge')}
-              isRounded={true}
+              isRounded
             />
           </S.ButtonContainer>
         </S.DescriptionWrapper>
+        <S.GapBox />
       </S.ScreenContainer>
     </ScrollView>
   );
@@ -151,7 +157,7 @@ const S = {
     gap: 8px;
   `,
   CategoryContent: styled.View`
-    padding: 8px;
+    padding: 4px 8px;
     border-radius: 16px;
     background-color: ${colors.secondaryLight};
   `,
@@ -160,6 +166,7 @@ const S = {
     align-items: center;
     text-align: center;
     margin: 16px;
+    gap: 16px;
   `,
   TxtWrapper: styled.View`
     flex-direction: row;
@@ -173,5 +180,8 @@ const S = {
     width: 100%;
     justify-content: center;
     gap: 40px;
+  `,
+  GapBox: styled.View`
+    height: 32px;
   `,
 };
