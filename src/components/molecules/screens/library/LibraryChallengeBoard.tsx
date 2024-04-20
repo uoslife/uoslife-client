@@ -2,19 +2,58 @@ import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
 import {Platform} from 'react-native';
 import LibraryChallengeItem from './LibraryChallengeItem';
+import {ChallengeUserStatusType} from '../../../../configs/utility/libraryChallenge/challengeUserStatus';
 
-const LibraryChallengeBoard = () => {
+type Props = {status: ChallengeUserStatusType};
+
+const LibraryChallengeBoard = ({status}: Props) => {
+  const enabledItemsCount = (() => {
+    switch (status) {
+      case 'EGG':
+        return 1;
+      case 'BABY':
+        return 2;
+      case 'CHICK':
+        return 3;
+      case 'JUNGDO':
+        return 4;
+      case 'CHEONJAE':
+        return 5;
+      case 'MANJAE':
+        return 6;
+      default:
+        return 0;
+    }
+  })();
+
+  const challengeItems = [
+    {label: '시작!', hours: 0},
+    {label: '10시간', hours: 10},
+    {label: '20시간', hours: 20},
+    {label: '30시간', hours: 30},
+    {label: '50시간', hours: 50},
+    {label: '100시간', hours: 100},
+  ];
+
   return (
     <S.Container>
       <S.Row>
-        <LibraryChallengeItem label="시작!" isEnabled />
-        <LibraryChallengeItem label="10시간" isEnabled />
-        <LibraryChallengeItem label="20시간" isEnabled={false} />
+        {challengeItems.slice(0, 3).map((item, index) => (
+          <LibraryChallengeItem
+            key={item.label}
+            label={item.label}
+            isEnabled={index < enabledItemsCount}
+          />
+        ))}
       </S.Row>
       <S.Row>
-        <LibraryChallengeItem label="30시간" isEnabled={false} />
-        <LibraryChallengeItem label="50시간" isEnabled={false} />
-        <LibraryChallengeItem label="100시간" isEnabled={false} />
+        {challengeItems.slice(3, 6).map((item, index) => (
+          <LibraryChallengeItem
+            key={item.label}
+            label={item.label}
+            isEnabled={index + 3 < enabledItemsCount}
+          />
+        ))}
       </S.Row>
     </S.Container>
   );
