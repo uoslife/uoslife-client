@@ -75,7 +75,7 @@ const SetNicknameScreen = () => {
       openBottomSheet();
       return;
     }
-    openBottomSheet();
+    if (!isMypage) openBottomSheet();
     try {
       const CheckDuplicateUserNicknameRes =
         await CoreAPI.checkDuplicateUserNickname({
@@ -99,7 +99,7 @@ const SetNicknameScreen = () => {
       }
       openBottomSheet();
     } catch (err) {
-      console.error(err);
+      customShowToast('changeNicknameError');
     }
   };
 
