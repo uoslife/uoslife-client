@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useQueries} from '@tanstack/react-query';
 import {Txt, colors} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -20,13 +20,15 @@ import {LibraryRankingContentType} from '../../../../../api/services/util/librar
 import {
   calculateRankingChartHeight,
   calculateRankingChartBgColor,
+  changeHourFromMin,
 } from '../../../../../utils/library/libraryRanking';
 import {
   LibraryRankingMajorNameType,
   LibraryRankingMajorName,
-  LibraryRankingMajorEnum,
 } from '../../../../../configs/utility/libraryRanking/libraryRanking';
 import {UtilAPI} from '../../../../../api/services';
+import useUserState from '../../../../../hooks/useUserState';
+import Skeleton from '../../../common/skeleton/Skeleton';
 
 const TRIANGLE_LEFT_WIDTH = Dimensions.get('screen').width - 136;
 const TOP_RANKING_ORDER = [2, 1, 3];
@@ -73,7 +75,7 @@ const LibraryRankingChart = ({
           <Txt label={departmentName} color="grey90" typograph="bodySmall" />
         </ScrollView>
         <Txt
-          label={`${time}시간`}
+          label={changeHourFromMin(time)}
           color="primaryBrand"
           typograph="titleMedium"
         />
@@ -84,68 +86,48 @@ const LibraryRankingChart = ({
 
 type Props = {duration: LibraryRankingTabsType};
 
-const mockData: LibraryRankingContentType[] = [
-  {
-    rank: 1,
-    time: 86,
-    userId: 14,
-    nickname: '정세',
-    departmentName: '디자인학과',
-  },
-  {
-    rank: 2,
-    time: 58,
-    userId: 334,
-    nickname: '정세에에',
-    departmentName: '전기전자컴퓨터공학부',
-  },
-  {
-    rank: 3,
-    time: 48,
-    userId: 4,
-    nickname: '정세에에에',
-    departmentName: '컴퓨터과학부',
-  },
-];
-const meMockData = {
-  rank: 226,
-  time: 86,
-  nickname: 'asdf',
-  major: '전기전자컴퓨터공학부',
-  totalRank: 246,
-};
-
 const LibraryRanking = ({duration}: Props) => {
+  const {user} = useUserState();
   const insets = useSafeAreaInsets();
   const [major, setMajor] = useState<LibraryRankingMajorNameType>('시대생');
   const [rankingData, myRankingData] = useQueries({
     queries: [
       {
-        queryKey: [
-          'getLibraryRanking',
-          duration,
-          LibraryRankingMajorEnum[major],
-        ],
+        queryKey: ['getLibraryRanking', duration, major],
         queryFn: () =>
           UtilAPI.getLibraryRanking({
             duration,
-            major: LibraryRankingMajorEnum[major],
+            major,
           }),
       },
       {
-        queryKey: [
-          'getMyLibraryRanking',
-          duration,
-          LibraryRankingMajorEnum[major],
-        ],
+        queryKey: ['getMyLibraryRanking', duration, major],
         queryFn: () =>
           UtilAPI.getMyLibraryRanking({
             duration,
-            major: LibraryRankingMajorEnum[major],
+            major,
           }),
       },
     ],
   });
+  const [isFetchingData, setIsFetching] = useState(true);
+  useEffect(() => {
+    setIsFetching(true);
+    const timeout = setTimeout(() => {
+      setIsFetching(false);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [rankingData.isFetching]);
+
+  const isGraduateUser = useMemo(
+    () => user?.enrollmentStatus === '졸업생',
+    [user],
+  );
+  const isUnusedUser = useMemo(
+    () => myRankingData.data?.rank === 0,
+    [myRankingData.data?.rank],
+  );
+
   const {refreshing, onRefresh} = usePullToRefresh(() =>
     Promise.all([rankingData.refetch(), myRankingData.refetch()]),
   );
@@ -154,7 +136,7 @@ const LibraryRanking = ({duration}: Props) => {
       refreshControl={
         <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
       }>
-      <S.SelectWrapper style={{zIndex: 1000, elevation: 5}}>
+      <S.SelectWrapper style={{zIndex: 10, elevation: 5}}>
         <Select
           options={LibraryRankingMajorName}
           currentOption={major}
@@ -162,17 +144,32 @@ const LibraryRanking = ({duration}: Props) => {
         />
       </S.SelectWrapper>
       <LibraryRankingServiceBox label="상위 랭킹">
-        <S.TopRankingBoxContainer>
-          {mockData
-            .sort(
-              (a, b) =>
-                TOP_RANKING_ORDER.indexOf(a.rank) -
-                TOP_RANKING_ORDER.indexOf(b.rank),
-            )
-            .map(content => (
-              <LibraryRankingChart key={content.userId} contents={content} />
-            ))}
-        </S.TopRankingBoxContainer>
+        {isFetchingData ? (
+          <Skeleton variant="ranking" />
+        ) : (
+          <S.TopRankingBoxContainer>
+            {rankingData.data?.content.length === 0 ? (
+              <Txt
+                label="랭킹 데이터가 없어요."
+                color="grey160"
+                typograph="titleSmall"
+              />
+            ) : (
+              rankingData.data?.content
+                .sort(
+                  (a, b) =>
+                    TOP_RANKING_ORDER.indexOf(a.rank) -
+                    TOP_RANKING_ORDER.indexOf(b.rank),
+                )
+                .map(content => (
+                  <LibraryRankingChart
+                    key={content.userId}
+                    contents={content}
+                  />
+                ))
+            )}
+          </S.TopRankingBoxContainer>
+        )}
       </LibraryRankingServiceBox>
       <LibraryRankingServiceBox label="내 랭킹">
         <S.TriangleContainer>
@@ -180,21 +177,39 @@ const LibraryRanking = ({duration}: Props) => {
           <S.MyRankingIndicator
             style={{
               top:
-                TRIANGLE_LEFT_WIDTH * (meMockData.rank / meMockData.totalRank),
+                !myRankingData.data || myRankingData.data.rank !== 0
+                  ? (TRIANGLE_LEFT_WIDTH * (myRankingData?.data?.rank ?? 1)) /
+                    (myRankingData?.data?.totalRank ?? 1)
+                  : TRIANGLE_LEFT_WIDTH,
             }}
           />
         </S.TriangleContainer>
+
         <S.MyRankingInfoWrapper>
-          <Txt
-            label={`${meMockData.rank}위 / ${meMockData.totalRank}위`}
-            color="grey190"
-            typograph="titleLarge"
-          />
-          <Txt
-            label={`${meMockData.time}시간`}
-            color="primaryBrand"
-            typograph="titleLarge"
-          />
+          {isGraduateUser || isUnusedUser ? (
+            <Txt
+              label={
+                isGraduateUser
+                  ? '졸업생은 확인할 수 없어요'
+                  : '도서관 이용 후 확인이 가능해요'
+              }
+              color="grey190"
+              typograph="titleMedium"
+            />
+          ) : (
+            <>
+              <Txt
+                label={`${myRankingData.data?.rank}위 / ${myRankingData.data?.totalRank}위`}
+                color="grey190"
+                typograph="titleLarge"
+              />
+              <Txt
+                label={`${myRankingData.data?.time}시간`}
+                color="primaryBrand"
+                typograph="titleLarge"
+              />
+            </>
+          )}
         </S.MyRankingInfoWrapper>
       </LibraryRankingServiceBox>
       <S.ScrollViewBottomBlank style={{height: insets.bottom + 8}} />
