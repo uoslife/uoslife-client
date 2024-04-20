@@ -19,10 +19,7 @@ export type RootTabParamList = {
 
 export type TabScreenItemType = {
   label: string;
-  icon: Extract<
-    IconsNameType,
-    'menu' | 'studentId' | 'heart' | 'library' | 'event'
-  >;
+  icon: Extract<IconsNameType, 'menu' | 'studentId' | 'leaderboard'>;
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
 };
@@ -48,7 +45,7 @@ const tabs: TabScreenItemType[] = [
     component: EventScreen,
     screenName: 'ThirdTab',
     label: '이벤트',
-    icon: 'heart',
+    icon: 'leaderboard',
   },
 ];
 

@@ -44,7 +44,7 @@ const MySeatScreen = ({redirectSeatList}: Props) => {
             variant="scale_up_3"
             onPress={() => setIsGuidePopupOpen(prev => !prev)}>
             <S.IconWrapper style={{...boxShadowStyle.bottomTapShadow}}>
-              <Icon color="grey190" name="clear" width={24} height={24} />
+              <Icon color="grey190" name="info" width={24} height={24} />
             </S.IconWrapper>
           </AnimatePress>
         </S.InformationWrapper>
