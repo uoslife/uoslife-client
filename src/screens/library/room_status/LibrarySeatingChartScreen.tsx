@@ -47,10 +47,11 @@ const LibrarySeatingChartScreen = ({
   };
   const handlePressReservation = () => {
     // @ts-ignore
-    navigation.navigate({
-      key: navigation.getParent()?.getState().routes[0].key ?? '',
-      params: {status: 'MY_SEAT'},
-    });
+    navigation.replace('Library', {params: {status: 'MY_SEAT'}});
+    // navigation.navigate({
+    //   key: navigation.getParent()?.getState().routes[0].key ?? '',
+    //   params: {status: 'MY_SEAT'},
+    // });
     setSelectedSeat(initSelectedSeatAtom);
   };
   return (
