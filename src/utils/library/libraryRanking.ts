@@ -30,3 +30,7 @@ export const calculateRankingChartBgColor = (
       return colors.primaryLight;
   }
 };
+
+export const changeHourFromMin = (min: number) => {
+  return `${Math.floor(min / 60)}시간 ${min % 60}분`;
+};

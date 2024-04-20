@@ -66,8 +66,9 @@ const S = {
     align-self: center;
     justify-content: space-between;
   `,
-  SelectOptions: styled.View`
+  SelectOptions: styled.ScrollView`
     width: 150px;
+    height: 240px;
     position: absolute;
     top: 52px;
     left: 50%;
