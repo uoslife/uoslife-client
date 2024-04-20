@@ -115,12 +115,12 @@ const MainScreen = () => {
             <LibraryContents />
           </Suspense>
         </MainServiceBox>
-        <MainServiceBox
+        {/* <MainServiceBox
           label="공지사항"
           iconName="campaign"
           iconColor="primaryDarker">
           <AnnounceContents />
-        </MainServiceBox>
+        </MainServiceBox> */}
       </S.MainWrapper>
     </S.MainContainer>
   );
