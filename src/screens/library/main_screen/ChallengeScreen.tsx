@@ -12,6 +12,7 @@ import {
 } from '../../../configs/utility/libraryChallenge/challengeUserStatus';
 import {UtilAPI} from '../../../api/services';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
+import {changeHourFromMin} from '../../../utils/library/libraryRanking';
 
 export const ChallengUserStatusImgEnum: {
   [key in ChallengeUserStatusType]: any;
@@ -26,11 +27,11 @@ export const ChallengUserStatusImgEnum: {
 
 const ChallengeScreen = () => {
   const {data: challengeData, refetch} = useQuery({
-    queryKey: ['getChallengeData', 'MONTH', 'UOSLIFE'],
+    queryKey: ['getChallengeData', 'MONTH', '시대생'],
     queryFn: () =>
       UtilAPI.getMyLibraryRanking({
         duration: 'MONTH',
-        major: 'UOSLIFE',
+        major: '시대생',
       }),
   });
 
@@ -41,13 +42,17 @@ const ChallengeScreen = () => {
 
   useEffect(() => {
     if (challengeData?.time != null) {
-      const {time} = challengeData;
-      if (time < 10) setChallengeStatus('EGG');
-      else if (time >= 10 && time < 20) setChallengeStatus('BABY');
-      else if (time >= 20 && time < 30) setChallengeStatus('CHICK');
-      else if (time >= 30 && time < 50) setChallengeStatus('JUNGDO');
-      else if (time >= 50 && time < 100) setChallengeStatus('CHEONJAE');
-      else if (time >= 100) setChallengeStatus('MANJAE');
+      const timeInHours = challengeData.time / 60;
+      if (timeInHours < 10) setChallengeStatus('EGG');
+      else if (timeInHours >= 10 && timeInHours < 20)
+        setChallengeStatus('BABY');
+      else if (timeInHours >= 20 && timeInHours < 30)
+        setChallengeStatus('CHICK');
+      else if (timeInHours >= 30 && timeInHours < 50)
+        setChallengeStatus('JUNGDO');
+      else if (timeInHours >= 50 && timeInHours < 100)
+        setChallengeStatus('CHEONJAE');
+      else if (timeInHours >= 100) setChallengeStatus('MANJAE');
     }
   }, [challengeData]);
 
@@ -71,7 +76,7 @@ const ChallengeScreen = () => {
               gap: 4px;
             `}>
             <Txt
-              label={`${challengeData?.time ?? 0}시간 달성!`}
+              label={`${changeHourFromMin(challengeData?.time ?? 0)} 달성!`}
               color="primaryBrand"
               typograph="titleSmall"
             />
