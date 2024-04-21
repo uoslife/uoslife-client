@@ -1,6 +1,6 @@
 import styled, {css} from '@emotion/native';
-import {Txt} from '@uoslife/design-system';
-import {View} from 'react-native';
+import {Icon, Txt, colors} from '@uoslife/design-system';
+import {Platform, View} from 'react-native';
 import {useQuery} from '@tanstack/react-query';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {useEffect, useState} from 'react';
@@ -102,11 +102,6 @@ const ChallengeScreen = () => {
               gap: 4px;
             `}>
             <Txt
-              label={`${changeHourFromMin(challengeData?.time ?? 0)} 달성!`}
-              color="primaryBrand"
-              typograph="titleSmall"
-            />
-            <Txt
               label={ChallengeUserStatusDesEnum[challengeStatus]}
               color="grey190"
               typograph="bodyMedium"
@@ -114,6 +109,20 @@ const ChallengeScreen = () => {
           </View>
         </S.TextBox>
       </S.CharacterBox>
+
+      <S.CardContainer>
+        <S.CardLeftWrapper>
+          <Icon name="alarm" width={20} height={20} />
+          <Txt label="이번달 이용시간" color="grey90" typograph="titleSmall" />
+        </S.CardLeftWrapper>
+
+        <Txt
+          label={`${changeHourFromMin(challengeData?.time ?? 0)}`}
+          color="primaryBrand"
+          typograph="headlineMedium"
+        />
+      </S.CardContainer>
+
       <LibraryChallengeBoard status={challengeStatus} />
     </S.Container>
   );
@@ -126,9 +135,7 @@ const S = {
     width: 100%;
     height: 100%;
     background-color: #f7faff;
-    padding-left: 28px;
-    padding-right: 28px;
-    padding-top: 20px;
+    padding: 20px 28px;
   `,
   CharacterBox: styled.View`
     display: flex;
@@ -144,5 +151,29 @@ const S = {
   ImageContainer: styled.Image`
     width: 200px;
     height: 200px;
+  `,
+  CardContainer: styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px;
+    border-radius: 20px;
+    background: ${colors.white};
+    ${Platform.select({
+      ios: {
+        shadowColor: 'rgba(70, 134, 255, 0.1)',
+        shadowOffset: {width: 2, height: 2},
+        shadowOpacity: 1,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 5,
+      },
+    })}
+    margin-bottom: 20px;
+  `,
+  CardLeftWrapper: styled.View`
+    gap: 4px;
+    flex-direction: row;
   `,
 };
