@@ -216,9 +216,9 @@ const SeatItem = ({
             }}>
             {forDisabledPerson && (
               <Icon
-                name="menu" // TODO: 장애인 icon으로 변경
-                width={6}
-                height={6}
+                name="disabled"
+                width={3.5}
+                height={5}
                 color={
                   isAvailable || status === 'SPECIFIED' ? 'grey190' : 'white'
                 }

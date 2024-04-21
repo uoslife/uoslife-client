@@ -50,7 +50,9 @@ const LibraryContentsInNotUsing = () => {
         size="medium"
         isFullWidth
         onPress={() => {
-          navigation.navigate('Library');
+          navigation.navigate('Library', {
+            screen: 'Library_room_status',
+          });
         }}
       />
     </S.NotUsingWrapper>

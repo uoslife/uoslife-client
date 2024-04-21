@@ -5,13 +5,25 @@ import {colors} from '@uoslife/design-system';
 import CardLayout from '../cardLayout/CardLayout';
 
 type Props = {
-  variant: 'text' | 'card';
+  variant: 'ranking' | 'text' | 'card';
   width?: number;
   height?: number;
 };
 
 const switchFromVariant = ({variant, width, height}: Props) => {
   switch (variant) {
+    case 'ranking':
+      return (
+        <SkeletonPlaceholder
+          backgroundColor={colors.grey10}
+          highlightColor={colors.white}>
+          <SkeletonPlaceholder.Item
+            width={width ?? '100%'}
+            height={height ?? 244}
+            borderRadius={20}
+          />
+        </SkeletonPlaceholder>
+      );
     case 'text':
       return (
         <SkeletonPlaceholder
