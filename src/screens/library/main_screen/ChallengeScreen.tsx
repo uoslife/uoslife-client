@@ -13,6 +13,8 @@ import {
 import {UtilAPI} from '../../../api/services';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import {changeHourFromMin} from '../../../utils/library/libraryRanking';
+import GuidePopup from '../../../components/molecules/common/GuidePopup';
+import boxShadowStyle from '../../../styles/boxShadow';
 
 export const ChallengUserStatusImgEnum: {
   [key in ChallengeUserStatusType]: any;
@@ -26,6 +28,12 @@ export const ChallengUserStatusImgEnum: {
 };
 
 const ChallengeScreen = () => {
+  const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(false);
+
+  const closeGuidePopup = () => {
+    setIsGuidePopupOpen(false);
+  };
+
   const {data: challengeData, refetch} = useQuery({
     queryKey: ['getChallengeData', 'MONTH', '시대생'],
     queryFn: () =>
@@ -56,6 +64,12 @@ const ChallengeScreen = () => {
     }
   }, [challengeData]);
 
+  useEffect(() => {
+    if (challengeStatus === 'EGG') {
+      setIsGuidePopupOpen(true);
+    }
+  }, []);
+
   return (
     <S.Container
       refreshControl={
@@ -63,6 +77,18 @@ const ChallengeScreen = () => {
       }>
       <S.CharacterBox>
         <S.ImageContainer source={ChallengUserStatusImgEnum[challengeStatus]} />
+        {isGuidePopupOpen && (
+          <GuidePopup
+            label="도서관 누적 이용시간이 늘어날수록 루매가 성장해요."
+            tail="CENTER"
+            onPress={closeGuidePopup}
+            style={css`
+              position: absolute;
+              top: 0px;
+              ${boxShadowStyle.bottomTapShadow};
+            `}
+          />
+        )}
         <S.TextBox>
           <Txt
             label={ChallengeUserStatusEnum[challengeStatus]}
