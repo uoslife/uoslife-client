@@ -6,8 +6,7 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {useEffect, useState} from 'react';
 import LibraryChallengeBoard from '../../../components/molecules/screens/library/LibraryChallengeBoard';
 import {
-  ChallengeUserStatusDes1Enum,
-  ChallengeUserStatusDes2Enum,
+  ChallengeUserStatusDesEnum,
   ChallengeUserStatusEnum,
   ChallengeUserStatusType,
 } from '../../../configs/utility/libraryChallenge/challengeUserStatus';
@@ -72,12 +71,12 @@ const ChallengeScreen = () => {
               gap: 4px;
             `}>
             <Txt
-              label={ChallengeUserStatusDes1Enum[challengeStatus]}
+              label={`${challengeData?.time ?? 0}시간 달성!`}
               color="primaryBrand"
               typograph="titleSmall"
             />
             <Txt
-              label={ChallengeUserStatusDes2Enum[challengeStatus]}
+              label={ChallengeUserStatusDesEnum[challengeStatus]}
               color="grey190"
               typograph="bodyMedium"
             />
