@@ -78,6 +78,7 @@ const LibraryRankingChart = ({
           label={changeHourFromMin(time)}
           color="primaryBrand"
           typograph="titleMedium"
+          style={{paddingTop: 1}}
         />
       </S.ChartInfoWrapper>
     </S.ChartContainer>
