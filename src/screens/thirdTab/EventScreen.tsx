@@ -11,6 +11,7 @@ type NavigationType = 'Library_challenge' | 'Library_ranking';
 const EventScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const insets = useSafeAreaInsets();
+  // eslint-disable-next-line consistent-return
   const handleOnpressButton = (path: NavigationType) => {
     switch (path) {
       case 'Library_challenge':

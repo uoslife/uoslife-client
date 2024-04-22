@@ -1,4 +1,5 @@
 import {GetSeatListRes} from '../../api/services/util/library/libraryAPI.type';
+import {ROOM_6_FOR_DESKTOP_SEAT} from '../../configs/utility/librarySeatingChart/forDesktopSeat';
 import {
   ROOM_2_FOR_DISABLED_PERSON_LIST,
   ROOM_4_FOR_DISABLED_PERSON_LIST,
@@ -25,6 +26,17 @@ export const findForDisabledPerson = (
       return (
         ROOM_4_FOR_DISABLED_PERSON_LIST.some(item => item === seatId) ?? null
       );
+    default:
+      return null;
+  }
+};
+export const findForDesktopSeat = (
+  roomNumber: RoomNameType,
+  seatId: number,
+): boolean | null => {
+  switch (roomNumber) {
+    case '6':
+      return ROOM_6_FOR_DESKTOP_SEAT.some(item => item === seatId) ?? null;
     default:
       return null;
   }

@@ -9,6 +9,7 @@ import {
 import {RoomNameType} from '../../../../configs/utility/librarySeatingChart/roomName';
 import SeatItem from '../../../atoms/seat_item/SeatItem';
 import {
+  findForDesktopSeat,
   findForDisabledPerson,
   findSeatStatusBySeatId,
 } from '../../../../utils/library/findSeatItem';
@@ -64,6 +65,7 @@ const LibrarySeatingChart = ({
                   roomNumber,
                   item,
                 );
+                const forDesktopSeat = findForDesktopSeat(roomNumber, item);
                 return (
                   <SeatItem
                     key={item}
@@ -73,6 +75,7 @@ const LibrarySeatingChart = ({
                     textSize={changeTextSize()}
                     onPress={handlePressItem}
                     forDisabledPerson={forDisabledPerson}
+                    forDesktopSeat={forDesktopSeat}
                   />
                 );
               }}
