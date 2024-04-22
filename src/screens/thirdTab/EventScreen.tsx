@@ -74,7 +74,7 @@ const EventScreen = () => {
                 style={{textAlign: 'center', fontSize: 44, lineHeight: 53}}
               />
               <Txt
-                label="4월 18일 - 31일"
+                label="4월 23일 - 31일"
                 color="grey190"
                 typograph="bodyLarge"
                 style={{textAlign: 'center'}}
