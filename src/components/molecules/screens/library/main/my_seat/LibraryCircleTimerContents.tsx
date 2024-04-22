@@ -6,8 +6,8 @@ import {
   CIRCLE_COLOR_MIN_TIME,
   CIRCLE_COLOR_NO_TIME,
   LIBRARY_NO_TIME,
-} from '../../../../configs/utility/library';
-import useLibraryDisplayTime from '../../../../hooks/useLibraryDisplayTime';
+} from '../../../../../../configs/utility/library';
+import useLibraryDisplayTime from '../../../../../../hooks/useLibraryDisplayTime';
 
 type Props = {
   isUsingStatus: boolean;

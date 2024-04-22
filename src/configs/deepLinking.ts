@@ -52,11 +52,11 @@ const deepLinksConfig = {
           screens: {
             Library_seat_status_main: 'library/seatStatus',
             Library_seating_chart: 'library/seatingChart',
-            Library_portal_authentication: 'library/portalAuthentication',
           },
         },
         Library_ranking: 'library/ranking',
         Library_challenge: 'library/challenge',
+        Library_portal_authentication: 'library/portalAuthentication',
       },
     },
     Cafeteria: 'cafeteria',

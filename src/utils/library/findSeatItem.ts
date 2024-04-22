@@ -1,27 +1,15 @@
+import {GetSeatListRes} from '../../api/services/util/library/libraryAPI.type';
 import {
   ROOM_2_FOR_DISABLED_PERSON_LIST,
   ROOM_4_FOR_DISABLED_PERSON_LIST,
 } from '../../configs/utility/librarySeatingChart/forDisabledPersonList';
 import {RoomNameType} from '../../configs/utility/librarySeatingChart/roomName';
-import {SeatStatusType} from '../../configs/utility/librarySeatingChart/seatStatus';
 
-const mock: Array<{seatId: number; status: SeatStatusType}> = [
-  {
-    seatId: 12,
-    status: 'NOT_AVAILABLE',
-  },
-  {
-    seatId: 14,
-    status: 'RESERVED',
-  },
-  {
-    seatId: 23,
-    status: 'SPECIFIED',
-  },
-];
-
-export const findSeatStatusBySeatId = (seatId: number) => {
-  return mock.find(item => item.seatId === seatId)?.status;
+export const findSeatStatusBySeatId = (
+  seatList: GetSeatListRes | undefined,
+  seatId: number,
+) => {
+  return seatList?.find(item => item.seatNumber === seatId)?.status;
 };
 
 export const findForDisabledPerson = (

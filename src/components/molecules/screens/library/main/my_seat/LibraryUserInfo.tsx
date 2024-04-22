@@ -3,15 +3,15 @@ import {Txt} from '@uoslife/design-system';
 import {useAtom} from 'jotai';
 
 import LibraryCircleTimer from './LibraryCircleTimer';
-import TextItems from '../../common/textItems/TextItems';
+import TextItems from '../../../../common/textItems/TextItems';
 
-import useUserState from '../../../../hooks/useUserState';
+import useUserState from '../../../../../../hooks/useUserState';
 
-import {UserAtomType} from '../../../../store/account/user';
+import {UserAtomType} from '../../../../../../store/account/user';
 import libraryReservationAtom, {
   ReservationStatusTypeInUsing,
-} from '../../../../store/library';
-import {libraryInformationMessage} from '../../../../configs/utility/library';
+} from '../../../../../../store/library';
+import {libraryInformationMessage} from '../../../../../../configs/utility/library';
 
 const getInformationMessage = (
   reservationStatus: ReservationStatusTypeInUsing,

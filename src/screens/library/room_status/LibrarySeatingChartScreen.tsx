@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ReactNativeZoomableView} from '@openspacelabs/react-native-zoomable-view';
 
+import {useMutation, useQuery} from '@tanstack/react-query';
 import {LibrarySeatListScreenProps} from '../../../navigators/types/library';
 import Header from '../../../components/molecules/common/header/Header';
 import {
@@ -21,6 +22,10 @@ import {
   selectedSeatAtom,
 } from '../../../store/library/reservation';
 import AnimatePress from '../../../components/animations/pressable_icon/AnimatePress';
+import {UtilAPI} from '../../../api/services';
+import {ReservationSeatParams} from '../../../api/services/util/library/libraryAPI.type';
+import showLibraryErrorCode from '../../../utils/library/showLibraryErrorCode';
+import {ErrorResponseType} from '../../../api/services/type';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -45,14 +50,39 @@ const LibrarySeatingChartScreen = ({
   const handlePressItem = () => {
     openBottomSheet();
   };
+
+  const {data: seatList, refetch} = useQuery({
+    queryKey: ['getSeatList', roomNumber],
+    queryFn: () => UtilAPI.getSeatList({room: parseInt(roomNumber)}),
+  });
+
+  const reservationSeatMutation = useMutation({
+    mutationKey: ['reservationSeat'],
+    mutationFn: (params: ReservationSeatParams) =>
+      UtilAPI.reservationSeat(params),
+    onError: (error: ErrorResponseType) => {
+      console.log(error);
+      showLibraryErrorCode(error.code, 'reservation');
+    },
+    onSuccess: () => {
+      // @ts-ignore
+      navigation.replace('Library', {params: {status: 'MY_SEAT'}});
+      // navigation.navigate({
+      //   key: navigation.getParent()?.getState().routes[0].key ?? '',
+      //   params: {status: 'MY_SEAT'},
+      // });
+      setSelectedSeat(initSelectedSeatAtom);
+    },
+  });
   const handlePressReservation = () => {
-    // @ts-ignore
-    navigation.replace('Library', {params: {status: 'MY_SEAT'}});
-    // navigation.navigate({
-    //   key: navigation.getParent()?.getState().routes[0].key ?? '',
-    //   params: {status: 'MY_SEAT'},
-    // });
-    setSelectedSeat(initSelectedSeatAtom);
+    const {seatId} = selectedSeat;
+    const roomId = parseInt(roomNumber);
+    if (!seatId) return;
+
+    reservationSeatMutation.mutate({
+      roomId,
+      seatId,
+    });
   };
   return (
     <>
@@ -64,7 +94,7 @@ const LibrarySeatingChartScreen = ({
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
-        <AnimatePress variant="scale_up_2">
+        <AnimatePress variant="scale_up_2" onPress={() => refetch()}>
           <Icon name="refresh" width={24} height={24} color="grey160" />
         </AnimatePress>
       </Header>
@@ -83,6 +113,7 @@ const LibrarySeatingChartScreen = ({
           <LibrarySeatingChart
             roomNumber={roomNumber as RoomNameType}
             handlePressItem={handlePressItem}
+            seatList={seatList}
           />
         </S.Container>
       </ReactNativeZoomableView>
@@ -141,7 +172,7 @@ const S = {
   SheetContainer: styled.View`
     width: 100%;
     margin: 0 auto;
-    padding: 28px 20px;
+    padding: 24px 20px;
     gap: 40px;
   `,
 };
