@@ -141,6 +141,13 @@ const LibrarySeatingChartScreen = ({
                 typograph="titleSmall"
               />
             )}
+            {selectedSeat.forDesktopSeat && (
+              <Txt
+                label="* 선택하신 좌석은 PC좌석입니다."
+                color="red"
+                typograph="titleSmall"
+              />
+            )}
           </View>
           <View style={{gap: 8}}>
             <Button

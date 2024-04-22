@@ -20,6 +20,7 @@ type Props = {
   itemWidth?: number;
   textSize?: 'large' | 'medium';
   forDisabledPerson: boolean | null;
+  forDesktopSeat: boolean | null;
   onPress: () => void;
 };
 
@@ -29,6 +30,7 @@ const SeatItem = ({
   itemWidth = DEFAULT_ITEM_WIDTH,
   textSize = 'medium',
   forDisabledPerson,
+  forDesktopSeat,
   onPress,
 }: Props) => {
   const setSelectedSeat = useSetAtom(selectedSeatAtom);
@@ -196,6 +198,18 @@ const SeatItem = ({
           />
         </View>
       );
+    case SeatItemEnum.ARROW_BOTTOM:
+      return (
+        <View
+          style={{
+            width: seatItemSize,
+            height: seatItemSize,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="arrow_down" width={12} height={12} />
+        </View>
+      );
     default:
       return (
         <AnimatePress
@@ -206,6 +220,7 @@ const SeatItem = ({
             setSelectedSeat({
               seatId: label ?? null,
               forDisabledPerson,
+              forDesktopSeat,
             });
           }}>
           <S.Container
@@ -218,6 +233,16 @@ const SeatItem = ({
               <Icon
                 name="disabled"
                 width={3.5}
+                height={5}
+                color={
+                  isAvailable || status === 'SPECIFIED' ? 'grey190' : 'white'
+                }
+              />
+            )}
+            {forDesktopSeat && (
+              <Icon
+                name="desktop"
+                width={5}
                 height={5}
                 color={
                   isAvailable || status === 'SPECIFIED' ? 'grey190' : 'white'
