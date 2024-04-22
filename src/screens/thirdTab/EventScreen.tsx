@@ -30,7 +30,11 @@ const EventScreen = () => {
         style={{width: '100%', height: '100%', position: 'absolute'}}
         colors={['#E9F3FF', '#ffffff']}
       />
-      <S.ScreenContainer style={{paddingTop: insets.top + 16}}>
+      <S.ScreenContainer
+        style={{
+          paddingTop: insets.top + 16,
+          paddingBottom: insets.bottom + 110,
+        }}>
         <S.ImageContainer
           source={require('../../assets/images/iroomae_event_page.png')}
         />
@@ -64,54 +68,54 @@ const EventScreen = () => {
                 </S.CategoryContent>
               </S.CategoryContainer>
               <Txt
-                label="도서관 이벤트"
+                label="도전! 중간고사"
                 color="grey190"
                 typograph="headlineLarge"
                 style={{textAlign: 'center', fontSize: 44, lineHeight: 53}}
               />
               <Txt
-                label="4월 18일 - 31일"
+                label="4월 23일 - 31일"
                 color="grey190"
                 typograph="bodyLarge"
-                style={{textAlign: 'center', fontSize: 22, lineHeight: 26}}
+                style={{textAlign: 'center'}}
               />
             </View>
             <View style={{alignItems: 'center'}}>
               <S.TxtWrapper>
                 <Txt
-                  label="시험 기간 동안의 도서관 이용을 통해"
+                  label="시험 기간 동안 도서관 이용을 통해"
                   color="grey190"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
                 />
                 <Txt
-                  label="도전과제를"
+                  label="도전과제를 달성"
                   color="primaryBrand"
                   typograph="bodyMedium"
                   style={{textAlign: 'center', marginLeft: 4}}
+                />
+                <Txt
+                  label="하고"
+                  color="grey190"
+                  typograph="bodyMedium"
+                  style={{textAlign: 'center'}}
                 />
               </S.TxtWrapper>
               <S.TxtWrapper>
                 <Txt
-                  label="달성"
-                  color="primaryBrand"
-                  typograph="bodyMedium"
-                  style={{textAlign: 'center'}}
-                />
-                <Txt
-                  label="하고 시대생"
+                  label="다른 시대생 사용자와 "
                   color="grey190"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
                 />
                 <Txt
-                  label="유저들과 순위 경쟁"
+                  label="순위 경쟁"
                   color="primaryBrand"
                   typograph="bodyMedium"
                   style={{textAlign: 'center', marginLeft: 4}}
                 />
                 <Txt
-                  label="을 벌여보세요."
+                  label="을 벌여보세요!"
                   color="grey190"
                   typograph="bodyMedium"
                   style={{textAlign: 'center'}}
@@ -179,7 +183,7 @@ const S = {
     padding: 0 20px;
     width: 100%;
     justify-content: center;
-    gap: 40px;
+    gap: 24px;
   `,
   GapBox: styled.View`
     height: 32px;
