@@ -22,4 +22,11 @@ export default interface LibraryService {
     Type.GetMyLibraryRankingParams,
     Type.GetMyLibraryRankingRes
   >;
+  getSeatList: ServiceFunc<Type.GetSeatListParams, Type.GetSeatListRes>;
+  reservationSeat: ServiceFunc<
+    Type.ReservationSeatParams,
+    Type.ReservationSeatRes
+  >;
+  extendSeat: ServiceFunc<Type.ExtendSeatParams, Type.ExtendSeatRes>;
+  returnSeat: ServiceFunc<Type.ReturnSeatParams, Type.ReturnSeatRes>;
 }

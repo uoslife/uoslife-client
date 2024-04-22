@@ -1,4 +1,4 @@
-import {get} from '../../../core/methods';
+import {del, get, post} from '../../../core/methods';
 import LibraryService from './libraryAPI.interface';
 import * as Type from './libraryAPI.type';
 
@@ -21,5 +21,21 @@ const LibraryAPI: LibraryService = {
     get<Type.GetMyLibraryRankingRes>(
       `utility/libraries/leader-board/me?major=${params?.major}&duration=${params?.duration}`,
     ),
+  getSeatList: params =>
+    get<Type.GetSeatListRes>(
+      `utility/libraries/reservation/seat?room=${params?.room}`,
+    ),
+  reservationSeat: params =>
+    post<Type.GetMyLibraryRankingRes>(
+      `utility/libraries/reservation/seat`,
+      params,
+    ),
+  extendSeat: params =>
+    post<Type.ExtendSeatRes>(
+      `utility/libraries/reservation/seat/extend`,
+      params,
+    ),
+  returnSeat: params =>
+    del<Type.ReturnSeatRes>(`utility/libraries/reservation/seat`, params),
 };
 export default LibraryAPI;

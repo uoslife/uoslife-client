@@ -1,4 +1,5 @@
 import {LibraryRankingMajorType} from '../../../../configs/utility/libraryRanking/libraryRanking';
+import {SeatStatusType} from '../../../../configs/utility/librarySeatingChart/seatStatus';
 import {
   LibraryRankingTabsType,
   LibraryRoomStatusTabsType,
@@ -42,6 +43,7 @@ export type LibraryReservationType = {
   status: ReservationStatusTypeFromServer;
   seatRoomName: string;
   seatNo: string;
+  seatRoomNumber: string;
   seatUseTime: string;
   reservationMinutes: string;
   seatStartTime: string;
@@ -124,3 +126,30 @@ export type GetMyLibraryRankingRes = {
   nickname: string;
   totalRank: number;
 };
+
+export type GetSeatListParams = {
+  room: number;
+};
+
+export type GetSeatListRes = Array<{
+  seatNumber: number;
+  status: SeatStatusType;
+}>;
+
+export type ReservationSeatParams = {
+  roomId: number;
+  seatId: number;
+};
+export type ReservationSeatRes = {};
+
+export type ExtendSeatParams = {
+  roomId: number;
+  seatId: number;
+};
+export type ExtendSeatRes = {};
+
+export type ReturnSeatParams = {
+  roomId: number;
+  seatId: number;
+};
+export type ReturnSeatRes = {};
