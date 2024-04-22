@@ -1,12 +1,12 @@
 import React from 'react';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {Txt} from '@uoslife/design-system';
-import {ReservationStatusType} from '../../../../store/library';
+import {ReservationStatusType} from '../../../../../../store/library';
 import LibraryCircleTimerContents from './LibraryCircleTimerContents';
 import {
   DEFAULT_TRAIL_COLOR,
   LibraryCircleTimerDefaultProps,
-} from '../../../../configs/utility/library';
+} from '../../../../../../configs/utility/library';
 
 type LibraryCustomCircleTimerProps = {
   reservationStatus: ReservationStatusType;

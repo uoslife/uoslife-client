@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
 import {memo, useMemo} from 'react';
 import {Dimensions, FlatList, View} from 'react-native';
+
 import {
   LIBRARY_ROW_COUNT,
   LIBRARY_SEATS,
@@ -11,15 +12,21 @@ import {
   findForDisabledPerson,
   findSeatStatusBySeatId,
 } from '../../../../utils/library/findSeatItem';
+import {GetSeatListRes} from '../../../../api/services/util/library/libraryAPI.type';
 
 const {width} = Dimensions.get('screen');
 
 type Props = {
   roomNumber: RoomNameType;
   handlePressItem: () => void;
+  seatList?: GetSeatListRes;
 };
 
-const LibrarySeatingChart = ({roomNumber, handlePressItem}: Props) => {
+const LibrarySeatingChart = ({
+  roomNumber,
+  handlePressItem,
+  seatList,
+}: Props) => {
   const itemWidth = useMemo(() => {
     const libraryRowCount = LIBRARY_ROW_COUNT.get(roomNumber);
     if (!libraryRowCount) return 0;
@@ -52,7 +59,7 @@ const LibrarySeatingChart = ({roomNumber, handlePressItem}: Props) => {
               scrollEnabled={false}
               data={rowItem}
               renderItem={({item}) => {
-                const status = findSeatStatusBySeatId(item);
+                const status = findSeatStatusBySeatId(seatList, item);
                 const forDisabledPerson = findForDisabledPerson(
                   roomNumber,
                   item,

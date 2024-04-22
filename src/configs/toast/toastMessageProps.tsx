@@ -21,6 +21,19 @@ const toastMessage = {
 
   // utils
   preparingLibraryReservationInfo: '해당 열람실은 서비스 준비 중이에요.',
+  libraryReservationExtendSuccess: '좌석이 연장되었어요.',
+  libraryReservationExtendError: '좌석 연장에 실패했어요.',
+  libraryReservationReturnSuccess: '좌석이 반납되었어요.',
+  libraryReservationReturnError: '좌석 반납에 실패했어요.',
+  libraryReservationL03Error: '이미 이용 중인 좌석이에요.',
+  libraryReservationL04Error: '좌석 미반납 3회로 좌석을 이용할 수 없어요.',
+  libraryReservationL05Error:
+    '좌석 연장은 잔여 이용 시간이 180분 이하일 때 가능해요.',
+  libraryReservationL06Error: '좌석 연장 횟수(3회)가 초과되었어요.',
+  libraryReservationL07Error: '도서관 게이트 통과 후 예약해주세요.',
+  libraryReservationL08Error: '이미 이용 중인 좌석이 있어요.',
+  libraryReservationUnknownError:
+    '도서관 예약 중 알 수 없는 오류가 발생했어요.',
 
   // etc
   cannotOpenUrlError: '오류로 인해 해당 url을 열 수 없어요.',
@@ -107,9 +120,50 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   },
 
   // utils
-
   preparingLibraryReservationInfo: {
     title: toastMessage.preparingLibraryReservationInfo,
+  },
+  libraryReservationExtendSuccess: {
+    title: toastMessage.libraryReservationExtendSuccess,
+  },
+  libraryReservationExtendError: {
+    type: 'error',
+    title: toastMessage.libraryReservationExtendError,
+  },
+  libraryReservationReturnSuccess: {
+    title: toastMessage.libraryReservationReturnSuccess,
+  },
+  libraryReservationReturnError: {
+    type: 'error',
+    title: toastMessage.libraryReservationReturnError,
+  },
+  libraryReservationL03Error: {
+    type: 'error',
+    title: toastMessage.libraryReservationL03Error,
+  },
+  libraryReservationL04Error: {
+    type: 'error',
+    title: toastMessage.libraryReservationL04Error,
+  },
+  libraryReservationL05Error: {
+    type: 'error',
+    title: toastMessage.libraryReservationL05Error,
+  },
+  libraryReservationL06Error: {
+    type: 'error',
+    title: toastMessage.libraryReservationL06Error,
+  },
+  libraryReservationL07Error: {
+    type: 'error',
+    title: toastMessage.libraryReservationL07Error,
+  },
+  libraryReservationL08Error: {
+    type: 'error',
+    title: toastMessage.libraryReservationL08Error,
+  },
+  libraryReservationUnknownError: {
+    type: 'error',
+    title: toastMessage.libraryReservationUnknownError,
   },
 
   // etc

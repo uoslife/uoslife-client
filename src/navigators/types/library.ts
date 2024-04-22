@@ -8,12 +8,12 @@ export type LibraryStackParamList = {
   Library_ranking: undefined;
   Library_room_status?: LibraryRoomStatusStackParamList;
   Library_challenge: undefined;
+  Library_portal_authentication: undefined;
 };
 
 export type LibraryRoomStatusStackParamList = {
   Library_room_status_main?: {roomType?: 'ECONOMY' | 'LAW' | 'CENTRAL'};
   Library_seating_chart: {roomNumber: string};
-  Library_portal_authentication: undefined;
 };
 
 // navigation props

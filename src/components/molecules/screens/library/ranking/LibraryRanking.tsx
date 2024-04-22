@@ -205,7 +205,7 @@ const LibraryRanking = ({duration}: Props) => {
                 typograph="titleLarge"
               />
               <Txt
-                label={`${myRankingData.data?.time}시간`}
+                label={changeHourFromMin(myRankingData.data?.time)}
                 color="primaryBrand"
                 typograph="titleLarge"
               />

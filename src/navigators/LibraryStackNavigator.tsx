@@ -29,10 +29,6 @@ const LibraryRoomStatusNavigator = () => {
         name="Library_seating_chart"
         component={LibrarySeatingChartScreen}
       />
-      <LibraryRoomStatusStack.Screen
-        name="Library_portal_authentication"
-        component={PortalAuthenticationScreen}
-      />
     </LibraryRoomStatusStack.Navigator>
   );
 };
@@ -51,6 +47,10 @@ const LibraryStackNavigator = () => {
       <Stack.Screen
         name="Library_challenge"
         component={LibraryChallengeScreen}
+      />
+      <Stack.Screen
+        name="Library_portal_authentication"
+        component={PortalAuthenticationScreen}
       />
     </Stack.Navigator>
   );

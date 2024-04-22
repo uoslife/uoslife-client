@@ -34,7 +34,7 @@ const GuidePopupBody = styled.View`
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: ${colors.secondaryBrand};
+  background-color: ${colors.secondaryBrand};
 `;
 
 type TailProps = {tail: 'LEFT' | 'CENTER' | 'RIGHT'};
