@@ -7,7 +7,7 @@ export type LibraryRoomStatusTabsEnumType = Record<
   string
 >;
 
-export type LibraryRankingTabsType = 'DAY' | 'WEEK';
+export type LibraryRankingTabsType = 'DAY' | 'WEEK' | 'MONTH';
 export type LibraryRankingTabsEnumType = Record<LibraryRankingTabsType, string>;
 
 export const LibraryTabsEnum: LibraryTabsEnumType = {
@@ -25,4 +25,5 @@ export const LibraryRoomStatusTabsEnum: LibraryRoomStatusTabsEnumType = {
 export const LibraryRankingTabsEnum: LibraryRankingTabsEnumType = {
   DAY: '일일 순위',
   WEEK: '주간 순위',
+  MONTH: '월간 순위',
 };
