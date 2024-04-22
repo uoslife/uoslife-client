@@ -6,7 +6,7 @@ import boxShadowStyle from '../../../../styles/boxShadow';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
 type SelectProps = {
-  options: string[];
+  options: readonly string[];
   currentOption: string;
   setCurrent: React.Dispatch<React.SetStateAction<any>>;
 };
