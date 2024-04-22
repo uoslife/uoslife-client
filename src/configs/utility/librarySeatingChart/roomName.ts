@@ -1,4 +1,4 @@
-export type RoomNameType = '1' | '2' | '3' | '4' | '5';
+export type RoomNameType = '1' | '2' | '3' | '4' | '5' | '6';
 export type RoomNameEnumType = Record<RoomNameType, string>;
 
 export const RoomNameEnum: RoomNameEnumType = {
@@ -7,4 +7,5 @@ export const RoomNameEnum: RoomNameEnumType = {
   3: '0 ZONE 1',
   4: '0 ZONE 2',
   5: '노트북실',
+  6: '1층 스터디홀',
 };

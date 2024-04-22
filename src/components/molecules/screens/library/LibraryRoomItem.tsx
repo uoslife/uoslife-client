@@ -9,7 +9,7 @@ import {LibraryRoomStatusNavigationProp} from '../../../../navigators/types/libr
 import customShowToast from '../../../../configs/toast/index';
 
 // TODO: 스터디홀, 중도 이외 도서관 예약 기능 추가되면 삭제
-const ACCSS_RESTRICTION_ROOM_NUMBER = ['6', '21', '22', '32', '33'];
+const ACCSS_RESTRICTION_ROOM_NUMBER = ['21', '22', '32', '33'];
 
 export type Props = {
   item: LibraryStatusItemType;
@@ -21,6 +21,16 @@ const LibraryRoomItem = ({item, boxWidth}: Props) => {
   const isAccessRestriction = ACCSS_RESTRICTION_ROOM_NUMBER.some(
     i => i === item.room_no,
   );
+
+  const handlePressRoomItem = () => {
+    if (isAccessRestriction) {
+      customShowToast('preparingLibraryReservationInfo');
+      return;
+    }
+    navigation.navigate('Library_seating_chart', {
+      roomNumber: item.room_no,
+    });
+  };
 
   return (
     <AnimatePress
@@ -39,15 +49,7 @@ const LibraryRoomItem = ({item, boxWidth}: Props) => {
         {...boxShadowStyle.bottomTapShadow, width: boxWidth / 2 - 22},
       ]}
       variant={isAccessRestriction ? 'none' : 'scale_up_3'}
-      onPress={() => {
-        if (isAccessRestriction) {
-          customShowToast('preparingLibraryReservationInfo');
-          return;
-        }
-        navigation.navigate('Library_seating_chart', {
-          roomNumber: item.room_no,
-        });
-      }}>
+      onPress={handlePressRoomItem}>
       <Txt label={`${item.room_name}`} color="grey190" typograph="titleSmall" />
       <Txt
         label={`잔여 ${item.remain_seat}석 / ${item.total_seat}석`}
