@@ -1,7 +1,8 @@
-import styled from '@emotion/native';
+import styled, {css} from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import boxShadowStyle from '../../../../styles/boxShadow';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
@@ -33,7 +34,22 @@ const Select = ({options, currentOption, setCurrent}: SelectProps) => {
         </AnimatePress>
       </S.SelectContainer>
       {showOptions && (
-        <S.SelectOptions style={{...boxShadowStyle.LibraryShadow}}>
+        // https://github.com/facebook/react-native/issues/38730#issuecomment-1695742239
+        <ScrollView
+          style={[
+            {...boxShadowStyle.LibraryShadow},
+            css`
+              width: 200px;
+              height: 240px;
+              position: absolute;
+              top: 52px;
+              left: 50%;
+              transform: translateX(-100px);
+              border-radius: 20px;
+              background-color: white;
+              border: 0.7px solid ${colors.primaryLighterAlt};
+            `,
+          ]}>
           {options.map((item, index) => (
             <View key={item}>
               <S.SelectOptionsItems onPress={() => handlePressOption(item)}>
@@ -49,7 +65,7 @@ const Select = ({options, currentOption, setCurrent}: SelectProps) => {
               {options.length !== index - 1 && <S.SelectOptionsDivider />}
             </View>
           ))}
-        </S.SelectOptions>
+        </ScrollView>
       )}
     </>
   );
@@ -68,17 +84,6 @@ const S = {
     justify-content: space-between;
     gap: 4px;
     align-items: center;
-  `,
-  SelectOptions: styled.ScrollView`
-    width: 200px;
-    height: 240px;
-    position: absolute;
-    top: 52px;
-    left: 50%;
-    transform: translateX(-100px);
-    border-radius: 20px;
-    background-color: white;
-    border: 0.7px solid ${colors.primaryLighterAlt};
   `,
   SelectOptionsItems: styled.Pressable`
     padding: 10px 16px;
