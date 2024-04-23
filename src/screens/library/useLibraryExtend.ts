@@ -7,9 +7,12 @@ import customShowToast from '../../configs/toast';
 import useModal from '../../hooks/useModal';
 import libraryReservationAtom from '../../store/library';
 import showLibraryErrorCode from '../../utils/library/showLibraryErrorCode';
+import useUserState from '../../hooks/useUserState';
+import AnalyticsService from '../../services/analytics';
 
 const useLibraryExtend = () => {
   const [{data, refetch}] = useAtom(libraryReservationAtom);
+  const {user} = useUserState();
   const [openExtendSheet, closeExtendSheet, ExtendBottomSheet] =
     useModal('BOTTOM_SHEET');
 
@@ -20,10 +23,14 @@ const useLibraryExtend = () => {
       showLibraryErrorCode(error.code, 'extend');
       closeExtendSheet();
     },
-    onSuccess: () => {
-      customShowToast('libraryReservationExtendSuccess');
-      closeExtendSheet();
-      refetch();
+    onSuccess: async () => {
+      await AnalyticsService.logAnalyticsEvent('library_extend_success', {
+        userId: user?.id as number,
+      }).finally(() => {
+        customShowToast('libraryReservationExtendSuccess');
+        closeExtendSheet();
+        refetch();
+      });
     },
   });
 

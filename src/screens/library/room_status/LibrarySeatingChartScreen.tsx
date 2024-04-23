@@ -26,6 +26,8 @@ import {UtilAPI} from '../../../api/services';
 import {ReservationSeatParams} from '../../../api/services/util/library/libraryAPI.type';
 import showLibraryErrorCode from '../../../utils/library/showLibraryErrorCode';
 import {ErrorResponseType} from '../../../api/services/type';
+import useUserState from '../../../hooks/useUserState';
+import AnalyticsService from '../../../services/analytics';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -34,6 +36,7 @@ const LibrarySeatingChartScreen = ({
 }: LibrarySeatListScreenProps) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const {user} = useUserState();
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -61,17 +64,20 @@ const LibrarySeatingChartScreen = ({
     mutationFn: (params: ReservationSeatParams) =>
       UtilAPI.reservationSeat(params),
     onError: (error: ErrorResponseType) => {
-      console.log(error);
       showLibraryErrorCode(error.code, 'reservation');
     },
-    onSuccess: () => {
-      // @ts-ignore
-      navigation.replace('Library', {params: {status: 'MY_SEAT'}});
-      // navigation.navigate({
-      //   key: navigation.getParent()?.getState().routes[0].key ?? '',
-      //   params: {status: 'MY_SEAT'},
-      // });
-      setSelectedSeat(initSelectedSeatAtom);
+    onSuccess: async () => {
+      await AnalyticsService.logAnalyticsEvent('library_reservation_success', {
+        userId: user?.id as number,
+      }).finally(() => {
+        // @ts-ignore
+        navigation.replace('Library', {params: {status: 'MY_SEAT'}});
+        // navigation.navigate({
+        //   key: navigation.getParent()?.getState().routes[0].key ?? '',
+        //   params: {status: 'MY_SEAT'},
+        // });
+        setSelectedSeat(initSelectedSeatAtom);
+      });
     },
   });
   const handlePressReservation = () => {
