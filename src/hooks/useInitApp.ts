@@ -1,6 +1,6 @@
 import {useState, useEffect, useMemo, useCallback} from 'react';
-import {Linking} from 'react-native';
-import {useSetAtom} from 'jotai';
+import {Alert, Linking} from 'react-native';
+import {useAtom, useSetAtom} from 'jotai';
 import CodePush, {
   DownloadProgress,
   LocalPackage,
@@ -11,18 +11,19 @@ import DeviceService from '../services/device';
 import NotificationService from '../services/notification';
 import UserService from '../services/user';
 import storage from '../storage';
-import {useConfigContext} from './ConfigContext';
 import useUserState from './useUserState';
 import bootSplashVisibleAtom from '../store/app/bootSplashVisible';
 import initLoadingAtom from '../store/app/initLoading';
 import syncProgressAtom from '../store/app/codepush';
 import customShowToast from '../configs/toast';
+import supabaseConfigAtom from '../store/app/supabaseConfig';
+import openAppstore from '../utils/app/openAppstore';
 
 const useInitApp = () => {
-  const {config, isLoading, hasNetworkError, environment} = useConfigContext();
+  const [{data: configData}] = useAtom(supabaseConfigAtom);
   const isMaintenance = useMemo(
-    () => config.get('app.block') !== 'NO',
-    [config],
+    () => configData?.config?.get('app.block') !== 'NO',
+    [configData],
   );
 
   const setAnimatedBootSplashVisible = useSetAtom(bootSplashVisibleAtom);
@@ -79,12 +80,33 @@ const useInitApp = () => {
 
   // loading
   const setLoadingFinish = useCallback(() => {
+    if (!configData?.isLatestVersion) {
+      if (configData?.environment === 'alpha') {
+        Alert.alert(
+          '새로운 버전이 출시되었어요.(Alpha Environment)',
+          `iOS: testflight에서 앱을 업데이트 해주세요.\nAndroid: Playstore 내부 테스트에서 앱을 업데이트 해주세요.`,
+        );
+        return;
+      }
+      Alert.alert(
+        '알림',
+        `새로운 버전이 출시되었어요.\n 업데이트를 위해 앱 스토어로 이동합니다.`,
+        [
+          {
+            text: '이동하기',
+            onPress: openAppstore,
+          },
+        ],
+      );
+      return;
+    }
     checkForUpdateCodePush().finally(() => {
       setIsServiceInitLoading(false);
       storage.set('isNotFirstLoading', true);
-      if (environment === 'alpha') customShowToast('alphaEnvironmentInfo');
+      if (configData?.environment === 'alpha')
+        customShowToast('alphaEnvironmentInfo');
     });
-  }, [checkForUpdateCodePush, environment]);
+  }, [checkForUpdateCodePush, configData]);
 
   const setAuthenticationSuccess = useCallback(async () => {
     storage.set('isLoggedIn', true);
@@ -114,14 +136,15 @@ const useInitApp = () => {
   }, [setAuthenticationSuccess, setLoadingFinish, setUserInfo]);
 
   const isLoadingFinish = useMemo(
-    () => isLoading || isServiceInitLoading,
-    [isLoading, isServiceInitLoading],
+    () => configData?.isLoading || isServiceInitLoading,
+    [configData?.isLoading, isServiceInitLoading],
   );
 
   useEffect(() => {
+    if (!configData) return;
     initApp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [configData]);
 
   /** 로딩이 끝났을 경우, AnimatedBootSplashScreen을 보여줍니다.
    * ```animatedBootSplashVisible: true```
@@ -139,7 +162,7 @@ const useInitApp = () => {
     setAnimatedBootSplashVisible(true);
     updateCodepush(codePushPackage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, isServiceInitLoading]);
+  }, [isServiceInitLoading]);
 
   /** 백그라운드에서 deepLink가 포함된 알림을 클릭하여 들어왔을 때 deeplink를 엽니다. */
   useEffect(() => {
@@ -151,10 +174,10 @@ const useInitApp = () => {
         storage.delete('openedDeepLinkUrl');
       }
     })();
-  }, [isLoading, isLoadingFinish, isLoggedIn, isServiceInitLoading]);
+  }, [isLoadingFinish, isLoggedIn, isServiceInitLoading]);
 
   return {
-    hasNetworkError,
+    hasNetworkError: configData?.hasNetworkError,
     isMaintenance,
     isLoggedIn,
     setIsLoggedIn,
