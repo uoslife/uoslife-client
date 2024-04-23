@@ -7,9 +7,12 @@ import customShowToast from '../../configs/toast';
 import useModal from '../../hooks/useModal';
 import libraryReservationAtom from '../../store/library';
 import showLibraryErrorCode from '../../utils/library/showLibraryErrorCode';
+import AnalyticsService from '../../services/analytics';
+import useUserState from '../../hooks/useUserState';
 
 const useLibraryReturn = () => {
   const [{data, refetch}] = useAtom(libraryReservationAtom);
+  const {user} = useUserState();
   const [openReturnSheet, closeReturnSheet, ReturnBottomSheet] =
     useModal('BOTTOM_SHEET');
 
@@ -20,10 +23,14 @@ const useLibraryReturn = () => {
       showLibraryErrorCode(error.code, 'return');
       closeReturnSheet();
     },
-    onSuccess: () => {
-      customShowToast('libraryReservationReturnSuccess');
-      closeReturnSheet();
-      refetch();
+    onSuccess: async () => {
+      await AnalyticsService.logAnalyticsEvent('library_return_success', {
+        userId: user?.id as number,
+      }).finally(() => {
+        customShowToast('libraryReservationReturnSuccess');
+        closeReturnSheet();
+        refetch();
+      });
     },
   });
 
