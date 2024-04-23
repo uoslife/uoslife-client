@@ -6,7 +6,13 @@ import {
   GetCafeteriasResponse,
   MealTimeType,
 } from '../api/services/util/cafeteria/cafeteriaAPI.type';
-import {LibraryReservationType} from '../api/services/util/library/libraryAPI.type';
+import {
+  GetLibraryRankingRes,
+  GetMyLibraryRankingRes,
+  LibraryReservationType,
+} from '../api/services/util/library/libraryAPI.type';
+import {LibraryRankingMajorNameType} from '../configs/utility/libraryRanking/libraryRanking';
+import {LibraryRankingTabsType} from '../configs/utility/libraryTabs';
 import {
   DEFAULT_RESERVATION_STATUS,
   LibraryReservationAtomType,
@@ -132,6 +138,47 @@ export default class UtilityService {
       ]);
 
       return res[0];
+    } catch (error) {
+      return null;
+    }
+  }
+
+  static async getLibraryRanking({
+    duration,
+    major,
+  }: {
+    duration: LibraryRankingTabsType;
+    major: LibraryRankingMajorNameType;
+  }): Promise<GetLibraryRankingRes | null> {
+    try {
+      const res = await UtilAPI.getLibraryRanking({
+        duration,
+        major,
+      });
+      return res;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  static async getMyLibraryRanking({
+    duration,
+    major,
+  }: {
+    duration: LibraryRankingTabsType;
+    major: LibraryRankingMajorNameType;
+  }): Promise<GetMyLibraryRankingRes | null> {
+    try {
+      const res = await UtilAPI.getMyLibraryRanking({
+        duration,
+        major,
+      });
+      try {
+        CoreAPI.saveLibraryHistories({year: 2024});
+      } catch (err) {
+        console.error(err);
+      }
+      return res;
     } catch (error) {
       return null;
     }

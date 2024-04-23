@@ -185,7 +185,7 @@ const S = {
   SheetContainer: styled.View`
     width: 100%;
     margin: 0 auto;
-    padding: 24px 20px;
+    padding: 22px 20px;
     gap: 40px;
   `,
 };

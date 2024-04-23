@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
-import {useSetAtom} from 'jotai';
+import {useAtom, useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 
@@ -7,7 +7,9 @@ import {Text, View} from 'react-native';
 import {Button, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import Header from '../../components/molecules/common/header/Header';
-import {isFocusedLibraryAtom} from '../../store/library';
+import libraryReservationAtom, {
+  isFocusedLibraryAtom,
+} from '../../store/library';
 import {LibraryMainScreenProps} from '../../navigators/types/library';
 import TabView from '../../components/molecules/common/tab_view/TabView';
 import {
@@ -48,11 +50,13 @@ const LibraryMainScreen = ({route: {params}}: LibraryMainScreenProps) => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-
+  const [{refetch}] = useAtom(libraryReservationAtom);
   // '이용 중인 좌석' API의 auto refetch를 위해 도서관 화면의 isFocused 상태를 저장합니다.
   useEffect(() => {
-    setIsFocusedLibraryScreen(isFocused);
-  }, [isFocused, setIsFocusedLibraryScreen]);
+    const isFocusedMySeatScreen = isFocused && index === 0;
+    if (isFocusedMySeatScreen) refetch(); // 최초 진입시 한번 fetch 해오도록 구현
+    setIsFocusedLibraryScreen(isFocusedMySeatScreen);
+  }, [index, isFocused, refetch, setIsFocusedLibraryScreen]);
 
   const {
     openExtendSheet,
