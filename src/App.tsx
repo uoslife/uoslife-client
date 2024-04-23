@@ -19,9 +19,11 @@ import AnimatedBootSplash from './screens/etc/AnimatedBootSplash';
 import toastConfig from './configs/toast/config';
 import CustomNavigationContainer from './screens/etc/CustomNavigationContainer';
 import bootSplashVisibleAtom from './store/app/bootSplashVisible';
+import {SENTRY_DEFAULT_SAMPLE_RATE} from './configs/sentry';
 
 Sentry.init({
   dsn: SENTRY_DSN_KEY,
+  sampleRate: SENTRY_DEFAULT_SAMPLE_RATE,
 });
 
 let App: React.FC = () => {
