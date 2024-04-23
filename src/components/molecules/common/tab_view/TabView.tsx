@@ -30,9 +30,9 @@ const TabView = ({children, index, setIndex}: TabViewProps) => {
     return {key: tabKey, title: tabTitle, component};
   });
   const renderScene = SceneMap(transformSceneMap(routes));
-
   return (
     <RNTabView
+      lazy
       renderTabBar={props => (
         <TabBar
           {...props}
