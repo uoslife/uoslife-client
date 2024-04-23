@@ -34,6 +34,11 @@ const LibraryRankingScreen = () => {
           tabTitle={LibraryRankingTabsEnum.WEEK}
           component={<LibraryRanking duration="WEEK" />}
         />
+        <TabView.Screen
+          tabKey="MONTH"
+          tabTitle={LibraryRankingTabsEnum.MONTH}
+          component={<LibraryRanking duration="MONTH" />}
+        />
       </TabView>
     </>
   );
