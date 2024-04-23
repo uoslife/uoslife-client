@@ -1,9 +1,9 @@
 import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import {Platform, View} from 'react-native';
+import {View} from 'react-native';
 import {useQuery} from '@tanstack/react-query';
 import {RefreshControl} from 'react-native-gesture-handler';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import LibraryChallengeBoard from '../../../components/molecules/screens/library/LibraryChallengeBoard';
 import {
   ChallengeUserStatusDesEnum,
@@ -15,6 +15,8 @@ import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import {changeHourFromMin} from '../../../utils/library/libraryRanking';
 import GuidePopup from '../../../components/molecules/common/GuidePopup';
 import boxShadowStyle from '../../../styles/boxShadow';
+import useUserState from '../../../hooks/useUserState';
+import customShowToast from '../../../configs/toast';
 
 export const ChallengUserStatusImgEnum: {
   [key in ChallengeUserStatusType]: any;
@@ -28,7 +30,13 @@ export const ChallengUserStatusImgEnum: {
 };
 
 const ChallengeScreen = () => {
+  const {user} = useUserState();
   const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(false);
+
+  const isGraduateUser = useMemo(
+    () => user?.enrollmentStatus === '졸업생',
+    [user?.enrollmentStatus],
+  );
 
   const closeGuidePopup = () => {
     setIsGuidePopupOpen(false);
@@ -49,6 +57,8 @@ const ChallengeScreen = () => {
     useState<ChallengeUserStatusType>('EGG');
 
   useEffect(() => {
+    if (isGraduateUser) customShowToast('libraryChallengeGraduateUserInfo');
+
     if (challengeData?.time != null) {
       const timeInHours = challengeData.time / 60;
       if (timeInHours < 10) setChallengeStatus('EGG');
@@ -62,13 +72,13 @@ const ChallengeScreen = () => {
         setChallengeStatus('CHEONJAE');
       else if (timeInHours >= 100) setChallengeStatus('MANJAE');
     }
-  }, [challengeData]);
+  }, [challengeData, isGraduateUser]);
 
   useEffect(() => {
     if (challengeStatus === 'EGG') {
       setIsGuidePopupOpen(true);
     }
-  }, []);
+  }, [challengeStatus]);
 
   return (
     <S.Container
@@ -110,7 +120,7 @@ const ChallengeScreen = () => {
         </S.TextBox>
       </S.CharacterBox>
 
-      <S.CardContainer>
+      <S.CardContainer style={{...boxShadowStyle.LibraryShadow}}>
         <S.CardLeftWrapper>
           <Icon name="alarm" width={20} height={20} />
           <Txt label="이번달 이용시간" color="grey90" typograph="titleSmall" />
@@ -159,17 +169,6 @@ const S = {
     padding: 20px 16px;
     border-radius: 20px;
     background: ${colors.white};
-    ${Platform.select({
-      ios: {
-        shadowColor: 'rgba(70, 134, 255, 0.1)',
-        shadowOffset: {width: 2, height: 2},
-        shadowOpacity: 1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 5,
-      },
-    })}
     margin-bottom: 20px;
   `,
   CardLeftWrapper: styled.View`
