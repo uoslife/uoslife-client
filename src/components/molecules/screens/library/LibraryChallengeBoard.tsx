@@ -1,8 +1,8 @@
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
-import {Platform} from 'react-native';
 import LibraryChallengeItem from './LibraryChallengeItem';
 import {ChallengeUserStatusType} from '../../../../configs/utility/libraryChallenge/challengeUserStatus';
+import boxShadowStyle from '../../../../styles/boxShadow';
 
 type Props = {status: ChallengeUserStatusType};
 
@@ -36,7 +36,7 @@ const LibraryChallengeBoard = ({status}: Props) => {
   ];
 
   return (
-    <S.Container>
+    <S.Container style={{...boxShadowStyle.LibraryShadow}}>
       <S.Row>
         {challengeItems.slice(0, 3).map((item, index) => (
           <LibraryChallengeItem
@@ -66,21 +66,11 @@ const S = {
     width: 100%;
     background-color: ${colors.white};
     border-radius: 20px;
-    ${Platform.select({
-      ios: {
-        shadowColor: 'rgba(70, 134, 255, 0.1)',
-        shadowOffset: {width: 2, height: 2},
-        shadowOpacity: 1,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 5,
-      },
-    })}
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    margin-bottom: 52px;
   `,
   Row: styled.View`
     display: flex;

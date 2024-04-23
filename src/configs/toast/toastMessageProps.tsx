@@ -35,6 +35,8 @@ const toastMessage = {
   libraryReservationUnknownError:
     '도서관 예약 중 알 수 없는 오류가 발생했어요.',
 
+  libraryChallengeGraduateUserInfo: '졸업생은 도전과제 확인이 불가능해요.',
+
   // etc
   cannotOpenUrlError: '오류로 인해 해당 url을 열 수 없어요.',
 
@@ -164,6 +166,9 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   libraryReservationUnknownError: {
     type: 'error',
     title: toastMessage.libraryReservationUnknownError,
+  },
+  libraryChallengeGraduateUserInfo: {
+    title: toastMessage.libraryChallengeGraduateUserInfo,
   },
 
   // etc

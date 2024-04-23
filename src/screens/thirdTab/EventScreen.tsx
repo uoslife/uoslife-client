@@ -113,7 +113,7 @@ const EventScreen = () => {
                   label="순위 경쟁"
                   color="primaryBrand"
                   typograph="bodyMedium"
-                  style={{textAlign: 'center', marginLeft: 4}}
+                  style={{textAlign: 'center', marginLeft: 2}}
                 />
                 <Txt
                   label="을 벌여보세요!"

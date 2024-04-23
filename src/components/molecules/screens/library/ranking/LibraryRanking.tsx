@@ -4,12 +4,11 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   View,
 } from 'react-native';
 import {useEffect, useMemo, useState} from 'react';
 import {useQueries} from '@tanstack/react-query';
-import {Txt, colors} from '@uoslife/design-system';
+import {Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import LibraryRankingServiceBox from './LibraryRankingServiceBox';
@@ -30,7 +29,8 @@ import {UtilAPI} from '../../../../../api/services';
 import useUserState from '../../../../../hooks/useUserState';
 import Skeleton from '../../../common/skeleton/Skeleton';
 
-const TRIANGLE_LEFT_WIDTH = Dimensions.get('screen').width - 136;
+const TRIANGLE_WIDTH = Dimensions.get('screen').width - 96;
+const TRIANGLE_HEIGHT = TRIANGLE_WIDTH * (442 / 508);
 const TOP_RANKING_ORDER = [2, 1, 3];
 
 const LibraryRankingChart = ({
@@ -174,14 +174,17 @@ const LibraryRanking = ({duration}: Props) => {
       </LibraryRankingServiceBox>
       <LibraryRankingServiceBox label="내 랭킹">
         <S.TriangleContainer>
-          <S.Triangle style={style.triangle} />
+          <Image
+            source={require('../../../../../assets/images/library_ranking_triangle.png')}
+            style={{width: TRIANGLE_WIDTH, height: TRIANGLE_HEIGHT}}
+          />
           <S.MyRankingIndicator
             style={{
               top:
                 !myRankingData.data || myRankingData.data.rank !== 0
-                  ? (TRIANGLE_LEFT_WIDTH * (myRankingData?.data?.rank ?? 1)) /
+                  ? (TRIANGLE_HEIGHT * (myRankingData?.data?.rank ?? 1)) /
                     (myRankingData?.data?.totalRank ?? 1)
-                  : TRIANGLE_LEFT_WIDTH,
+                  : TRIANGLE_HEIGHT,
             }}
           />
         </S.TriangleContainer>
@@ -205,7 +208,7 @@ const LibraryRanking = ({duration}: Props) => {
                 typograph="titleLarge"
               />
               <Txt
-                label={changeHourFromMin(myRankingData.data?.time)}
+                label={`${changeHourFromMin(myRankingData.data?.time)}`}
                 color="primaryBrand"
                 typograph="titleLarge"
               />
@@ -271,18 +274,4 @@ const S = {
   `,
 };
 
-const style = StyleSheet.create({
-  triangle: {
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderLeftWidth: TRIANGLE_LEFT_WIDTH * (1000 / 1732),
-    borderRightWidth: TRIANGLE_LEFT_WIDTH * (1000 / 1732),
-    borderBottomWidth: TRIANGLE_LEFT_WIDTH,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: colors.primaryLighter,
-    borderRadius: 10,
-  },
-});
+// 28 36 32

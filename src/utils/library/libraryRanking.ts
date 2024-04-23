@@ -32,6 +32,6 @@ export const calculateRankingChartBgColor = (
 };
 
 export const changeHourFromMin = (min: number | undefined) => {
-  if (!min) return '';
+  if (!min) return '0시간';
   return `${Math.floor(min / 60)}시간 ${min % 60}분`;
 };
