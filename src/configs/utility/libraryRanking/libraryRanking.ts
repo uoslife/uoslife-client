@@ -6,6 +6,7 @@ export const LibraryRankingMajorName = [
   '건축학부',
   '경영학과',
   '경영학부',
+  '경제학부',
   '교류학과',
   '국사학과',
   '물리학과',
