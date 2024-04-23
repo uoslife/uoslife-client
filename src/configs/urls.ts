@@ -21,4 +21,11 @@ export default {
   KAKAOTALK_UOSLIFE: 'https://pf.kakao.com/_gMEHK',
   CONTACT_UOSLIFE:
     'https://even-maize-68a.notion.site/55eb7b449c9b461c8ba1c3a01a6209e1',
+  UOSLIFE_INSTALL: Platform.select({
+    ios: 'https://apps.apple.com/in/app/%EC%8B%9C%EB%8C%80%EC%83%9D-%EB%82%B4-%EC%86%90%EC%95%88%EC%9D%98-%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90/id1514073192',
+    android:
+      'https://play.google.com/store/apps/details?id=com.beyondconnect.uoslife',
+    default:
+      'https://play.google.com/store/apps/details?id=com.beyondconnect.uoslife',
+  }),
 };
