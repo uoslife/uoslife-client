@@ -58,7 +58,7 @@ const LibrarySeatControl = ({
       {user?.isVerified && (
         <View style={{marginTop: 32}}>
           {data.reservationInfo ? (
-            <View>
+            <View style={{gap: 12}}>
               <Button
                 label="좌석 연장하기"
                 isFullWidth

@@ -10,13 +10,13 @@ import {
   ChallengeUserStatusEnum,
   ChallengeUserStatusType,
 } from '../../../configs/utility/libraryChallenge/challengeUserStatus';
-import {UtilAPI} from '../../../api/services';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import {changeHourFromMin} from '../../../utils/library/libraryRanking';
 import GuidePopup from '../../../components/molecules/common/GuidePopup';
 import boxShadowStyle from '../../../styles/boxShadow';
 import useUserState from '../../../hooks/useUserState';
 import customShowToast from '../../../configs/toast';
+import UtilityService from '../../../services/utility';
 
 export const ChallengUserStatusImgEnum: {
   [key in ChallengeUserStatusType]: any;
@@ -45,7 +45,7 @@ const ChallengeScreen = () => {
   const {data: challengeData, refetch} = useQuery({
     queryKey: ['getChallengeData', 'MONTH', '시대생'],
     queryFn: () =>
-      UtilAPI.getMyLibraryRanking({
+      UtilityService.getMyLibraryRanking({
         duration: 'MONTH',
         major: '시대생',
       }),
@@ -53,29 +53,32 @@ const ChallengeScreen = () => {
 
   const {refreshing, onRefresh} = usePullToRefresh(refetch);
 
-  const [challengeStatus, setChallengeStatus] =
-    useState<ChallengeUserStatusType>('EGG');
+  const [challengeStatus, setChallengeStatus] = useState<{
+    max: ChallengeUserStatusType;
+    current: ChallengeUserStatusType;
+  }>({max: 'EGG', current: 'EGG'});
 
   useEffect(() => {
     if (isGraduateUser) customShowToast('libraryChallengeGraduateUserInfo');
 
     if (challengeData?.time != null) {
       const timeInHours = challengeData.time / 60;
-      if (timeInHours < 10) setChallengeStatus('EGG');
+      if (timeInHours < 10) setChallengeStatus({max: 'EGG', current: 'EGG'});
       else if (timeInHours >= 10 && timeInHours < 20)
-        setChallengeStatus('BABY');
+        setChallengeStatus({max: 'BABY', current: 'BABY'});
       else if (timeInHours >= 20 && timeInHours < 30)
-        setChallengeStatus('CHICK');
+        setChallengeStatus({max: 'CHICK', current: 'CHICK'});
       else if (timeInHours >= 30 && timeInHours < 50)
-        setChallengeStatus('JUNGDO');
+        setChallengeStatus({max: 'JUNGDO', current: 'JUNGDO'});
       else if (timeInHours >= 50 && timeInHours < 100)
-        setChallengeStatus('CHEONJAE');
-      else if (timeInHours >= 100) setChallengeStatus('MANJAE');
+        setChallengeStatus({max: 'CHEONJAE', current: 'CHEONJAE'});
+      else if (timeInHours >= 100)
+        setChallengeStatus({max: 'MANJAE', current: 'MANJAE'});
     }
   }, [challengeData, isGraduateUser]);
 
   useEffect(() => {
-    if (challengeStatus === 'EGG') {
+    if (challengeStatus.max === 'EGG') {
       setIsGuidePopupOpen(true);
     }
   }, [challengeStatus]);
@@ -86,7 +89,9 @@ const ChallengeScreen = () => {
         <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
       }>
       <S.CharacterBox>
-        <S.ImageContainer source={ChallengUserStatusImgEnum[challengeStatus]} />
+        <S.ImageContainer
+          source={ChallengUserStatusImgEnum[challengeStatus.current]}
+        />
         {isGuidePopupOpen && (
           <GuidePopup
             label="도서관 누적 이용시간이 늘어날수록 루매가 성장해요."
@@ -101,7 +106,7 @@ const ChallengeScreen = () => {
         )}
         <S.TextBox>
           <Txt
-            label={ChallengeUserStatusEnum[challengeStatus]}
+            label={ChallengeUserStatusEnum[challengeStatus.current]}
             color="grey190"
             typograph="headlineMedium"
           />
@@ -112,7 +117,7 @@ const ChallengeScreen = () => {
               gap: 4px;
             `}>
             <Txt
-              label={ChallengeUserStatusDesEnum[challengeStatus]}
+              label={ChallengeUserStatusDesEnum[challengeStatus.current]}
               color="grey190"
               typograph="bodyMedium"
             />
@@ -133,7 +138,10 @@ const ChallengeScreen = () => {
         />
       </S.CardContainer>
 
-      <LibraryChallengeBoard status={challengeStatus} />
+      <LibraryChallengeBoard
+        status={challengeStatus}
+        setChallengeStatus={setChallengeStatus}
+      />
     </S.Container>
   );
 };

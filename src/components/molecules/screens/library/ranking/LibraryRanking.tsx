@@ -25,9 +25,9 @@ import {
   LibraryRankingMajorNameType,
   LibraryRankingMajorName,
 } from '../../../../../configs/utility/libraryRanking/libraryRanking';
-import {UtilAPI} from '../../../../../api/services';
 import useUserState from '../../../../../hooks/useUserState';
 import Skeleton from '../../../common/skeleton/Skeleton';
+import UtilityService from '../../../../../services/utility';
 
 const TRIANGLE_WIDTH = Dimensions.get('screen').width - 96;
 const TRIANGLE_HEIGHT = TRIANGLE_WIDTH * (442 / 508);
@@ -96,7 +96,7 @@ const LibraryRanking = ({duration}: Props) => {
       {
         queryKey: ['getLibraryRanking', duration, major],
         queryFn: () =>
-          UtilAPI.getLibraryRanking({
+          UtilityService.getLibraryRanking({
             duration,
             major,
           }),
@@ -104,7 +104,7 @@ const LibraryRanking = ({duration}: Props) => {
       {
         queryKey: ['getMyLibraryRanking', duration, major],
         queryFn: () =>
-          UtilAPI.getMyLibraryRanking({
+          UtilityService.getMyLibraryRanking({
             duration,
             major,
           }),
@@ -137,7 +137,12 @@ const LibraryRanking = ({duration}: Props) => {
       refreshControl={
         <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
       }>
-      <S.SelectWrapper style={{zIndex: 10, elevation: 5}}>
+      <S.SelectWrapper
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          elevation: 10,
+        }}>
         <Select
           options={LibraryRankingMajorName}
           currentOption={major}
@@ -226,6 +231,7 @@ export default LibraryRanking;
 const S = {
   Container: styled.ScrollView`
     padding: 0 14px;
+    position: relative;
   `,
   TopRankingBoxContainer: styled.View`
     flex-direction: row;
