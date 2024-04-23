@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {Linking, Alert, View} from 'react-native';
+import {Linking, View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
 import {useAtom, useAtomValue} from 'jotai';
@@ -29,7 +29,7 @@ const AnnounceContentsSkeleton = () => {
 const AnnounceContents = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const currentOrigin = useAtomValue(announcementCurrentOriginAtom);
-  const [{data}] = useAtom(getAnnouncement);
+  const [{data, isFetching}] = useAtom(getAnnouncement);
 
   const handlePressLinkButton = useCallback(async () => {
     const supported = await Linking.canOpenURL(URLS.UOSTORY);
@@ -45,8 +45,10 @@ const AnnounceContents = () => {
       <S.Container>
         <CategoryTab />
         <S.AnnounceTextWrapper>
-          {data ? (
-            data.pages[0].content.slice(0, 3).map(item => (
+          {isFetching ? (
+            <AnnounceContentsSkeleton />
+          ) : (
+            data?.pages[0].content.slice(0, 3).map(item => (
               <AnimatePress
                 key={item.id}
                 onPress={() =>
@@ -64,8 +66,6 @@ const AnnounceContents = () => {
                 />
               </AnimatePress>
             ))
-          ) : (
-            <AnnounceContentsSkeleton />
           )}
         </S.AnnounceTextWrapper>
         <S.Divider />
