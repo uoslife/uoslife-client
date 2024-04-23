@@ -1,3 +1,10 @@
+import {LibraryRankingMajorType} from '../../../../configs/utility/libraryRanking/libraryRanking';
+import {SeatStatusType} from '../../../../configs/utility/librarySeatingChart/seatStatus';
+import {
+  LibraryRankingTabsType,
+  LibraryRoomStatusTabsType,
+} from '../../../../configs/utility/libraryTabs';
+
 export type LibraryStatusType = {
   type: LibraryStatusTypeType;
   item: Array<LibraryStatusItemType>;
@@ -36,6 +43,7 @@ export type LibraryReservationType = {
   status: ReservationStatusTypeFromServer;
   seatRoomName: string;
   seatNo: string;
+  seatRoomNumber: string;
   seatUseTime: string;
   reservationMinutes: string;
   seatStartTime: string;
@@ -53,6 +61,95 @@ export type GetAllLibraryStatusParams = {};
 
 export type GetAllLibraryStatusRes = Array<LibraryStatusType>;
 
+export type GetLibraryRoomStatusParams = {type: LibraryRoomStatusTabsType};
+
+export type GetLibraryRoomStatusRes = {item: Array<LibraryStatusItemType>};
+
 export type GetLibraryReservationParams = {};
 
 export type GetLibraryReservationRes = LibraryReservationType;
+
+export type GetLibraryRankingParams = {
+  major: LibraryRankingMajorType;
+  duration: LibraryRankingTabsType;
+  pageable?: {
+    page: number;
+    size: number;
+  };
+};
+
+export type GetLibraryRankingRes = {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: LibraryRankingContentType[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+};
+
+export type LibraryRankingContentType = {
+  rank: number;
+  time: number;
+  userId: number;
+  nickname: string;
+  departmentName: string;
+};
+
+export type GetMyLibraryRankingParams = {
+  major: LibraryRankingMajorType;
+  duration: LibraryRankingTabsType;
+};
+export type GetMyLibraryRankingRes = {
+  rank: number;
+  time: number;
+  userId: number;
+  nickname: string;
+  totalRank: number;
+};
+
+export type GetSeatListParams = {
+  room: number;
+};
+
+export type GetSeatListRes = Array<{
+  seatNumber: number;
+  status: SeatStatusType;
+}>;
+
+export type ReservationSeatParams = {
+  roomId: number;
+  seatId: number;
+};
+export type ReservationSeatRes = {};
+
+export type ExtendSeatParams = {
+  roomId: number;
+  seatId: number;
+};
+export type ExtendSeatRes = {};
+
+export type ReturnSeatParams = {
+  roomId: number;
+  seatId: number;
+};
+export type ReturnSeatRes = {};

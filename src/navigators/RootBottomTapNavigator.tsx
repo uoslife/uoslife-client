@@ -7,7 +7,8 @@ import {IconsNameType} from '@uoslife/design-system';
 
 import MainScreen from '../screens/MainScreen';
 import StudentIdScreen from '../screens/StudentIdScreen';
-import RedirectLibraryRecapScreen from '../screens/thirdTab/RedirectLibraryRecapScreen';
+// import RedirectLibraryRecapScreen from '../screens/thirdTab/RedirectLibraryRecapScreen';
+import EventScreen from '../screens/thirdTab/EventScreen';
 import BottomTabBar from '../components/molecules/common/bottom_tab_bar/BottomTabBar';
 
 export type RootTabParamList = {
@@ -18,7 +19,7 @@ export type RootTabParamList = {
 
 export type TabScreenItemType = {
   label: string;
-  icon: Extract<IconsNameType, 'menu' | 'studentId' | 'heart' | 'library'>;
+  icon: Extract<IconsNameType, 'menu' | 'studentId' | 'leaderboard'>;
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
 };
@@ -41,10 +42,10 @@ const tabs: TabScreenItemType[] = [
     icon: 'studentId',
   },
   {
-    component: RedirectLibraryRecapScreen,
+    component: EventScreen,
     screenName: 'ThirdTab',
-    label: '도서관',
-    icon: 'library',
+    label: '이벤트',
+    icon: 'leaderboard',
   },
 ];
 
