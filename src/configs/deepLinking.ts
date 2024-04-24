@@ -43,7 +43,22 @@ const deepLinksConfig = {
         },
       },
     },
-    Library: 'library',
+    Library: {
+      initialRouteName: 'Library_main',
+      screens: {
+        Library_main: 'library',
+        Library_seat_status: {
+          initialRouteName: 'Library_seat_status_main',
+          screens: {
+            Library_seat_status_main: 'library/seatStatus',
+            Library_seating_chart: 'library/seatingChart',
+          },
+        },
+        Library_ranking: 'library/ranking',
+        Library_challenge: 'library/challenge',
+        Library_portal_authentication: 'library/portalAuthentication',
+      },
+    },
     Cafeteria: 'cafeteria',
     Announcement: {
       initialRouteName: 'AnnouncementMain',

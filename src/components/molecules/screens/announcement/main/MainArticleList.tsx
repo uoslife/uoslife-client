@@ -42,6 +42,7 @@ const MainArticleList = forwardRef<FlatList>((_, ref) => {
           showCategoryName={false}
           articles={articles}
           onEndReached={onEndReached}
+          refetch={refetch}
         />
       </S.Root>
     </Suspense>

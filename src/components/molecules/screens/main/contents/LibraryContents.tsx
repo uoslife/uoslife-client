@@ -1,5 +1,5 @@
 import {useAtom} from 'jotai';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import CardLayout from '../../../common/cardLayout/CardLayout';
@@ -50,7 +50,9 @@ const LibraryContentsInNotUsing = () => {
         size="medium"
         isFullWidth
         onPress={() => {
-          navigation.navigate('Library');
+          navigation.navigate('Library', {
+            screen: 'Library_room_status',
+          });
         }}
       />
     </S.NotUsingWrapper>
@@ -58,8 +60,10 @@ const LibraryContentsInNotUsing = () => {
 };
 
 const LibraryContents = () => {
-  const [{data}] = useAtom(libraryReservationAtom);
-
+  const [{data, refetch}] = useAtom(libraryReservationAtom);
+  useFocusEffect(() => {
+    refetch();
+  });
   return (
     <CardLayout>
       {data.reservationInfo ? (

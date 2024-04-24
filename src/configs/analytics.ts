@@ -8,6 +8,9 @@ export type LogEventNameType =
   | 'banner'
   | 'logout'
   | 'unregister'
+  | 'library_reservation_success'
+  | 'library_return_success'
+  | 'library_extend_success'
   | typeof DEFAULT_LOG_EVENT_NAME;
 
 type BannerObjectType = ApplyDefaultLogEventName<{
@@ -22,7 +25,10 @@ type UnregisterObjectType = ApplyDefaultLogEventName<{
   unregisterUserId: number;
 }>;
 
+type IncludeUserIdType = ApplyDefaultLogEventName<{userId: number}>;
+
 export type LogEventObjectType =
   | BannerObjectType
   | LogoutObjectType
-  | UnregisterObjectType;
+  | UnregisterObjectType
+  | IncludeUserIdType;

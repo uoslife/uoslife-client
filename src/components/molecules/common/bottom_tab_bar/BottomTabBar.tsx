@@ -1,9 +1,10 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import {StyleSheet, Platform, Dimensions} from 'react-native';
+import {Dimensions} from 'react-native';
 import styled from '@emotion/native';
 import {TabScreenItemType} from '../../../../navigators/RootBottomTapNavigator';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
+import boxShadowStyle from '../../../../styles/boxShadow';
 
 const tabWidth = Dimensions.get('window').width - 80;
 
@@ -15,7 +16,7 @@ const BottomTabBar = ({
   return (
     <BottomTabWrapper
       style={{
-        ...Style.bottomTapShadow,
+        ...boxShadowStyle.bottomTapShadow,
         width: tabWidth,
       }}>
       {state.routes.map((route, index) => {
@@ -58,24 +59,6 @@ const BottomTabBar = ({
   );
 };
 export default BottomTabBar;
-const Style = StyleSheet.create({
-  bottomTapShadow: {
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-});
 
 const BottomTabWrapper = styled.View`
   position: absolute;

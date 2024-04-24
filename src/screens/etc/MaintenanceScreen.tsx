@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {useConfigContext} from '../../hooks/ConfigContext';
+import {useAtom} from 'jotai';
+import supabaseConfigAtom from '../../store/app/supabaseConfig';
 
-type Props = {hasNetworkError: boolean};
+type Props = {hasNetworkError?: boolean};
 
 const MaintenanceScreen: React.FC<Props> = ({hasNetworkError}) => {
-  const {config} = useConfigContext();
+  const [{data}] = useAtom(supabaseConfigAtom);
 
   return (
     <View style={StyleSheet.absoluteFillObject}>
@@ -22,12 +23,14 @@ const MaintenanceScreen: React.FC<Props> = ({hasNetworkError}) => {
         ) : (
           <>
             <Text style={styles.title}>
-              {config.get('app.block.title') as string}
+              {data?.config?.get('app.block.title') as string}
             </Text>
             <Text style={styles.subtitle}>
-              {typeof config.get('app.block.message') === 'object'
-                ? (config.get('app.block.message') as string[]).join('\n')
-                : (config.get('app.block.message') as string)}
+              {typeof data?.config?.get('app.block.message') === 'object'
+                ? (data?.config?.get('app.block.message') as string[]).join(
+                    '\n',
+                  )
+                : (data?.config?.get('app.block.message') as string)}
             </Text>
           </>
         )}
