@@ -41,9 +41,7 @@ const UoslifeMeetingScreen = () => {
       />
       <WebView
         bounces={false}
-        // source={{uri: 'https://meeting.alpha.uoslife.com/'}}
-        // source={{uri: 'http://10.211.171.4:5173/'}}
-        source={{uri: 'http://localhost:5173/'}}
+        source={{uri: 'https://meeting.alpha.uoslife.com/'}}
         style={{flex: 1}}
         ref={webviewRef}
         webviewDebuggingEnabled
