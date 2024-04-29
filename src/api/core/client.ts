@@ -10,6 +10,7 @@ import setAuthorizationHeader from './beforeRequest';
 import beforeError from './beforeError';
 import {
   BASE_API_URL,
+  ACCOUNT_API_URL,
   CDN_API_URL,
   DEFAULT_API_RETRY_BACKOFFLIMIT,
   DEFAULT_API_RETRY_LIMIT,
@@ -36,6 +37,10 @@ export const apiClient = baseApiClient.extend({
   },
 });
 
+export const accountApiClient = apiClient.extend({
+  prefixUrl: ACCOUNT_API_URL,
+});
+
 export const cdnClient = apiClient.extend({
   prefixUrl: CDN_API_URL,
 });
@@ -43,5 +48,3 @@ export const cdnClient = apiClient.extend({
 export const supabaseClient = createClient(supabase.URL, supabase.KEY, {
   auth: {storage: AsyncStorage},
 });
-
-export default apiClient;
