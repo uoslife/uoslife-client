@@ -1,13 +1,15 @@
 import {CoreAPI} from '../api/services';
-import {GetUserTopicsResponse} from '../api/services/core/notification/notificationAPI.type';
 
 export default class TopicService {
-  static async getUserTopics(): Promise<GetUserTopicsResponse | null> {
-    try {
-      const topicsRes = await CoreAPI.getUserTopics();
-      return topicsRes;
-    } catch (error) {
-      return null;
-    }
+  static async setTopicWhenSignUp(isAdvertismentAgreeChecked: boolean) {
+    await Promise.all([
+      await CoreAPI.subscribeTopic({topicName: 'SERVICE_NOTIFICATION'}),
+      isAdvertismentAgreeChecked &&
+        (await CoreAPI.subscribeTopic({topicName: 'MARKETING_NOTIFICATION'})),
+      await CoreAPI.subscribeTopic({topicName: 'ACADEMIC_ANNOUNCEMENT'}),
+      await CoreAPI.subscribeTopic({topicName: 'RECRUIT_ANNOUNCEMENT'}),
+      await CoreAPI.subscribeTopic({topicName: 'SERVICE_NOTIFICATION'}),
+      await CoreAPI.subscribeTopic({topicName: 'STARTUP_ANNOUNCEMENT'}),
+    ]);
   }
 }

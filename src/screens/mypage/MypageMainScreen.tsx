@@ -25,7 +25,7 @@ const MypageMainScreen = ({
   };
 
   const portalInfoMessage = isVerified
-    ? `${user?.departmentName}(${user?.studentId})`
+    ? `${user?.identity.department}(${user?.identity.idNumber})`
     : '포털 계정을 연동해주세요';
 
   return (

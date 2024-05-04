@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {Platform, Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
@@ -13,7 +13,6 @@ import InputProps from '../../../components/molecules/common/forms/input/Input.t
 
 import {RootTabNavigationProps} from '../../../navigators/RootBottomTapNavigator';
 
-import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
 import storage from '../../../storage';
 
@@ -22,10 +21,12 @@ import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
 import UserService from '../../../services/user';
 import useUserState from '../../../hooks/useUserState';
+import {AccountAPI} from '../../../api/services/account';
 
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
   KeyboardManager.setEnableDebugging(true);
+  KeyboardManager.setShouldShowToolbarPlaceholder(false);
 }
 
 type PortalVerificationStatusMessageType =
@@ -92,7 +93,7 @@ const PortalAuthenticationScreen = () => {
   };
 
   const handlePostponePortalAuth = () => {
-    changeAccountFlow({commonFlowName: 'FINISH'});
+    changeAccountFlow('END');
   };
 
   const handleSubmit = useThrottle(async () => {
@@ -101,7 +102,7 @@ const PortalAuthenticationScreen = () => {
       return;
     }
     try {
-      await CoreAPI.portalVerification({
+      await AccountAPI.registerPortalAccount({
         username: inputValue.id,
         password: inputValue.password,
       });
@@ -111,16 +112,14 @@ const PortalAuthenticationScreen = () => {
         navigation.goBack();
         return;
       }
-      changeAccountFlow({commonFlowName: 'FINISH'});
+      changeAccountFlow('END');
     } catch (err) {
       const error = err as ErrorResponseType;
-      switch (error.code) {
-        case 'V01': {
+      console.log(error);
+      switch (error.message) {
+        case 'UOS_ACCOUNT_INVALID': {
           setMessageStatus('MISMATCHED');
-          return;
-        }
-        case 'V02': {
-          customShowToast('portalAuthenticationDuplicatedError');
+          // customShowToast('portalAuthenticationDuplicatedError');
           return;
         }
         default: {

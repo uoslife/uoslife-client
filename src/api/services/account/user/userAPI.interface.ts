@@ -1,9 +1,9 @@
-import {ServiceFunc} from '../../type';
+import {ServiceFunc, ServiceFuncWithoutParams} from '../../type';
 import * as Type from './userAPI.type';
 
 export default interface UserService {
-  signIn: ServiceFunc<Type.SignInParams, Type.SignInRes>;
-  getUserInfo: ServiceFunc<Type.GetUserInfoParams, Type.GetUserInfoRes>;
+  signUp: ServiceFunc<Type.SignUpParams, Type.SignUpRes>;
+  getUserInfo: ServiceFuncWithoutParams<Type.GetUserInfoRes>;
   patchUserInfo: ServiceFunc<Type.PatchUserInfoParams, Type.PatchUserInfoRes>;
-  unregister: ServiceFunc<Type.UnregisterParams, Type.UnregisterRes>;
+  unregister: ServiceFuncWithoutParams<Type.UnregisterRes>;
 }

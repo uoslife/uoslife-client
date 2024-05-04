@@ -14,6 +14,7 @@ const verificationAPI: VerificationService = {
   deletePortalAccount: () =>
     del<Type.DeletePortalAccountRes>(
       'v1/verification/portal-account',
+      '',
       'ACCOUNT',
     ),
 };

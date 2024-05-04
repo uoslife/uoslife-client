@@ -1,4 +1,4 @@
-import {ServiceFunc} from '../../type';
+import {ServiceFunc, ServiceFuncWithoutParams} from '../../type';
 import * as Type from './verificationAPI.type';
 
 export default interface VerificationService {
@@ -6,12 +6,6 @@ export default interface VerificationService {
     Type.RegisterPortalAccountParams,
     Type.RegisterPortalAccountRes
   >;
-  getPortalAccount: ServiceFunc<
-    Type.GetPortalAccountParams,
-    Type.GetPortalAccountRes
-  >;
-  deletePortalAccount: ServiceFunc<
-    Type.DeletePortalAccountParams,
-    Type.DeletePortalAccountRes
-  >;
+  getPortalAccount: ServiceFuncWithoutParams<Type.GetPortalAccountRes>;
+  deletePortalAccount: ServiceFuncWithoutParams<Type.DeletePortalAccountRes>;
 }
