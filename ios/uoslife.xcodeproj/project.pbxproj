@@ -11,6 +11,13 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		18D026D4F9ADFD18FA0782DB /* libPods-uoslife-prod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B05B5706546BE0206C8337B /* libPods-uoslife-prod.a */; };
+		3A6FA3E92BE8B53500DD2BBB /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9C2BB54A3E007DD7D5 /* Pretendard-Bold.otf */; };
+		3A6FA3EA2BE8B53500DD2BBB /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9A2BB54A3C007DD7D5 /* Pretendard-Light.otf */; };
+		3A6FA3EB2BE8B53500DD2BBB /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */; };
+		3A6FA3EC2BE8B53500DD2BBB /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9B2BB54A3D007DD7D5 /* Pretendard-Regular.otf */; };
+		3A6FA3ED2BE8B53500DD2BBB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */; };
+		3A6FA3F12BE8B93F00DD2BBB /* WidgetsExtension.appex in Resources */ = {isa = PBXBuildFile; fileRef = AB833C812BB549DB007DD7D5 /* WidgetsExtension.appex */; };
+		3A6FA3F62BE9200C00DD2BBB /* WidgetsExtension.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = AB833CAA2BB553C6007DD7D5 /* WidgetsExtension.entitlements */; };
 		81AB9BB82411601600AC10FF /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* BootSplash.storyboard */; };
 		AB3DFD402A372F2D0011AA50 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		AB3DFD412A372F2D0011AA50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -331,9 +338,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB833C942BB549DD007DD7D5 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
 			buildPhases = (
+				AB833C7F2BB549DB007DD7D5 /* Resources */,
 				AB833C7D2BB549DB007DD7D5 /* Sources */,
 				AB833C7E2BB549DB007DD7D5 /* Frameworks */,
-				AB833C7F2BB549DB007DD7D5 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -400,7 +407,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A6FA3E92BE8B53500DD2BBB /* Pretendard-Bold.otf in Resources */,
+				3A6FA3EA2BE8B53500DD2BBB /* Pretendard-Light.otf in Resources */,
+				3A6FA3EB2BE8B53500DD2BBB /* Pretendard-Medium.otf in Resources */,
+				3A6FA3EC2BE8B53500DD2BBB /* Pretendard-Regular.otf in Resources */,
+				3A6FA3ED2BE8B53500DD2BBB /* Pretendard-SemiBold.otf in Resources */,
 				AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */,
+				3A6FA3F12BE8B93F00DD2BBB /* WidgetsExtension.appex in Resources */,
 				AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +422,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A6FA3F62BE9200C00DD2BBB /* WidgetsExtension.entitlements in Resources */,
 				AB833C8C2BB549DD007DD7D5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
