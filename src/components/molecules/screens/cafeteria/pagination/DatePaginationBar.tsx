@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styled from '@emotion/native';
+import styled, {css} from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useAtom, useSetAtom} from 'jotai';
 import DatePaginationProps from './DatePaginationBar.type';
@@ -9,6 +9,7 @@ import {
   cafeteriaMealTimeAtom,
 } from '../../../../../store/cafeteria';
 import {MealTimeType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 const MIN_PAGE = 0;
 const MAX_PAGE = 6;
@@ -57,15 +58,19 @@ const DatePaginationBar = ({date}: DatePaginationProps) => {
 
   return (
     <TabBarContainer>
-      <TabBarButton
+      <AnimatePress
         onPress={() => handleClickPageButton('BACKWARD')}
-        disabled={currentPage === MIN_PAGE}>
+        disabled={currentPage === MIN_PAGE}
+        variant="scale_up"
+        style={css`
+          padding: 8px;
+        `}>
         {currentPage === MIN_PAGE ? (
           <Icon name="backward" color="grey40" width={24} height={24} />
         ) : (
           <Icon name="backward" color="grey190" width={24} height={24} />
         )}
-      </TabBarButton>
+      </AnimatePress>
 
       <Txt
         label={cafeteriaDisplayDate}
@@ -73,15 +78,19 @@ const DatePaginationBar = ({date}: DatePaginationProps) => {
         typograph="titleMedium"
       />
 
-      <TabBarButton
+      <AnimatePress
         onPress={() => handleClickPageButton('FORWARD')}
-        disabled={currentPage === MAX_PAGE}>
+        disabled={currentPage === MAX_PAGE}
+        variant="scale_up"
+        style={css`
+          padding: 8px;
+        `}>
         {currentPage === MAX_PAGE ? (
           <Icon name="forward" color="grey40" width={24} height={24} />
         ) : (
           <Icon name="forward" color="grey190" width={24} height={24} />
         )}
-      </TabBarButton>
+      </AnimatePress>
     </TabBarContainer>
   );
 };
@@ -91,11 +100,6 @@ const TabBarContainer = styled.View`
   justify-content: center;
   align-items: center;
   gap: 20px;
-`;
-
-const TabBarButton = styled.TouchableOpacity`
-  padding: 8px;
-  align-items: flex-start;
 `;
 
 export default DatePaginationBar;

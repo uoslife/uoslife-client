@@ -2,11 +2,12 @@ import {Linking, View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
-import announcementFullName from '../../../../../configs/announcement';
+import {AnnouncementFullNameEnum} from '../../../../../configs/announcement';
 import AnnouncementFileList from './AnnouncementFileList';
 import AnnouncementHTML from './AnnouncementHTML';
 import useBookmark from '../../../../../hooks/useBookmark';
 import DetailBookmarkToggle from './DetailBookmarkToggle';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 const AnnouncementDetailScreenContent = ({
   title,
@@ -36,18 +37,20 @@ const AnnouncementDetailScreenContent = ({
           <Txt label={title} color="black" typograph="titleLarge" />
           <S.CategoryAndDateAndBookmarkContainer>
             <Txt
-              label={`${announcementFullName[origin]} | ${date}`}
+              label={`${AnnouncementFullNameEnum[origin]} | ${date}`}
               color="grey90"
               typograph="bodySmall"
             />
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-              <S.GoToOriginUrl onPress={openOriginalUrl}>
-                <Txt
-                  color="grey90"
-                  label="원본 글 보기"
-                  typograph="bodyLarge"
-                />
-              </S.GoToOriginUrl>
+              <AnimatePress variant="scale_up_2" onPress={openOriginalUrl}>
+                <S.GoToOriginUrl>
+                  <Txt
+                    color="grey90"
+                    label="원본 글 보기"
+                    typograph="bodyLarge"
+                  />
+                </S.GoToOriginUrl>
+              </AnimatePress>
               <DetailBookmarkToggle
                 isBookmarked={isBookmarkedCurrent}
                 bookmarkCount={bookmarkCountCurrent}
@@ -77,7 +80,7 @@ const S = {
     border-bottom: 1px ${colors.black};
     border-color: ${colors.black};
   `,
-  GoToOriginUrl: styled.TouchableOpacity`
+  GoToOriginUrl: styled.View`
     align-items: center;
     justify-content: center;
 

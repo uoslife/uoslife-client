@@ -11,7 +11,6 @@ import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
 import AnnouncementStackNavigator, {
   AnnouncementStackParamList,
 } from './AnnouncementStackNavigator';
-import LibraryScreen from '../screens/library/LibraryScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
 import MypageStackNavigator, {
@@ -29,14 +28,15 @@ import {
 import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
-import CodePushUpdateScreen from '../screens/etc/CodePushUpdateScreen';
 import LibraryRecapScreen from '../screens/LibraryRecapScreen';
+import LibraryStackNavigator from './LibraryStackNavigator';
+import {LibraryStackParamList} from './types/library';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
-  Mypage: MypageStackParamList;
-  Announcement: AnnouncementStackParamList;
-  Library: undefined;
+  Mypage: NavigatorScreenParams<MypageStackParamList>;
+  Announcement: NavigatorScreenParams<AnnouncementStackParamList>;
+  Library: NavigatorScreenParams<LibraryStackParamList>;
   Cafeteria: undefined;
   StudentId_PortalAuthentication: undefined;
   LibraryRecap: undefined;
@@ -51,14 +51,8 @@ export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
-  const {
-    hasNetworkError,
-    isMaintenance,
-    isLoggedIn,
-    setIsLoggedIn,
-    hasUpdate,
-    syncProgress,
-  } = useInitApp();
+  const {hasNetworkError, isMaintenance, isLoggedIn, setIsLoggedIn} =
+    useInitApp();
 
   /** isLoggedIn value를 감시합니다. */
   useMMKVListener(changedKey => {
@@ -68,10 +62,6 @@ const RootStackNavigator: React.FC = () => {
 
   if (isMaintenance) {
     return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
-  }
-
-  if (hasUpdate) {
-    return <CodePushUpdateScreen syncProgress={syncProgress} />;
   }
 
   return (
@@ -90,7 +80,7 @@ const RootStackNavigator: React.FC = () => {
             name="Announcement"
             component={AnnouncementStackNavigator}
           />
-          <Stack.Screen name="Library" component={LibraryScreen} />
+          <Stack.Screen name="Library" component={LibraryStackNavigator} />
           <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />
           <Stack.Screen
             name="StudentId_PortalAuthentication"

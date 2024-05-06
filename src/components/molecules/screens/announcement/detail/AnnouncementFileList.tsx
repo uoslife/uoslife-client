@@ -3,6 +3,7 @@ import {Icon, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {Linking} from 'react-native';
 import {ArticleDetailType} from '../../../../../types/announcement.type';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
   // 받아온 files를 객체를 배열로 변환(Server API Response 형식에 대응하기 위함)
@@ -18,16 +19,15 @@ const AnnouncementFileList = ({files}: Pick<ArticleDetailType, 'files'>) => {
   return (
     <S.List>
       {processedFilesData.map(({name, url}) => (
-        <S.Item key={name} onPress={handlePressFileDownload(url)}>
-          <Icon
-            height={18}
-            width={18}
-            name="download"
-            color="primaryBrand"
-            key={name}
-          />
-          <Txt label={`${name}`} color="grey130" typograph="bodyMedium" />
-        </S.Item>
+        <AnimatePress
+          onPress={handlePressFileDownload(url)}
+          variant="scale_down"
+          key={name}>
+          <S.Item>
+            <Icon height={18} width={18} name="download" color="primaryBrand" />
+            <Txt label={`${name}`} color="grey130" typograph="bodyMedium" />
+          </S.Item>
+        </AnimatePress>
       ))}
     </S.List>
   );
@@ -39,7 +39,7 @@ const S = {
   List: styled.View`
     gap: 4px;
   `,
-  Item: styled.TouchableOpacity`
+  Item: styled.View`
     display: flex;
     gap: 6px;
     flex-direction: row;

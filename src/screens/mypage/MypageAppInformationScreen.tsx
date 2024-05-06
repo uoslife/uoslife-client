@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
@@ -8,6 +8,7 @@ import DeviceInfo from 'react-native-device-info';
 import Header from '../../components/molecules/common/header/Header';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import {MypageAppInformationNavigationProp} from '../../navigators/MypageStackNavigator';
+import DeviceService from '../../services/device';
 
 const MypageAppInformationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -15,6 +16,14 @@ const MypageAppInformationScreen = () => {
   const handleGoBack = () => {
     navigation.goBack();
   };
+
+  const [codepushVersion, setVersion] = useState('');
+  useEffect(() => {
+    (async () => {
+      const version = await DeviceService.getCodePushVersion();
+      setVersion(version);
+    })();
+  }, []);
 
   return (
     <View style={{paddingTop: insets.top}}>
@@ -34,7 +43,7 @@ const MypageAppInformationScreen = () => {
         />
         <NavigationList
           label="현재 앱 버전"
-          pressLabel={DeviceInfo.getVersion()}
+          pressLabel={`${DeviceInfo.getVersion()}, ${codepushVersion}`}
           isPressIconShown={false}
         />
       </S.Container>

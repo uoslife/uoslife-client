@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/core';
 
 import MainServiceBoxType from './MainServiceBox.type';
 import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
+import AnimatePress from '../../../../animations/pressable_icon/AnimatePress';
 
 const MainServiceBox = ({
   label,
@@ -23,7 +24,9 @@ const MainServiceBox = ({
         navigation.navigate('Cafeteria');
         break;
       case 'campaign':
-        navigation.navigate('Announcement');
+        navigation.navigate('Announcement', {
+          screen: 'AnnouncementMain',
+        });
         break;
       default:
         break;
@@ -36,10 +39,12 @@ const MainServiceBox = ({
           <Icon name={iconName} width={24} height={24} color={iconColor} />
           <Txt label={label} color="primaryDarker" typograph="titleMedium" />
         </S.TitleWrapper>
-        <S.MoreButton onPress={handleMoreButton}>
-          <Txt label="더보기" color="grey90" typograph="labelMedium" />
-          <Icon name="forwardArrow" width={10} height={10} color="grey90" />
-        </S.MoreButton>
+        <AnimatePress variant="scale_up" onPress={handleMoreButton}>
+          <S.MoreButton>
+            <Txt label="더보기" color="grey90" typograph="labelMedium" />
+            <Icon name="forwardArrow" width={10} height={10} color="grey90" />
+          </S.MoreButton>
+        </AnimatePress>
       </S.TopWrapper>
       {children}
     </S.Wrapper>
@@ -65,7 +70,7 @@ const S = {
     align-items: center;
     gap: 8px;
   `,
-  MoreButton: styled.Pressable`
+  MoreButton: styled.View`
     display: flex;
     flex-direction: row;
     align-items: center;

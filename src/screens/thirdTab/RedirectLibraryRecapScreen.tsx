@@ -51,9 +51,11 @@ const S = {
   screenContainer: styled.View`
     flex: 1;
     background-color: ${colors.primaryLighterAlt};
-    padding-top: 164px;
+    /* padding-top: 164px; */
+    height: 100%;
     align-items: center;
-    gap: 72px;
+    justify-content: center;
+    gap: 60px;
   `,
   ImageContainer: styled.Image`
     width: 300px;
@@ -64,6 +66,6 @@ const S = {
     padding: 0 20px;
     width: 100%;
     justify-content: center;
-    gap: 24px;
+    gap: 32px;
   `,
 };

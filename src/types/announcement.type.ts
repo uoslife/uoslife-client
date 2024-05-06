@@ -1,4 +1,4 @@
-import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
+import {AnnouncementOriginNameType} from '../configs/announcement';
 
 /** List 내부의 ArticleItem(상세 정보 미포함) */
 export type ArticleItemType = {

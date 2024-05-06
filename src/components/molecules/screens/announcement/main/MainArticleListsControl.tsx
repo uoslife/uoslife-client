@@ -1,58 +1,58 @@
-import {createRef, useEffect, useRef} from 'react';
-import {Dimensions, View} from 'react-native';
-import {useAtom} from 'jotai';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import {
-  AnnouncmentCategoryOriginType,
-  categoryStatusAtom,
-} from '../../../../../store/announcement';
-import CategoryTab from '../tab/CategoryTab';
-import MainArticleList from './MainArticleList';
+// import {createRef, useEffect, useRef} from 'react';
+import {View} from 'react-native';
+// import {useAtom} from 'jotai';
+// import {FlatList, ScrollView} from 'react-native-gesture-handler';
+// import {
+//   AnnouncmentCategoryOriginType,
+//   categoryStatusAtom,
+// } from '../../../../../store/announcement';
+// import CategoryTab from '../tab/CategoryTab';
+// import MainArticleList from './MainArticleList';
 
-const {width} = Dimensions.get('window');
+// const {width} = Dimensions.get('window');
 
 const MainArticleListsControl = () => {
-  const horizontalScrollViewRef = useRef<ScrollView>(null);
-  const [categoryStatus, setCategoryStatus] = useAtom(categoryStatusAtom);
-  const listRefArray = categoryStatus.map(() => createRef<FlatList>());
-  const currentIndex = categoryStatus.findIndex(
-    item => item.isSelected === true,
-  );
-  const currentOrigin = categoryStatus[currentIndex].origin;
+  // const horizontalScrollViewRef = useRef<ScrollView>(null);
+  // const [categoryStatus, setCategoryStatus] = useAtom(categoryStatusAtom);
+  // const listRefArray = categoryStatus.map(() => createRef<FlatList>());
+  // const currentIndex = categoryStatus.findIndex(
+  //   item => item.isSelected === true,
+  // );
+  // const currentOrigin = categoryStatus[currentIndex].origin;
 
-  const setCategoryStatusByIndex = (index: number) => {
-    setCategoryStatus(prev =>
-      prev.map((prevItem, i) => ({
-        ...prevItem,
-        isSelected: index === i,
-      })),
-    );
-  };
-  const setCategoryStatusByOrigin = (origin: AnnouncmentCategoryOriginType) => {
-    setCategoryStatus(prev =>
-      prev.map(prevItem => ({
-        ...prevItem,
-        isSelected: prevItem.origin === origin,
-      })),
-    );
-  };
+  // const setCategoryStatusByIndex = (index: number) => {
+  //   setCategoryStatus(prev =>
+  //     prev.map((prevItem, i) => ({
+  //       ...prevItem,
+  //       isSelected: index === i,
+  //     })),
+  //   );
+  // };
+  // const setCategoryStatusByOrigin = (origin: AnnouncmentCategoryOriginType) => {
+  //   setCategoryStatus(prev =>
+  //     prev.map(prevItem => ({
+  //       ...prevItem,
+  //       isSelected: prevItem.origin === origin,
+  //     })),
+  //   );
+  // };
 
-  useEffect(() => {
-    horizontalScrollViewRef?.current?.scrollTo({x: width * currentIndex});
-  }, [currentIndex]);
+  // useEffect(() => {
+  //   horizontalScrollViewRef?.current?.scrollTo({x: width * currentIndex});
+  // }, [currentIndex]);
 
-  const tabPressAdditionalAction = (origin: AnnouncmentCategoryOriginType) => {
-    setCategoryStatusByOrigin(origin);
+  // const tabPressAdditionalAction = (origin: AnnouncmentCategoryOriginType) => {
+  //   setCategoryStatusByOrigin(origin);
 
-    if (origin === currentOrigin)
-      listRefArray[currentIndex].current?.scrollToOffset({offset: 0});
-  };
+  //   if (origin === currentOrigin)
+  //     listRefArray[currentIndex].current?.scrollToOffset({offset: 0});
+  // };
 
   return (
     <View>
-      <CategoryTab tabPressAdditionalAction={tabPressAdditionalAction} />
+      {/* <CategoryTab tabPressAdditionalAction={tabPressAdditionalAction} /> */}
       {/* TODO: 애니메이션 속도 지정을 위해 FlatList로 변경 */}
-      <ScrollView
+      {/* <ScrollView
         contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}
         ref={horizontalScrollViewRef}
         horizontal
@@ -71,7 +71,7 @@ const MainArticleListsControl = () => {
             />
           </View>
         ))}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 };

@@ -1,0 +1,60 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+
+
+# platform :ios do
+#   desc "Description of what the lane does"
+#   lane :custom_lane do
+#     # add actions here: https://docs.fastlane.tools/actions
+#   end
+# end
+
+default_platform(:ios)
+
+firebase_app_id = "1:316769946877:ios:0003b9076d4d4d6cb50294"
+app_tester_group = "uoslife"
+release_notes_default_msg = "Try out this app!"
+tester_udids_file = "tester_udids.txt"
+
+
+lane :build do
+  get_certificates()
+  get_provisioning_profile(adhoc: true, force: true)
+  build_app(export_method: "ad-hoc")
+end
+
+lane :distribute do
+  download_udids
+  add_new_devices
+  build
+  firebase_app_distribution(
+      debug: true,
+      app: firebase_app_id,
+      release_notes: release_notes_default_msg,
+      groups: app_tester_group,
+  )
+end
+
+lane :download_udids do
+  firebase_app_distribution_get_udids(
+      app: firebase_app_id,
+      output_file: tester_udids_file,
+  )
+end
+
+lane :add_new_devices do
+  register_devices(devices_file: tester_udids_file)
+end

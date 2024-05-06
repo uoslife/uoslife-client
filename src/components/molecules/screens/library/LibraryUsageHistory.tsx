@@ -1,5 +1,4 @@
 import {Suspense} from 'react';
-import {Pressable} from 'react-native';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useSuspenseQuery} from '@tanstack/react-query';
@@ -7,6 +6,7 @@ import {useSuspenseQuery} from '@tanstack/react-query';
 import CardLayout from '../../common/cardLayout/CardLayout';
 import UtilityService from '../../../../services/utility';
 import Skeleton from '../../common/skeleton/Skeleton';
+import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 
 const LibraryUsageHistory = () => {
   const {data, refetch} = useSuspenseQuery({
@@ -22,9 +22,9 @@ const LibraryUsageHistory = () => {
           color="grey190"
           typograph="titleLarge"
         />
-        <Pressable onPress={() => refetch()}>
+        <AnimatePress onPress={() => refetch()} variant="scale_up">
           <Icon name="refresh" width={24} height={24} color="grey90" />
-        </Pressable>
+        </AnimatePress>
       </S.TitleWrapper>
       <Suspense fallback={<Skeleton variant="card" />}>
         <S.LibraryHistoryCardWrapper>
@@ -99,8 +99,6 @@ export default LibraryUsageHistory;
 
 const S = {
   Container: styled.View`
-    width: 100%;
-    padding: 48px 16px 0 16px;
     gap: 12px;
   `,
   LibraryHistoryCardWrapper: styled.View`

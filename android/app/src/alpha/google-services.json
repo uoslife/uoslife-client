@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "316769946877",
+    "project_id": "uoslife-app-37d50",
+    "storage_bucket": "uoslife-app-37d50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316769946877:android:4ba67bc1865d4db2b50294",
+        "android_client_info": {
+          "package_name": "com.beyondconnect.alpha.uoslife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh_EbxU6VmBgcKhSrc-BM2oAlOMmtA8qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316769946877:android:6380314e8dd00599b50294",
+        "android_client_info": {
+          "package_name": "com.beyondconnect.uoslife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh_EbxU6VmBgcKhSrc-BM2oAlOMmtA8qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
