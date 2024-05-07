@@ -16614,6 +16614,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-shared-group-preferences@npm:^1.1.24":
+  version: 1.1.24
+  resolution: "react-native-shared-group-preferences@npm:1.1.24"
+  peerDependencies:
+    react-native: ">=0.41.2"
+  checksum: df4b1fd820ad095b7c874bd701849c5cbed1dd6b01d1a5c1c4c288548a5aff54b1cacc5fc1afa5dd07b8183223197b71c9c1248130540dc229f6b3da3b99c2f8
+  languageName: node
+  linkType: hard
+
 "react-native-skeleton-placeholder@npm:^5.2.4":
   version: 5.2.4
   resolution: "react-native-skeleton-placeholder@npm:5.2.4"
@@ -19520,6 +19529,7 @@ __metadata:
     react-native-render-html: ^6.3.4
     react-native-safe-area-context: ^4.7.1
     react-native-screens: ^3.20.0
+    react-native-shared-group-preferences: ^1.1.24
     react-native-skeleton-placeholder: ^5.2.4
     react-native-svg: ^13.14.0
     react-native-tab-view: ^3.5.2
