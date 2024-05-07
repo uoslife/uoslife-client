@@ -7,3 +7,7 @@ env.d.ts
 
 # Storybook
 **/storybook-static
+
+# Jest
+jest.config.ts
+jest-setup.ts
