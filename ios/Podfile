@@ -30,9 +30,9 @@ target 'uoslife-prod' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'uoslifeTests' do
-    inherit! :complete
-  end
+#  target 'uoslifeTests' do
+#    inherit! :complete
+#  end
 end
 
 target 'uoslife-alpha' do
