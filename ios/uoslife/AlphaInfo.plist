@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>ko</string>
+	<array>
+		<string></string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>시대생 Alpha</string>
 	<key>CFBundleExecutable</key>
@@ -72,5 +74,15 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pretendard-Bold.otf</string>
+		<string>Pretendard-Light.otf</string>
+		<string>Pretendard-Medium.otf</string>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-SemiBold.otf</string>
+	</array>
 </dict>
 </plist>
