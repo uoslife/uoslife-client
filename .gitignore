@@ -70,6 +70,7 @@ storybook-static
 # env
 .env
 
+
 # Sentry
 ios/sentry.properties
 android/sentry.properties
@@ -82,3 +83,9 @@ android/sentry.properties
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# fastlane
+ios/*.cer
+ios/fastlane/.env
+ios/*.mobileprovision
+ios/tester_udids.txt
