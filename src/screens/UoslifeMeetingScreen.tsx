@@ -54,7 +54,7 @@ const UoslifeMeetingScreen = () => {
             navigationGoBack,
           })
         }
-        userAgent={Platform.OS === 'ios' ? 'ios' : 'android'}
+        userAgent={Platform.OS === 'ios' ? 'mobile ios safari' : 'android'}
         onLoad={() => setLoading(false)}
       />
       {loading ? <Spinner /> : null}
