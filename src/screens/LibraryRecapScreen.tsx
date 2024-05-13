@@ -8,6 +8,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/core';
 import useUserState from '../hooks/useUserState';
 import storage from '../storage';
 import Spinner from '../components/atoms/spinner/Spinner';
+import {getWebViewUserAgent} from 'react-native-user-agent';
 
 const LibraryRecapScreen = () => {
   const webviewRef = useRef<WebView | null>(null);
@@ -27,6 +28,16 @@ const LibraryRecapScreen = () => {
     navigation.goBack();
   };
   // useAndroidBackPress(webviewRef);
+
+  // userAgent
+  const [userAgent, setUserAgent] = useState('');
+  useEffect(() => {
+    (async () => {
+      const res = await getWebViewUserAgent();
+      setUserAgent(res);
+    })();
+  }, []);
+
   return (
     <>
       <View
@@ -46,7 +57,7 @@ const LibraryRecapScreen = () => {
             navigationGoBack,
           })
         }
-        userAgent={Platform.OS === 'ios' ? 'ios' : 'android'}
+        userAgent={userAgent}
         onLoad={() => setLoading(false)}
       />
       {loading ? <Spinner /> : null}
