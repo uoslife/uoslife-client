@@ -10,15 +10,18 @@ import {
   GetLibraryRankingRes,
   GetMyLibraryRankingRes,
   LibraryReservationType,
+  ReservationStatusTypeFromServer,
 } from '../api/services/util/library/libraryAPI.type';
 import {LibraryRankingMajorNameType} from '../configs/utility/libraryRanking/libraryRanking';
 import {LibraryRankingTabsType} from '../configs/utility/libraryTabs';
+import storage from '../storage';
 import {
   DEFAULT_RESERVATION_STATUS,
   LibraryReservationAtomType,
   ReservationStatusType,
 } from '../store/library';
 import DateUtils from '../utils/date';
+import {LibraryDynamicIslandBridge} from '../utils/ios/libraryDynamicIslandBridge';
 
 export type GetCafeteriaItemsType = {
   commonDate: string;
@@ -91,12 +94,52 @@ export default class UtilityService {
     return 'OUTING_NO_TIME';
   }
 
+  static calculateDateInterval(seatStartTime: string) {
+    return (
+      new Date().valueOf() / 1000 -
+      new Date(this.convertDateFormat(seatStartTime)).valueOf() / 1000
+    );
+  }
+
   static async getLibraryReservation(): Promise<LibraryReservationAtomType> {
+    const isActivateLibraryDynamicIsland = storage.getBoolean(
+      'isActivateLibraryDynamicIsland',
+    );
+    const libraryUsingStatus = storage.getString('libraryUsingStatus') as
+      | ReservationStatusTypeFromServer
+      | undefined;
+
     try {
       let isStudyRoom: boolean = false;
       let status: ReservationStatusType = DEFAULT_RESERVATION_STATUS;
 
       const response = await UtilAPI.getLibraryReservation({});
+      // start Dynamic Island
+      if (!isActivateLibraryDynamicIsland) {
+        LibraryDynamicIslandBridge.onStartActivity({
+          seatRoomName: response.seatRoomName,
+          seatNumber: response.seatNo,
+          isUsing: response.status === 'SEAT',
+          dateInterval:
+            response.status === 'SEAT'
+              ? this.calculateDateInterval(response.seatStartTime)
+              : response.remainingSeconds,
+        });
+        storage.set('isActivateLibraryDynamicIsland', true);
+        storage.set('libraryUsingStatus', response.status);
+      }
+
+      if (libraryUsingStatus !== response.status) {
+        LibraryDynamicIslandBridge.onUpdateActivity({
+          isUsing: response.status === 'SEAT',
+          dateInterval:
+            response.status === 'SEAT'
+              ? this.calculateDateInterval(response.seatStartTime)
+              : response.remainingSeconds,
+        });
+        storage.set('libraryUsingStatus', response.status);
+      }
+      // end Dynamic Island
 
       if (response.status === 'STUDY_ROOM') isStudyRoom = true;
 
@@ -113,6 +156,11 @@ export default class UtilityService {
       };
     } catch (error) {
       const err = error as ErrorResponseType;
+
+      if (isActivateLibraryDynamicIsland) {
+        LibraryDynamicIslandBridge.onEndActivity();
+        storage.set('isActivateLibraryDynamicIsland', false);
+      }
 
       if (err.status === 500) {
         return {
@@ -182,5 +230,16 @@ export default class UtilityService {
     } catch (error) {
       return null;
     }
+  }
+
+  static convertDateFormat(format: string) {
+    const year = format.substring(0, 4);
+    const month = format.substring(4, 6);
+    const day = format.substring(6, 8);
+    const hours = format.substring(8, 10);
+    const minutes = format.substring(10, 12);
+    const seconds = format.substring(12, 14);
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
 }

@@ -32,7 +32,7 @@ const initialData: LibraryReservationAtomType = {
   isStudyRoom: null,
 };
 
-const libraryReservationAtom =
+export const libraryReservationAtom =
   atomWithSuspenseQuery<LibraryReservationAtomType>(get => ({
     queryKey: ['getLibraryReservation'],
     queryFn: () => UtilityService.getLibraryReservation(),
@@ -41,5 +41,3 @@ const libraryReservationAtom =
       ? DEFAULT_GET_LIBRARY_RESERVATION_REFETCH_INTERVAL
       : false,
   }));
-
-export default libraryReservationAtom;
