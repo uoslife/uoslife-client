@@ -5,7 +5,7 @@ import {ErrorResponseType} from '../../api/services/type';
 import {ExtendSeatParams} from '../../api/services/util/library/libraryAPI.type';
 import customShowToast from '../../configs/toast';
 import useModal from '../../hooks/useModal';
-import libraryReservationAtom from '../../store/library';
+import {libraryReservationAtom} from '../../store/library';
 import showLibraryErrorCode from '../../utils/library/showLibraryErrorCode';
 import useUserState from '../../hooks/useUserState';
 import AnalyticsService from '../../services/analytics';

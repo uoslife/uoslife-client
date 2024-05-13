@@ -4,7 +4,7 @@ import {useAtom} from 'jotai';
 import LibraryUserInfo from '../../../components/molecules/screens/library/main/my_seat/LibraryUserInfo';
 import LibrarySeatControl from '../../../components/molecules/screens/library/main/my_seat/LibrarySeatControl';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
-import libraryReservationAtom from '../../../store/library';
+import {libraryReservationAtom} from '../../../store/library';
 
 export type MySeatScreenProps = {
   redirectSeatList: () => void;

@@ -9,7 +9,7 @@ import useUserState from '../../../../../../hooks/useUserState';
 import boxShadowStyle from '../../../../../../styles/boxShadow';
 import AnimatePress from '../../../../../animations/pressable_icon/AnimatePress';
 import GuidePopup from '../../../../common/GuidePopup';
-import libraryReservationAtom from '../../../../../../store/library';
+import {libraryReservationAtom} from '../../../../../../store/library';
 import {MySeatScreenProps} from '../../../../../../screens/library/main_screen/MySeatScreen';
 import {LibraryNavigationProp} from '../../../../../../navigators/types/library';
 

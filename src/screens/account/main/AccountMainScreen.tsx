@@ -1,15 +1,14 @@
-import React from 'react';
 import {View} from 'react-native';
 import styled from '@emotion/native';
 import {Button} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
 // import {DEV_ACCESS_TOKEN, DEV_REFRESH_TOKEN} from '@env';
 
 import Carousel from '../../../components/molecules/common/carousel/Carousel';
 
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import {ONBOARDING_1, ONBOARDING_2, ONBOARDING_3} from '../../../assets/images';
+import {LibraryDynamicIslandBridge} from '../../../utils/ios/libraryDynamicIslandBridge';
 
 const ONBOARDING_IMAGE_WIDTH = 328;
 const ONBOARDING_IMAGE_HEIGHT = 484;
@@ -20,7 +19,13 @@ const AccountMainScreen = () => {
   const {changeAccountFlow} = useAccountFlow();
 
   const handleClickAccountButton = () => {
-    changeAccountFlow({commonFlowName: 'SIGNIN'});
+    // changeAccountFlow({commonFlowName: 'SIGNIN'});
+    LibraryDynamicIslandBridge.onStartActivity({
+      seatRoomName: '공존',
+      seatNumber: '12',
+      isUsing: false,
+      dateInterval: 10,
+    });
   };
 
   return (
@@ -46,6 +51,26 @@ const AccountMainScreen = () => {
             label="시작하기"
             isFullWidth
             onPress={handleClickAccountButton}
+          />
+          <Button
+            label="update"
+            isFullWidth
+            onPress={() =>
+              LibraryDynamicIslandBridge.onUpdateActivity({
+                isUsing: true,
+                dateInterval: 199,
+              })
+            }
+          />
+          <Button
+            label="update"
+            isFullWidth
+            onPress={() =>
+              LibraryDynamicIslandBridge.onUpdateActivity({
+                isUsing: false,
+                dateInterval: 199,
+              })
+            }
           />
         </S.BottomWrapper>
       </S.Container>
