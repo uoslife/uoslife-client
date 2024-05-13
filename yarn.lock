@@ -6446,10 +6446,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uoslife/webview@npm:^0.0.11":
-  version: 0.0.11
-  resolution: "@uoslife/webview@npm:0.0.11::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40uoslife%2Fwebview%2F0.0.11%2F4982f5ce310ff5fc076962b200d3bf4e0698295a"
-  checksum: b89c390e47f2055dbfb53b91465f6e7c76a1ee146c92833ae9fbb3dd1e136cd998772b19c2ed692401f4348713e6c3ef3f68433fc4f29115f993d4b9a0903648
+"@uoslife/webview@npm:^0.0.18":
+  version: 0.0.18
+  resolution: "@uoslife/webview@npm:0.0.18::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40uoslife%2Fwebview%2F0.0.18%2F9a59ce5659bb2f4ecb77f13e958e14df1f26a36a"
+  checksum: eb496e4898cda06f38bec91e44806610be6e5375ad9be8191d494087a6f395e0f8a167b587362512b9846e30a0a5a949e6b86c928014f84c164da098a530d472
   languageName: node
   linkType: hard
 
@@ -17143,6 +17143,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-user-agent@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "react-native-user-agent@npm:2.3.1"
+  peerDependencies:
+    react-native: "*"
+  checksum: fc713e6e235e4c82db04fdade95fb03463c69c75c146f45d4e6e60d363ecc83c71cb17500f39bb577e143e6286f1167758272cc53c88be76b4c3628e5f41283f
+  languageName: node
+  linkType: hard
+
 "react-native-web@npm:^0.19.7":
   version: 0.19.7
   resolution: "react-native-web@npm:0.19.7"
@@ -20038,7 +20047,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.9.1
     "@uoslife/design-system": ^1.2.10
     "@uoslife/react": ^1.1.4
-    "@uoslife/webview": ^0.0.11
+    "@uoslife/webview": ^0.0.18
     babel-jest: ^29.2.1
     babel-loader: ^8.3.0
     babel-plugin-react-native-web: ^0.19.7
@@ -20090,6 +20099,7 @@ __metadata:
     react-native-tab-view: ^3.5.2
     react-native-toast-message: ^2.1.7
     react-native-url-polyfill: ^1.3.0
+    react-native-user-agent: ^2.3.1
     react-native-web: ^0.19.7
     react-native-webview: ^13.2.1
     react-test-renderer: 18.2.0
