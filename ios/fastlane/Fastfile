@@ -24,7 +24,7 @@
 
 default_platform(:ios)
 
-firebase_app_id = "1:316769946877:ios:0003b9076d4d4d6cb50294"
+firebase_app_id = "1:316769946877:ios:4b2f9453dd964620b50294"
 app_tester_group = "uoslife"
 release_notes_default_msg = "Try out this app!"
 tester_udids_file = "tester_udids.txt"
