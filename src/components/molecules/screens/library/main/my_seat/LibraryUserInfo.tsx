@@ -8,8 +8,9 @@ import TextItems from '../../../../common/textItems/TextItems';
 import useUserState from '../../../../../../hooks/useUserState';
 
 import {UserAtomType} from '../../../../../../store/account/user';
-import libraryReservationAtom, {
+import {
   ReservationStatusTypeInUsing,
+  libraryReservationAtom,
 } from '../../../../../../store/library';
 import {libraryInformationMessage} from '../../../../../../configs/utility/library';
 

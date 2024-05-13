@@ -2,7 +2,7 @@ import React from 'react';
 import {useAtomValue} from 'jotai';
 import styled from '@emotion/native';
 
-import {AccountFlowType, accountFlowAtom} from '../../store/account';
+import {accountFlowAtom} from '../../store/account';
 
 import AccountMainScreen from './main/AccountMainScreen';
 import SignUpScreen from './signUp';
