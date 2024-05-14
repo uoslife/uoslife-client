@@ -51,7 +51,7 @@ const LibraryUsageHistory = () => {
                   </S.CardLeftWrapper>
                   <S.CardTextWrapper>
                     <Txt
-                      label={data.usageTime.useTime.toString()}
+                      label={data.usageTime.usedDays.toString()}
                       color="primaryBrand"
                       typograph="headlineMedium"
                     />
@@ -75,7 +75,7 @@ const LibraryUsageHistory = () => {
                   </S.CardLeftWrapper>
                   <S.CardTextWrapper>
                     <Txt
-                      label={data.usageTime.useHour.toString()}
+                      label={data.usageTime.usedMinute.toString()}
                       color="primaryBrand"
                       typograph="headlineMedium"
                     />
