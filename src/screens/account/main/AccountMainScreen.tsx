@@ -19,13 +19,7 @@ const AccountMainScreen = () => {
   const {changeAccountFlow} = useAccountFlow();
 
   const handleClickAccountButton = () => {
-    // changeAccountFlow({commonFlowName: 'SIGNIN'});
-    LibraryDynamicIslandBridge.onStartActivity({
-      seatRoomName: '공존',
-      seatNumber: '12',
-      isUsing: false,
-      dateInterval: 10,
-    });
+    changeAccountFlow({commonFlowName: 'SIGNIN'});
   };
 
   return (
@@ -51,26 +45,6 @@ const AccountMainScreen = () => {
             label="시작하기"
             isFullWidth
             onPress={handleClickAccountButton}
-          />
-          <Button
-            label="update"
-            isFullWidth
-            onPress={() =>
-              LibraryDynamicIslandBridge.onUpdateActivity({
-                isUsing: true,
-                dateInterval: 199,
-              })
-            }
-          />
-          <Button
-            label="update"
-            isFullWidth
-            onPress={() =>
-              LibraryDynamicIslandBridge.onUpdateActivity({
-                isUsing: false,
-                dateInterval: 199,
-              })
-            }
           />
         </S.BottomWrapper>
       </S.Container>
