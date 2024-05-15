@@ -2,13 +2,13 @@ import {useEffect, useRef, useState} from 'react';
 import WebView from 'react-native-webview';
 import {onMessageFromWebView} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Platform, StatusBar, View} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/core';
 
+import {getWebViewUserAgent} from 'react-native-user-agent';
 import useUserState from '../hooks/useUserState';
 import storage from '../storage';
 import Spinner from '../components/atoms/spinner/Spinner';
-import {getWebViewUserAgent} from 'react-native-user-agent';
 
 const LibraryRecapScreen = () => {
   const webviewRef = useRef<WebView | null>(null);
@@ -27,7 +27,6 @@ const LibraryRecapScreen = () => {
   const navigationGoBack = () => {
     navigation.goBack();
   };
-  // useAndroidBackPress(webviewRef);
 
   // userAgent
   const [userAgent, setUserAgent] = useState('');
