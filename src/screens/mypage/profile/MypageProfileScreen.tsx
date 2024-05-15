@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useMemo} from 'react';
 import {Pressable, View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/core';
@@ -11,21 +11,20 @@ import Header from '../../../components/molecules/common/header/Header';
 import {MypageProfileNavigationProp} from '../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../components/molecules/common/navigationList/NavigationList';
 
-import {UserInfoType} from '../../../api/services/core/user/userAPI.type';
 import UserService from '../../../services/user';
 import useModal from '../../../hooks/useModal';
 import usePhoto from '../../../hooks/usePhoto';
 import useUserState from '../../../hooks/useUserState';
 import setUserInformationMessage from '../../../utils/setUserInformationMessage';
+import {UserInfoType} from '../../../api/services/account/type';
 
 const getPortalAccountInfoList = (user: UserInfoType | null) => {
-  if (!user) return [];
+  if (!user?.identity) return [];
   return [
     {name: '이름', value: setUserInformationMessage(user.name)},
-    {name: '학과', value: setUserInformationMessage(user.departmentName)},
-    {name: '학번', value: setUserInformationMessage(user.studentId)},
-    {name: '학적', value: setUserInformationMessage(user.enrollmentStatus)},
-    {name: '생일', value: setUserInformationMessage(user.birthday)},
+    {name: '학과', value: setUserInformationMessage(user.identity.department)},
+    {name: '학번', value: setUserInformationMessage(user.identity.idNumber)},
+    {name: '학적', value: setUserInformationMessage(user.identity.status)},
   ];
 };
 
@@ -49,6 +48,7 @@ const MypageProfileScreen = () => {
   };
 
   const handleOnPressUnregister = useThrottle(async () => {
+    console.log(user);
     await UserService.unregister({deleteUserInfo, user: user!});
   });
 
@@ -134,10 +134,6 @@ const MypageProfileScreen = () => {
                   })}
                 </S.portalAccountInformationWrapper>
               )}
-              <NavigationList
-                label="전화번호 변경"
-                onPress={() => navigation.navigate('Mypage_changeNumber')}
-              />
               <NavigationList
                 label="회원탈퇴"
                 onPress={() => openUnregisterModal()}

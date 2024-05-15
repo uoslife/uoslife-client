@@ -5,7 +5,7 @@ import urls from '../urls';
 const toastMessage = {
   // core
   logout: '로그아웃에 성공했어요.',
-  unregister: '회원탈퇴에 성공했어요.',
+  unregisterSuccess: '회원탈퇴에 성공했어요.',
   unregisterError: '회원탈퇴를 처리하는 중 문제가 발생했어요.',
   signUpError: '회원가입을 처리하는 중 문제가 발생했어요.',
   notLoggedInError: '로그인 후 이용 가능해요.',
@@ -48,6 +48,8 @@ const toastMessage = {
 
   SmsVerificationError: '전화번호 인증 과정에서 문제가 발생했어요.',
   loginDurationExpiredInfo: '로그인 기한이 만료되었어요.',
+  logoutByUnknownError:
+    '알 수 없는 오류로 로그아웃 되었어요. 다시 로그인 해주세요.',
 
   // qrCodeInfection: '학생증 QR 코드는 현재 점검 중이에요!',
 
@@ -67,8 +69,8 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   logout: {
     title: toastMessage.logout,
   },
-  unregister: {
-    title: toastMessage.unregister,
+  unregisterSuccess: {
+    title: toastMessage.unregisterSuccess,
   },
   unregisterError: {
     type: 'error',
@@ -201,6 +203,11 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     type: 'info',
     visibilityTime: 8000,
     title: toastMessage.loginDurationExpiredInfo,
+  },
+  logoutByUnknownError: {
+    type: 'info',
+    visibilityTime: 8000,
+    title: toastMessage.logoutByUnknownError,
   },
   // qrCodeInfection: {
   //   type: 'info',

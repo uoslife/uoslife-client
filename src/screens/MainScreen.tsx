@@ -37,7 +37,6 @@ const MainScreen = () => {
   const {user} = useUserState();
 
   const {id, nickname} = user || {};
-
   return (
     <S.MainContainer bounces={false}>
       <View
