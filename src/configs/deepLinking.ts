@@ -27,7 +27,6 @@ const deepLinksConfig = {
             Mypage_profile_Main: 'mypage/profile',
             Mypage_changeNickname: 'mypage/profile/changeNickname',
             Mypage_portalAuthentication: 'mypage/profile/portalAuthentication',
-            Mypage_changeNumber: 'mypage/profile/changeNumber',
           },
         },
         Mypage_appSetting: 'mypage/appSetting',

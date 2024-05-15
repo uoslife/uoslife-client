@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.uoslife.app</string>
+		<string>group.com.uoslife.ios</string>
 	</array>
 </dict>
 </plist>

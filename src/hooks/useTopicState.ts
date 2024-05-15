@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useAtom} from 'jotai';
+import {useQuery} from '@tanstack/react-query';
 import topicAtom, {TopicName} from '../store/topic';
-import TopicService from '../services/topic';
 import {CoreAPI} from '../api/services';
 import customShowToast from '../configs/toast/index';
 import DeviceService from '../services/device';
@@ -10,25 +10,23 @@ const useTopicState = () => {
   const [topicList, setTopicList] = useAtom(topicAtom);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-    (async () => {
-      const topics = await TopicService.getUserTopics();
-      if (!topics) {
-        setIsLoading(false);
-        return;
-      }
+  const {data, isFetching} = useQuery({
+    queryKey: ['topic'],
+    queryFn: () => CoreAPI.getUserTopics(),
+  });
 
+  useEffect(() => {
+    setIsLoading(isFetching);
+    if (!isFetching)
       setTopicList(prev => {
         return prev.map(item =>
-          topics?.some(topic => topic.name === item.name)
+          data?.some(topic => topic.name === item.name)
             ? {...item, isToggleOn: true}
             : item,
         );
       });
-      setIsLoading(false);
-    })();
-  }, [setTopicList]);
+    setIsLoading(false);
+  }, [data, isFetching, setTopicList]);
 
   const setTopic = async (topicName: TopicName) => {
     if (topicName === 'SERVICE_NOTIFICATION')

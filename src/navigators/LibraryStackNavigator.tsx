@@ -5,7 +5,7 @@ import LibraryChallengeScreen from '../screens/library/LibraryChallengeScreen';
 import LibraryRankingScreen from '../screens/library/LibraryRankingScreen';
 import LibraryRoomStatusScreen from '../screens/library/room_status/LibraryRoomStatusScreen';
 import LibrarySeatingChartScreen from '../screens/library/room_status/LibrarySeatingChartScreen';
-import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
+import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
 
 import {
   LibraryRoomStatusStackParamList,

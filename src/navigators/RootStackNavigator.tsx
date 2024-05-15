@@ -25,12 +25,13 @@ import {
   PrivacyandPoliciesScreen,
   ToSandPoliciesScreen,
 } from '../screens/mypage';
-import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
+import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
 import LibraryRecapScreen from '../screens/LibraryRecapScreen';
 import LibraryStackNavigator from './LibraryStackNavigator';
 import {LibraryStackParamList} from './types/library';
+import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -40,6 +41,7 @@ export type RootStackParamList = {
   Cafeteria: undefined;
   StudentId_PortalAuthentication: undefined;
   LibraryRecap: undefined;
+  UoslifeMeeting: undefined;
 
   Account: undefined;
   Account_ToSandPolicies: undefined;
@@ -87,6 +89,10 @@ const RootStackNavigator: React.FC = () => {
             component={PortalAuthenticationScreen}
           />
           <Stack.Screen name="LibraryRecap" component={LibraryRecapScreen} />
+          <Stack.Screen
+            name="UoslifeMeeting"
+            component={UoslifeMeetingScreen}
+          />
         </>
       ) : (
         <>

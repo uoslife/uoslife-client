@@ -11,9 +11,8 @@ import {
   AdvertisingandMarketingConsentScreen,
   PrivacyandPoliciesScreen,
 } from '../screens/mypage';
-import SetNicknameScreen from '../screens/account/common/SetNicknameScreen';
-import VerificationScreen from '../screens/account/signIn/VerificationScreen';
-import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
+import SetNicknameScreen from '../screens/account/sign_up/SetNicknameScreen';
+import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
 import PortalAuthenticationManagementScreen from '../screens/mypage/profile/PortalAuthenticationManagementScreen';
 
 export type MypageStackParamList = {
@@ -28,7 +27,6 @@ export type MypageProfileStackParamList = {
   Mypage_changeNickname: {isMypage: boolean};
   Mypage_portalAuthentication: undefined;
   Mypage_portalAuthenticationManagement: undefined;
-  Mypage_changeNumber: undefined;
 };
 export type MypageProfileNavigationProp =
   NativeStackNavigationProp<MypageProfileStackParamList>;
@@ -67,10 +65,6 @@ const MypageProfileNavigator = () => {
       <ProfileStack.Screen
         name="Mypage_portalAuthenticationManagement"
         component={PortalAuthenticationManagementScreen}
-      />
-      <ProfileStack.Screen
-        name="Mypage_changeNumber"
-        component={VerificationScreen}
       />
     </ProfileStack.Navigator>
   );
