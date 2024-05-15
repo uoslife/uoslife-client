@@ -22,9 +22,19 @@ const getPortalAccountInfoList = (user: UserInfoType | null) => {
   if (!user?.identity) return [];
   return [
     {name: '이름', value: setUserInformationMessage(user.name)},
-    {name: '학과', value: setUserInformationMessage(user.identity.department)},
+    {
+      name: '학과',
+      value: `${setUserInformationMessage(
+        user.identity.university,
+      )} / ${setUserInformationMessage(user.identity.department)}`,
+    },
     {name: '학번', value: setUserInformationMessage(user.identity.idNumber)},
-    {name: '학적', value: setUserInformationMessage(user.identity.status)},
+    {
+      name: '학적',
+      value: `${setUserInformationMessage(
+        user.identity.type,
+      )} / ${setUserInformationMessage(user.identity.status)}`,
+    },
   ];
 };
 
