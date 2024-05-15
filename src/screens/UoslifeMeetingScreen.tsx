@@ -4,11 +4,11 @@ import {onMessageFromWebView} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StatusBar, View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/core';
+import {getWebViewUserAgent} from 'react-native-user-agent';
 import useUserState from '../hooks/useUserState';
 import storage from '../storage';
 import Spinner from '../components/atoms/spinner/Spinner';
 import {RootNavigationProps} from '../navigators/RootStackNavigator';
-import {getWebViewUserAgent} from 'react-native-user-agent';
 
 const UoslifeMeetingScreen = () => {
   const webviewRef = useRef<WebView | null>(null);
@@ -34,10 +34,9 @@ const UoslifeMeetingScreen = () => {
   const navigationGoBack = () => {
     navigation.goBack();
   };
-  // useAndroidBackPress(webviewRef);
 
   // userAgent
-  const [userAgent, setUserAgent] = useState('');
+  const [userAgent, setUserAgent] = useState<string>('');
   useEffect(() => {
     (async () => {
       const res = await getWebViewUserAgent();
@@ -61,6 +60,7 @@ const UoslifeMeetingScreen = () => {
             ...e,
             userPayload: user,
             accessTokenPayload: {accessToken},
+            insetsPayload: insets,
             webviewRef,
             navigationGoBack,
           })

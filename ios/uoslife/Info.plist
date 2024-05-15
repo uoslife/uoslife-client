@@ -92,5 +92,20 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+  <array>
+      <!-- Login with Kakao Talk -->
+      <string>kakaokompassauth</string>
+      <!-- Kakao Talk Sharing -->
+      <string>kakaolink</string>
+      <!-- Kakao Talk Channel -->
+      <string>kakaoplus</string>
+      <!-- Kakao Talk Links -->
+      <string>kakaotalk</string>
+      <!-- Toss Links -->
+      <string>supertoss</string>
+      <!-- L.PAY Links -->
+      <string>lmslpay</string>
+  </array>
 </dict>
 </plist>
