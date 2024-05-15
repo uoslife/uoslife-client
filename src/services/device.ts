@@ -70,10 +70,11 @@ export default class DeviceService {
       localDeviceInfo.os !== serverDeviceInfo.os ||
       localDeviceInfo.osVersion !== serverDeviceInfo.osVersion
     ) {
+      const {model, os, ...rest} = localDeviceInfo;
       // eslint-disable-next-line consistent-return
       return AccountAPI.patchDeviceInfo({
         id: serverDeviceInfo.id,
-        ...localDeviceInfo,
+        ...rest,
       });
     }
   }
