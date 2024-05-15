@@ -93,7 +93,7 @@ const PortalAuthenticationManagementScreen = () => {
                   onPress={() => setId(item.id)}
                   key={item.id}>
                   <Txt
-                    label={`${item.status}, ${item.idNumber}`}
+                    label={`${item.type} / ${item.status}, ${item.idNumber}`}
                     color="grey190"
                     typograph="titleMedium"
                   />
