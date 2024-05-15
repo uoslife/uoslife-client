@@ -1,80 +1,24 @@
 import {useAtom} from 'jotai';
 import {
-  SignUpFlowType,
-  CommonFlowNameType,
+  AccountFlowNameType,
   accountFlowAtom,
   accountFlowInit,
-} from '../store/account/index';
-
-type ChangeAccountFlowParams = {
-  commonFlowName?: CommonFlowNameType;
-  isResetSignUpFlow?: boolean;
-} & Partial<SignUpFlowType>;
+} from '../store/account';
 
 const useAccountFlow = () => {
   const [accountFlow, setAccountFlow] = useAtom(accountFlowAtom);
 
-  const changeAccountFlow = ({
-    commonFlowName,
-    signUpUser,
-    step,
-    isResetSignUpFlow,
-  }: ChangeAccountFlowParams) => {
-    if (isResetSignUpFlow) {
-      setAccountFlow(prev => {
-        return {
-          ...prev,
-          commonFlow: commonFlowName || prev.commonFlow,
-          signUpFlow: accountFlowInit.signUpFlow,
-        };
-      });
-      return;
-    }
-    setAccountFlow(prev => {
-      return {
-        ...prev,
-        commonFlow: commonFlowName || prev.commonFlow,
-        signUpFlow: {
-          signUpUser: signUpUser || prev.signUpFlow.signUpUser,
-          step: step || prev.signUpFlow.step,
-        },
-      };
-    });
-  };
-  const increaseSignUpFlowStep = () => {
-    setAccountFlow(prev => {
-      return {
-        ...prev,
-        signUpFlow: {
-          signUpUser: prev.signUpFlow.signUpUser,
-          step: prev.signUpFlow.step + 1,
-        },
-      };
-    });
-  };
-  const decreaseSignUpFlowStep = () => {
-    if (accountFlow.signUpFlow.step === 0)
-      throw new Error('현재 step이 0인 flow는 감소시킬 수 없습니다.');
-
-    setAccountFlow(prev => {
-      return {
-        ...prev,
-        signUpFlow: {
-          signUpUser: prev.signUpFlow.signUpUser,
-          step: prev.signUpFlow.step - 1,
-        },
-      };
-    });
+  const changeAccountFlow = (name: AccountFlowNameType) => {
+    setAccountFlow(name);
   };
   const resetAccountFlow = () => {
     setAccountFlow(accountFlowInit);
   };
 
   return {
+    accountFlow,
     changeAccountFlow,
     resetAccountFlow,
-    increaseSignUpFlowStep,
-    decreaseSignUpFlowStep,
   };
 };
 export default useAccountFlow;

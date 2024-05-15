@@ -7,6 +7,7 @@ import CodePush, {
   RemotePackage,
 } from 'react-native-code-push';
 
+import {captureException} from '@sentry/react-native';
 import DeviceService from '../services/device';
 import NotificationService from '../services/notification';
 import UserService from '../services/user';
@@ -124,14 +125,22 @@ const useInitApp = () => {
       return;
     }
 
-    const userInfo = await UserService.getUserInfoFromServer();
-    if (!userInfo) {
+    try {
+      const userInfo = await UserService.getUserInfoFromServer();
+      setUserInfo(userInfo);
+    } catch (err) {
       setLoadingFinish();
       return;
     }
-    setUserInfo(userInfo);
+    try {
+      await DeviceService.updateDeviceInfo();
+    } catch (error) {
+      captureException(error);
+      await UserService.logoutByUnknownError();
+      setLoadingFinish();
+      return;
+    }
 
-    await DeviceService.updateDeviceInfo();
     setAuthenticationSuccess();
   }, [setAuthenticationSuccess, setLoadingFinish, setUserInfo]);
 

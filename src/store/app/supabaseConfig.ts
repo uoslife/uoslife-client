@@ -19,7 +19,7 @@ const changeAppVersionInt = (appVersion: string) =>
 const supabaseConfigAtom = atomWithQuery<SupabaseConfigAtomType>(() => ({
   queryKey: ['getSupabaseConfig'],
   queryFn: async () => {
-    const environment = DeviceInfo.getBundleId().split('.').includes('alpha')
+    const environment = DeviceInfo.getBundleId().match('alpha')
       ? 'alpha'
       : 'production';
     const isProduction = environment === 'production';

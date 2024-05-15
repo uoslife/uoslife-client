@@ -1,7 +1,6 @@
 import {useAtom} from 'jotai';
 import {userAtom} from '../store/account';
-
-import {UserInfoType} from '../api/services/core/user/userAPI.type';
+import {UserInfoType} from '../api/services/account/type';
 
 export type SetUserInfoType = (userInfo: UserInfoType) => void;
 export type DeleteUserInfoType = () => void;

@@ -25,7 +25,7 @@ import {
   PrivacyandPoliciesScreen,
   ToSandPoliciesScreen,
 } from '../screens/mypage';
-import PortalAuthenticationScreen from '../screens/account/common/PortalAuthenticationScreen';
+import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
 import LibraryRecapScreen from '../screens/LibraryRecapScreen';

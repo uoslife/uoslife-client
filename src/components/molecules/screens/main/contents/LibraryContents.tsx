@@ -1,7 +1,8 @@
 import {useAtom} from 'jotai';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
+import {useEffect} from 'react';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import {LibraryReservationType} from '../../../../../api/services/util/library/libraryAPI.type';
@@ -61,9 +62,10 @@ const LibraryContentsInNotUsing = () => {
 
 const LibraryContents = () => {
   const [{data, refetch}] = useAtom(libraryReservationAtom);
-  useFocusEffect(() => {
-    refetch();
-  });
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) refetch();
+  }, [isFocused, refetch]);
   return (
     <CardLayout>
       {data.reservationInfo ? (

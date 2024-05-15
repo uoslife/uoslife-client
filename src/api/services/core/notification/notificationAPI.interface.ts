@@ -1,4 +1,4 @@
-import {ServiceFunc} from '../../type';
+import {ServiceFunc, ServiceFuncWithoutParams} from '../../type';
 import * as Type from './notificationAPI.type';
 
 export default interface NotificationService {
@@ -10,8 +10,5 @@ export default interface NotificationService {
     Type.UnSubscribeTopicParams,
     Type.UnSubscribeTopicResponse
   >;
-  getUserTopics: ServiceFunc<
-    Type.GetUserTopicsParams,
-    Type.GetUserTopicsResponse
-  >;
+  getUserTopics: ServiceFuncWithoutParams<Type.GetUserTopicsResponse>;
 }

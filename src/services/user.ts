@@ -1,11 +1,12 @@
-import {CoreAPI} from '../api/services';
-import {UserInfoType} from '../api/services/core/user/userAPI.type';
+import {captureMessage} from '@sentry/react-native';
 import storage from '../storage';
 import DeviceService from './device';
 import storeToken from '../utils/storeToken';
 import customShowToast from '../configs/toast';
 import {DeleteUserInfoType, SetUserInfoType} from '../hooks/useUserState';
 import AnalyticsService from './analytics';
+import {AccountAPI} from '../api/services/account';
+import {UserInfoType} from '../api/services/account/type';
 
 type OnRegisterParamsType = {
   accessToken: string;
@@ -35,19 +36,16 @@ export default class UserService {
     setUserInfo,
   }: OnRegisterParamsType): Promise<void> {
     storeToken({accessToken, refreshToken});
-    await DeviceService.setDeviceInfo();
-    await UserService.updateUserInfo(setUserInfo);
+    await Promise.all([
+      DeviceService.setDeviceInfo(),
+      UserService.updateUserInfo(setUserInfo),
+    ]);
     if (setNotLoggedIn) return;
     storage.set('isLoggedIn', true);
   }
 
-  static async getUserInfoFromServer(): Promise<UserInfoType | null> {
-    try {
-      const userInfo = await CoreAPI.getUserInfo({});
-      return userInfo;
-    } catch (error) {
-      return null;
-    }
+  static async getUserInfoFromServer(): Promise<UserInfoType> {
+    return await AccountAPI.getUserInfo();
   }
 
   static async updateUserInfo(setUserInfo: SetUserInfoType): Promise<void> {
@@ -79,12 +77,12 @@ export default class UserService {
     user,
   }: InitializeUserParamsType): Promise<void> {
     try {
-      await CoreAPI.unregister();
+      await AccountAPI.unregister();
       await AnalyticsService.logAnalyticsEvent('unregister', {
         unregisterUserId: user.id,
       }).finally(() => {
         this.initializeUserState(deleteUserInfo);
-        customShowToast('unregister');
+        customShowToast('unregisterSuccess');
       });
     } catch (error) {
       customShowToast('unregisterError');
@@ -111,16 +109,27 @@ export default class UserService {
     await this.logout({});
     storage.set('isLoggedIn', false);
     customShowToast('loginDurationExpiredInfo');
+    captureMessage('user is logged out because of expired refresh token');
   }
 
   /** refresh token을 이용하여 access token을 가져옵니다. */
   static async getAccessTokenByRefreshToken(): Promise<void> {
     try {
-      const res = await CoreAPI.getRefreshToken();
+      const res = await AccountAPI.getRefreshToken();
       const {accessToken, refreshToken} = res;
       storeToken({accessToken, refreshToken});
     } catch {
-      console.error('failed get refresh token!');
+      captureMessage('failed get refresh token');
     }
+  }
+
+  /**
+   * 서버측 또는 알 수 없는 오류 발생으로 로그아웃을 실행하는 함수입니다.
+   * 로그인 상태를 초기화 하고 로그아웃 시킵니다.
+   */
+  static async logoutByUnknownError(): Promise<void> {
+    await this.logout({});
+    storage.set('isLoggedIn', false);
+    customShowToast('logoutByUnknownError');
   }
 }
