@@ -8,6 +8,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {useThrottle} from '@uoslife/react';
 
+import {captureException} from '@sentry/react-native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import ServiceAgreementOverlay from '../../../components/molecules/screens/account/modalContents/ServiceAgreementOverlay';
@@ -87,7 +88,11 @@ const SetNicknameScreen = () => {
         });
         // topic 구독
         if (!isAuthorized) return;
-        await TopicService.setTopicWhenSignUp(isAdvertismentAgreeChecked);
+        try {
+          await TopicService.setTopicWhenSignUp(isAdvertismentAgreeChecked);
+        } catch (err) {
+          captureException(err);
+        }
         openModal();
       } catch (err) {
         const error = err as ErrorResponseType;

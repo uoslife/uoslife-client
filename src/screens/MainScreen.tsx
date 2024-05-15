@@ -98,7 +98,7 @@ const MainScreen = () => {
           logEventName="banner"
           autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
         />
-        {/* <MainServiceBox
+        <MainServiceBox
           label="오늘의 학식"
           iconName="cafeteria"
           iconColor="primaryDarker">
@@ -119,7 +119,7 @@ const MainScreen = () => {
           iconName="campaign"
           iconColor="primaryDarker">
           <AnnounceContents />
-        </MainServiceBox> */}
+        </MainServiceBox>
       </S.MainWrapper>
     </S.MainContainer>
   );
