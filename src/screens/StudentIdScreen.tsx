@@ -137,7 +137,7 @@ const StudentIdComponent = () => {
                     typograph="headlineMedium"
                   />
                   <Txt
-                    label={setUserInformationMessage(user?.studentId)}
+                    label={setUserInformationMessage(user?.identity.idNumber)}
                     color="grey190"
                     typograph="titleMedium"
                   />
@@ -154,7 +154,7 @@ const StudentIdComponent = () => {
                     typograph="bodyMedium"
                   />
                   <Txt
-                    label={setUserInformationMessage(user?.collegeName)}
+                    label={setUserInformationMessage(user?.identity.university)}
                     color="grey190"
                     typograph="bodyLarge"
                   />
@@ -167,7 +167,7 @@ const StudentIdComponent = () => {
                   />
 
                   <Txt
-                    label={setUserInformationMessage(user?.departmentName)}
+                    label={setUserInformationMessage(user?.identity.department)}
                     color="grey190"
                     typograph="bodyLarge"
                   />

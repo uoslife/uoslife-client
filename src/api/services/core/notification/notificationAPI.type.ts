@@ -15,8 +15,6 @@ export type UnSubscribeTopicResponse = {
   topicName: TopicName;
 };
 
-export type GetUserTopicsParams = {};
-
 export type GetUserTopicsResponse = Array<{
   id: number;
   name: TopicName;

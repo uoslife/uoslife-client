@@ -9,8 +9,8 @@ export type UsageRankingType = {
 
 export type RecapInfoType = {
   usageTime: {
-    useTime: number;
-    useHour: number;
+    usedDays: number;
+    usedMinute: number;
     hourData: Array<number>;
   };
   preferRegion: {

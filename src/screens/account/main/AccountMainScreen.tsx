@@ -19,7 +19,7 @@ const AccountMainScreen = () => {
   const {changeAccountFlow} = useAccountFlow();
 
   const handleClickAccountButton = () => {
-    changeAccountFlow({commonFlowName: 'SIGNIN'});
+    changeAccountFlow('SMS_AUTHENTICATION');
   };
 
   return (

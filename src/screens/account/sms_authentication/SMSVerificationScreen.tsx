@@ -1,28 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Alert, View} from 'react-native';
 import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
-import {useSetAtom} from 'jotai';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useThrottle, useTimer} from '@uoslife/react';
 
-import {useNavigation} from '@react-navigation/native';
+import {captureException} from '@sentry/react-native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
-import {existedAccountInfoAtom} from '../../../store/account';
 
 import storeToken from '../../../utils/storeToken';
 
-import {CoreAPI} from '../../../api/services';
 import {ErrorResponseType} from '../../../api/services/type';
-import {SignInRes} from '../../../api/services/core/auth/authAPI.type';
 
 import UserService from '../../../services/user';
 
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import useUserState from '../../../hooks/useUserState';
-import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import customShowToast from '../../../configs/toast';
+import {AccountAPI} from '../../../api/services/account';
 
 // const MAX_SMS_TRIAL_COUNT = 5;
 const MAX_PHONE_NUMBER_LENGTH = 11;
@@ -38,21 +34,18 @@ const VERIFICATION_RETRY_TERM = 60 * 1000;
 
 type InputStatusMessageType =
   | 'DEFAULT'
+  | 'CASE_CODE_NOT_SENT'
   | 'NOT_MATCHING_CODE'
-  | 'REQUEST_EXCEED'
-  | 'TIME_EXPIRED';
+  | 'TIME_EXPIRED'
+  | 'TOO_MANY_PHONE_OTP_REQUEST';
 
-const VerificationScreen = () => {
+const SMSVerificationScreen = () => {
   const insets = useSafeAreaInsets();
   const {setUserInfo} = useUserState();
-  const navigation = useNavigation();
 
-  const [isMypage] = useIsCurrentScreen('Mypage_changeNumber');
-
-  const setExistedAccountInfo = useSetAtom(existedAccountInfoAtom);
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();
 
-  const [inputValue, setInputValue] = useState('');
+  const [currentInputValue, setInput] = useState('');
   const [storedPhoneNumber, setStoredPhoneNumber] = useState('');
 
   const [inputMessageStatus, setInputMessageStatus] =
@@ -62,45 +55,49 @@ const VerificationScreen = () => {
   const [isRetryTerm, setIsRetryTerm] = useState(false);
 
   // 공통
-  // eslint-disable-next-line consistent-return
   const handleInputStatusMessage = (status: InputStatusMessageType) => {
     switch (status) {
       case 'DEFAULT':
+        return '';
+      case 'CASE_CODE_NOT_SENT':
         return '인증번호가 오지 않나요?';
       case 'NOT_MATCHING_CODE':
         return '입력하신 인증번호가 일치하지 않습니다.';
-      case 'REQUEST_EXCEED':
-        return '서버 요청 과부하로 인해 잠시후 다시 시도해주세요.';
       case 'TIME_EXPIRED':
         return '요청된 시간이 만료되었습니다.';
+      case 'TOO_MANY_PHONE_OTP_REQUEST':
+        return '문자 인증 요청 횟수(5회)가 초과되었습니다.';
+      default:
+        return '';
     }
   };
 
   const onChangeText = (text: string) => {
-    setInputValue(text);
+    setInput(text);
     setInputMessageStatus('DEFAULT');
   };
 
   const onPressInputDelete = () => {
-    setInputValue('');
+    setInput('');
     setInputMessageStatus('DEFAULT');
   };
   const handleButtonIsEnable = () => {
     if (
       isVerificationCodeSent &&
-      inputValue.length === MAX_VERIFICATION_CODE_LENGTH
+      currentInputValue.length === MAX_VERIFICATION_CODE_LENGTH
     )
       return true;
-    return inputValue.length === MAX_PHONE_NUMBER_LENGTH;
+    return currentInputValue.length === MAX_PHONE_NUMBER_LENGTH;
   };
 
+  /** 뒤로가기 클릭시 동작 */
   const handleHeaderBackButton = () => {
-    if (isMypage) {
-      navigation.goBack();
+    if (isVerificationCodeSent) {
+      setIsVerificationCodeSent(false);
+      setInput('');
+      setInputMessageStatus('DEFAULT');
       return;
     }
-    if (isVerificationCodeSent) setIsVerificationCodeSent(false);
-
     resetAccountFlow();
   };
 
@@ -110,125 +107,80 @@ const VerificationScreen = () => {
       Alert.alert('제한시간(1분)이 지난 후에 다시 요청해주세요.');
       return;
     }
-    const currentInputLength = inputValue.length;
+
+    const currentInputLength = currentInputValue.length;
     if (currentInputLength < MAX_PHONE_NUMBER_LENGTH) return;
+
     try {
-      const smsVerificationRes = await CoreAPI.sendSMSVerificationCode({
-        mobile: inputValue,
+      await AccountAPI.requestSMSAuthentication({
+        phoneNumber: currentInputValue,
       });
-      setStoredPhoneNumber(smsVerificationRes.mobile);
+      setStoredPhoneNumber(currentInputValue);
       setIsVerificationCodeSent(true);
-      setInputValue('');
+      setInput('');
       setIsRetryTerm(true);
+      setInputMessageStatus('CASE_CODE_NOT_SENT');
       startTimer();
-    } catch (error) {
-      const err = error as ErrorResponseType;
-      switch (err.code) {
-        case 'S02': {
-          setInputMessageStatus('REQUEST_EXCEED');
-          break;
-        }
-        default: {
-          customShowToast('SmsVerificationError');
-        }
+    } catch (err) {
+      const error = err as ErrorResponseType;
+      if (error.message === 'TOO_MANY_PHONE_OTP_REQUEST') {
+        setInputMessageStatus('TOO_MANY_PHONE_OTP_REQUEST');
+        return;
       }
-      setStoredPhoneNumber(inputValue);
+      customShowToast('SmsVerificationError');
+      setStoredPhoneNumber(currentInputValue);
       setIsVerificationCodeSent(true);
-      setInputValue('');
+      setInput('');
     }
   });
 
   // 인증번호 입력 페이지
   const handleOnPressVerifyIdentify = useThrottle(async () => {
-    const currentInputLength = inputValue.length;
+    const currentInputLength = currentInputValue.length;
     if (currentInputLength < MAX_VERIFICATION_CODE_LENGTH) return;
 
-    if (isMypage) {
-      try {
-        await CoreAPI.changePhone({
-          mobile: storedPhoneNumber,
-          code: inputValue,
-        });
-        customShowToast('changePhone');
-        navigation.goBack();
-      } catch (error) {
-        const err = error as ErrorResponseType;
-        switch (err.code) {
-          case 'S02':
-            setInputMessageStatus('REQUEST_EXCEED');
-            return;
-          case 'S03':
-            setInputMessageStatus('NOT_MATCHING_CODE');
-            return;
-          default:
-            customShowToast('changePhoneError');
-            return;
-        }
-      }
-      return;
-    }
-
     try {
-      const signInRes = await CoreAPI.signIn({
-        mobile: storedPhoneNumber,
-        code: inputValue,
+      const signInRes = await AccountAPI.verifySMSAuthentication({
+        phoneNumber: storedPhoneNumber,
+        code: currentInputValue,
       });
-      const {accessToken, refreshToken} = signInRes.token;
-      await UserService.onRegister({accessToken, refreshToken, setUserInfo});
-      resetAccountFlow();
+      switch (signInRes.reason) {
+        case 'logged_in': {
+          const {accessToken, refreshToken} = signInRes;
+          await UserService.onRegister({
+            accessToken,
+            refreshToken,
+            setUserInfo,
+          });
+          resetAccountFlow();
+          break;
+        }
+        case 'registering': {
+          const {accessToken} = signInRes;
+          storeToken({accessToken});
+          changeAccountFlow('SIGN_UP');
+          break;
+        }
+        default:
+          break;
+      }
     } catch (err) {
-      const error = err as SignInRes & ErrorResponseType;
-      switch (error.code) {
-        case 'S02':
-          setInputMessageStatus('REQUEST_EXCEED');
-          return;
-        case 'S03':
+      const error = err as ErrorResponseType;
+      switch (error.message) {
+        case 'NO_OTP_SESSION':
           setInputMessageStatus('NOT_MATCHING_CODE');
           return;
-        case 'CS01':
-          customShowToast('unRegisterTwiceUserError');
+        default:
+          customShowToast('SmsVerificationError');
+          captureException(error);
           return;
-      }
-
-      const {tempToken} = error.token;
-      storeToken({tempToken});
-      switch (error.userStatus) {
-        case 'DELETED':
-          changeAccountFlow({
-            commonFlowName: 'SIGNUP',
-            signUpUser: 'DELETED',
-          });
-          break;
-
-        case 'MIGRATION_NEEDED':
-          setExistedAccountInfo(
-            error.migrationUserInfo.map(item => {
-              return {...item, isSelected: false};
-            }),
-          );
-          changeAccountFlow({
-            commonFlowName: 'SIGNUP',
-            signUpUser: 'MIGRATION',
-          });
-          break;
-
-        case 'NOT_REGISTERED':
-          setExistedAccountInfo(
-            error.migrationUserInfo.map(item => {
-              return {...item, isSelected: false};
-            }),
-          );
-          changeAccountFlow({
-            commonFlowName: 'SIGNUP',
-            signUpUser: 'NEW',
-          });
-          break;
       }
     }
     setIsVerificationCodeSent(false); // state 초기화
     setStoredPhoneNumber(''); // state 초기화
   });
 
+  // 인증시간
   const {currentTime, isFinish, startTimer, resetTimer} = useTimer({
     initMin: VERIFICATION_TIMER_MIN,
     initSec: VERIFICATION_TIMER_SEC,
@@ -239,6 +191,7 @@ const VerificationScreen = () => {
     if (isFinish) setInputMessageStatus('TIME_EXPIRED');
   }, [isFinish]);
 
+  // 재전송 제한시간
   useEffect(() => {
     if (!isRetryTerm) return () => null;
 
@@ -254,17 +207,16 @@ const VerificationScreen = () => {
       return;
     }
     setInputMessageStatus('DEFAULT');
+
     try {
-      await CoreAPI.sendSMSVerificationCode({
-        mobile: storedPhoneNumber,
+      await AccountAPI.requestSMSAuthentication({
+        phoneNumber: storedPhoneNumber,
       });
       resetTimer();
       startTimer();
       setIsRetryTerm(true);
     } catch (err) {
-      const error = err as ErrorResponseType;
-      if (error.code === 'S02') setInputMessageStatus('REQUEST_EXCEED');
-      setInputMessageStatus('REQUEST_EXCEED');
+      customShowToast('SmsVerificationError');
     }
   };
 
@@ -302,14 +254,15 @@ const VerificationScreen = () => {
             }
             onPress={onPressInputDelete}
             keyboardType="numeric"
-            value={inputValue}
+            value={currentInputValue}
             label={isVerificationCodeSent ? '인증번호' : '전화번호'}
-            statusMessage={
-              isVerificationCodeSent
-                ? handleInputStatusMessage(inputMessageStatus)
-                : undefined
+            statusMessage={handleInputStatusMessage(inputMessageStatus)}
+            status={
+              inputMessageStatus === 'DEFAULT' ||
+              inputMessageStatus === 'CASE_CODE_NOT_SENT'
+                ? 'default'
+                : 'error'
             }
-            status={inputMessageStatus === 'DEFAULT' ? 'default' : 'error'}
             placeholder={isVerificationCodeSent ? '000000' : '01012345678'}
             showTimer={isVerificationCodeSent}
             currentTime={currentTime}>
@@ -354,4 +307,4 @@ const S = {
   `,
 };
 
-export default VerificationScreen;
+export default SMSVerificationScreen;

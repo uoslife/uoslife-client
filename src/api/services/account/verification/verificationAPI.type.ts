@@ -6,8 +6,6 @@ export type RegisterPortalAccountParams = {
 };
 export type RegisterPortalAccountRes = PortalAccountDtoType;
 
-export type GetPortalAccountParams = undefined;
 export type GetPortalAccountRes = PortalAccountDtoType;
 
-export type DeletePortalAccountParams = undefined;
 export type DeletePortalAccountRes = PortalAccountDtoType;

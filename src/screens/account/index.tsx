@@ -1,44 +1,36 @@
-import React from 'react';
-import {useAtomValue} from 'jotai';
-import styled from '@emotion/native';
-
-import {accountFlowAtom} from '../../store/account';
-
+import {ScrollView} from 'react-native';
 import AccountMainScreen from './main/AccountMainScreen';
-import SignUpScreen from './signUp';
-import AccountFinishInfoScreen from './common/AccountFinishInfoScreen';
-import PortalAuthenticationScreen from './common/PortalAuthenticationScreen';
-import VerificationScreen from './signIn/VerificationScreen';
+import SMSVerificationScreen from './sms_authentication/SMSVerificationScreen';
+import SetNicknameScreen from './sign_up/SetNicknameScreen';
+import PortalAuthenticationScreen from './portal_account/PortalAuthenticationScreen';
+import AccountFinishInfoScreen from './end/AccountFinishInfoScreen';
+import useAccountFlow from '../../hooks/useAccountFlow';
 // import AccountFlowStatusGuideForDev from './dev/AccountFlowStatusGuideForDev';
 
 const AccountScreenContainer = () => {
-  const accountFlow = useAtomValue(accountFlowAtom);
+  const {accountFlow} = useAccountFlow();
 
   const handleAccountScreen = () => {
-    switch (accountFlow.commonFlow) {
+    switch (accountFlow) {
       case 'MAIN':
         return <AccountMainScreen />;
-      case 'SIGNIN':
-        return <VerificationScreen />;
-      case 'SIGNUP':
-        return <SignUpScreen />;
-      case 'PORTAL_VERIFICATION':
+      case 'SMS_AUTHENTICATION':
+        return <SMSVerificationScreen />;
+      case 'SIGN_UP':
+        return <SetNicknameScreen />;
+      case 'PORTAL_ACCOUNT':
         return <PortalAuthenticationScreen />;
-      case 'FINISH':
+      case 'END':
         return <AccountFinishInfoScreen />;
       default:
         return <AccountMainScreen />;
     }
   };
   return (
-    <S.AccountContainer contentContainerStyle={{flexGrow: 1}} bounces={false}>
+    <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
       {handleAccountScreen()}
       {/* <AccountFlowStatusGuideForDev /> */}
-    </S.AccountContainer>
+    </ScrollView>
   );
 };
 export default AccountScreenContainer;
-
-const S = {
-  AccountContainer: styled.ScrollView``,
-};

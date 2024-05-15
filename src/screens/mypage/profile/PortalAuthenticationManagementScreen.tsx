@@ -7,11 +7,11 @@ import styled from '@emotion/native';
 import {Button, Txt, colors} from '@uoslife/design-system';
 
 import Header from '../../../components/molecules/common/header/Header';
-import {CoreAPI} from '../../../api/services';
 import customShowToast from '../../../configs/toast';
 import UserService from '../../../services/user';
 import useUserState from '../../../hooks/useUserState';
 import useModal from '../../../hooks/useModal';
+import {AccountAPI} from '../../../api/services/account';
 
 const PortalAuthenticationManagementScreen = () => {
   const insets = useSafeAreaInsets();
@@ -28,13 +28,13 @@ const PortalAuthenticationManagementScreen = () => {
   const [selectedId, setId] = useState('');
   const {data} = useQuery({
     queryKey: ['getPortalVerification'],
-    queryFn: () => CoreAPI.getPortalVerification(),
+    queryFn: () => AccountAPI.getIdentities(),
   });
-  const representativePortalmutation = useMutation({
+  const selectIdentitymutation = useMutation({
     mutationKey: ['representativePortalVerification'],
     mutationFn: () =>
-      CoreAPI.representativePortalVerification({
-        studentNumber: selectedId,
+      AccountAPI.selectIdentity({
+        identityId: selectedId,
       }),
     onSuccess: async () => {
       await UserService.updateUserInfo(setUserInfo);
@@ -48,9 +48,8 @@ const PortalAuthenticationManagementScreen = () => {
   });
   const deletePortalmutation = useMutation({
     mutationKey: ['deletePortalVerification'],
-    mutationFn: () => CoreAPI.deletePortalVerification(),
+    mutationFn: () => AccountAPI.deletePortalAccount(),
     onSuccess: async () => {
-      await CoreAPI.deletePortalVerification();
       await UserService.updateUserInfo(setUserInfo);
       customShowToast('deletePortalVerificationSuccess');
       navigation.goBack();
@@ -61,10 +60,10 @@ const PortalAuthenticationManagementScreen = () => {
     },
   });
 
-  const handlePressChangePortal = () => {
+  const handlePressSelectIdentity = () => {
     if (!selectedId) return;
     // eslint-disable-next-line consistent-return
-    return representativePortalmutation.mutate();
+    return selectIdentitymutation.mutate();
   };
   const handlePressDeletePortal = () => openModal();
 
@@ -90,11 +89,11 @@ const PortalAuthenticationManagementScreen = () => {
             {data?.map(item => {
               return (
                 <S.ButtonSelected
-                  isSelected={item.studentId === selectedId}
-                  onPress={() => setId(item.studentId)}
-                  key={item.studentId}>
+                  isSelected={item.id === selectedId}
+                  onPress={() => setId(item.id)}
+                  key={item.id}>
                   <Txt
-                    label={`${item.status}, ${item.studentId}`}
+                    label={`${item.type} / ${item.status}, ${item.idNumber}`}
                     color="grey190"
                     typograph="titleMedium"
                   />
@@ -107,7 +106,7 @@ const PortalAuthenticationManagementScreen = () => {
               label="포털 연동 변경하기"
               variant="filled"
               isFullWidth
-              onPress={handlePressChangePortal}
+              onPress={handlePressSelectIdentity}
               isEnabled={!!selectedId}
             />
             <Button

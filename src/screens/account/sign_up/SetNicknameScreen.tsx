@@ -1,25 +1,19 @@
 /* eslint-disable consistent-return */
-import styled from '@emotion/native';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {View} from 'react-native';
-import {useAtomValue} from 'jotai';
+import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {useThrottle} from '@uoslife/react';
-import {
-  accountFlowAtom,
-  deletedUserStatusAtom,
-  existedAccountInfoAtom,
-} from '../../../store/account';
 
+import {captureException} from '@sentry/react-native';
 import Header from '../../../components/molecules/common/header/Header';
 import Input from '../../../components/molecules/common/forms/input/Input';
 import ServiceAgreementOverlay from '../../../components/molecules/screens/account/modalContents/ServiceAgreementOverlay';
 import AdvertisingAgreementResult from '../../../components/molecules/screens/account/modalContents/AdvertisingAgreementResult';
 
-import {CoreAPI} from '../../../api/services';
 import InputProps from '../../../components/molecules/common/forms/input/Input.type';
 import useModal from '../../../hooks/useModal';
 import UserService from '../../../services/user';
@@ -29,6 +23,8 @@ import useUserState from '../../../hooks/useUserState';
 import useIsCurrentScreen from '../../../hooks/useIsCurrentScreen';
 import NotificationService from '../../../services/notification';
 import {ErrorResponseType} from '../../../api/services/type';
+import {AccountAPI} from '../../../api/services/account';
+import TopicService from '../../../services/topic';
 
 const NICKNAME_MAX_LENGTH = 8;
 
@@ -42,63 +38,33 @@ const SetNicknameScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
-  const existedAccountInfo = useAtomValue(existedAccountInfoAtom);
-  const accountFlow = useAtomValue(accountFlowAtom);
-  const {isDelete} = useAtomValue(deletedUserStatusAtom);
-  const {changeAccountFlow, decreaseSignUpFlowStep} = useAccountFlow();
+  const {changeAccountFlow} = useAccountFlow();
   const {setUserInfo} = useUserState();
 
   const [isMypage] = useIsCurrentScreen('Mypage_changeNickname');
 
-  const selectedAccountInfo = existedAccountInfo.find(
-    item => item.isSelected === true,
-  );
-  const [inputValue, setInputValue] = useState(
-    selectedAccountInfo?.nickname ?? '',
-  );
+  const [inputValue, setInputValue] = useState('');
   const [statusMessage, setStatusMessage] =
     useState<NicknameStatusMessageType>('BEFORE_CHECK');
 
-  const [openBottomSheet, , BottomSheet] = useModal('BOTTOM_SHEET');
+  const [openBottomSheet, closeBottomSheet, BottomSheet] =
+    useModal('BOTTOM_SHEET');
   const [openModal, , Modal] = useModal('MODAL');
 
-  const handleSetNicknameButton = async () => {
-    if (inputValue.length > NICKNAME_MAX_LENGTH) {
-      setStatusMessage('CANNOT_USE');
+  const handlePressSetNicknameButton = async () => {
+    if (!isMypage) {
+      openBottomSheet();
       return;
     }
 
-    if (
-      accountFlow.signUpFlow.signUpUser === 'MIGRATION' &&
-      selectedAccountInfo?.nickname === inputValue
-    ) {
-      openBottomSheet();
-      return;
-    }
-    if (!isMypage) openBottomSheet();
     try {
-      const CheckDuplicateUserNicknameRes =
-        await CoreAPI.checkDuplicateUserNickname({
-          nickname: inputValue,
-        });
-      if (CheckDuplicateUserNicknameRes.duplicate) {
-        setStatusMessage('DUPLICATED');
-        return;
-      }
-      setStatusMessage('CAN_USE');
-      if (isMypage) {
-        try {
-          await CoreAPI.changeNickname({nickname: inputValue});
-          await UserService.updateUserInfo(setUserInfo);
-          customShowToast('changeNickname');
-          navigation.goBack();
-        } catch (error) {
-          customShowToast('changeNicknameError');
-        }
-        return;
-      }
-      openBottomSheet();
-    } catch (err) {
+      const updatedUserInfo = await AccountAPI.patchUserInfo({
+        nickname: inputValue,
+      });
+      setUserInfo(updatedUserInfo);
+      customShowToast('changeNickname');
+      navigation.goBack();
+    } catch (error) {
       customShowToast('changeNicknameError');
     }
   };
@@ -109,43 +75,42 @@ const SetNicknameScreen = () => {
       const isAuthorized =
         await NotificationService.checkPermissionIsAuthorizedStatus();
       setIsAdvertismentAgree(isAdvertismentAgreeChecked);
-      if (selectedAccountInfo) delete selectedAccountInfo.isSelected;
       try {
-        const signUpRes = await CoreAPI.signUp({
+        const signUpRes = await AccountAPI.signUp({
           nickname: inputValue,
-          tos: {
-            privatePolicy: true,
-            termsOfUse: true,
-            notification: isAuthorized,
-            marketing: isAdvertismentAgreeChecked,
-          },
-          migrationUserInfo: selectedAccountInfo ?? null,
-          isDelete,
         });
+        setStatusMessage('CAN_USE');
         await UserService.onRegister({
           accessToken: signUpRes.accessToken,
           refreshToken: signUpRes.refreshToken,
           setUserInfo,
           setNotLoggedIn: true,
         });
+        // topic 구독
+        if (!isAuthorized) return;
+        try {
+          await TopicService.setTopicWhenSignUp(isAdvertismentAgreeChecked);
+        } catch (err) {
+          captureException(err);
+        }
         openModal();
       } catch (err) {
         const error = err as ErrorResponseType;
-        if (error.code === 'CS01') {
-          customShowToast('unRegisterTwiceUserError');
-          return;
+        switch (error.message) {
+          case 'DUPLICATED_NICKNAME': {
+            setStatusMessage('DUPLICATED');
+            closeBottomSheet();
+            return;
+          }
+          default:
+            customShowToast('signUpError');
         }
-        customShowToast('signUpError');
-        selectedAccountInfo!.isSelected = true;
       }
     },
   );
 
   const handleClickSubmitModalButton = () => {
-    changeAccountFlow({
-      commonFlowName: 'PORTAL_VERIFICATION',
-      isResetSignUpFlow: true,
-    });
+    changeAccountFlow('PORTAL_ACCOUNT');
   };
 
   const onChangeText = (text: string) => {
@@ -190,17 +155,7 @@ const SetNicknameScreen = () => {
           label={isMypage ? '닉네임 변경' : '닉네임 설정'}
           onPressBackButton={() => {
             if (isMypage) return navigation.goBack();
-            switch (accountFlow.signUpFlow.signUpUser) {
-              case 'MIGRATION':
-                decreaseSignUpFlowStep();
-                break;
-              case 'DELETED':
-                decreaseSignUpFlowStep();
-                break;
-              case 'NEW':
-                changeAccountFlow({commonFlowName: 'SIGNIN'});
-                break;
-            }
+            changeAccountFlow('SMS_AUTHENTICATION');
           }}
         />
         <S.setNicknameContainer>
@@ -236,7 +191,7 @@ const SetNicknameScreen = () => {
           </View>
           <Button
             label="설정하기"
-            onPress={handleSetNicknameButton}
+            onPress={handlePressSetNicknameButton}
             isEnabled={!!inputValue}
             isFullWidth
           />
