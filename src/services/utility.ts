@@ -102,9 +102,7 @@ export default class UtilityService {
   }
 
   static async getLibraryReservation(): Promise<LibraryReservationAtomType> {
-    const isActivateLibraryDynamicIsland = storage.getBoolean(
-      'isActivateLibraryDynamicIsland',
-    );
+    const librarySeatStartTime = storage.getString('librarySeatStartTime');
     const libraryUsingStatus = storage.getString('libraryUsingStatus') as
       | ReservationStatusTypeFromServer
       | undefined;
@@ -115,7 +113,7 @@ export default class UtilityService {
 
       const response = await UtilAPI.getLibraryReservation({});
       // start Dynamic Island
-      if (!isActivateLibraryDynamicIsland) {
+      if (librarySeatStartTime !== response.seatStartTime) {
         LibraryDynamicIslandBridge.onStartActivity({
           seatRoomName: response.seatRoomName,
           seatNumber: response.seatNo,
@@ -125,7 +123,7 @@ export default class UtilityService {
               ? this.calculateDateInterval(response.seatStartTime)
               : response.remainingSeconds,
         });
-        storage.set('isActivateLibraryDynamicIsland', true);
+        storage.set('librarySeatStartTime', response.seatStartTime);
         storage.set('libraryUsingStatus', response.status);
       }
 
@@ -157,9 +155,10 @@ export default class UtilityService {
     } catch (error) {
       const err = error as ErrorResponseType;
 
-      if (isActivateLibraryDynamicIsland) {
+      if (librarySeatStartTime) {
         LibraryDynamicIslandBridge.onEndActivity();
-        storage.set('isActivateLibraryDynamicIsland', false);
+        storage.delete('librarySeatStartTime');
+        storage.delete('libraryUsingStatus');
       }
 
       if (err.status === 500) {
