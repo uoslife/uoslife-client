@@ -25,7 +25,7 @@ Sentry.init({
   sampleRate: SENTRY_DEFAULT_SAMPLE_RATE,
 });
 
-let App: React.FC = () => {
+const App: React.FC = () => {
   const queryClient = new QueryClient();
   const animatedBootSplashvisible = useAtomValue(bootSplashVisibleAtom);
 
@@ -52,5 +52,5 @@ let App: React.FC = () => {
   );
 };
 
-if (!__DEV__) App = codePush(App);
-export default Sentry.wrap(App);
+// if (!__DEV__) App = codePush(App);
+export default Sentry.wrap(codePush(App));
