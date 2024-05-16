@@ -20,9 +20,8 @@
 		3A6FA3EB2BE8B53500DD2BBB /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */; };
 		3A6FA3EC2BE8B53500DD2BBB /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9B2BB54A3D007DD7D5 /* Pretendard-Regular.otf */; };
 		3A6FA3ED2BE8B53500DD2BBB /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */; };
-		3A6FA3F12BE8B93F00DD2BBB /* WidgetsExtension.appex in Resources */ = {isa = PBXBuildFile; fileRef = AB833C812BB549DB007DD7D5 /* WidgetsExtension.appex */; };
-		3A6FA3F62BE9200C00DD2BBB /* WidgetsExtension.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = AB833CAA2BB553C6007DD7D5 /* WidgetsExtension.entitlements */; };
-		3A985EF52BF3467900081599 /* combeyondconnectuoslifeDynamicIslandWidget.mobileprovision in Resources */ = {isa = PBXBuildFile; fileRef = 3A985EF42BF3467900081599 /* combeyondconnectuoslifeDynamicIslandWidget.mobileprovision */; };
+		3A985F022BF53EB800081599 /* WidgetsExtension.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = AB833CAA2BB553C6007DD7D5 /* WidgetsExtension.entitlements */; };
+		3A985F032BF53EEC00081599 /* DynamicIslandWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF55FCC2BEAC825003456A9 /* DynamicIslandWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3AC2BF962BF2128E00733C2A /* DynamicIslandWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF55FD22BEAC825003456A9 /* DynamicIslandWidgetLiveActivity.swift */; };
 		3AC2BF972BF212E600733C2A /* DynamicIslandModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF55FDF2BEAC8E7003456A9 /* DynamicIslandModule.swift */; };
 		3AC2BF982BF212E800733C2A /* DynamicIslandBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF55FE32BEAC90F003456A9 /* DynamicIslandBridge.m */; };
@@ -52,6 +51,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3A985F042BF53EEC00081599 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AF55FCB2BEAC825003456A9;
+			remoteInfo = DynamicIslandWidgetExtension;
+		};
 		3AF55FD92BEAC827003456A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -62,6 +68,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3A985F062BF53EEC00081599 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3A985F032BF53EEC00081599 /* DynamicIslandWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		AB833C912BB549DD007DD7D5 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,7 +102,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = uoslife/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = uoslife/main.m; sourceTree = "<group>"; };
 		3A65699B2B1D20E50092E1FB /* uoslife-prod-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uoslife-prod-Bridging-Header.h"; sourceTree = "<group>"; };
-		3A985EF42BF3467900081599 /* combeyondconnectuoslifeDynamicIslandWidget.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = combeyondconnectuoslifeDynamicIslandWidget.mobileprovision; sourceTree = "<group>"; };
 		3AF55FCC2BEAC825003456A9 /* DynamicIslandWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DynamicIslandWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF55FD02BEAC825003456A9 /* DynamicIslandWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicIslandWidgetBundle.swift; sourceTree = "<group>"; };
 		3AF55FD22BEAC825003456A9 /* DynamicIslandWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicIslandWidgetLiveActivity.swift; sourceTree = "<group>"; };
@@ -231,7 +247,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				3A985EF42BF3467900081599 /* combeyondconnectuoslifeDynamicIslandWidget.mobileprovision */,
 				AB833C952BB549E9007DD7D5 /* Extensions */,
 				13B07FAE1A68108700A75B9A /* uoslife */,
 				00E356EF1AD99517003FC87E /* uoslifeTests */,
@@ -396,10 +411,12 @@
 				AB3DFD482A372F2D0011AA50 /* Bundle React Native code and images */,
 				AB3DFD492A372F2D0011AA50 /* [CP] Embed Pods Frameworks */,
 				E8EC53EEF66E19E0D35E19A5 /* [CP] Copy Pods Resources */,
+				3A985F062BF53EEC00081599 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3A985F052BF53EEC00081599 /* PBXTargetDependency */,
 			);
 			name = "uoslife-alpha";
 			productName = uoslife;
@@ -485,7 +502,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A985EF52BF3467900081599 /* combeyondconnectuoslifeDynamicIslandWidget.mobileprovision in Resources */,
 				3AF55FD72BEAC827003456A9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,7 +516,6 @@
 				3A6FA3EC2BE8B53500DD2BBB /* Pretendard-Regular.otf in Resources */,
 				3A6FA3ED2BE8B53500DD2BBB /* Pretendard-SemiBold.otf in Resources */,
 				AB3DFD452A372F2D0011AA50 /* BootSplash.storyboard in Resources */,
-				3A6FA3F12BE8B93F00DD2BBB /* WidgetsExtension.appex in Resources */,
 				3AC2BF992BF2134D00733C2A /* Assets.xcassets in Resources */,
 				AB3DFD462A372F2D0011AA50 /* Images.xcassets in Resources */,
 			);
@@ -510,7 +525,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A6FA3F62BE9200C00DD2BBB /* WidgetsExtension.entitlements in Resources */,
+				3A985F022BF53EB800081599 /* WidgetsExtension.entitlements in Resources */,
 				AB833C8C2BB549DD007DD7D5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -798,6 +813,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3A985F052BF53EEC00081599 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AF55FCB2BEAC825003456A9 /* DynamicIslandWidgetExtension */;
+			targetProxy = 3A985F042BF53EEC00081599 /* PBXContainerItemProxy */;
+		};
 		3AF55FDA2BEAC827003456A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3AF55FCB2BEAC825003456A9 /* DynamicIslandWidgetExtension */;
@@ -897,10 +917,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = Extensions/DynamicIslandWidget/DynamicIslandWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = P8P4WJP7P4;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = P8P4WJP7P4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -918,9 +940,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.DynamicIslandWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.alpha.DynamicIslandWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.beyondconnect.uoslife.alpha.DynamicIslandWidgets";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -945,11 +968,13 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = Extensions/DynamicIslandWidget/DynamicIslandWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = P8P4WJP7P4;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = P8P4WJP7P4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -966,9 +991,10 @@
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.DynamicIslandWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.alpha.DynamicIslandWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.beyondconnect.uoslife.alpha.DynamicIslandWidgets";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1141,10 +1167,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.alpha2.uoslife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.alpha;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.beyondconnect.alpha2.uoslife";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.beyondconnect.uoslife.alpha";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1181,10 +1207,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.alpha2.uoslife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beyondconnect.uoslife.alpha;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.beyondconnect.alpha2.uoslife";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.beyondconnect.uoslife.alpha";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

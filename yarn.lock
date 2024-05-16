@@ -6446,10 +6446,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uoslife/webview@npm:^0.0.19":
-  version: 0.0.19
-  resolution: "@uoslife/webview@npm:0.0.19::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40uoslife%2Fwebview%2F0.0.19%2F8d9b28487bd8fbff2559dc9ad33671df183d0a0a"
-  checksum: 12905ea739f271e9d0ae213525c046e38af6b8f1c85edf4ddb2d2510bb5ab1274a03e67eed92e91e158fcd9da0e27d6570a6709920b527ef3ab6cf5a09522441
+"@uoslife/webview@npm:^0.0.20":
+  version: 0.0.20
+  resolution: "@uoslife/webview@npm:0.0.20::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40uoslife%2Fwebview%2F0.0.20%2F1d6cf3bb15f35e7fdeca3a456bedc723baa8eedd"
+  checksum: 1b8027f8c563ad355ae9e9a71c886aa9c4f63b6be257a4382d508fb8568b56d0080bd8384d639ff46a863b7e7816c18e9eb9720d2d1a94f14b485b964f42860a
   languageName: node
   linkType: hard
 
@@ -20047,7 +20047,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.9.1
     "@uoslife/design-system": ^1.2.10
     "@uoslife/react": ^1.1.4
-    "@uoslife/webview": ^0.0.19
+    "@uoslife/webview": ^0.0.20
     babel-jest: ^29.2.1
     babel-loader: ^8.3.0
     babel-plugin-react-native-web: ^0.19.7
