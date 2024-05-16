@@ -89,3 +89,4 @@ ios/*.cer
 ios/fastlane/.env
 ios/*.mobileprovision
 ios/tester_udids.txt
+ios/*.dSYM.zip

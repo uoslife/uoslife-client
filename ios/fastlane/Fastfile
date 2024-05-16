@@ -24,15 +24,16 @@
 
 default_platform(:ios)
 
-firebase_app_id = "1:316769946877:ios:4b2f9453dd964620b50294"
+firebase_app_id = "1:316769946877:ios:180b0a35dc0604e8b50294"
 app_tester_group = "uoslife"
 release_notes_default_msg = "Try out this app!"
 tester_udids_file = "tester_udids.txt"
 
 
 lane :build do
-  get_certificates()
-  get_provisioning_profile(adhoc: true, force: true)
+  # get_certificates()
+  # get_provisioning_profile(adhoc: true, force: true)
+  sync_code_signing(type: "adhoc", git_url: "https://github.com/uoslife/uoslife-client-auth.git", app_identifier: [ENV["APP_IDENTIFIER"], ENV["DYNAMIC_ISLAND_WIDGET_IDENTIFIER"]])
   build_app(export_method: "ad-hoc")
 end
 
