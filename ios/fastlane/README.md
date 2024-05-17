@@ -13,34 +13,12 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### build
+## iOS
+
+### ios release_firebase
 
 ```sh
-[bundle exec] fastlane build
-```
-
-
-
-### distribute
-
-```sh
-[bundle exec] fastlane distribute
-```
-
-
-
-### download_udids
-
-```sh
-[bundle exec] fastlane download_udids
-```
-
-
-
-### add_new_devices
-
-```sh
-[bundle exec] fastlane add_new_devices
+[bundle exec] fastlane ios release_firebase
 ```
 
 

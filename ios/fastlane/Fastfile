@@ -1,61 +1,41 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
-
-
-# platform :ios do
-#   desc "Description of what the lane does"
-#   lane :custom_lane do
-#     # add actions here: https://docs.fastlane.tools/actions
-#   end
-# end
-
 default_platform(:ios)
 
-firebase_app_id = "1:316769946877:ios:180b0a35dc0604e8b50294"
-app_tester_group = "uoslife"
-release_notes_default_msg = "Try out this app!"
-tester_udids_file = "tester_udids.txt"
+platform :ios do
+  lane :release_firebase do
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "1:316769946877:ios:180b0a35dc0604e8b50294",
+      service_credentials_file: "fastlane/service-account.json"
+    )
 
+    commit = last_git_commit
 
-lane :build do
-  # get_certificates()
-  # get_provisioning_profile(adhoc: true, force: true)
-  sync_code_signing(type: "adhoc", git_url: "https://github.com/uoslife/uoslife-client-auth.git", app_identifier: [ENV["APP_IDENTIFIER"], ENV["DYNAMIC_ISLAND_WIDGET_IDENTIFIER"]])
-  build_app(export_method: "ad-hoc")
-end
+    increment_build_number({ build_number: latest_release[:buildVersion].to_i + 1 })
 
-lane :distribute do
-  download_udids
-  add_new_devices
-  build
-  firebase_app_distribution(
-      debug: true,
-      app: firebase_app_id,
-      release_notes: release_notes_default_msg,
-      groups: app_tester_group,
-  )
-end
+    build_app(
+      workspace: "uoslife.xcworkspace",
+      scheme: "UOSLIFE-Alpha",
+      export_method: "ad-hoc"
+    )
 
-lane :download_udids do
-  firebase_app_distribution_get_udids(
-      app: firebase_app_id,
-      output_file: tester_udids_file,
-  )
-end
+    firebase_app_distribution(
+      app: "1:316769946877:ios:180b0a35dc0604e8b50294",
+      googleservice_info_plist_path: "ios/Resources/Alpha/GoogleService-Info.plist",
+      groups: "uoslife",
+      release_notes: commit[:message],
+    )
 
-lane :add_new_devices do
-  register_devices(devices_file: tester_udids_file)
+    slack(
+      slack_url: "https://hooks.slack.com/services/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",
+      icon_url: "https://cdn.uoslife.net/logo/NewAppIconColored.png",
+      username: "[Fastlane] UOSLIFE Alpha",
+      message: ":white_check_mark: Firebase 빌드가 업로드되었어요 (" + commit[:message] + ")",
+      success: true,
+      payload: {
+        "Build Number" => latest_release[:buildVersion].to_i + 1,
+        "Build Time" => Time.new.to_s,
+        "Commit Message" => commit[:message],
+      },
+      default_payloads: [:git_branch, :git_author]
+    )
+  end
 end

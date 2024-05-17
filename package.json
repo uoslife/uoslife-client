@@ -43,7 +43,7 @@
     "ky": "^0.33.3",
     "moti": "^0.28.1",
     "react": "18.2.0",
-    "react-native": "0.71.10",
+    "react-native": "0.71.19",
     "react-native-animated-webp": "^0.0.8",
     "react-native-bootsplash": "^5.1.3",
     "react-native-code-push": "^8.0.2",

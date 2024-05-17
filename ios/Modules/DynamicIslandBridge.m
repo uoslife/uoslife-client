@@ -1,10 +1,3 @@
-//
-//  DynamicIslandBridge.m
-//  uoslife
-//
-//  Created by 공은배 on 5/8/24.
-//
-
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 
