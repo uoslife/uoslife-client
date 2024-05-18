@@ -10,10 +10,16 @@ const NavigationList = ({
   pressLabelColor,
   isPressIconShown = true,
   onPress,
+  labelIcon,
 }: NavigationListProps) => {
   return (
     <S.Container onPress={onPress}>
-      <Txt label={label} color="grey190" typograph="bodyLarge" />
+      <S.LeftViewWrapper>
+        {labelIcon ? (
+          <Icon name={labelIcon} color="grey190" width={24} height={24} />
+        ) : null}
+        <Txt label={label} color="grey190" typograph="bodyLarge" />
+      </S.LeftViewWrapper>
       <S.RightWrapper>
         {pressLabel && (
           <Txt
@@ -48,5 +54,11 @@ const S = {
     flex-direction: row;
     align-items: center;
     gap: 8px;
+  `,
+  LeftViewWrapper: styled.View`
+    gap: 12px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   `,
 };
