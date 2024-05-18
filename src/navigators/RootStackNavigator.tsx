@@ -36,8 +36,6 @@ import CheckGradeScreen from '../screens/uoslife_life/CheckGradeScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
-  Mypage: NavigatorScreenParams<MypageStackParamList>;
-  Announcement: NavigatorScreenParams<AnnouncementStackParamList>;
   Library: NavigatorScreenParams<LibraryStackParamList>;
   Cafeteria: undefined;
   StudentId_PortalAuthentication: undefined;
@@ -78,10 +76,6 @@ const RootStackNavigator: React.FC = () => {
             name="Main"
             component={RootBottomTapNavigator}
             options={{animationEnabled: false}}
-          />
-          <Stack.Screen
-            name="Announcement"
-            component={AnnouncementStackNavigator}
           />
           <Stack.Screen name="Library" component={LibraryStackNavigator} />
           <Stack.Screen name="Cafeteria" component={CafeteriaScreen} />

@@ -5,19 +5,24 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {IconsNameType} from '@uoslife/design-system';
 
+import {NavigatorScreenParams} from '@react-navigation/native';
 import MainScreen from '../screens/MainScreen';
 import StudentIdScreen from '../screens/StudentIdScreen';
 import BottomTabBar from '../components/molecules/common/bottom_tab_bar/BottomTabBar';
 import UoslifeLifeScreen from '../screens/uoslife_life/UoslifeLifeScreen';
-import MypageStackNavigator from './MypageStackNavigator';
-import AnnouncementStackNavigator from './AnnouncementStackNavigator';
+import MypageStackNavigator, {
+  MypageStackParamList,
+} from './MypageStackNavigator';
+import AnnouncementStackNavigator, {
+  AnnouncementStackParamList,
+} from './AnnouncementStackNavigator';
 
 export type RootTabParamList = {
   MainTab: undefined;
-  AnnouncementTab: undefined;
+  AnnouncementTab: NavigatorScreenParams<AnnouncementStackParamList>;
   StudentIdTab: undefined;
   uoslifeLifeTab: undefined;
-  MypageTab: undefined;
+  MypageTab: NavigatorScreenParams<MypageStackParamList>;
 };
 
 export type TabScreenItemType = {
