@@ -32,7 +32,7 @@
 	<key>CFBundleVersion</key>
 	<string>20202</string>
 	<key>CodePushDeploymentKey</key>
-	<string>EQB6Rd40x-L0MzpQjEhmuLdVKk76PE1x54dGT</string>
+	<string>$(CODEPUSH_DEPLOYMENT_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
