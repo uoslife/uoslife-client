@@ -138,7 +138,10 @@ const AnnouncementMainScreen = () => {
           </>
         ) : (
           <>
-            <Header label="공지사항" onPressBackButton={onHeaderBackPress}>
+            <Header
+              label="공지사항"
+              onPressBackButton={onHeaderBackPress}
+              isDisableBackButton>
               <S.HeaderIcons>
                 {icons.map(item => (
                   <AnimatePress

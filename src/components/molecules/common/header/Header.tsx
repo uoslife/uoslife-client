@@ -9,17 +9,18 @@ import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
 const Header = ({
   label,
   onPressBackButton,
+  isDisableBackButton = false,
   children,
   ...props
 }: HeaderProps) => {
   return (
     <S.HeaderContainter {...props}>
       <S.LeftWrapper>
-        <AnimatePress onPress={onPressBackButton} variant="scale_up">
-          <S.ButtonArea>
+        {!isDisableBackButton && (
+          <AnimatePress onPress={onPressBackButton} variant="scale_up">
             <Icon name="backArrow" width={24} height={24} color="grey130" />
-          </S.ButtonArea>
-        </AnimatePress>
+          </AnimatePress>
+        )}
         {!!label && (
           <Txt label={label} color="grey190" typograph="titleLarge" />
         )}
@@ -32,9 +33,6 @@ const Header = ({
 export default Header;
 
 const S = {
-  ButtonArea: styled.View`
-    padding: 8px;
-  `,
   HeaderContainter: styled.View`
     width: 100%;
     padding: 6px 20px 6px 8px;
@@ -46,8 +44,9 @@ const S = {
     border-style: solid;
   `,
   LeftWrapper: styled.View`
+    padding: 8px;
     flex-direction: row;
-    gap: 8px;
+    gap: 16px;
     align-items: center;
   `,
 };

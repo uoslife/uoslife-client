@@ -28,7 +28,7 @@ const AlertSettingOverlay = () => {
   };
 
   return (
-    <S.Container style={{paddingBottom: insets.bottom + 12}}>
+    <S.Container>
       {isLoading ? (
         <View style={{height: 356, paddingTop: 28, gap: 28}}>
           <Skeleton variant="text" />
