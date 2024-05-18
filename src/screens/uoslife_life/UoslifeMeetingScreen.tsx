@@ -1,27 +1,31 @@
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import WebView from 'react-native-webview';
 import {onMessageFromWebView} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StatusBar, View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/core';
-
 import {getWebViewUserAgent} from 'react-native-user-agent';
-import useUserState from '../hooks/useUserState';
-import storage from '../storage';
-import Spinner from '../components/atoms/spinner/Spinner';
+import useUserState from '../../hooks/useUserState';
+import storage from '../../storage';
+import Spinner from '../../components/atoms/spinner/Spinner';
+import {RootNavigationProps} from '../../navigators/RootStackNavigator';
 
-const LibraryRecapScreen = () => {
+const UoslifeMeetingScreen = () => {
   const webviewRef = useRef<WebView | null>(null);
   const [loading, setLoading] = useState(true);
   const accessToken = storage.getString('accessToken');
-  const {user} = useUserState();
-
   const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootNavigationProps>();
+
+  const {user} = useUserState();
+
   useEffect(() => {
-    if (isFocused) StatusBar.setBarStyle('light-content');
-    else StatusBar.setBarStyle('dark-content');
+    if (isFocused) {
+      StatusBar.setBarStyle('light-content');
+    } else {
+      StatusBar.setBarStyle('dark-content');
+    }
   }, [isFocused]);
 
   const navigationGoBack = () => {
@@ -29,7 +33,7 @@ const LibraryRecapScreen = () => {
   };
 
   // userAgent
-  const [userAgent, setUserAgent] = useState('');
+  const [userAgent, setUserAgent] = useState<string>('');
   useEffect(() => {
     (async () => {
       const res = await getWebViewUserAgent();
@@ -44,14 +48,16 @@ const LibraryRecapScreen = () => {
       />
       <WebView
         bounces={false}
-        source={{uri: 'https://recap.uoslife.com'}}
+        source={{uri: 'https://meeting.alpha.uoslife.com/'}}
         style={{flex: 1}}
         ref={webviewRef}
+        webviewDebuggingEnabled
         onMessage={e =>
           onMessageFromWebView({
             ...e,
             userPayload: user,
             accessTokenPayload: {accessToken},
+            insetsPayload: insets,
             webviewRef,
             navigationGoBack,
           })
@@ -64,4 +70,4 @@ const LibraryRecapScreen = () => {
   );
 };
 
-export default LibraryRecapScreen;
+export default UoslifeMeetingScreen;

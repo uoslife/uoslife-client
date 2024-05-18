@@ -33,6 +33,7 @@ const MypageMainScreen = ({
       <Header
         label="마이페이지"
         onPressBackButton={() => navigation.goBack()}
+        isDisableBackButton
       />
       <S.myProfileContainer>
         <S.myProfileBox>

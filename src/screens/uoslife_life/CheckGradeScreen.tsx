@@ -28,6 +28,7 @@ import {
   MYGRADE_ONBOARDING_3,
   MYGRADE_ONBOARDING_4,
 } from '../../assets/images';
+import Header from '../../components/molecules/common/header/Header';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const ACCURACY_LOW = 1;
@@ -133,6 +134,7 @@ const MyGradeScreen = () => {
   const [openModal, closeModal, Modal] = useModal('BOTTOM_SHEET');
   const {user} = useUserState();
   const {isVerified} = user || {};
+  const navigation = useNavigation();
 
   const [mygradeInfo, setMygradeInfo] = useState<MygradeInfoType[] | null>(
     null,
@@ -208,8 +210,13 @@ const MyGradeScreen = () => {
     getMygradeInfo().then(() => setRefreshing(false));
   }, []);
   return (
-    <>
-      <S.ServiceInformationBox style={{paddingTop: inset.top + 16}}>
+    <View>
+      <Header
+        style={{paddingTop: inset.top, marginBottom: 8}}
+        label="숨은 학점 확인하기"
+        onPressBackButton={() => navigation.goBack()}
+      />
+      <S.ServiceInformationBox>
         <Txt
           label="나의 숨겨진 학점은?"
           color="primaryLighter"
@@ -401,7 +408,7 @@ const MyGradeScreen = () => {
           </View>
         </S.ModalContainer>
       </Modal>
-    </>
+    </View>
   );
 };
 
@@ -409,17 +416,15 @@ export default MyGradeScreen;
 
 const S = {
   ServiceInformationBox: styled.View`
-    padding: 0 16px;
-    padding-bottom: 24px;
+    margin: 0 8px;
+    padding: 24px;
     align-items: center;
-    border-radius: 0 0 18px 18px;
+    border-radius: 28px;
     gap: 6px;
     background-color: ${colors.primaryBrand};
-    justify-content: flex-end;
-    height: 164px;
+    justify-content: center;
   `,
   MainContainer: styled.ScrollView`
-    flex: 1;
     flex-direction: column;
     padding: 6px 16px;
   `,
@@ -470,7 +475,7 @@ const S = {
     gap: 12px;
   `,
   ModalContainer: styled.View`
-    padding: 32px 0 128px;
+    padding-top: 32px;
   `,
   ModalClearButton: styled.TouchableOpacity`
     position: absolute;

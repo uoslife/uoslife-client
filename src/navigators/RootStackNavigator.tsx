@@ -28,10 +28,11 @@ import {
 import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
 import AccountScreenContainer from '../screens/account';
 import useInitApp from '../hooks/useInitApp';
-import LibraryRecapScreen from '../screens/LibraryRecapScreen';
+import LibraryRecapScreen from '../screens/uoslife_life/LibraryRecapScreen';
 import LibraryStackNavigator from './LibraryStackNavigator';
 import {LibraryStackParamList} from './types/library';
-import UoslifeMeetingScreen from '../screens/UoslifeMeetingScreen';
+import UoslifeMeetingScreen from '../screens/uoslife_life/UoslifeMeetingScreen';
+import CheckGradeScreen from '../screens/uoslife_life/CheckGradeScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -42,6 +43,7 @@ export type RootStackParamList = {
   StudentId_PortalAuthentication: undefined;
   LibraryRecap: undefined;
   UoslifeMeeting: undefined;
+  CheckGrade: undefined;
 
   Account: undefined;
   Account_ToSandPolicies: undefined;
@@ -77,7 +79,6 @@ const RootStackNavigator: React.FC = () => {
             component={RootBottomTapNavigator}
             options={{animationEnabled: false}}
           />
-          <Stack.Screen name="Mypage" component={MypageStackNavigator} />
           <Stack.Screen
             name="Announcement"
             component={AnnouncementStackNavigator}
@@ -93,6 +94,7 @@ const RootStackNavigator: React.FC = () => {
             name="UoslifeMeeting"
             component={UoslifeMeetingScreen}
           />
+          <Stack.Screen name="CheckGrade" component={CheckGradeScreen} />
         </>
       ) : (
         <>

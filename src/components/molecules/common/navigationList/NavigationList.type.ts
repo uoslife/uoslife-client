@@ -1,4 +1,4 @@
-import {colorsType} from '@uoslife/design-system';
+import {IconsNameType, colorsType} from '@uoslife/design-system';
 import {PressableProps} from 'react-native';
 
 type NavigationListProps = PressableProps & {
@@ -7,6 +7,7 @@ type NavigationListProps = PressableProps & {
   pressLabelColor?: colorsType;
   isPressIconShown?: boolean;
   onPress?: () => void;
+  labelIcon?: IconsNameType;
 };
 
 export default NavigationListProps;
