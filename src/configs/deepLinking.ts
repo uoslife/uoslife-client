@@ -10,6 +10,7 @@ const deepLinksConfig = {
   initialRouteName: 'Main',
   screens: {
     Main: {
+      // 메인 탭
       initialRouteName: 'MainTab',
       screens: {
         MainTab: 'main',
@@ -70,7 +71,7 @@ const deepLinksConfig = {
       },
     },
     Cafeteria: 'cafeteria',
-
+    Meeting: 'meeting',
     LibraryRecap: 'libraryRecap',
   },
 };
