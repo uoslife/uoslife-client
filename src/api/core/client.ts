@@ -41,6 +41,10 @@ export const accountApiClient = apiClient.extend({
   prefixUrl: ACCOUNT_API_URL,
 });
 
+export const accountApiClientForRefresh = baseApiClient.extend({
+  prefixUrl: ACCOUNT_API_URL,
+});
+
 export const cdnClient = apiClient.extend({
   prefixUrl: CDN_API_URL,
 });
