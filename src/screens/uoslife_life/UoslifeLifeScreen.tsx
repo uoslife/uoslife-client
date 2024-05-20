@@ -27,7 +27,7 @@ const UoslifeLifeScreen = () => {
         />
         <NavigationList
           label="숨은 학점 확인하기"
-          labelIcon="time"
+          labelIcon="search"
           onPress={() => navigation.navigate('CheckGrade')}
         />
         <NavigationList

@@ -29,7 +29,6 @@ const MAIN_AUTOPLAY_INTERVAL_TIME = 4500;
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
-
   const {user} = useUserState();
 
   const {id, nickname} = user || {};

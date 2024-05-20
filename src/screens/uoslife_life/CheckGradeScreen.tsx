@@ -29,6 +29,7 @@ import {
   MYGRADE_ONBOARDING_4,
 } from '../../assets/images';
 import Header from '../../components/molecules/common/header/Header';
+import customShowToast from '../../configs/toast';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const ACCURACY_LOW = 1;
@@ -144,12 +145,12 @@ const MyGradeScreen = () => {
   const [isPending, setIsPending] = useState(false);
   const getMygradeInfo = async () => {
     try {
-      const [mygrade, currentAverageGrade] = await Promise.all([
-        await CoreAPI.getMygrade(),
-        await CoreAPI.getMygradeCurrentAverageGrade(),
-      ]);
-      setMygradeInfo(mygrade);
-      setMyCurrentAverage(currentAverageGrade);
+      // const [mygrade, currentAverageGrade] = await Promise.all([
+      // await CoreAPI.getMygrade(),
+      // await CoreAPI.getMygradeCurrentAverageGrade(),
+      // ]);
+      // setMygradeInfo(mygrade);
+      // setMyCurrentAverage(currentAverageGrade);
     } catch (error) {
       // console.error(error);
     }
@@ -209,6 +210,11 @@ const MyGradeScreen = () => {
     setRefreshing(true);
     getMygradeInfo().then(() => setRefreshing(false));
   }, []);
+
+  useEffect(() => {
+    customShowToast('notServiceCheckGrade');
+  }, []);
+
   return (
     <View>
       <Header

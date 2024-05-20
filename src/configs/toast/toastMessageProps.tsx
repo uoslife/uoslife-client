@@ -39,6 +39,7 @@ const toastMessage = {
 
   // etc
   cannotOpenUrlError: '오류로 인해 해당 url을 열 수 없어요.',
+  notServiceCheckGrade: '숨은 학점은 기말고사 이후 확인할 수 있어요.',
 
   // 포털 연동 관리
   portalVerificationSuccess: '포털 연동을 성공적으로 변경했어요.',
@@ -177,6 +178,9 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   cannotOpenUrlError: {
     type: 'error',
     title: toastMessage.cannotOpenUrlError,
+  },
+  notServiceCheckGrade: {
+    title: toastMessage.notServiceCheckGrade,
   },
 
   // 포털 연동 관리
