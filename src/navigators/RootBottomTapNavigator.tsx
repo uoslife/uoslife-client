@@ -72,7 +72,7 @@ const tabs: TabScreenItemType[] = [
     component: MypageStackNavigator,
     screenName: 'MypageTab',
     label: '마이페이지',
-    icon: 'tab_home',
+    icon: 'tab_mypage',
   },
 ];
 
