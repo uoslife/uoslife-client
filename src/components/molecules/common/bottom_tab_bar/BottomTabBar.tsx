@@ -1,5 +1,5 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {Icon, Txt, colors} from '@uoslife/design-system';
+import {Icon, IconsNameType, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Dimensions} from 'react-native';
@@ -33,6 +33,38 @@ const BottomTabBar = ({
           }
         };
 
+        const switchIcon = (icon: IconsNameType) => {
+          switch (icon) {
+            case 'tab_student_id':
+              return (
+                <Icon
+                  color={isFocused ? 'primaryBrand' : 'grey90'}
+                  name={icon}
+                  width={20}
+                  height={16}
+                />
+              );
+            case 'tab_mypage':
+              return (
+                <Icon
+                  color={isFocused ? 'primaryBrand' : 'grey90'}
+                  name={icon}
+                  width={16.3}
+                  height={17.5}
+                />
+              );
+            default:
+              return (
+                <Icon
+                  color={isFocused ? 'primaryBrand' : 'grey90'}
+                  name={icon}
+                  width={18}
+                  height={18}
+                />
+              );
+          }
+        };
+
         return (
           <AnimatePress
             key={label}
@@ -43,21 +75,7 @@ const BottomTabBar = ({
               width: 60,
               gap: 2,
             }}>
-            {icon !== 'tab_student_id' ? (
-              <Icon
-                color={isFocused ? 'primaryBrand' : 'grey90'}
-                name={icon}
-                width={18}
-                height={18}
-              />
-            ) : (
-              <Icon
-                color={isFocused ? 'primaryBrand' : 'grey90'}
-                name={icon}
-                width={20}
-                height={16}
-              />
-            )}
+            {switchIcon(icon)}
             <Txt
               label={label}
               color={isFocused ? 'primaryBrand' : 'grey90'}
