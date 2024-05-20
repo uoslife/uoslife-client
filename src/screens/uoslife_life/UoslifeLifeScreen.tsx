@@ -1,10 +1,11 @@
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import NavigationList from '../../components/molecules/common/navigationList/NavigationList';
 import Header from '../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../navigators/RootStackNavigator';
+import urls from '../../configs/urls';
 
 const LIBRARY_RECAP_DEEPLINK = 'uoslife://libraryRecap';
 const UoslifeLifeScreen = () => {
@@ -18,7 +19,11 @@ const UoslifeLifeScreen = () => {
         <NavigationList
           label="시대팅"
           labelIcon="heart"
-          onPress={() => navigation.navigate('UoslifeMeeting')}
+          onPress={async () =>
+            Platform.OS === 'android'
+              ? await Linking.openURL(urls.MEETING_URL)
+              : navigation.navigate('UoslifeMeeting')
+          }
         />
         <NavigationList
           label="숨은 학점 확인하기"
