@@ -8,14 +8,8 @@ import {NavigatorScreenParams} from '@react-navigation/native';
 import {useMMKVListener} from 'react-native-mmkv';
 
 import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
-import AnnouncementStackNavigator, {
-  AnnouncementStackParamList,
-} from './AnnouncementStackNavigator';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
-import MypageStackNavigator, {
-  MypageStackParamList,
-} from './MypageStackNavigator';
 import RootBottomTapNavigator, {
   RootTabParamList,
 } from './RootBottomTapNavigator';
@@ -31,8 +25,9 @@ import useInitApp from '../hooks/useInitApp';
 import LibraryRecapScreen from '../screens/uoslife_life/LibraryRecapScreen';
 import LibraryStackNavigator from './LibraryStackNavigator';
 import {LibraryStackParamList} from './types/library';
-import UoslifeMeetingScreen from '../screens/uoslife_life/UoslifeMeetingScreen';
+import MeetingScreen from '../screens/uoslife_life/MeetingScreen';
 import CheckGradeScreen from '../screens/uoslife_life/CheckGradeScreen';
+import RouletteScreen from '../screens/etc/RouletteScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -42,6 +37,7 @@ export type RootStackParamList = {
   LibraryRecap: undefined;
   UoslifeMeeting: undefined;
   CheckGrade: undefined;
+  Roulette: undefined;
 
   Account: undefined;
   Account_ToSandPolicies: undefined;
@@ -84,11 +80,9 @@ const RootStackNavigator: React.FC = () => {
             component={PortalAuthenticationScreen}
           />
           <Stack.Screen name="LibraryRecap" component={LibraryRecapScreen} />
-          <Stack.Screen
-            name="UoslifeMeeting"
-            component={UoslifeMeetingScreen}
-          />
+          <Stack.Screen name="UoslifeMeeting" component={MeetingScreen} />
           <Stack.Screen name="CheckGrade" component={CheckGradeScreen} />
+          <Stack.Screen name="Roulette" component={RouletteScreen} />
         </>
       ) : (
         <>
