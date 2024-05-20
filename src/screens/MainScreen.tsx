@@ -23,7 +23,7 @@ const BANNER_HEIGHT = 134;
 
 const BANNER_1_LINK =
   'https://absorbing-macaw-e6c.notion.site/488291a8200d4030bb9a3395323b7481?pvs=74';
-const BANNER_2_LINK = 'uoslife://libraryRecap';
+const BANNER_2_LINK = 'uoslife://roulette';
 
 const MAIN_AUTOPLAY_INTERVAL_TIME = 4500;
 

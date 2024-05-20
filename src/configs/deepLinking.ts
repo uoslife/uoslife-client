@@ -73,6 +73,7 @@ const deepLinksConfig = {
     Cafeteria: 'cafeteria',
     Meeting: 'meeting',
     LibraryRecap: 'libraryRecap',
+    Roulette: 'roulette',
   },
 };
 
