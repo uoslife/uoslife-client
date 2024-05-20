@@ -42,24 +42,22 @@ const switchFromVariant = ({variant, width, height}: Props) => {
           <SkeletonPlaceholder
             backgroundColor={colors.grey20}
             highlightColor={colors.grey10}>
-            <SkeletonPlaceholder.Item flexDirection="column" gap={24}>
-              <SkeletonPlaceholder.Item width="100%" height={60} />
+            <SkeletonPlaceholder.Item
+              flexDirection="column"
+              marginLeft={16}
+              gap={10}>
               <SkeletonPlaceholder.Item
-                flexDirection="column"
-                marginLeft={16}
-                gap={24}>
-                <SkeletonPlaceholder.Item
-                  width="90%"
-                  height={28}
-                  borderRadius={13}
-                />
-                <SkeletonPlaceholder.Item
-                  width="80%"
-                  height={28}
-                  borderRadius={13}
-                  marginBottom={80}
-                />
-              </SkeletonPlaceholder.Item>
+                width="90%"
+                height={16}
+                borderRadius={13}
+                marginTop={16}
+              />
+              <SkeletonPlaceholder.Item
+                width="85%"
+                height={14}
+                borderRadius={13}
+                marginBottom={36}
+              />
             </SkeletonPlaceholder.Item>
           </SkeletonPlaceholder>
         </CardLayout>

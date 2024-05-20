@@ -3,11 +3,9 @@ import {Icon, Txt, colors} from '@uoslife/design-system';
 import React, {Suspense} from 'react';
 
 import {View, Dimensions} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Carousel from '../components/molecules/common/carousel/Carousel';
-import {RootNavigationProps} from '../navigators/RootStackNavigator';
 import {
   MainServiceBox,
   CafeteriaContents,
@@ -17,7 +15,6 @@ import {
 import useUserState from '../hooks/useUserState';
 import {BANNER_1, BANNER_2} from '../assets/images';
 import Skeleton from '../components/molecules/common/skeleton/Skeleton';
-import AnimatePress from '../components/animations/pressable_icon/AnimatePress';
 
 const {width} = Dimensions.get('window');
 
@@ -26,14 +23,12 @@ const BANNER_HEIGHT = 134;
 
 const BANNER_1_LINK =
   'https://absorbing-macaw-e6c.notion.site/488291a8200d4030bb9a3395323b7481?pvs=74';
-const BANNER_2_LINK = 'uoslife://libraryRecap';
+const BANNER_2_LINK = 'uoslife://roulette';
 
 const MAIN_AUTOPLAY_INTERVAL_TIME = 4500;
 
 const MainScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<RootNavigationProps>();
-
   const {user} = useUserState();
 
   const {id, nickname} = user || {};
@@ -49,17 +44,10 @@ const MainScreen = () => {
         <S.MainWaveBg source={require('../assets/images/main_wave_bg.png')} />
       </View>
       <S.MainWrapper>
-        <S.MypageButton>
-          <AnimatePress
-            onPress={() => navigation.navigate('Mypage')}
-            variant="scale_up">
-            <Icon name="person" width={24} height={24} color="white" />
-          </AnimatePress>
-        </S.MypageButton>
         <View
           style={css`
+            margin-top: 6px;
             gap: 4px;
-            margin-top: 20px;
             padding-left: 16px;
           `}>
           <S.WaveInfoWrapper>
@@ -141,10 +129,10 @@ const S = {
   MainWrapper: styled.View`
     position: relative;
     margin: 0 16px;
-    margin-bottom: 132px;
+    margin-bottom: 18px;
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: 42px;
   `,
   WelcomeMessage: styled.View`
     flex-direction: row;

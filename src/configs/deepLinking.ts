@@ -10,38 +10,50 @@ const deepLinksConfig = {
   initialRouteName: 'Main',
   screens: {
     Main: {
+      // 메인 탭
       initialRouteName: 'MainTab',
       screens: {
         MainTab: 'main',
-        StudentId: 'main/studentId',
-        ThirdTab: 'main/thirdTab',
-      },
-    },
-    Mypage: {
-      initialRouteName: 'Mypage_main',
-      screens: {
-        Mypage_main: 'mypage',
-        Mypage_profile: {
-          initialRouteName: 'Mypage_profile_Main',
+        StudentIdTab: 'main/studentId',
+        uoslifeLifeTab: 'main/uoslifeLife',
+        MypageTab: {
+          initialRouteName: 'Mypage_main',
           screens: {
-            Mypage_profile_Main: 'mypage/profile',
-            Mypage_changeNickname: 'mypage/profile/changeNickname',
-            Mypage_portalAuthentication: 'mypage/profile/portalAuthentication',
+            Mypage_main: 'mypage',
+            Mypage_profile: {
+              initialRouteName: 'Mypage_profile_Main',
+              screens: {
+                Mypage_profile_Main: 'mypage/profile',
+                Mypage_changeNickname: 'mypage/profile/changeNickname',
+                Mypage_portalAuthentication:
+                  'mypage/profile/portalAuthentication',
+              },
+            },
+            Mypage_appSetting: 'mypage/appSetting',
+            Mypage_appInformation: {
+              initialRouteName: 'Mypage_appInformation_Main',
+              screens: {
+                Mypage_appInformation_Main: 'mypage/appInformation',
+                Mypage_ToSandPolicies: 'mypage/appInformation/ToSandPolicies',
+                Mypage_privacyPolicies: 'mypage/appInformation/privacyPolicies',
+                Mypage_advertisingandMarketing:
+                  'mypage/appInformation/advertisingandMarketing',
+              },
+            },
           },
         },
-        Mypage_appSetting: 'mypage/appSetting',
-        Mypage_appInformation: {
-          initialRouteName: 'Mypage_appInformation_Main',
+        AnnouncementTab: {
+          initialRouteName: 'AnnouncementMain',
           screens: {
-            Mypage_appInformation_Main: 'mypage/appInformation',
-            Mypage_ToSandPolicies: 'mypage/appInformation/ToSandPolicies',
-            Mypage_privacyPolicies: 'mypage/appInformation/privacyPolicies',
-            Mypage_advertisingandMarketing:
-              'mypage/appInformation/advertisingandMarketing',
+            AnnouncementMain: 'announcement',
+            AnnouncementBookmark: 'announcement/bookMark',
+            AnnouncementDetail: 'announcement/detail/:id/:origin',
+            AnnouncementSearch: 'announcement/search',
           },
         },
       },
     },
+
     Library: {
       initialRouteName: 'Library_main',
       screens: {
@@ -59,16 +71,9 @@ const deepLinksConfig = {
       },
     },
     Cafeteria: 'cafeteria',
-    Announcement: {
-      initialRouteName: 'AnnouncementMain',
-      screens: {
-        AnnouncementMain: 'announcement',
-        AnnouncementBookmark: 'announcement/bookMark',
-        AnnouncementDetail: 'announcement/detail/:id/:origin',
-        AnnouncementSearch: 'announcement/search',
-      },
-    },
+    Meeting: 'meeting',
     LibraryRecap: 'libraryRecap',
+    Roulette: 'roulette',
   },
 };
 

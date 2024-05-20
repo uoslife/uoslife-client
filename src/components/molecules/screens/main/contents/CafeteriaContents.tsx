@@ -3,6 +3,7 @@ import {Txt, colors} from '@uoslife/design-system';
 
 import {useSuspenseQuery} from '@tanstack/react-query';
 import {useFocusEffect} from '@react-navigation/core';
+import {View} from 'react-native';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import {CafeteriaItemType} from '../../../../../api/services/util/cafeteria/cafeteriaAPI.type';
@@ -77,27 +78,29 @@ const CafeteriaContents = () => {
   });
 
   return (
-    <S.ContentsWrapper horizontal>
+    <View>
       {data.items ? (
-        data.items.map(item => (
-          <CafeteriaBox
-            key={item.location}
-            location={item.location}
-            operationTime={item.operationTime}
-            attributes={item.attributes}
-          />
-        ))
+        <S.ContentsWrapper horizontal>
+          {data.items.map(item => (
+            <CafeteriaBox
+              key={item.location}
+              location={item.location}
+              operationTime={item.operationTime}
+              attributes={item.attributes}
+            />
+          ))}
+        </S.ContentsWrapper>
       ) : (
-        <CardLayout style={{paddingHorizontal: 40, paddingVertical: 32}}>
+        <CardLayout style={{paddingVertical: 28}}>
           <Txt
-            label="오늘은 운영하지 않아요."
+            label="오늘은 운영하지 않아요"
             color="grey160"
             typograph="bodyLarge"
             style={{textAlign: 'center'}}
           />
         </CardLayout>
       )}
-    </S.ContentsWrapper>
+    </View>
   );
 };
 

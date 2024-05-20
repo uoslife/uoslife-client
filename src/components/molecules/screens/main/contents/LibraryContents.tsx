@@ -1,13 +1,12 @@
 import {useAtom} from 'jotai';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import styled from '@emotion/native';
-import {Button, Icon, Txt, colors} from '@uoslife/design-system';
+import {Icon, Txt, colors} from '@uoslife/design-system';
 import {useEffect} from 'react';
 import CardLayout from '../../../common/cardLayout/CardLayout';
 
 import {LibraryReservationType} from '../../../../../api/services/util/library/libraryAPI.type';
-import {RootNavigationProps} from '../../../../../navigators/RootStackNavigator';
-import libraryReservationAtom from '../../../../../store/library';
+import {libraryReservationAtom} from '../../../../../store/library';
 
 const LibraryContentsInUsing = ({
   seatRoomName,
@@ -33,7 +32,6 @@ const LibraryContentsInUsing = ({
 };
 
 const LibraryContentsInNotUsing = () => {
-  const navigation = useNavigation<RootNavigationProps>();
   return (
     <S.NotUsingWrapper>
       <S.NotUsingTextWrapper>
@@ -44,18 +42,6 @@ const LibraryContentsInNotUsing = () => {
           style={{textAlign: 'center'}}
         />
       </S.NotUsingTextWrapper>
-      <S.Divider />
-      <Button
-        label="좌석 현황 보기"
-        variant="text"
-        size="medium"
-        isFullWidth
-        onPress={() => {
-          navigation.navigate('Library', {
-            screen: 'Library_room_status',
-          });
-        }}
-      />
     </S.NotUsingWrapper>
   );
 };
@@ -122,10 +108,5 @@ const S = {
   `,
   NotUsingTextWrapper: styled.View`
     padding: 20px 16px;
-  `,
-  Divider: styled.View`
-    width: 100%;
-    height: 1px;
-    background-color: ${colors.grey40};
   `,
 };

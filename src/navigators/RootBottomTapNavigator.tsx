@@ -5,21 +5,36 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {IconsNameType} from '@uoslife/design-system';
 
+import {NavigatorScreenParams} from '@react-navigation/native';
 import MainScreen from '../screens/MainScreen';
 import StudentIdScreen from '../screens/StudentIdScreen';
-// import RedirectLibraryRecapScreen from '../screens/thirdTab/RedirectLibraryRecapScreen';
-import EventScreen from '../screens/thirdTab/EventScreen';
 import BottomTabBar from '../components/molecules/common/bottom_tab_bar/BottomTabBar';
+import UoslifeLifeScreen from '../screens/uoslife_life/UoslifeLifeScreen';
+import MypageStackNavigator, {
+  MypageStackParamList,
+} from './MypageStackNavigator';
+import AnnouncementStackNavigator, {
+  AnnouncementStackParamList,
+} from './AnnouncementStackNavigator';
 
 export type RootTabParamList = {
   MainTab: undefined;
-  StudentId: undefined;
-  ThirdTab: undefined;
+  AnnouncementTab: NavigatorScreenParams<AnnouncementStackParamList>;
+  StudentIdTab: undefined;
+  uoslifeLifeTab: undefined;
+  MypageTab: NavigatorScreenParams<MypageStackParamList>;
 };
 
 export type TabScreenItemType = {
   label: string;
-  icon: Extract<IconsNameType, 'menu' | 'studentId' | 'leaderboard'>;
+  icon: Extract<
+    IconsNameType,
+    | 'tab_home'
+    | 'tab_announcement'
+    | 'tab_mypage'
+    | 'tab_student_id'
+    | 'tab_uoslife_life'
+  >;
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
 };
@@ -32,20 +47,32 @@ const tabs: TabScreenItemType[] = [
   {
     component: MainScreen,
     screenName: 'MainTab',
-    label: '시대생활',
-    icon: 'menu',
+    label: '홈',
+    icon: 'tab_home',
+  },
+  {
+    component: AnnouncementStackNavigator,
+    screenName: 'AnnouncementTab',
+    label: '공지사항',
+    icon: 'tab_announcement',
   },
   {
     component: StudentIdScreen,
-    screenName: 'StudentId',
+    screenName: 'StudentIdTab',
     label: '학생증',
-    icon: 'studentId',
+    icon: 'tab_student_id',
   },
   {
-    component: EventScreen,
-    screenName: 'ThirdTab',
-    label: '이벤트',
-    icon: 'leaderboard',
+    component: UoslifeLifeScreen,
+    screenName: 'uoslifeLifeTab',
+    label: '시대생활',
+    icon: 'tab_uoslife_life',
+  },
+  {
+    component: MypageStackNavigator,
+    screenName: 'MypageTab',
+    label: '마이페이지',
+    icon: 'tab_mypage',
   },
 ];
 

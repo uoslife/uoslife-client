@@ -85,7 +85,5 @@ android/sentry.properties
 !.yarn/versions
 
 # fastlane
-ios/*.cer
-ios/fastlane/.env
-ios/*.mobileprovision
-ios/tester_udids.txt
+ios/*.dSYM.zip
+ios/fastlane/service-account.json
