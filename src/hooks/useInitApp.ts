@@ -126,6 +126,7 @@ const useInitApp = () => {
     }
 
     try {
+      await UserService.getAccessTokenByRefreshToken();
       const userInfo = await UserService.getUserInfoFromServer();
       setUserInfo(userInfo);
     } catch (err) {
