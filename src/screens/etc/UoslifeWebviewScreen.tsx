@@ -68,6 +68,8 @@ const UoslifeWebviewScreen = ({uri, ...props}: Props) => {
         }
         userAgent={userAgent}
         onLoad={() => setLoading(false)}
+        cacheEnabled={false}
+        cacheMode="LOAD_NO_CACHE"
         {...props}
       />
       {loading ? <Spinner /> : null}
