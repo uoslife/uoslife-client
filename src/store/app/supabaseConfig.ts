@@ -1,5 +1,6 @@
 import {atomWithQuery} from 'jotai-tanstack-query';
 import DeviceInfo from 'react-native-device-info';
+import {Platform} from 'react-native';
 import {ConfigAPI} from '../../api/services';
 
 export type AppEnvironment = 'production' | 'alpha';
@@ -17,7 +18,7 @@ const changeAppVersionInt = (appVersion: string) =>
   parseInt(appVersion.split('.').join(''));
 
 const supabaseConfigAtom = atomWithQuery<SupabaseConfigAtomType>(() => ({
-  queryKey: ['getSupabaseConfig'],
+  queryKey: ['getSupabaseConfig', Platform.OS],
   queryFn: async () => {
     const environment = DeviceInfo.getBundleId().match('alpha')
       ? 'alpha'
@@ -40,8 +41,13 @@ const supabaseConfigAtom = atomWithQuery<SupabaseConfigAtomType>(() => ({
       };
     }
     const isLatestVersion =
-      changeAppVersionInt(configs.get('app.version.latest') as string) <=
-      changeAppVersionInt(DeviceInfo.getVersion());
+      Platform.OS === 'ios'
+        ? changeAppVersionInt(
+            configs.get('app.version.latest.ios') as string,
+          ) <= changeAppVersionInt(DeviceInfo.getVersion())
+        : changeAppVersionInt(
+            configs.get('app.version.latest.android') as string,
+          ) <= changeAppVersionInt(DeviceInfo.getVersion());
     return {
       isLoading: false,
       hasNetworkError: false,
