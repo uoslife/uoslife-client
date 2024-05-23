@@ -29,10 +29,10 @@ export default class DeviceService {
     return deviceInfo;
   }
 
-  static async getDeviceInfoFromServer(): Promise<DeviceInfoResType | null> {
+  static async getDeviceInfoFromServer(): Promise<DeviceInfoResType[] | null> {
     try {
       const deviceInfo = await AccountAPI.getDeviceInfo();
-      return deviceInfo[deviceInfo.length - 1];
+      return deviceInfo;
     } catch (error) {
       captureException(error);
       return null;
@@ -55,12 +55,40 @@ export default class DeviceService {
     return AccountAPI.postDeviceInfo(deviceInfo);
   }
 
-  static async updateDeviceInfo(): Promise<DeviceInfoResType | undefined> {
-    const [localDeviceInfo, serverDeviceInfo] = await Promise.all([
+  static async setDeviceInfoWhenAuthentication() {
+    const [localDeviceInfo, serverDeviceInfoList] = await Promise.all([
       this.getDeviceInfoFromLocal(),
       this.getDeviceInfoFromServer(),
     ]);
+    if (!serverDeviceInfoList)
+      return AccountAPI.postDeviceInfo(localDeviceInfo);
+    const serverDeviceInfo = findCurrentDeviceInfo(
+      localDeviceInfo,
+      serverDeviceInfoList,
+    );
+    if (serverDeviceInfo)
+      return this.synchronizeDeviceInfo(localDeviceInfo, serverDeviceInfo);
+    return AccountAPI.postDeviceInfo(localDeviceInfo);
+  }
+
+  static async updateDeviceInfo() {
+    const [localDeviceInfo, serverDeviceInfoList] = await Promise.all([
+      this.getDeviceInfoFromLocal(),
+      this.getDeviceInfoFromServer(),
+    ]);
+    if (!serverDeviceInfoList) return;
+    const serverDeviceInfo = findCurrentDeviceInfo(
+      localDeviceInfo,
+      serverDeviceInfoList,
+    );
     if (!serverDeviceInfo) return;
+    await this.synchronizeDeviceInfo(localDeviceInfo, serverDeviceInfo);
+  }
+
+  static async synchronizeDeviceInfo(
+    localDeviceInfo: DeviceInfoType,
+    serverDeviceInfo: DeviceInfoResType,
+  ) {
     if (
       localDeviceInfo.appVersion !== serverDeviceInfo.appVersion ||
       localDeviceInfo.codePushVersion !== serverDeviceInfo.codePushVersion ||
@@ -71,11 +99,27 @@ export default class DeviceService {
       localDeviceInfo.osVersion !== serverDeviceInfo.osVersion
     ) {
       const {model, os, ...rest} = localDeviceInfo;
-      // eslint-disable-next-line consistent-return
+
       return AccountAPI.patchDeviceInfo({
         id: serverDeviceInfo.id,
         ...rest,
       });
     }
+    return null;
   }
 }
+
+const findCurrentDeviceInfo = (
+  localDeviceInfo: DeviceInfoType,
+  serverDeviceInfoList: DeviceInfoResType[],
+): DeviceInfoResType | null => {
+  return (
+    serverDeviceInfoList
+      ?.filter(
+        item =>
+          item.os === localDeviceInfo.os &&
+          item.model === localDeviceInfo.model,
+      )
+      .sort((a, b) => b.id - a.id)[0] ?? null
+  );
+};

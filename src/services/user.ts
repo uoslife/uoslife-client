@@ -35,7 +35,7 @@ export default class UserService {
   }: OnRegisterParamsType): Promise<void> {
     storeToken({accessToken, refreshToken});
     await Promise.all([
-      DeviceService.setDeviceInfo(),
+      DeviceService.setDeviceInfoWhenAuthentication(),
       UserService.updateUserInfo(setUserInfo),
     ]);
     if (setNotLoggedIn) return;
