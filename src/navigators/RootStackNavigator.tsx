@@ -1,12 +1,10 @@
-import React from 'react';
+import {useState} from 'react';
 import {
   createStackNavigator,
   StackNavigationProp,
 } from '@react-navigation/stack';
-
 import {NavigatorScreenParams} from '@react-navigation/native';
-import {useMMKVListener} from 'react-native-mmkv';
-
+import {useAtom} from 'jotai';
 import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
 import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
 
@@ -14,7 +12,6 @@ import RootBottomTapNavigator, {
   RootTabParamList,
 } from './RootBottomTapNavigator';
 
-import storage from '../storage';
 import {
   PrivacyandPoliciesScreen,
   ToSandPoliciesScreen,
@@ -28,6 +25,10 @@ import {LibraryStackParamList} from './types/library';
 import MeetingScreen from '../screens/uoslife_life/MeetingScreen';
 import CheckGradeScreen from '../screens/uoslife_life/CheckGradeScreen';
 import RouletteScreen from '../screens/etc/RouletteScreen';
+import supabaseConfigAtom from '../store/app/supabaseConfig';
+import useAppStateForeground from '../hooks/useAppStateForeground';
+import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
+import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;
@@ -49,17 +50,16 @@ export type RootNavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
-  const {hasNetworkError, isMaintenance, isLoggedIn, setIsLoggedIn} =
-    useInitApp();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [{data: configData, isFetching, refetch}] = useAtom(supabaseConfigAtom);
 
-  /** isLoggedIn value를 감시합니다. */
-  useMMKVListener(changedKey => {
-    if (changedKey !== 'isLoggedIn') return;
-    setIsLoggedIn(storage.getBoolean(changedKey) ?? false);
-  }, storage);
+  useInitApp({configData, isFetching});
+  useIsLoggedInListner(setIsLoggedIn);
+  useOpenDeeplink(isLoggedIn);
+  useAppStateForeground(() => refetch()); // supabase config를 불러오기 위해 사용 ex. 점검 상태
 
-  if (isMaintenance) {
-    return <MaintenanceScreen hasNetworkError={hasNetworkError} />;
+  if (configData?.isMaintenance) {
+    return <MaintenanceScreen hasNetworkError={configData?.hasNetworkError} />;
   }
 
   return (

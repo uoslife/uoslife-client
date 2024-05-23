@@ -6,11 +6,9 @@ import customShowToast from '../configs/toast';
 import {DeleteUserInfoType, SetUserInfoType} from '../hooks/useUserState';
 import AnalyticsService from './analytics';
 import {AccountAPI} from '../api/services/account';
-import {UserInfoType} from '../api/services/account/type';
+import {JWTTokenType, UserInfoType} from '../api/services/account/type';
 
-type OnRegisterParamsType = {
-  accessToken: string;
-  refreshToken: string;
+type OnRegisterParamsType = JWTTokenType & {
   setUserInfo: SetUserInfoType;
   /** 바로 로그인하지 않을 때 사용하는 params입니다. */
   setNotLoggedIn?: true;

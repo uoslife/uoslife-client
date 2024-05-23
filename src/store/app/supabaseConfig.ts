@@ -6,12 +6,12 @@ import {ConfigAPI} from '../../api/services';
 export type AppEnvironment = 'production' | 'alpha';
 export type AppConfig = Map<string, string | string[]>;
 
-type SupabaseConfigAtomType = {
-  isLoading?: boolean;
+export type SupabaseConfigAtomType = {
   hasNetworkError: boolean;
   isLatestVersion?: boolean;
   config?: AppConfig;
   environment?: AppEnvironment;
+  isMaintenance?: boolean;
 };
 
 const changeAppVersionInt = (appVersion: string) =>
@@ -48,12 +48,15 @@ const supabaseConfigAtom = atomWithQuery<SupabaseConfigAtomType>(() => ({
         : changeAppVersionInt(
             configs.get('app.version.latest.android') as string,
           ) <= changeAppVersionInt(DeviceInfo.getVersion());
+
+    const isMaintenance = configs?.get('app.block') !== 'NO';
+
     return {
-      isLoading: false,
       hasNetworkError: false,
       config: configs,
       environment,
       isLatestVersion,
+      isMaintenance,
     };
   },
 }));

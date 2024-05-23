@@ -4,6 +4,7 @@ import messaging, {
 import notifee, {EventType, Event} from '@notifee/react-native';
 import {Linking, PermissionsAndroid, Platform} from 'react-native';
 
+import {captureException} from '@sentry/react-native';
 import storage from '../storage';
 import decodeUtf8 from '../utils/decodeUtf8';
 
@@ -33,6 +34,7 @@ export default class NotificationService {
     );
   }
 
+  /** OS에서 알림 권한을 가져옵니다. */
   static async requestNotificationPermissions(): Promise<
     FirebaseMessagingTypes.AuthorizationStatus | undefined
   > {
@@ -95,21 +97,23 @@ export default class NotificationService {
 
   static async checkPermissionIsAuthorizedStatus(): Promise<boolean> {
     const permissionStatus = await this.getCurrentPermission();
-    if (permissionStatus === messaging.AuthorizationStatus.AUTHORIZED)
-      return true;
-    return false;
+    return permissionStatus === messaging.AuthorizationStatus.AUTHORIZED;
   }
 
   static setFirebasePushToken(token: string): void {
     storage.set('firebasePushToken', token);
   }
 
+  /** 알림 수신 동의한 유저에 한해 fcm token을 가져오고, 저장합니다. */
   static async handleFirebasePushToken(): Promise<void> {
     const isPermissionAuthorized =
       await this.checkPermissionIsAuthorizedStatus();
     if (!isPermissionAuthorized) return;
-
-    const token = await this.getFirebasePushToken();
-    this.setFirebasePushToken(token);
+    try {
+      const token = await this.getFirebasePushToken();
+      this.setFirebasePushToken(token);
+    } catch (error) {
+      captureException(error);
+    }
   }
 }
