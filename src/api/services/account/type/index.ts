@@ -1,7 +1,9 @@
 // auth
-export type AuthTokenDefaultRes = {
+export type JWTTokenType = {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
+};
+export type AuthTokenDefaultRes = JWTTokenType & {
   reason:
     | 'logged_in' // 로그인 완료
     | 'registering' // 회원가입 필요
