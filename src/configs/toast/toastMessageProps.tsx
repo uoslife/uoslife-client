@@ -46,6 +46,7 @@ const toastMessage = {
   portalVerificationError: '포털 연동을 처리하는 중 오류가 발생했어요.',
   deletePortalVerificationSuccess: '포털 연동을 성공적으로 해지했어요.',
   deletePortalVerificationError: '포털 연동을 해지하는 중 오류가 발생했어요.',
+  notVerifiedUserAccessMeeting: '포털 연동 후 시대팅을 이용할 수 있어요.',
 
   SmsVerificationError: '전화번호 인증 과정에서 문제가 발생했어요.',
   loginDurationExpiredInfo: '로그인 기한이 만료되었어요.',
@@ -181,6 +182,9 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
   },
   notServiceCheckGrade: {
     title: toastMessage.notServiceCheckGrade,
+  },
+  notVerifiedUserAccessMeeting: {
+    title: toastMessage.notVerifiedUserAccessMeeting,
   },
 
   // 포털 연동 관리
