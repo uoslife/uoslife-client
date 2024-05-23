@@ -17,9 +17,9 @@ const AnimatedBootSplash = () => {
   const [translateY] = useState(() => new Animated.Value(0));
 
   const {container, logo} = BootSplash.useHideAnimation({
-    manifest: require('../../bootsplash/assets/bootsplash_manifest.json'),
+    manifest: require('../../assets/bootsplash/assets/bootsplash_manifest.json'),
 
-    logo: require('../../bootsplash/assets/bootsplash_logo.png'),
+    logo: require('../../assets/bootsplash/assets/bootsplash_logo.png'),
 
     statusBarTranslucent: true,
     navigationBarTranslucent: false,
