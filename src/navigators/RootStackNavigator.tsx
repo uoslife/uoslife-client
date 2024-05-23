@@ -59,7 +59,7 @@ const RootStackNavigator: React.FC = () => {
   useAppStateForeground(() => refetch()); // supabase config를 불러오기 위해 사용 ex. 점검 상태
 
   if (configData?.isMaintenance) {
-    return <MaintenanceScreen hasNetworkError={configData?.hasNetworkError} />;
+    return <MaintenanceScreen />;
   }
 
   return (
