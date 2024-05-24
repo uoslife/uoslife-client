@@ -28,5 +28,5 @@ export default {
     default:
       'https://play.google.com/store/apps/details?id=com.beyondconnect.uoslife',
   }),
-  MEETING_URL: 'https://meeting.alpha.uoslife.com',
+  MEETING_URL: 'https://meeting.uoslife.com',
 };
