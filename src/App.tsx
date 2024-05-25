@@ -52,5 +52,4 @@ const App: React.FC = () => {
   );
 };
 
-// if (!__DEV__) App = codePush(App);
-export default Sentry.wrap(App);
+export default Sentry.wrap(codePush(App));
