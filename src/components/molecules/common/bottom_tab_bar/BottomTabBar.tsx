@@ -33,7 +33,7 @@ const BottomTabBar = ({
           }
         };
 
-        const switchIcon = (icon: IconsNameType) => {
+        const switchIcon = () => {
           switch (icon) {
             case 'tab_student_id':
               return (
@@ -75,7 +75,7 @@ const BottomTabBar = ({
               width: 60,
               gap: 2,
             }}>
-            {switchIcon(icon)}
+            {switchIcon()}
             <Txt
               label={label}
               color={isFocused ? 'primaryBrand' : 'grey90'}

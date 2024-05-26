@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import AuthAPI from './auth/authAPI';
 import UserAPI from './user/userAPI';
 import DeviceAPI from './device/deviceAPI';

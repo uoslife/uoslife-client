@@ -8,12 +8,12 @@ import {
   Pressable,
   Linking,
 } from 'react-native';
-import OnboardingSlideGuide from '../../screens/account/onboarding/OnboardingSlideGuide';
 import AnalyticsService from '../../../../services/analytics';
 import {
   DEFAULT_LOG_EVENT_NAME,
   LogEventNameType,
-} from '../../../../configs/analytics';
+} from '../../../../configs/analytics/analytics';
+import OnboardingSlideGuide from '../../../../features/account/components/onboarding/OnboardingSlideGuide';
 
 const INIT_DISPLAY_INDEX = 1;
 

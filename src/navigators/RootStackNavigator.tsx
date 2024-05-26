@@ -5,8 +5,7 @@ import {
 } from '@react-navigation/stack';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {useAtom} from 'jotai';
-import MaintenanceScreen from '../screens/etc/MaintenanceScreen';
-import CafeteriaScreen from '../screens/cafeteria/CafeteriaScreen';
+import MaintenanceScreen from '../screens/MaintenanceScreen';
 
 import RootBottomTapNavigator, {
   RootTabParamList,
@@ -15,20 +14,22 @@ import RootBottomTapNavigator, {
 import {
   PrivacyandPoliciesScreen,
   ToSandPoliciesScreen,
-} from '../screens/mypage';
-import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
-import AccountScreenContainer from '../screens/account';
+} from '../features/my_page/components/screens';
+
 import useInitApp from '../hooks/useInitApp';
-import LibraryRecapScreen from '../screens/uoslife_life/LibraryRecapScreen';
+import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import LibraryStackNavigator from './LibraryStackNavigator';
 import {LibraryStackParamList} from './types/library';
-import MeetingScreen from '../screens/uoslife_life/MeetingScreen';
-import CheckGradeScreen from '../screens/uoslife_life/CheckGradeScreen';
-import RouletteScreen from '../screens/etc/RouletteScreen';
+import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
+import RouletteScreen from '../screens/RouletteScreen';
 import supabaseConfigAtom from '../store/app/supabaseConfig';
 import useAppStateForeground from '../hooks/useAppStateForeground';
 import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
 import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
+import CafeteriaScreen from '../features/cafeteria/components/screens/CafeteriaScreen';
+import AccountScreenContainer from '../features/account/components/screens';
+import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
+import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<RootTabParamList>;

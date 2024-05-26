@@ -6,10 +6,10 @@ import {
 } from '@react-navigation/stack';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import AnnouncementMainScreen from '../screens/announcement/AnnouncementMainScreen';
-import AnnouncementDetailScreen from '../screens/announcement/AnnouncementDetailScreen';
-import AnnouncementSearchScreen from '../screens/announcement/AnnouncementSearchScreen';
-import AnnouncementBookmarkBoxScreen from '../screens/announcement/AnnouncementBookmarkBoxScreen';
+import AnnouncementMainScreen from '../features/announcement/components/screens/AnnouncementMainScreen';
+import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
+import AnnouncementSearchScreen from '../features/announcement/components/screens/AnnouncementSearchScreen';
+import AnnouncementBookmarkBoxScreen from '../features/announcement/components/screens/AnnouncementBookmarkBoxScreen';
 import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
 
 export type AnnouncementStackParamList = {

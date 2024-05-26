@@ -10,10 +10,10 @@ import {
   ToSandPoliciesScreen,
   AdvertisingandMarketingConsentScreen,
   PrivacyandPoliciesScreen,
-} from '../screens/mypage';
-import SetNicknameScreen from '../screens/account/sign_up/SetNicknameScreen';
-import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
-import PortalAuthenticationManagementScreen from '../screens/mypage/profile/PortalAuthenticationManagementScreen';
+} from '../features/my_page/components/screens';
+import PortalAuthenticationManagementScreen from '../features/my_page/components/screens/profile/PortalAuthenticationManagementScreen';
+import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
+import SetNicknameScreen from '../features/account/components/screens/sign_up/SetNicknameScreen';
 
 export type MypageStackParamList = {
   Mypage_main: undefined;

@@ -1,9 +1,9 @@
-import {LibraryRankingMajorType} from '../../../../configs/utility/libraryRanking/libraryRanking';
-import {SeatStatusType} from '../../../../configs/utility/librarySeatingChart/seatStatus';
+import {LibraryRankingMajorType} from '../../../../features/library/constants/libraryRanking/libraryRanking';
+import {SeatStatusType} from '../../../../features/library/constants/librarySeatingChart/seatStatus';
 import {
   LibraryRankingTabsType,
   LibraryRoomStatusTabsType,
-} from '../../../../configs/utility/libraryTabs';
+} from '../../../../features/library/constants/libraryTabs';
 
 export type LibraryStatusType = {
   type: LibraryStatusTypeType;

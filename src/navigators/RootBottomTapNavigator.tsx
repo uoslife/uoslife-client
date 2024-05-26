@@ -6,16 +6,16 @@ import {
 import {IconsNameType} from '@uoslife/design-system';
 
 import {NavigatorScreenParams} from '@react-navigation/native';
-import MainScreen from '../screens/MainScreen';
-import StudentIdScreen from '../screens/StudentIdScreen';
+import StudentIdScreen from '../features/student_id/components/screens/StudentIdScreen';
 import BottomTabBar from '../components/molecules/common/bottom_tab_bar/BottomTabBar';
-import UoslifeLifeScreen from '../screens/uoslife_life/UoslifeLifeScreen';
+import UoslifeLifeScreen from '../features/uos_lifestyle/components/screens/UoslifeLifeScreen';
 import MypageStackNavigator, {
   MypageStackParamList,
 } from './MypageStackNavigator';
 import AnnouncementStackNavigator, {
   AnnouncementStackParamList,
 } from './AnnouncementStackNavigator';
+import MainScreen from '../features/main/components/screens/MainScreen';
 
 export type RootTabParamList = {
   MainTab: undefined;

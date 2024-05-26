@@ -1,16 +1,16 @@
 import {createStackNavigator} from '@react-navigation/stack';
 
-import LibraryMainScreen from '../screens/library/LibraryMainScreen';
-import LibraryChallengeScreen from '../screens/library/LibraryChallengeScreen';
-import LibraryRankingScreen from '../screens/library/LibraryRankingScreen';
-import LibraryRoomStatusScreen from '../screens/library/room_status/LibraryRoomStatusScreen';
-import LibrarySeatingChartScreen from '../screens/library/room_status/LibrarySeatingChartScreen';
-import PortalAuthenticationScreen from '../screens/account/portal_account/PortalAuthenticationScreen';
+import LibraryMainScreen from '../features/library/components/screens/LibraryMainScreen';
+import LibraryChallengeScreen from '../features/library/components/screens/LibraryChallengeScreen';
+import LibraryRankingScreen from '../features/library/components/screens/LibraryRankingScreen';
+import LibraryRoomStatusScreen from '../features/library/components/screens/room_status/LibraryRoomStatusScreen';
+import LibrarySeatingChartScreen from '../features/library/components/screens/room_status/LibrarySeatingChartScreen';
 
 import {
   LibraryRoomStatusStackParamList,
   LibraryStackParamList,
 } from './types/library';
+import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
 
 const Stack = createStackNavigator<LibraryStackParamList>();
 const LibraryRoomStatusStack =
