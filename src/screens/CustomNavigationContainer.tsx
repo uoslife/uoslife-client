@@ -6,10 +6,10 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 import {useAtomValue} from 'jotai';
-import linking from '../configs/deepLinking';
 import {RootStackParamList} from '../navigators/RootStackNavigator';
 import customBackgroundTheme from '../styles/customBackgroundTheme';
 import initLoadingAtom from '../store/app/initLoading';
+import linking from '../configs/deeplink/deepLinking';
 
 type Props = Pick<Parameters<typeof NavigationContainer>[0], 'children'>;
 
