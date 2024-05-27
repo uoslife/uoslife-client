@@ -3,65 +3,22 @@ import {RecapInfoType} from '../api/services/core/libraryHistory/libraryHistoryA
 import {ErrorResponseType} from '../api/services/type';
 import {GetAnnouncementsParams} from '../api/services/util/announcement/announcementAPI.type';
 import {
-  GetCafeteriasResponse,
-  MealTimeType,
-} from '../api/services/util/cafeteria/cafeteriaAPI.type';
-import {
   GetLibraryRankingRes,
   GetMyLibraryRankingRes,
   LibraryReservationType,
   ReservationStatusTypeFromServer,
 } from '../api/services/util/library/libraryAPI.type';
-import {LibraryRankingMajorNameType} from '../configs/utility/libraryRanking/libraryRanking';
-import {LibraryRankingTabsType} from '../configs/utility/libraryTabs';
+import {LibraryRankingMajorNameType} from '../features/library/constants/libraryRanking/libraryRanking';
+import {LibraryRankingTabsType} from '../features/library/constants/libraryTabs';
 import storage from '../storage';
 import {
   DEFAULT_RESERVATION_STATUS,
   LibraryReservationAtomType,
   ReservationStatusType,
-} from '../store/library';
-import DateUtils from '../utils/date';
+} from '../features/library/store';
 import {LibraryDynamicIslandBridge} from '../utils/ios/libraryDynamicIslandBridge';
 
-export type GetCafeteriaItemsType = {
-  commonDate: string;
-  displayDate: string;
-  mealTime: MealTimeType;
-  items?: GetCafeteriasResponse;
-};
-
-type GetCafeteriaItemsParams = {
-  mealTime: MealTimeType;
-  commonDate: DateUtils['commonDate'];
-  displayDate: DateUtils['displayDate'];
-};
-
 export default class UtilityService {
-  static async getCafeteriaItems({
-    mealTime,
-    commonDate,
-    displayDate,
-  }: GetCafeteriaItemsParams): Promise<GetCafeteriaItemsType> {
-    try {
-      const response = await UtilAPI.getCafeterias({
-        mealTime,
-        openDate: commonDate,
-      });
-      return {
-        commonDate,
-        mealTime,
-        displayDate,
-        items: response,
-      };
-    } catch (error) {
-      return {
-        commonDate,
-        mealTime,
-        displayDate,
-      };
-    }
-  }
-
   static async getLibraryReservationInfo() {
     try {
       const response = await UtilAPI.getLibraryReservation({});

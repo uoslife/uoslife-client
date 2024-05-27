@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import {useEffect} from 'react';
 import {Linking} from 'react-native';
 import {useAtomValue} from 'jotai';

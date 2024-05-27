@@ -28,7 +28,7 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': 'off',
     'global-require': 'off',
-    'import/prefer-default-export': ['warn', {target: 'single'}],
+    'import/prefer-default-export': 'off',
     '@typescript-eslint/return-await': 'off',
     'react/function-component-definition': [
       2,

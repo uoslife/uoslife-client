@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const UPDATE_GUIDE = {
   ALPHA_TITLE: '새로운 버전이 출시되었어요.(Alpha Environment)',
   ALPHA_MESSAGE: 'App Distribution에서 앱을 최신버전으로 업데이트 해주세요.',

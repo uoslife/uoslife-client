@@ -1,5 +1,8 @@
 import analytics from '@react-native-firebase/analytics';
-import {LogEventNameType, LogEventObjectType} from '../configs/analytics';
+import {
+  LogEventNameType,
+  LogEventObjectType,
+} from '../configs/analytics/analytics';
 
 export default class AnalyticsService {
   static async logAnalyticsEvent(

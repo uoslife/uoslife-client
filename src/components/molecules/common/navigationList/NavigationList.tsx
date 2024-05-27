@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import NavigationListProps from './NavigationList.type';

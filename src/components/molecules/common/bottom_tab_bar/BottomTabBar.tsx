@@ -1,10 +1,10 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {Icon, IconsNameType, Txt, colors} from '@uoslife/design-system';
+import {Icon, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Dimensions} from 'react-native';
-import {TabScreenItemType} from '../../../../navigators/RootBottomTapNavigator';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
+import {TabScreenItemType} from '../../../../navigators/types/rootBottomTap';
 
 const {width} = Dimensions.get('screen');
 
@@ -33,7 +33,7 @@ const BottomTabBar = ({
           }
         };
 
-        const switchIcon = (icon: IconsNameType) => {
+        const switchIcon = () => {
           switch (icon) {
             case 'tab_student_id':
               return (
@@ -75,7 +75,7 @@ const BottomTabBar = ({
               width: 60,
               gap: 2,
             }}>
-            {switchIcon(icon)}
+            {switchIcon()}
             <Txt
               label={label}
               color={isFocused ? 'primaryBrand' : 'grey90'}

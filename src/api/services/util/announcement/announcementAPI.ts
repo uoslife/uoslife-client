@@ -1,7 +1,7 @@
 import {get} from '../../../core/methods';
 import AnnouncementService from './announcementAPI.interface';
 import * as Type from './announcementAPI.type';
-import {generateQueryString} from '../../../../utils/getQueryStringFromParams';
+import {generateQueryString} from '../../../../features/announcement/utils/getQueryStringFromParams';
 
 // TODO: ServiceFunc 변경 이후 발생하는 것으로 예상되는 타입에러 대응
 const AnnouncementAPI: AnnouncementService = {

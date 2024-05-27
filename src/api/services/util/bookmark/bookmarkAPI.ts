@@ -1,4 +1,4 @@
-import {generateQueryString} from '../../../../utils/getQueryStringFromParams';
+import {generateQueryString} from '../../../../features/announcement/utils/getQueryStringFromParams';
 import {del, get, post} from '../../../core/methods';
 import BookmarkService from './bookmarkAPI.interface';
 import * as Type from './bookmarkAPI.type';

@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -14,9 +14,9 @@ import {useAtomValue} from 'jotai';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import NotificationService from './services/notification';
-import AnimatedBootSplash from './screens/etc/AnimatedBootSplash';
+import AnimatedBootSplash from './screens/AnimatedBootSplash';
 import toastConfig from './configs/toast/config';
-import CustomNavigationContainer from './screens/etc/CustomNavigationContainer';
+import CustomNavigationContainer from './screens/CustomNavigationContainer';
 import bootSplashVisibleAtom from './store/app/bootSplashVisible';
 import {SENTRY_DEFAULT_SAMPLE_RATE} from './configs/sentry';
 

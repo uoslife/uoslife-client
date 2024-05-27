@@ -3,7 +3,6 @@ import {UPDATE_GUIDE} from '../../configs/app/update_guide';
 import {AppEnvironment} from '../../store/app/supabaseConfig';
 import openAppstore from './openAppstore';
 
-/* eslint-disable import/prefer-default-export */
 export const guideUpdate = (environment: AppEnvironment | undefined) => {
   if (environment === 'alpha') {
     Alert.alert(UPDATE_GUIDE.ALPHA_TITLE, UPDATE_GUIDE.ALPHA_MESSAGE);

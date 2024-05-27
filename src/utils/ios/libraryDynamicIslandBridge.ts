@@ -12,7 +12,6 @@ interface DynamicIslandModule {
   isActivityEnabled: () => string;
 }
 
-/* eslint-disable import/prefer-default-export */
 export class LibraryDynamicIslandBridge {
   static dynamicIslandModule(): DynamicIslandModule {
     return NativeModules.DynamicIslandModule;

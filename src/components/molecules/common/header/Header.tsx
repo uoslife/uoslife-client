@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from '@emotion/native';
 
 import {Icon, Txt, colors} from '@uoslife/design-system';

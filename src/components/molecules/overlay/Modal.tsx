@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-import React from 'react';
 
 interface ModalProps {
   children: React.JSX.Element | React.JSX.Element[];

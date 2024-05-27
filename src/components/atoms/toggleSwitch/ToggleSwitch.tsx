@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import {Animated, StyleSheet, Pressable, Easing, Platform} from 'react-native';
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';

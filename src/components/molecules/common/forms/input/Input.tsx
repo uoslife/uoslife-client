@@ -1,4 +1,4 @@
-import React, {forwardRef} from 'react';
+import {forwardRef} from 'react';
 import {Pressable, StyleSheet, TextInput} from 'react-native';
 import styled from '@emotion/native';
 import {Icon, Timer, colors, typographs} from '@uoslife/design-system';

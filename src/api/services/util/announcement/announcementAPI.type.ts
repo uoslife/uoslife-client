@@ -1,8 +1,8 @@
-import {AnnouncementOriginNameType} from '../../../../configs/announcement';
+import {AnnouncementOriginNameType} from '../../../../features/announcement/constants/announcement';
 import {
   ArticleDetailType,
   ArticleItemType,
-} from '../../../../types/announcement.type';
+} from '../../../../features/announcement/types/announcement.type';
 
 type AnnouncementPageableParamsType = {
   page: number;

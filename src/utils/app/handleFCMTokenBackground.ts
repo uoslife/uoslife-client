@@ -3,7 +3,6 @@ import DeviceService from '../../services/device';
 import NotificationService from '../../services/notification';
 import storage from '../../storage';
 
-/* eslint-disable import/prefer-default-export */
 export const handleFCMTokenBackground = async () => {
   await NotificationService.handleFirebasePushToken();
 

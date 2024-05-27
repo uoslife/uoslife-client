@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-import React from 'react';
 import {Txt, colors} from '@uoslife/design-system';
 import CardProps from './Card.type';
 import CardLayout from '../cardLayout/CardLayout';
