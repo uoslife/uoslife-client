@@ -6,6 +6,7 @@ import {LibraryStackParamList} from '../../features/library/navigators/types/lib
 import {AnnouncementOriginNameType} from '../../features/announcement/constants/announcement';
 
 export type RootStackParamList = {
+  // root tab
   root: NavigatorScreenParams<RootTabParamList>;
 
   // main

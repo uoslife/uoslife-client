@@ -1,79 +1,90 @@
 import {Linking} from 'react-native';
 import notifee from '@notifee/react-native';
 import {LinkingOptions} from '@react-navigation/native';
-import {RootStackParamList} from '../../navigators/RootStackNavigator';
 import storage from '../../storage';
+import {RootStackParamList} from '../../navigators/types/rootStack';
 
 const DEEPLINK_PREFIX_URL = ['uoslife://'];
 
 const deepLinksConfig = {
-  initialRouteName: 'Main',
+  initialRouteName: 'root',
   screens: {
-    Main: {
-      // 메인 탭
-      initialRouteName: 'MainTab',
+    // root tab
+    root: {
+      initialRouteName: 'main_tab',
       screens: {
-        MainTab: 'main',
-        StudentIdTab: 'main/studentId',
-        uoslifeLifeTab: 'main/uoslifeLife',
-        MypageTab: {
-          initialRouteName: 'Mypage_main',
+        main_tab: 'main',
+        announcement_tab: {
+          initialRouteName: 'announcement_main',
           screens: {
-            Mypage_main: 'mypage',
-            Mypage_profile: {
-              initialRouteName: 'Mypage_profile_Main',
-              screens: {
-                Mypage_profile_Main: 'mypage/profile',
-                Mypage_changeNickname: 'mypage/profile/changeNickname',
-                Mypage_portalAuthentication:
-                  'mypage/profile/portalAuthentication',
-              },
-            },
-            Mypage_appSetting: 'mypage/appSetting',
-            Mypage_appInformation: {
-              initialRouteName: 'Mypage_appInformation_Main',
-              screens: {
-                Mypage_appInformation_Main: 'mypage/appInformation',
-                Mypage_ToSandPolicies: 'mypage/appInformation/ToSandPolicies',
-                Mypage_privacyPolicies: 'mypage/appInformation/privacyPolicies',
-                Mypage_advertisingandMarketing:
-                  'mypage/appInformation/advertisingandMarketing',
-              },
-            },
+            announcement_main: 'announcement',
+            announcement_bookmark: 'announcement/bookmark',
+            announcement_search: 'announcement/search',
           },
         },
-        AnnouncementTab: {
-          initialRouteName: 'AnnouncementMain',
+        student_id_tab: 'main/student_id',
+        uos_lifestyle_tab: 'main/uos_lifestyle',
+        mypage_tab: {
+          initialRouteName: 'mypage_main',
           screens: {
-            AnnouncementMain: 'announcement',
-            AnnouncementBookmark: 'announcement/bookMark',
-            AnnouncementDetail: 'announcement/detail/:id/:origin',
-            AnnouncementSearch: 'announcement/search',
+            mypage_main: 'mypage',
+            mypage_account: {
+              initialRouteName: 'mypage_account_main',
+              screens: {
+                mypage_account_main: 'mypage/account',
+                mypage_account_change_nickname:
+                  'mypage/account/change_nickname',
+                mypage_account_portal_authentication:
+                  'mypage/account/portal_authentication',
+                mypage_account_portal_authentication_management:
+                  'mypage/account/portal_authentication_management',
+              },
+            },
+            mypage_app_setting: 'mypage/app_setting',
+            mypage_app_information: {
+              initialRouteName: 'mypage_app_information_main',
+              screens: {
+                mypage_app_information_main: 'mypage/app_information',
+                mypage_app_information_tos: 'mypage/app_information/tos',
+                mypage_app_information_privacy_policies:
+                  'mypage/app_information/privacy_policies',
+                mypage_app_information_advertising_and_marketing:
+                  'mypage/app_information/advertising_and_marketing',
+              },
+            },
           },
         },
       },
     },
 
-    Library: {
-      initialRouteName: 'Library_main',
+    // main
+    library: {
+      initialRouteName: 'library_main',
       screens: {
-        Library_main: 'library',
-        Library_seat_status: {
-          initialRouteName: 'Library_seat_status_main',
+        library_main: 'library',
+        library_room_status: {
+          initialRouteName: 'library_room_status_main',
           screens: {
-            Library_seat_status_main: 'library/seatStatus',
-            Library_seating_chart: 'library/seatingChart',
+            library_room_status_main: 'library/room_status',
+            library_room_status_seating_chart:
+              'library/room_status/seating_chart/:roomNumber',
           },
         },
-        Library_ranking: 'library/ranking',
-        Library_challenge: 'library/challenge',
-        Library_portal_authentication: 'library/portalAuthentication',
+        library_ranking: 'library/ranking',
+        library_challenge: 'library/challenge',
+        library_portal_authentication: 'library/portal_authentication',
       },
     },
-    Cafeteria: 'cafeteria',
-    Meeting: 'meeting',
-    LibraryRecap: 'libraryRecap',
-    Roulette: 'roulette',
+    cafeteria: 'cafeteria',
+    roulette: 'roulette',
+
+    // announcement
+    announcement_detail: 'announcement/detail/:id/:origin',
+
+    // uos_lifestyle
+    library_recap: 'library_recap',
+    meeting: 'meeting',
+    check_grade: 'check_grade',
   },
 };
 

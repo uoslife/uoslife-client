@@ -6,8 +6,8 @@ import {LibraryRoomStatusStackParamList} from './libraryRoomStatus';
 
 export type LibraryStackParamList = {
   library_main?: {status?: 'MY_SEAT' | 'SEAT_LIST' | 'RECORD'};
-  library_ranking: undefined;
   library_room_status?: LibraryRoomStatusStackParamList;
+  library_ranking: undefined;
   library_challenge: undefined;
   library_portal_authentication: undefined;
 };
