@@ -1,10 +1,10 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import {Icon, IconsNameType, Txt, colors} from '@uoslife/design-system';
+import {Icon, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Dimensions} from 'react-native';
-import {TabScreenItemType} from '../../../../navigators/RootBottomTapNavigator';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';
+import {TabScreenItemType} from '../../../../navigators/types/rootBottomTap';
 
 const {width} = Dimensions.get('screen');
 

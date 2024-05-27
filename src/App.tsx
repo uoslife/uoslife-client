@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';

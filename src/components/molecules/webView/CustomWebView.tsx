@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import {useRef} from 'react';
 import WebView from 'react-native-webview';
 import {useAtom} from 'jotai';
 import webview from '../../../configs/webview';

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/native';
 import {MotiPressableProps} from 'moti/interactions';
 import {Icon, IconsNameType, Txt, colorsType} from '@uoslife/design-system';

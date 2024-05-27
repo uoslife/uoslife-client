@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-import React from 'react';
 import {colors} from '@uoslife/design-system';
 
 type SpinnerProps = {
