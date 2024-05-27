@@ -1,5 +1,5 @@
-import atomWithMMKV from '../storage/atomWithMMKV';
-import {UserInfoType} from '../api/services/account/type';
+import atomWithMMKV from '../../storage/atomWithMMKV';
+import {UserInfoType} from '../../api/services/account/type';
 
 export type UserAtomType = {user: UserInfoType | null};
 

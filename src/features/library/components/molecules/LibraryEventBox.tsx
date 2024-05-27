@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import {Txt, Button} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
-import {LibraryNavigationProp} from '../../../../navigators/types/library';
+import {LibraryNavigationProp} from '../../navigators/types/library';
 
 const LibraryEventBox = () => {
   const navigation = useNavigation<LibraryNavigationProp>();
@@ -14,13 +14,13 @@ const LibraryEventBox = () => {
         label="도서관 순위"
         isFullWidth
         isRounded
-        onPress={() => navigation.navigate('Library_ranking')}
+        onPress={() => navigation.navigate('library_ranking')}
       />
       <Button
         label="도전과제"
         isFullWidth
         isRounded
-        onPress={() => navigation.navigate('Library_challenge')}
+        onPress={() => navigation.navigate('library_challenge')}
       />
     </S.EventWrapper>
   );

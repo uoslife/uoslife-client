@@ -8,7 +8,7 @@ import {Button, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import Header from '../../../../components/molecules/common/header/Header';
 import {isFocusedLibraryAtom, libraryReservationAtom} from '../../store';
-import {LibraryMainScreenProps} from '../../../../navigators/types/library';
+import {LibraryMainScreenProps} from '../../navigators/types/library';
 import TabView from '../../../../components/molecules/common/tab_view/TabView';
 import {LibraryTabsEnum, LibraryTabsType} from '../../constants/libraryTabs';
 import MySeatScreen from './main_screen/MySeatScreen';

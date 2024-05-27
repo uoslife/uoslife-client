@@ -9,11 +9,11 @@ import URLS from '../../../../configs/urls';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 import CardLayout from '../../../../components/molecules/common/cardLayout/CardLayout';
 import customShowToast from '../../../../configs/toast';
-import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 import CategoryTab from '../../../announcement/components/tab/CategoryTab';
 import announcementCurrentOriginAtom from '../../../announcement/store/announcementCurrentOrigin';
 import getAnnouncement from '../../../announcement/store/getAnnouncement';
 import Skeleton from '../../../../components/molecules/common/skeleton/Skeleton';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 
 const AnnounceContentsSkeleton = () => {
   return (
@@ -51,9 +51,9 @@ const AnnounceContents = () => {
               <AnimatePress
                 key={item.id}
                 onPress={() =>
-                  navigation.navigate('Announcement', {
-                    screen: 'AnnouncementDetail',
-                    params: {id: item.id, origin: currentOrigin},
+                  navigation.navigate('announcement_detail', {
+                    id: item.id,
+                    origin: currentOrigin,
                   })
                 }
                 variant="scale_down">

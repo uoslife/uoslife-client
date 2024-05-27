@@ -1,4 +1,3 @@
-import React from 'react';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {Linking} from 'react-native';

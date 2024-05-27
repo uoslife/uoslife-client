@@ -1,6 +1,6 @@
 import styled, {css} from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import React, {Suspense} from 'react';
+import {Suspense} from 'react';
 
 import {View, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';

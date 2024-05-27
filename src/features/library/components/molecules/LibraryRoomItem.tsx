@@ -1,10 +1,9 @@
-import React from 'react';
 import styled, {css} from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
 import {LibraryStatusItemType} from '../../../../api/services/util/library/libraryAPI.type';
 import boxShadowStyle from '../../../../styles/boxShadow';
-import {LibraryRoomStatusNavigationProp} from '../../../../navigators/types/library';
+import {LibraryRoomStatusNavigationProp} from '../../navigators/types/library';
 import customShowToast from '../../../../configs/toast/index';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 
@@ -27,7 +26,7 @@ const LibraryRoomItem = ({item, boxWidth}: Props) => {
       customShowToast('preparingLibraryReservationInfo');
       return;
     }
-    navigation.navigate('Library_seating_chart', {
+    navigation.navigate('library_seating_chart', {
       roomNumber: item.room_no,
     });
   };

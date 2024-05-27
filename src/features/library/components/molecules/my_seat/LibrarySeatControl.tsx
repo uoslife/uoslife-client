@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import AnimatePress from '../../../../../components/animations/pressable_icon/AnimatePress';
 import GuidePopup from '../../../../../components/molecules/common/GuidePopup';
 import useUserState from '../../../../../hooks/useUserState';
-import {LibraryNavigationProp} from '../../../../../navigators/types/library';
+import {LibraryNavigationProp} from '../../../navigators/types/library';
 import boxShadowStyle from '../../../../../styles/boxShadow';
 import {libraryReservationAtom} from '../../../store';
 import {MySeatScreenProps} from '../../screens/main_screen/MySeatScreen';
@@ -51,7 +51,7 @@ const LibrarySeatControl = ({
             label="포털 계정 연동하기"
             isFullWidth
             isRounded
-            onPress={() => navigation.navigate('Library_portal_authentication')}
+            onPress={() => navigation.navigate('library_portal_authentication')}
           />
         </View>
       )}

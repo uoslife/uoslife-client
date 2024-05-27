@@ -1,4 +1,3 @@
-import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import URLS from '../../../../../configs/urls';
 import WebViewWithHeader from '../../../../../components/molecules/webView/WebViewWthHeader';

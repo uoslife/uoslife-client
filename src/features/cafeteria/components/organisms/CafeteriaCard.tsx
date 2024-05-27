@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-import React from 'react';
 import {View} from 'react-native';
 import {Txt, colors} from '@uoslife/design-system';
 import {CafeteriaItemAttributesType} from '../../../../api/services/util/cafeteria/cafeteriaAPI.type';

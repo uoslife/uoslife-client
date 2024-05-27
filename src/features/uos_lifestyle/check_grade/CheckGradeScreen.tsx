@@ -26,9 +26,9 @@ import Carousel from '../../../components/molecules/common/carousel/Carousel';
 import customShowToast from '../../../configs/toast';
 import useModal from '../../../hooks/useModal';
 import useUserState from '../../../hooks/useUserState';
-import {RootNavigationProps} from '../../../navigators/RootStackNavigator';
 import Header from '../../../components/molecules/common/header/Header';
 import Skeleton from '../../../components/molecules/common/skeleton/Skeleton';
+import {RootNavigationProps} from '../../../navigators/types/rootStack';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const ACCURACY_LOW = 1;
@@ -103,7 +103,7 @@ const PortalUnauthorizedScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
 
   const handleNavigatePortalAuthenticate = async () => {
-    return navigation.navigate('StudentId_PortalAuthentication');
+    return navigation.navigate('student_id_portal_authentication');
   };
 
   return (

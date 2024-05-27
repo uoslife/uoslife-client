@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
@@ -7,8 +7,8 @@ import DeviceInfo from 'react-native-device-info';
 
 import Header from '../../../../components/molecules/common/header/Header';
 import NavigationList from '../../../../components/molecules/common/navigationList/NavigationList';
-import {MypageAppInformationNavigationProp} from '../../../../navigators/MypageStackNavigator';
 import DeviceService from '../../../../services/device';
+import {MypageAppInformationNavigationProp} from '../../navigators/types/mypage_app_information';
 
 const MypageAppInformationScreen = () => {
   const insets = useSafeAreaInsets();
@@ -31,15 +31,21 @@ const MypageAppInformationScreen = () => {
       <S.Container>
         <NavigationList
           label="이용약관 및 정책"
-          onPress={() => navigation.navigate('Mypage_ToSandPolicies')}
+          onPress={() => navigation.navigate('mypage_app_information_tos')}
         />
         <NavigationList
           label="개인정보 처리방침"
-          onPress={() => navigation.navigate('Mypage_privacyPolicies')}
+          onPress={() =>
+            navigation.navigate('mypage_app_information_privacy_policies')
+          }
         />
         <NavigationList
           label="광고 및 마케팅 수신 동의"
-          onPress={() => navigation.navigate('Mypage_advertisingandMarketing')}
+          onPress={() =>
+            navigation.navigate(
+              'mypage_app_information_advertising_and_marketing',
+            )
+          }
         />
         <NavigationList
           label="현재 앱 버전"

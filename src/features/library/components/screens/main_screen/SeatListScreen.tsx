@@ -1,7 +1,7 @@
 import {Button, Icon, Txt, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
-import {LibraryNavigationProp} from '../../../../../navigators/types/library';
+import {LibraryNavigationProp} from '../../../navigators/types/library';
 
 const SeatListScreen = () => {
   const navigation = useNavigation<LibraryNavigationProp>();
@@ -27,7 +27,7 @@ const SeatListScreen = () => {
           variant="outline"
           isEnabled
           isFullWidth
-          onPress={() => navigation.navigate('Library_room_status')}
+          onPress={() => navigation.navigate('library_room_status')}
         />
         <Button
           label="전자정보실"

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {
   NavigationContainer,
   useNavigationContainerRef,
@@ -6,10 +6,10 @@ import {
 import analytics from '@react-native-firebase/analytics';
 
 import {useAtomValue} from 'jotai';
-import {RootStackParamList} from '../navigators/RootStackNavigator';
 import customBackgroundTheme from '../styles/customBackgroundTheme';
 import initLoadingAtom from '../store/app/initLoading';
 import linking from '../configs/deeplink/deepLinking';
+import {RootStackParamList} from '../navigators/types/rootStack';
 
 type Props = Pick<Parameters<typeof NavigationContainer>[0], 'children'>;
 

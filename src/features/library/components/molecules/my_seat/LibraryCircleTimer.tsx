@@ -1,4 +1,3 @@
-import React from 'react';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {Txt} from '@uoslife/design-system';
 import LibraryCircleTimerContents from './LibraryCircleTimerContents';

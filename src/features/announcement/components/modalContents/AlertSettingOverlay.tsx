@@ -7,11 +7,12 @@ import {useNavigation} from '@react-navigation/native';
 import BottomSheetToggleItem from '../../../../components/molecules/overlays/items/BottomSheetToggleItem';
 import useTopicState from '../../../../hooks/useTopicState';
 import Skeleton from '../../../../components/molecules/common/skeleton/Skeleton';
+import {RootTabNavigationProps} from '../../../../navigators/types/rootBottomTap';
 
 const AlertSettingOverlay = () => {
   const [isNotificationAgree, setIsNotificationAgree] = useState(false);
   const {topicList, setTopic, deleteTopic, isLoading} = useTopicState();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootTabNavigationProps>();
 
   useEffect(() => {
     const isServiceNotificationToggledOn = topicList.find(
@@ -21,8 +22,7 @@ const AlertSettingOverlay = () => {
   }, [topicList]);
 
   const handlePressRedirectNotificationSetting = () => {
-    // @ts-ignore
-    navigation.navigate('Mypage', {screen: 'Mypage_appSetting'});
+    navigation.navigate('mypage_tab', {screen: 'mypage_app_setting'});
   };
 
   return (

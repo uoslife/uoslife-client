@@ -40,7 +40,7 @@ const SetNicknameScreen = () => {
   const {changeAccountFlow} = useAccountFlow();
   const {setUserInfo} = useUserState();
 
-  const [isMypage] = useIsCurrentScreen('Mypage_changeNickname');
+  const [isMypage] = useIsCurrentScreen('mypage_account_change_nickname');
 
   const [inputValue, setInputValue] = useState('');
   const [statusMessage, setStatusMessage] =

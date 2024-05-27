@@ -8,7 +8,6 @@ import {useThrottle} from '@uoslife/react';
 import {Button, colors, Txt} from '@uoslife/design-system';
 
 import Header from '../../../../../components/molecules/common/header/Header';
-import {MypageProfileNavigationProp} from '../../../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../../../components/molecules/common/navigationList/NavigationList';
 
 import UserService from '../../../../../services/user';
@@ -17,6 +16,7 @@ import useModal from '../../../../../hooks/useModal';
 import useUserState from '../../../../../hooks/useUserState';
 import setUserInformationMessage from '../../../../../utils/setUserInformationMessage';
 import {UserInfoType} from '../../../../../api/services/account/type';
+import {MypageAccountNavigationProp} from '../../../navigators/types/mypage_account';
 
 const getPortalAccountInfoList = (user: UserInfoType | null) => {
   if (!user?.identity) return [];
@@ -40,7 +40,7 @@ const getPortalAccountInfoList = (user: UserInfoType | null) => {
 
 const MypageProfileScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<MypageProfileNavigationProp>();
+  const navigation = useNavigation<MypageAccountNavigationProp>();
   // const [selectedPhotoUri, openPhotoSelectionAlert] = usePhoto('');
   const [openUnregisterModal, closeUnregisterModal, UnregisterModal] =
     useModal('MODAL');
@@ -105,7 +105,7 @@ const MypageProfileScreen = () => {
               <NavigationList
                 label="닉네임 변경"
                 onPress={() =>
-                  navigation.navigate('Mypage_changeNickname', {
+                  navigation.navigate('mypage_account_change_nickname', {
                     isMypage: true,
                   })
                 }
@@ -117,9 +117,12 @@ const MypageProfileScreen = () => {
                   isVerified
                     ? () =>
                         navigation.navigate(
-                          'Mypage_portalAuthenticationManagement',
+                          'mypage_account_portal_authentication_management',
                         )
-                    : () => navigation.navigate('Mypage_portalAuthentication')
+                    : () =>
+                        navigation.navigate(
+                          'mypage_account_portal_authentication',
+                        )
                 }
                 pressLabel={isVerified ? '포털 연동 관리하기' : '연동하기'}
                 pressLabelColor={isVerified ? 'grey130' : 'primaryBrand'}

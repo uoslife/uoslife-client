@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import WebView, {WebViewProps} from 'react-native-webview';
 import {onMessageFromWebView} from '@uoslife/webview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -8,7 +8,7 @@ import {getWebViewUserAgent} from 'react-native-user-agent';
 import useUserState from '../hooks/useUserState';
 import storage from '../storage';
 import Spinner from '../components/atoms/spinner/Spinner';
-import {RootNavigationProps} from '../navigators/RootStackNavigator';
+import {RootNavigationProps} from '../navigators/types/rootStack';
 
 type Props = {uri: string} & Omit<
   WebViewProps,

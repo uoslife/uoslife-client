@@ -1,61 +1,32 @@
-import React from 'react';
 import {
   StackNavigationOptions,
-  StackNavigationProp,
   createStackNavigator,
 } from '@react-navigation/stack';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import AnnouncementMainScreen from '../features/announcement/components/screens/AnnouncementMainScreen';
-import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
-import AnnouncementSearchScreen from '../features/announcement/components/screens/AnnouncementSearchScreen';
-import AnnouncementBookmarkBoxScreen from '../features/announcement/components/screens/AnnouncementBookmarkBoxScreen';
-import {AnnouncementOriginNameType} from '../api/services/util/announcement/announcementAPI.type';
-
-export type AnnouncementStackParamList = {
-  AnnouncementMain: undefined;
-  AnnouncementBookmark: undefined;
-  AnnouncementDetail: {id: number; origin: AnnouncementOriginNameType};
-  AnnouncementSearch: {initialSearchWord: string};
-};
-
-export type AnnouncementSearchScreenProps = NativeStackScreenProps<
-  AnnouncementStackParamList,
-  'AnnouncementSearch'
->;
-
-export type AnnouncementDetailScreenProps = NativeStackScreenProps<
-  AnnouncementStackParamList,
-  'AnnouncementDetail'
->;
-
-export type AnnouncementNavigationProps =
-  StackNavigationProp<AnnouncementStackParamList>;
+import AnnouncementMainScreen from '../components/screens/AnnouncementMainScreen';
+import AnnouncementSearchScreen from '../components/screens/AnnouncementSearchScreen';
+import AnnouncementBookmarkBoxScreen from '../components/screens/AnnouncementBookmarkBoxScreen';
+import {AnnouncementStackParamList} from './types/announcement';
 
 const Stack = createStackNavigator<AnnouncementStackParamList>();
 
 const AnnouncementStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="AnnouncementMain"
+      initialRouteName="announcement_main"
       screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name="AnnouncementMain"
+        name="announcement_main"
         component={AnnouncementMainScreen}
         options={{...SlideTransition}}
       />
       <Stack.Screen
-        name="AnnouncementDetail"
-        component={AnnouncementDetailScreen}
-        options={{...SlideTransition}}
-      />
-      <Stack.Screen
-        name="AnnouncementBookmark"
+        name="announcement_bookmark"
         component={AnnouncementBookmarkBoxScreen}
         options={{...SlideTransition}}
       />
       <Stack.Screen
-        name="AnnouncementSearch"
+        name="announcement_search"
         component={AnnouncementSearchScreen}
         options={{...SlideTransition}}
       />

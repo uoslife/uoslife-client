@@ -1,8 +1,8 @@
 import urls from '../configs/urls';
 import UoslifeWebviewScreen from './UoslifeWebviewScreen';
 
-const MeetingScreen = () => {
+const RouletteScreen = () => {
   return <UoslifeWebviewScreen uri={`${urls.MEETING_URL}/common/roulette`} />;
 };
 
-export default MeetingScreen;
+export default RouletteScreen;

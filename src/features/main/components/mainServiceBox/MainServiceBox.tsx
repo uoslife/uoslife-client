@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/native';
 
 import {Icon, Txt} from '@uoslife/design-system';
@@ -6,7 +5,7 @@ import {useNavigation} from '@react-navigation/core';
 
 import MainServiceBoxType from './MainServiceBox.type';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
-import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 
 const MainServiceBox = ({
   label,
@@ -18,14 +17,14 @@ const MainServiceBox = ({
   const handleMoreButton = () => {
     switch (iconName) {
       case 'library':
-        navigation.navigate('Library');
+        navigation.navigate('library');
         break;
       case 'cafeteria':
-        navigation.navigate('Cafeteria');
+        navigation.navigate('cafeteria');
         break;
       case 'campaign':
-        navigation.navigate('Main', {
-          screen: 'AnnouncementTab',
+        navigation.navigate('root', {
+          screen: 'announcement_tab',
         });
         break;
       default:

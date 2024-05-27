@@ -9,16 +9,16 @@ import {
   Dimensions,
 } from 'react-native';
 import {Button, colors, Txt} from '@uoslife/design-system';
-import React, {Suspense, useEffect, useState} from 'react';
+import {Suspense, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
 import URLS from '../../../../configs/urls';
 import useUserState from '../../../../hooks/useUserState';
 import setUserInformationMessage from '../../../../utils/setUserInformationMessage';
 import useInterval from '../../../../hooks/useInterval';
 import StudentIdQrCode from '../StudentIdQrCode';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 const STUDENT_ID_CONTENT_HEIGHT = 20 + 652; // 상단 상태표시 메뉴바(inset.top) 높이 + 학생증의 각 콘텐츠 요소를 합친 높이
@@ -28,7 +28,7 @@ const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<RootNavigationProps>();
 
   const handleNavigatePortalAuthenticate = async () =>
-    navigation.navigate('StudentId_PortalAuthentication');
+    navigation.navigate('student_id_portal_authentication');
 
   return (
     <S.portalUnauthorizedScreen

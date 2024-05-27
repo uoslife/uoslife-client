@@ -4,7 +4,7 @@ import {Button} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import BottomSheetCheckItem from '../../../../components/molecules/overlays/items/BottomSheetCheckItem';
-import {RootNavigationProps} from '../../../../navigators/RootStackNavigator';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 
 type OverlayType = 'CHECK_ALL' | 'REQUIRED' | 'OPTIONAL';
 type OverlayStatus = {id: number; type: OverlayType; checked: boolean};
@@ -82,13 +82,13 @@ const ServiceAgreementOverlay = ({
         checked={getCheckedStatusById(1)}
         title="[필수] 개인정보처리방침"
         onToggle={() => handleClickCheckItem(1)}
-        onPressForward={() => navigation.navigate('Account_privacyPolicies')}
+        onPressForward={() => navigation.navigate('account_privacy_policies')}
       />
       <BottomSheetCheckItem
         checked={getCheckedStatusById(2)}
         title="[필수] 시대생 이용약관"
         onToggle={() => handleClickCheckItem(2)}
-        onPressForward={() => navigation.navigate('Account_ToSandPolicies')}
+        onPressForward={() => navigation.navigate('account_tos')}
       />
       <BottomSheetCheckItem
         checked={getCheckedStatusById(3)}

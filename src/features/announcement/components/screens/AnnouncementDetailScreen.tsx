@@ -1,10 +1,10 @@
 import styled from '@emotion/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Header from '../../../../components/molecules/common/header/Header';
-import {AnnouncementDetailScreenProps} from '../../../../navigators/AnnouncementStackNavigator';
+import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
 import {ArticleDetailType} from '../../types/announcement.type';
 import {AnnouncementFullNameEnum} from '../../constants/announcement';
 import AnnouncementAPI from '../../../../api/services/util/announcement/announcementAPI';

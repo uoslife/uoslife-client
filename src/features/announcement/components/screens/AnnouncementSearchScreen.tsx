@@ -1,13 +1,9 @@
-import React, {useState, useRef, useEffect, useCallback} from 'react';
+import {useState, useRef, useEffect, useCallback} from 'react';
 import styled from '@emotion/native';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {BackHandler, Keyboard} from 'react-native';
-import {
-  AnnouncementNavigationProps,
-  AnnouncementSearchScreenProps,
-} from '../../../../navigators/AnnouncementStackNavigator';
 import SearchWordEnteringView, {
   HISTORIES_KEY,
 } from '../search/SearchWordEnteringView';
@@ -15,6 +11,10 @@ import SearchInput from '../../../../components/molecules/common/forms/searchInp
 import Header from '../../../../components/molecules/common/header/Header';
 import SearchResultView from '../search/SearchResultView';
 import storage from '../../../../storage';
+import {
+  AnnouncementSearchScreenProps,
+  AnnouncementNavigationProps,
+} from '../../navigators/types/announcement';
 
 // 검색어 입력(isSearchWordEntering === true) / 검색 결과 두 상태로 구분(isSearchWordEntering === false)
 const AnnouncementSearchScreen = ({
@@ -32,7 +32,7 @@ const AnnouncementSearchScreen = ({
 
   const navigateToNewSearchScreen = (word: string) => {
     // 1. 입력된 검색어로 새로운 검색 결과 screen stack 생성
-    navigation.push('AnnouncementSearch', {
+    navigation.push('announcement_search', {
       initialSearchWord: word,
     });
     // 2. 새로운 screen stack에서 뒤로가기를 눌렀을 때, 이전의 검색결과 페이지로 복귀
@@ -96,7 +96,7 @@ const AnnouncementSearchScreen = ({
   // 안드로이드에서 뒤로가기 버튼을 눌렀을 때의 동작 지정
   // REF: https://reactnavigation.org/docs/custom-android-back-button-handling/
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const onAndroidBackPress = () => {
         onHeaderBackPress();
 

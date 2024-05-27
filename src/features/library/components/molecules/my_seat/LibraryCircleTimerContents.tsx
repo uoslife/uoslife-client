@@ -1,5 +1,4 @@
 import {Txt} from '@uoslife/design-system';
-import React from 'react';
 import {View} from 'react-native';
 import {
   LIBRARY_NO_TIME,

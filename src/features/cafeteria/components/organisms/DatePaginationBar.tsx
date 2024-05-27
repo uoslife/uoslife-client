@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import styled, {css} from '@emotion/native';
 import {Icon, Txt} from '@uoslife/design-system';
 import {useAtom, useSetAtom} from 'jotai';

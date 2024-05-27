@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useMemo} from 'react';
 import {useAtom} from 'jotai';
 import {View} from 'react-native';
 import styled from '@emotion/native';
@@ -8,7 +8,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ReactNativeZoomableView} from '@openspacelabs/react-native-zoomable-view';
 
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {LibrarySeatListScreenProps} from '../../../../../navigators/types/library';
 import Header from '../../../../../components/molecules/common/header/Header';
 import {
   RoomNameEnum,
@@ -28,6 +27,7 @@ import {ErrorResponseType} from '../../../../../api/services/type';
 import useUserState from '../../../../../hooks/useUserState';
 import AnalyticsService from '../../../../../services/analytics';
 import LibraryStatusInfoBox from '../../molecules/LibraryStatusInfoBox';
+import {LibrarySeatListScreenProps} from '../../../navigators/types/libraryRoomStatus';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -71,7 +71,7 @@ const LibrarySeatingChartScreen = ({
         userId: user?.id as number,
       }).finally(() => {
         // @ts-ignore
-        navigation.replace('Library', {params: {status: 'MY_SEAT'}});
+        navigation.replace('library', {params: {status: 'MY_SEAT'}});
         // navigation.navigate({
         //   key: navigation.getParent()?.getState().routes[0].key ?? '',
         //   params: {status: 'MY_SEAT'},

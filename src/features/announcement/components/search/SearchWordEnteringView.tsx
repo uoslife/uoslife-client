@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Icon, Txt} from '@uoslife/design-system';
 import storage from '../../../../storage';
 

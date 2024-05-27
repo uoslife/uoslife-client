@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import styled from '@emotion/native';
 import BottomSheet from '../components/molecules/overlay/BottomSheet';

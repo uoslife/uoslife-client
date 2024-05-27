@@ -10,7 +10,7 @@ import {
   ReservationStatusTypeInUsing,
   libraryReservationAtom,
 } from '../../../store';
-import {UserAtomType} from '../../../../../store/user';
+import {UserAtomType} from '../../../../../store/user/user';
 
 const getInformationMessage = (
   reservationStatus: ReservationStatusTypeInUsing,

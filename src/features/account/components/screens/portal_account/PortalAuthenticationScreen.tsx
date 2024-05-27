@@ -3,7 +3,7 @@ import {Platform, Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Txt, Button, Input} from '@uoslife/design-system';
+import {Txt, Button} from '@uoslife/design-system';
 
 import KeyboardManager from 'react-native-keyboard-manager';
 import {useThrottle} from '@uoslife/react';
@@ -13,11 +13,12 @@ import InputProps from '../../../../../components/molecules/common/forms/input/I
 import customShowToast from '../../../../../configs/toast';
 import useIsCurrentScreen from '../../../../../hooks/useIsCurrentScreen';
 import useUserState from '../../../../../hooks/useUserState';
-import {RootTabNavigationProps} from '../../../../../navigators/RootBottomTapNavigator';
 import UserService from '../../../../../services/user';
 import storage from '../../../../../storage';
 import useAccountFlow from '../../../hooks/useAccountFlow';
 import Header from '../../../../../components/molecules/common/header/Header';
+import Input from '../../../../../components/molecules/common/forms/input/Input';
+import {RootTabNavigationProps} from '../../../../../navigators/types/rootBottomTap';
 
 if (Platform.OS === 'ios') {
   KeyboardManager.setEnable(true);
@@ -37,8 +38,8 @@ const PortalAuthenticationScreen = () => {
 
   const navigation = useNavigation<RootTabNavigationProps>();
   const [isNotAccountFlow] = useIsCurrentScreen([
-    'StudentId_PortalAuthentication',
-    'Mypage_portalAuthentication',
+    'student_id_portal_authentication',
+    'mypage_account_portal_authentication',
   ]);
 
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();

@@ -1,21 +1,18 @@
-import React from 'react';
 import {Linking} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
-import {StackScreenProps} from '@react-navigation/stack';
 import {Button, colors, Txt} from '@uoslife/design-system';
+import {useNavigation} from '@react-navigation/native';
 import URLS from '../../../../configs/urls';
 import Header from '../../../../components/molecules/common/header/Header';
-import {MypageStackParamList} from '../../../../navigators/MypageStackNavigator';
 import NavigationList from '../../../../components/molecules/common/navigationList/NavigationList';
 import UserService from '../../../../services/user';
 import useUserState from '../../../../hooks/useUserState';
+import {MypageNavigationProp} from '../../navigators/types/mypage';
 
-const MypageMainScreen = ({
-  navigation,
-}: StackScreenProps<MypageStackParamList>) => {
+const MypageMainScreen = () => {
   const insets = useSafeAreaInsets();
-
+  const navigation = useNavigation<MypageNavigationProp>();
   const {user, deleteUserInfo} = useUserState();
 
   const {nickname, isVerified} = user || {};
@@ -58,15 +55,15 @@ const MypageMainScreen = ({
           <S.NavigationListWapper>
             <NavigationList
               label="계정"
-              onPress={() => navigation.navigate('Mypage_profile')}
+              onPress={() => navigation.navigate('mypage_account')}
             />
             <NavigationList
               label="알림 설정"
-              onPress={() => navigation.navigate('Mypage_appSetting')}
+              onPress={() => navigation.navigate('mypage_app_setting')}
             />
             <NavigationList
               label="앱 정보"
-              onPress={() => navigation.navigate('Mypage_appInformation')}
+              onPress={() => navigation.navigate('mypage_app_information')}
             />
             <NavigationList
               label="문의하기"

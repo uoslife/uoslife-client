@@ -1,6 +1,5 @@
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
-import React from 'react';
 
 type Props = {currentImageLocation: number; carouselDataLength: number};
 

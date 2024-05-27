@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useMemo} from 'react';
 import {Image, View} from 'react-native';
 import {useAtom} from 'jotai';
 import styled, {css} from '@emotion/native';

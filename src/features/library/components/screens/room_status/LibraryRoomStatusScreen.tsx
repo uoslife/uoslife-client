@@ -5,7 +5,7 @@ import {
   LibraryRoomStatusTabsEnum,
   LibraryRoomStatusTabsType,
 } from '../../../constants/libraryTabs';
-import {LibraryRoomStatusScreenProps} from '../../../../../navigators/types/library';
+import {LibraryRoomStatusScreenProps} from '../../../navigators/types/library';
 
 import Header from '../../../../../components/molecules/common/header/Header';
 import TabView from '../../../../../components/molecules/common/tab_view/TabView';

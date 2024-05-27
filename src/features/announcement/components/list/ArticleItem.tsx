@@ -1,13 +1,13 @@
 import styled from '@emotion/native';
 import {Txt} from '@uoslife/design-system';
-import React, {memo} from 'react';
+import {memo} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import useBookmark from '../../hooks/useBookmark';
-import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 import {ArticleItemType} from '../../types/announcement.type';
 import {AnnouncementFullNameEnum} from '../../constants/announcement';
 import ItemBookmarkToggle from './ItemBookmarkToggle';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 
 type ArticleItemComponentProps = {
   showCategoryName: boolean;
@@ -25,7 +25,7 @@ const ArticleItem = ({
       bookmarkCount,
       isBookmarked,
     });
-  const navigation = useNavigation<AnnouncementNavigationProps>();
+  const navigation = useNavigation<RootNavigationProps>();
 
   return (
     <S.Root>
@@ -33,7 +33,7 @@ const ArticleItem = ({
         <AnimatePress
           variant="scale_down"
           onPress={() => {
-            navigation.navigate('AnnouncementDetail', {id, origin: 'FA1'});
+            navigation.navigate('announcement_detail', {id, origin});
           }}>
           {showCategoryName && (
             <Txt

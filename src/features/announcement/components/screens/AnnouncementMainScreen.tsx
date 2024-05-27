@@ -14,7 +14,6 @@ import {BackHandler, Keyboard} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import SearchInput from '../../../../components/molecules/common/forms/searchInput/SearchInput';
 import SearchWordEnteringView from '../search/SearchWordEnteringView';
-import {AnnouncementNavigationProps} from '../../../../navigators/AnnouncementStackNavigator';
 import Header from '../../../../components/molecules/common/header/Header';
 import useModal from '../../../../hooks/useModal';
 import AlertSettingOverlay from '../modalContents/AlertSettingOverlay';
@@ -23,6 +22,7 @@ import AnimatePress from '../../../../components/animations/pressable_icon/Anima
 import CategoryTab from '../tab/CategoryTab';
 import MainArticleList from '../main/MainArticleList';
 import Spinner from '../../../../components/atoms/spinner/Spinner';
+import {AnnouncementNavigationProps} from '../../navigators/types/announcement';
 
 // TODO: 혼재되어있는 검색 관련 로직 분리, 컴포넌트 추상화 수준 맞추기
 const AnnouncementMainScreen = () => {
@@ -43,7 +43,7 @@ const AnnouncementMainScreen = () => {
     {
       iconName: 'bookmark',
       onPress: () => {
-        navigation.navigate('AnnouncementBookmark');
+        navigation.navigate('announcement_bookmark');
       },
     },
     {
@@ -53,7 +53,7 @@ const AnnouncementMainScreen = () => {
   ];
 
   const navigateToNewSearchScreen = (word: string) => {
-    navigation.push('AnnouncementSearch', {
+    navigation.push('announcement_search', {
       initialSearchWord: word,
     });
     setTimeout(() => {
