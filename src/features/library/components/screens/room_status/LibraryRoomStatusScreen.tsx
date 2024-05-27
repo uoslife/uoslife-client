@@ -5,11 +5,11 @@ import {
   LibraryRoomStatusTabsEnum,
   LibraryRoomStatusTabsType,
 } from '../../../constants/libraryTabs';
-import {LibraryRoomStatusScreenProps} from '../../../navigators/types/library';
 
 import Header from '../../../../../components/molecules/common/header/Header';
 import TabView from '../../../../../components/molecules/common/tab_view/TabView';
 import LibraryRoomStatus from '../../molecules/LibraryRoomStatus';
+import {LibraryRoomStatusScreenProps} from '../../../navigators/types/libraryRoomStatus';
 
 const LibraryRoomStatusScreen = ({
   route: {params},

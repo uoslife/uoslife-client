@@ -26,7 +26,7 @@ const LibraryRoomItem = ({item, boxWidth}: Props) => {
       customShowToast('preparingLibraryReservationInfo');
       return;
     }
-    navigation.navigate('library_seating_chart', {
+    navigation.navigate('library_room_status_seating_chart', {
       roomNumber: item.room_no,
     });
   };

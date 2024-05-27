@@ -4,13 +4,13 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Header from '../../../../components/molecules/common/header/Header';
-import {AnnouncementDetailScreenProps} from '../../navigators/AnnouncementStackNavigator';
 import {ArticleDetailType} from '../../types/announcement.type';
 import {AnnouncementFullNameEnum} from '../../constants/announcement';
 import AnnouncementAPI from '../../../../api/services/util/announcement/announcementAPI';
 import AnnouncementDetailScreenContent from '../detail/AnnouncementDetailScreenContent';
 import Spinner from '../../../../components/atoms/spinner/Spinner';
 import LoadingFailed from '../LoadingFailed/LoadingFailed';
+import {AnnouncementDetailScreenProps} from '../../../../navigators/types/rootStack';
 
 const AnnouncementDetailScreen = ({
   route: {
