@@ -1,9 +1,13 @@
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import styled from '@emotion/native';
+import {View} from 'react-native';
 import Header from '../common/header/Header';
 import CustomWebView, {CustomWebviewProps} from './CustomWebView';
+import {MypageAppInformationNavigationProp} from '../../../features/my_page/navigators/types/mypage_app_information';
 
-type WebviewWithHeaderProps = CustomWebviewProps & {label: string};
+type WebviewWithHeaderProps = CustomWebviewProps & {
+  navigation: MypageAppInformationNavigationProp;
+  label: string;
+};
 
 const WebViewWithHeader = ({
   navigation,
@@ -17,17 +21,11 @@ const WebViewWithHeader = ({
   };
 
   return (
-    <S.screenContainer style={{paddingTop: insets.top}}>
+    <View style={{flex: 1, paddingTop: insets.top}}>
       <Header label={label} onPressBackButton={handleGoBack} />
-      <CustomWebView navigation={navigation} url={url} />
-    </S.screenContainer>
+      <CustomWebView url={url} />
+    </View>
   );
-};
-
-const S = {
-  screenContainer: styled.View`
-    flex: 1;
-  `,
 };
 
 export default WebViewWithHeader;

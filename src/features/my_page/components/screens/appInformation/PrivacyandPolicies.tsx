@@ -1,10 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import URLS from '../../../../../configs/urls';
 import WebViewWithHeader from '../../../../../components/molecules/webView/WebViewWthHeader';
-import {ServiceAgreementStackNavigation} from '../../../../../types/serviceAgreement.type';
+import {MypageAppInformationNavigationProp} from '../../../navigators/types/mypage_app_information';
 
 const PrivacyandPoliciesScreen = () => {
-  const navigation = useNavigation<ServiceAgreementStackNavigation>();
+  const navigation = useNavigation<MypageAppInformationNavigationProp>();
 
   return (
     <WebViewWithHeader
