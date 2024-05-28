@@ -41,6 +41,12 @@ const UosLifestyleScreen = () => {
           labelIcon="library"
           onPress={() => navigation.navigate('library_recap')}
         />
+        <NavigationList
+          label="이수학점 확인하기"
+          labelIcon="library"
+          onPress={() => navigation.navigate('graduate_credit')}
+        />
+        {/*  TODO:labelIcon 변경 */}
       </S.NavigationListContainer>
     </S.Container>
   );

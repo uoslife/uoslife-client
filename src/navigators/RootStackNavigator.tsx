@@ -25,6 +25,7 @@ import PortalAuthenticationScreen from '../features/account/components/screens/p
 import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
+import GraduateCreditScreen from '../features/uos_lifestyle/graduate_credit/components/screens/GraduateCreditScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -71,6 +72,10 @@ const RootStackNavigator: React.FC = () => {
           <Stack.Screen name="library_recap" component={LibraryRecapScreen} />
           <Stack.Screen name="meeting" component={MeetingScreen} />
           <Stack.Screen name="check_grade" component={CheckGradeScreen} />
+          <Stack.Screen
+            name="graduate_credit"
+            component={GraduateCreditScreen}
+          />
         </Stack.Group>
       ) : (
         <Stack.Group>
