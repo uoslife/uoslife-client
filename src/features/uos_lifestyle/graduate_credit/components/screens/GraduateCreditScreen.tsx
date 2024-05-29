@@ -1,9 +1,10 @@
-import {ScrollView} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
+import SubjectDetailButton from '../SubjectDetailButton';
 
 const GraduateCreditScreen = () => {
   const navigation = useNavigation();
@@ -16,6 +17,9 @@ const GraduateCreditScreen = () => {
         onPressBackButton={() => navigation.goBack()}
       />
       <S.GraduateCreditScreen>
+        <Text>sdfasdsdafsdfasddf</Text>
+        <SubjectDetailButton type="major" label="디자인학과" />
+        <SubjectDetailButton type="subject" label="전공 필수" />
         <ProgressBar
           type="sub"
           maxNum={130}
