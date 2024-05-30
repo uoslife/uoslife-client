@@ -3,11 +3,19 @@ import {useState} from 'react';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
 import Header from '../../../components/molecules/common/header/Header';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ImageBackground, Pressable} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import BorderSelect from '../../../components/molecules/common/select/BorderSelect';
 import styled from '@emotion/native';
 
+type ItemType = {
+  name: string;
+  location: string;
+  restaurantType: string;
+  like: boolean;
+  likesCount: number;
+  mapLink: string;
+};
 type LocationType = '위치' | '정문' | '후문';
 type FoodCategoryType =
   | '종류'
@@ -79,7 +87,46 @@ const RestaurantScreen = () => {
       </S.LikeContainer>
     );
   };
-
+  const RestaurantItem = ({item}: {item: ItemType}) => {
+    return (
+      <S.RestaurantItemContainer>
+        <View style={{gap: 6}}>
+          <Txt label={item.name} color="grey190" typograph="titleMedium" />
+          <View style={{flexDirection: 'row', gap: 6}}>
+            <S.CategoryBox type="color">
+              <Txt
+                label={item.location}
+                color="primaryBrand"
+                typograph="titleSmall"
+              />
+            </S.CategoryBox>
+            <S.CategoryBox>
+              <Txt
+                label={item.restaurantType}
+                color="grey130"
+                typograph="titleSmall"
+              />
+            </S.CategoryBox>
+          </View>
+        </View>
+        <Pressable
+          style={{
+            paddingHorizontal: 8,
+            paddingVertical: 4,
+            borderRadius: 12,
+            alignItems: 'center',
+            backgroundColor: colors.primaryLighterAlt,
+          }}>
+          <Icon color={'primaryBrand'} name={'heart'} width={28} height={28} />
+          <Txt
+            label={String(item.likesCount)}
+            color="primaryBrand"
+            typograph="labelMedium"
+          />
+        </Pressable>
+      </S.RestaurantItemContainer>
+    );
+  };
   return (
     <View>
       <Header
@@ -138,7 +185,9 @@ const RestaurantScreen = () => {
                         />
                       </View>
                     </S.RankingItem>
-                    {idx !== 2 ? <View style={styles.lineStyle} /> : null}
+                    {idx !== restaurantList.length - 1 && (
+                      <View style={styles.lineStyle} />
+                    )}
                   </>
                 );
               })}
@@ -153,7 +202,7 @@ const RestaurantScreen = () => {
               typograph="titleLarge"
             />
           </View>
-          <View style={{flexDirection: 'row', gap: 12}}>
+          <View style={{flexDirection: 'row', gap: 12, zIndex: 10}}>
             <BorderSelect
               options={locationList}
               currentOption={location}
@@ -166,6 +215,14 @@ const RestaurantScreen = () => {
             />
             <LikeCategoryButton />
           </View>
+          <View style={{gap: 12}}>
+            {restaurantList.map(item => {
+              if (item.name.length >= 15) {
+                item.name = item.name.substring(0, 15) + '...';
+              }
+              return <RestaurantItem item={item} />;
+            })}
+          </View>
         </S.RestaurantListContainer>
       </View>
     </View>
@@ -175,9 +232,12 @@ const RestaurantScreen = () => {
 type LikeContainerType = {
   isClick: boolean;
 };
+type CategoryBoxType = {
+  type?: 'color';
+};
 const S = {
   RankingContainer: styled.View``,
-  RankingItem: styled.View`
+  RankingItem: styled.Pressable`
     justify-content: space-between;
     padding: 12px;
     flex-direction: row;
@@ -206,6 +266,23 @@ const S = {
       props.isClick
         ? 'background-color : ' + colors.primaryLighterAlt
         : ';background-color : white;'}
+  `,
+  RestaurantItemContainer: styled.Pressable`
+    padding: 12px 16px 12px 20px;
+    background-color: white;
+    flex-direction: row;
+    border-radius: 20px;
+    border: 1px solid ${colors.grey40};
+    justify-content: space-between;
+    gap: 4px;
+    align-items: center;
+  `,
+  CategoryBox: styled.View<CategoryBoxType>`
+    padding: 2px 8px;
+    border-radius: 20px;
+    background-color: ${colors.grey20};
+    ${props => props.type && 'background-color: ' + colors.primaryLighterAlt};
+    align-self: center;
   `,
 };
 const styles = StyleSheet.create({

@@ -39,7 +39,7 @@ const BorderSelect = ({options, currentOption, setCurrent}: SelectProps) => {
         // https://github.com/facebook/react-native/issues/38730#issuecomment-1695742239
         <ScrollView
           style={[
-            {...boxShadowStyle.LibraryShadow},
+            {...boxShadowStyle.bottomTapShadow},
             css`
               width: 70px;
               position: absolute;
