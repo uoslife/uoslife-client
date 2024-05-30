@@ -23,6 +23,7 @@ import RouletteScreen from '../screens/RouletteScreen';
 import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
 import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
 import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
+import RestaurantScreen from '../features/uos_lifestyle/restaurant/RestaurantScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
 
@@ -71,6 +72,7 @@ const RootStackNavigator: React.FC = () => {
           <Stack.Screen name="library_recap" component={LibraryRecapScreen} />
           <Stack.Screen name="meeting" component={MeetingScreen} />
           <Stack.Screen name="check_grade" component={CheckGradeScreen} />
+          <Stack.Screen name="restaurant" component={RestaurantScreen} />
         </Stack.Group>
       ) : (
         <Stack.Group>
