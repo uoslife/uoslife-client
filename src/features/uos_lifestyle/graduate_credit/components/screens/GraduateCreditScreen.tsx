@@ -17,7 +17,6 @@ const GraduateCreditScreen = () => {
         onPressBackButton={() => navigation.goBack()}
       />
       <S.GraduateCreditScreen>
-        <Text>sdfasdsdafsdfasddf</Text>
         <SubjectDetailButton type="major" label="디자인학과" />
         <SubjectDetailButton type="subject" label="전공 필수" />
         <ProgressBar
