@@ -24,6 +24,7 @@ export type RootStackParamList = {
   library_recap: undefined;
   meeting: undefined;
   check_grade: undefined;
+  academic_calendar: undefined;
 
   // account
   account: undefined;
