@@ -22,12 +22,12 @@ const BorderSelect = ({options, currentOption, setCurrent}: SelectProps) => {
     setShowOptions(false);
   };
   const isSelected = options.includes(currentOption);
-  console.log(isSelected);
+
   return (
     <View>
       <S.SelectContainer
         onPress={handlePressExpand}
-        isSelected={isSelected ? colors.primaryBrand : colors.grey40}>
+        color={isSelected ? colors.primaryBrand : colors.grey40}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <Txt label={currentOption} color="grey190" typograph="titleSmall" />
         </ScrollView>
@@ -71,15 +71,15 @@ const BorderSelect = ({options, currentOption, setCurrent}: SelectProps) => {
 export default BorderSelect;
 
 type SelectContainerType = {
-  isSelected: string;
+  color: string;
 };
 const S = {
   SelectContainer: styled.Pressable<SelectContainerType>`
-    padding: 6px 10px 6px 10px;
+    padding: 6px 8px 6px 10px;
     background-color: white;
     flex-direction: row;
     border-radius: 12px;
-    border: 1px solid ${props => props.isSelected};
+    border: 1px solid ${props => props.color};
     align-self: center;
     justify-content: space-between;
     gap: 4px;

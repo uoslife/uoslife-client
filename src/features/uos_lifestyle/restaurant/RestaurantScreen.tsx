@@ -24,6 +24,7 @@ const RestaurantScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const [location, setLocation] = useState<LocationType>('위치');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('종류');
+  const [isLike, setIsLike] = useState<boolean>(false);
   const locationList = ['정문', '후문'];
   const foodCategoryList = [
     '한식',
@@ -60,6 +61,24 @@ const RestaurantScreen = () => {
       mapLink: 'url',
     },
   ];
+
+  const LikeCategoryButton = () => {
+    return (
+      <S.LikeContainer onPress={() => setIsLike(!isLike)} isClick={isLike}>
+        <Txt
+          label={'좋아요'}
+          color={isLike ? 'primaryBrand' : 'grey190'}
+          typograph="titleSmall"
+        />
+        <Icon
+          name="heart"
+          height={18}
+          width={18}
+          color={isLike ? 'primaryBrand' : 'grey90'}
+        />
+      </S.LikeContainer>
+    );
+  };
 
   return (
     <View>
@@ -145,6 +164,7 @@ const RestaurantScreen = () => {
               currentOption={foodCategory}
               setCurrent={setFoodCategory}
             />
+            <LikeCategoryButton />
           </View>
         </S.RestaurantListContainer>
       </View>
@@ -152,6 +172,9 @@ const RestaurantScreen = () => {
   );
 };
 
+type LikeContainerType = {
+  isClick: boolean;
+};
 const S = {
   RankingContainer: styled.View``,
   RankingItem: styled.View`
@@ -165,6 +188,24 @@ const S = {
   `,
   RestaurantListContainer: styled.View`
     gap: 12px;
+  `,
+  LikeContainer: styled.Pressable<LikeContainerType>`
+    padding: 6px 8px 6px 10px;
+    background-color: white;
+    flex-direction: row;
+    border-radius: 12px;
+    align-self: center;
+    justify-content: space-between;
+    gap: 4px;
+    align-items: center;
+    ${props =>
+      props.isClick
+        ? 'border : 1px solid ' + colors.primaryLighterAlt + ';'
+        : 'border: 1px solid ' + colors.grey40 + ';'}
+    ${props =>
+      props.isClick
+        ? 'background-color : ' + colors.primaryLighterAlt
+        : ';background-color : white;'}
   `,
 };
 const styles = StyleSheet.create({
