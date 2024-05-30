@@ -1,14 +1,39 @@
 import {useNavigation} from '@react-navigation/native';
+import {useState} from 'react';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
 import Header from '../../../components/molecules/common/header/Header';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {View, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import BorderSelect from '../../../components/molecules/common/select/BorderSelect';
 import styled from '@emotion/native';
+
+type LocationType = '위치' | '정문' | '후문';
+type FoodCategoryType =
+  | '종류'
+  | '한식'
+  | '일식'
+  | '중식'
+  | '양식'
+  | '분식'
+  | '간편식'
+  | '기타';
+
 const RestaurantScreen = () => {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
-
+  const [location, setLocation] = useState<LocationType>('위치');
+  const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('종류');
+  const locationList = ['정문', '후문'];
+  const foodCategoryList = [
+    '한식',
+    '일식',
+    '중식',
+    '양식',
+    '분식',
+    '간편식',
+    '기타',
+  ];
   const restaurantList = [
     {
       name: '도토리양버섯군',
@@ -101,7 +126,7 @@ const RestaurantScreen = () => {
             </View>
           </View>
         </S.RankingContainer>
-        {/* <S.RankingContainer>
+        <S.RestaurantListContainer>
           <View style={{gap: 12}}>
             <Txt
               label="시립대 주변 맛집"
@@ -109,7 +134,19 @@ const RestaurantScreen = () => {
               typograph="titleLarge"
             />
           </View>
-        </S.RankingContainer> */}
+          <View style={{flexDirection: 'row', gap: 12}}>
+            <BorderSelect
+              options={locationList}
+              currentOption={location}
+              setCurrent={setLocation}
+            />
+            <BorderSelect
+              options={foodCategoryList}
+              currentOption={foodCategory}
+              setCurrent={setFoodCategory}
+            />
+          </View>
+        </S.RestaurantListContainer>
       </View>
     </View>
   );
@@ -125,6 +162,9 @@ const S = {
   IconWrapper: styled.View`
     justify-content: center;
     align-items: center;
+  `,
+  RestaurantListContainer: styled.View`
+    gap: 12px;
   `,
 };
 const styles = StyleSheet.create({
