@@ -22,12 +22,16 @@ const BorderSelect = ({options, currentOption, setCurrent}: SelectProps) => {
     setShowOptions(false);
   };
   const isSelected = options.includes(currentOption);
-
   return (
     <View>
       <S.SelectContainer
         onPress={handlePressExpand}
-        color={isSelected ? colors.primaryBrand : colors.grey40}>
+        // options의 첫번째 요소에는 default값, 즉 선택되지 않은 상태가 들어갑니다.
+        color={
+          currentOption !== options[0] && isSelected
+            ? colors.primaryBrand
+            : colors.grey40
+        }>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <Txt label={currentOption} color="grey190" typograph="titleSmall" />
         </ScrollView>

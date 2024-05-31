@@ -37,8 +37,9 @@ const RestaurantScreen = () => {
   const [location, setLocation] = useState<LocationType>('위치');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('종류');
   const [isLike, setIsLike] = useState<boolean>(false);
-  const locationList = ['정문', '후문'];
+  const locationList = ['위치', '정문', '후문'];
   const foodCategoryList = [
+    '종류',
     '한식',
     '일식',
     '중식',
