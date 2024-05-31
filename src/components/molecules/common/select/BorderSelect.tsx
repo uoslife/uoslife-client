@@ -47,6 +47,7 @@ const BorderSelect = ({options, currentOption, setCurrent}: SelectProps) => {
               border-radius: 12px;
               background-color: white;
               border: 0.7px solid ${colors.grey40};
+              ${boxShadowStyle.bottomTapShadow};
             `,
           ]}>
           {options.map((item, index) => (

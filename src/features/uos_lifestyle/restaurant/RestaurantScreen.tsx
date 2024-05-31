@@ -3,12 +3,16 @@ import {useState} from 'react';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
 import Header from '../../../components/molecules/common/header/Header';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {View, StyleSheet, ImageBackground, Pressable} from 'react-native';
+import {View, StyleSheet, Pressable, ImageBackground} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import BorderSelect from '../../../components/molecules/common/select/BorderSelect';
 import styled from '@emotion/native';
+import {ScrollView} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import usePullToRefresh from '../../../hooks/usePullToRefresh';
+import {ListRenderItem} from 'react-native';
 
-type ItemType = {
+type RestaurantItemType = {
   name: string;
   location: string;
   restaurantType: string;
@@ -48,6 +52,80 @@ const RestaurantScreen = () => {
       name: '도토리양버섯군',
       location: '정문',
       restaurantType: '한식',
+      like: false,
+      likesCount: 147,
+      mapLink: 'url',
+    },
+    {
+      name: '19고깃집',
+      location: '정문',
+      restaurantType: '한식',
+      like: true,
+      likesCount: 148,
+      mapLink: 'url',
+    },
+    {
+      name: '최원석 돼지한판&서해쭈꾸미 서울시립대점',
+      location: '정문',
+      restaurantType: '한식',
+      like: false,
+      likesCount: 149,
+      mapLink: 'url',
+    },
+    {
+      name: '초밥',
+      location: '후문',
+      restaurantType: '일식',
+      like: true,
+      likesCount: 147,
+      mapLink: 'url',
+    },
+    {
+      name: '쌀국수',
+      location: '정문',
+      restaurantType: '기타',
+      like: false,
+      likesCount: 148,
+      mapLink: 'url',
+    },
+    {
+      name: '햄버거',
+      location: '정문',
+      restaurantType: '양식',
+      like: true,
+      likesCount: 149,
+      mapLink: 'url',
+    },
+    {
+      name: '돈까스',
+      location: '정문',
+      restaurantType: '분식',
+      like: true,
+      likesCount: 147,
+      mapLink: 'url',
+    },
+    {
+      name: '라면',
+      location: '후문',
+      restaurantType: '간편식',
+      like: false,
+      likesCount: 148,
+      mapLink: 'url',
+    },
+    {
+      name: '짜장면',
+      location: '후문',
+      restaurantType: '중식',
+      like: false,
+      likesCount: 149,
+      mapLink: 'url',
+    },
+  ];
+  const restaurantListTop = [
+    {
+      name: '도토리양버섯군',
+      location: '정문',
+      restaurantType: '한식',
       like: true,
       likesCount: 147,
       mapLink: 'url',
@@ -64,12 +142,11 @@ const RestaurantScreen = () => {
       name: '최원석 돼지한판&서해쭈꾸미 서울시립대점',
       location: '정문',
       restaurantType: '한식',
-      like: true,
+      like: false,
       likesCount: 149,
       mapLink: 'url',
     },
   ];
-
   const LikeCategoryButton = () => {
     return (
       <S.LikeContainer onPress={() => setIsLike(!isLike)} isClick={isLike}>
@@ -87,7 +164,8 @@ const RestaurantScreen = () => {
       </S.LikeContainer>
     );
   };
-  const RestaurantItem = ({item}: {item: ItemType}) => {
+
+  const RestaurantItem = ({item}: {item: RestaurantItemType}) => {
     return (
       <S.RestaurantItemContainer>
         <View style={{gap: 6}}>
@@ -110,14 +188,22 @@ const RestaurantScreen = () => {
           </View>
         </View>
         <Pressable
+          onPress={handleClickLikeButton}
           style={{
             paddingHorizontal: 8,
             paddingVertical: 4,
             borderRadius: 12,
             alignItems: 'center',
-            backgroundColor: colors.primaryLighterAlt,
+            backgroundColor: item.like
+              ? colors.primaryLighterAlt
+              : colors.grey10,
           }}>
-          <Icon color={'primaryBrand'} name={'heart'} width={28} height={28} />
+          <Icon
+            color={item.like ? 'primaryBrand' : 'grey90'}
+            name={'heart'}
+            width={28}
+            height={28}
+          />
           <Txt
             label={String(item.likesCount)}
             color="primaryBrand"
@@ -126,6 +212,33 @@ const RestaurantScreen = () => {
         </Pressable>
       </S.RestaurantItemContainer>
     );
+  };
+
+  const renderRestaurantList: ListRenderItem<any> = ({item}) => {
+    if (item.name.length >= 15) {
+      item.name = item.name.substring(0, 15) + '...';
+    }
+    return <RestaurantItem item={item} />;
+  };
+
+  const handleClickLikeButton = () => {
+    // api 완성 후 좋아요 버튼
+  };
+
+  const filteredRestaurantList = (data: RestaurantItemType[]) => {
+    let filteredData = data;
+    if (location !== '위치') {
+      filteredData = filteredData.filter(item => item.location === location);
+    }
+    if (foodCategory !== '종류') {
+      filteredData = filteredData.filter(
+        item => item.restaurantType === foodCategory,
+      );
+    }
+    if (isLike) {
+      filteredData = filteredData.filter(item => item.like);
+    }
+    return filteredData;
   };
   return (
     <View>
@@ -150,7 +263,7 @@ const RestaurantScreen = () => {
               typograph="titleLarge"
             />
             <View>
-              {restaurantList.map((item, idx) => {
+              {restaurantListTop.map((item, idx) => {
                 if (item.name.length >= 15) {
                   item.name = item.name.substring(0, 15) + '...';
                 }
@@ -185,7 +298,7 @@ const RestaurantScreen = () => {
                         />
                       </View>
                     </S.RankingItem>
-                    {idx !== restaurantList.length - 1 && (
+                    {idx !== restaurantListTop.length - 1 && (
                       <View style={styles.lineStyle} />
                     )}
                   </>
@@ -216,12 +329,14 @@ const RestaurantScreen = () => {
             <LikeCategoryButton />
           </View>
           <View style={{gap: 12}}>
-            {restaurantList.map(item => {
-              if (item.name.length >= 15) {
-                item.name = item.name.substring(0, 15) + '...';
-              }
-              return <RestaurantItem item={item} />;
-            })}
+            <FlatList
+              style={{gap: 12, height: 350}}
+              renderItem={renderRestaurantList}
+              data={filteredRestaurantList(restaurantList)}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{gap: 12}}
+            />
           </View>
         </S.RestaurantListContainer>
       </View>
