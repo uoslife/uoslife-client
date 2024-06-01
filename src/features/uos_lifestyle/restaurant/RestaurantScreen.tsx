@@ -11,7 +11,9 @@ import {ScrollView} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import {ListRenderItem} from 'react-native';
+import {Dimensions} from 'react-native';
 
+const windowHeight = Dimensions.get('window').height;
 type RestaurantItemType = {
   name: string;
   location: string;
@@ -20,9 +22,9 @@ type RestaurantItemType = {
   likesCount: number;
   mapLink: string;
 };
-type LocationType = '위치' | '정문' | '후문';
+type LocationType = '전체' | '정문' | '후문';
 type FoodCategoryType =
-  | '종류'
+  | '전체'
   | '한식'
   | '일식'
   | '중식'
@@ -34,12 +36,12 @@ type FoodCategoryType =
 const RestaurantScreen = () => {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
-  const [location, setLocation] = useState<LocationType>('위치');
-  const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('종류');
+  const [location, setLocation] = useState<LocationType>('전체');
+  const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('전체');
   const [isLike, setIsLike] = useState<boolean>(false);
-  const locationList = ['위치', '정문', '후문'];
+  const locationList = ['전체', '정문', '후문'];
   const foodCategoryList = [
-    '종류',
+    '전체',
     '한식',
     '일식',
     '중식',
@@ -228,10 +230,10 @@ const RestaurantScreen = () => {
 
   const filteredRestaurantList = (data: RestaurantItemType[]) => {
     let filteredData = data;
-    if (location !== '위치') {
+    if (location !== '전체') {
       filteredData = filteredData.filter(item => item.location === location);
     }
-    if (foodCategory !== '종류') {
+    if (foodCategory !== '전체') {
       filteredData = filteredData.filter(
         item => item.restaurantType === foodCategory,
       );
@@ -319,19 +321,19 @@ const RestaurantScreen = () => {
           <View style={{flexDirection: 'row', gap: 12, zIndex: 10}}>
             <BorderSelect
               options={locationList}
-              currentOption={location}
+              currentOption={location === '전체' ? '위치' : location}
               setCurrent={setLocation}
             />
             <BorderSelect
               options={foodCategoryList}
-              currentOption={foodCategory}
+              currentOption={foodCategory === '전체' ? '종류' : foodCategory}
               setCurrent={setFoodCategory}
             />
             <LikeCategoryButton />
           </View>
           <View style={{gap: 12}}>
             <FlatList
-              style={{gap: 12, height: 350}}
+              style={{gap: 12, height: windowHeight - 500}}
               renderItem={renderRestaurantList}
               data={filteredRestaurantList(restaurantList)}
               showsVerticalScrollIndicator={false}
