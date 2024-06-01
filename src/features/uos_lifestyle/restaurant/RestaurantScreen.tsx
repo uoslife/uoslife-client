@@ -12,6 +12,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import {ListRenderItem} from 'react-native';
 import {Dimensions} from 'react-native';
+import useModal from '../../../hooks/useModal';
 
 const windowHeight = Dimensions.get('window').height;
 type RestaurantItemType = {
@@ -39,6 +40,9 @@ const RestaurantScreen = () => {
   const [location, setLocation] = useState<LocationType>('전체');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('전체');
   const [isLike, setIsLike] = useState<boolean>(false);
+  const [bottomSheetTitle, setBottomSheetTitle] = useState<string>('');
+  const [openBottomSheet, closeBottomSheet, BottomSheet] =
+    useModal('BOTTOM_SHEET');
   const locationList = ['전체', '정문', '후문'];
   const foodCategoryList = [
     '전체',
@@ -170,9 +174,14 @@ const RestaurantScreen = () => {
 
   const RestaurantItem = ({item}: {item: RestaurantItemType}) => {
     return (
-      <S.RestaurantItemContainer>
+      <S.RestaurantItemContainer
+        onPress={() => handleClickRestaurantItem(item)}>
         <View style={{gap: 6}}>
-          <Txt label={item.name} color="grey190" typograph="titleMedium" />
+          <Txt
+            label={reduceTitle(item.name)}
+            color="grey190"
+            typograph="titleMedium"
+          />
           <View style={{flexDirection: 'row', gap: 6}}>
             <S.CategoryBox type="color">
               <Txt
@@ -191,7 +200,7 @@ const RestaurantScreen = () => {
           </View>
         </View>
         <Pressable
-          onPress={handleClickLikeButton}
+          onPress={() => handleClickLikeButton(item)}
           style={{
             paddingHorizontal: 8,
             paddingVertical: 4,
@@ -216,16 +225,31 @@ const RestaurantScreen = () => {
       </S.RestaurantItemContainer>
     );
   };
-
-  const renderRestaurantList: ListRenderItem<any> = ({item}) => {
-    if (item.name.length >= 15) {
-      item.name = item.name.substring(0, 15) + '...';
+  const reduceTitle = (title: string) => {
+    if (title.length >= 15) {
+      return title.substring(0, 15) + '...';
     }
+    return title;
+  };
+  const renderRestaurantList: ListRenderItem<any> = ({
+    item,
+  }: {
+    item: RestaurantItemType;
+  }) => {
     return <RestaurantItem item={item} />;
   };
 
-  const handleClickLikeButton = () => {
+  const handleClickLikeButton = (item: RestaurantItemType) => {
     // api 완성 후 좋아요 버튼
+  };
+
+  const handleClickRestaurantItem = (item: RestaurantItemType) => {
+    setBottomSheetTitle(item.name);
+    openBottomSheet();
+  };
+
+  const handleClickBottomSheetButton = () => {
+    //map으로 이동
   };
 
   const filteredRestaurantList = (data: RestaurantItemType[]) => {
@@ -267,12 +291,10 @@ const RestaurantScreen = () => {
             />
             <View>
               {restaurantListTop.map((item, idx) => {
-                if (item.name.length >= 15) {
-                  item.name = item.name.substring(0, 15) + '...';
-                }
                 return (
                   <>
-                    <S.RankingItem>
+                    <S.RankingItem
+                      onPress={() => handleClickRestaurantItem(item)}>
                       <View style={{flexDirection: 'row', gap: 16}}>
                         <Txt
                           label={String(idx + 1)}
@@ -280,7 +302,7 @@ const RestaurantScreen = () => {
                           typograph="titleMedium"
                         />
                         <Txt
-                          label={item.name}
+                          label={reduceTitle(item.name)}
                           color="grey190"
                           typograph="titleMedium"
                         />
@@ -343,6 +365,26 @@ const RestaurantScreen = () => {
           </View>
         </S.RestaurantListContainer>
       </View>
+      <BottomSheet>
+        <View style={{padding: 16, paddingBottom: inset.bottom}}>
+          <S.bottomSheetTxtWrapper>
+            <Txt
+              label={bottomSheetTitle}
+              color="grey190"
+              typograph="titleMedium"
+            />
+          </S.bottomSheetTxtWrapper>
+          <View style={styles.lineStyle} />
+          <S.BottomSheetButton onPress={handleClickBottomSheetButton}>
+            <Txt label="카카오맵" color="grey190" typograph="bodyLarge" />
+            <Icon name="arrow_down" height={30} width={30} color={'grey190'} />
+          </S.BottomSheetButton>
+          <S.BottomSheetButton onPress={handleClickBottomSheetButton}>
+            <Txt label="네이버 지도" color="grey190" typograph="bodyLarge" />
+            <Icon name="arrow_down" height={30} width={30} color={'grey190'} />
+          </S.BottomSheetButton>
+        </View>
+      </BottomSheet>
     </View>
   );
 };
@@ -401,6 +443,16 @@ const S = {
     background-color: ${colors.grey20};
     ${props => props.type && 'background-color: ' + colors.primaryLighterAlt};
     align-self: center;
+  `,
+  BottomSheetButton: styled.Pressable`
+    padding: 8px;
+    height: 50px;
+    justify-content: space-between;
+    flex-direction: row;
+  `,
+  bottomSheetTxtWrapper: styled.Pressable`
+    padding: 8px;
+    height: 50px;
   `,
 };
 const styles = StyleSheet.create({
