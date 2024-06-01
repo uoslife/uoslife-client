@@ -173,6 +173,72 @@ const RestaurantScreen = () => {
         'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
   ];
+
+  const reduceTitle = (title: string) => {
+    if (title.length >= 15) {
+      return title.substring(0, 15) + '...';
+    }
+    return title;
+  };
+  const renderRestaurantList: ListRenderItem<any> = ({
+    item,
+  }: {
+    item: RestaurantItemType;
+  }) => {
+    return <RestaurantItem item={item} />;
+  };
+
+  const handleClickLikeButton = (item: RestaurantItemType) => {
+    // api 완성 후 좋아요 버튼 - 임시
+    const newList = restaurantList.map(restaurant => {
+      if (restaurant.name === item.name) {
+        if (restaurant.like) {
+          return {
+            ...restaurant,
+            like: !restaurant.like,
+            likesCount: restaurant.likesCount - 1,
+          };
+        } else {
+          return {
+            ...restaurant,
+            like: !restaurant.like,
+            likesCount: restaurant.likesCount + 1,
+          };
+        }
+      } else {
+        return restaurant;
+      }
+    });
+    setLestaurantList(newList);
+  };
+
+  const handleClickRestaurantItem = (item: RestaurantItemType) => {
+    setBottomSheetItem(item);
+    openBottomSheet();
+  };
+
+  const handleClickBottomSheetButton = (item: RestaurantItemType) => {
+    Linking.openURL(item.mapLink).catch(err =>
+      console.error("Couldn't load page", err),
+    );
+  };
+
+  const filteredRestaurantList = (data: RestaurantItemType[]) => {
+    let filteredData = data;
+    if (location !== '전체') {
+      filteredData = filteredData.filter(item => item.location === location);
+    }
+    if (foodCategory !== '전체') {
+      filteredData = filteredData.filter(
+        item => item.restaurantType === foodCategory,
+      );
+    }
+    if (isLike) {
+      filteredData = filteredData.filter(item => item.like);
+    }
+    return filteredData;
+  };
+
   const LikeCategoryButton = () => {
     return (
       <S.LikeContainer onPress={() => setIsLike(!isLike)} isClick={isLike}>
@@ -244,70 +310,7 @@ const RestaurantScreen = () => {
       </S.RestaurantItemContainer>
     );
   };
-  const reduceTitle = (title: string) => {
-    if (title.length >= 15) {
-      return title.substring(0, 15) + '...';
-    }
-    return title;
-  };
-  const renderRestaurantList: ListRenderItem<any> = ({
-    item,
-  }: {
-    item: RestaurantItemType;
-  }) => {
-    return <RestaurantItem item={item} />;
-  };
 
-  const handleClickLikeButton = (item: RestaurantItemType) => {
-    // api 완성 후 좋아요 버튼 - 임시
-    const newList = restaurantList.map(restaurant => {
-      if (restaurant.name === item.name) {
-        if (restaurant.like) {
-          return {
-            ...restaurant,
-            like: !restaurant.like,
-            likesCount: restaurant.likesCount - 1,
-          };
-        } else {
-          return {
-            ...restaurant,
-            like: !restaurant.like,
-            likesCount: restaurant.likesCount + 1,
-          };
-        }
-      } else {
-        return restaurant;
-      }
-    });
-    setLestaurantList(newList);
-  };
-
-  const handleClickRestaurantItem = (item: RestaurantItemType) => {
-    setBottomSheetItem(item);
-    openBottomSheet();
-  };
-
-  const handleClickBottomSheetButton = (item: RestaurantItemType) => {
-    Linking.openURL(item.mapLink).catch(err =>
-      console.error("Couldn't load page", err),
-    );
-  };
-
-  const filteredRestaurantList = (data: RestaurantItemType[]) => {
-    let filteredData = data;
-    if (location !== '전체') {
-      filteredData = filteredData.filter(item => item.location === location);
-    }
-    if (foodCategory !== '전체') {
-      filteredData = filteredData.filter(
-        item => item.restaurantType === foodCategory,
-      );
-    }
-    if (isLike) {
-      filteredData = filteredData.filter(item => item.like);
-    }
-    return filteredData;
-  };
   return (
     <View>
       <Header
