@@ -3,15 +3,19 @@ import {useState} from 'react';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
 import Header from '../../../components/molecules/common/header/Header';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {View, StyleSheet, Pressable, ImageBackground} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  ListRenderItem,
+  Dimensions,
+  Linking,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import BorderSelect from '../../../components/molecules/common/select/BorderSelect';
 import styled from '@emotion/native';
-import {ScrollView} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
-import {ListRenderItem} from 'react-native';
-import {Dimensions} from 'react-native';
 import useModal from '../../../hooks/useModal';
 
 const windowHeight = Dimensions.get('window').height;
@@ -40,7 +44,8 @@ const RestaurantScreen = () => {
   const [location, setLocation] = useState<LocationType>('전체');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('전체');
   const [isLike, setIsLike] = useState<boolean>(false);
-  const [bottomSheetTitle, setBottomSheetTitle] = useState<string>('');
+  const [bottomSheetItem, setBottomSheetItem] =
+    useState<RestaurantItemType | null>();
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
     useModal('BOTTOM_SHEET');
   const locationList = ['전체', '정문', '후문'];
@@ -54,6 +59,7 @@ const RestaurantScreen = () => {
     '간편식',
     '기타',
   ];
+
   const data = [
     {
       name: '도토리양버섯군',
@@ -61,7 +67,8 @@ const RestaurantScreen = () => {
       restaurantType: '한식',
       like: false,
       likesCount: 147,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '19고깃집',
@@ -69,7 +76,8 @@ const RestaurantScreen = () => {
       restaurantType: '한식',
       like: true,
       likesCount: 148,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '최원석 돼지한판&서해쭈꾸미 서울시립대점',
@@ -77,7 +85,8 @@ const RestaurantScreen = () => {
       restaurantType: '한식',
       like: false,
       likesCount: 149,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '초밥',
@@ -85,7 +94,8 @@ const RestaurantScreen = () => {
       restaurantType: '일식',
       like: true,
       likesCount: 147,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '쌀국수',
@@ -93,7 +103,8 @@ const RestaurantScreen = () => {
       restaurantType: '기타',
       like: false,
       likesCount: 148,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '햄버거',
@@ -101,7 +112,8 @@ const RestaurantScreen = () => {
       restaurantType: '양식',
       like: true,
       likesCount: 149,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '돈까스',
@@ -109,7 +121,8 @@ const RestaurantScreen = () => {
       restaurantType: '분식',
       like: true,
       likesCount: 147,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '라면',
@@ -117,7 +130,8 @@ const RestaurantScreen = () => {
       restaurantType: '간편식',
       like: false,
       likesCount: 148,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '짜장면',
@@ -125,7 +139,8 @@ const RestaurantScreen = () => {
       restaurantType: '중식',
       like: false,
       likesCount: 149,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
   ];
   const [restaurantList, setLestaurantList] = useState(data);
@@ -136,7 +151,8 @@ const RestaurantScreen = () => {
       restaurantType: '한식',
       like: true,
       likesCount: 147,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '19고깃집',
@@ -144,7 +160,8 @@ const RestaurantScreen = () => {
       restaurantType: '한식',
       like: true,
       likesCount: 148,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
     {
       name: '최원석 돼지한판&서해쭈꾸미 서울시립대점',
@@ -152,7 +169,8 @@ const RestaurantScreen = () => {
       restaurantType: '한식',
       like: false,
       likesCount: 149,
-      mapLink: 'url',
+      mapLink:
+        'https://map.naver.com/p/search/%EB%8F%84%ED%86%A0%EB%A6%AC%EC%96%91%20%EB%B2%84%EC%84%AF%EA%B5%B0/place/18107987?c=15.00,0,0,0,dh&isCorrectAnswer=true',
     },
   ];
   const LikeCategoryButton = () => {
@@ -265,12 +283,14 @@ const RestaurantScreen = () => {
   };
 
   const handleClickRestaurantItem = (item: RestaurantItemType) => {
-    setBottomSheetTitle(item.name);
+    setBottomSheetItem(item);
     openBottomSheet();
   };
 
-  const handleClickBottomSheetButton = () => {
-    //map으로 이동
+  const handleClickBottomSheetButton = (item: RestaurantItemType) => {
+    Linking.openURL(item.mapLink).catch(err =>
+      console.error("Couldn't load page", err),
+    );
   };
 
   const filteredRestaurantList = (data: RestaurantItemType[]) => {
@@ -390,17 +410,23 @@ const RestaurantScreen = () => {
         <View style={{padding: 16, paddingBottom: inset.bottom}}>
           <S.bottomSheetTxtWrapper>
             <Txt
-              label={bottomSheetTitle}
+              label={bottomSheetItem ? bottomSheetItem?.name : ''}
               color="grey190"
               typograph="titleMedium"
             />
           </S.bottomSheetTxtWrapper>
           <View style={styles.lineStyle} />
-          <S.BottomSheetButton onPress={handleClickBottomSheetButton}>
+          <S.BottomSheetButton
+            onPress={() =>
+              bottomSheetItem && handleClickBottomSheetButton(bottomSheetItem)
+            }>
             <Txt label="카카오맵" color="grey190" typograph="bodyLarge" />
             <Icon name="arrow_down" height={30} width={30} color={'grey190'} />
           </S.BottomSheetButton>
-          <S.BottomSheetButton onPress={handleClickBottomSheetButton}>
+          <S.BottomSheetButton
+            onPress={() =>
+              bottomSheetItem && handleClickBottomSheetButton(bottomSheetItem)
+            }>
             <Txt label="네이버 지도" color="grey190" typograph="bodyLarge" />
             <Icon name="arrow_down" height={30} width={30} color={'grey190'} />
           </S.BottomSheetButton>
