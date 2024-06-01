@@ -1,7 +1,6 @@
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
-import {Txt} from '@uoslife/design-system';
 import {TouchableOpacity} from 'react-native';
 
 type SubjectProps = {
