@@ -54,7 +54,7 @@ const RestaurantScreen = () => {
     '간편식',
     '기타',
   ];
-  const restaurantList = [
+  const data = [
     {
       name: '도토리양버섯군',
       location: '정문',
@@ -128,6 +128,7 @@ const RestaurantScreen = () => {
       mapLink: 'url',
     },
   ];
+  const [restaurantList, setLestaurantList] = useState(data);
   const restaurantListTop = [
     {
       name: '도토리양버섯군',
@@ -240,7 +241,27 @@ const RestaurantScreen = () => {
   };
 
   const handleClickLikeButton = (item: RestaurantItemType) => {
-    // api 완성 후 좋아요 버튼
+    // api 완성 후 좋아요 버튼 - 임시
+    const newList = restaurantList.map(restaurant => {
+      if (restaurant.name === item.name) {
+        if (restaurant.like) {
+          return {
+            ...restaurant,
+            like: !restaurant.like,
+            likesCount: restaurant.likesCount - 1,
+          };
+        } else {
+          return {
+            ...restaurant,
+            like: !restaurant.like,
+            likesCount: restaurant.likesCount + 1,
+          };
+        }
+      } else {
+        return restaurant;
+      }
+    });
+    setLestaurantList(newList);
   };
 
   const handleClickRestaurantItem = (item: RestaurantItemType) => {
