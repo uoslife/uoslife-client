@@ -6,6 +6,7 @@ import NotificationService from './src/services/notification';
 NotificationService.registerMessageHandlerOnBackground();
 NotificationService.onBackgroundEvent();
 
+// https://github.com/invertase/react-native-firebase/issues/5656
 const FakeAppForiOSBackgroundNoti = () => {
   return null;
 };
