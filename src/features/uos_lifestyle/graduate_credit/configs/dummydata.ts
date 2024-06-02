@@ -1,21 +1,4 @@
-// 더미데이터 타입 지정
-interface CreditDetails {
-  current: number | null;
-  total: number | null;
-}
-// 더미데이터 객체 타입
-interface ApiResponse {
-  allCredit: CreditDetails;
-  majorRequirement: CreditDetails;
-  majorElective: CreditDetails;
-  generalEducationRequirement: CreditDetails;
-  generalEducationElective: CreditDetails;
-  doubleMajorRequirement: CreditDetails;
-  doubleMajorElective: CreditDetails;
-  minorRequirement: CreditDetails;
-  minorElective: CreditDetails;
-  commonElective: number;
-}
+import {ApiResponse} from '../types';
 
 const dummyData: ApiResponse = {
   allCredit: {

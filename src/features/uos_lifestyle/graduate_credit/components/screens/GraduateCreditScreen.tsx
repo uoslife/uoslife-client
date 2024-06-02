@@ -2,66 +2,18 @@ import {ScrollView, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
+import {Txt, Icon, colors} from '@uoslife/design-system';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
-import {Txt, Icon, colors} from '@uoslife/design-system';
+import BusinessLogic from '../../services/creditService';
 
 // 더미데이터
-import dummyData from '../dummydata';
+import dummyData from '../../configs/dummydata';
 
-const fieldsData = Object.entries(dummyData).map(([key, value]) => ({
-  label: key,
-  current: value.current,
-  total: value.total,
-}));
-
-// lable 태그 매핑 위한 객체
-const labelsMap: {[key: string]: string} = {
-  majorRequirement: '전공',
-  generalEducationRequirement: '교양',
-  doubleMajorRequirement: '복수전공',
-  minorRequirement: '부전공',
-};
+const data = new BusinessLogic(dummyData);
 
 // 현재, 필요 학점 더해준다.
-const calculateSum = (
-  fields: (typeof groupedFields)[number],
-): {current: number; total: number} => {
-  let currentSum = 0;
-  let totalSum = 0;
-
-  fields.forEach(field => {
-    const found = fieldsData.find(item => item.label === field);
-    if (found) {
-      if (found.current !== null) {
-        currentSum += found.current;
-      }
-      if (found.total !== null) {
-        totalSum += found.total;
-      }
-    }
-  });
-  return {current: currentSum, total: totalSum};
-};
-
-// 전공필수/선택, 교양필수/선택 등 filed 그룹화 위한 배열
-const groupedFields = [
-  ['majorRequirement', 'majorElective'],
-  ['generalEducationRequirement', 'generalEducationElective'],
-  ['doubleMajorRequirement', 'doubleMajorElective'],
-  ['minorRequirement', 'minorElective'],
-];
-
-const tags = groupedFields.map(fields => {
-  const {current, total} = calculateSum(fields);
-  return {
-    label: labelsMap[fields[0]],
-    current,
-    total,
-    complete: current >= total,
-  };
-});
 
 const GraduateCreditScreen = () => {
   const navigation = useNavigation();
@@ -83,7 +35,7 @@ const GraduateCreditScreen = () => {
           minGraduateCredit={80}
         />
         <S.TagsContainer>
-          {tags.map((tag, index) => (
+          {data.tags().map((tag, index) => (
             <S.SubjectTag key={index}>
               {/* total이 0이면 부전공이나 복수전공 여부 X */}
               {tag.total !== 0 ? (
