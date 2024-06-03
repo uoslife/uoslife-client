@@ -3,12 +3,11 @@ import {Txt, Icon, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 import {RestaurantItemType} from '../RestaurantScreen';
 import {reduceTitle} from './RestaurantItem';
+import {restaurantListTop} from '../dummy';
 const RankingContainer = ({
-  restaurantListTop,
   setBottomSheetItem,
   openBottomSheet,
 }: {
-  restaurantListTop: RestaurantItemType[];
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
 }) => {

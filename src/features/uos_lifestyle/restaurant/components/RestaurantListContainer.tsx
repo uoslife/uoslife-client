@@ -5,6 +5,7 @@ import BorderSelect from '../../../../components/molecules/common/select/BorderS
 import LikeCategoryButton from './LikeCategoryButton';
 import {RestaurantItemType} from '../RestaurantScreen';
 import RestaurantItem from './RestaurantItem';
+import {data} from '../dummy';
 const windowHeight = Dimensions.get('window').height;
 type LocationType = '전체' | '정문' | '후문';
 type FoodCategoryType =
@@ -17,22 +18,16 @@ type FoodCategoryType =
   | '간편식'
   | '기타';
 const RestaurantListContainer = ({
-  isLike,
-  setIsLike,
   setBottomSheetItem,
   openBottomSheet,
-  restaurantList,
-  setRestaurantList,
 }: {
-  isLike: boolean;
-  setIsLike: (isLike: boolean) => void;
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
-  restaurantList: RestaurantItemType[];
-  setRestaurantList: (restaurantList: RestaurantItemType[]) => void;
 }) => {
   const [location, setLocation] = useState<LocationType>('전체');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('전체');
+  const [restaurantList, setRestaurantList] = useState(data);
+  const [isLike, setIsLike] = useState<boolean>(false);
   const locationList = ['전체', '정문', '후문'];
   const foodCategoryList = [
     '전체',

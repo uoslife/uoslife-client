@@ -8,7 +8,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import useModal from '../../../hooks/useModal';
-import {data, restaurantListTop} from './dummy';
+import {restaurantListTop} from './dummy';
 import RankingContainer from './components/RangkingContainer';
 import RestaurantListContainer from './components/RestaurantListContainer';
 
@@ -24,13 +24,10 @@ export type RestaurantItemType = {
 const RestaurantScreen = () => {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
-  const [isLike, setIsLike] = useState<boolean>(false);
   const [bottomSheetItem, setBottomSheetItem] =
     useState<RestaurantItemType | null>();
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
     useModal('BOTTOM_SHEET');
-
-  const [restaurantList, setRestaurantList] = useState(data);
 
   const handleClickBottomSheetButton = (item: RestaurantItemType) => {
     Linking.openURL(item.mapLink).catch(err =>
@@ -54,17 +51,12 @@ const RestaurantScreen = () => {
           gap: 40,
         }}>
         <RankingContainer
-          restaurantListTop={restaurantListTop}
           setBottomSheetItem={setBottomSheetItem}
           openBottomSheet={openBottomSheet}
         />
         <RestaurantListContainer
-          isLike={isLike}
-          setIsLike={setIsLike}
           setBottomSheetItem={setBottomSheetItem}
           openBottomSheet={openBottomSheet}
-          restaurantList={restaurantList}
-          setRestaurantList={setRestaurantList}
         />
       </View>
       <BottomSheet>
