@@ -1,12 +1,7 @@
 import {Image, Text} from 'react-native';
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
-
-const PROGRESS_IMAGE = {
-  dashed_primary: require('../assets/dashed_border_primary.png'),
-  dashed_grey: require('../assets/dashed_border_grey.png'),
-  speech_bubble: require('../assets/speech_bubble.png'),
-};
+import {PROGRESS_IMAGE} from '../configs/constants';
 
 // 퍼센트 계산 로직
 const calculatePercentage = (
