@@ -39,12 +39,12 @@ const GraduateCreditScreen = () => {
             <S.SubjectTag key={index}>
               {/* total이 0이면 부전공이나 복수전공 여부 X */}
               {tag.total !== 0 ? (
-                <S.SubjectTagWrapper>
-                  <S.TagView>
+                <S.TagWrapper>
+                  <S.TagHeader>
                     <Txt
                       label={tag.label}
                       color="black"
-                      typograph="bodyLarge"
+                      typograph="titleSmall"
                     />
                     <Pressable
                     // TODO: label 이용해 navigate 작성
@@ -57,9 +57,9 @@ const GraduateCreditScreen = () => {
                         height={20}
                       />
                     </Pressable>
-                  </S.TagView>
-                  <S.TagView>
-                    <S.CreditView>
+                  </S.TagHeader>
+                  <S.TagFooter>
+                    <S.CreditInfo>
                       <Txt
                         label={`${tag.current}`}
                         color="grey130"
@@ -70,16 +70,18 @@ const GraduateCreditScreen = () => {
                         color="grey60"
                         typograph="bodyMedium"
                       />
-                    </S.CreditView>
-                    <S.CompleteButton complete={tag.complete}>
-                      {tag.complete ? '이수 완료' : '미이수'}
-                    </S.CompleteButton>
-                  </S.TagView>
-                </S.SubjectTagWrapper>
+                    </S.CreditInfo>
+                    <S.StatusButtonWrapper status={tag.status}>
+                      <S.StatusButton status={tag.status}>
+                        {tag.status ? '이수 완료' : '미이수'}
+                      </S.StatusButton>
+                    </S.StatusButtonWrapper>
+                  </S.TagFooter>
+                </S.TagWrapper>
               ) : (
                 // 복수전공, 부전공 여부에 따라 비활성화
-                <S.SubjectTagWrapper>
-                  <S.TagView>
+                <S.TagWrapper>
+                  <S.TagHeader>
                     <Txt
                       label={tag.label}
                       color="grey40"
@@ -91,8 +93,8 @@ const GraduateCreditScreen = () => {
                       width={20}
                       height={20}
                     />
-                  </S.TagView>
-                </S.SubjectTagWrapper>
+                  </S.TagHeader>
+                </S.TagWrapper>
               )}
             </S.SubjectTag>
           ))}
@@ -125,7 +127,7 @@ const S = {
     border-radius: 8px;
     background-color: ${colors.grey10};
   `,
-  SubjectTagWrapper: styled.View`
+  TagWrapper: styled.View`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -134,30 +136,41 @@ const S = {
     width: 100%;
     height: 100%;
   `,
-  TagView: styled.View`
+  TagHeader: styled.View`
+    display: flex;
+    width: 100%;
+    height: 24px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  `,
+  TagFooter: styled.View`
     display: flex;
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   `,
-  CreditView: styled.View`
+  CreditInfo: styled.View`
     display: flex;
     flex-direction: row;
     align-items: center;
   `,
-  CompleteButton: styled.Text<{complete: boolean}>`
+  StatusButtonWrapper: styled.View<{status: boolean}>`
     display: flex;
-    width: 57px;
+    height: 100%;
+    width: ${({status}) => (status ? '57px' : '44px')};
     height: auto;
     margin: 0;
-    color: ${({complete}) => (complete ? colors.primaryBrand : colors.grey60)};
     border-radius: 10px;
-    border: 1px solid grey;
-    border-color: ${({complete}) =>
-      complete ? colors.primaryBrand : colors.grey60};
+    border-color: ${({status}) =>
+      status ? colors.primaryBrand : colors.grey60};
+    border: 1px solid;
     text-align: center;
     align-items: center;
+  `,
+  StatusButton: styled.Text<{status: boolean}>`
+    color: ${({status}) => (status ? colors.primaryBrand : colors.grey60)};
     font-family: Pretendard;
     font-size: 12px;
     font-weight: 600;
