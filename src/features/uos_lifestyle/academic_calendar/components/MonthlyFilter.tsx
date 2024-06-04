@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from '@emotion/native';
+import {Txt, colors} from '@uoslife/design-system';
 
 interface MonthlyFilterProps {
-  month: string;
+  month: number;
   onPrevious: () => void;
   onNext: () => void;
 }
@@ -11,17 +12,17 @@ const MonthlyFilter = ({month, onPrevious, onNext}: MonthlyFilterProps) => {
   return (
     <Container>
       <ArrowButton onPress={onPrevious}>
-        <ArrowImage source={require('../assets/images/arrow_back_ios.png')} />
+        <ArrowImage source={require('../assets/images/arrow_back.png')} />
       </ArrowButton>
-      <MonthText>{month}</MonthText>
+      <Txt label={`${month}월`} color="black" typograph="headlineMedium" />
       <ArrowButton onPress={onNext}>
-        <ArrowImage
-          source={require('../assets/images/arrow_forward_ios.png')}
-        />
+        <ArrowImage source={require('../assets/images/arrow_forward.png')} />
       </ArrowButton>
     </Container>
   );
 };
+
+export default MonthlyFilter;
 
 const Container = styled.View`
   flex-direction: row;
@@ -32,20 +33,9 @@ const Container = styled.View`
   gap: 12px;
 `;
 
-const MonthText = styled.Text`
-  color: #201f1e;
-  font-family: 'Pretendard';
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px;
-`;
-
 const ArrowButton = styled.TouchableOpacity``;
 
 const ArrowImage = styled.Image`
   width: 24px;
   height: 24px;
 `;
-
-export default MonthlyFilter;
