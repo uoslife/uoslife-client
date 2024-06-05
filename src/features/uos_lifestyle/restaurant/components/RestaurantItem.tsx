@@ -5,7 +5,7 @@ import {RestaurantItemType} from '../RestaurantScreen';
 
 export const reduceTitle = (title: string) => {
   if (title.length >= 15) {
-    return title.substring(0, 15) + '...';
+    return `${title.substring(0, 15)}...`;
   }
   return title;
 };
@@ -38,16 +38,14 @@ const RestaurantItem = ({
             like: !restaurant.like,
             likesCount: restaurant.likesCount - 1,
           };
-        } else {
-          return {
-            ...restaurant,
-            like: !restaurant.like,
-            likesCount: restaurant.likesCount + 1,
-          };
         }
-      } else {
-        return restaurant;
+        return {
+          ...restaurant,
+          like: !restaurant.like,
+          likesCount: restaurant.likesCount + 1,
+        };
       }
+      return restaurant;
     });
     setRestaurantList(newList);
   };
@@ -88,7 +86,7 @@ const RestaurantItem = ({
         }}>
         <Icon
           color={item.like ? 'primaryBrand' : 'grey90'}
-          name={'heart'}
+          name="heart"
           width={28}
           height={28}
         />
@@ -120,7 +118,7 @@ const S = {
     padding: 2px 8px;
     border-radius: 20px;
     background-color: ${colors.grey20};
-    ${props => props.type && 'background-color: ' + colors.primaryLighterAlt};
+    ${props => props.type && `background-color: ${colors.primaryLighterAlt}`};
     align-self: center;
   `,
 };

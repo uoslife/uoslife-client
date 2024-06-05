@@ -9,7 +9,7 @@ const LikeCategoryButton = ({isLike, setIsLike}: LikeCategoryButtonType) => {
   return (
     <S.LikeContainer onPress={() => setIsLike(!isLike)} isClick={isLike}>
       <Txt
-        label={'좋아요'}
+        label="좋아요"
         color={isLike ? 'primaryBrand' : 'grey190'}
         typograph="titleSmall"
       />
@@ -40,11 +40,11 @@ const S = {
     align-items: center;
     ${props =>
       props.isClick
-        ? 'border : 1px solid ' + colors.primaryLighterAlt + ';'
-        : 'border: 1px solid ' + colors.grey40 + ';'}
+        ? `border : 1px solid ${colors.primaryLighterAlt};`
+        : `border: 1px solid ${colors.grey40};`}
     ${props =>
       props.isClick
-        ? 'background-color : ' + colors.primaryLighterAlt
+        ? `background-color : ${colors.primaryLighterAlt}`
         : ';background-color : white;'}
   `,
 };

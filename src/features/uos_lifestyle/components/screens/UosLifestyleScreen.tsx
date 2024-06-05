@@ -42,8 +42,8 @@ const UosLifestyleScreen = () => {
           onPress={() => navigation.navigate('library_recap')}
         />
         <NavigationList
-          label="맛집리스트"
-          labelIcon="heart"
+          label="맛집 리스트"
+          labelIcon="cafeteria"
           onPress={() => navigation.navigate('restaurant')}
         />
       </S.NavigationListContainer>

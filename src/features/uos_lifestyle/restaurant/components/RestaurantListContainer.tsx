@@ -6,6 +6,7 @@ import LikeCategoryButton from './LikeCategoryButton';
 import {RestaurantItemType} from '../RestaurantScreen';
 import RestaurantItem from './RestaurantItem';
 import {data} from '../dummy';
+
 const windowHeight = Dimensions.get('window').height;
 type LocationType = '전체' | '정문' | '후문';
 type FoodCategoryType =
@@ -55,6 +56,7 @@ const RestaurantListContainer = ({
     }
     return filteredData;
   };
+
   const renderRestaurantList: ListRenderItem<any> = ({
     item,
   }: {
@@ -70,6 +72,7 @@ const RestaurantListContainer = ({
       />
     );
   };
+
   return (
     <View style={{gap: 12}}>
       <View style={{gap: 12}}>

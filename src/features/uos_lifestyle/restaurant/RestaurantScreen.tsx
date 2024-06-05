@@ -1,14 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
-import {RootNavigationProps} from '../../../navigators/types/rootStack';
-import Header from '../../../components/molecules/common/header/Header';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {View, StyleSheet, Linking} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
+import Header from '../../../components/molecules/common/header/Header';
+import {RootNavigationProps} from '../../../navigators/types/rootStack';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import useModal from '../../../hooks/useModal';
-import {restaurantListTop} from './dummy';
 import RankingContainer from './components/RangkingContainer';
 import RestaurantListContainer from './components/RestaurantListContainer';
 
@@ -74,14 +73,14 @@ const RestaurantScreen = () => {
               bottomSheetItem && handleClickBottomSheetButton(bottomSheetItem)
             }>
             <Txt label="카카오맵" color="grey190" typograph="bodyLarge" />
-            <Icon name="arrow_down" height={30} width={30} color={'grey190'} />
+            <Icon name="arrow_down" height={30} width={30} color="grey190" />
           </S.BottomSheetButton>
           <S.BottomSheetButton
             onPress={() =>
               bottomSheetItem && handleClickBottomSheetButton(bottomSheetItem)
             }>
             <Txt label="네이버 지도" color="grey190" typograph="bodyLarge" />
-            <Icon name="arrow_down" height={30} width={30} color={'grey190'} />
+            <Icon name="arrow_down" height={30} width={30} color="grey190" />
           </S.BottomSheetButton>
         </View>
       </BottomSheet>

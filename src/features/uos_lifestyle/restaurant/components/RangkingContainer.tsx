@@ -4,6 +4,7 @@ import styled from '@emotion/native';
 import {RestaurantItemType} from '../RestaurantScreen';
 import {reduceTitle} from './RestaurantItem';
 import {restaurantListTop} from '../dummy';
+
 const RankingContainer = ({
   setBottomSheetItem,
   openBottomSheet,
@@ -43,8 +44,8 @@ const RankingContainer = ({
                   <View style={{flexDirection: 'row', gap: 4}}>
                     <S.IconWrapper>
                       <Icon
-                        color={'primaryBrand'}
-                        name={'heart'}
+                        color="primaryBrand"
+                        name="heart"
                         width={20}
                         height={20}
                       />

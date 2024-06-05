@@ -307,9 +307,9 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = NO;
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1430;
@@ -344,7 +344,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCA04E662C0CD316007E2C40 /* main.jsbundle in Resources */,
 				AB833CA02BB54A3F007DD7D5 /* Pretendard-Regular.otf in Resources */,
 				AB833CA12BB54A3F007DD7D5 /* Pretendard-Bold.otf in Resources */,
 				AB833CA22BB54A3F007DD7D5 /* Pretendard-SemiBold.otf in Resources */,
@@ -353,6 +352,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				AB833CA32BB54A3F007DD7D5 /* Pretendard-Medium.otf in Resources */,
 				52F6A8A4340F983E91DC6A4E /* PrivacyInfo.xcprivacy in Resources */,
+				BCA04E662C0CD316007E2C40 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +565,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20202;
-				DEVELOPMENT_TEAM = P8P4WJP7P4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생 Debug";
@@ -608,7 +608,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20202;
-				DEVELOPMENT_TEAM = P8P4WJP7P4;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -816,7 +816,10 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				PRODUCT_NAME = "시대생 Debug";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -902,7 +905,10 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				PRODUCT_NAME = "시대생";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -990,7 +996,10 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				PRODUCT_NAME = "시대생 Alpha";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -1012,7 +1021,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20202;
-				DEVELOPMENT_TEAM = P8P4WJP7P4;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생 Alpha";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
