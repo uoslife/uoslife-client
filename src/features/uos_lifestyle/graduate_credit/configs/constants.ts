@@ -12,6 +12,7 @@ export const LABEL_MAPS: {[key: string]: string} = {
   generalEducationRequirement: '교양',
   doubleMajorRequirement: '복수전공',
   minorRequirement: '부전공',
+
 };
 
 export const PROGRESS_IMAGE = {

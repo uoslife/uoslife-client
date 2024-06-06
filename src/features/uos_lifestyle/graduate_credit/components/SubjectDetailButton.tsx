@@ -7,7 +7,7 @@ type SubjectProps = {
   label: string;
   // 학과 태그 / 과목 태그
   type: 'major' | 'subject';
-  handlePress: () => void;
+  handlePress?: () => void;
 };
 
 const SubjectDetailButton = ({label, type}: SubjectProps) => {

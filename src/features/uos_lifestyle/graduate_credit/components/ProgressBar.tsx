@@ -1,6 +1,6 @@
-import {Image, Text} from 'react-native';
-import styled from '@emotion/native';
-import {colors} from '@uoslife/design-system';
+import {Image, Text, View} from 'react-native';
+import styled, {css} from '@emotion/native';
+import {Txt, colors} from '@uoslife/design-system';
 import {PROGRESS_IMAGE} from '../configs/constants';
 
 // 퍼센트 계산 로직
@@ -36,7 +36,21 @@ const ProgressBar = ({
       <S.CurrenProgressBar type={type} sidePosition={currentCreditPercentage} />
       {type === 'main' && (
         <S.CurrentCreditDescription sidePosition={currentCreditPercentage}>
-          <Text>{Math.floor(+currentCreditPercentage)}%</Text>
+          <View
+            style={css`
+              height: 20px;
+              width: 47px;
+              border: 1px solid ${colors.primaryBrand};
+              border-radius: 20px;
+              align-items: center;
+              left: -21px;
+            `}>
+            <Txt
+              label={`${Math.floor(+currentCreditPercentage)}%`}
+              color="primaryBrand"
+              typograph="labelMedium"
+            />
+          </View>
           <Image source={PROGRESS_IMAGE.dashed_primary} />
         </S.CurrentCreditDescription>
       )}

@@ -40,7 +40,7 @@ class BusinessLogic {
         label,
         current,
         total,
-        complete: current >= total,
+        status: current >= total,
       };
     });
   }
