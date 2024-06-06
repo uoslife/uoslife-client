@@ -1,13 +1,14 @@
-import {ScrollView, Pressable} from 'react-native';
+import {ScrollView, Pressable, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import styled from '@emotion/native';
+import styled, {css} from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
 import BusinessLogic from '../../services/creditService';
-
+import {RootNavigationProps} from '../../../../../navigators/types/rootStack';
+import ModalMenuButton from '../../../../../components/molecules/overlays/items/ModalMenuButton';
 // 더미데이터
 import dummyData from '../../configs/dummydata';
 
@@ -16,7 +17,7 @@ const data = new BusinessLogic(dummyData);
 // 현재, 필요 학점 더해준다.
 
 const GraduateCreditScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootNavigationProps>();
   const inset = useSafeAreaInsets();
   return (
     <ScrollView bounces={false}>
@@ -27,16 +28,62 @@ const GraduateCreditScreen = () => {
       />
       <S.GraduateCreditScreen>
         <SubjectDetailButton type="major" label="디자인학과" />
-        <SubjectDetailButton type="subject" label="전공 필수" />
-        <ProgressBar
-          type="sub"
-          maxNum={130}
-          currentCredit={70}
-          minGraduateCredit={80}
-        />
-        <S.TagsContainer>
+        <View>
+          <Txt label="교양 51학점 중" color="grey190" typograph="titleLarge" />
+          <S.FlexRowLayout>
+            <Txt
+              label="32학점"
+              color="primaryBrand"
+              typograph="headlineMedium"
+            />
+            <Txt
+              label=" 수강했어요."
+              color="grey190"
+              typograph="headlineMedium"
+            />
+          </S.FlexRowLayout>
+          <Txt label="107/130" color="grey130" typograph="bodyMedium" />
+        </View>
+        <S.ProgressBarContainer>
+          <ProgressBar
+            type="main"
+            maxNum={130}
+            currentCredit={70}
+            minGraduateCredit={80}
+          />
+          {/* TODO: styled-component로 변경 */}
+          <View
+            style={css`
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              width: 100%;
+            `}>
+            <Txt label="0" color="grey60" typograph="labelMedium" />
+            <Txt label="130" color="grey60" typograph="labelMedium" />
+          </View>
+          <View
+            style={css`
+              display: flex;
+              flex-direction: row;
+              gap: 4px;
+            `}>
+            <Icon color="grey130" name="info" width={20} height={20} />
+            <Txt
+              label="아직 최소 학점을 채우지 못했어요"
+              color="grey130"
+              typograph="bodyMedium"
+            />
+          </View>
+          <S.FlexRowLayout>
+            <SubjectDetailButton label="전공 필수" type="subject" />
+            <SubjectDetailButton label="교양 선택" type="subject" />
+          </S.FlexRowLayout>
+          <S.HorizontalDividerThin />
+        </S.ProgressBarContainer>
+        <S.DetailCreditTagContainer>
           {data.tags().map((tag, index) => (
-            <S.SubjectTag key={index}>
+            <S.DetailCreditTag key={index}>
               {/* total이 0이면 부전공이나 복수전공 여부 X */}
               {tag.total !== 0 ? (
                 <S.TagWrapper>
@@ -48,7 +95,7 @@ const GraduateCreditScreen = () => {
                     />
                     <Pressable
                     // TODO: label 이용해 navigate 작성
-                    // onPress={() => navigation(label)}
+                    // onPress={() => navigation.navigate('major_credit')}
                     >
                       <Icon
                         name="forwardArrow"
@@ -71,11 +118,11 @@ const GraduateCreditScreen = () => {
                         typograph="bodyMedium"
                       />
                     </S.CreditInfo>
-                    <S.StatusButtonWrapper status={tag.status}>
-                      <S.StatusButton status={tag.status}>
+                    <S.StatusButton status={tag.status}>
+                      <S.StatusButtonText status={tag.status}>
                         {tag.status ? '이수 완료' : '미이수'}
-                      </S.StatusButton>
-                    </S.StatusButtonWrapper>
+                      </S.StatusButtonText>
+                    </S.StatusButton>
                   </S.TagFooter>
                 </S.TagWrapper>
               ) : (
@@ -96,9 +143,9 @@ const GraduateCreditScreen = () => {
                   </S.TagHeader>
                 </S.TagWrapper>
               )}
-            </S.SubjectTag>
+            </S.DetailCreditTag>
           ))}
-        </S.TagsContainer>
+        </S.DetailCreditTagContainer>
       </S.GraduateCreditScreen>
     </ScrollView>
   );
@@ -109,16 +156,18 @@ export default GraduateCreditScreen;
 const S = {
   GraduateCreditScreen: styled.View`
     gap: 24px;
-    padding: 52px 16px 120px 16px;
+    padding: 30px 16px 120px 16px;
     flex: 1;
   `,
-  TagsContainer: styled.View`
+  DetailCreditTagContainer: styled.View`
+    width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 8px;
   `,
-  SubjectTag: styled.View`
+  DetailCreditTag: styled.View`
     width: 160px;
     height: 100px;
     padding: 12px 8px 12px 12px;
@@ -128,11 +177,7 @@ const S = {
     background-color: ${colors.grey10};
   `,
   TagWrapper: styled.View`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     gap: 32px;
-    background-color: ${colors.grey10};
     width: 100%;
     height: 100%;
   `,
@@ -156,23 +201,34 @@ const S = {
     flex-direction: row;
     align-items: center;
   `,
-  StatusButtonWrapper: styled.View<{status: boolean}>`
-    display: flex;
-    height: 100%;
+  StatusButton: styled.View<{status: boolean}>`
     width: ${({status}) => (status ? '57px' : '44px')};
-    height: auto;
-    margin: 0;
     border-radius: 10px;
     border-color: ${({status}) =>
       status ? colors.primaryBrand : colors.grey60};
     border: 1px solid;
-    text-align: center;
     align-items: center;
   `,
-  StatusButton: styled.Text<{status: boolean}>`
+  StatusButtonText: styled.Text<{status: boolean}>`
     color: ${({status}) => (status ? colors.primaryBrand : colors.grey60)};
     font-family: Pretendard;
     font-size: 12px;
     font-weight: 600;
+  `,
+  FlexRowLayout: styled.View`
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 4px;
+  `,
+  ProgressBarContainer: styled.View`
+    gap: 4px;
+  `,
+  HorizontalDividerThin: styled.View`
+    align-self: stretch;
+    width: 100%;
+    height: 1px;
+    background-color: ${colors.grey40};
   `,
 };
