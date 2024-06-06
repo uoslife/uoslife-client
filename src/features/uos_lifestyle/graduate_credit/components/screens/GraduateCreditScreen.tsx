@@ -1,24 +1,31 @@
 import {ScrollView, Pressable, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled, {css} from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
+import {useSuspenseQuery} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
 import BusinessLogic from '../../services/creditService';
-import {RootNavigationProps} from '../../../../../navigators/types/rootStack';
-import ModalMenuButton from '../../../../../components/molecules/overlays/items/ModalMenuButton';
 // 더미데이터
 import dummyData from '../../configs/dummydata';
+import {GraduateCreditNavigationProp} from '../../navigators/types/graduateCredit';
+import {CoreAPI} from '../../../../../api/services';
 
 const data = new BusinessLogic(dummyData);
 
 // 현재, 필요 학점 더해준다.
 
 const GraduateCreditScreen = () => {
-  const navigation = useNavigation<RootNavigationProps>();
+  const navigation = useNavigation<GraduateCreditNavigationProp>();
   const inset = useSafeAreaInsets();
+
+  // const {data: graduateData} = useSuspenseQuery({
+  //   queryKey: ['GraduateCredit'],
+  //   queryFn: () => CoreAPI.updateGraduateCredit(),
+  // });
+
   return (
     <ScrollView bounces={false}>
       <Header
@@ -94,9 +101,10 @@ const GraduateCreditScreen = () => {
                       typograph="titleSmall"
                     />
                     <Pressable
-                    // TODO: label 이용해 navigate 작성
-                    // onPress={() => navigation.navigate('major_credit')}
-                    >
+                      // TODO: label 이용해 navigate 작성
+                      onPress={() =>
+                        navigation.navigate('graduateCredit_detail')
+                      }>
                       <Icon
                         name="forwardArrow"
                         color="grey90"
