@@ -6,7 +6,6 @@ import {StatusBar} from 'react-native';
 import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-
 import * as Sentry from '@sentry/react-native';
 import {SENTRY_DSN_KEY} from '@env';
 import {useAtomValue} from 'jotai';
@@ -25,7 +24,7 @@ Sentry.init({
   sampleRate: SENTRY_DEFAULT_SAMPLE_RATE,
 });
 
-const App: React.FC = () => {
+let App: React.FC = () => {
   const queryClient = new QueryClient();
   const animatedBootSplashvisible = useAtomValue(bootSplashVisibleAtom);
 
@@ -52,4 +51,6 @@ const App: React.FC = () => {
   );
 };
 
-export default Sentry.wrap(codePush(App));
+if (!__DEV__) App = codePush(App);
+
+export default Sentry.wrap(App);
