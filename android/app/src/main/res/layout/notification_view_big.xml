@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:maxHeight="120dp"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="95"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="95"
+                android:orientation="horizontal">
+
+                <Chronometer
+                    android:id="@+id/simpleChronometer"
+                    style="@style/TextAppearance.Compat.Notification.Title"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="10dp"
+
+                    android:layout_weight="0"
+                    android:gravity="center|center_vertical"
+                    android:lineSpacingMultiplier="1.5"
+                    android:maxLines="1"
+                    android:text="timer"
+                    android:textColor="@color/uoslife_primarybrand"
+                    android:textColorHighlight="@color/uoslife_primarybrand"
+                    android:textColorHint="@color/uoslife_primarybrand"
+                    android:textColorLink="@color/uoslife_primarybrand"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/TextAppearance.Compat.Notification.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:lineSpacingMultiplier="1.0"
+                    android:maxLines="1"
+                    android:text="notificationOpen.data.title"
+                    android:textColor="@color/uoslife_grey130"
+                    android:textColorHighlight="@color/uoslife_grey130"
+                    android:textColorHint="@color/uoslife_grey130"
+                    android:textColorLink="@color/uoslife_grey130"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/TextAppearance.Compat.Notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+
+                android:fontFamily="sans-serif"
+                android:lineSpacingMultiplier="1.0"
+                android:maxLines="2"
+                android:paddingTop="10dp"
+                android:text="Because the text is long textview getting bigger So You set the singleLine true of your textView then it will work"
+                android:textColor="@color/uoslife_grey90"
+                android:textColorHighlight="@color/uoslife_grey90"
+                android:textColorHint="@color/uoslife_grey90"
+                android:textColorLink="@color/uoslife_grey90"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="52dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="5"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/iroomae"
+        tools:srcCompat="@drawable/iroomae" />
+
+
+</LinearLayout>

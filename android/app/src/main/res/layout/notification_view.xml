@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:maxHeight="120dp"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="95"
+        android:orientation="horizontal">
+
+        <Chronometer
+            android:id="@+id/simpleChronometer"
+            style="@style/TextAppearance.Compat.Notification.Title"
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="10dp"
+
+            android:layout_weight="0"
+            android:gravity="center|center_vertical"
+            android:lineSpacingMultiplier="1.0"
+            android:maxLines="1"
+            android:text="timer"
+            android:textColor="@color/uoslife_primarybrand"
+            android:textColorHighlight="@color/uoslife_primarybrand"
+            android:textColorHint="@color/uoslife_primarybrand"
+            android:textColorLink="@color/uoslife_primarybrand"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.Compat.Notification.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.0"
+            android:maxLines="1"
+            android:text="notificationOpen.data.title"
+            android:textColor="@color/uoslife_grey130"
+            android:textColorHighlight="@color/uoslife_grey130"
+            android:textColorHint="@color/uoslife_grey130"
+            android:textColorLink="@color/uoslife_grey130"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="52dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_weight="5"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/iroomae"
+        tools:srcCompat="@drawable/iroomae" />
+
+
+</LinearLayout>
