@@ -11,7 +11,7 @@ import {
 } from '../../../constants/libraryChallenge/challengeUserStatus';
 import usePullToRefresh from '../../../../../hooks/usePullToRefresh';
 import {changeHourFromMin} from '../../../utils/libraryRanking';
-import GuidePopup from '../../../../../components/molecules/common/GuidePopup';
+import GuidePopup from '../../../../../components/molecules/common/GuidePopup/GuidePopup';
 import boxShadowStyle from '../../../../../styles/boxShadow';
 import useUserState from '../../../../../hooks/useUserState';
 import customShowToast from '../../../../../configs/toast';
@@ -100,8 +100,10 @@ const ChallengeScreen = () => {
             style={css`
               position: absolute;
               top: 0px;
+              bottom: 40px;
               ${boxShadowStyle.bottomTapShadow};
             `}
+            theme="SECONDARY"
           />
         )}
         <S.TextBox>

@@ -6,7 +6,7 @@ import {Button, Icon, colors} from '@uoslife/design-system';
 import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AnimatePress from '../../../../../components/animations/pressable_icon/AnimatePress';
-import GuidePopup from '../../../../../components/molecules/common/GuidePopup';
+import GuidePopup from '../../../../../components/molecules/common/GuidePopup/GuidePopup';
 import useUserState from '../../../../../hooks/useUserState';
 import {LibraryNavigationProp} from '../../../navigators/types/library';
 import boxShadowStyle from '../../../../../styles/boxShadow';
@@ -36,7 +36,8 @@ const LibrarySeatControl = ({
                 label="포털 계정을 연동하면 좌석을 발권할 수 있어요!"
                 tail="RIGHT"
                 onPress={closeGuidePopup}
-                style={{...boxShadowStyle.bottomTapShadow}}
+                style={{...boxShadowStyle.bottomTapShadow, bottom: 40}}
+                theme="SECONDARY"
               />
             )}
             <AnimatePress

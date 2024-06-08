@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {View, StyleSheet, Linking} from 'react-native';
+import {View, StyleSheet, Linking, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import Header from '../../../components/molecules/common/header/Header';
@@ -10,6 +10,9 @@ import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import useModal from '../../../hooks/useModal';
 import RankingContainer from './components/RangkingContainer';
 import RestaurantListContainer from './components/RestaurantListContainer';
+import GuidePopup from '../../../components/molecules/common/GuidePopup/GuidePopup';
+import {css} from '@emotion/native';
+import storage from '../../../storage';
 
 export type RestaurantItemType = {
   name: string;
@@ -27,15 +30,39 @@ const RestaurantScreen = () => {
     useState<RestaurantItemType | null>();
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
     useModal('BOTTOM_SHEET');
+  const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
 
   const handleClickBottomSheetButton = (item: RestaurantItemType) => {
     Linking.openURL(item.mapLink).catch(err =>
       console.error("Couldn't load page", err),
     );
   };
-
+  const closeGuidePopup = () => {
+    setIsGuidePopupOpen(false);
+  };
+  const renderGuidePopup = () => {
+    if (storage.getBoolean('isRestaurantGuidePopupFirstOpen')) {
+      storage.set('isRestaurantGuidePopupFirstOpen', false);
+      return (
+        <GuidePopup
+          label="클릭 시 지도 앱으로 연결됩니다."
+          tail="CENTER"
+          onPress={closeGuidePopup}
+          theme="PRIMARY"
+          style={css`
+            align-self: center;
+            top: 433px;
+            z-index: 1;
+          `}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
   return (
     <View>
+      {renderGuidePopup()}
       <Header
         style={{paddingTop: inset.top, marginBottom: 8}}
         label="맛집 리스트"
