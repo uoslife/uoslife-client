@@ -1,16 +1,16 @@
 package com.beyondconnect.uoslife
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
-import androidx.core.app.TaskStackBuilder
 import androidx.core.net.toUri
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -19,6 +19,8 @@ import com.facebook.react.bridge.ReadableMap
 import kotlin.math.abs
 
 class LibraryStateNotificationModule: ReactContextBaseJavaModule {
+  private lateinit var handler: Handler
+
   private lateinit var notificationManager: NotificationManager
   private val channelId: String = "255"
   private val notificationId: Int = 255
@@ -43,7 +45,7 @@ class LibraryStateNotificationModule: ReactContextBaseJavaModule {
     val dateInterval = objectData.getInt("dateInterval");
 
     val title = if (isUsing) "이용 중" else "외출 중";
-    val body = if (isUsing) "$seatRoomName | $seatNumber 번 좌석" else "복귀까지 남은 시간이에요";
+    val body = if (isUsing) "$seatRoomName | ${seatNumber}번 좌석" else "복귀까지 남은 시간이에요";
 
     val isCountDown = !isUsing
 
@@ -52,15 +54,12 @@ class LibraryStateNotificationModule: ReactContextBaseJavaModule {
     val elapsed: Int = if (isUsing) dateInterval * 1000 else dateInterval * 1000 * (-1)
     val remainingTime = startTime - elapsed
 
+    // mainActivity Intent
     val intent = Intent(Intent.ACTION_VIEW, "uoslife://library".toUri(), myContext, MainActivity::class.java)
-    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-    intent.putExtra("id", id);
-    intent.putExtra("action","press");
+      .addFlags( Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-    var pendingIntent = TaskStackBuilder.create(myContext).run {
-      addNextIntentWithParentStack(intent)
-      getPendingIntent(0,  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
-    }
+    // notification PendingIntent
+    var pendingIntent = PendingIntent.getActivity(myContext, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
     // set notification view layout
     val notificationLayout = RemoteViews(packageName, R.layout.notification_view);
@@ -95,6 +94,7 @@ class LibraryStateNotificationModule: ReactContextBaseJavaModule {
       .setContentTitle(title)
       .setContentText(body)
       .setSmallIcon(R.drawable.ic_small_icon)
+      .setColor(Color.BLUE) // small icon background color (TODO)
       .setStyle(NotificationCompat.DecoratedCustomViewStyle())
       .setCustomContentView(notificationLayout)
       .setCustomBigContentView(bigNotificationLayout)
@@ -105,13 +105,13 @@ class LibraryStateNotificationModule: ReactContextBaseJavaModule {
       .setShowWhen(false) // timestamp 표시하지 않음
       .setOngoing(true); // 알림 제거 방지
 
-    // 외출 시간 종료 후 알림 삭제
-    if(!isUsing) {
-      val handler = Handler()
+    // 외출 시간 종료 후 알림 삭제 - background 상태일 경우, 삭제되지 않는 문제 o
+    if (!isUsing) {
+      val handler = Handler(Looper.getMainLooper())
       handler.postDelayed({
         try {
           removeNotification(id)
-        } catch (e:Exception){
+        } catch (e:Exception) {
           println(e)
         }
       }, abs(elapsed).toLong())
