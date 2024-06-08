@@ -11,6 +11,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -94,7 +95,7 @@ class LibraryStateNotificationModule: ReactContextBaseJavaModule {
       .setContentTitle(title)
       .setContentText(body)
       .setSmallIcon(R.drawable.ic_small_icon)
-      .setColor(Color.BLUE) // small icon background color (TODO)
+      .setColor(ContextCompat.getColor(reactApplicationContext, R.color.uoslife_primarybrand)) // small icon background color
       .setStyle(NotificationCompat.DecoratedCustomViewStyle())
       .setCustomContentView(notificationLayout)
       .setCustomBigContentView(bigNotificationLayout)
