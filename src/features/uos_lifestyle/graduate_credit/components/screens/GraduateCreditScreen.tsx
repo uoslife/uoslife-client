@@ -1,30 +1,52 @@
-import {ScrollView, Pressable, View} from 'react-native';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {ScrollView, Pressable, View, Text} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled, {css} from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {useSuspenseQuery} from '@tanstack/react-query';
+import {useMutation, useQuery} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
 import BusinessLogic from '../../services/creditService';
-// 더미데이터
-import dummyData from '../../configs/dummydata';
 import {GraduateCreditNavigationProp} from '../../navigators/types/graduateCredit';
 import {CoreAPI} from '../../../../../api/services';
-
-const data = new BusinessLogic(dummyData);
-
-// 현재, 필요 학점 더해준다.
+import {useState} from 'react';
+import {ApiResponse} from '../../types';
+import useUserState from '../../../../../hooks/useUserState';
 
 const GraduateCreditScreen = () => {
   const navigation = useNavigation<GraduateCreditNavigationProp>();
   const inset = useSafeAreaInsets();
+  const {user} = useUserState();
+  const [data, setData] = useState<ApiResponse | null>(null);
 
-  // const {data: graduateData} = useSuspenseQuery({
-  //   queryKey: ['GraduateCredit'],
-  //   queryFn: () => CoreAPI.updateGraduateCredit(),
-  // });
+  const graduateCreditMutation = useMutation({
+    mutationKey: ['GraduateCredit'],
+    mutationFn: () => CoreAPI.createGraduateCredit(),
+    onSuccess: data => {
+      setData(data);
+    },
+  });
+
+  const {data: graduateData, isError} = useQuery({
+    queryKey: ['GraduateCredit'],
+    queryFn: () => CoreAPI.updateGraduateCredit(),
+  });
+  if (isError || !graduateData) {
+    setTimeout(() => {
+      graduateCreditMutation.mutate();
+    }, 1000);
+    return (
+      <View>
+        <Txt label="Loading" color="black" typograph="headlineLarge" />
+      </View>
+    );
+  }
+  if (!data) {
+    setData(graduateData);
+  }
+
+  const apiData = data ? new BusinessLogic(data as ApiResponse) : null;
 
   return (
     <ScrollView bounces={false}>
@@ -34,64 +56,74 @@ const GraduateCreditScreen = () => {
         onPressBackButton={() => navigation.goBack()}
       />
       <S.GraduateCreditScreen>
-        <SubjectDetailButton type="major" label="디자인학과" />
-        <View>
-          <Txt label="교양 51학점 중" color="grey190" typograph="titleLarge" />
+        <SubjectDetailButton
+          type="major"
+          label={`${user?.identity.department}`}
+        />
+        <S.HeaderView>
+          <Txt
+            label={`${user?.name}님은 졸업까지`}
+            color="grey190"
+            typograph="titleMedium"
+          />
           <S.FlexRowLayout>
             <Txt
-              label="32학점"
+              label={`${
+                (data?.allCredit?.total ?? 0) - (data?.allCredit?.current ?? 0)
+              }학점`}
               color="primaryBrand"
               typograph="headlineMedium"
             />
-            <Txt
-              label=" 수강했어요."
-              color="grey190"
-              typograph="headlineMedium"
-            />
+            <Txt label="남았어요." color="grey190" typograph="headlineMedium" />
           </S.FlexRowLayout>
-          <Txt label="107/130" color="grey130" typograph="bodyMedium" />
-        </View>
+          <Txt
+            label={`${data?.allCredit?.current ?? 0}/${
+              data?.allCredit?.total ?? 0
+            }`}
+            color="grey130"
+            typograph="bodyMedium"
+          />
+        </S.HeaderView>
         <S.ProgressBarContainer>
           <ProgressBar
             type="main"
-            maxNum={130}
-            currentCredit={70}
-            minGraduateCredit={80}
+            maxNum={parseInt(`${data?.allCredit?.total ?? 0}`)}
+            currentCredit={parseInt(`${data?.allCredit?.current ?? 0}`)}
           />
-          {/* TODO: styled-component로 변경 */}
-          <View
-            style={css`
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              width: 100%;
-            `}>
+          <S.ProgressBarLabels>
             <Txt label="0" color="grey60" typograph="labelMedium" />
             <Txt label="130" color="grey60" typograph="labelMedium" />
-          </View>
-          <View
-            style={css`
-              display: flex;
-              flex-direction: row;
-              gap: 4px;
-            `}>
-            <Icon color="grey130" name="info" width={20} height={20} />
-            <Txt
-              label="아직 최소 학점을 채우지 못했어요"
-              color="grey130"
-              typograph="bodyMedium"
-            />
-          </View>
-          <S.FlexRowLayout>
-            <SubjectDetailButton label="전공 필수" type="subject" />
-            <SubjectDetailButton label="교양 선택" type="subject" />
-          </S.FlexRowLayout>
-          <S.HorizontalDividerThin />
+          </S.ProgressBarLabels>
         </S.ProgressBarContainer>
+        <S.MinCreditView>
+          <S.FlexRowLayout>
+            {(data?.allCredit?.total ?? 0) > (data?.allCredit?.current ?? 0) ? (
+              <>
+                <Icon color="grey130" name="info" width={20} height={20} />
+                <Txt
+                  label="아직 최소 학점을 채우지 못했어요"
+                  color="grey130"
+                  typograph="bodyMedium"
+                />
+              </>
+            ) : null}
+          </S.FlexRowLayout>
+          <S.FlexRowLayout>
+            {apiData
+              ?.getFieldsWithIncompleteCredits()
+              .map((field, index) => (
+                <SubjectDetailButton
+                  key={index}
+                  label={`${field.label}`}
+                  type="subject"
+                />
+              ))}
+          </S.FlexRowLayout>
+        </S.MinCreditView>
+        <S.HorizontalDividerThin />
         <S.DetailCreditTagContainer>
-          {data.tags().map((tag, index) => (
+          {apiData?.tags().map((tag, index) => (
             <S.DetailCreditTag key={index}>
-              {/* total이 0이면 부전공이나 복수전공 여부 X */}
               {tag.total !== 0 ? (
                 <S.TagWrapper>
                   <S.TagHeader>
@@ -101,9 +133,10 @@ const GraduateCreditScreen = () => {
                       typograph="titleSmall"
                     />
                     <Pressable
-                      // TODO: label 이용해 navigate 작성
                       onPress={() =>
-                        navigation.navigate('graduateCredit_detail')
+                        navigation.navigate('graduateCredit_detail', {
+                          Props: data as ApiResponse,
+                        })
                       }>
                       <Icon
                         name="forwardArrow"
@@ -134,7 +167,6 @@ const GraduateCreditScreen = () => {
                   </S.TagFooter>
                 </S.TagWrapper>
               ) : (
-                // 복수전공, 부전공 여부에 따라 비활성화
                 <S.TagWrapper>
                   <S.TagHeader>
                     <Txt
@@ -167,7 +199,17 @@ const S = {
     padding: 30px 16px 120px 16px;
     flex: 1;
   `,
+  HeaderView: styled.View`
+    margin-top: -8px;
+    margin-bottom: 8px;
+  `,
+  MinCreditView: styled.View`
+    display: flex;
+    gap: 8px;
+    margin: -12px 0px;
+  `,
   DetailCreditTagContainer: styled.View`
+    margin-top: -12px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -179,7 +221,6 @@ const S = {
     width: 160px;
     height: 100px;
     padding: 12px 8px 12px 12px;
-    gap: 10px;
     align-items: center;
     border-radius: 8px;
     background-color: ${colors.grey10};
@@ -227,16 +268,21 @@ const S = {
     display: flex;
     gap: 4px;
     flex-direction: row;
-    align-items: flex-end;
-    margin-bottom: 4px;
   `,
   ProgressBarContainer: styled.View`
     gap: 4px;
   `,
   HorizontalDividerThin: styled.View`
+    margin: 20px 0px;
     align-self: stretch;
     width: 100%;
     height: 1px;
     background-color: ${colors.grey40};
+  `,
+  ProgressBarLabels: styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
   `,
 };

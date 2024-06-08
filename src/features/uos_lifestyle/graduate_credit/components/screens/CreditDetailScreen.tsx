@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {ScrollView, View, TouchableOpacity} from 'react-native';
 import Header from '../../../../../components/molecules/common/header/Header';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -7,11 +7,22 @@ import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
+import {GraduateCreditStackParamList} from '../../navigators/types/graduateCredit';
+
 const CreditDetailScreen = () => {
+  const route =
+    useRoute<
+      RouteProp<GraduateCreditStackParamList, 'graduateCredit_detail'>
+    >();
+  const {Props: data} = route.params;
   const navigation = useNavigation();
   const inset = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState('교양필수');
 
+  // props 확인
+  useEffect(() => {
+    console.log(data);
+  });
   return (
     <ScrollView bounces={false}>
       <Header

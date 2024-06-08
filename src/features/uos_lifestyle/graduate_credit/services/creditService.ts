@@ -1,6 +1,6 @@
 import {ApiResponse, FieldData, GroupedFields, LabelsMap} from '../types';
 import {GROUP_FIELDS, LABEL_MAPS} from '../configs/constants';
-
+import {BUTTONS_LABEL} from '../configs/constants';
 class BusinessLogic {
   fieldsData: FieldData[];
 
@@ -9,11 +9,13 @@ class BusinessLogic {
   labelsMap: LabelsMap;
 
   constructor(apiResponse: ApiResponse) {
-    this.fieldsData = Object.entries(apiResponse).map(([key, value]) => ({
-      label: key,
-      current: value.current,
-      total: value.total,
-    }));
+    this.fieldsData = Object.entries(apiResponse)
+      .filter(([key, value]) => value !== null)
+      .map(([key, value]) => ({
+        label: key,
+        current: value.current,
+        total: value.total,
+      }));
     this.groupedFields = GROUP_FIELDS;
     this.labelsMap = LABEL_MAPS;
   }
@@ -43,6 +45,29 @@ class BusinessLogic {
         status: current >= total,
       };
     });
+  }
+
+  getFieldsWithIncompleteCredits() {
+    const result: {
+      label: string;
+      current: number | null;
+      total: number | null;
+    }[] = [];
+
+    this.groupedFields.forEach(group => {
+      group.forEach(fieldLabel => {
+        const field = this.fieldsData.find(item => item.label === fieldLabel);
+        const buttonConfig = BUTTONS_LABEL.find(btn => btn.key === fieldLabel);
+        if (
+          field &&
+          buttonConfig &&
+          (field.current ?? 0) < (field.total ?? 0)
+        ) {
+          result.push({...field, label: buttonConfig.label});
+        }
+      });
+    });
+    return result;
   }
 }
 
