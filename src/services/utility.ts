@@ -1,3 +1,4 @@
+import {Platform} from 'react-native';
 import {CoreAPI, UtilAPI} from '../api/services';
 import {RecapInfoType} from '../api/services/core/libraryHistory/libraryHistoryAPI.type';
 import {ErrorResponseType} from '../api/services/type';
@@ -17,6 +18,7 @@ import {
   ReservationStatusType,
 } from '../features/library/store';
 import {LibraryDynamicIslandBridge} from '../utils/ios/libraryDynamicIslandBridge';
+import {LibraryStateNotificationBridge} from '../utils/android/libraryStateNotificationBridge';
 
 export default class UtilityService {
   static async getLibraryReservationInfo() {
@@ -64,6 +66,8 @@ export default class UtilityService {
       | ReservationStatusTypeFromServer
       | undefined;
 
+    const isAndroid = Platform.OS === 'android';
+
     try {
       let isStudyRoom: boolean = false;
       let status: ReservationStatusType = DEFAULT_RESERVATION_STATUS;
@@ -71,27 +75,49 @@ export default class UtilityService {
       const response = await UtilAPI.getLibraryReservation({});
       // start Dynamic Island
       if (librarySeatStartTime !== response.seatStartTime) {
-        LibraryDynamicIslandBridge.onStartActivity({
-          seatRoomName: response.seatRoomName,
-          seatNumber: response.seatNo,
-          isUsing: response.status === 'SEAT',
-          dateInterval:
-            response.status === 'SEAT'
-              ? this.calculateDateInterval(response.seatStartTime)
-              : response.remainingSeconds,
-        });
+        if (isAndroid)
+          LibraryStateNotificationBridge.start({
+            seatRoomName: response.seatRoomName,
+            seatNumber: response.seatNo,
+            isUsing: response.status === 'SEAT',
+            dateInterval:
+              response.status === 'SEAT'
+                ? this.calculateDateInterval(response.seatStartTime)
+                : response.remainingSeconds,
+          });
+        else
+          LibraryDynamicIslandBridge.onStartActivity({
+            seatRoomName: response.seatRoomName,
+            seatNumber: response.seatNo,
+            isUsing: response.status === 'SEAT',
+            dateInterval:
+              response.status === 'SEAT'
+                ? this.calculateDateInterval(response.seatStartTime)
+                : response.remainingSeconds,
+          });
         storage.set('librarySeatStartTime', response.seatStartTime);
         storage.set('libraryUsingStatus', response.status);
       }
 
       if (libraryUsingStatus !== response.status) {
-        LibraryDynamicIslandBridge.onUpdateActivity({
-          isUsing: response.status === 'SEAT',
-          dateInterval:
-            response.status === 'SEAT'
-              ? this.calculateDateInterval(response.seatStartTime)
-              : response.remainingSeconds,
-        });
+        if (isAndroid)
+          LibraryStateNotificationBridge.start({
+            seatRoomName: response.seatRoomName,
+            seatNumber: response.seatNo,
+            isUsing: response.status === 'SEAT',
+            dateInterval:
+              response.status === 'SEAT'
+                ? this.calculateDateInterval(response.seatStartTime)
+                : response.remainingSeconds,
+          });
+        else
+          LibraryDynamicIslandBridge.onUpdateActivity({
+            isUsing: response.status === 'SEAT',
+            dateInterval:
+              response.status === 'SEAT'
+                ? this.calculateDateInterval(response.seatStartTime)
+                : response.remainingSeconds,
+          });
         storage.set('libraryUsingStatus', response.status);
       }
       // end Dynamic Island
@@ -113,7 +139,8 @@ export default class UtilityService {
       const err = error as ErrorResponseType;
 
       if (librarySeatStartTime) {
-        LibraryDynamicIslandBridge.onEndActivity();
+        if (isAndroid) LibraryStateNotificationBridge.end();
+        else LibraryDynamicIslandBridge.onEndActivity();
         storage.delete('librarySeatStartTime');
         storage.delete('libraryUsingStatus');
       }
