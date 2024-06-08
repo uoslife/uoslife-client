@@ -14,6 +14,7 @@ export interface ApiResponse {
   minorRequirement: CreditDetails;
   minorElective: CreditDetails;
   commonElective: number;
+  updatedAt?: string | null;
 }
 
 export type FieldData = {
@@ -25,3 +26,14 @@ export type FieldData = {
 export type GroupedFields = string[]; // 예시 타입, 실제 타입에 맞게 조정 필요
 
 export type LabelsMap = {[key: string]: string}; // 예시 타입, 실제 타입에 맞게 조정 필요
+
+export type ErrorResponseType = {
+  code: string;
+  message: string;
+  status: number;
+};
+
+export type ButtonConfig = {
+  label: string;
+  key: keyof ApiResponse;
+};

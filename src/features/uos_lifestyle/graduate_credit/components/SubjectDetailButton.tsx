@@ -31,14 +31,12 @@ const S = {
     width: ${({type}) => (type === 'major' ? '77px' : '68px')};
     height: 24px;
     border-radius: 8px;
-    justify-content: center;
     align-items: center;
     background-color: ${({type}) =>
       type === 'major'
         ? `${colors.primaryLighterAlt}`
         : `${colors.secondaryLight}`};
     padding: 2px 4px;
-    gap: 10px;
   `,
   ButtonText: styled.Text<{type: string}>`
     width: 100%;
