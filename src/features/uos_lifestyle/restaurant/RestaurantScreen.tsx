@@ -1,9 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
-import {useState, useRef} from 'react';
+import {useState} from 'react';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {View, StyleSheet, Linking, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import styled from '@emotion/native';
+import styled, {css} from '@emotion/native';
 import Header from '../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
 import usePullToRefresh from '../../../hooks/usePullToRefresh';
@@ -11,7 +11,6 @@ import useModal from '../../../hooks/useModal';
 import RankingContainer from './components/RangkingContainer';
 import RestaurantListContainer from './components/RestaurantListContainer';
 import GuidePopup from '../../../components/molecules/common/GuidePopup/GuidePopup';
-import {css} from '@emotion/native';
 import storage from '../../../storage';
 
 export type RestaurantItemType = {
@@ -28,7 +27,8 @@ const RestaurantScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const [bottomSheetItem, setBottomSheetItem] =
     useState<RestaurantItemType | null>();
-  const [openBottomSheet, _, BottomSheet] = useModal('BOTTOM_SHEET');
+  const [openBottomSheet, closeBottomSheet, BottomSheet] =
+    useModal('BOTTOM_SHEET');
   const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
 
   const handleClickBottomSheetButton = (item: RestaurantItemType) => {
@@ -55,9 +55,8 @@ const RestaurantScreen = () => {
           `}
         />
       );
-    } else {
-      return null;
     }
+    return null;
   };
   return (
     <View>

@@ -28,7 +28,7 @@ const GuidePopup = ({
           </TriangleWrapper>
         </GuidePopupContainer>
       );
-    case 'PRIMARY':
+    default:
       return (
         <GuidePopupContainer onPress={() => onPress()} {...props}>
           <PrimaryGuidePopupBody>
