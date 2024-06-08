@@ -28,8 +28,7 @@ const RestaurantScreen = () => {
   const navigation = useNavigation<RootNavigationProps>();
   const [bottomSheetItem, setBottomSheetItem] =
     useState<RestaurantItemType | null>();
-  const [openBottomSheet, closeBottomSheet, BottomSheet] =
-    useModal('BOTTOM_SHEET');
+  const [openBottomSheet, _, BottomSheet] = useModal('BOTTOM_SHEET');
   const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
 
   const handleClickBottomSheetButton = (item: RestaurantItemType) => {

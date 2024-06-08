@@ -6,18 +6,10 @@ import LikeCategoryButton from './LikeCategoryButton';
 import {RestaurantItemType} from '../RestaurantScreen';
 import RestaurantItem from './RestaurantItem';
 import {data} from '../dummy';
+import {locationList, foodCategoryList} from '../constants/restaurant';
+import {LocationType, FoodCategoryType} from '../types/restaurant.type';
 
 const windowHeight = Dimensions.get('window').height;
-type LocationType = '전체' | '정문' | '후문';
-type FoodCategoryType =
-  | '전체'
-  | '한식'
-  | '일식'
-  | '중식'
-  | '양식'
-  | '분식'
-  | '간편식'
-  | '기타';
 const RestaurantListContainer = ({
   setBottomSheetItem,
   openBottomSheet,
@@ -29,17 +21,6 @@ const RestaurantListContainer = ({
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('전체');
   const [restaurantList, setRestaurantList] = useState(data);
   const [isLike, setIsLike] = useState<boolean>(false);
-  const locationList = ['전체', '정문', '후문'];
-  const foodCategoryList = [
-    '전체',
-    '한식',
-    '일식',
-    '중식',
-    '양식',
-    '분식',
-    '간편식',
-    '기타',
-  ];
 
   const filteredRestaurantList = (data: RestaurantItemType[]) => {
     let filteredData = data;
