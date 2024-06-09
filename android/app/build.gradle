@@ -23,7 +23,7 @@ android {
         applicationId "com.beyondconnect.uoslife"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20201
+        versionCode 20202
         versionName "2.0.2"
     }
 
