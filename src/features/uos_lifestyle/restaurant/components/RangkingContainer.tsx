@@ -1,9 +1,11 @@
-import {View, StyleSheet} from 'react-native';
+import {useState} from 'react';
+import {View, StyleSheet, Pressable} from 'react-native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import styled from '@emotion/native';
+import styled, {css} from '@emotion/native';
 import {RestaurantItemType} from '../RestaurantScreen';
 import {reduceTitle} from './RestaurantItem';
 import {restaurantListTop} from '../dummy';
+import GuidePopup from '../../../../components/molecules/common/GuidePopup/GuidePopup';
 
 const RankingContainer = ({
   setBottomSheetItem,
@@ -12,18 +14,53 @@ const RankingContainer = ({
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
 }) => {
+  const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
   const handleClickRestaurantItem = (item: RestaurantItemType) => {
     setBottomSheetItem(item);
     openBottomSheet();
   };
+  const closeGuidePopup = () => {
+    setIsGuidePopupOpen(false);
+  };
+  const handleClickInfoIcon = () => {
+    setIsGuidePopupOpen(!isGuidePopupOpen);
+  };
   return (
     <View>
       <View style={{gap: 12}}>
-        <Txt
-          label="시대인이 선정한 실시간 맛집 랭킹"
-          color="grey190"
-          typograph="titleLarge"
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 8,
+            justifyContent: 'space-between',
+          }}>
+          <Txt
+            label="시대인이 선정한 실시간 맛집 랭킹"
+            color="grey190"
+            typograph="titleLarge"
+          />
+          {isGuidePopupOpen && (
+            <GuidePopup
+              label="클릭 수를 기준으로 집계됩니다."
+              tail="RIGHT"
+              onPress={closeGuidePopup}
+              theme="PRIMARY"
+              style={css`
+                position: absolute;
+                right: -3px;
+                bottom: 20px;
+              `}
+            />
+          )}
+          <Pressable
+            style={{
+              paddingRight: 12,
+              justifyContent: 'center',
+            }}
+            onPress={handleClickInfoIcon}>
+            <Icon color="primaryBrand" name="info" width={18} height={18} />
+          </Pressable>
+        </View>
         <View>
           {restaurantListTop.map((item, idx) => {
             return (

@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {View, StyleSheet, Linking, Dimensions} from 'react-native';
+import {View, StyleSheet, Linking} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled, {css} from '@emotion/native';
 import Header from '../../../components/molecules/common/header/Header';

@@ -1,4 +1,4 @@
-import {PressableProps} from 'react-native';
+import {PressableProps, View} from 'react-native';
 import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
 
@@ -23,9 +23,9 @@ const GuidePopup = ({
             <Txt label={label} color="grey190" typograph="labelMedium" />
             <Icon color="secondaryUi" name="clear" width={20} height={20} />
           </GuidePopupBody>
-          <TriangleWrapper tail={tail}>
+          <SecondaryTriangleWrapper tail={tail}>
             <Triangle />
-          </TriangleWrapper>
+          </SecondaryTriangleWrapper>
         </GuidePopupContainer>
       );
     default:
@@ -35,10 +35,12 @@ const GuidePopup = ({
             <Txt label={label} color="grey190" typograph="labelMedium" />
             <Icon color="primaryBrand" name="clear" width={20} height={20} />
           </PrimaryGuidePopupBody>
-          <TriangleWrapper tail={tail}>
-            <PrimaryTriangleWrapper />
-            <PrimaryTriangle />
-          </TriangleWrapper>
+          <PrimaryTriangleWrapper tail={tail}>
+            <View style={{alignItems: 'center'}}>
+              <PrimaryTriangleBorder />
+              <PrimaryTriangle />
+            </View>
+          </PrimaryTriangleWrapper>
         </GuidePopupContainer>
       );
   }
@@ -74,13 +76,23 @@ const PrimaryGuidePopupBody = styled.View`
 
 type TailProps = {tail: 'LEFT' | 'CENTER' | 'RIGHT'};
 
-const TriangleWrapper = styled.View<TailProps>`
+const SecondaryTriangleWrapper = styled.View<TailProps>`
   ${props =>
     // eslint-disable-next-line no-nested-ternary
     props.tail === 'LEFT'
       ? 'align-items: flex-start; left:8px;'
       : props.tail === 'RIGHT'
       ? 'align-items: flex-end; right:8px;'
+      : 'align-items: center;'}
+  width: 100%;
+`;
+const PrimaryTriangleWrapper = styled.View<TailProps>`
+  ${props =>
+    // eslint-disable-next-line no-nested-ternary
+    props.tail === 'LEFT'
+      ? 'align-items: flex-start; left:24px;'
+      : props.tail === 'RIGHT'
+      ? 'align-items: flex-end; right:24px;'
       : 'align-items: center;'}
   width: 100%;
 `;
@@ -102,7 +114,7 @@ const PrimaryTriangle = styled.View`
   width: 0;
   top: -1px;
 `;
-const PrimaryTriangleWrapper = styled.View`
+const PrimaryTriangleBorder = styled.View`
   position: absolute;
   border-style: solid;
   border-color: ${colors.white} transparent transparent transparent;
