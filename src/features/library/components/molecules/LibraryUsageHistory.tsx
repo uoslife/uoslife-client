@@ -4,13 +4,13 @@ import {Icon, Txt} from '@uoslife/design-system';
 import {useSuspenseQuery} from '@tanstack/react-query';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 import CardLayout from '../../../../components/molecules/common/cardLayout/CardLayout';
-import UtilityService from '../../../../services/utility';
 import Skeleton from '../../../../components/molecules/common/skeleton/Skeleton';
+import LibraryServices from '../../services/library';
 
 const LibraryUsageHistory = () => {
   const {data, refetch} = useSuspenseQuery({
     queryKey: ['getLibraryUsageStatus'],
-    queryFn: () => UtilityService.getLibraryUsageStatus(),
+    queryFn: () => LibraryServices.getLibraryUsageStatus(),
   });
 
   return (
