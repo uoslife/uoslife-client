@@ -5,7 +5,7 @@ import {Suspense} from 'react';
 import {View, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {BANNER_1, BANNER_2} from '../../../../assets/images';
+import {BANNER_1} from '../../../../assets/images';
 import Carousel from '../../../../components/molecules/common/carousel/Carousel';
 import useUserState from '../../../../hooks/useUserState';
 import AnnounceContents from '../contents/AnnounceContents';
@@ -21,7 +21,6 @@ const BANNER_HEIGHT = 134;
 
 const BANNER_1_LINK =
   'https://absorbing-macaw-e6c.notion.site/488291a8200d4030bb9a3395323b7481?pvs=74';
-const BANNER_2_LINK = 'uoslife://roulette';
 
 const MAIN_AUTOPLAY_INTERVAL_TIME = 4500;
 
@@ -78,10 +77,7 @@ const MainScreen = () => {
         <Carousel
           imageWidth={BANNER_WIDTH}
           imageHeight={BANNER_HEIGHT}
-          carouselData={[
-            {uri: BANNER_1, link: BANNER_1_LINK, id: 0},
-            {uri: BANNER_2, link: BANNER_2_LINK, id: 1},
-          ]}
+          carouselData={[{uri: BANNER_1, link: BANNER_1_LINK, id: 0}]}
           indicator="TOPRIGHT"
           logEventName="banner"
           autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
