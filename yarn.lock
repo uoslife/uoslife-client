@@ -7292,10 +7292,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uoslife/design-system@npm:^1.2.11":
-  version: 1.2.11
-  resolution: "@uoslife/design-system@npm:1.2.11::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40uoslife%2Fdesign-system%2F1.2.11%2Fe6eeb31db5b44306502036e8feaf1cbbca4e6e19"
-  checksum: 67a8150aae47b6ade2268a466aa89bab7c3fbd118445697ef250ed1de8539f224d86189ea3e73e410de8ca0d030a7c2592a5e11ee969d2e8119f2c790acb19ba
+"@uoslife/design-system@npm:^1.2.15":
+  version: 1.2.15
+  resolution: "@uoslife/design-system@npm:1.2.15::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40uoslife%2Fdesign-system%2F1.2.15%2Fddb93ba5b39ab34625b6de87a8ab8a3fc9f81367"
+  checksum: ddc7eb80cd10c316d1ea2db09dc87e879e867592b7093ffe6d324ff08df62e57aa484ef3948d2c9db9fde274c5054e9ab4d8cec1c34763ea784bd64c9a254d6f
   languageName: node
   linkType: hard
 
@@ -19967,7 +19967,7 @@ __metadata:
     "@types/utf8": ^3.0.3
     "@typescript-eslint/eslint-plugin": ^7.4.0
     "@typescript-eslint/parser": ^6.9.1
-    "@uoslife/design-system": ^1.2.11
+    "@uoslife/design-system": ^1.2.15
     "@uoslife/react": ^1.1.4
     "@uoslife/webview": ^0.0.20
     babel-jest: ^29.6.3
