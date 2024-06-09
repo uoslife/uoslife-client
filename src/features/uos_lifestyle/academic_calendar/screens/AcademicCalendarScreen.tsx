@@ -1,8 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Header from '../../../components/molecules/common/header/Header';
-import {RootNavigationProps} from '../../../navigators/types/rootStack';
+import Header from '../../../../components/molecules/common/header/Header';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 
 const AcademicCalendarScreen = () => {
   const inset = useSafeAreaInsets();
