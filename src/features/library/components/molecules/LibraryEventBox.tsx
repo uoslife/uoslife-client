@@ -35,7 +35,7 @@ const S = {
     gap: 12px;
   `,
   TitleWrapper: styled.View`
-    padding: 0 5px 0 8px;
+    padding: 0 5px 2px 8px;
     display: flex;
     flex-direction: row;
     align-items: center;

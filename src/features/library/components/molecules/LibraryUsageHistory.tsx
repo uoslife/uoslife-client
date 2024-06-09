@@ -6,6 +6,8 @@ import AnimatePress from '../../../../components/animations/pressable_icon/Anima
 import CardLayout from '../../../../components/molecules/common/cardLayout/CardLayout';
 import Skeleton from '../../../../components/molecules/common/skeleton/Skeleton';
 import LibraryServices from '../../services/library';
+import {changeHourFromMin} from '../../utils/libraryRanking';
+import useUserState from '../../../../hooks/useUserState';
 
 const LibraryUsageHistory = () => {
   const {data, refetch} = useSuspenseQuery({
@@ -13,6 +15,7 @@ const LibraryUsageHistory = () => {
     queryFn: () => LibraryServices.getLibraryUsageStatus(),
   });
 
+  const {user} = useUserState();
   return (
     <S.Container>
       <S.TitleWrapper>
@@ -29,16 +32,26 @@ const LibraryUsageHistory = () => {
         <S.LibraryHistoryCardWrapper>
           {!data ? (
             <CardLayout style={{padding: 20, paddingLeft: 16, gap: 6}}>
-              <Txt
-                label="정보를 불러올 수 없어요."
-                color="grey150"
-                typograph="titleSmall"
-              />
-              <Txt
-                label="서버의 문제이거나 졸업생이면 확인할 수 없어요."
-                color="grey90"
-                typograph="caption"
-              />
+              {user?.identity.status === '졸업생' ? (
+                <Txt
+                  label="졸업생이면 확인할 수 없어요."
+                  color="grey150"
+                  typograph="titleSmall"
+                />
+              ) : (
+                <>
+                  <Txt
+                    label="정보를 불러올 수 없어요."
+                    color="grey150"
+                    typograph="titleSmall"
+                  />
+                  <Txt
+                    label="서버의 문제일 수 있어요. 잠시 후 다시 시도해주세요."
+                    color="grey90"
+                    typograph="caption"
+                  />
+                </>
+              )}
             </CardLayout>
           ) : (
             <>
@@ -74,13 +87,8 @@ const LibraryUsageHistory = () => {
                   </S.CardLeftWrapper>
                   <S.CardTextWrapper>
                     <Txt
-                      label={data.usageTime.usedMinute.toString()}
+                      label={changeHourFromMin(data.usageTime.usedMinute)}
                       color="primaryBrand"
-                      typograph="headlineMedium"
-                    />
-                    <Txt
-                      label="시간"
-                      color="grey90"
                       typograph="headlineMedium"
                     />
                   </S.CardTextWrapper>
@@ -101,7 +109,7 @@ const S = {
     gap: 12px;
   `,
   LibraryHistoryCardWrapper: styled.View`
-    gap: 12px;
+    margin-top: 6px;
   `,
   CardContainer: styled.View`
     flex-direction: row;
