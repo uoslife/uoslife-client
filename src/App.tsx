@@ -19,6 +19,10 @@ import CustomNavigationContainer from './screens/CustomNavigationContainer';
 import bootSplashVisibleAtom from './store/app/bootSplashVisible';
 import {SENTRY_DEFAULT_SAMPLE_RATE} from './configs/sentry';
 
+// @ts-expect-error: platform specific file error (*TODO)
+// eslint-disable-next-line import/extensions
+import {useDoubleBackPress} from './hooks/useDoubleBackPress';
+
 Sentry.init({
   dsn: SENTRY_DSN_KEY,
   sampleRate: SENTRY_DEFAULT_SAMPLE_RATE,
@@ -32,6 +36,8 @@ let App: React.FC = () => {
     NotificationService.registerMessageHandler();
     NotificationService.onForegroundEvent();
   }, []);
+
+  useDoubleBackPress();
 
   return (
     <SafeAreaProvider>
