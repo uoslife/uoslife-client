@@ -1,9 +1,12 @@
-import {memo} from 'react';
-import {Text, View} from 'react-native';
+/* eslint-disable no-return-assign */
+import {Pressable, Text, View} from 'react-native';
 import {useSetAtom} from 'jotai';
-import styled from '@emotion/native';
 import {Icon, colors} from '@uoslife/design-system';
-import AnimatePress from '../../../../../components/animations/pressable_icon/AnimatePress';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {SeatItemEnum} from '../../../constants/librarySeatingChart/seatItemEnum';
 import {
   SeatStatusType,
@@ -35,6 +38,22 @@ const SeatItem = ({
   const setSelectedSeat = useSetAtom(selectedSeatAtom);
   const seatItemSize = itemWidth + 2;
   const isAvailable = status === 'AVAILABLE';
+
+  const pressed = useSharedValue<boolean>(false);
+
+  const animatedStyles = useAnimatedStyle(() => ({
+    backgroundColor: pressed.value ? colors.grey60 : colors.grey40,
+    transform: [{scale: withTiming(pressed.value ? 1.1 : 1, {duration: 250})}],
+  }));
+
+  const handlePressSeatItem = () => {
+    onPress();
+    setSelectedSeat({
+      seatId: label ?? null,
+      forDisabledPerson,
+      forDesktopSeat,
+    });
+  };
 
   switch (label) {
     case SeatItemEnum.NONE:
@@ -210,24 +229,25 @@ const SeatItem = ({
         </View>
       );
     default:
-      return (
-        <AnimatePress
-          variant={isAvailable ? 'scale_up_2' : 'none'}
-          onPress={() => {
-            if (!isAvailable) return;
-            onPress();
-            setSelectedSeat({
-              seatId: label ?? null,
-              forDisabledPerson,
-              forDesktopSeat,
-            });
-          }}>
-          <S.Container
-            style={{
-              width: itemWidth,
-              height: itemWidth,
-              backgroundColor: SeatStatusColorEnum[status],
-            }}>
+      return isAvailable ? (
+        <Pressable
+          onPressIn={() => (pressed.value = true)}
+          onPressOut={() => (pressed.value = false)}
+          onPress={handlePressSeatItem}>
+          <Animated.View
+            style={[
+              {
+                width: itemWidth,
+                height: itemWidth,
+                backgroundColor: SeatStatusColorEnum[status],
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 3,
+                margin: 1,
+                paddingLeft: 0.5,
+              },
+              animatedStyles,
+            ]}>
             {forDisabledPerson && (
               <Icon
                 name="disabled"
@@ -258,20 +278,55 @@ const SeatItem = ({
               }}>
               {label}
             </Text>
-          </S.Container>
-        </AnimatePress>
+          </Animated.View>
+        </Pressable>
+      ) : (
+        <View
+          style={[
+            {
+              width: itemWidth,
+              height: itemWidth,
+              backgroundColor: SeatStatusColorEnum[status],
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 3,
+              margin: 1,
+              paddingLeft: 0.5,
+            },
+          ]}>
+          {forDisabledPerson && (
+            <Icon
+              name="disabled"
+              width={3.5}
+              height={5}
+              color={
+                isAvailable || status === 'SPECIFIED' ? 'grey190' : 'white'
+              }
+            />
+          )}
+          {forDesktopSeat && (
+            <Icon
+              name="desktop"
+              width={5}
+              height={5}
+              color={
+                isAvailable || status === 'SPECIFIED' ? 'grey190' : 'white'
+              }
+            />
+          )}
+          <Text
+            style={{
+              color:
+                isAvailable || status === 'SPECIFIED'
+                  ? colors.grey190
+                  : colors.white,
+              fontSize: textSize === 'large' ? 9 : 4.5,
+            }}>
+            {label}
+          </Text>
+        </View>
       );
   }
 };
 
-export default memo(SeatItem);
-
-const S = {
-  Container: styled.View`
-    justify-content: center;
-    align-items: center;
-    border-radius: 3px;
-    margin: 1px;
-    padding-left: 0.5px;
-  `,
-};
+export default SeatItem;
