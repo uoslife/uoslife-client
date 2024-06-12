@@ -1,7 +1,8 @@
 import {useQuery} from '@tanstack/react-query';
-import styled from '@emotion/native';
+
 import {colors} from '@uoslife/design-system';
-import {useState} from 'react';
+import {FlashList} from '@shopify/flash-list';
+import {Dimensions, View} from 'react-native';
 import {UtilAPI} from '../../../../api/services';
 import LibraryRoomItem from './LibraryRoomItem';
 import usePullToRefresh from '../../../../hooks/usePullToRefresh';
@@ -17,29 +18,31 @@ const LibraryRoomStatus = ({roomType}: Props) => {
   });
 
   const {onRefresh, refreshing} = usePullToRefresh(() => refetch());
-  const [width, setWidth] = useState(0);
   return (
-    <S.Container
-      data={data?.item}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-      renderItem={({item}) => (
-        <LibraryRoomItem
-          item={item as LibraryStatusItemType}
-          boxWidth={width}
+    <View style={{alignItems: 'center'}}>
+      <View
+        style={{
+          backgroundColor: colors.primaryLighterAlt,
+          height: Dimensions.get('screen').height,
+          width: Dimensions.get('screen').width,
+          padding: 8,
+        }}>
+        <FlashList
+          data={data?.item}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          renderItem={({item}) => (
+            <LibraryRoomItem
+              item={item as LibraryStatusItemType}
+              boxWidth={Dimensions.get('screen').width / 2 - 20}
+            />
+          )}
+          numColumns={2}
+          estimatedItemSize={Dimensions.get('screen').width / 2 - 8}
         />
-      )}
-      numColumns={2}
-      onLayout={event => setWidth(event.nativeEvent.layout.width)}
-    />
+      </View>
+    </View>
   );
 };
 
 export default LibraryRoomStatus;
-
-const S = {
-  Container: styled.FlatList`
-    padding: 8px 10px;
-    background-color: ${colors.primaryLighterAlt};
-  `,
-};
