@@ -18,6 +18,7 @@ const CustomNavigationContainer = ({children}: Props) => {
   const navigationRef = useNavigationContainerRef<RootStackParamList>();
   const isInitLoadingFinish = useAtomValue(initLoadingAtom);
   useEffect(() => {
+    if (__DEV__) return;
     if (!isInitLoadingFinish) return;
     const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
     (async () => {

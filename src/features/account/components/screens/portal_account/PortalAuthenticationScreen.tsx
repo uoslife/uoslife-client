@@ -40,6 +40,7 @@ const PortalAuthenticationScreen = () => {
   const [isNotAccountFlow] = useIsCurrentScreen([
     'student_id_portal_authentication',
     'mypage_account_portal_authentication',
+    'library_portal_authentication',
   ]);
 
   const {changeAccountFlow, resetAccountFlow} = useAccountFlow();

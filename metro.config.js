@@ -5,11 +5,19 @@
  * @format
  */
 
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+
+const defaultConfig = getDefaultConfig(__dirname);
+
+const {
+  resolver: {sourceExts, assetExts},
+} = getDefaultConfig(__dirname);
+
 const {
   createSentryMetroSerializer,
 } = require('@sentry/react-native/dist/js/tools/sentryMetroSerializer');
 
-module.exports = {
+const config = {
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -18,8 +26,13 @@ module.exports = {
       },
     }),
   },
-
   serializer: {
     customSerializer: createSentryMetroSerializer(),
   },
+  resolver: {
+    assetExts: assetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
+  },
 };
+
+module.exports = mergeConfig(defaultConfig, config);
