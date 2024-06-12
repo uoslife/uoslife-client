@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {Suspense, useMemo} from 'react';
 import {useAtom} from 'jotai';
 import {View} from 'react-native';
 import styled from '@emotion/native';
@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ReactNativeZoomableView} from '@openspacelabs/react-native-zoomable-view';
 
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation, useSuspenseQuery} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
 import {
   RoomNameEnum,
@@ -28,6 +28,7 @@ import useUserState from '../../../../../hooks/useUserState';
 import AnalyticsService from '../../../../../services/analytics';
 import LibraryStatusInfoBox from '../../molecules/LibraryStatusInfoBox';
 import {LibrarySeatListScreenProps} from '../../../navigators/types/libraryRoomStatus';
+import Skeleton from '../../../../../components/molecules/common/skeleton/Skeleton';
 
 const LibrarySeatingChartScreen = ({
   route: {
@@ -54,7 +55,7 @@ const LibrarySeatingChartScreen = ({
     openBottomSheet();
   };
 
-  const {data: seatList, refetch} = useQuery({
+  const {data: seatList, refetch} = useSuspenseQuery({
     queryKey: ['getSeatList', roomNumber],
     queryFn: () => UtilAPI.getSeatList({room: parseInt(roomNumber)}),
   });
@@ -90,6 +91,7 @@ const LibrarySeatingChartScreen = ({
       seatId,
     });
   };
+
   return (
     <>
       <Header
@@ -116,11 +118,13 @@ const LibrarySeatingChartScreen = ({
           marginBottom: insets.bottom,
         }}>
         <S.Container>
-          <LibrarySeatingChart
-            roomNumber={roomNumber as RoomNameType}
-            handlePressItem={handlePressItem}
-            seatList={seatList}
-          />
+          <Suspense fallback={<Skeleton variant="card" />}>
+            <LibrarySeatingChart
+              roomNumber={roomNumber as RoomNameType}
+              handlePressItem={handlePressItem}
+              seatList={seatList}
+            />
+          </Suspense>
         </S.Container>
       </ReactNativeZoomableView>
       <BottomSheet>
