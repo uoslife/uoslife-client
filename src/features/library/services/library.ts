@@ -5,6 +5,7 @@ import {
   LibraryReservationType,
   GetLibraryRankingRes,
   GetMyLibraryRankingRes,
+  ReservationStatusTypeFromServer,
 } from '../../../api/services/util/library/libraryAPI.type';
 import storage from '../../../storage';
 import {isAndroid} from '../../../utils/android/isAndroid';
@@ -13,8 +14,6 @@ import {LibraryDynamicIslandBridge} from '../../../utils/ios/libraryDynamicIslan
 import {LibraryRankingMajorNameType} from '../constants/libraryRanking/libraryRanking';
 import {LibraryRankingTabsType} from '../constants/libraryTabs';
 import {
-  librarySeatStartTime,
-  libraryUsingStatus,
   setLibrarySeatStartTime,
   setLibraryUsingStatus,
 } from '../storage/library';
@@ -27,15 +26,6 @@ import {convertDateFormat} from '../utils/convertDateFormat';
 import {endLibraryStateActivity} from '../utils/endLibraryStateActivity';
 
 export default class LibraryServices {
-  static async getLibraryReservationInfo() {
-    try {
-      const response = await UtilAPI.getLibraryReservation({});
-      return response;
-    } catch (error) {
-      return undefined;
-    }
-  }
-
   static getOutingStatus(
     remainingSeconds: LibraryReservationType['remainingSeconds'],
   ): ReservationStatusType {
@@ -58,6 +48,7 @@ export default class LibraryServices {
     const isLibraryStateActivity = isLibraryStateActivityNonParse
       ? (JSON.parse(isLibraryStateActivityNonParse) as boolean)
       : null;
+    const librarySeatStartTime = storage.getString('librarySeatStartTime');
 
     try {
       let isStudyRoom: boolean = false;
@@ -104,6 +95,11 @@ export default class LibraryServices {
   }
 
   static startLibraryStateActivity(response: LibraryReservationType) {
+    const librarySeatStartTime = storage.getString('librarySeatStartTime');
+    const libraryUsingStatus = storage.getString('libraryUsingStatus') as
+      | ReservationStatusTypeFromServer
+      | undefined;
+
     if (librarySeatStartTime !== response.seatStartTime) {
       if (isAndroid)
         LibraryStateNotificationBridge.start({
