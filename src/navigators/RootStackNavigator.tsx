@@ -25,7 +25,7 @@ import PortalAuthenticationScreen from '../features/account/components/screens/p
 import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
-import AcademicCalendarScreen from '../features/uos_lifestyle/academic_calendar/AcademicCalendarScreen';
+import AcademicCalendarScreen from '../features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
