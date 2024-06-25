@@ -1,14 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
+import {useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-<<<<<<< HEAD:src/features/uos_lifestyle/academic_calendar/AcademicCalendarScreen.tsx
-import Header from '../../../components/molecules/common/header/Header';
-import {RootNavigationProps} from '../../../navigators/types/rootStack';
-// import {useState} from 'react';
-=======
 import Header from '../../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
->>>>>>> feature/tf-academic-calendar:src/features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen.tsx
+import FilterButtonGroup from '../components/FilterButtonGroup';
 
 const AcademicCalendarScreen = () => {
   const inset = useSafeAreaInsets();
@@ -16,12 +12,12 @@ const AcademicCalendarScreen = () => {
 
   // const currentDate: Date = new Date();
   // const [month, setMonth] = useState<number>(currentDate.getMonth() + 1);
-
+  // const year: number = currentDate.getFullYear();
   // const handlePreviousMonth = () => {
-  //   setMonth(month === 1 ? 1 : month - 1);
+  //   setMonth(month === 1 ? 12 : month - 1);
   // };
   // const handleNextMonth = () => {
-  //   setMonth(month === 12 ? 12 : month + 1);
+  //   setMonth(month === 12 ? 1 : month + 1);
   // };
 
   return (
