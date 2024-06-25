@@ -1,9 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+<<<<<<< HEAD:src/features/uos_lifestyle/academic_calendar/AcademicCalendarScreen.tsx
 import Header from '../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
 // import {useState} from 'react';
+=======
+import Header from '../../../../components/molecules/common/header/Header';
+import {RootNavigationProps} from '../../../../navigators/types/rootStack';
+>>>>>>> feature/tf-academic-calendar:src/features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen.tsx
 
 const AcademicCalendarScreen = () => {
   const inset = useSafeAreaInsets();
