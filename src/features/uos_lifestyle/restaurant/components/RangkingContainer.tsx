@@ -6,6 +6,8 @@ import {RestaurantItemType} from '../RestaurantScreen';
 import {reduceTitle} from './RestaurantItem';
 import {restaurantListTop} from '../dummy';
 import GuidePopup from '../../../../components/molecules/common/GuidePopup/GuidePopup';
+import useRestaurantItem from '../hooks/useRestaurantItem';
+import usePullToRefresh from '../../../../hooks/usePullToRefresh';
 
 const RankingContainer = ({
   setBottomSheetItem,
@@ -14,7 +16,7 @@ const RankingContainer = ({
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
 }) => {
-  const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
+  const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(false);
   const handleClickRestaurantItem = (item: RestaurantItemType) => {
     setBottomSheetItem(item);
     openBottomSheet();
@@ -25,6 +27,10 @@ const RankingContainer = ({
   const handleClickInfoIcon = () => {
     setIsGuidePopupOpen(!isGuidePopupOpen);
   };
+  // const {getTopRestaurantItem} = useRestaurantItem();
+  // const {data} = getTopRestaurantItem;
+
+  // console.log(data);
   return (
     <View>
       <View style={{gap: 12}}>

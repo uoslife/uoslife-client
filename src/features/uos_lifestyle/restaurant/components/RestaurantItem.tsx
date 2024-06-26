@@ -2,6 +2,7 @@ import {View, Pressable} from 'react-native';
 import styled from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {RestaurantItemType} from '../RestaurantScreen';
+import {locationList, foodCategoryList} from '../constants/restaurant';
 
 export const reduceTitle = (title: string) => {
   if (title.length >= 15) {
@@ -14,14 +15,10 @@ const RestaurantItem = ({
   item,
   setBottomSheetItem,
   openBottomSheet,
-  restaurantList,
-  setRestaurantList,
 }: {
   item: RestaurantItemType;
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
-  restaurantList: RestaurantItemType[];
-  setRestaurantList: (restaurantList: RestaurantItemType[]) => void;
 }) => {
   const handleClickRestaurantItem = (item: RestaurantItemType) => {
     setBottomSheetItem(item);
@@ -30,24 +27,24 @@ const RestaurantItem = ({
 
   const handleClickLikeButton = (item: RestaurantItemType) => {
     // api 완성 후 좋아요 버튼 - 임시
-    const newList = restaurantList.map(restaurant => {
-      if (restaurant.name === item.name) {
-        if (restaurant.like) {
-          return {
-            ...restaurant,
-            like: !restaurant.like,
-            likesCount: restaurant.likesCount - 1,
-          };
-        }
-        return {
-          ...restaurant,
-          like: !restaurant.like,
-          likesCount: restaurant.likesCount + 1,
-        };
-      }
-      return restaurant;
-    });
-    setRestaurantList(newList);
+    // const newList = restaurantList.map(restaurant => {
+    //   if (restaurant.name === item.name) {
+    //     if (restaurant.like) {
+    //       return {
+    //         ...restaurant,
+    //         like: !restaurant.like,
+    //         likeCount: restaurant.likeCount - 1,
+    //       };
+    //     }
+    //     return {
+    //       ...restaurant,
+    //       like: !restaurant.like,
+    //       likeCount: restaurant.likeCount + 1,
+    //     };
+    //   }
+    //   return restaurant;
+    // });
+    // setRestaurantList(newList);
   };
 
   return (
@@ -61,39 +58,26 @@ const RestaurantItem = ({
         <View style={{flexDirection: 'row', gap: 6}}>
           <S.CategoryBox type="color">
             <Txt
-              label={item.location}
+              label={locationList[item.location]}
               color="primaryBrand"
               typograph="titleSmall"
             />
           </S.CategoryBox>
           <S.CategoryBox>
             <Txt
-              label={item.restaurantType}
+              label={foodCategoryList[item.restaurantType]}
               color="grey130"
               typograph="titleSmall"
             />
           </S.CategoryBox>
         </View>
       </View>
-      <Pressable
-        onPress={() => handleClickLikeButton(item)}
-        style={{
-          paddingHorizontal: 8,
-          paddingVertical: 4,
-          borderRadius: 12,
-          alignItems: 'center',
-          backgroundColor: item.like ? colors.primaryLighterAlt : colors.grey10,
-        }}>
+      <Pressable onPress={() => handleClickLikeButton(item)}>
         <Icon
           color={item.like ? 'primaryBrand' : 'grey90'}
           name="heart"
           width={28}
           height={28}
-        />
-        <Txt
-          label={String(item.likesCount)}
-          color="primaryBrand"
-          typograph="labelMedium"
         />
       </Pressable>
     </S.RestaurantItemContainer>

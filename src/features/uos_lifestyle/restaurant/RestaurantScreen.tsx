@@ -12,14 +12,19 @@ import RankingContainer from './components/RangkingContainer';
 import RestaurantListContainer from './components/RestaurantListContainer';
 import GuidePopup from '../../../components/molecules/common/GuidePopup/GuidePopup';
 import storage from '../../../storage';
+import {LocationType, FoodCategoryType} from './types/restaurant.type';
 
 export type RestaurantItemType = {
+  id: number;
   name: string;
-  location: string;
-  restaurantType: string;
+  mapLink: {
+    naverMapLink: string;
+    kakaoMapLink: string;
+  };
+  location: LocationType;
+  restaurantType: FoodCategoryType;
+  likeCount: number;
   like: boolean;
-  likesCount: number;
-  mapLink: string;
 };
 
 const RestaurantScreen = () => {
@@ -32,7 +37,7 @@ const RestaurantScreen = () => {
   const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
 
   const handleClickBottomSheetButton = (item: RestaurantItemType) => {
-    Linking.openURL(item.mapLink).catch(err =>
+    Linking.openURL(item.mapLink.naverMapLink).catch(err =>
       console.error("Couldn't load page", err),
     );
   };
