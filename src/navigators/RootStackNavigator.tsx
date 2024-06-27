@@ -22,9 +22,9 @@ import LibraryStackNavigator from '../features/library/navigators/LibraryStackNa
 import RouletteScreen from '../screens/RouletteScreen';
 import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
 import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
-import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
+import HiddenGradeScreen from '../features/uos_lifestyle/hidden_grade/HiddenGradeScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -70,7 +70,7 @@ const RootStackNavigator: React.FC = () => {
           {/* uos_lifestyle */}
           <Stack.Screen name="library_recap" component={LibraryRecapScreen} />
           <Stack.Screen name="meeting" component={MeetingScreen} />
-          <Stack.Screen name="check_grade" component={CheckGradeScreen} />
+          <Stack.Screen name="hidden_grade" component={HiddenGradeScreen} />
         </Stack.Group>
       ) : (
         <Stack.Group>
