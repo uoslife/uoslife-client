@@ -1,12 +1,12 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import BottomTabBar from '../components/molecules/common/bottom_tab_bar/BottomTabBar';
-import MypageStackNavigator from '../features/my_page/navigators/MypageStackNavigator';
 import AnnouncementStackNavigator from '../features/announcement/navigators/AnnouncementStackNavigator';
-import {RootTabParamList, TabScreenItemType} from './types/rootBottomTap';
 import MainScreen from '../features/main/components/screens/MainScreen';
+import MypageStackNavigator from '../features/my_page/navigators/MypageStackNavigator';
 import StudentIdScreen from '../features/student_id/components/screens/StudentIdScreen';
 import UosLifestyleScreen from '../features/uos_lifestyle/components/screens/UosLifestyleScreen';
+import {RootTabParamList, TabScreenItemType} from './types/rootBottomTap';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -33,7 +33,7 @@ const tabs: TabScreenItemType[] = [
     component: UosLifestyleScreen,
     screenName: 'uos_lifestyle_tab',
     label: '시대생활',
-    icon: 'tab_uoslife_life',
+    icon: 'tab_uos_lifestyle',
   },
   {
     component: MypageStackNavigator,
