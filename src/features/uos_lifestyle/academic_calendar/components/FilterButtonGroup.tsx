@@ -1,4 +1,3 @@
-// FilterButtonGroup.tsx
 import React, {useState} from 'react';
 import styled from '@emotion/native';
 import FilterButton from './FilterButton';
@@ -10,7 +9,6 @@ const FilterButtonGroup = () => {
   const handleFilterPress = (filterName: string) => {
     setSelectedFilter(filterName);
   };
-
   return (
     <S.Container>
       {STATUSES.map(status => (
