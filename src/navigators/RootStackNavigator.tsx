@@ -27,7 +27,6 @@ import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryR
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
 import AcademicCalendarScreen from '../features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen';
 
-
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStackNavigator: React.FC = () => {
