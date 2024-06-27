@@ -1,8 +1,8 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {IconsNameType} from '@uoslife/design-system';
-import {MypageStackParamList} from '../../features/my_page/navigators/types/mypage';
 import {AnnouncementStackParamList} from '../../features/announcement/navigators/types/announcement';
+import {MypageStackParamList} from '../../features/my_page/navigators/types/mypage';
 
 export type RootTabParamList = {
   main_tab: undefined;
@@ -22,7 +22,7 @@ export type TabScreenItemType = {
     | 'tab_announcement'
     | 'tab_mypage'
     | 'tab_student_id'
-    | 'tab_uoslife_life'
+    | 'tab_uos_lifestyle'
   >;
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;
