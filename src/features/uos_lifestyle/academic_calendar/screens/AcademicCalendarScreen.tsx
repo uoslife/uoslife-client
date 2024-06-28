@@ -4,14 +4,13 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import {useState} from 'react';
-import Header from '../../../../components/molecules/common/header/Header';
-import {RootNavigationProps} from '../../../../navigators/types/rootStack';
-import {ScheduleTabEnum} from '../constants';
 import {AcademicCalendarNavigationProp} from '../types/AcademicCalendar';
+import Header from '../../../../components/molecules/common/header/Header';
+import {ScheduleTabEnum} from '../constants';
 
 const AcademicCalendarScreen = () => {
   const inset = useSafeAreaInsets();
-  const navigation = useNavigation<RootNavigationProps>();
+  const navigation = useNavigation<AcademicCalendarNavigationProp>();
   const date = new Date();
   const week = ['일', '월', '화', '수', '목', '금', '토'];
   const [selectedTab, setSelectedTab] = useState(ScheduleTabEnum.ALL);
@@ -74,7 +73,8 @@ const AcademicCalendarScreen = () => {
             </S.TabButton>
           </S.TabWrapper>
 
-          <S.IconWrapper>
+          <S.IconWrapper
+            onPress={() => navigation.navigate('academicCalendar_search')}>
             <Icon name="search" width={24} height={24} />
           </S.IconWrapper>
         </S.TabContainer>
@@ -116,7 +116,7 @@ const S = {
     border-bottom-color: ${({isSelected}) =>
       isSelected ? colors.primaryBrand : 'transparent'};
   `,
-  IconWrapper: styled.View`
+  IconWrapper: styled.Pressable`
     padding: 12px;
   `,
 };
