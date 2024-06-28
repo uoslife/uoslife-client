@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
-import {useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
@@ -8,7 +7,6 @@ import {useState} from 'react';
 import Header from '../../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 import {ScheduleTabEnum} from '../constants';
-
 
 const AcademicCalendarScreen = () => {
   const inset = useSafeAreaInsets();
