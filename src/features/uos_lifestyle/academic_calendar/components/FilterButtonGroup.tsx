@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import styled from '@emotion/native';
 import FilterButton from './FilterButton';
-import {STATUSES} from '../constants';
+import {ScheduleStatusType} from '../constants';
+
+const STATUSES = ['ALL', 'NOTIFICATION', 'IN_PROGRESS', 'ON_FILTER'] as const;
 
 const FilterButtonGroup = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
