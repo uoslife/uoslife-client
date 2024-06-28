@@ -1,6 +1,6 @@
-import {useState} from 'react';
-import {useAtom} from 'jotai';
 import {createStackNavigator} from '@react-navigation/stack';
+import {useAtom} from 'jotai';
+import {useState} from 'react';
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 
 import RootBottomTapNavigator from './RootBottomTapNavigator';
@@ -10,22 +10,22 @@ import {
   ToSandPoliciesScreen,
 } from '../features/my_page/components/screens';
 
-import useInitApp from '../hooks/useInitApp';
-import supabaseConfigAtom from '../store/app/supabaseConfig';
-import useAppStateForeground from '../hooks/useAppStateForeground';
-import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
-import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
 import AccountScreenContainer from '../features/account/components/screens';
-import {RootStackParamList} from './types/rootStack';
+import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
+import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
 import CafeteriaScreen from '../features/cafeteria/components/screens/CafeteriaScreen';
 import LibraryStackNavigator from '../features/library/navigators/LibraryStackNavigator';
-import RouletteScreen from '../screens/RouletteScreen';
-import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
-import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
+import AcademicCalendarScreen from '../features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen';
 import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
-import AcademicCalendarScreen from '../features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen';
+import useAppStateForeground from '../hooks/useAppStateForeground';
+import useInitApp from '../hooks/useInitApp';
+import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
+import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
+import RouletteScreen from '../screens/RouletteScreen';
+import supabaseConfigAtom from '../store/app/supabaseConfig';
+import {RootStackParamList} from './types/rootStack';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
