@@ -10,14 +10,22 @@ import BorderSelect from '../../../../components/molecules/common/select/BorderS
 import LikeCategoryButton from './LikeCategoryButton';
 import {RestaurantItemType} from '../RestaurantScreen';
 import RestaurantItem from './RestaurantItem';
-import {locationList, foodCategoryList} from '../constants/restaurant';
-import {LocationType, FoodCategoryType} from '../types/restaurant.type';
+import {
+  locationList,
+  foodCategoryList,
+  reversedFoodCategoryList,
+  reversedLocationList,
+} from '../constants/restaurant';
+import {
+  LocationType,
+  FoodCategoryType,
+  ReversedFoodCategoryType,
+  ReversedLocationListType,
+} from '../types/restaurant.type';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
 import {get} from '../../../../api/core/methods';
 import EmptyList from './EmptyList';
-import storage from '../../../../storage';
 
-console.log(storage.getString('accessToken'));
 export interface RestaurantListResponse {
   page: number;
   size: number;
@@ -35,6 +43,14 @@ const RestaurantListContainer = ({
   const [location, setLocation] = useState<LocationType>('TOTAL');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('TOTAL');
   const [isLike, setIsLike] = useState<boolean>(false);
+
+  const setMappedFoodCatogory = (category: ReversedFoodCategoryType) => {
+    setFoodCategory(reversedFoodCategoryList[category] as FoodCategoryType);
+  };
+  const setMappedLocation = (category: ReversedLocationListType) => {
+    setLocation(reversedLocationList[category] as LocationType);
+  };
+
   const useRestaurnatList = (): UseInfiniteQueryResult<
     InfiniteData<RestaurantListResponse>,
     Error
@@ -85,18 +101,20 @@ const RestaurantListContainer = ({
       </View>
       <View style={{flexDirection: 'row', gap: 12, zIndex: 10}}>
         <BorderSelect
-          options={Object.keys(locationList)}
-          currentOption={location === 'TOTAL' ? '위치' : locationList[location]}
-          setCurrent={setLocation}
+          options={Object.values(locationList)}
+          currentOption={
+            locationList[location] === 'TOTAL' ? '위치' : locationList[location]
+          }
+          setCurrent={setMappedLocation}
         />
         <BorderSelect
-          options={Object.keys(foodCategoryList)}
+          options={Object.values(foodCategoryList)}
           currentOption={
             foodCategoryList[foodCategory] === 'TOTAL'
               ? '종류'
               : foodCategoryList[foodCategory]
           }
-          setCurrent={setFoodCategory}
+          setCurrent={setMappedFoodCatogory}
         />
         <LikeCategoryButton isLike={isLike} setIsLike={setIsLike} />
       </View>

@@ -14,3 +14,19 @@ export const foodCategoryList = {
   CONVENIENCE: '간편식',
   ETC: '기타',
 };
+export const reversedFoodCategoryList = {
+  전체: 'TOTAL',
+  한식: 'KOREAN',
+  일식: 'JAPANESE',
+  중식: 'CHINESE',
+  양식: 'WESTERN',
+  분식: 'BUNSIK',
+  간편식: 'CONVENIENCE',
+  기타: 'ETC',
+};
+
+export const reversedLocationList = {
+  전체: 'TOTAL',
+  정문: 'FRONT_DOOR',
+  후문: 'BACK_DOOR',
+};

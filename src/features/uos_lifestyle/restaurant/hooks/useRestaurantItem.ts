@@ -15,37 +15,29 @@ export interface RestaurantListResponse {
   size: number;
   data: RestaurantItemType[];
 }
-const useRestaurantItem = ({
-  isLike,
-  location,
-  foodCategory,
-}): {
-  isLike: boolean;
-  location: LocationType;
-  foodCategory: FoodCategoryType;
-} => {
-  const useRestaurantList = (): UseInfiniteQueryResult<
-    InfiniteData<RestaurantListResponse>,
-    Error
-  > => {
-    return useInfiniteQuery({
-      queryKey: ['getRestaurantData', isLike, location, foodCategory],
-      queryFn: async ({pageParam = 0}) => {
-        return await get(
-          `core/restaurant?${generateQueryString({
-            page: pageParam,
-            size: 10,
-            isLike,
-            location: locationList[location],
-            'restaurant-type': foodCategoryList[foodCategory],
-          })}`,
-        );
-      },
-      getNextPageParam: (lastPage, allPages, lastPageParam) =>
-        (lastPageParam as number) + 1,
-      initialPageParam: 0,
-    });
-  };
+const useRestaurantItem = () => {
+  // const useRestaurantList = (): UseInfiniteQueryResult<
+  //   InfiniteData<RestaurantListResponse>,
+  //   Error
+  // > => {
+  //   return useInfiniteQuery({
+  //     queryKey: ['getRestaurantData', isLike, location, foodCategory],
+  //     queryFn: async ({pageParam = 0}) => {
+  //       return await get(
+  //         `core/restaurant?${generateQueryString({
+  //           page: pageParam,
+  //           size: 10,
+  //           isLike,
+  //           location: locationList[location],
+  //           'restaurant-type': foodCategoryList[foodCategory],
+  //         })}`,
+  //       );
+  //     },
+  //     getNextPageParam: (lastPage, allPages, lastPageParam) =>
+  //       (lastPageParam as number) + 1,
+  //     initialPageParam: 0,
+  //   });
+  // };
 
   const getTopRestaurantItem = useQuery({
     queryKey: ['top'],
