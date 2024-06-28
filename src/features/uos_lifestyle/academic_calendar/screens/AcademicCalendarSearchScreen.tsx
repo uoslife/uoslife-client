@@ -1,32 +1,50 @@
 import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
-import {useState} from 'react';
+import {useState, ComponentProps, useRef} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {TextInput} from 'react-native-gesture-handler';
 import Header from '../../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
-import FilterButtonGroup from '../components/FilterButtonGroup';
+import SearchInput from '../../../../components/molecules/common/forms/searchInput/SearchInput';
 
 const AcademicCalendarSearchScreen = () => {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [isSearchWordEntering, setSearchWordEntering] =
+    useState<boolean>(false);
+  const inputRef = useRef<TextInput>(null);
+  const [dummy, setDummy] = useState<string>('');
 
-  // const currentDate: Date = new Date();
-  // const [month, setMonth] = useState<number>(currentDate.getMonth() + 1);
-  // const year: number = currentDate.getFullYear();
-  // const handlePreviousMonth = () => {
-  //   setMonth(month === 1 ? 12 : month - 1);
-  // };
-  // const handleNextMonth = () => {
-  //   setMonth(month === 12 ? 1 : month + 1);
-  // };
+  const searchInputProps: ComponentProps<typeof SearchInput> = {
+    inputRef,
+    placeholder: '일정을 검색하세요.',
+    onFocus: () => {
+      setSearchWordEntering(true);
+      inputRef.current?.focus();
+    },
+    onChangeText: text => {
+      setSearchWord(text);
+    },
+    onSubmitEditing: () => {
+      setDummy(searchWord);
+    },
+    onPressClear: () => {
+      setSearchWord('');
+      setSearchWordEntering(true);
+      inputRef.current?.focus();
+    },
+    value: searchWord,
+  };
 
   return (
     <View>
       <Header
         style={{paddingTop: inset.top, marginBottom: 8}}
-        label="학사일정검색"
-        onPressBackButton={() => navigation.goBack()}
-      />
+        label=""
+        onPressBackButton={() => navigation.goBack()}>
+        <SearchInput {...searchInputProps} />
+      </Header>
     </View>
   );
 };
