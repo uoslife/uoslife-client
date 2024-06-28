@@ -2,16 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
 import {useState} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Txt} from '@uoslife/design-system';
 import Header from '../../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 import FilterButtonGroup from '../components/FilterButtonGroup';
-import {AcademicCalendarNavigationProp} from '../types/AcademicCalendar';
-import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 
-const AcademicCalendarScreen = () => {
+const AcademicCalendarSearchScreen = () => {
   const inset = useSafeAreaInsets();
-  const navigation = useNavigation<AcademicCalendarNavigationProp>();
+  const navigation = useNavigation<RootNavigationProps>();
 
   // const currentDate: Date = new Date();
   // const [month, setMonth] = useState<number>(currentDate.getMonth() + 1);
@@ -27,16 +24,11 @@ const AcademicCalendarScreen = () => {
     <View>
       <Header
         style={{paddingTop: inset.top, marginBottom: 8}}
-        label="학사일정"
+        label="학사일정검색"
         onPressBackButton={() => navigation.goBack()}
       />
-      <AnimatePress
-        variant="scale_up_3"
-        onPress={() => navigation.navigate('academicCalendar_search')}>
-        <Txt label="asdasdasdasd" color="black" typograph="labelLarge" />
-      </AnimatePress>
     </View>
   );
 };
 
-export default AcademicCalendarScreen;
+export default AcademicCalendarSearchScreen;

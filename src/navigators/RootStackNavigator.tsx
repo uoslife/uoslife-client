@@ -25,7 +25,7 @@ import PortalAuthenticationScreen from '../features/account/components/screens/p
 import CheckGradeScreen from '../features/uos_lifestyle/check_grade/CheckGradeScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
-import AcademicCalendarScreen from '../features/uos_lifestyle/academic_calendar/screens/AcademicCalendarScreen';
+import AcademicCalendarStackNavigator from '../features/uos_lifestyle/academic_calendar/navigators/AcademicCalendarStackNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -74,7 +74,7 @@ const RootStackNavigator: React.FC = () => {
           <Stack.Screen name="check_grade" component={CheckGradeScreen} />
           <Stack.Screen
             name="academic_calendar"
-            component={AcademicCalendarScreen}
+            component={AcademicCalendarStackNavigator}
           />
         </Stack.Group>
       ) : (
