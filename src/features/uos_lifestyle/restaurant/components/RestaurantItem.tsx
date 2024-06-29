@@ -3,6 +3,7 @@ import styled from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {RestaurantItemType} from '../RestaurantScreen';
 import {locationList, foodCategoryList} from '../constants/restaurant';
+import useRestaurantItem from '../hooks/useRestaurantItem';
 
 export const reduceTitle = (title: string) => {
   if (title.length >= 15) {
@@ -24,28 +25,28 @@ const RestaurantItem = ({
     setBottomSheetItem(item);
     openBottomSheet();
   };
-
-  const handleClickLikeButton = (item: RestaurantItemType) => {
-    // api 완성 후 좋아요 버튼 - 임시
-    // const newList = restaurantList.map(restaurant => {
-    //   if (restaurant.name === item.name) {
-    //     if (restaurant.like) {
-    //       return {
-    //         ...restaurant,
-    //         like: !restaurant.like,
-    //         likeCount: restaurant.likeCount - 1,
-    //       };
-    //     }
-    //     return {
-    //       ...restaurant,
-    //       like: !restaurant.like,
-    //       likeCount: restaurant.likeCount + 1,
-    //     };
-    //   }
-    //   return restaurant;
-    // });
-    // setRestaurantList(newList);
-  };
+  const {handleClickLikeButton} = useRestaurantItem();
+  // const handleClickLikeButton = (item: RestaurantItemType) => {
+  //   // api 완성 후 좋아요 버튼 - 임시
+  //   // const newList = restaurantList.map(restaurant => {
+  //   //   if (restaurant.name === item.name) {
+  //   //     if (restaurant.like) {
+  //   //       return {
+  //   //         ...restaurant,
+  //   //         like: !restaurant.like,
+  //   //         likeCount: restaurant.likeCount - 1,
+  //   //       };
+  //   //     }
+  //   //     return {
+  //   //       ...restaurant,
+  //   //       like: !restaurant.like,
+  //   //       likeCount: restaurant.likeCount + 1,
+  //   //     };
+  //   //   }
+  //   //   return restaurant;
+  //   // });
+  //   // setRestaurantList(newList);
+  // };
 
   return (
     <S.RestaurantItemContainer onPress={() => handleClickRestaurantItem(item)}>
@@ -72,7 +73,7 @@ const RestaurantItem = ({
           </S.CategoryBox>
         </View>
       </View>
-      <Pressable onPress={() => handleClickLikeButton(item)}>
+      <Pressable onPress={() => handleClickLikeButton(item.id)}>
         <Icon
           color={item.like ? 'primaryBrand' : 'grey90'}
           name="heart"

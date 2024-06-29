@@ -1,11 +1,6 @@
 import {View, FlatList, ListRenderItem, Dimensions} from 'react-native';
 import {useState, useMemo} from 'react';
 import {Txt} from '@uoslife/design-system';
-import {
-  useInfiniteQuery,
-  InfiniteData,
-  UseInfiniteQueryResult,
-} from '@tanstack/react-query';
 import BorderSelect from '../../../../components/molecules/common/select/BorderSelect';
 import LikeCategoryButton from './LikeCategoryButton';
 import {RestaurantItemType} from '../RestaurantScreen';
@@ -22,9 +17,8 @@ import {
   ReversedFoodCategoryType,
   ReversedLocationListType,
 } from '../types/restaurant.type';
-import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
-import {get} from '../../../../api/core/methods';
 import EmptyList from './EmptyList';
+import useRestaurantItem from '../hooks/useRestaurantItem';
 
 export interface RestaurantListResponse {
   page: number;
@@ -51,30 +45,14 @@ const RestaurantListContainer = ({
     setLocation(reversedLocationList[category] as LocationType);
   };
 
-  const useRestaurnatList = (): UseInfiniteQueryResult<
-    InfiniteData<RestaurantListResponse>,
-    Error
-  > => {
-    return useInfiniteQuery({
-      queryKey: ['getRestaurantData', isLike, location, foodCategory],
-      queryFn: async ({pageParam = 0}) => {
-        return await get(
-          `core/restaurant?${generateQueryString({
-            page: pageParam,
-            size: 10,
-            isLike,
-            location,
-            'restaurant-type': foodCategory,
-          })}`,
-        );
-      },
-      getNextPageParam: (lastPage, allPages, lastPageParam) =>
-        (lastPageParam as number) + 1,
-      initialPageParam: 0,
-    });
-  };
+  const {useRestaurantList} = useRestaurantItem();
+
   const {data, fetchNextPage, isError, isFetching, error, refetch} =
-    useRestaurnatList();
+    useRestaurantList({
+      isLike,
+      location,
+      foodCategory,
+    });
 
   const items = useMemo(() => {
     return data?.pages.reduce(
