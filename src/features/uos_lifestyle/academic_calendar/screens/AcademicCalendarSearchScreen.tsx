@@ -14,7 +14,7 @@ const AcademicCalendarSearchScreen = () => {
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const inputRef = useRef<TextInput>(null);
-  const [dummy, setDummy] = useState<string>('');
+  const [dummy, setDummy] = useState<string>(''); // onSubmitEditing 동작용 더미 코드
 
   const searchInputProps: ComponentProps<typeof SearchInput> = {
     inputRef,
