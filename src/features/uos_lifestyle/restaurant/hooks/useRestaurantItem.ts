@@ -4,20 +4,20 @@ import {
   InfiniteData,
   UseInfiniteQueryResult,
   useMutation,
-  useQueryClient,
 } from '@tanstack/react-query';
 import {FoodCategoryType, LocationType} from '../types/restaurant.type';
 import {RestaurantItemType} from '../RestaurantScreen';
 import {get, post} from '../../../../api/core/methods';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
-import storage from '../../../../storage';
-
-console.log(storage.getString('accessToken'));
 
 export interface RestaurantListResponse {
   page: number;
   size: number;
   data: RestaurantItemType[];
+}
+
+export interface TopRestaurantListResponst {
+  restaurants: RestaurantItemType[];
 }
 
 const useRestaurantItem = () => {
@@ -49,7 +49,7 @@ const useRestaurantItem = () => {
     });
   };
 
-  const getTopRestaurantItem = useQuery({
+  const getTopRestaurantItem = useQuery<TopRestaurantListResponst>({
     queryKey: ['top'],
     queryFn: () => get(`core/restaurant/top`),
   });

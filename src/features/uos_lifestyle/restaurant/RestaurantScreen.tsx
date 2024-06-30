@@ -24,6 +24,7 @@ export type RestaurantItemType = {
   location: LocationType;
   restaurantType: FoodCategoryType;
   likeCount: number;
+  clickCount: number;
   like: boolean;
 };
 
@@ -36,17 +37,17 @@ const RestaurantScreen = () => {
     useModal('BOTTOM_SHEET');
   const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
 
-  const handleClickBottomSheetButton = (item: RestaurantItemType) => {
-    Linking.openURL(item.mapLink.naverMapLink).catch(err =>
+  const handleClickBottomSheetButton = (mapLink: string) => {
+    Linking.openURL(mapLink).catch(err =>
       console.error("Couldn't load page", err),
     );
   };
   const closeGuidePopup = () => {
+    storage.set('isRestaurantGuidePopupFirstOpen', false);
     setIsGuidePopupOpen(false);
   };
   const renderGuidePopup = () => {
     if (storage.getBoolean('isRestaurantGuidePopupFirstOpen')) {
-      storage.set('isRestaurantGuidePopupFirstOpen', false);
       return (
         <GuidePopup
           label="클릭 시 지도 앱으로 연결됩니다."
@@ -55,7 +56,7 @@ const RestaurantScreen = () => {
           theme="PRIMARY"
           style={css`
             align-self: center;
-            top: 433px;
+            top: 450px;
             z-index: 1;
           `}
         />
@@ -67,7 +68,7 @@ const RestaurantScreen = () => {
     <View>
       {renderGuidePopup()}
       <Header
-        style={{paddingTop: inset.top, marginBottom: 8}}
+        style={{paddingTop: inset.top}}
         label="맛집 리스트"
         onPressBackButton={() => navigation.goBack()}
       />
@@ -77,7 +78,7 @@ const RestaurantScreen = () => {
           marginBottom: 16,
           marginLeft: 20,
           marginRight: 20,
-          gap: 40,
+          gap: 30,
         }}>
         <RankingContainer
           setBottomSheetItem={setBottomSheetItem}
@@ -100,17 +101,19 @@ const RestaurantScreen = () => {
           <View style={styles.lineStyle} />
           <S.BottomSheetButton
             onPress={() =>
-              bottomSheetItem && handleClickBottomSheetButton(bottomSheetItem)
+              bottomSheetItem &&
+              handleClickBottomSheetButton(bottomSheetItem.mapLink.kakaoMapLink)
             }>
             <Txt label="카카오맵" color="grey190" typograph="bodyLarge" />
-            <Icon name="arrow_down" height={30} width={30} color="grey190" />
+            <Icon name="forwardArrow" height={30} width={30} color="grey190" />
           </S.BottomSheetButton>
           <S.BottomSheetButton
             onPress={() =>
-              bottomSheetItem && handleClickBottomSheetButton(bottomSheetItem)
+              bottomSheetItem &&
+              handleClickBottomSheetButton(bottomSheetItem.mapLink.naverMapLink)
             }>
             <Txt label="네이버 지도" color="grey190" typograph="bodyLarge" />
-            <Icon name="arrow_down" height={30} width={30} color="grey190" />
+            <Icon name="forwardArrow" height={30} width={30} color="grey190" />
           </S.BottomSheetButton>
         </View>
       </BottomSheet>

@@ -17,7 +17,6 @@ import {
   ReversedFoodCategoryType,
   ReversedLocationListType,
 } from '../types/restaurant.type';
-import EmptyList from './EmptyList';
 import useRestaurantItem from '../hooks/useRestaurantItem';
 
 export interface RestaurantListResponse {
@@ -99,16 +98,23 @@ const RestaurantListContainer = ({
       <View style={{gap: 12}}>
         {items ? (
           <FlatList
-            style={{gap: 12, height: windowHeight - 500}}
+            style={{height: windowHeight - 500}}
             renderItem={renderRestaurantList}
             data={items}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{gap: 12}}
+            contentContainerStyle={{gap: 12, paddingBottom: 40}}
             onEndReached={() => fetchNextPage()}
           />
         ) : (
-          <EmptyList />
+          <View
+            style={{
+              paddingHorizontal: 12,
+              paddingVertical: 64,
+              alignItems: 'center',
+            }}>
+            <Txt label="비어있어요" color="grey60" typograph="titleSmall" />
+          </View>
         )}
       </View>
     </View>
