@@ -6,26 +6,16 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import {FoodCategoryType, LocationType} from '../types/restaurant.type';
-import {RestaurantItemType} from '../RestaurantScreen';
+import {
+  RestaurantItemType,
+  FoodCategoryType,
+  LocationType,
+  RestaurantListResponse,
+  TopRestaurantListResponse,
+  RestaurantClickResponse,
+} from '../types/restaurant.type';
 import {get} from '../../../../api/core/methods';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
-
-export interface RestaurantListResponse {
-  page: number;
-  size: number;
-  data: RestaurantItemType[];
-}
-
-export interface TopRestaurantListResponst {
-  restaurants: RestaurantItemType[];
-}
-
-export interface RestaurantClickResponse {
-  id: number;
-  name: string;
-  clickCount: number;
-}
 
 const useRestaurantItem = () => {
   const useRestaurantList = ({
@@ -56,7 +46,7 @@ const useRestaurantItem = () => {
     });
   };
 
-  const getTopRestaurantItem = useQuery<TopRestaurantListResponst>({
+  const getTopRestaurantItem = useQuery<TopRestaurantListResponse>({
     queryKey: ['getRestaurantData', 'top'],
     queryFn: () => get(`core/restaurant/top`),
     refetchOnWindowFocus: true,
@@ -76,7 +66,7 @@ const useRestaurantItem = () => {
     onMutate: async (restaurant: RestaurantClickResponse) => {
       queryClient.setQueryData(
         ['getRestaurantData', 'top'],
-        (prev: TopRestaurantListResponst) => {
+        (prev: TopRestaurantListResponse) => {
           return {
             restaurants: prev.restaurants.map(prevRestaurant => {
               if (prevRestaurant.id === restaurant.id) {

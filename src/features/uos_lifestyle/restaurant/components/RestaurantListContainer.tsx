@@ -3,7 +3,13 @@ import {useState, useMemo} from 'react';
 import {Txt} from '@uoslife/design-system';
 import BorderSelect from '../../../../components/molecules/common/select/BorderSelect';
 import LikeCategoryButton from './LikeCategoryButton';
-import {RestaurantItemType} from '../RestaurantScreen';
+import {
+  RestaurantItemType,
+  LocationType,
+  FoodCategoryType,
+  ReversedFoodCategoryType,
+  ReversedLocationListType,
+} from '../types/restaurant.type';
 import RestaurantItem from './RestaurantItem';
 import {
   locationList,
@@ -11,12 +17,6 @@ import {
   reversedFoodCategoryList,
   reversedLocationList,
 } from '../constants/restaurant';
-import {
-  LocationType,
-  FoodCategoryType,
-  ReversedFoodCategoryType,
-  ReversedLocationListType,
-} from '../types/restaurant.type';
 import useRestaurantItem from '../hooks/useRestaurantItem';
 
 export interface RestaurantListResponse {

@@ -6,27 +6,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled, {css} from '@emotion/native';
 import Header from '../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../navigators/types/rootStack';
-import usePullToRefresh from '../../../hooks/usePullToRefresh';
 import useModal from '../../../hooks/useModal';
 import RankingContainer from './components/RangkingContainer';
 import RestaurantListContainer from './components/RestaurantListContainer';
 import GuidePopup from '../../../components/molecules/common/GuidePopup/GuidePopup';
 import storage from '../../../storage';
-import {LocationType, FoodCategoryType} from './types/restaurant.type';
-
-export type RestaurantItemType = {
-  id: number;
-  name: string;
-  mapLink: {
-    naverMapLink: string;
-    kakaoMapLink: string;
-  };
-  location: LocationType;
-  restaurantType: FoodCategoryType;
-  likeCount: number;
-  clickCount: number;
-  like: boolean;
-};
+import {RestaurantItemType} from './types/restaurant.type';
 
 const RestaurantScreen = () => {
   const inset = useSafeAreaInsets();

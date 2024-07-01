@@ -1,10 +1,8 @@
-import {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
-import {RestaurantItemType} from '../RestaurantScreen';
+import {RestaurantItemType} from '../types/restaurant.type';
 import {reduceTitle} from './RestaurantItem';
-import {restaurantListTop} from '../dummy';
 import useRestaurantItem from '../hooks/useRestaurantItem';
 
 const RankingContainer = ({
@@ -119,7 +117,7 @@ const RankingContainer = ({
                     </S.IconWrapper>
                   </View>
                 </S.RankingItem>
-                {idx !== restaurantListTop.length - 1 && (
+                {idx !== data.restaurants.length - 1 && (
                   <View style={styles.lineStyle} />
                 )}
               </>

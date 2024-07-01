@@ -1,11 +1,9 @@
 import {View, Pressable} from 'react-native';
 import styled from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {RestaurantItemType} from '../RestaurantScreen';
+import {RestaurantItemType} from '../types/restaurant.type';
 import {locationList, foodCategoryList} from '../constants/restaurant';
-import useRestaurantItem, {
-  RestaurantClickResponse,
-} from '../hooks/useRestaurantItem';
+import useRestaurantItem from '../hooks/useRestaurantItem';
 
 export const reduceTitle = (title: string) => {
   if (title.length >= 15) {
@@ -25,7 +23,7 @@ const RestaurantItem = ({
 }) => {
   const {handleClickLikeButton, handleClickItem} = useRestaurantItem();
 
-  const handleClickRestaurantItem = (item: RestaurantItemType) => {
+  const handleClickRestaurantItem = () => {
     setBottomSheetItem(item);
     openBottomSheet();
     handleClickItem.mutate(item);
