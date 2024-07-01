@@ -30,7 +30,7 @@ const RestaurantItem = ({
   };
 
   return (
-    <S.RestaurantItemContainer onPress={() => handleClickRestaurantItem(item)}>
+    <S.RestaurantItemContainer onPress={() => handleClickRestaurantItem()}>
       <View style={{gap: 6}}>
         <Txt
           label={reduceTitle(item.name)}
@@ -54,7 +54,7 @@ const RestaurantItem = ({
           </S.CategoryBox>
         </View>
       </View>
-      <Pressable onPress={() => handleClickLikeButton(item.id)}>
+      <Pressable onPress={() => handleClickLikeButton.mutate(item)}>
         <Icon
           color={item.like ? 'primaryBrand' : 'grey90'}
           name="heart"

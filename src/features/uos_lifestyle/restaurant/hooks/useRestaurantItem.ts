@@ -14,7 +14,7 @@ import {
   TopRestaurantListResponse,
   RestaurantClickResponse,
 } from '../types/restaurant.type';
-import {get} from '../../../../api/core/methods';
+import {get, post} from '../../../../api/core/methods';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
 
 const useRestaurantItem = () => {
@@ -52,9 +52,19 @@ const useRestaurantItem = () => {
     refetchOnWindowFocus: true,
   });
 
-  const handleClickLikeButton = (id: number) => {
-    // likeMutation.mutate(1);
-  };
+  const handleClickLikeButton = useMutation({
+    mutationFn: (
+      item: RestaurantItemType,
+    ): Promise<RestaurantClickResponse> => {
+      return post(`core/restaurant/like/${item.id}`);
+    },
+    onMutate: async () => {},
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getRestaurantData', 'top'],
+      });
+    },
+  });
 
   const queryClient = useQueryClient();
   const handleClickItem = useMutation({
