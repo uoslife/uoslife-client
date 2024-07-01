@@ -38,6 +38,16 @@ export const patch = async <T extends unknown>(
   return await patchRes.json();
 };
 
+export const put = async <T extends unknown>(
+  url: string,
+  body: unknown,
+  clientType: ClientType = 'DEFAULT',
+): KyJsonResponse<T> => {
+  const client = changeClient(clientType);
+  const putRes = await client.put(url, {json: body});
+  return await putRes.json();
+};
+
 export const del = async <T extends unknown>(
   url: string,
   body?: unknown,
