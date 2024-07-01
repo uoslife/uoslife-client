@@ -17,9 +17,10 @@ const RankingContainer = ({
   const handleClickRestaurantItem = (item: RestaurantItemType) => {
     setBottomSheetItem(item);
     openBottomSheet();
+    handleClickItem.mutate(item);
   };
 
-  const {getTopRestaurantItem} = useRestaurantItem();
+  const {getTopRestaurantItem, handleClickItem} = useRestaurantItem();
   const {data} = getTopRestaurantItem;
 
   return (

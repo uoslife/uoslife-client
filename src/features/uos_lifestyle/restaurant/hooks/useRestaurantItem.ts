@@ -4,10 +4,11 @@ import {
   InfiniteData,
   UseInfiniteQueryResult,
   useMutation,
+  useQueryClient,
 } from '@tanstack/react-query';
 import {FoodCategoryType, LocationType} from '../types/restaurant.type';
 import {RestaurantItemType} from '../RestaurantScreen';
-import {get, post} from '../../../../api/core/methods';
+import {get} from '../../../../api/core/methods';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
 
 export interface RestaurantListResponse {
@@ -18,6 +19,12 @@ export interface RestaurantListResponse {
 
 export interface TopRestaurantListResponst {
   restaurants: RestaurantItemType[];
+}
+
+export interface RestaurantClickResponse {
+  id: number;
+  name: string;
+  clickCount: number;
 }
 
 const useRestaurantItem = () => {
@@ -50,27 +57,52 @@ const useRestaurantItem = () => {
   };
 
   const getTopRestaurantItem = useQuery<TopRestaurantListResponst>({
-    queryKey: ['top'],
+    queryKey: ['getRestaurantData', 'top'],
     queryFn: () => get(`core/restaurant/top`),
-  });
-
-  const likeMutation = useMutation({
-    mutationKey: ['getRestaurantData'],
-    mutationFn: (id: number) => post(`core/restaurant/like/${id}`),
-    onSuccess: () => {
-      console.log('요청 성공');
-    },
-    onError: () => {
-      console.error('에러 발생');
-    },
-    onSettled: () => {
-      console.log('결과에 관계 없이 무언가 실행됨');
-    },
+    refetchOnWindowFocus: true,
   });
 
   const handleClickLikeButton = (id: number) => {
     // likeMutation.mutate(1);
   };
-  return {useRestaurantList, getTopRestaurantItem, handleClickLikeButton};
+
+  const queryClient = useQueryClient();
+  const handleClickItem = useMutation({
+    mutationFn: (
+      item: RestaurantItemType,
+    ): Promise<RestaurantClickResponse> => {
+      return get(`core/restaurant/click/${item.id}`);
+    },
+    onMutate: async (restaurant: RestaurantClickResponse) => {
+      queryClient.setQueryData(
+        ['getRestaurantData', 'top'],
+        (prev: TopRestaurantListResponst) => {
+          return {
+            restaurants: prev.restaurants.map(prevRestaurant => {
+              if (prevRestaurant.id === restaurant.id) {
+                return {
+                  ...prevRestaurant,
+                  clickCount: prevRestaurant.clickCount + 1,
+                };
+              }
+              return prevRestaurant;
+            }),
+          };
+        },
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getRestaurantData', 'top'],
+      });
+    },
+  });
+
+  return {
+    useRestaurantList,
+    getTopRestaurantItem,
+    handleClickLikeButton,
+    handleClickItem,
+  };
 };
 export default useRestaurantItem;
