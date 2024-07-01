@@ -9,14 +9,14 @@ const Stack = createStackNavigator<AcademicCalendarStackParamList>();
 const AcademicCalendarStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="academicCalendar"
+      initialRouteName="academic_calendar"
       screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name="academicCalendar"
+        name="academic_calendar"
         component={AcademicCalendarScreen}
       />
       <Stack.Screen
-        name="academicCalendar_search"
+        name="academic_calendar_search"
         component={AcademicCalendarSearchScreen}
       />
     </Stack.Navigator>

@@ -1,8 +1,8 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 export type AcademicCalendarStackParamList = {
-  academicCalendar?: undefined;
-  academicCalendar_search: undefined;
+  academic_calendar?: undefined;
+  academic_calendar_search: undefined;
 };
 
 // navigation props

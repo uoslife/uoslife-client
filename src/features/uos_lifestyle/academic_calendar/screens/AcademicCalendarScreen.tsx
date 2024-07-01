@@ -74,7 +74,7 @@ const AcademicCalendarScreen = () => {
           </S.TabWrapper>
 
           <S.IconWrapper
-            onPress={() => navigation.navigate('academicCalendar_search')}>
+            onPress={() => navigation.navigate('academic_calendar_search')}>
             <Icon name="search" width={24} height={24} />
           </S.IconWrapper>
         </S.TabContainer>
