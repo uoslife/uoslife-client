@@ -9,7 +9,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
-import {Txt, Icon, colors} from '@uoslife/design-system';
+import {Txt, Icon, colors, Button} from '@uoslife/design-system';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
@@ -21,6 +21,43 @@ import {ApiResponse, ErrorResponseType} from '../../types';
 import useUserState from '../../../../../hooks/useUserState';
 import {GraduateCreditRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 import {SUBJECT_BUTTON_LABEL} from '../../configs/constants';
+import {RootNavigationProps} from '../../../../../navigators/types/rootStack';
+
+const LoadingIndicatorComponent = () => (
+  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <ActivityIndicator size="large" color={colors.primaryBrand} />
+  </View>
+);
+
+const PortalUnauthorizedScreen = () => {
+  const navigation = useNavigation<RootNavigationProps>();
+
+  const handleNavigatePortalAuthenticate = async () => {
+    return navigation.navigate('student_id_portal_authentication');
+  };
+
+  return (
+    <S.PortalUnauthorizedScreenContainer>
+      <View style={{alignItems: 'center', gap: 6}}>
+        <Txt
+          label="포털계정이 연동되어 있지 않아요."
+          color="grey190"
+          typograph="headlineMedium"
+        />
+        <Txt
+          label="숨겨진 학점을 보려면 포털 연동을 해주세요!"
+          color="grey130"
+          typograph="titleSmall"
+        />
+      </View>
+      <Button
+        label="포털 계정 연동하기"
+        isFullWidth
+        onPress={handleNavigatePortalAuthenticate}
+      />
+    </S.PortalUnauthorizedScreenContainer>
+  );
+};
 
 const GraduateCreditScreen = () => {
   const navigation = useNavigation<GraduateCreditNavigationProp>();
@@ -29,11 +66,6 @@ const GraduateCreditScreen = () => {
   const [graduateCreditData, setGraduateCreditData] =
     useState<GraduateCreditRes>();
 
-  const LoadingIndicator = () => (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator size="large" color={colors.primaryBrand} />
-    </View>
-  );
   const {
     data: generalCredit,
     isLoading,
@@ -57,20 +89,26 @@ const GraduateCreditScreen = () => {
   });
 
   useEffect(() => {
+    if (!user?.isVerified) return; // 포탈 미인증
     if (isError) {
       graduateCreditMutation.mutate();
     } else {
       setGraduateCreditData(generalCredit);
     }
-  }, [generalCredit, graduateCreditData]);
+  }, [generalCredit]);
 
-  const parsedResponse = graduateCreditData
-    ? new BusinessLogic(graduateCreditData)
-    : null;
+  const parsedResponse =
+    graduateCreditData && new BusinessLogic(graduateCreditData);
+
+  // 포탈 미인증 시, 선언적 페이지 처리
+  if (!user?.isVerified) {
+    return <PortalUnauthorizedScreen />;
+  }
 
   if (isLoading || !graduateCreditData) {
-    return <LoadingIndicator />;
+    return <LoadingIndicatorComponent />;
   }
+
   return (
     <ScrollView bounces={false}>
       <Header
@@ -78,7 +116,6 @@ const GraduateCreditScreen = () => {
         label="이수 학점 확인하기"
         onPressBackButton={() => navigation.goBack()}
       />
-
       <S.GraduateCreditScreen>
         <SubjectDetailButton
           type="major"
@@ -238,6 +275,12 @@ const GraduateCreditScreen = () => {
 export default GraduateCreditScreen;
 
 const S = {
+  PortalUnauthorizedScreenContainer: styled.View`
+    padding: 24px 20px 150px;
+    flex: 1;
+    gap: 30px;
+    justify-content: center;
+  `,
   GraduateCreditScreen: styled.View`
     gap: 24px;
     padding: 30px 16px 120px 16px;
