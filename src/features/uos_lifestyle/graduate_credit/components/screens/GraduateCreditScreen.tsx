@@ -1,11 +1,5 @@
-import React, {Suspense, useEffect, useState} from 'react';
-import {
-  ScrollView,
-  Pressable,
-  View,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, Pressable, View, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
@@ -66,36 +60,38 @@ const GraduateCreditScreen = () => {
   const [graduateCreditData, setGraduateCreditData] =
     useState<GraduateCreditRes>();
 
-  const {
-    data: generalCredit,
-    isLoading,
-    isError,
-  } = useQuery<GraduateCreditRes>({
-    queryKey: ['getGraduateCredit'],
-    queryFn: () => CoreAPI.getAllGraduateCredit(),
-  });
+  const {isPending: isPendingForGetCredit, isError: isErrorForGetCredit} =
+    useQuery<GraduateCreditRes>({
+      queryKey: ['getGraduateCredit'],
+      queryFn: async () => {
+        const data = await CoreAPI.getAllGraduateCredit();
+        setGraduateCreditData(data);
+        return data;
+      },
+    });
 
-  const graduateCreditMutation = useMutation({
-    mutationKey: ['setGraduateCredit'],
-    mutationFn: () => CoreAPI.createGraduateCredit(),
-    onSuccess: data => {
-      setGraduateCreditData(data);
-    },
-    onError: (error: ErrorResponseType) => {
-      // TODO: Error 처리 필요
-      // 인증 정보 없을 때 처리
-      console.error('post error: ', error);
-    },
-  });
+  const {isPending: isPendingForCreateCredit, mutate: mutateGraduateCredit} =
+    useMutation({
+      mutationKey: ['setGraduateCredit'],
+      mutationFn: () => CoreAPI.createGraduateCredit(),
+      onSuccess: data => {
+        setGraduateCreditData(data);
+      },
+      onError: (error: ErrorResponseType) => {
+        // TODO: Error 처리 필요
+        // 인증 정보 없을 때 처리
+        console.error('post error: ', error);
+      },
+    });
 
   useEffect(() => {
-    if (!user?.isVerified) return; // 포탈 미인증
-    if (isError) {
-      graduateCreditMutation.mutate();
-    } else {
-      setGraduateCreditData(generalCredit);
+    // 포탈 미인증
+    if (!user?.isVerified) return;
+    // 졸업 이수학점 post 요청
+    if (isErrorForGetCredit) {
+      mutateGraduateCredit();
     }
-  }, [generalCredit]);
+  }, [isErrorForGetCredit]);
 
   const parsedResponse =
     graduateCreditData && new BusinessLogic(graduateCreditData);
@@ -105,7 +101,7 @@ const GraduateCreditScreen = () => {
     return <PortalUnauthorizedScreen />;
   }
 
-  if (isLoading || !graduateCreditData) {
+  if (isPendingForGetCredit || isPendingForCreateCredit) {
     return <LoadingIndicatorComponent />;
   }
 
