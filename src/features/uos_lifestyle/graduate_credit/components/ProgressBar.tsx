@@ -8,10 +8,10 @@ const calculatePercentage = (
   currentNum: number,
   totalNum: number,
   adjustNum?: number,
-) => `${(currentNum / totalNum - (adjustNum ?? 0)) * 100}`;
+) => `${Math.min((currentNum / totalNum - (adjustNum ?? 0)) * 100, 100)}`;
 
 type ProgressBarProps = {
-  type: 'main' | 'sub';
+  type: 'main' | 'sub' | 'none';
   maxNum: number;
   currentCredit: number;
   minGraduateCredit?: number;
@@ -62,6 +62,10 @@ const ProgressBar = ({
           </S.SpeechBubbleContainer>
           <Image source={PROGRESS_IMAGE.dashed_grey} />
         </S.MinCreditDescription>
+      )}
+      {type === 'none' && (
+        <S.CurrentCreditDescription
+          sidePosition={currentCreditPercentage}></S.CurrentCreditDescription>
       )}
     </S.TotalProgressBar>
   );

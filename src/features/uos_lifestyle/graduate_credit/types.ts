@@ -1,20 +1,28 @@
-interface CreditDetails {
+export interface CreditDetails {
   current: number | null;
   total: number | null;
 }
-// 더미데이터 객체 타입
+
 export interface ApiResponse {
   allCredit: CreditDetails;
-  majorRequirement: CreditDetails;
-  majorElective: CreditDetails;
-  generalEducationRequirement: CreditDetails;
-  generalEducationElective: CreditDetails;
-  doubleMajorRequirement: CreditDetails;
-  doubleMajorElective: CreditDetails;
-  minorRequirement: CreditDetails;
-  minorElective: CreditDetails;
   commonElective: number;
-  updatedAt?: string | null;
+  major: {
+    requirement: CreditDetails;
+    elective: CreditDetails;
+  };
+  generalEducation: {
+    requirement: CreditDetails;
+    elective: CreditDetails;
+  };
+  doubleMajor: {
+    requirement: CreditDetails;
+    elective: CreditDetails;
+  };
+  minor: {
+    requirement: CreditDetails;
+    elective: CreditDetails;
+  };
+  updatedAt: string | null;
 }
 
 export type FieldData = {
@@ -36,4 +44,15 @@ export type ErrorResponseType = {
 export type ButtonConfig = {
   label: string;
   key: keyof ApiResponse;
+};
+
+// 변수명 고치자
+export type CreditDetail = {
+  requirement: CreditDetails;
+  elective: CreditDetails;
+};
+
+export type SubjectCredit = {
+  requirement: CreditDetails;
+  elective: CreditDetails;
 };

@@ -1,7 +1,14 @@
-import {ScrollView, Pressable, View, Text} from 'react-native';
+import React, {Suspense, useEffect, useState} from 'react';
+import {
+  ScrollView,
+  Pressable,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import styled, {css} from '@emotion/native';
+import styled from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
@@ -10,44 +17,60 @@ import SubjectDetailButton from '../SubjectDetailButton';
 import BusinessLogic from '../../services/creditService';
 import {GraduateCreditNavigationProp} from '../../navigators/types/graduateCredit';
 import {CoreAPI} from '../../../../../api/services';
-import {useState} from 'react';
-import {ApiResponse} from '../../types';
+import {ApiResponse, ErrorResponseType} from '../../types';
 import useUserState from '../../../../../hooks/useUserState';
+import {GraduateCreditRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
+import {SUBJECT_BUTTON_LABEL} from '../../configs/constants';
 
 const GraduateCreditScreen = () => {
   const navigation = useNavigation<GraduateCreditNavigationProp>();
   const inset = useSafeAreaInsets();
   const {user} = useUserState();
-  const [data, setData] = useState<ApiResponse | null>(null);
+  const [graduateCreditData, setGraduateCreditData] =
+    useState<GraduateCreditRes>();
+
+  const LoadingIndicator = () => (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size="large" color={colors.primaryBrand} />
+    </View>
+  );
+  const {
+    data: generalCredit,
+    isLoading,
+    isError,
+  } = useQuery<GraduateCreditRes>({
+    queryKey: ['getGraduateCredit'],
+    queryFn: () => CoreAPI.getAllGraduateCredit(),
+  });
 
   const graduateCreditMutation = useMutation({
-    mutationKey: ['GraduateCredit'],
+    mutationKey: ['setGraduateCredit'],
     mutationFn: () => CoreAPI.createGraduateCredit(),
     onSuccess: data => {
-      setData(data);
+      setGraduateCreditData(data);
+    },
+    onError: (error: ErrorResponseType) => {
+      // TODO: Error 처리 필요
+      // 인증 정보 없을 때 처리
+      console.error('post error: ', error);
     },
   });
 
-  const {data: graduateData, isError} = useQuery({
-    queryKey: ['GraduateCredit'],
-    queryFn: () => CoreAPI.updateGraduateCredit(),
-  });
-  if (isError || !graduateData) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (isError) {
       graduateCreditMutation.mutate();
-    }, 1000);
-    return (
-      <View>
-        <Txt label="Loading" color="black" typograph="headlineLarge" />
-      </View>
-    );
-  }
-  if (!data) {
-    setData(graduateData);
-  }
+    } else {
+      setGraduateCreditData(generalCredit);
+    }
+  }, [generalCredit, graduateCreditData]);
 
-  const apiData = data ? new BusinessLogic(data as ApiResponse) : null;
+  const parsedResponse = graduateCreditData
+    ? new BusinessLogic(graduateCreditData)
+    : null;
 
+  if (isLoading || !graduateCreditData) {
+    return <LoadingIndicator />;
+  }
   return (
     <ScrollView bounces={false}>
       <Header
@@ -55,6 +78,7 @@ const GraduateCreditScreen = () => {
         label="이수 학점 확인하기"
         onPressBackButton={() => navigation.goBack()}
       />
+
       <S.GraduateCreditScreen>
         <SubjectDetailButton
           type="major"
@@ -69,7 +93,8 @@ const GraduateCreditScreen = () => {
           <S.FlexRowLayout>
             <Txt
               label={`${
-                (data?.allCredit?.total ?? 0) - (data?.allCredit?.current ?? 0)
+                (graduateCreditData?.allCredit?.total ?? 0) -
+                (graduateCreditData?.allCredit?.current ?? 0)
               }학점`}
               color="primaryBrand"
               typograph="headlineMedium"
@@ -77,8 +102,8 @@ const GraduateCreditScreen = () => {
             <Txt label="남았어요." color="grey190" typograph="headlineMedium" />
           </S.FlexRowLayout>
           <Txt
-            label={`${data?.allCredit?.current ?? 0}/${
-              data?.allCredit?.total ?? 0
+            label={`${graduateCreditData?.allCredit?.current ?? 0}/${
+              graduateCreditData?.allCredit?.total ?? 0
             }`}
             color="grey130"
             typograph="bodyMedium"
@@ -87,8 +112,10 @@ const GraduateCreditScreen = () => {
         <S.ProgressBarContainer>
           <ProgressBar
             type="main"
-            maxNum={parseInt(`${data?.allCredit?.total ?? 0}`)}
-            currentCredit={parseInt(`${data?.allCredit?.current ?? 0}`)}
+            maxNum={parseInt(`${graduateCreditData?.allCredit?.total ?? 0}`)}
+            currentCredit={parseInt(
+              `${graduateCreditData?.allCredit?.current ?? 0}`,
+            )}
           />
           <S.ProgressBarLabels>
             <Txt label="0" color="grey60" typograph="labelMedium" />
@@ -97,7 +124,8 @@ const GraduateCreditScreen = () => {
         </S.ProgressBarContainer>
         <S.MinCreditView>
           <S.FlexRowLayout>
-            {(data?.allCredit?.total ?? 0) > (data?.allCredit?.current ?? 0) ? (
+            {(graduateCreditData?.allCredit?.total ?? 0) >
+            (graduateCreditData?.allCredit?.current ?? 0) ? (
               <>
                 <Icon color="grey130" name="info" width={20} height={20} />
                 <Txt
@@ -106,23 +134,38 @@ const GraduateCreditScreen = () => {
                   typograph="bodyMedium"
                 />
               </>
-            ) : null}
+            ) : (
+              <>
+                <Icon
+                  color="primaryBrand"
+                  name="check"
+                  width={20}
+                  height={20}
+                />
+                <Txt
+                  label="졸업 학점을 모두 이수했어요"
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                />
+              </>
+            )}
           </S.FlexRowLayout>
           <S.FlexRowLayout>
-            {apiData
-              ?.getFieldsWithIncompleteCredits()
+            {parsedResponse
+              ?.getRemainingSubect()
               .map((field, index) => (
                 <SubjectDetailButton
                   key={index}
-                  label={`${field.label}`}
+                  label={`${field.label as keyof typeof SUBJECT_BUTTON_LABEL}`}
                   type="subject"
+                  data={graduateCreditData}
                 />
               ))}
           </S.FlexRowLayout>
         </S.MinCreditView>
         <S.HorizontalDividerThin />
         <S.DetailCreditTagContainer>
-          {apiData?.tags().map((tag, index) => (
+          {parsedResponse?.tags().map((tag, index) => (
             <S.DetailCreditTag key={index}>
               {tag.total !== 0 ? (
                 <S.TagWrapper>
@@ -130,19 +173,20 @@ const GraduateCreditScreen = () => {
                     <Txt
                       label={tag.label}
                       color="black"
-                      typograph="titleSmall"
+                      typograph="titleMedium"
                     />
                     <Pressable
                       onPress={() =>
-                        navigation.navigate('graduateCredit_detail', {
-                          Props: data as ApiResponse,
+                        navigation.navigate('graduate_credit_detail', {
+                          Props: graduateCreditData as ApiResponse,
+                          type: tag.label,
                         })
                       }>
                       <Icon
                         name="forwardArrow"
                         color="grey90"
-                        width={20}
-                        height={20}
+                        width={25}
+                        height={25}
                       />
                     </Pressable>
                   </S.TagHeader>
@@ -172,13 +216,13 @@ const GraduateCreditScreen = () => {
                     <Txt
                       label={tag.label}
                       color="grey40"
-                      typograph="bodyLarge"
+                      typograph="titleMedium"
                     />
                     <Icon
                       name="forwardArrow"
                       color="grey40"
-                      width={20}
-                      height={20}
+                      width={25}
+                      height={25}
                     />
                   </S.TagHeader>
                 </S.TagWrapper>
