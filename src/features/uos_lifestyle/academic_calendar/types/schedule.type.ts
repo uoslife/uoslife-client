@@ -5,5 +5,5 @@ type ScheduleType = {
   endDate: string;
   isBookmarked?: boolean;
   onAlarm?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
