@@ -34,7 +34,7 @@ const UosLifestyleScreen = () => {
         <NavigationList
           label="숨은 학점 확인하기"
           labelIcon="search"
-          onPress={() => navigation.navigate('check_grade')}
+          onPress={() => navigation.navigate('hidden_grade')}
         />
         <NavigationList
           label="2023 도서관 이용내역"
