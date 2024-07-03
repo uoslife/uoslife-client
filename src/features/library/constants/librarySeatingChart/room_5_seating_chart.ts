@@ -213,7 +213,7 @@ const ROOM_5_SEATING_CHART: SeatingChartType = [
     SeatItemEnum.NONE,
   ],
   [
-    SeatItemEnum.NONE,
+    4,
     SeatItemEnum.NONE,
     SeatItemEnum.NONE,
     1,

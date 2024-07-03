@@ -25,6 +25,7 @@ export type RootStackParamList = {
   meeting: undefined;
   check_grade: undefined;
   restaurant: undefined;
+  hidden_grade: undefined;
 
   // account
   account: undefined;

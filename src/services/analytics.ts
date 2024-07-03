@@ -9,6 +9,7 @@ export default class AnalyticsService {
     logEventName: LogEventNameType,
     logEventObject: LogEventObjectType,
   ): Promise<void> {
+    if (__DEV__) return;
     await analytics().logEvent(logEventName, logEventObject);
   }
 }

@@ -23,7 +23,7 @@ android {
         applicationId "com.beyondconnect.uoslife"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20201
+        versionCode 20202
         versionName "2.0.2"
     }
 
@@ -55,7 +55,7 @@ android {
 
     buildTypes {
         debug {
-            resValue "string", "CodePushDeploymentKey", '""'
+            resValue "string", "CodePushDeploymentKey", '"ur1Tn5svNZAMrGxMdrKxKzbCO0cYf3c097pIK"'
         }
         release {
             shrinkResources true
@@ -80,6 +80,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:32.2.2')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
