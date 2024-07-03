@@ -1,4 +1,4 @@
-export type ScheduleItemType = {
+export interface ISchedule {
   scheduleId: number;
   title: string;
   startDate: string;
@@ -8,9 +8,5 @@ export type ScheduleItemType = {
 };
 
 export type GetSearchedScheduleParams = {keyword: string};
-export type GetSearchedScheduleResponse = ScheduleItemType[];
 
 export type GetMonthlyScheduleParams = {year: number; month: number};
-export type GetMonthlyScheduleResponse = ScheduleItemType[];
-
-export type GetMyScheduleResponse = ScheduleItemType[];
