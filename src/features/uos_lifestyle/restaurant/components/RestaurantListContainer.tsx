@@ -18,9 +18,7 @@ import {
   reversedLocationList,
 } from '../constants/restaurant';
 import useRestaurantItem from '../hooks/useRestaurantItem';
-import storage from '../../../../storage';
 
-console.log(storage.getString('accessToken'));
 export interface RestaurantListResponse {
   page: number;
   size: number;
@@ -82,14 +80,14 @@ const RestaurantListContainer = ({
         <BorderSelect
           options={Object.values(locationList)}
           currentOption={
-            locationList[location] === 'TOTAL' ? '위치' : locationList[location]
+            locationList[location] === '전체' ? '위치' : locationList[location]
           }
           setCurrent={setMappedLocation}
         />
         <BorderSelect
           options={Object.values(foodCategoryList)}
           currentOption={
-            foodCategoryList[foodCategory] === 'TOTAL'
+            foodCategoryList[foodCategory] === '전체'
               ? '종류'
               : foodCategoryList[foodCategory]
           }
