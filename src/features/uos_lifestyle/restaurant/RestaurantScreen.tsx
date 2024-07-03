@@ -27,31 +27,28 @@ const RestaurantScreen = () => {
       console.error("Couldn't load page", err),
     );
   };
+
   const closeGuidePopup = () => {
     storage.set('isRestaurantGuidePopupFirstOpen', false);
     setIsGuidePopupOpen(false);
   };
-  const renderGuidePopup = () => {
-    if (storage.getBoolean('isRestaurantGuidePopupFirstOpen')) {
-      return (
-        <GuidePopup
-          label="클릭 시 지도 앱으로 연결됩니다."
-          tail="CENTER"
-          onPress={closeGuidePopup}
-          theme="PRIMARY"
-          style={css`
-            align-self: center;
-            top: 450px;
-            z-index: 1;
-          `}
-        />
-      );
-    }
-    return null;
-  };
+
   return (
     <View>
-      {renderGuidePopup()}
+      {isGuidePopupOpen &&
+        storage.getBoolean('isRestaurantGuidePopupFirstOpen') && (
+          <GuidePopup
+            label="클릭 시 지도 앱으로 연결됩니다."
+            tail="CENTER"
+            onPress={closeGuidePopup}
+            theme="PRIMARY"
+            style={css`
+              align-self: center;
+              top: 450px;
+              z-index: 1;
+            `}
+          />
+        )}
       <Header
         style={{paddingTop: inset.top}}
         label="맛집 리스트"

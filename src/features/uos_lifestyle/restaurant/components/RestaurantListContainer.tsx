@@ -18,7 +18,9 @@ import {
   reversedLocationList,
 } from '../constants/restaurant';
 import useRestaurantItem from '../hooks/useRestaurantItem';
+import storage from '../../../../storage';
 
+console.log(storage.getString('accessToken'));
 export interface RestaurantListResponse {
   page: number;
   size: number;
@@ -76,7 +78,7 @@ const RestaurantListContainer = ({
       <View style={{gap: 12}}>
         <Txt label="시립대 주변 맛집" color="grey190" typograph="titleLarge" />
       </View>
-      <View style={{flexDirection: 'row', gap: 12, zIndex: 10}}>
+      <View style={{flexDirection: 'row', gap: 12, zIndex: 1}}>
         <BorderSelect
           options={Object.values(locationList)}
           currentOption={
