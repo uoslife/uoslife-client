@@ -1,11 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
-import {View} from 'react-native';
-import {useState, ComponentProps, useRef} from 'react';
+import {View, ScrollView} from 'react-native';
+import {useState, ComponentProps, useRef, useEffect} from 'react';
+import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {TextInput} from 'react-native-gesture-handler';
+import {useQuery} from '@tanstack/react-query';
+import {Txt, colors} from '@uoslife/design-system';
 import Header from '../../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 import SearchInput from '../../../../components/molecules/common/forms/searchInput/SearchInput';
+import {ScheduleItemType} from '../types/ScheduleItemType';
+import CalendarAPI from '../api';
+import ScheduleItem from '../components/ScheduleItem';
 
 const AcademicCalendarSearchScreen = () => {
   const inset = useSafeAreaInsets();
@@ -14,7 +20,7 @@ const AcademicCalendarSearchScreen = () => {
   const [isSearchWordEntering, setSearchWordEntering] =
     useState<boolean>(false);
   const inputRef = useRef<TextInput>(null);
-  const [dummy, setDummy] = useState<string>(''); // onSubmitEditing 동작용 더미 코드
+  const [triggerSearch, setTriggerSearch] = useState<boolean>(false);
 
   const searchInputProps: ComponentProps<typeof SearchInput> = {
     inputRef,
@@ -27,7 +33,7 @@ const AcademicCalendarSearchScreen = () => {
       setSearchWord(text);
     },
     onSubmitEditing: () => {
-      setDummy(searchWord);
+      setTriggerSearch(true);
     },
     onPressClear: () => {
       setSearchWord('');
@@ -37,16 +43,66 @@ const AcademicCalendarSearchScreen = () => {
     value: searchWord,
   };
 
+  const {data: getMyscheduleItem, isSuccess} = useQuery<ScheduleItemType[]>({
+    queryKey: ['SearchResults', searchWord],
+    queryFn: async () =>
+      await CalendarAPI.getSearchedSchedule({keyword: searchWord}),
+    enabled: triggerSearch && !!searchWord,
+  });
+  useEffect(() => {
+    if (isSuccess) {
+      setTriggerSearch(false);
+    }
+  }, [isSuccess]);
+
   return (
-    <View>
+    <View style={{paddingBottom: inset.bottom}}>
       <Header
         style={{paddingTop: inset.top, marginBottom: 8}}
         label=""
         onPressBackButton={() => navigation.goBack()}>
         <SearchInput {...searchInputProps} />
       </Header>
+      <S.Container>
+        {isSuccess && getMyscheduleItem && triggerSearch && (
+          <ScrollView
+            contentContainerStyle={{
+              padding: 16,
+              paddingBottom: inset.top + 150,
+            }}>
+            {getMyscheduleItem.length === 0 ? (
+              <Txt label="없어" color="black" typograph="labelLarge" />
+            ) : (
+              getMyscheduleItem.map((item, index) => (
+                <S.ItemContainer>
+                  <ScheduleItem
+                    schedule={item}
+                    editable={false}
+                    checkedIdx={index}
+                    isChecked={false}
+                    onCheckboxChange={(id, isChecked) => {
+                      console.log(
+                        `Checkbox 상태 변경: ID=${id}, isChecked=${isChecked}`,
+                      );
+                    }}
+                  />
+                </S.ItemContainer>
+              ))
+            )}
+          </ScrollView>
+        )}
+      </S.Container>
     </View>
   );
+};
+
+const S = {
+  Container: styled.View`
+    height: 100%;
+  `,
+  ItemContainer: styled.View`
+    margin-bottom: 16px;
+  `,
 };
 
 export default AcademicCalendarSearchScreen;
