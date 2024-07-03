@@ -23,7 +23,7 @@ import AnimatePress from '../../../../../components/animations/pressable_icon/An
 import {UtilAPI} from '../../../../../api/services';
 import {ReservationSeatParams} from '../../../../../api/services/util/library/libraryAPI.type';
 import showLibraryErrorCode from '../../../utils/showLibraryErrorCode';
-import {ErrorResponseType} from '../../../../../api/services/type';
+import {IErrorResponse} from '../../../../../api/services/type';
 import useUserState from '../../../../../hooks/useUserState';
 import AnalyticsService from '../../../../../services/analytics';
 import LibraryStatusInfoBox from '../../molecules/LibraryStatusInfoBox';
@@ -64,7 +64,7 @@ const LibrarySeatingChartScreen = ({
     mutationKey: ['reservationSeat'],
     mutationFn: (params: ReservationSeatParams) =>
       UtilAPI.reservationSeat(params),
-    onError: (error: ErrorResponseType) => {
+    onError: (error: IErrorResponse) => {
       showLibraryErrorCode(error.code, 'reservation');
     },
     onSuccess: async () => {
