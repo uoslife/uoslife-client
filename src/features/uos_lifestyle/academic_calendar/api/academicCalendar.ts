@@ -6,16 +6,16 @@ const DEFAULT_YEAR = 2024;
 
 const AcademicCalendarAPI: AcademicCalendarService = {
   getSearchedSchedule: params =>
-    get<Type.GetSearchedScheduleResponse>(
+    get<Type.ISchedule>(
       `utility/schedules/search?keyword=${params?.keyword}`,
     ),
   getMonthlySchedule: params =>
-    get<Type.GetMonthlyScheduleResponse>(
+    get<Type.ISchedule>(
       `utility/schedules/calendar?year=${
         params?.year || DEFAULT_YEAR
       }&month=${params?.month}`,
     ),
-  getMySchedule: () => get<Type.GetMyScheduleResponse>('utility/schedules/me'),
+  getMySchedule: () => get<Type.ISchedule>('utility/schedules/me'),
 };
 
 export default AcademicCalendarAPI;

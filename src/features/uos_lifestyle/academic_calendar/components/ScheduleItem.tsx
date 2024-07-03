@@ -3,9 +3,10 @@ import {Txt, colors} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 import Checkbox from './Checkbox';
+import { ScheduleItemType } from '../types/ScheduleItem';
 
 type ScheduleItemProps = {
-  schedule: ScheduleType;
+  schedule: ScheduleItemType;
   editable: boolean;
   checkedIdx: number;
   isChecked: boolean;
