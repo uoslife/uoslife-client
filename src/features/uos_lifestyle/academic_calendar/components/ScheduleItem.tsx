@@ -3,7 +3,7 @@ import {Txt, colors} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 import Checkbox from './Checkbox';
-import { ScheduleItemType } from '../types/ScheduleItem';
+import {ScheduleItemType} from '../types/ScheduleItemType';
 
 type ScheduleItemProps = {
   schedule: ScheduleItemType;

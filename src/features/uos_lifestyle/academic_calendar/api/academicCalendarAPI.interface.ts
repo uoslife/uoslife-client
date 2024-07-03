@@ -7,11 +7,11 @@ import * as Type from './academicCalendarAPI.type';
 export default interface AcademicCalendarService {
   getSearchedSchedule: ServiceFunc<
     Type.GetSearchedScheduleParams,
-    Type.GetSearchedScheduleResponse
+    Type.ISchedule
   >;
   getMonthlySchedule: ServiceFunc<
     Type.GetMonthlyScheduleParams,
-    Type.GetMonthlyScheduleResponse
+    Type.ISchedule
   >;
-  getMySchedule: ServiceFuncWithoutParams<Type.GetMyScheduleResponse>;
+  getMySchedule: ServiceFuncWithoutParams<Type.ISchedule>;
 }
