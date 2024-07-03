@@ -5,7 +5,7 @@ export interface ISchedule {
   endDate: string;
   isBookmarked: boolean;
   setNotification?: boolean;
-};
+}
 
 export type GetSearchedScheduleParams = {keyword: string};
 
