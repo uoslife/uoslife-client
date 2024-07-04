@@ -14,4 +14,8 @@ export default interface AcademicCalendarService {
     Type.ISchedule[]
   >;
   getMySchedule: ServiceFuncWithoutParams<Type.ISchedule[]>;
+
+  setBookmark: ServiceFunc<Type.SetBookmarkParams, undefined>;
+  setNotification: ServiceFunc<Type.SetNotificationParams, undefined>;
+  deleteNotification: ServiceFunc<Type.DeleteNotificationParams, undefined>;
 }
