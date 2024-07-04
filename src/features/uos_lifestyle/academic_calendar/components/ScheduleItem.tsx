@@ -24,6 +24,7 @@ const ScheduleItem = ({
   useEffect(() => {
     onCheckboxChange(checkedIdx, checked);
   }, [checked]);
+
   return (
     <S.ScheduleItemContainer editable={editable}>
       {editable && (
@@ -44,7 +45,15 @@ const ScheduleItem = ({
           <>
             {'isBookmarked' in schedule &&
               (schedule.isBookmarked ? (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    console.log('press');
+                    schedule.onClick(
+                      schedule.scheduleId,
+                      schedule.isBookmarked,
+                    );
+                  }}>
                   <S.Icon>
                     <S.Img
                       source={require('../assets/bookmark_border_on.png')}
@@ -57,7 +66,15 @@ const ScheduleItem = ({
                   </S.Icon>
                 </AnimatePress>
               ) : (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    console.log('press');
+                    schedule.onClick(
+                      schedule.scheduleId,
+                      schedule.isBookmarked,
+                    );
+                  }}>
                   <S.Icon>
                     <S.Img
                       source={require('../assets/bookmark_border_off.png')}
@@ -72,7 +89,15 @@ const ScheduleItem = ({
               ))}
             {'onAlarm' in schedule &&
               (schedule.onAlarm ? (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    console.log('press');
+                    schedule.onClick(
+                      schedule.scheduleId,
+                      schedule.isBookmarked,
+                    );
+                  }}>
                   <S.Icon>
                     <S.Img source={require('../assets/notifications_on.png')} />
                     <Txt
@@ -83,7 +108,15 @@ const ScheduleItem = ({
                   </S.Icon>
                 </AnimatePress>
               ) : (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    console.log('press');
+                    schedule.onClick(
+                      schedule.scheduleId,
+                      schedule.isBookmarked,
+                    );
+                  }}>
                   <S.Icon>
                     <S.Img
                       source={require('../assets/notifications_off.png')}
