@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Pressable, View, ActivityIndicator} from 'react-native';
+import {Pressable, View, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
@@ -24,7 +24,7 @@ const LoadingIndicatorComponent = () => (
   </View>
 );
 
-const PortalUnauthorizedScreen = () => {
+const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<RootNavigationProps>();
 
   const handleNavigatePortalAuthenticate = async () => {
@@ -60,6 +60,9 @@ const GraduateCreditScreen = () => {
   const {user} = useUserState();
   const [graduateCreditData, setGraduateCreditData] =
     useState<GraduateCreditRes>();
+
+  const totalCredit = graduateCreditData?.allCredit.total ?? 0;
+  const currentCredit = graduateCreditData?.allCredit.current ?? 0;
 
   const {isPending: isPendingForGetCredit, isError: isErrorForGetCredit} =
     useQuery<GraduateCreditRes>({
@@ -99,10 +102,10 @@ const GraduateCreditScreen = () => {
 
   // 포탈 미인증 시, 선언적 페이지 처리
   if (!user?.isVerified) {
-    return <PortalUnauthorizedScreen />;
+    return <PortalUnauthorizedComponent />;
   }
 
-  // 이수학점 생성 로딩 페이지
+  // 이수학점 생성 로딩 페이지 -> 생성된 학점 받아오는중 | 생성된 학점 받기 실패 && 학점 생성하는중
   if (
     isPendingForGetCredit ||
     (isErrorForGetCredit && isPendingForCreateCredit)
@@ -112,19 +115,19 @@ const GraduateCreditScreen = () => {
 
   // 이수학점 페이지 랜더링
   return (
-    <View style={{flex: 1, backgroundColor: colors.white}}>
+    <View style={{flex: 1}}>
       <Header
         style={{paddingTop: inset.top, marginBottom: 8}}
         label="이수 학점 확인하기"
         onPressBackButton={() => navigation.goBack()}
       />
       <AnimatedScrollRefreshComponent onScroll={mutateGraduateCredit}>
-        <S.GraduateCreditScreen>
+        <S.GraduateCreditContentContainer>
           <SubjectDetailButton
             type="major"
             label={`${user?.identity.department}`}
           />
-          <S.HeaderView>
+          <S.Description>
             <Txt
               label={`${user?.name}님은 졸업까지`}
               color="grey190"
@@ -132,10 +135,7 @@ const GraduateCreditScreen = () => {
             />
             <S.FlexRowLayout>
               <Txt
-                label={`${
-                  (graduateCreditData?.allCredit?.total ?? 0) -
-                  (graduateCreditData?.allCredit?.current ?? 0)
-                }학점`}
+                label={`${totalCredit - currentCredit}학점`}
                 color="primaryBrand"
                 typograph="headlineMedium"
               />
@@ -146,20 +146,16 @@ const GraduateCreditScreen = () => {
               />
             </S.FlexRowLayout>
             <Txt
-              label={`${graduateCreditData?.allCredit?.current ?? 0}/${
-                graduateCreditData?.allCredit?.total ?? 0
-              }`}
+              label={`${currentCredit}/${totalCredit}`}
               color="grey130"
               typograph="bodyMedium"
             />
-          </S.HeaderView>
+          </S.Description>
           <S.ProgressBarContainer>
             <ProgressBar
               type="main"
-              maxNum={parseInt(`${graduateCreditData?.allCredit?.total ?? 0}`)}
-              currentCredit={parseInt(
-                `${graduateCreditData?.allCredit?.current ?? 0}`,
-              )}
+              maxNum={parseInt(`${totalCredit}`)}
+              currentCredit={parseInt(`${currentCredit}`)}
             />
             <S.ProgressBarLabels>
               <Txt label="0" color="grey60" typograph="labelMedium" />
@@ -168,8 +164,7 @@ const GraduateCreditScreen = () => {
           </S.ProgressBarContainer>
           <S.MinCreditView>
             <S.FlexRowLayout>
-              {(graduateCreditData?.allCredit?.total ?? 0) >
-              (graduateCreditData?.allCredit?.current ?? 0) ? (
+              {totalCredit > currentCredit ? (
                 <>
                   <Icon color="grey130" name="info" width={20} height={20} />
                   <Txt
@@ -197,9 +192,9 @@ const GraduateCreditScreen = () => {
             <S.FlexRowLayout>
               {parsedResponse
                 ?.getRemainingSubect()
-                .map((field, index) => (
+                .map(field => (
                   <SubjectDetailButton
-                    key={index}
+                    key={`${field.label} 부족한 이수학점`}
                     label={`${
                       field.label as keyof typeof SUBJECT_BUTTON_LABEL
                     }`}
@@ -211,8 +206,8 @@ const GraduateCreditScreen = () => {
           </S.MinCreditView>
           <S.HorizontalDividerThin />
           <S.DetailCreditTagContainer>
-            {parsedResponse?.tags().map((tag, index) => (
-              <S.DetailCreditTag key={index}>
+            {parsedResponse?.tags().map(tag => (
+              <S.DetailCreditTag key={`${tag.label} 세부이수학점`}>
                 {tag.total !== 0 ? (
                   <S.TagWrapper>
                     <S.TagHeader>
@@ -276,7 +271,7 @@ const GraduateCreditScreen = () => {
               </S.DetailCreditTag>
             ))}
           </S.DetailCreditTagContainer>
-        </S.GraduateCreditScreen>
+        </S.GraduateCreditContentContainer>
       </AnimatedScrollRefreshComponent>
     </View>
   );
@@ -291,11 +286,11 @@ const S = {
     gap: 30px;
     justify-content: center;
   `,
-  GraduateCreditScreen: styled.View`
+  GraduateCreditContentContainer: styled.View`
     gap: 24px;
     flex: 1;
   `,
-  HeaderView: styled.View`
+  Description: styled.View`
     margin-top: -8px;
     margin-bottom: 8px;
   `,

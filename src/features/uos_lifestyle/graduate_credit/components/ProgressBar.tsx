@@ -1,4 +1,4 @@
-import {Image, Text, View} from 'react-native';
+import {Image, View} from 'react-native';
 import styled, {css} from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 import {PROGRESS_IMAGE} from '../configs/constants';
@@ -43,7 +43,11 @@ const ProgressBar = ({
               border: 1px solid ${colors.primaryBrand};
               border-radius: 20px;
               align-items: center;
-              left: -21px;
+              left: ${`${
+                currentCredit / maxNum === 1 || currentCredit > maxNum
+                  ? -36
+                  : -21
+              }px`};
             `}>
             <Txt
               label={`${Math.floor(+currentCreditPercentage)}%`}
@@ -64,8 +68,7 @@ const ProgressBar = ({
         </S.MinCreditDescription>
       )}
       {type === 'none' && (
-        <S.CurrentCreditDescription
-          sidePosition={currentCreditPercentage}></S.CurrentCreditDescription>
+        <S.CurrentCreditDescription sidePosition={currentCreditPercentage} />
       )}
     </S.TotalProgressBar>
   );
@@ -94,8 +97,9 @@ const S = {
     width: ${({sidePosition}) => `${sidePosition}%`};
     min-width: 0;
     max-width: 100%;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-radius: 8px;
+    border-top-right-radius: ${({type}) => `${type === 'main' ? 0 : 8}px`};
+    border-bottom-right-radius: ${({type}) => `${type === 'main' ? 0 : 8}px`};
     background: ${colors.primaryBrand};
   `,
   // 현재 이수학점 태그

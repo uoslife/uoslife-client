@@ -1,17 +1,398 @@
-import React, {useState} from 'react';
+import React, {Suspense, useState} from 'react';
+import {
+  useQuery,
+  UseQueryResult,
+  useSuspenseQuery,
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {ScrollView, View, TouchableOpacity} from 'react-native';
-import Header from '../../../../../components/molecules/common/header/Header';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
 import ProgressBar from '../ProgressBar';
 import {GraduateCreditStackParamList} from '../../navigators/types/graduateCredit';
-import {useSuspenseQuery} from '@tanstack/react-query';
 import {CoreAPI} from '../../../../../api/services';
-import {ApiResponse, CreditDetail, CreditDetails} from '../../types';
+import {ApiResponse, CreditDetail} from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
+import Header from '../../../../../components/molecules/common/header/Header';
+import {SubjectCreditListRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 
+type DetailInformationComponentProps = {
+  type?: string;
+  requimentCreditTotal: number;
+  requimentCreditCurrent: number;
+  electiveCreditTotal: number;
+  electiveCreditCurrent: number;
+  creditData: ApiResponse;
+  generalEducationDetail: UseSuspenseQueryResult<SubjectCreditListRes, Error>;
+};
+
+const MainMajorDetailComponent = ({
+  type,
+  requimentCreditCurrent,
+  requimentCreditTotal,
+  electiveCreditCurrent,
+  electiveCreditTotal,
+  creditData,
+}: Omit<DetailInformationComponentProps, 'generalEducationDetail'>) => {
+  return (
+    <View>
+      <S.CreditInfoContainer>
+        <S.CreditInfoBox>
+          <Txt label={`${type}필수`} color="grey130" typograph="titleMedium" />
+          <S.TextWrapper>
+            <Txt
+              label={`${requimentCreditCurrent}`}
+              color="grey190"
+              typograph="titleLarge"
+            />
+            <Txt
+              label={`/${requimentCreditTotal}`}
+              color="primaryLighter"
+              typograph="titleMedium"
+            />
+          </S.TextWrapper>
+        </S.CreditInfoBox>
+        <S.VerticalDivider />
+        <S.CreditInfoBox>
+          <Txt label={`${type}선택`} color="grey130" typograph="titleMedium" />
+          <S.TextWrapper>
+            <Txt
+              label={`${electiveCreditCurrent ?? 0}`}
+              color="grey190"
+              typograph="titleLarge"
+            />
+            <Txt
+              label={`/${electiveCreditTotal ?? 0}`}
+              color="primaryLighter"
+              typograph="titleMedium"
+            />
+          </S.TextWrapper>
+        </S.CreditInfoBox>
+        <S.VerticalDivider />
+        <S.CreditInfoBox>
+          <Txt label="일반선택" color="grey130" typograph="titleMedium" />
+          <S.TextWrapper>
+            <Txt
+              label={`${creditData.commonElective}`}
+              color="grey190"
+              typograph="titleMedium"
+            />
+          </S.TextWrapper>
+        </S.CreditInfoBox>
+      </S.CreditInfoContainer>
+      <S.HorizontalDividerThin />
+
+      <S.ProgressBarWrapper>
+        <S.TextWrapper>
+          <Txt label={`${type}필수 `} color="grey190" typograph="titleLarge" />
+          <Txt
+            label={`${requimentCreditCurrent}/${requimentCreditTotal}`}
+            color="grey90"
+            typograph="bodyMedium"
+          />
+        </S.TextWrapper>
+        <ProgressBar
+          type="none"
+          maxNum={requimentCreditTotal}
+          currentCredit={requimentCreditCurrent}
+        />
+        {requimentCreditTotal - requimentCreditCurrent <= 0 && (
+          <Txt
+            label="필수 학점을 모두 이수했어요."
+            color="primaryBrand"
+            typograph="bodyMedium"
+          />
+        )}
+      </S.ProgressBarWrapper>
+      <S.ProgressBarWrapper>
+        <S.TextWrapper>
+          <Txt label={`${type}선택 `} color="grey190" typograph="titleLarge" />
+          <Txt
+            label={`${electiveCreditCurrent}/${electiveCreditTotal}`}
+            color="grey90"
+            typograph="bodyMedium"
+          />
+        </S.TextWrapper>
+        <ProgressBar
+          type="none"
+          maxNum={electiveCreditTotal}
+          currentCredit={electiveCreditCurrent}
+        />
+        {electiveCreditTotal - electiveCreditCurrent <= 0 && (
+          <Txt
+            label="필수 학점을 모두 이수했어요."
+            color="primaryBrand"
+            typograph="bodyMedium"
+          />
+        )}
+      </S.ProgressBarWrapper>
+    </View>
+  );
+};
+
+const SubjectDetailComponent = ({
+  requimentCreditCurrent,
+  requimentCreditTotal,
+  electiveCreditCurrent,
+  electiveCreditTotal,
+  generalEducationDetail,
+}: Omit<DetailInformationComponentProps, 'creditData'>) => {
+  const [activeTab, setActiveTab] = useState('필수');
+  return (
+    <View>
+      <S.CreditInfoContainer>
+        <S.CreditInfoBox>
+          <Txt label="교양필수" color="grey130" typograph="titleMedium" />
+          <S.TextWrapper>
+            <Txt
+              label={`${requimentCreditCurrent ?? 0}`}
+              color="grey190"
+              typograph="titleLarge"
+            />
+            <Txt
+              label={`/${requimentCreditTotal}`}
+              color="primaryLighter"
+              typograph="titleMedium"
+            />
+          </S.TextWrapper>
+        </S.CreditInfoBox>
+        <S.VerticalDivider />
+        <S.CreditInfoBox>
+          <Txt label="교양선택" color="grey130" typograph="titleMedium" />
+          <S.TextWrapper>
+            <Txt
+              label={`${electiveCreditCurrent}`}
+              color="grey190"
+              typograph="titleLarge"
+            />
+            <Txt
+              label={`/${electiveCreditTotal}`}
+              color="primaryLighter"
+              typograph="titleMedium"
+            />
+          </S.TextWrapper>
+        </S.CreditInfoBox>
+      </S.CreditInfoContainer>
+      <S.HorizontalDivider />
+      <S.TabContainer>
+        <S.TabButton
+          active={activeTab === '필수'}
+          onPress={() => setActiveTab('필수')}>
+          <Txt
+            label="교양필수"
+            color={activeTab === '필수' ? 'primaryBrand' : 'grey130'}
+            typograph="bodyLarge"
+          />
+        </S.TabButton>
+        <S.TabButton
+          active={activeTab === '선택'}
+          onPress={() => setActiveTab('선택')}>
+          <Txt
+            label="교양선택"
+            color={activeTab === '선택' ? 'primaryBrand' : 'grey130'}
+            typograph="bodyLarge"
+          />
+        </S.TabButton>
+      </S.TabContainer>
+      {activeTab === '필수' ? (
+        <View>
+          <S.ProgressBarWrapper>
+            <S.TextWrapper>
+              <Txt label="진행률 " color="grey190" typograph="titleLarge" />
+              <Txt
+                label={`${requimentCreditCurrent}/${requimentCreditTotal}`}
+                color="grey90"
+                typograph="bodyMedium"
+              />
+            </S.TextWrapper>
+            <ProgressBar
+              type="main"
+              maxNum={requimentCreditTotal}
+              currentCredit={requimentCreditCurrent}
+            />
+            {requimentCreditTotal - requimentCreditTotal <= 0 ? (
+              <S.TextWrapper>
+                <Icon
+                  name="check"
+                  width={20}
+                  height={20}
+                  color="primaryBrand"
+                />
+                <Txt
+                  label="교양 필수 학점을 모두 이수했어요"
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                />
+              </S.TextWrapper>
+            ) : (
+              <S.TextWrapper>
+                <Icon name="info" width={20} height={20} color="grey130" />
+                <Txt
+                  label="아직 최소 학점을 채우지 못했어요"
+                  color="grey130"
+                  typograph="bodyMedium"
+                />
+              </S.TextWrapper>
+            )}
+          </S.ProgressBarWrapper>
+          <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
+          <Suspense fallback={<LoadingIndicator />}>
+            <S.DetailInfoContainer>
+              {generalEducationDetail.data
+                ?.filter(item => item.courseType === 'Requirement')
+                .map((item, index) => (
+                  <View key={`${item.courseName} 필수교양`}>
+                    <S.DetailInfoBox>
+                      <Txt
+                        label={item.courseName}
+                        color="grey190"
+                        typograph="bodyLarge"
+                      />
+                      <S.TextWrapper>
+                        <Txt
+                          label={`${item.courseTotal}`}
+                          color="grey190"
+                          typograph="titleLarge"
+                        />
+                        <Txt
+                          label={`/${item.courseRequirement}`}
+                          color="grey90"
+                          typograph="titleLarge"
+                        />
+                      </S.TextWrapper>
+                    </S.DetailInfoBox>
+                    {index <
+                      generalEducationDetail.data.filter(
+                        item => item.courseType === 'Requirement',
+                      ).length -
+                        1 && <S.HorizontalDividerThin />}
+                  </View>
+                ))}
+            </S.DetailInfoContainer>
+          </Suspense>
+        </View>
+      ) : (
+        <View>
+          <S.ProgressBarWrapper>
+            <S.TextWrapper>
+              <Txt label="진행률 " color="grey190" typograph="titleLarge" />
+              <Txt
+                label={`${electiveCreditCurrent}/${electiveCreditTotal}`}
+                color="grey90"
+                typograph="bodyMedium"
+              />
+            </S.TextWrapper>
+            <ProgressBar
+              type="main"
+              maxNum={electiveCreditTotal}
+              currentCredit={electiveCreditCurrent}
+            />
+            {electiveCreditTotal - electiveCreditCurrent <= 0 ? (
+              <S.TextWrapper>
+                <Icon
+                  name="check"
+                  width={20}
+                  height={20}
+                  color="primaryBrand"
+                />
+                <Txt
+                  label="교양 선택 학점을 모두 이수했어요."
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                />
+              </S.TextWrapper>
+            ) : (
+              <S.TextWrapper>
+                <Icon name="alarm" width={20} height={20} color="grey130" />
+                <Txt
+                  label="아직 최소 학점을 채우지 못했어요."
+                  color="grey130"
+                  typograph="bodyMedium"
+                />
+              </S.TextWrapper>
+            )}
+          </S.ProgressBarWrapper>
+          <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
+          <Suspense fallback={<LoadingIndicator />}>
+            <S.DetailInfoContainer>
+              {generalEducationDetail.data
+                ?.filter(item => item.courseType === 'Elective')
+                .map((item, index) => (
+                  <View key={`${item.courseName} 선택교양`}>
+                    <S.DetailInfoBox>
+                      <Txt
+                        label={item.courseName}
+                        color="grey190"
+                        typograph="bodyLarge"
+                      />
+                      <S.TextWrapper>
+                        <Txt
+                          label={`${item.courseTotal}`}
+                          color="grey190"
+                          typograph="titleLarge"
+                        />
+                        <Txt
+                          label={`/${item.courseRequirement}`}
+                          color="grey90"
+                          typograph="titleLarge"
+                        />
+                      </S.TextWrapper>
+                    </S.DetailInfoBox>
+                    {index <
+                      generalEducationDetail.data.filter(
+                        item => item.courseType === 'Elective',
+                      ).length -
+                        1 && <S.HorizontalDividerThin />}
+                  </View>
+                ))}
+            </S.DetailInfoContainer>
+          </Suspense>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const DetailInformationComponent = ({
+  type,
+  requimentCreditCurrent,
+  requimentCreditTotal,
+  electiveCreditCurrent,
+  electiveCreditTotal,
+  creditData,
+  generalEducationDetail,
+}: DetailInformationComponentProps) => {
+  // Header
+  switch (type) {
+    case '전공':
+    case '복수전공':
+    case '부전공':
+      return (
+        <MainMajorDetailComponent
+          type={type}
+          requimentCreditCurrent={requimentCreditCurrent}
+          requimentCreditTotal={requimentCreditTotal}
+          creditData={creditData}
+          electiveCreditCurrent={electiveCreditCurrent}
+          electiveCreditTotal={electiveCreditTotal}
+        />
+      );
+    // default 교양
+    default: {
+      return (
+        <SubjectDetailComponent
+          requimentCreditTotal={requimentCreditTotal}
+          requimentCreditCurrent={requimentCreditCurrent}
+          electiveCreditTotal={electiveCreditTotal}
+          electiveCreditCurrent={electiveCreditCurrent}
+          generalEducationDetail={generalEducationDetail}
+        />
+      );
+    }
+  }
+};
 const CreditDetailScreen = () => {
   const route =
     useRoute<
@@ -20,12 +401,10 @@ const CreditDetailScreen = () => {
   const {Props: creditData, type} = route.params;
   const navigation = useNavigation();
   const inset = useSafeAreaInsets();
-  // 교양 탭 교양필수, 교양선택 전환용 상태 관리
-  const [activeTab, setActiveTab] = useState('필수');
 
   // TODO: Error, api loading 처리 필요
   // 현재 쿼리 세부 페이지에서 항상 호출중
-  const generalEducationDetail = useSuspenseQuery({
+  const generalEducationDetail = useSuspenseQuery<SubjectCreditListRes>({
     queryKey: ['NecessarySubjectCredit'],
     queryFn: () => CoreAPI.getNecessarySubjectCredit(),
   });
@@ -63,359 +442,6 @@ const CreditDetailScreen = () => {
   const remainingCredits =
     totalCredits - currentCredits <= 0 ? 0 : totalCredits - currentCredits;
 
-  if (type === '교양' && generalEducationDetail?.isLoading) {
-    return <LoadingIndicator />;
-  }
-
-  const DetailInformation = () => {
-    // Header
-    switch (type) {
-      case '전공':
-      case '복수전공':
-      case '부전공':
-        return (
-          <View>
-            <S.CreditInfoContainer>
-              <S.CreditInfoBox>
-                <Txt
-                  label={`${type}필수`}
-                  color="grey130"
-                  typograph="titleMedium"
-                />
-                <S.TextWrapper>
-                  <Txt
-                    label={`${requimentCreditCurrent}`}
-                    color="grey190"
-                    typograph="titleLarge"
-                  />
-                  <Txt
-                    label={`/${requimentCreditTotal}`}
-                    color="primaryLighter"
-                    typograph="titleMedium"
-                  />
-                </S.TextWrapper>
-              </S.CreditInfoBox>
-              <S.VerticalDivider />
-              <S.CreditInfoBox>
-                <Txt
-                  label={`${type}선택`}
-                  color="grey130"
-                  typograph="titleMedium"
-                />
-                <S.TextWrapper>
-                  <Txt
-                    label={`${electiveCreditCurrent ?? 0}`}
-                    color="grey190"
-                    typograph="titleLarge"
-                  />
-                  <Txt
-                    label={`/${electiveCreditTotal ?? 0}`}
-                    color="primaryLighter"
-                    typograph="titleMedium"
-                  />
-                </S.TextWrapper>
-              </S.CreditInfoBox>
-              <S.VerticalDivider />
-              <S.CreditInfoBox>
-                <Txt label="일반선택" color="grey130" typograph="titleMedium" />
-                <S.TextWrapper>
-                  <Txt
-                    label={`${creditData.commonElective}`}
-                    color="grey190"
-                    typograph="titleMedium"
-                  />
-                </S.TextWrapper>
-              </S.CreditInfoBox>
-            </S.CreditInfoContainer>
-            <S.HorizontalDividerThin />
-
-            <S.ProgressBarWrapper>
-              <S.TextWrapper>
-                <Txt
-                  label={`${type}필수 `}
-                  color="grey190"
-                  typograph="titleLarge"
-                />
-                <Txt
-                  label={`${requimentCreditCurrent}/${requimentCreditTotal}`}
-                  color="grey90"
-                  typograph="bodyMedium"
-                />
-              </S.TextWrapper>
-              <ProgressBar
-                type="none"
-                maxNum={requimentCreditTotal}
-                currentCredit={requimentCreditCurrent}
-              />
-              {requimentCreditTotal - requimentCreditCurrent <= 0 && (
-                <Txt
-                  label="필수 학점을 모두 이수했어요."
-                  color="primaryBrand"
-                  typograph="bodyMedium"
-                />
-              )}
-            </S.ProgressBarWrapper>
-            <S.ProgressBarWrapper>
-              <S.TextWrapper>
-                <Txt
-                  label={`${type}선택 `}
-                  color="grey190"
-                  typograph="titleLarge"
-                />
-                <Txt
-                  label={`${electiveCreditCurrent}/${electiveCreditTotal}`}
-                  color="grey90"
-                  typograph="bodyMedium"
-                />
-              </S.TextWrapper>
-              <ProgressBar
-                type="none"
-                maxNum={electiveCreditTotal}
-                currentCredit={electiveCreditCurrent}
-              />
-              {electiveCreditTotal - electiveCreditCurrent <= 0 && (
-                <Txt
-                  label="필수 학점을 모두 이수했어요."
-                  color="primaryBrand"
-                  typograph="bodyMedium"
-                />
-              )}
-            </S.ProgressBarWrapper>
-          </View>
-        );
-      // default 교양
-      default: {
-        return (
-          <View>
-            <S.CreditInfoContainer>
-              <S.CreditInfoBox>
-                <Txt label="교양필수" color="grey130" typograph="titleMedium" />
-                <S.TextWrapper>
-                  <Txt
-                    label={`${requimentCreditCurrent ?? 0}`}
-                    color="grey190"
-                    typograph="titleLarge"
-                  />
-                  <Txt
-                    label={`/${requimentCreditTotal}`}
-                    color="primaryLighter"
-                    typograph="titleMedium"
-                  />
-                </S.TextWrapper>
-              </S.CreditInfoBox>
-              <S.VerticalDivider />
-              <S.CreditInfoBox>
-                <Txt label="교양선택" color="grey130" typograph="titleMedium" />
-                <S.TextWrapper>
-                  <Txt
-                    label={`${electiveCreditCurrent}`}
-                    color="grey190"
-                    typograph="titleLarge"
-                  />
-                  <Txt
-                    label={`/${electiveCreditTotal}`}
-                    color="primaryLighter"
-                    typograph="titleMedium"
-                  />
-                </S.TextWrapper>
-              </S.CreditInfoBox>
-            </S.CreditInfoContainer>
-            <S.HorizontalDivider />
-            <S.TabContainer>
-              <S.TabButton
-                active={activeTab === '필수'}
-                onPress={() => setActiveTab('필수')}>
-                <Txt
-                  label="교양필수"
-                  color={activeTab === '필수' ? 'primaryBrand' : 'grey130'}
-                  typograph="bodyLarge"
-                />
-              </S.TabButton>
-              <S.TabButton
-                active={activeTab === '선택'}
-                onPress={() => setActiveTab('선택')}>
-                <Txt
-                  label="교양선택"
-                  color={activeTab === '선택' ? 'primaryBrand' : 'grey130'}
-                  typograph="bodyLarge"
-                />
-              </S.TabButton>
-            </S.TabContainer>
-            {activeTab === '필수' ? (
-              <View>
-                <S.ProgressBarWrapper>
-                  <S.TextWrapper>
-                    <Txt
-                      label="진행률 "
-                      color="grey190"
-                      typograph="titleLarge"
-                    />
-                    <Txt
-                      label={`${requimentCreditCurrent}/${requimentCreditTotal}`}
-                      color="grey90"
-                      typograph="bodyMedium"
-                    />
-                  </S.TextWrapper>
-                  <ProgressBar
-                    type="main"
-                    maxNum={requimentCreditTotal}
-                    currentCredit={requimentCreditCurrent}
-                  />
-                  {requimentCreditTotal - requimentCreditTotal <= 0 ? (
-                    <S.TextWrapper>
-                      <Icon
-                        name="check"
-                        width={20}
-                        height={20}
-                        color="primaryBrand"
-                      />
-                      <Txt
-                        label="교양 필수 학점을 모두 이수했어요"
-                        color="primaryBrand"
-                        typograph="bodyMedium"
-                      />
-                    </S.TextWrapper>
-                  ) : (
-                    <S.TextWrapper>
-                      <Icon
-                        name="info"
-                        width={20}
-                        height={20}
-                        color="grey130"
-                      />
-                      <Txt
-                        label="아직 최소 학점을 채우지 못했어요"
-                        color="grey130"
-                        typograph="bodyMedium"
-                      />
-                    </S.TextWrapper>
-                  )}
-                </S.ProgressBarWrapper>
-                <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
-                <S.DetailInfoContainer>
-                  {generalEducationDetail?.data
-                    ?.filter(item => item.courseType === 'Requirement')
-                    .map((item, index) => (
-                      <View key={index}>
-                        <S.DetailInfoBox>
-                          <Txt
-                            label={item.courseName}
-                            color="grey190"
-                            typograph="bodyLarge"
-                          />
-                          <S.TextWrapper>
-                            <Txt
-                              label={`${item.courseTotal}`}
-                              color="grey190"
-                              typograph="titleLarge"
-                            />
-                            <Txt
-                              label={`/${item.courseRequirement}`}
-                              color="grey90"
-                              typograph="titleLarge"
-                            />
-                          </S.TextWrapper>
-                        </S.DetailInfoBox>
-                        {index <
-                          generalEducationDetail.data.filter(
-                            item => item.courseType === 'Requirement',
-                          ).length -
-                            1 && <S.HorizontalDividerThin />}
-                      </View>
-                    ))}
-                </S.DetailInfoContainer>
-              </View>
-            ) : (
-              <View>
-                <S.ProgressBarWrapper>
-                  <S.TextWrapper>
-                    <Txt
-                      label="진행률 "
-                      color="grey190"
-                      typograph="titleLarge"
-                    />
-                    <Txt
-                      label={`${electiveCreditCurrent}/${electiveCreditTotal}`}
-                      color="grey90"
-                      typograph="bodyMedium"
-                    />
-                  </S.TextWrapper>
-                  <ProgressBar
-                    type="main"
-                    maxNum={electiveCreditTotal}
-                    currentCredit={electiveCreditCurrent}
-                  />
-                  {electiveCreditTotal - electiveCreditCurrent <= 0 ? (
-                    <S.TextWrapper>
-                      <Icon
-                        name="check"
-                        width={20}
-                        height={20}
-                        color="primaryBrand"
-                      />
-                      <Txt
-                        label="교양 선택 학점을 모두 이수했어요."
-                        color="primaryBrand"
-                        typograph="bodyMedium"
-                      />
-                    </S.TextWrapper>
-                  ) : (
-                    <S.TextWrapper>
-                      <Icon
-                        name="alarm"
-                        width={20}
-                        height={20}
-                        color="grey130"
-                      />
-                      <Txt
-                        label="아직 최소 학점을 채우지 못했어요."
-                        color="grey130"
-                        typograph="bodyMedium"
-                      />
-                    </S.TextWrapper>
-                  )}
-                </S.ProgressBarWrapper>
-                <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
-                <S.DetailInfoContainer>
-                  {generalEducationDetail?.data
-                    ?.filter(item => item.courseType === 'Elective')
-                    .map((item, index) => (
-                      <View key={index}>
-                        <S.DetailInfoBox>
-                          <Txt
-                            label={item.courseName}
-                            color="grey190"
-                            typograph="bodyLarge"
-                          />
-                          <S.TextWrapper>
-                            <Txt
-                              label={`${item.courseTotal}`}
-                              color="grey190"
-                              typograph="titleLarge"
-                            />
-                            <Txt
-                              label={`/${item.courseRequirement}`}
-                              color="grey90"
-                              typograph="titleLarge"
-                            />
-                          </S.TextWrapper>
-                        </S.DetailInfoBox>
-                        {index <
-                          generalEducationDetail.data.filter(
-                            item => item.courseType === 'Elective',
-                          ).length -
-                            1 && <S.HorizontalDividerThin />}
-                      </View>
-                    ))}
-                </S.DetailInfoContainer>
-              </View>
-            )}
-          </View>
-        );
-      }
-    }
-  };
-
   return (
     <ScrollView bounces={false}>
       <Header
@@ -450,7 +476,15 @@ const CreditDetailScreen = () => {
             />
           </View>
         </S.HeaderContainer>
-        {DetailInformation()}
+        {DetailInformationComponent({
+          type,
+          requimentCreditCurrent,
+          requimentCreditTotal,
+          electiveCreditCurrent,
+          electiveCreditTotal,
+          creditData,
+          generalEducationDetail,
+        })}
       </S.ScreenContainer>
     </ScrollView>
   );
