@@ -3,88 +3,27 @@ import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Icon, Txt, colors} from '@uoslife/design-system';
-import {useCallback, useEffect, useState} from 'react';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useState} from 'react';
 import {AcademicCalendarNavigationProp} from '../types/AcademicCalendar';
 import Header from '../../../../components/molecules/common/header/Header';
 import {ScheduleTabEnum} from '../constants';
-import storage from '../../../../storage';
-import {ScheduleItemType} from '../types/ScheduleItemType';
-import ScheduleItem from '../components/ScheduleItem';
-import CalendarAPI from '../api';
-import {ISchedule, SetBookmarkParams} from '../api/academicCalendarAPI.type';
 
-console.log(storage.getString('accessToken'));
 const AcademicCalendarScreen = () => {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<AcademicCalendarNavigationProp>();
   const date = new Date();
   const week = ['일', '월', '화', '수', '목', '금', '토'];
   const [selectedTab, setSelectedTab] = useState(ScheduleTabEnum.ALL);
-  const [editable, setEditable] = useState<boolean>(false);
 
-  const [checkedList, setCheckedList] = useState<boolean[]>([]);
-  const [uiScheduleItem, setUiScheduleItem] = useState<ScheduleItemType[]>([]);
-
-  const checkboxHandler = (id: number, isChecked: boolean) => {
-    const tmp = [...checkedList];
-    const Btmp = tmp.slice(id, checkedList.length);
-    const Ftmp = tmp.slice(0, id);
-    let resultArray: boolean[] = [];
-    resultArray = resultArray.concat(Btmp, [isChecked], Ftmp);
-    setCheckedList(resultArray);
-  };
-
-  const {data: allScheduleItemData, refetch: refetchAllSchedule} = useQuery<
-    ISchedule[]
-  >({
-    queryKey: ['allScheduleItems'],
-    queryFn: () => {
-      return CalendarAPI.getMonthlySchedule({month: 5});
-    },
-  });
-  const bookmarkMutation = useMutation({
-    mutationKey: ['allScheduleItems'],
-    mutationFn: (params: SetBookmarkParams) => CalendarAPI.setBookmark(params),
-    onSuccess: async () => {
-      refetchAllSchedule();
-      console.log('mutate');
-    },
-    onError(error, variables, context) {
-      console.log(`errror : ${error}`);
-      console.log(variables);
-      console.log(context);
-    },
-  });
-
-  const bookmarkHandler = useCallback(
-    (param: number, flag: boolean) => {
-      console.log('clicked!');
-      bookmarkMutation.mutate({
-        scheduleId: param,
-        isBookmarked: !flag,
-      });
-    },
-    [bookmarkMutation],
-  );
-
-  useEffect(() => {
-    if (!uiScheduleItem) return;
-    const tmpCheckedList = uiScheduleItem.map(item => {
-      return false;
-    });
-    setCheckedList(tmpCheckedList);
-  }, [uiScheduleItem]);
-
-  // 모든 일정을 가져옴.
-  // 북마크 기능이 활설화 됨
-  useEffect(() => {
-    if (!allScheduleItemData) return;
-    const ui: ScheduleItemType[] = allScheduleItemData.map(scheduleItem => {
-      return {...scheduleItem, onClick: bookmarkHandler};
-    });
-    setUiScheduleItem(ui);
-  }, [allScheduleItemData]);
+  // const currentDate: Date = new Date();
+  // const [month, setMonth] = useState<number>(currentDate.getMonth() + 1);
+  // const year: number = currentDate.getFullYear();
+  // const handlePreviousMonth = () => {
+  //   setMonth(month === 1 ? 12 : month - 1);
+  // };
+  // const handleNextMonth = () => {
+  //   setMonth(month === 12 ? 1 : month + 1);
+  // };
 
   return (
     <View>
@@ -140,21 +79,6 @@ const AcademicCalendarScreen = () => {
           </S.IconWrapper>
         </S.TabContainer>
       </S.Container>
-      <S.ScheduleContainer>
-        {uiScheduleItem &&
-          uiScheduleItem.map((scheduleItem, idx: number) => {
-            return (
-              <ScheduleItem
-                key={scheduleItem.scheduleId}
-                schedule={scheduleItem}
-                editable={editable}
-                checkedIdx={idx}
-                isChecked={checkedList[idx]}
-                onCheckboxChange={checkboxHandler}
-              />
-            );
-          })}
-      </S.ScheduleContainer>
     </View>
   );
 };
@@ -165,11 +89,6 @@ const S = {
   Container: styled.View`
     display: flex;
     gap: 10px;
-  `,
-  ScheduleContainer: styled.View`
-    display: flex;
-    gap: 12px;
-    padding: 0 16px;
   `,
   TodayInfoBox: styled.View`
     margin-top: 24px;
