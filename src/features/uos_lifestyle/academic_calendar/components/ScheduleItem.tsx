@@ -98,7 +98,7 @@ const ScheduleItem = ({
                   variant="scale_up_3"
                   onPress={() => {
                     if (!notificationHandler) return;
-                    if (!schedule.setNotification) return;
+                    if (schedule.setNotification === undefined) return;
                     notificationHandler(
                       schedule.scheduleId,
                       schedule.startDate,
@@ -119,7 +119,7 @@ const ScheduleItem = ({
                   variant="scale_up_3"
                   onPress={() => {
                     if (!notificationHandler) return;
-                    if (!schedule.setNotification) return;
+                    if (schedule.setNotification === undefined) return;
                     notificationHandler(
                       schedule.scheduleId,
                       schedule.startDate,

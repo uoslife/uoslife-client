@@ -61,8 +61,18 @@ const AcademicCalendarScreen = () => {
 
   const setNotificationMutation = useMutation({
     mutationKey: ['myScheduleItems'],
-    mutationFn: (params: SetNotificationParams) =>
-      CalendarAPI.setNotification(params),
+    mutationFn: (params: SetNotificationParams) => {
+      console.log('나 실행했어');
+      console.log(params);
+      return CalendarAPI.setNotification(params);
+    },
+    onSuccess(data, variables, context) {
+      console.log(`너냐? setnoti?${data}`);
+    },
+    onError(data, variables, context) {
+      console.log(data);
+      console.log(`너냐? setnoti?${data}`);
+    },
   });
 
   const delNotificationMutation = useMutation({
@@ -75,14 +85,9 @@ const AcademicCalendarScreen = () => {
     mutationKey: ['allScheduleItems'],
     mutationFn: (params: SetBookmarkParams) => CalendarAPI.setBookmark(params),
     onSuccess: async () => {
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ['allScheduleItems'],
       });
-    },
-    onError(error, variables, context) {
-      console.log(`errror : ${error}`);
-      console.log(variables);
-      console.log(context);
     },
   });
 

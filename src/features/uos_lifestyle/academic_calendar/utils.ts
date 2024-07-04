@@ -1,7 +1,8 @@
 // 알람 설정 시간을 반환합니다.
 // ['2024-01-01T09:00:00'', '2024-01-01T15:00:00']
 export const getNotiTime = (standardDateStr: string) => {
-  const standardDate = new Date(standardDateStr); // KST
+  const formattedStandardDateStr = standardDateStr.split('.').join('-');
+  const standardDate = new Date(formattedStandardDateStr); // KST
   const yesterdayTime = standardDate.getTime() - 24 * 60 * 60 * 1000;
 
   const yesterday = new Date(yesterdayTime);
