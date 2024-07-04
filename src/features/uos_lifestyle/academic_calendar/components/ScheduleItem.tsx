@@ -3,14 +3,22 @@ import {Txt, colors} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 import Checkbox from './Checkbox';
-import {ScheduleItemType} from '../types/ScheduleItemType';
+import {ScheduleTabEnum} from '../constants';
+import {ISchedule} from '../api/academicCalendarAPI.type';
 
 type ScheduleItemProps = {
-  schedule: ScheduleItemType;
+  schedule: ISchedule;
   editable: boolean;
   checkedIdx: number;
   isChecked: boolean;
+  tabType: string;
   onCheckboxChange: (id: number, isChecked: boolean) => void;
+  bookmarkHandler?: (param: number, flag: boolean) => void;
+  notificationHandler?: (
+    param: number,
+    date: string,
+    isNotification: boolean,
+  ) => void;
 };
 
 const ScheduleItem = ({
@@ -19,11 +27,15 @@ const ScheduleItem = ({
   onCheckboxChange,
   checkedIdx,
   isChecked,
+  tabType,
+  bookmarkHandler,
+  notificationHandler,
 }: ScheduleItemProps) => {
   const [checked, setChecked] = useState<boolean>(isChecked);
   useEffect(() => {
     onCheckboxChange(checkedIdx, checked);
   }, [checked]);
+
   return (
     <S.ScheduleItemContainer editable={editable}>
       {editable && (
@@ -42,9 +54,14 @@ const ScheduleItem = ({
       <S.IconContainer>
         {!editable && (
           <>
-            {'isBookmarked' in schedule &&
+            {tabType === ScheduleTabEnum.ALL &&
               (schedule.isBookmarked ? (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    if (!bookmarkHandler) return;
+                    bookmarkHandler(schedule.scheduleId, schedule.isBookmarked);
+                  }}>
                   <S.Icon>
                     <S.Img
                       source={require('../assets/bookmark_border_on.png')}
@@ -57,7 +74,12 @@ const ScheduleItem = ({
                   </S.Icon>
                 </AnimatePress>
               ) : (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    if (!bookmarkHandler) return;
+                    bookmarkHandler(schedule.scheduleId, schedule.isBookmarked);
+                  }}>
                   <S.Icon>
                     <S.Img
                       source={require('../assets/bookmark_border_off.png')}
@@ -70,9 +92,19 @@ const ScheduleItem = ({
                   </S.Icon>
                 </AnimatePress>
               ))}
-            {'onAlarm' in schedule &&
-              (schedule.onAlarm ? (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+            {tabType === ScheduleTabEnum.MY_SCHEDULE &&
+              (schedule.setNotification ? (
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    if (!notificationHandler) return;
+                    if (!schedule.setNotification) return;
+                    notificationHandler(
+                      schedule.scheduleId,
+                      schedule.startDate,
+                      schedule.setNotification,
+                    );
+                  }}>
                   <S.Icon>
                     <S.Img source={require('../assets/notifications_on.png')} />
                     <Txt
@@ -83,7 +115,17 @@ const ScheduleItem = ({
                   </S.Icon>
                 </AnimatePress>
               ) : (
-                <AnimatePress variant="scale_up_3" onPress={schedule.onClick}>
+                <AnimatePress
+                  variant="scale_up_3"
+                  onPress={() => {
+                    if (!notificationHandler) return;
+                    if (!schedule.setNotification) return;
+                    notificationHandler(
+                      schedule.scheduleId,
+                      schedule.startDate,
+                      schedule.setNotification,
+                    );
+                  }}>
                   <S.Icon>
                     <S.Img
                       source={require('../assets/notifications_off.png')}
