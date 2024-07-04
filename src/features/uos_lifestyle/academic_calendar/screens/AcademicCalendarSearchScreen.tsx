@@ -5,7 +5,7 @@ import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {TextInput} from 'react-native-gesture-handler';
 import {useQuery} from '@tanstack/react-query';
-import {Txt, colors} from '@uoslife/design-system';
+import {Txt} from '@uoslife/design-system';
 import Header from '../../../../components/molecules/common/header/Header';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
 import SearchInput from '../../../../components/molecules/common/forms/searchInput/SearchInput';
@@ -71,7 +71,13 @@ const AcademicCalendarSearchScreen = () => {
               paddingBottom: inset.top + 150,
             }}>
             {getMyscheduleItem.length === 0 ? (
-              <Txt label="없어" color="black" typograph="labelLarge" />
+              <S.TxtContainer>
+                <Txt
+                  label="검색결과가 없어요."
+                  color="grey130"
+                  typograph="labelLarge"
+                />
+              </S.TxtContainer>
             ) : (
               getMyscheduleItem.map((item, index) => (
                 <S.ItemContainer>
@@ -102,6 +108,14 @@ const S = {
   `,
   ItemContainer: styled.View`
     margin-bottom: 16px;
+  `,
+  TxtContainer: styled.View`
+    display: flex;
+    width: 360px;
+    padding: 48px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   `,
 };
 
