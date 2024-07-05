@@ -10,7 +10,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		32542DC39A67CAA9F560620C /* libPods-uoslife.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D43B308D3AAD135A27F6B4B1 /* libPods-uoslife.a */; };
 		3A3A996D2BEACF57009802F7 /* DynamicIslandBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF55FE32BEAC90F003456A9 /* DynamicIslandBridge.m */; };
 		3A3A996E2BEACF5C009802F7 /* DynamicIslandModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF55FDF2BEAC8E7003456A9 /* DynamicIslandModule.swift */; };
 		3A3A99712BEACF7A009802F7 /* DynamicIslandWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF55FD22BEAC825003456A9 /* DynamicIslandWidgetLiveActivity.swift */; };
