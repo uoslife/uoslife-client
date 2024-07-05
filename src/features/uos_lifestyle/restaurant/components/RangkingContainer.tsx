@@ -39,10 +39,8 @@ const RankingContainer = ({
         <View>
           {data?.restaurants.map((item, idx) => {
             return (
-              <>
-                <S.RankingItem
-                  key={item.id}
-                  onPress={() => handleClickRestaurantItem(item)}>
+              <View key={item.id}>
+                <S.RankingItem onPress={() => handleClickRestaurantItem(item)}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -122,7 +120,7 @@ const RankingContainer = ({
                 {idx !== data.restaurants.length - 1 && (
                   <View style={styles.lineStyle} />
                 )}
-              </>
+              </View>
             );
           })}
         </View>
