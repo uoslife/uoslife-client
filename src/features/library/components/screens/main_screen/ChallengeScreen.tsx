@@ -15,8 +15,8 @@ import GuidePopup from '../../../../../components/molecules/common/GuidePopup';
 import boxShadowStyle from '../../../../../styles/boxShadow';
 import useUserState from '../../../../../hooks/useUserState';
 import customShowToast from '../../../../../configs/toast';
-import UtilityService from '../../../../../services/utility';
 import LibraryChallengeBoard from '../../molecules/LibraryChallengeBoard';
+import LibraryServices from '../../../services/library';
 
 export const ChallengUserStatusImgEnum: {
   [key in ChallengeUserStatusType]: any;
@@ -45,7 +45,7 @@ const ChallengeScreen = () => {
   const {data: challengeData, refetch} = useQuery({
     queryKey: ['getChallengeData', 'MONTH', '시대생'],
     queryFn: () =>
-      UtilityService.getMyLibraryRanking({
+      LibraryServices.getMyLibraryRanking({
         duration: 'MONTH',
         major: '시대생',
       }),
