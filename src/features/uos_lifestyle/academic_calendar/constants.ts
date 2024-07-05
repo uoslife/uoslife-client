@@ -1,8 +1,4 @@
-export type ScheduleStatusType =
-  | 'ALL'
-  | 'NOTIFICATION'
-  | 'IN_PROGRESS'
-  | 'ON_FILTER';
+export type ScheduleStatusType = 'ALL' | 'NOTIFICATION' | 'IN_PROGRESS';
 export type ScheduleStatusEnumType = Record<ScheduleStatusType, string>;
 
 export type ScheduleTabType = 'ALL' | 'MY_SCHEDULE';
@@ -12,7 +8,6 @@ export const STATUSES: ScheduleStatusType[] = [
   'ALL',
   'NOTIFICATION',
   'IN_PROGRESS',
-  'ON_FILTER',
 ] as const;
 
 export const ScheduleTabEnum: ScheduleTabEnumType = {

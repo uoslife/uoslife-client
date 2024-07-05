@@ -3,12 +3,15 @@ import styled from '@emotion/native';
 import FilterButton from './FilterButton';
 import {STATUSES} from '../constants';
 
-const FilterButtonGroup = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
+interface FilterButtonGroupProps {
+  selectedFilter: string;
+  handleFilterPress: (filterName: string) => void;
+}
 
-  const handleFilterPress = (filterName: string) => {
-    setSelectedFilter(filterName);
-  };
+const FilterButtonGroup = ({
+  selectedFilter,
+  handleFilterPress,
+}: FilterButtonGroupProps) => {
   return (
     <S.Container>
       {STATUSES.map(status => (

@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
 import {Txt, colors} from '@uoslife/design-system';
 import {useEffect, useState} from 'react';
+import Clipboard from '@react-native-clipboard/clipboard';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 import Checkbox from './Checkbox';
 import {ScheduleTabEnum} from '../constants';
@@ -12,13 +13,14 @@ type ScheduleItemProps = {
   checkedIdx: number;
   isChecked: boolean;
   tabType: string;
-  onCheckboxChange: (id: number, isChecked: boolean) => void;
+  onCheckboxChange: (id: number) => void;
   bookmarkHandler?: (param: number, flag: boolean) => void;
   notificationHandler?: (
     param: number,
     date: string,
     isNotification: boolean,
   ) => void;
+  delNotificationHandler?: (notificationId: number[]) => void;
 };
 
 const ScheduleItem = ({
@@ -30,11 +32,36 @@ const ScheduleItem = ({
   tabType,
   bookmarkHandler,
   notificationHandler,
+  delNotificationHandler,
 }: ScheduleItemProps) => {
-  const [checked, setChecked] = useState<boolean>(isChecked);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+  const [isNotificated, setIsNotificated] = useState<boolean>(false);
+  const copyToClipboard = async () => {
+    Clipboard.setString(schedule.title);
+  };
   useEffect(() => {
-    onCheckboxChange(checkedIdx, checked);
+    onCheckboxChange(schedule.scheduleId);
   }, [checked]);
+  useEffect(() => {
+    setChecked(false);
+  }, [editable]);
+
+  useEffect(() => {
+    if (tabType === ScheduleTabEnum.ALL) {
+      if (schedule.isBookmarked === undefined) return;
+      setIsBookmarked(schedule.isBookmarked);
+    }
+    if (tabType === ScheduleTabEnum.MY_SCHEDULE) {
+      if (schedule.setNotification === undefined) return;
+      setIsNotificated(schedule.setNotification);
+    }
+  }, [schedule, tabType]);
+
+  useEffect(() => {
+    if (isChecked) return;
+    setChecked(isChecked);
+  }, [isChecked]);
 
   return (
     <S.ScheduleItemContainer editable={editable}>
@@ -55,11 +82,12 @@ const ScheduleItem = ({
         {!editable && (
           <>
             {tabType === ScheduleTabEnum.ALL &&
-              (schedule.isBookmarked ? (
+              (isBookmarked ? (
                 <AnimatePress
                   variant="scale_up_3"
                   onPress={() => {
                     if (!bookmarkHandler) return;
+                    setIsBookmarked(!isBookmarked);
                     bookmarkHandler(schedule.scheduleId, schedule.isBookmarked);
                   }}>
                   <S.Icon>
@@ -78,6 +106,7 @@ const ScheduleItem = ({
                   variant="scale_up_3"
                   onPress={() => {
                     if (!bookmarkHandler) return;
+                    setIsBookmarked(!isBookmarked);
                     bookmarkHandler(schedule.scheduleId, schedule.isBookmarked);
                   }}>
                   <S.Icon>
@@ -93,17 +122,14 @@ const ScheduleItem = ({
                 </AnimatePress>
               ))}
             {tabType === ScheduleTabEnum.MY_SCHEDULE &&
-              (schedule.setNotification ? (
+              (isNotificated ? (
                 <AnimatePress
                   variant="scale_up_3"
                   onPress={() => {
-                    if (!notificationHandler) return;
-                    if (schedule.setNotification === undefined) return;
-                    notificationHandler(
-                      schedule.scheduleId,
-                      schedule.startDate,
-                      schedule.setNotification,
-                    );
+                    if (!delNotificationHandler) return;
+                    if (schedule.notificationIds === undefined) return;
+                    setIsNotificated(!isNotificated);
+                    delNotificationHandler(schedule.notificationIds);
                   }}>
                   <S.Icon>
                     <S.Img source={require('../assets/notifications_on.png')} />
@@ -120,6 +146,7 @@ const ScheduleItem = ({
                   onPress={() => {
                     if (!notificationHandler) return;
                     if (schedule.setNotification === undefined) return;
+                    setIsNotificated(!isNotificated);
                     notificationHandler(
                       schedule.scheduleId,
                       schedule.startDate,
@@ -138,9 +165,7 @@ const ScheduleItem = ({
                   </S.Icon>
                 </AnimatePress>
               ))}
-            <AnimatePress
-              variant="scale_up_3"
-              onPress={() => console.log('asdf')}>
+            <AnimatePress variant="scale_up_3" onPress={copyToClipboard}>
               <S.Icon>
                 <S.Img source={require('../assets/copy.png')} />
                 <Txt color="grey190" typograph="labelMedium" label="복사" />
@@ -170,6 +195,7 @@ const S = {
     border-radius: 16px;
     border: 1px solid ${colors.grey40};
     background: #fff;
+    성적열람제한해제수강지도기간(학업계획서,복학생상담)
 
     ${props => props.editable && `gap: 16px;`}
   `,
