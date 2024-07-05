@@ -3,7 +3,9 @@ import {GROUP_FIELDS, LABEL_MAPS, BUTTONS_LABEL} from '../configs/constants';
 
 class BusinessLogic {
   private apiResponse: ApiResponse;
+
   private groupedFields: GroupedFields[];
+
   private labelsMap: LabelsMap;
 
   constructor(apiResponse: ApiResponse) {

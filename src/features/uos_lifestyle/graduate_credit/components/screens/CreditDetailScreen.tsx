@@ -1,10 +1,5 @@
 import React, {Suspense, useState} from 'react';
-import {
-  useQuery,
-  UseQueryResult,
-  useSuspenseQuery,
-  UseSuspenseQueryResult,
-} from '@tanstack/react-query';
+import {useSuspenseQuery, UseSuspenseQueryResult} from '@tanstack/react-query';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {ScrollView, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -20,8 +15,8 @@ import {SubjectCreditListRes} from '../../../../../api/services/core/graduateCre
 
 type DetailInformationComponentProps = {
   type?: string;
-  requimentCreditTotal: number;
-  requimentCreditCurrent: number;
+  requirementCreditTotal: number;
+  requirementCreditCurrent: number;
   electiveCreditTotal: number;
   electiveCreditCurrent: number;
   creditData: ApiResponse;
@@ -30,8 +25,8 @@ type DetailInformationComponentProps = {
 
 const MainMajorDetailComponent = ({
   type,
-  requimentCreditCurrent,
-  requimentCreditTotal,
+  requirementCreditCurrent,
+  requirementCreditTotal,
   electiveCreditCurrent,
   electiveCreditTotal,
   creditData,
@@ -43,12 +38,12 @@ const MainMajorDetailComponent = ({
           <Txt label={`${type}필수`} color="grey130" typograph="titleMedium" />
           <S.TextWrapper>
             <Txt
-              label={`${requimentCreditCurrent}`}
+              label={`${requirementCreditCurrent}`}
               color="grey190"
               typograph="titleLarge"
             />
             <Txt
-              label={`/${requimentCreditTotal}`}
+              label={`/${requirementCreditTotal}`}
               color="primaryLighter"
               typograph="titleMedium"
             />
@@ -88,17 +83,17 @@ const MainMajorDetailComponent = ({
         <S.TextWrapper>
           <Txt label={`${type}필수 `} color="grey190" typograph="titleLarge" />
           <Txt
-            label={`${requimentCreditCurrent}/${requimentCreditTotal}`}
+            label={`${requirementCreditCurrent}/${requirementCreditTotal}`}
             color="grey90"
             typograph="bodyMedium"
           />
         </S.TextWrapper>
         <ProgressBar
           type="none"
-          maxNum={requimentCreditTotal}
-          currentCredit={requimentCreditCurrent}
+          maxNum={requirementCreditTotal}
+          currentCredit={requirementCreditCurrent}
         />
-        {requimentCreditTotal - requimentCreditCurrent <= 0 && (
+        {requirementCreditTotal - requirementCreditCurrent <= 0 && (
           <Txt
             label="필수 학점을 모두 이수했어요."
             color="primaryBrand"
@@ -133,8 +128,8 @@ const MainMajorDetailComponent = ({
 };
 
 const SubjectDetailComponent = ({
-  requimentCreditCurrent,
-  requimentCreditTotal,
+  requirementCreditCurrent,
+  requirementCreditTotal,
   electiveCreditCurrent,
   electiveCreditTotal,
   generalEducationDetail,
@@ -147,12 +142,12 @@ const SubjectDetailComponent = ({
           <Txt label="교양필수" color="grey130" typograph="titleMedium" />
           <S.TextWrapper>
             <Txt
-              label={`${requimentCreditCurrent ?? 0}`}
+              label={`${requirementCreditCurrent ?? 0}`}
               color="grey190"
               typograph="titleLarge"
             />
             <Txt
-              label={`/${requimentCreditTotal}`}
+              label={`/${requirementCreditTotal}`}
               color="primaryLighter"
               typograph="titleMedium"
             />
@@ -202,17 +197,17 @@ const SubjectDetailComponent = ({
             <S.TextWrapper>
               <Txt label="진행률 " color="grey190" typograph="titleLarge" />
               <Txt
-                label={`${requimentCreditCurrent}/${requimentCreditTotal}`}
+                label={`${requirementCreditCurrent}/${requirementCreditTotal}`}
                 color="grey90"
                 typograph="bodyMedium"
               />
             </S.TextWrapper>
             <ProgressBar
               type="main"
-              maxNum={requimentCreditTotal}
-              currentCredit={requimentCreditCurrent}
+              maxNum={requirementCreditTotal}
+              currentCredit={requirementCreditCurrent}
             />
-            {requimentCreditTotal - requimentCreditTotal <= 0 ? (
+            {requirementCreditTotal - requirementCreditTotal <= 0 ? (
               <S.TextWrapper>
                 <Icon
                   name="check"
@@ -357,8 +352,8 @@ const SubjectDetailComponent = ({
 
 const DetailInformationComponent = ({
   type,
-  requimentCreditCurrent,
-  requimentCreditTotal,
+  requirementCreditCurrent,
+  requirementCreditTotal,
   electiveCreditCurrent,
   electiveCreditTotal,
   creditData,
@@ -372,8 +367,8 @@ const DetailInformationComponent = ({
       return (
         <MainMajorDetailComponent
           type={type}
-          requimentCreditCurrent={requimentCreditCurrent}
-          requimentCreditTotal={requimentCreditTotal}
+          requirementCreditCurrent={requirementCreditCurrent}
+          requirementCreditTotal={requirementCreditTotal}
           creditData={creditData}
           electiveCreditCurrent={electiveCreditCurrent}
           electiveCreditTotal={electiveCreditTotal}
@@ -383,8 +378,8 @@ const DetailInformationComponent = ({
     default: {
       return (
         <SubjectDetailComponent
-          requimentCreditTotal={requimentCreditTotal}
-          requimentCreditCurrent={requimentCreditCurrent}
+          requirementCreditTotal={requirementCreditTotal}
+          requirementCreditCurrent={requirementCreditCurrent}
           electiveCreditTotal={electiveCreditTotal}
           electiveCreditCurrent={electiveCreditCurrent}
           generalEducationDetail={generalEducationDetail}
@@ -430,14 +425,14 @@ const CreditDetailScreen = () => {
   const detailSubjectType = getDetailSubjectType(type, creditData);
 
   // 전공/복전/부전 필수, 선택
-  const requimentCreditTotal = detailSubjectType.requirement.total ?? 0;
-  const requimentCreditCurrent = detailSubjectType.requirement.current ?? 0;
+  const requirementCreditTotal = detailSubjectType.requirement.total ?? 0;
+  const requirementCreditCurrent = detailSubjectType.requirement.current ?? 0;
   // 교양 필수 선택
   const electiveCreditTotal = detailSubjectType.elective.total ?? 0;
   const electiveCreditCurrent = detailSubjectType.elective.current ?? 0;
   // 현재 타입에 의한 필수, 선택 과목 학점
-  const totalCredits = requimentCreditTotal + electiveCreditTotal;
-  const currentCredits = requimentCreditCurrent + electiveCreditCurrent;
+  const totalCredits = requirementCreditTotal + electiveCreditTotal;
+  const currentCredits = requirementCreditCurrent + electiveCreditCurrent;
   // 잔여 학점
   const remainingCredits =
     totalCredits - currentCredits <= 0 ? 0 : totalCredits - currentCredits;
@@ -478,8 +473,8 @@ const CreditDetailScreen = () => {
         </S.HeaderContainer>
         {DetailInformationComponent({
           type,
-          requimentCreditCurrent,
-          requimentCreditTotal,
+          requirementCreditCurrent,
+          requirementCreditTotal,
           electiveCreditCurrent,
           electiveCreditTotal,
           creditData,

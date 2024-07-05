@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable, View, ActivityIndicator} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
@@ -11,18 +11,13 @@ import SubjectDetailButton from '../SubjectDetailButton';
 import BusinessLogic from '../../services/creditService';
 import {GraduateCreditNavigationProp} from '../../navigators/types/graduateCredit';
 import {CoreAPI} from '../../../../../api/services';
-import {ApiResponse, ErrorResponseType} from '../../types';
+import {ApiResponse} from '../../types';
 import useUserState from '../../../../../hooks/useUserState';
 import {GraduateCreditRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 import {SUBJECT_BUTTON_LABEL} from '../../configs/constants';
 import {RootNavigationProps} from '../../../../../navigators/types/rootStack';
 import AnimatedScrollRefreshComponent from '../AnimatedScrollRefresh';
-
-const LoadingIndicatorComponent = () => (
-  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <ActivityIndicator size="large" color={colors.primaryBrand} />
-  </View>
-);
+import LoadingIndicator from '../LoadingIndicator';
 
 const PortalUnauthorizedComponent = () => {
   const navigation = useNavigation<RootNavigationProps>();
@@ -81,11 +76,6 @@ const GraduateCreditScreen = () => {
       onSuccess: data => {
         setGraduateCreditData(data);
       },
-      onError: (error: ErrorResponseType) => {
-        // TODO: Error 처리 필요
-        // 인증 정보 없을 때 처리
-        console.error('post error: ', error);
-      },
     });
 
   useEffect(() => {
@@ -110,7 +100,7 @@ const GraduateCreditScreen = () => {
     isPendingForGetCredit ||
     (isErrorForGetCredit && isPendingForCreateCredit)
   ) {
-    return <LoadingIndicatorComponent />;
+    return <LoadingIndicator />;
   }
 
   // 이수학점 페이지 랜더링
@@ -297,7 +287,7 @@ const S = {
   MinCreditView: styled.View`
     display: flex;
     gap: 8px;
-    margin: -12px 0px;
+    margin: -12px 0;
   `,
   DetailCreditTagContainer: styled.View`
     margin-top: -12px;
@@ -344,14 +334,14 @@ const S = {
   StatusButton: styled.View<{status: boolean}>`
     width: ${({status}) => (status ? '57px' : '44px')};
     border-radius: 10px;
+    border: 1px solid;
     border-color: ${({status}) =>
       status ? colors.primaryBrand : colors.grey60};
-    border: 1px solid;
     align-items: center;
   `,
   StatusButtonText: styled.Text<{status: boolean}>`
     color: ${({status}) => (status ? colors.primaryBrand : colors.grey60)};
-    font-family: Pretendard;
+    font-family: 'Pretendard';
     font-size: 12px;
     font-weight: 600;
   `,
@@ -364,7 +354,7 @@ const S = {
     gap: 4px;
   `,
   HorizontalDividerThin: styled.View`
-    margin: 20px 0px;
+    margin: 20px 0;
     align-self: stretch;
     width: 100%;
     height: 1px;

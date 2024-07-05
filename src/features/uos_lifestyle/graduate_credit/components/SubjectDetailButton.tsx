@@ -1,7 +1,6 @@
 import styled from '@emotion/native';
 import {colors} from '@uoslife/design-system';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native';
 import {ApiResponse} from '../types';
 import {SUBJECT_BUTTON_LABEL} from '../configs/constants';
 import {GraduateCreditNavigationProp} from '../navigators/types/graduateCredit';
@@ -11,7 +10,6 @@ type SubjectProps = {
   // 학과 태그 / 과목 태그
   type: 'major' | 'subject';
   data?: ApiResponse;
-  handlePress?: () => void;
 };
 
 const SubjectDetailButton = ({label, type, data}: SubjectProps) => {
@@ -46,7 +44,6 @@ const S = {
         : `${colors.secondaryLight}`};
     padding: 3px 6px;
     align-self: flex-start;
-    margin
   `,
   ButtonText: styled.Text<{type: string}>`
     margin: 0;

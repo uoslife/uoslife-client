@@ -43,7 +43,7 @@ export type ErrorResponseType = {
 
 export type ButtonConfig = {
   label: string;
-  key: keyof ApiResponse;
+  key: string;
 };
 
 // 변수명 고치자

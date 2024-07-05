@@ -26,17 +26,14 @@ const AnimatedScrollRefreshComponent = ({
   const isReadyToRefresh = useSharedValue(false);
 
   useEffect(() => {
-    console.log(isRefreshing);
     pullDownPosition.value = withTiming(0);
   }, []);
 
   const onRefresh = (done: () => void) => {
     setIsRefreshing(true);
-    console.log('Refreshing...');
     onScroll();
     setTimeout(() => {
       setIsRefreshing(false);
-      console.log('Refreshed!');
       done();
     }, 3000);
   };
@@ -49,12 +46,10 @@ const AnimatedScrollRefreshComponent = ({
     if (isReadyToRefresh.value) {
       isReadyToRefresh.value = false;
 
-      // A function that resets the animation
       const onRefreshComplete = () => {
         pullDownPosition.value = withTiming(0, {duration: 180});
       };
 
-      // trigger the refresh action
       onRefresh(onRefreshComplete);
     }
   };
@@ -79,7 +74,6 @@ const AnimatedScrollRefreshComponent = ({
           !isReadyToRefresh.value
         ) {
           isReadyToRefresh.value = true;
-          console.log('Ready to refresh');
         }
 
         if (
@@ -87,7 +81,6 @@ const AnimatedScrollRefreshComponent = ({
           isReadyToRefresh.value
         ) {
           isReadyToRefresh.value = false;
-          console.log('Will not refresh on release');
         }
       },
       onPanResponderRelease: onPanRelease,
