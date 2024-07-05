@@ -44,14 +44,20 @@ const RestaurantListContainer = ({
     setLocation(reversedLocationList[category] as LocationType);
   };
 
-  const {useRestaurantList} = useRestaurantItem();
+  const {useRestaurantLikeMutation, useRestaurantQuery} = useRestaurantItem();
 
   const {data, fetchNextPage, isError, isFetching, error, refetch} =
-    useRestaurantList({
+    useRestaurantQuery({
       isLike,
       location,
       foodCategory,
     });
+
+  const likeMutation = useRestaurantLikeMutation({
+    isLike,
+    location,
+    foodCategory,
+  });
 
   const items = useMemo(() => {
     return data?.pages.reduce(
@@ -67,6 +73,7 @@ const RestaurantListContainer = ({
         item={item}
         setBottomSheetItem={setBottomSheetItem}
         openBottomSheet={openBottomSheet}
+        likeMutation={likeMutation}
       />
     );
   };

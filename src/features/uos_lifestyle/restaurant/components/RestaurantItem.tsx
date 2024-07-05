@@ -1,7 +1,11 @@
 import {View, Pressable} from 'react-native';
 import styled from '@emotion/native';
 import {Txt, Icon, colors} from '@uoslife/design-system';
-import {RestaurantItemType} from '../types/restaurant.type';
+import {UseMutationResult} from '@tanstack/react-query';
+import {
+  RestaurantClickResponse,
+  RestaurantItemType,
+} from '../types/restaurant.type';
 import {locationList, foodCategoryList} from '../constants/restaurant';
 import useRestaurantItem from '../hooks/useRestaurantItem';
 
@@ -16,12 +20,14 @@ const RestaurantItem = ({
   item,
   setBottomSheetItem,
   openBottomSheet,
+  likeMutation,
 }: {
   item: RestaurantItemType;
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
+  likeMutation: UseMutationResult;
 }) => {
-  const {handleClickLikeButton, handleClickItem} = useRestaurantItem();
+  const {useRestaurantLikeMutation, handleClickItem} = useRestaurantItem();
 
   const handleClickRestaurantItem = () => {
     setBottomSheetItem(item);
@@ -54,7 +60,7 @@ const RestaurantItem = ({
           </S.CategoryBox>
         </View>
       </View>
-      <Pressable onPress={() => handleClickLikeButton.mutate(item)}>
+      <Pressable onPress={() => likeMutation.mutate(item)}>
         <Icon
           color={item.like ? 'primaryBrand' : 'grey90'}
           name="heart"
