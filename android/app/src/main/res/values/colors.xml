@@ -1,4 +1,8 @@
 <resources>
     <color name="bootsplash_background">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="uoslife_primarybrand">#4686FF</color>
+    <color name="uoslife_primary_lighter">#CDE5FF</color>
+    <color name="uoslife_grey90">#A19F9D</color>
+    <color name="uoslife_grey130">#605E5C</color>
 </resources>

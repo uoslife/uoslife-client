@@ -564,8 +564,8 @@
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20202;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 20300;
+				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생 Debug";
@@ -575,7 +575,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -607,8 +607,8 @@
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20202;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 20300;
+				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -617,7 +617,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -816,10 +816,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				PRODUCT_NAME = "시대생 Debug";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -905,10 +902,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				PRODUCT_NAME = "시대생";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -996,10 +990,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				PRODUCT_NAME = "시대생 Alpha";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -1020,8 +1011,8 @@
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20202;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 20300;
+				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생 Alpha";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -1030,7 +1021,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

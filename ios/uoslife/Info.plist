@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20202</string>
+	<string>20300</string>
 	<key>CodePushDeploymentKey</key>
 	<string>$(CODEPUSH_DEPLOYMENT_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -82,12 +82,9 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>

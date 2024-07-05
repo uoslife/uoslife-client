@@ -1,7 +1,7 @@
-import styled from '@emotion/native';
-import {memo, useMemo} from 'react';
-import {Dimensions, FlatList, View} from 'react-native';
+import {useMemo} from 'react';
+import {Dimensions, View} from 'react-native';
 
+import {FlashList} from '@shopify/flash-list';
 import {
   LIBRARY_ROW_COUNT,
   LIBRARY_SEATS,
@@ -31,12 +31,22 @@ const LibrarySeatingChart = ({
   const itemWidth = useMemo(() => {
     const libraryRowCount = LIBRARY_ROW_COUNT.get(roomNumber);
     if (!libraryRowCount) return 0;
-    return (width - 16) / libraryRowCount - 2;
+    return Math.round((width - 8) / libraryRowCount - 2);
   }, [roomNumber]);
 
   const currentSeat = useMemo(
-    () => LIBRARY_SEATS.get(roomNumber),
-    [roomNumber],
+    () =>
+      LIBRARY_SEATS.get(roomNumber)?.map(item =>
+        item.map(i => {
+          return {
+            seatNumber: i,
+            status: findSeatStatusBySeatId(seatList, i),
+            forDisabledPerson: findForDisabledPerson(roomNumber, i),
+            forDesktopSeat: findForDesktopSeat(roomNumber, i),
+          };
+        }),
+      ),
+    [roomNumber, seatList],
   );
 
   const isRoom5 = useMemo(() => roomNumber === '5', [roomNumber]);
@@ -46,70 +56,59 @@ const LibrarySeatingChart = ({
   };
 
   return (
-    <S.MapContainer
-      data={currentSeat}
-      scrollEnabled={false}
-      renderItem={row => {
-        const rowItem = row.item as number[];
-        if (rowItem.length === 0)
-          return <View style={{width: itemWidth, height: itemWidth}} />;
-        return (
-          <S.Wrapper>
-            <FlatList
-              horizontal
-              scrollEnabled={false}
-              data={rowItem}
-              renderItem={({item}) => {
-                const status = findSeatStatusBySeatId(seatList, item);
-                const forDisabledPerson = findForDisabledPerson(
-                  roomNumber,
-                  item,
-                );
-                const forDesktopSeat = findForDesktopSeat(roomNumber, item);
-                return (
-                  <SeatItem
-                    key={item}
-                    label={item}
-                    status={status}
-                    itemWidth={itemWidth}
-                    textSize={changeTextSize()}
-                    onPress={handlePressItem}
-                    forDisabledPerson={forDisabledPerson}
-                    forDesktopSeat={forDesktopSeat}
-                  />
-                );
-              }}
-              getItemLayout={(_, index) => ({
-                length: itemWidth + 2,
-                offset: (itemWidth + 2) * index,
-                index,
-              })}
-              keyExtractor={(_, index) => index.toString()}
-            />
-          </S.Wrapper>
-        );
-      }}
-      getItemLayout={(_, index) => ({
-        length: itemWidth + 2,
-        offset: (itemWidth + 2) * index,
-        index,
-      })}
-      keyExtractor={(_, index) => index.toString()}
-      isRoom5={isRoom5}
-    />
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <View
+        style={{
+          height: currentSeat!.length * (itemWidth + 2),
+          width: LIBRARY_ROW_COUNT.get(roomNumber)! * (itemWidth + 2),
+          backgroundColor: 'white',
+        }}>
+        <FlashList
+          data={currentSeat}
+          scrollEnabled={false}
+          renderItem={row => {
+            const rowItem = row.item;
+            if (rowItem.length === 0)
+              return (
+                <View style={{width: itemWidth + 2, height: itemWidth + 2}} />
+              );
+            return (
+              <FlashList
+                horizontal
+                scrollEnabled={false}
+                data={rowItem}
+                renderItem={({item}) => {
+                  return (
+                    <SeatItem
+                      label={item.seatNumber}
+                      status={item.status}
+                      itemWidth={itemWidth}
+                      textSize={changeTextSize()}
+                      onPress={handlePressItem}
+                      forDisabledPerson={item.forDisabledPerson}
+                      forDesktopSeat={item.forDesktopSeat}
+                    />
+                  );
+                }}
+                initialScrollIndex={0}
+                estimatedFirstItemOffset={itemWidth + 2}
+                estimatedItemSize={itemWidth + 2}
+                keyExtractor={(_, index) => index.toString()}
+              />
+            );
+          }}
+          initialScrollIndex={0}
+          estimatedFirstItemOffset={itemWidth + 2}
+          estimatedItemSize={itemWidth + 2}
+          keyExtractor={(_, index) => index.toString()}
+        />
+      </View>
+    </View>
   );
 };
 
-export default memo(LibrarySeatingChart);
-
-const S = {
-  MapContainer: styled.FlatList<{isRoom5: boolean}>`
-    background-color: white;
-    flex-direction: column;
-    align-self: flex-start;
-    margin: ${({isRoom5}) => (isRoom5 ? '0 auto' : '0 0 0 2px')};
-  `,
-  Wrapper: styled.View`
-    flex-direction: row;
-  `,
-};
+export default LibrarySeatingChart;

@@ -161,6 +161,7 @@ const S = {
   `,
   CarouselImage: styled.Image`
     object-fit: fill;
+    border-radius: 20px;
   `,
   CarouselOrderMarker: styled.View`
     display: flex;

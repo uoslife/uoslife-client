@@ -33,7 +33,7 @@ const tabs: TabScreenItemType[] = [
     component: UosLifestyleScreen,
     screenName: 'uos_lifestyle_tab',
     label: '시대생활',
-    icon: 'tab_uoslife_life',
+    icon: 'tab_uos_lifestyle',
   },
   {
     component: MypageStackNavigator,

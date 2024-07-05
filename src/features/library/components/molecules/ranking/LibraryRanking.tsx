@@ -25,9 +25,9 @@ import {
   LibraryRankingMajorName,
 } from '../../../constants/libraryRanking/libraryRanking';
 import useUserState from '../../../../../hooks/useUserState';
-import UtilityService from '../../../../../services/utility';
 import Select from '../../../../../components/molecules/common/select/Select';
 import Skeleton from '../../../../../components/molecules/common/skeleton/Skeleton';
+import LibraryServices from '../../../services/library';
 
 const TRIANGLE_WIDTH = Dimensions.get('screen').width - 96;
 const TRIANGLE_HEIGHT = TRIANGLE_WIDTH * (442 / 508);
@@ -96,7 +96,7 @@ const LibraryRanking = ({duration}: Props) => {
       {
         queryKey: ['getLibraryRanking', duration, major],
         queryFn: () =>
-          UtilityService.getLibraryRanking({
+          LibraryServices.getLibraryRanking({
             duration,
             major,
           }),
@@ -104,7 +104,7 @@ const LibraryRanking = ({duration}: Props) => {
       {
         queryKey: ['getMyLibraryRanking', duration, major],
         queryFn: () =>
-          UtilityService.getMyLibraryRanking({
+          LibraryServices.getMyLibraryRanking({
             duration,
             major,
           }),
