@@ -1,41 +1,94 @@
-import {ApiResponse, FieldData, GroupedFields, LabelsMap} from '../types';
-import {GROUP_FIELDS, LABEL_MAPS} from '../configs/constants';
+import {ApiResponse, GroupedFields, LabelsMap} from '../types';
+import {GROUP_FIELDS, LABEL_MAPS, BUTTONS_LABEL} from '../configs/constants';
 
 class BusinessLogic {
-  fieldsData: FieldData[];
+  private apiResponse: ApiResponse;
 
-  groupedFields: GroupedFields[];
+  private groupedFields: GroupedFields[];
 
-  labelsMap: LabelsMap;
+  private labelsMap: LabelsMap;
 
   constructor(apiResponse: ApiResponse) {
-    this.fieldsData = Object.entries(apiResponse).map(([key, value]) => ({
-      label: key,
-      current: value.current,
-      total: value.total,
-    }));
+    this.apiResponse = apiResponse;
     this.groupedFields = GROUP_FIELDS;
     this.labelsMap = LABEL_MAPS;
   }
 
-  calculateSum(fields: string[]): {current: number; total: number} {
-    let currentSum = 0;
-    let totalSum = 0;
-
-    fields.forEach(field => {
-      const found = this.fieldsData.find(item => item.label === field);
-
-      currentSum += found?.current ?? 0; // 옵셔널 체이닝과 널 병합 연산자를 공부해봅시다.
-      totalSum += found?.total ?? 0;
-    });
-
-    return {current: currentSum, total: totalSum};
+  private getSubjectCredit(field: string): {current: number; total: number} {
+    switch (field) {
+      case 'allCredit':
+        return {
+          current: this.apiResponse.allCredit.current ?? 0,
+          total: this.apiResponse.allCredit.total ?? 0,
+        };
+      case 'commonElective':
+        return {
+          current: this.apiResponse.commonElective ?? 0,
+          total: 0,
+        };
+      case 'major.requirement':
+        return {
+          current: this.apiResponse.major.requirement.current ?? 0,
+          total: this.apiResponse.major.requirement.total ?? 0,
+        };
+      case 'major.elective':
+        return {
+          current: this.apiResponse.major.elective.current ?? 0,
+          total: this.apiResponse.major.elective.total ?? 0,
+        };
+      case 'generalEducation.requirement':
+        return {
+          current: this.apiResponse.generalEducation.requirement.current ?? 0,
+          total: this.apiResponse.generalEducation.requirement.total ?? 0,
+        };
+      case 'generalEducation.elective':
+        return {
+          current: this.apiResponse.generalEducation.elective.current ?? 0,
+          total: this.apiResponse.generalEducation.elective.total ?? 0,
+        };
+      case 'doubleMajor.requirement':
+        return {
+          current: this.apiResponse.doubleMajor.requirement.current ?? 0,
+          total: this.apiResponse.doubleMajor.requirement.total ?? 0,
+        };
+      case 'doubleMajor.elective':
+        return {
+          current: this.apiResponse.doubleMajor.elective.current ?? 0,
+          total: this.apiResponse.doubleMajor.elective.total ?? 0,
+        };
+      case 'minor.requirement':
+        return {
+          current: this.apiResponse.minor.requirement.current ?? 0,
+          total: this.apiResponse.minor.requirement.total ?? 0,
+        };
+      case 'minor.elective':
+        return {
+          current: this.apiResponse.minor.elective.current ?? 0,
+          total: this.apiResponse.minor.elective.total ?? 0,
+        };
+      default:
+        return {current: 0, total: 0};
+    }
   }
 
-  tags() {
+  private calculateSum(fields: string[]): {current: number; total: number} {
+    return fields.reduce(
+      (sums, field) => {
+        const {current, total} = this.getSubjectCredit(field);
+        return {
+          current: sums.current + current,
+          total: sums.total + total,
+        };
+      },
+      {current: 0, total: 0},
+    );
+  }
+
+  public tags() {
     return this.groupedFields.map(fields => {
       const {current, total} = this.calculateSum(fields);
-      const label = this.labelsMap[fields[0]];
+      const baseLabel = fields[0].split('.')[0];
+      const label = this.labelsMap[baseLabel];
       return {
         label,
         current,
@@ -43,6 +96,30 @@ class BusinessLogic {
         status: current >= total,
       };
     });
+  }
+
+  public getRemainingSubect() {
+    const result: {
+      label: string;
+      current: number | null;
+      total: number | null;
+    }[] = [];
+
+    this.groupedFields.forEach(group => {
+      group.forEach(field => {
+        const {current, total} = this.getSubjectCredit(field);
+        const buttonConfig = BUTTONS_LABEL.find(btn => btn.key === field);
+        if (buttonConfig && current < total) {
+          result.push({
+            label: buttonConfig.label,
+            current,
+            total,
+          });
+        }
+      });
+    });
+    console.log('result: ', result);
+    return result;
   }
 }
 
