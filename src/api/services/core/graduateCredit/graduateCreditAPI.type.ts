@@ -3,7 +3,7 @@
 //   | 'majorRequirement'
 //   | 'majorElective'
 //   | 'generalEducationRequirement'
-//   | 'generalEducationElective'
+//   | 'GeneralEducationDetail'
 //   | 'doubleMajorRequirement'
 //   | 'doubleMajorElective'
 //   | 'minorRequirement'

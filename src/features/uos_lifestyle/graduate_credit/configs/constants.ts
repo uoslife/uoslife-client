@@ -44,3 +44,56 @@ export const SUBJECT_BUTTON_LABEL = {
   '부전공 선택': '부전공',
   '일반 선택': '부전공',
 };
+
+export const testResponse = {
+  allCredit: {
+    current: 70,
+    total: 130,
+  },
+  major: {
+    requirement: {
+      current: 18,
+      total: 24,
+    },
+    elective: {
+      current: 18,
+      total: 48,
+    },
+  },
+  generalEducation: {
+    minmax: {
+      min: 36,
+      max: 48,
+    },
+    requirement: {
+      current: 14,
+      total: 14,
+    },
+    elective: {
+      current: 20,
+      total: 20,
+    },
+  },
+  doubleMajor: {
+    requirement: {
+      current: null,
+      total: null,
+    },
+    elective: {
+      current: null,
+      total: null,
+    },
+  },
+  minor: {
+    requirement: {
+      current: null,
+      total: null,
+    },
+    elective: {
+      current: null,
+      total: null,
+    },
+  },
+  commonElective: 0,
+  updatedAt: '2024-07-05T23:11:59.153451',
+};

@@ -8,10 +8,12 @@ import {Txt, colors, Icon} from '@uoslife/design-system';
 import ProgressBar from '../ProgressBar';
 import {GraduateCreditStackParamList} from '../../navigators/types/graduateCredit';
 import {CoreAPI} from '../../../../../api/services';
-import {ApiResponse, CreditDetail} from '../../types';
+import {ApiResponse, CreditDetail, SubjectCredit} from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 import Header from '../../../../../components/molecules/common/header/Header';
 import {SubjectCreditListRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
+import {GeneralEducationDetailList, GeneralEducationDetail} from '../../types';
+import SubjectDetailButton from '../SubjectDetailButton';
 
 type DetailInformationComponentProps = {
   type?: string;
@@ -21,6 +23,8 @@ type DetailInformationComponentProps = {
   electiveCreditCurrent: number;
   creditData: ApiResponse;
   generalEducationDetail: UseSuspenseQueryResult<SubjectCreditListRes, Error>;
+  generalElectiveDetailCredit: GeneralEducationDetailList;
+  generalRequirementDetailCredit: GeneralEducationDetailList;
 };
 
 const MainMajorDetailComponent = ({
@@ -30,7 +34,12 @@ const MainMajorDetailComponent = ({
   electiveCreditCurrent,
   electiveCreditTotal,
   creditData,
-}: Omit<DetailInformationComponentProps, 'generalEducationDetail'>) => {
+}: Omit<
+  DetailInformationComponentProps,
+  | 'generalEducationDetail'
+  | 'generalElectiveDetailCredit'
+  | 'generalRequirementDetailCredit'
+>) => {
   return (
     <View>
       <S.CreditInfoContainer>
@@ -115,7 +124,7 @@ const MainMajorDetailComponent = ({
           maxNum={electiveCreditTotal}
           currentCredit={electiveCreditCurrent}
         />
-        {electiveCreditTotal - electiveCreditCurrent <= 0 && (
+        {electiveCreditTotal <= electiveCreditCurrent && (
           <Txt
             label="필수 학점을 모두 이수했어요."
             color="primaryBrand"
@@ -133,6 +142,8 @@ const SubjectDetailComponent = ({
   electiveCreditCurrent,
   electiveCreditTotal,
   generalEducationDetail,
+  generalElectiveDetailCredit,
+  generalRequirementDetailCredit,
 }: Omit<DetailInformationComponentProps, 'creditData'>) => {
   const [activeTab, setActiveTab] = useState('필수');
   return (
@@ -142,7 +153,7 @@ const SubjectDetailComponent = ({
           <Txt label="교양필수" color="grey130" typograph="titleMedium" />
           <S.TextWrapper>
             <Txt
-              label={`${requirementCreditCurrent ?? 0}`}
+              label={`${requirementCreditCurrent}`}
               color="grey190"
               typograph="titleLarge"
             />
@@ -162,11 +173,11 @@ const SubjectDetailComponent = ({
               color="grey190"
               typograph="titleLarge"
             />
-            <Txt
+            {/* <Txt
               label={`/${electiveCreditTotal}`}
               color="primaryLighter"
               typograph="titleMedium"
-            />
+            /> */}
           </S.TextWrapper>
         </S.CreditInfoBox>
       </S.CreditInfoContainer>
@@ -203,11 +214,41 @@ const SubjectDetailComponent = ({
               />
             </S.TextWrapper>
             <ProgressBar
-              type="main"
+              type="none"
               maxNum={requirementCreditTotal}
               currentCredit={requirementCreditCurrent}
             />
-            {requirementCreditTotal - requirementCreditTotal <= 0 ? (
+            {generalRequirementDetailCredit.some(
+              item => item.courseRequirement > item.courseTotal,
+            ) ? (
+              <>
+                <S.TextWrapper>
+                  <Icon name="info" width={20} height={20} color="grey130" />
+                  <Txt
+                    label="아직 최소 학점을 채우지 못했어요"
+                    color="grey130"
+                    typograph="bodyMedium"
+                  />
+                </S.TextWrapper>
+                <S.ButtonRowLayout>
+                  {generalRequirementDetailCredit.map(
+                    (item: GeneralEducationDetail, index: number) => {
+                      if (item.courseTotal < item.courseRequirement) {
+                        return (
+                          <SubjectDetailButton
+                            key={`${item.courseName} 교양필수`}
+                            label={`${item.courseName}`}
+                            type="elective"
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    },
+                  )}
+                </S.ButtonRowLayout>
+              </>
+            ) : (
               <S.TextWrapper>
                 <Icon
                   name="check"
@@ -221,15 +262,6 @@ const SubjectDetailComponent = ({
                   typograph="bodyMedium"
                 />
               </S.TextWrapper>
-            ) : (
-              <S.TextWrapper>
-                <Icon name="info" width={20} height={20} color="grey130" />
-                <Txt
-                  label="아직 최소 학점을 채우지 못했어요"
-                  color="grey130"
-                  typograph="bodyMedium"
-                />
-              </S.TextWrapper>
             )}
           </S.ProgressBarWrapper>
           <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
@@ -238,7 +270,7 @@ const SubjectDetailComponent = ({
               {generalEducationDetail.data
                 ?.filter(item => item.courseType === 'Requirement')
                 .map((item, index) => (
-                  <View key={`${item.courseName} 필수교양`}>
+                  <View key={`${item.courseName} 교양필수`}>
                     <S.DetailInfoBox>
                       <Txt
                         label={item.courseName}
@@ -272,6 +304,7 @@ const SubjectDetailComponent = ({
         <View>
           <S.ProgressBarWrapper>
             <S.TextWrapper>
+              {/* TODO: api 변경 후 변경 필요 */}
               <Txt label="진행률 " color="grey190" typograph="titleLarge" />
               <Txt
                 label={`${electiveCreditCurrent}/${electiveCreditTotal}`}
@@ -280,11 +313,42 @@ const SubjectDetailComponent = ({
               />
             </S.TextWrapper>
             <ProgressBar
-              type="main"
+              type="sub"
               maxNum={electiveCreditTotal}
               currentCredit={electiveCreditCurrent}
+              minGraduateCredit={10}
             />
-            {electiveCreditTotal - electiveCreditCurrent <= 0 ? (
+            {generalElectiveDetailCredit.some(
+              item => item.courseRequirement > item.courseTotal,
+            ) ? (
+              <>
+                <S.TextWrapper>
+                  <Icon name="info" width={20} height={20} color="grey130" />
+                  <Txt
+                    label=" 아직 최소 학점을 채우지 못했어요."
+                    color="grey130"
+                    typograph="bodyMedium"
+                  />
+                </S.TextWrapper>
+                <S.ButtonRowLayout>
+                  {generalElectiveDetailCredit.map(
+                    (item: GeneralEducationDetail, index: number) => {
+                      if (item.courseTotal < item.courseRequirement) {
+                        return (
+                          <SubjectDetailButton
+                            key={`${item.courseName} 교양선택`}
+                            label={`${item.courseName}`}
+                            type="elective"
+                          />
+                        );
+                      } else {
+                        return null;
+                      }
+                    },
+                  )}
+                </S.ButtonRowLayout>
+              </>
+            ) : (
               <S.TextWrapper>
                 <Icon
                   name="check"
@@ -298,24 +362,14 @@ const SubjectDetailComponent = ({
                   typograph="bodyMedium"
                 />
               </S.TextWrapper>
-            ) : (
-              <S.TextWrapper>
-                <Icon name="alarm" width={20} height={20} color="grey130" />
-                <Txt
-                  label="아직 최소 학점을 채우지 못했어요."
-                  color="grey130"
-                  typograph="bodyMedium"
-                />
-              </S.TextWrapper>
             )}
           </S.ProgressBarWrapper>
           <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
           <Suspense fallback={<LoadingIndicator />}>
             <S.DetailInfoContainer>
-              {generalEducationDetail.data
-                ?.filter(item => item.courseType === 'Elective')
-                .map((item, index) => (
-                  <View key={`${item.courseName} 선택교양`}>
+              {generalElectiveDetailCredit.map(
+                (item: GeneralEducationDetail, index) => (
+                  <View key={`${item.courseName} 교양`}>
                     <S.DetailInfoBox>
                       <Txt
                         label={item.courseName}
@@ -341,7 +395,8 @@ const SubjectDetailComponent = ({
                       ).length -
                         1 && <S.HorizontalDividerThin />}
                   </View>
-                ))}
+                ),
+              )}
             </S.DetailInfoContainer>
           </Suspense>
         </View>
@@ -358,6 +413,8 @@ const DetailInformationComponent = ({
   electiveCreditTotal,
   creditData,
   generalEducationDetail,
+  generalElectiveDetailCredit,
+  generalRequirementDetailCredit,
 }: DetailInformationComponentProps) => {
   // Header
   switch (type) {
@@ -383,6 +440,8 @@ const DetailInformationComponent = ({
           electiveCreditTotal={electiveCreditTotal}
           electiveCreditCurrent={electiveCreditCurrent}
           generalEducationDetail={generalEducationDetail}
+          generalElectiveDetailCredit={generalElectiveDetailCredit}
+          generalRequirementDetailCredit={generalRequirementDetailCredit}
         />
       );
     }
@@ -436,7 +495,13 @@ const CreditDetailScreen = () => {
   // 잔여 학점
   const remainingCredits =
     totalCredits - currentCredits <= 0 ? 0 : totalCredits - currentCredits;
-
+  // 교양 선택 filter
+  const generalElectiveDetailCredit: SubjectCreditListRes =
+    generalEducationDetail.data?.filter(item => item.courseType === 'Elective');
+  const generalRequirementDetailCredit: SubjectCreditListRes =
+    generalEducationDetail.data?.filter(
+      item => item.courseType === 'Requirement',
+    );
   return (
     <ScrollView bounces={false}>
       <Header
@@ -445,6 +510,7 @@ const CreditDetailScreen = () => {
         onPressBackButton={() => navigation.goBack()}
       />
       <S.ScreenContainer>
+        {/* TODO: api 변경 후 변경 필요 */}
         <S.HeaderContainer>
           <Txt
             label={`${type} ${totalCredits}학점 중`}
@@ -479,6 +545,8 @@ const CreditDetailScreen = () => {
           electiveCreditTotal,
           creditData,
           generalEducationDetail,
+          generalElectiveDetailCredit,
+          generalRequirementDetailCredit,
         })}
       </S.ScreenContainer>
     </ScrollView>
@@ -528,7 +596,8 @@ const S = {
   `,
   HorizontalDivider: styled.View`
     align-self: stretch;
-    width: 100%;
+    width: 140%;
+    left: -40px;
     height: 8px;
     margin: 0;
     background-color: ${colors.grey20};
@@ -559,7 +628,7 @@ const S = {
   `,
   DetailInfoContainer: styled.View`
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 16px;
     background-color: ${colors.grey10};
     border-radius: 8px;
@@ -579,5 +648,10 @@ const S = {
     background-color: ${colors.grey40};
     margin-top: 16px;
     margin-bottom: 16px;
+  `,
+  ButtonRowLayout: styled.View`
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
   `,
 };

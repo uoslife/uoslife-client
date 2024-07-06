@@ -56,3 +56,12 @@ export type SubjectCredit = {
   requirement: CreditDetails;
   elective: CreditDetails;
 };
+
+export type GeneralEducationDetail = {
+  courseName: string;
+  courseType: 'Requirement' | 'Elective';
+  courseTotal: number;
+  courseRequirement: number;
+};
+
+export type GeneralEducationDetailList = Array<GeneralEducationDetail>;

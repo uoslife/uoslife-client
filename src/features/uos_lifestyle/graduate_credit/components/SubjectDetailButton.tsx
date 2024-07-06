@@ -8,7 +8,7 @@ import {GraduateCreditNavigationProp} from '../navigators/types/graduateCredit';
 type SubjectProps = {
   label: keyof typeof SUBJECT_BUTTON_LABEL | string;
   // 학과 태그 / 과목 태그
-  type: 'major' | 'subject';
+  type: 'major' | 'subject' | 'elective';
   data?: ApiResponse;
 };
 
@@ -24,7 +24,7 @@ const SubjectDetailButton = ({label, type, data}: SubjectProps) => {
   return (
     <S.SubjectButton
       type={type}
-      disabled={type === 'major'}
+      disabled={type === 'major' || type == 'elective'}
       onPress={handlePressButton}>
       <S.ButtonText type={type}>{label}</S.ButtonText>
     </S.SubjectButton>
