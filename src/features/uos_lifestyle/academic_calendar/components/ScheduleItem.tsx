@@ -38,7 +38,9 @@ const ScheduleItem = ({
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [isNotificated, setIsNotificated] = useState<boolean>(false);
   const copyToClipboard = async () => {
-    Clipboard.setString(schedule.title);
+    Clipboard.setString(
+      `${schedule.title}\n${schedule.startDate}~${schedule.endDate}`,
+    );
   };
   useEffect(() => {
     onCheckboxChange(schedule.scheduleId);
