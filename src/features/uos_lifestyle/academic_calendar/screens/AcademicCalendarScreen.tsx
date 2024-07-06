@@ -263,6 +263,7 @@ const AcademicCalendarScreen = () => {
                       />
                     </Pressable>
                     <Pressable
+                      disabled={checkedList.length === 0}
                       onPress={async () => {
                         // 알림 해제
                         const alarmResultArray: ISchedule[] = [];
@@ -288,7 +289,9 @@ const AcademicCalendarScreen = () => {
                       }}>
                       <Txt
                         label="삭제"
-                        color="primaryBrand"
+                        color={
+                          checkedList.length > 0 ? 'primaryBrand' : 'grey40'
+                        }
                         typograph="labelLarge"
                       />
                     </Pressable>
