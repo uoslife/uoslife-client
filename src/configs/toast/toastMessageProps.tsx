@@ -62,7 +62,7 @@ const toastMessage = {
   clipboardCopy: '일정과 날짜를 클립보드에 저장했습니다.',
   addBookmark: '일정을 담았습니다.',
   deleteBookmark: '일정 담기를 취소하였습니다.',
-  addNotification: '1일 전 18시 알림과 당일 9시 알림이 설정되었습니다.',
+  addNotification: '1일 전 18시와 당일 9시에 알림이 설정되었습니다.',
   deleteNotification: '알림이 취소되었습니다.',
 };
 const toastMessageSubTitle = {
