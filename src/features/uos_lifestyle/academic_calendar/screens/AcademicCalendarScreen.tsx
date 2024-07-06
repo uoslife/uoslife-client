@@ -220,11 +220,12 @@ const AcademicCalendarScreen = () => {
               />
             </S.TabButton>
           </S.TabWrapper>
-
-          <S.IconWrapper
-            onPress={() => navigation.navigate('academic_calendar_search')}>
-            <Icon name="search" width={24} height={24} />
-          </S.IconWrapper>
+          {selectedTab === ScheduleTabEnum.ALL && (
+            <S.IconWrapper
+              onPress={() => navigation.navigate('academic_calendar_search')}>
+              <Icon name="search" width={24} height={24} />
+            </S.IconWrapper>
+          )}
         </S.TabContainer>
         {selectedTab === ScheduleTabEnum.MY_SCHEDULE && (
           <S.FilterWrapper>
