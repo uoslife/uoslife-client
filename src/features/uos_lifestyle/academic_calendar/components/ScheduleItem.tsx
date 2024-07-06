@@ -6,6 +6,7 @@ import AnimatePress from '../../../../components/animations/pressable_icon/Anima
 import Checkbox from './Checkbox';
 import {ScheduleTabEnum} from '../constants';
 import {ISchedule} from '../api/academicCalendarAPI.type';
+import customShowToast from '../../../../configs/toast';
 
 type ScheduleItemProps = {
   schedule: ISchedule;
@@ -41,6 +42,7 @@ const ScheduleItem = ({
     Clipboard.setString(
       `${schedule.title}\n${schedule.startDate}~${schedule.endDate}`,
     );
+    customShowToast('clipboardCopy');
   };
   useEffect(() => {
     onCheckboxChange(schedule.scheduleId);
@@ -91,6 +93,7 @@ const ScheduleItem = ({
                     if (!bookmarkHandler) return;
                     setIsBookmarked(!isBookmarked);
                     bookmarkHandler(schedule.scheduleId, schedule.isBookmarked);
+                    customShowToast('deleteBookmark');
                   }}>
                   <S.Icon>
                     <S.Img
@@ -110,6 +113,7 @@ const ScheduleItem = ({
                     if (!bookmarkHandler) return;
                     setIsBookmarked(!isBookmarked);
                     bookmarkHandler(schedule.scheduleId, schedule.isBookmarked);
+                    customShowToast('addBookmark');
                   }}>
                   <S.Icon>
                     <S.Img
@@ -132,6 +136,7 @@ const ScheduleItem = ({
                     if (schedule.notificationIds === undefined) return;
                     setIsNotificated(!isNotificated);
                     delNotificationHandler(schedule.notificationIds);
+                    customShowToast('deleteNotification');
                   }}>
                   <S.Icon>
                     <S.Img source={require('../assets/notifications_on.png')} />
@@ -154,6 +159,7 @@ const ScheduleItem = ({
                       schedule.startDate,
                       schedule.setNotification,
                     );
+                    customShowToast('addNotification');
                   }}>
                   <S.Icon>
                     <S.Img
