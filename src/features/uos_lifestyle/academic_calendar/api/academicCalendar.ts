@@ -16,9 +16,9 @@ const AcademicCalendarAPI: AcademicCalendarService = {
       }&month=${params?.month}`,
     ),
   getMySchedule: () => get<Type.ISchedule[]>('utility/schedules/me'),
-  setBookmark: params => put<undefined>(`utility/schedules/bookmark`, params),
+  setBookmark: params => put<undefined>(`utility/schedules/bookmark`, [params]),
   setNotification: params =>
-    put<undefined>(`utility/schedules/notification`, params),
+    put<undefined>(`utility/schedules/notification`, [params]),
   deleteNotification: params =>
     del<undefined>(`utility/schedules/notification`, params),
 };

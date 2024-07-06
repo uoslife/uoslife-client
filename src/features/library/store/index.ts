@@ -1,7 +1,7 @@
 import {atomWithSuspenseQuery} from 'jotai-tanstack-query';
 import {atom} from 'jotai';
 import {LibraryReservationType} from '../../../api/services/util/library/libraryAPI.type';
-import UtilityService from '../../../services/utility';
+import LibraryServices from '../services/library';
 
 export type ReservationStatusType =
   | 'USING'
@@ -35,7 +35,7 @@ const initialData: LibraryReservationAtomType = {
 export const libraryReservationAtom =
   atomWithSuspenseQuery<LibraryReservationAtomType>(get => ({
     queryKey: ['getLibraryReservation'],
-    queryFn: () => UtilityService.getLibraryReservation(),
+    queryFn: () => LibraryServices.getLibraryReservation(),
     initialData,
     refetchInterval: get(isFocusedLibraryAtom)
       ? DEFAULT_GET_LIBRARY_RESERVATION_REFETCH_INTERVAL

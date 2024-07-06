@@ -45,7 +45,7 @@ const LibraryRoomItem = ({item, boxWidth}: Props) => {
           flex: 1;
           width: 100%;
         `,
-        {...boxShadowStyle.bottomTapShadow, width: boxWidth / 2 - 22},
+        {...boxShadowStyle.bottomTapShadow, width: boxWidth},
       ]}
       variant={isAccessRestriction ? 'none' : 'scale_up_3'}
       onPress={handlePressRoomItem}>

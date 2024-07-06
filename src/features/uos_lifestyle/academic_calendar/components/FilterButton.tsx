@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/native';
-import {Txt, colors, Icon} from '@uoslife/design-system';
+import {Txt, colors} from '@uoslife/design-system';
 import AnimatePress from '../../../../components/animations/pressable_icon/AnimatePress';
 
 interface FilterButtonProps {
@@ -18,8 +18,7 @@ const FilterButton = ({text, onPress, isSelected}: FilterButtonProps) => {
         return <Txt label="알림" color="black" typograph="labelLarge" />;
       case 'IN_PROGRESS':
         return <Txt label="진행 중" color="black" typograph="labelLarge" />;
-      case 'ON_FILTER':
-        return <Icon name="filter" width={18} height={18} color="grey190" />;
+
       default:
         return <Txt label={text} color="black" typograph="labelLarge" />;
     }
