@@ -82,11 +82,9 @@ export const put = async <T extends unknown>(
 ): KyJsonResponse<T> => {
   const client = changeClient(clientType);
   try {
-    const res = await client.put(url, {json: body}).json();
-    if (res === '') {
-      return undefined as T;
-    }
-    return res as T;
+    return body
+      ? await client.put(url, {json: body}).json()
+      : await client.put(url).json();
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
@@ -103,11 +101,9 @@ export const del = async <T extends unknown>(
   const client = changeClient(clientType);
 
   try {
-    const res = await client.delete(url, {json: body}).json();
-    if (res === '') {
-      return undefined as T;
-    }
-    return res as T;
+    return body
+      ? await client.delete(url, {json: body}).json()
+      : await client.delete(url).json();
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
