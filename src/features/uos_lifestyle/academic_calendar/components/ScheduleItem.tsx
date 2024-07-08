@@ -7,6 +7,7 @@ import Checkbox from './Checkbox';
 import {ScheduleTabEnum} from '../constants';
 import {ISchedule} from '../api/academicCalendarAPI.type';
 import customShowToast from '../../../../configs/toast';
+import useModal from '../../../../hooks/useModal';
 
 type ScheduleItemProps = {
   schedule: ISchedule;
@@ -18,7 +19,7 @@ type ScheduleItemProps = {
   bookmarkHandler?: (param: number, flag: boolean) => void;
   notificationHandler?: (
     param: number,
-    date: string,
+    startDate: string,
     isNotification: boolean,
   ) => void;
   delNotificationHandler?: (notificationId: number[]) => void;
@@ -38,6 +39,7 @@ const ScheduleItem = ({
   const [checked, setChecked] = useState<boolean>(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [isNotificated, setIsNotificated] = useState<boolean>(false);
+  const [isNotiInactive, setIsNotiInactive] = useState<boolean>(false);
   const copyToClipboard = async () => {
     Clipboard.setString(
       `${schedule.title}\n${schedule.startDate}~${schedule.endDate}`,
@@ -60,7 +62,15 @@ const ScheduleItem = ({
       if (schedule.setNotification === undefined) return;
       setIsNotificated(schedule.setNotification);
     }
+    const standardDateStr = schedule.endDate;
+    const formattedStandardDateStr = standardDateStr.split('.').join('-');
+    const standardDate = new Date(formattedStandardDateStr); // KST
+    const today = new Date();
+    const result = today.getTime() - standardDate.getTime();
+    if (result / 1000 / 60 / 60 >= 24) setIsNotiInactive(true);
   }, [schedule, tabType]);
+
+  useEffect(() => {});
 
   useEffect(() => {
     if (isChecked) return;
@@ -139,9 +149,17 @@ const ScheduleItem = ({
                     customShowToast('deleteNotification');
                   }}>
                   <S.Icon>
-                    <S.Img source={require('../assets/notifications_on.png')} />
+                    {isNotiInactive ? (
+                      <S.Img
+                        source={require('../assets/notifications_inactive.png')}
+                      />
+                    ) : (
+                      <S.Img
+                        source={require('../assets/notifications_on.png')}
+                      />
+                    )}
                     <Txt
-                      color="primaryBrand"
+                      color={isNotiInactive ? 'grey90' : 'primaryBrand'}
                       typograph="labelMedium"
                       label="알림"
                     />
@@ -153,20 +171,37 @@ const ScheduleItem = ({
                   onPress={() => {
                     if (!notificationHandler) return;
                     if (schedule.setNotification === undefined) return;
-                    setIsNotificated(!isNotificated);
-                    notificationHandler(
-                      schedule.scheduleId,
-                      schedule.startDate,
-                      schedule.setNotification,
-                    );
-                    customShowToast('addNotification');
+
+                    const standardDateStr = schedule.endDate;
+                    const formattedStandardDateStr = standardDateStr
+                      .split('.')
+                      .join('-');
+                    const standardDate = new Date(formattedStandardDateStr); // KST
+                    const today = new Date();
+                    const result = today.getTime() - standardDate.getTime();
+                    if (result / 1000 / 60 / 60 >= 24) setIsNotificated(false);
+                    else {
+                      setIsNotificated(!isNotificated);
+                      notificationHandler(
+                        schedule.scheduleId,
+                        schedule.startDate,
+                        schedule.setNotification,
+                      );
+                      customShowToast('addNotification');
+                    }
                   }}>
                   <S.Icon>
-                    <S.Img
-                      source={require('../assets/notifications_off.png')}
-                    />
+                    {isNotiInactive ? (
+                      <S.Img
+                        source={require('../assets/notifications_inactive.png')}
+                      />
+                    ) : (
+                      <S.Img
+                        source={require('../assets/notifications_off.png')}
+                      />
+                    )}
                     <Txt
-                      color="primaryLight"
+                      color={isNotiInactive ? 'grey90' : 'primaryLight'}
                       typograph="labelMedium"
                       label="알림"
                     />
@@ -203,7 +238,6 @@ const S = {
     border-radius: 16px;
     border: 1px solid ${colors.grey40};
     background: #fff;
-    성적열람제한해제수강지도기간(학업계획서,복학생상담)
 
     ${props => props.editable && `gap: 16px;`}
   `,
