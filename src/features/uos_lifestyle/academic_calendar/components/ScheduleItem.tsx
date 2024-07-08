@@ -54,6 +54,7 @@ const ScheduleItem = ({
   }, [editable]);
 
   useEffect(() => {
+    if (!schedule) return;
     if (tabType === ScheduleTabEnum.ALL) {
       if (schedule.isBookmarked === undefined) return;
       setIsBookmarked(schedule.isBookmarked);
@@ -67,7 +68,9 @@ const ScheduleItem = ({
     const standardDate = new Date(formattedStandardDateStr); // KST
     const today = new Date();
     const result = today.getTime() - standardDate.getTime();
-    if (result / 1000 / 60 / 60 >= 24) setIsNotiInactive(true);
+    const flag = result / 1000 / 60 / 60;
+    if (flag >= 24) setIsNotiInactive(true);
+    else setIsNotiInactive(false);
   }, [schedule, tabType]);
 
   useEffect(() => {});
@@ -179,16 +182,15 @@ const ScheduleItem = ({
                     const standardDate = new Date(formattedStandardDateStr); // KST
                     const today = new Date();
                     const result = today.getTime() - standardDate.getTime();
-                    if (result / 1000 / 60 / 60 >= 24) setIsNotificated(false);
-                    else {
-                      setIsNotificated(!isNotificated);
-                      notificationHandler(
-                        schedule.scheduleId,
-                        schedule.startDate,
-                        schedule.setNotification,
-                      );
-                      customShowToast('addNotification');
-                    }
+                    const flag = result / 1000 / 60 / 60;
+                    if (flag >= 24) return;
+                    setIsNotificated(!isNotificated);
+                    notificationHandler(
+                      schedule.scheduleId,
+                      schedule.startDate,
+                      schedule.setNotification,
+                    );
+                    customShowToast('addNotification');
                   }}>
                   <S.Icon>
                     {isNotiInactive ? (

@@ -108,14 +108,12 @@ const AcademicCalendarScreen = () => {
     mutationKey: ['myScheduleItems', 'allScheduleItems'],
     mutationFn: (params: SetBookmarkParams) => CalendarAPI.setBookmark(params),
     onSuccess: async () => {
-      console.log('나 성공했어');
       await queryClient.invalidateQueries({
         queryKey: ['myScheduleItems'],
       });
       await queryClient.invalidateQueries({
         queryKey: ['allScheduleItems'],
       });
-      console.log('bb');
     },
     onError(error, variables, context) {
       console.log(error);
@@ -400,7 +398,6 @@ const AcademicCalendarScreen = () => {
             ? allScheduleItemData?.map((scheduleItem, idx: number) => {
                 return (
                   <ScheduleItem
-                    key={scheduleItem.scheduleId}
                     schedule={scheduleItem}
                     editable={editable}
                     checkedIdx={idx}
@@ -418,7 +415,6 @@ const AcademicCalendarScreen = () => {
                 .map((scheduleItem, idx: number) => {
                   return (
                     <ScheduleItem
-                      key={scheduleItem.scheduleId}
                       schedule={scheduleItem}
                       editable={editable}
                       checkedIdx={idx}
