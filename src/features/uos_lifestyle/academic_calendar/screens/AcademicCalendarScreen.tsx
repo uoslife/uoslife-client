@@ -20,10 +20,10 @@ import Skeleton from '../../../../components/molecules/common/skeleton/Skeleton'
 import {getNotiTime} from '../utils';
 import FilterButtonGroup from '../components/FilterButtonGroup';
 import MonthlyFilter from '../components/MonthlyFilter';
+import useModal from '../../../../hooks/useModal';
 
 const AcademicCalendarScreen = () => {
   const queryClient = useQueryClient();
-  const inset = useSafeAreaInsets();
   const navigation = useNavigation<AcademicCalendarNavigationProp>();
   const date = new Date();
   const week = ['일', '월', '화', '수', '목', '금', '토'];
@@ -33,6 +33,9 @@ const AcademicCalendarScreen = () => {
   const currentDate: Date = new Date();
   const [month, setMonth] = useState<number>(currentDate.getMonth() + 1);
   const year: number = currentDate.getFullYear();
+
+  const [openModal, closeModal, Modal] = useModal('MODAL');
+
   const handlePreviousMonth = () => {
     setMonth(month === 1 ? 12 : month - 1);
   };
@@ -79,8 +82,11 @@ const AcademicCalendarScreen = () => {
     mutationFn: (params: SetNotificationParams) => {
       return CalendarAPI.setNotification(params);
     },
-    onSuccess(data, variables, context) {},
-    onError(data, variables, context) {},
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['myScheduleItems'],
+      });
+    },
   });
 
   const delNotificationMutation = useMutation({
@@ -88,20 +94,31 @@ const AcademicCalendarScreen = () => {
     mutationFn: (params: DeleteNotificationParams) => {
       return CalendarAPI.deleteNotification(params);
     },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['myScheduleItems'],
+      });
+    },
+    onError(error, variables, context) {
+      console.log(error);
+    },
   });
 
   const bookmarkMutation = useMutation({
-    mutationKey: ['allScheduleItems'],
+    mutationKey: ['myScheduleItems', 'allScheduleItems'],
     mutationFn: (params: SetBookmarkParams) => CalendarAPI.setBookmark(params),
     onSuccess: async () => {
-      // await queryClient.invalidateQueries({
-      //   queryKey: ['allScheduleItems'],
-      // });
-    },
-    onError(data, variables, context) {
-      queryClient.invalidateQueries({
+      console.log('나 성공했어');
+      await queryClient.invalidateQueries({
         queryKey: ['myScheduleItems'],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ['allScheduleItems'],
+      });
+      console.log('bb');
+    },
+    onError(error, variables, context) {
+      console.log(error);
     },
   });
 
@@ -172,168 +189,215 @@ const AcademicCalendarScreen = () => {
       if (startDate <= today && today <= endDate) return item;
     }
   };
+  // eslint-disable-next-line consistent-return
+  const messageOnFilter = (filterType: string, item: ISchedule[]) => {
+    if (filterType === 'ALL') {
+      if (item.length === 0) return '담은 학사일정을 확인할 수 있어요.';
+    }
+    if (filterType === 'NOTIFICATION') {
+      if (item.filter(items => items.setNotification === true).length === 0)
+        return '알림을 설정한 학사일정이 없어요.';
+    }
+    if (filterType === 'IN_PROGRESS') {
+      const result = item.filter(items => {
+        const formattedStartDate = items.startDate.split('.').join('-');
+        const formattedEndDate = items.endDate.split('.').join('-');
+        const startDate = new Date(formattedStartDate);
+        const endDate = new Date(formattedEndDate);
+        const today = new Date();
+        if (startDate <= today && today <= endDate) return item;
+        return false;
+      });
+      if (result.length === 0) return '진행 중인 학사 일정이 없어요';
+    }
+    return '';
+  };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Header
-        style={{marginBottom: 8}}
-        label="학사일정"
-        onPressBackButton={() => navigation.goBack()}
-      />
-      <S.Container>
-        <S.TodayInfoBox>
-          <Txt label="오늘" color="grey130" typograph="titleSmall" />
-          <Txt
-            label={`${date.getFullYear()}년 ${
-              date.getMonth() + 1
-            }월 ${date.getDate()}일 (${week[date.getDay()]})`}
-            color="grey190"
-            typograph="titleLarge"
-          />
-        </S.TodayInfoBox>
-        <S.TabContainer>
-          <S.TabWrapper>
-            <S.TabButton
-              isSelected={selectedTab === ScheduleTabEnum.ALL}
-              onPress={() => setSelectedTab(ScheduleTabEnum.ALL)}>
-              <Txt
-                label={ScheduleTabEnum.ALL}
-                color={
-                  selectedTab === ScheduleTabEnum.ALL
-                    ? 'primaryBrand'
-                    : 'grey190'
-                }
-                typograph="bodyLarge"
-              />
-            </S.TabButton>
-            <S.TabButton
-              isSelected={selectedTab === ScheduleTabEnum.MY_SCHEDULE}
-              onPress={() => setSelectedTab(ScheduleTabEnum.MY_SCHEDULE)}>
-              <Txt
-                label={ScheduleTabEnum.MY_SCHEDULE}
-                color={
-                  selectedTab === ScheduleTabEnum.MY_SCHEDULE
-                    ? 'primaryBrand'
-                    : 'grey190'
-                }
-                typograph="bodyLarge"
-              />
-            </S.TabButton>
-          </S.TabWrapper>
-          {selectedTab === ScheduleTabEnum.ALL && (
-            <S.IconWrapper
-              onPress={() => navigation.navigate('academic_calendar_search')}>
-              <Icon name="search" width={24} height={24} />
-            </S.IconWrapper>
-          )}
-        </S.TabContainer>
-        {selectedTab === ScheduleTabEnum.MY_SCHEDULE && (
-          <S.FilterWrapper>
-            <FilterButtonGroup
-              selectedFilter={selectedFilter}
-              handleFilterPress={handleFilterPress}
+    <>
+      <Modal>
+        <S.ModalContainer>
+          <S.ModalHeader>
+            <Txt
+              label="일정을 삭제하시겠습니까?"
+              typograph="titleMedium"
+              color="grey190"
+              style={{textAlign: 'center'}}
             />
-            <S.EditableArea>
-              {(() => {
-                if (!editable) {
-                  return (
-                    <Pressable
-                      onPress={() => {
-                        setEditable(true);
-                      }}>
-                      <Txt
-                        label="편집"
-                        color="grey190"
-                        typograph="labelLarge"
-                      />
-                    </Pressable>
-                  );
-                }
-                return (
-                  <>
-                    <Pressable
-                      onPress={async () => {
-                        setEditable(false);
-                        setCheckedList([]);
-                      }}>
-                      <Txt
-                        label="취소"
-                        color="grey190"
-                        typograph="labelLarge"
-                      />
-                    </Pressable>
-                    <Pressable
-                      disabled={checkedList.length === 0}
-                      onPress={async () => {
-                        // 알림 해제
-                        const alarmResultArray: ISchedule[] = [];
-                        if (myScheduleItemData === undefined) return;
-                        myScheduleItemData.forEach((item: ISchedule) => {
-                          if (checkedList.includes(item.scheduleId))
-                            alarmResultArray.push(item);
-                        });
-                        alarmResultArray.forEach((item: ISchedule) => {
-                          if (item.notificationIds === undefined) return;
-                          if (item.notificationIds.length !== 0) {
-                            delNotificationHandler(item.notificationIds);
-                          }
-                        });
-                        checkedList.forEach(item => {
-                          bookmarkHandler(item, true);
-                        });
-
-                        // await queryClient.invalidateQueries({
-                        //   queryKey: ['myScheduleItems'],
-                        // });
-                        setEditable(false);
-                      }}>
-                      <Txt
-                        label="삭제"
-                        color={
-                          checkedList.length > 0 ? 'primaryBrand' : 'grey40'
-                        }
-                        typograph="labelLarge"
-                      />
-                    </Pressable>
-                  </>
-                );
-              })()}
-            </S.EditableArea>
-          </S.FilterWrapper>
-        )}
-        {selectedTab === ScheduleTabEnum.ALL && (
-          <S.MonthlyFilter>
-            <MonthlyFilter
-              month={month}
-              year={year}
-              onPrevious={handlePreviousMonth}
-              onNext={handleNextMonth}
+            <Txt
+              label="일정을 삭제하면 내 일정에서 해당 일정이 사라져요."
+              typograph="bodySmall"
+              color="grey130"
+              style={{textAlign: 'center'}}
             />
-          </S.MonthlyFilter>
-        )}
-      </S.Container>
-
-      <S.ScheduleContainer contentContainerStyle={{rowGap: 10}}>
-        {selectedTab === ScheduleTabEnum.ALL
-          ? allScheduleItemData?.map((scheduleItem, idx: number) => {
-              return (
-                <ScheduleItem
-                  key={scheduleItem.scheduleId}
-                  schedule={scheduleItem}
-                  editable={editable}
-                  checkedIdx={idx}
-                  isChecked={false}
-                  onCheckboxChange={checkboxHandler}
-                  tabType={selectedTab}
-                  bookmarkHandler={bookmarkHandler}
+          </S.ModalHeader>
+          <Pressable
+            onPress={() => {
+              const alarmResultArray: ISchedule[] = [];
+              if (myScheduleItemData === undefined) return;
+              myScheduleItemData.forEach((item: ISchedule) => {
+                if (checkedList.includes(item.scheduleId))
+                  alarmResultArray.push(item);
+              });
+              alarmResultArray.forEach((item: ISchedule) => {
+                if (item.notificationIds === undefined) return;
+                if (item.notificationIds.length !== 0) {
+                  delNotificationHandler(item.notificationIds);
+                }
+              });
+              checkedList.forEach(item => {
+                bookmarkHandler(item, true);
+              });
+              setEditable(false);
+              closeModal();
+            }}>
+            <S.ModalDelete>
+              <Txt
+                label="삭제하기"
+                typograph="bodyMedium"
+                color="primaryBrand"
+                style={{textAlign: 'center'}}
+              />
+            </S.ModalDelete>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              closeModal();
+            }}>
+            <S.ModalCancel>
+              <Txt
+                label="취소"
+                typograph="bodyMedium"
+                color="grey90"
+                style={{textAlign: 'center'}}
+              />
+            </S.ModalCancel>
+          </Pressable>
+        </S.ModalContainer>
+      </Modal>
+      <SafeAreaView style={{flex: 1, zIndex: -999}}>
+        <Header
+          style={{marginBottom: 8}}
+          label="학사일정"
+          onPressBackButton={() => navigation.goBack()}
+        />
+        <S.Container>
+          <S.TodayInfoBox>
+            <Txt label="오늘" color="grey130" typograph="titleSmall" />
+            <Txt
+              label={`${date.getFullYear()}년 ${
+                date.getMonth() + 1
+              }월 ${date.getDate()}일 (${week[date.getDay()]})`}
+              color="grey190"
+              typograph="titleLarge"
+            />
+          </S.TodayInfoBox>
+          <S.TabContainer>
+            <S.TabWrapper>
+              <S.TabButton
+                isSelected={selectedTab === ScheduleTabEnum.ALL}
+                onPress={() => setSelectedTab(ScheduleTabEnum.ALL)}>
+                <Txt
+                  label={ScheduleTabEnum.ALL}
+                  color={
+                    selectedTab === ScheduleTabEnum.ALL
+                      ? 'primaryBrand'
+                      : 'grey190'
+                  }
+                  typograph="bodyLarge"
                 />
-              );
-            })
-          : myScheduleItemData
-              ?.filter(item => {
-                return filteredScheduleItem(selectedFilter, item);
-              })
-              .map((scheduleItem, idx: number) => {
+              </S.TabButton>
+              <S.TabButton
+                isSelected={selectedTab === ScheduleTabEnum.MY_SCHEDULE}
+                onPress={() => setSelectedTab(ScheduleTabEnum.MY_SCHEDULE)}>
+                <Txt
+                  label={ScheduleTabEnum.MY_SCHEDULE}
+                  color={
+                    selectedTab === ScheduleTabEnum.MY_SCHEDULE
+                      ? 'primaryBrand'
+                      : 'grey190'
+                  }
+                  typograph="bodyLarge"
+                />
+              </S.TabButton>
+            </S.TabWrapper>
+            {selectedTab === ScheduleTabEnum.ALL && (
+              <S.IconWrapper
+                onPress={() => navigation.navigate('academic_calendar_search')}>
+                <Icon name="search" width={24} height={24} />
+              </S.IconWrapper>
+            )}
+          </S.TabContainer>
+          {selectedTab === ScheduleTabEnum.MY_SCHEDULE && (
+            <S.FilterWrapper>
+              <FilterButtonGroup
+                selectedFilter={selectedFilter}
+                handleFilterPress={handleFilterPress}
+              />
+              <S.EditableArea>
+                {(() => {
+                  if (!editable) {
+                    return (
+                      <Pressable
+                        onPress={() => {
+                          setEditable(true);
+                        }}>
+                        <Txt
+                          label="편집"
+                          color="grey190"
+                          typograph="labelLarge"
+                        />
+                      </Pressable>
+                    );
+                  }
+                  return (
+                    <>
+                      <Pressable
+                        onPress={async () => {
+                          setEditable(false);
+                          setCheckedList([]);
+                        }}>
+                        <Txt
+                          label="취소"
+                          color="grey190"
+                          typograph="labelLarge"
+                        />
+                      </Pressable>
+                      <Pressable
+                        disabled={checkedList.length === 0}
+                        onPress={async () => {
+                          // 알림 해제
+                          openModal();
+                        }}>
+                        <Txt
+                          label="삭제"
+                          color={
+                            checkedList.length > 0 ? 'primaryBrand' : 'grey40'
+                          }
+                          typograph="labelLarge"
+                        />
+                      </Pressable>
+                    </>
+                  );
+                })()}
+              </S.EditableArea>
+            </S.FilterWrapper>
+          )}
+          {selectedTab === ScheduleTabEnum.ALL && (
+            <S.MonthlyFilter>
+              <MonthlyFilter
+                month={month}
+                year={year}
+                onPrevious={handlePreviousMonth}
+                onNext={handleNextMonth}
+              />
+            </S.MonthlyFilter>
+          )}
+        </S.Container>
+
+        <S.ScheduleContainer contentContainerStyle={{rowGap: 10}}>
+          {selectedTab === ScheduleTabEnum.ALL
+            ? allScheduleItemData?.map((scheduleItem, idx: number) => {
                 return (
                   <ScheduleItem
                     key={scheduleItem.scheduleId}
@@ -343,14 +407,43 @@ const AcademicCalendarScreen = () => {
                     isChecked={false}
                     onCheckboxChange={checkboxHandler}
                     tabType={selectedTab}
-                    notificationHandler={notificationHandler}
-                    delNotificationHandler={delNotificationHandler}
+                    bookmarkHandler={bookmarkHandler}
                   />
                 );
-              })}
-        {(isFetchingAll || isFetchingMy) && <Skeleton variant="card" />}
-      </S.ScheduleContainer>
-    </SafeAreaView>
+              })
+            : myScheduleItemData
+                ?.filter(item => {
+                  return filteredScheduleItem(selectedFilter, item);
+                })
+                .map((scheduleItem, idx: number) => {
+                  return (
+                    <ScheduleItem
+                      key={scheduleItem.scheduleId}
+                      schedule={scheduleItem}
+                      editable={editable}
+                      checkedIdx={idx}
+                      isChecked={false}
+                      onCheckboxChange={checkboxHandler}
+                      tabType={selectedTab}
+                      notificationHandler={notificationHandler}
+                      delNotificationHandler={delNotificationHandler}
+                    />
+                  );
+                })}
+          {myScheduleItemData && selectedFilter && (
+            <S.TxtContainer>
+              <Txt
+                label={messageOnFilter(selectedFilter, myScheduleItemData)}
+                color="grey130"
+                typograph="labelLarge"
+              />
+            </S.TxtContainer>
+          )}
+
+          {(isFetchingAll || isFetchingMy) && <Skeleton variant="card" />}
+        </S.ScheduleContainer>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -359,6 +452,14 @@ export default AcademicCalendarScreen;
 const S = {
   Container: styled.View`
     display: flex;
+    gap: 10px;
+  `,
+  TxtContainer: styled.View`
+    display: flex;
+    width: 360px;
+    padding: 48px 16px;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
   `,
   ScheduleContainer: styled.ScrollView`
@@ -411,5 +512,23 @@ const S = {
     display: flex;
     flex-direction: row;
     gap: 16px;
+  `,
+  ModalContainer: styled.View`
+    display: flex;
+    padding-top: 24px;
+  `,
+  ModalHeader: styled.View`
+    display: flex;
+    gap: 8px;
+    padding: 0px 16px 16px 16px;
+  `,
+  ModalDelete: styled.View`
+    padding: 10px 16px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: ${colors.grey40};
+  `,
+  ModalCancel: styled.View`
+    padding: 10px 16px 10px 16px;
   `,
 };

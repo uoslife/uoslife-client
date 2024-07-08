@@ -81,8 +81,19 @@ export const put = async <T extends unknown>(
   clientType: ClientType = 'DEFAULT',
 ): KyJsonResponse<T> => {
   const client = changeClient(clientType);
-  const putRes = await client.put(url, {json: body});
-  return await putRes.json();
+  try {
+    return body
+      ? await client.put(url, {json: body}).json()
+      : await client.put(url).json();
+  } catch (error) {
+    const errorJson = await (error as any).response.json();
+    const {message, status, code} = errorJson;
+
+    throw new CustomError(status, code, message);
+  }
+  // const putRes = await client.put(url, {json: body});
+  // console.log(putRes);
+  // return await putRes.json();
 };
 
 export const del = async <T extends unknown>(
