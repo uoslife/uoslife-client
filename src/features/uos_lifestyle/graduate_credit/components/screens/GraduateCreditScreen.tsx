@@ -69,23 +69,26 @@ const GraduateCreditScreen = () => {
       },
     });
 
-  const {isPending: isPendingForCreateCredit, mutate: mutateGraduateCredit} =
-    useMutation({
-      mutationKey: ['setGraduateCredit'],
-      mutationFn: () => CoreAPI.createGraduateCredit(),
-      onSuccess: data => {
-        setGraduateCreditData(data);
-      },
-    });
+  const {
+    isSuccess: isSuccessForCreateCredit,
+    isPending: isPendingForCreateCredit,
+    mutate: mutateGraduateCredit,
+  } = useMutation({
+    mutationKey: ['setGraduateCredit'],
+    mutationFn: () => CoreAPI.createGraduateCredit(),
+    onSuccess: data => {
+      setGraduateCreditData(data);
+    },
+  });
 
   useEffect(() => {
     // 포탈 미인증
     if (!user?.isVerified) return;
     // 졸업 이수학점 post 요청
-    if (isErrorForGetCredit) {
+    if (isErrorForGetCredit && !isSuccessForCreateCredit) {
       mutateGraduateCredit();
     }
-  }, [isErrorForGetCredit]);
+  }, [isSuccessForCreateCredit, isErrorForGetCredit]);
 
   const parsedResponse =
     graduateCreditData && new BusinessLogic(graduateCreditData);
@@ -96,10 +99,7 @@ const GraduateCreditScreen = () => {
   }
 
   // 이수학점 생성 로딩 페이지 -> 생성된 학점 받아오는중 | 생성된 학점 받기 실패 && 학점 생성하는중
-  if (
-    isPendingForGetCredit ||
-    (isErrorForGetCredit && isPendingForCreateCredit)
-  ) {
+  if (isPendingForGetCredit || isPendingForCreateCredit) {
     return <LoadingIndicator />;
   }
 
