@@ -25,9 +25,14 @@ const RestaurantItem = ({
   item: RestaurantItemType;
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
-  likeMutation: UseMutationResult;
+  likeMutation: UseMutationResult<
+    RestaurantClickResponse,
+    unknown,
+    RestaurantItemType,
+    unknown
+  >;
 }) => {
-  const {useRestaurantLikeMutation, handleClickItem} = useRestaurantItem();
+  const {handleClickItem} = useRestaurantItem();
 
   const handleClickRestaurantItem = () => {
     setBottomSheetItem(item);
