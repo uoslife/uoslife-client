@@ -63,13 +63,13 @@ const ScheduleItem = ({
       if (schedule.setNotification === undefined) return;
       setIsNotificated(schedule.setNotification);
     }
-    const standardDateStr = schedule.endDate;
+    const standardDateStr = schedule.startDate;
     const formattedStandardDateStr = standardDateStr.split('.').join('-');
     const standardDate = new Date(formattedStandardDateStr); // KST
     const today = new Date();
     const result = today.getTime() - standardDate.getTime();
     const flag = result / 1000 / 60 / 60;
-    if (flag >= 24) setIsNotiInactive(true);
+    if (flag >= 0) setIsNotiInactive(true);
     else setIsNotiInactive(false);
   }, [schedule, tabType]);
 
