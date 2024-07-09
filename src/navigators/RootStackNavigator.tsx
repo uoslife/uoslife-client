@@ -1,6 +1,6 @@
-import {useState} from 'react';
-import {useAtom} from 'jotai';
 import {createStackNavigator} from '@react-navigation/stack';
+import {useAtom} from 'jotai';
+import {useState} from 'react';
 import MaintenanceScreen from '../screens/MaintenanceScreen';
 
 import RootBottomTapNavigator from './RootBottomTapNavigator';
@@ -10,20 +10,21 @@ import {
   ToSandPoliciesScreen,
 } from '../features/my_page/components/screens';
 
-import useInitApp from '../hooks/useInitApp';
-import supabaseConfigAtom from '../store/app/supabaseConfig';
-import useAppStateForeground from '../hooks/useAppStateForeground';
-import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
-import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
 import AccountScreenContainer from '../features/account/components/screens';
-import {RootStackParamList} from './types/rootStack';
+import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
+import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
 import CafeteriaScreen from '../features/cafeteria/components/screens/CafeteriaScreen';
 import LibraryStackNavigator from '../features/library/navigators/LibraryStackNavigator';
-import RouletteScreen from '../screens/RouletteScreen';
-import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
-import PortalAuthenticationScreen from '../features/account/components/screens/portal_account/PortalAuthenticationScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
+import useAppStateForeground from '../hooks/useAppStateForeground';
+import useInitApp from '../hooks/useInitApp';
+import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
+import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
+import RouletteScreen from '../screens/RouletteScreen';
+import supabaseConfigAtom from '../store/app/supabaseConfig';
+import {RootStackParamList} from './types/rootStack';
+import AcademicCalendarStackNavigator from '../features/uos_lifestyle/academic_calendar/navigators/AcademicCalendarStackNavigator';
 import HiddenGradeScreen from '../features/uos_lifestyle/hidden_grade/HiddenGradeScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -70,6 +71,10 @@ const RootStackNavigator: React.FC = () => {
           {/* uos_lifestyle */}
           <Stack.Screen name="library_recap" component={LibraryRecapScreen} />
           <Stack.Screen name="meeting" component={MeetingScreen} />
+          <Stack.Screen
+            name="academic_calendar"
+            component={AcademicCalendarStackNavigator}
+          />
           <Stack.Screen name="hidden_grade" component={HiddenGradeScreen} />
         </Stack.Group>
       ) : (

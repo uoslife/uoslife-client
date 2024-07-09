@@ -1,8 +1,8 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {IconsNameType} from '@uoslife/design-system';
-import {MypageStackParamList} from '../../features/my_page/navigators/types/mypage';
 import {AnnouncementStackParamList} from '../../features/announcement/navigators/types/announcement';
+import {MypageStackParamList} from '../../features/my_page/navigators/types/mypage';
 
 export type RootTabParamList = {
   main_tab: undefined;
