@@ -7,7 +7,7 @@ import {GraduateCreditNavigationProp} from '../navigators/types/graduateCredit';
 
 type SubjectProps = {
   label: keyof typeof SUBJECT_BUTTON_LABEL | string;
-  // 학과 태그 / 과목 태그
+  // 학과 | 과목 | 교양 세부
   type: 'major' | 'subject' | 'elective';
   data?: ApiResponse;
 };

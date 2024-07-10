@@ -1,13 +1,22 @@
 import React from 'react';
 import {View, ActivityIndicator} from 'react-native';
 import {colors} from '@uoslife/design-system';
+import styled from '@emotion/native';
 
 const LoadingIndicator = () => {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <S.ActivityIndicatorContainer>
       <ActivityIndicator size="large" color={colors.primaryBrand} />
-    </View>
+    </S.ActivityIndicatorContainer>
   );
 };
 
 export default LoadingIndicator;
+
+const S = {
+  ActivityIndicatorContainer: styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  `,
+};

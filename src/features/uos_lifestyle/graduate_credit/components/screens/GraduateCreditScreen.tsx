@@ -50,7 +50,6 @@ const PortalUnauthorizedComponent = () => {
 };
 
 const GraduateCreditScreen = () => {
-  const queryClient = useQueryClient();
   const navigation = useNavigation<GraduateCreditNavigationProp>();
   const inset = useSafeAreaInsets();
   const {user} = useUserState();
@@ -83,14 +82,13 @@ const GraduateCreditScreen = () => {
   });
 
   useEffect(() => {
-    console.log(graduateCreditData);
     // 포탈 미인증
     if (!user?.isVerified) return;
     // 졸업 이수학점 post 요청
     if (isErrorForGetCredit && !isSuccessForCreateCredit) {
       mutateGraduateCredit();
     }
-  }, [graduateCreditData, isSuccessForCreateCredit, isErrorForGetCredit]);
+  }, [isSuccessForCreateCredit, isErrorForGetCredit]);
 
   // 변경
   const parsedResponse =

@@ -1,14 +1,14 @@
-export interface CreditDetails {
+export type CreditDetails = {
   current: number | null;
   total: number | null;
-}
+};
 
-export interface MinMax {
+export type MinMax = {
   min: number;
   max: number;
-}
+};
 
-export interface ApiResponse {
+export type ApiResponse = {
   allCredit: CreditDetails;
   commonElective: number;
   major: {
@@ -29,7 +29,7 @@ export interface ApiResponse {
     elective: CreditDetails;
   };
   updatedAt: string | null;
-}
+};
 
 export type FieldData = {
   label: string;
@@ -37,9 +37,9 @@ export type FieldData = {
   total: number | null;
 };
 
-export type GroupedFields = string[]; // 예시 타입, 실제 타입에 맞게 조정 필요
+export type GroupedFields = string[];
 
-export type LabelsMap = {[key: string]: string}; // 예시 타입, 실제 타입에 맞게 조정 필요
+export type LabelsMap = {[key: string]: string};
 
 export type ErrorResponseType = {
   code: string;
@@ -52,7 +52,6 @@ export type ButtonConfig = {
   key: string;
 };
 
-// 변수명 고치자
 export type CreditDetail = {
   requirement: CreditDetails;
   elective: CreditDetails;

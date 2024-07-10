@@ -8,7 +8,7 @@ import {Txt, colors, Icon} from '@uoslife/design-system';
 import ProgressBar from '../ProgressBar';
 import {GraduateCreditStackParamList} from '../../navigators/types/graduateCredit';
 import {CoreAPI} from '../../../../../api/services';
-import {ApiResponse, CreditDetail, SubjectCredit} from '../../types';
+import {ApiResponse, CreditDetail} from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 import Header from '../../../../../components/molecules/common/header/Header';
 import {SubjectCreditListRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
@@ -67,12 +67,12 @@ const MainMajorDetailComponent = ({
           <Txt label={`전공선택`} color="grey130" typograph="titleMedium" />
           <S.TextWrapper>
             <Txt
-              label={`${electiveCreditCurrent ?? 0}`}
+              label={`${electiveCreditCurrent}`}
               color="grey190"
               typograph="titleLarge"
             />
             <Txt
-              label={`/${electiveCreditTotal ?? 0}`}
+              label={`/${electiveCreditTotal}`}
               color="primaryLighter"
               typograph="titleMedium"
             />
@@ -135,13 +135,15 @@ const SubjectDetailComponent = ({
   requirementCreditCurrent,
   requirementCreditTotal,
   electiveCreditCurrent,
-  electiveCreditTotal,
   generalEducationDetail,
   generalElectiveDetailCredit,
   generalRequirementDetailCredit,
   generalMaxCredit,
   generalMinCredit,
-}: Omit<DetailInformationComponentProps, 'creditData'>) => {
+}: Omit<
+  DetailInformationComponentProps,
+  'creditData' | 'electiveCreditTotal'
+>) => {
   const [activeTab, setActiveTab] = useState('필수');
   return (
     <View>
@@ -170,6 +172,7 @@ const SubjectDetailComponent = ({
               color="grey190"
               typograph="titleLarge"
             />
+            {/* 교양선택 최소 이수 학점==교양 이수 최대 가능-교양 필수 */}
             <Txt
               label={`/${generalMaxCredit - requirementCreditTotal}`}
               color="primaryLighter"
@@ -437,7 +440,6 @@ const DetailInformationComponent = ({
         <SubjectDetailComponent
           requirementCreditTotal={requirementCreditTotal}
           requirementCreditCurrent={requirementCreditCurrent}
-          electiveCreditTotal={electiveCreditTotal}
           electiveCreditCurrent={electiveCreditCurrent}
           generalEducationDetail={generalEducationDetail}
           generalElectiveDetailCredit={generalElectiveDetailCredit}
@@ -457,9 +459,6 @@ const CreditDetailScreen = () => {
   const {Props: creditData, type} = route.params;
   const navigation = useNavigation();
   const inset = useSafeAreaInsets();
-
-  // TODO: Error, api loading 처리 필요
-  // 현재 쿼리 세부 페이지에서 항상 호출중
   const generalEducationDetail = useSuspenseQuery<SubjectCreditListRes>({
     queryKey: ['getNecessarySubjectCredit'],
     queryFn: () => CoreAPI.getNecessarySubjectCredit(),
@@ -481,11 +480,10 @@ const CreditDetailScreen = () => {
         return creditData.generalEducation;
     }
   };
-  console.log(creditData);
-  // 전공/복전/부전/교양 type 따라 필수,선택 학점
+  // 전공 | 복전 | 부전 | 교양 type 따라 필수,선택 학점
   const detailSubjectType = getDetailSubjectType(type, creditData);
 
-  // 전공/복전/부전 필수, 선택
+  // 전공, 복전, 부전 필수, 선택
   const requirementCreditTotal: number =
     detailSubjectType.requirement.total ?? 0;
   const requirementCreditCurrent: number =
@@ -497,7 +495,7 @@ const CreditDetailScreen = () => {
   const generalMaxCredit: number = creditData.generalEducation.minmax.max ?? 0;
   const generalMinCredit: number = creditData.generalEducation.minmax.min ?? 0;
   // 현재 타입에 의한 필수, 선택 과목 학점
-  const totalCredits: number =
+  const totalCredit: number =
     type === '교양'
       ? generalMaxCredit ?? 0
       : requirementCreditTotal + electiveCreditTotal;
@@ -505,7 +503,7 @@ const CreditDetailScreen = () => {
     requirementCreditCurrent + electiveCreditCurrent;
   // 잔여 학점
   const remainingCredits =
-    currentCredits >= totalCredits ? 0 : totalCredits - currentCredits;
+    currentCredits >= totalCredit ? 0 : totalCredit - currentCredits;
   // 교양 선택 filter
   const generalElectiveDetailCredit: SubjectCreditListRes =
     generalEducationDetail.data?.filter(item => item.courseType === 'Elective');
@@ -513,8 +511,6 @@ const CreditDetailScreen = () => {
     generalEducationDetail.data?.filter(
       item => item.courseType === 'Requirement',
     );
-  console.log('최소교양: ', generalMinCredit - requirementCreditTotal);
-
   return (
     <ScrollView bounces={false}>
       <Header
@@ -523,10 +519,10 @@ const CreditDetailScreen = () => {
         onPressBackButton={() => navigation.goBack()}
       />
       <S.ScreenContainer>
-        {type === '전공' ? (
+        {type === '교양' ? (
           <S.HeaderContainer>
             <Txt
-              label={`최대 ${totalCredits} 학점 중`}
+              label={`최대 ${totalCredit}, 최소 ${generalMinCredit}학점 중`}
               color="grey190"
               typograph="titleLarge"
             />
@@ -544,21 +540,17 @@ const CreditDetailScreen = () => {
             </S.TextWrapper>
             <View style={{paddingVertical: 4}}>
               <Txt
-                label={`최소이수학점 충족까지: ${remainingCredits}학점`}
-                color="grey130"
-                typograph="bodyMedium"
-              />
-              {/* <Txt
                 label={`남은 수강 가능 학점: ${remainingCredits}학점`}
                 color="grey130"
                 typograph="bodyMedium"
-              /> */}
+              />
             </View>
           </S.HeaderContainer>
         ) : (
+          // 교양 제외 전공
           <S.HeaderContainer>
             <Txt
-              label={`최대 ${totalCredits}, 최소 ${generalMinCredit}학점 중`}
+              label={`${type} ${totalCredit}학점 중`}
               color="grey190"
               typograph="titleLarge"
             />
@@ -575,13 +567,8 @@ const CreditDetailScreen = () => {
               />
             </S.TextWrapper>
             <View style={{paddingVertical: 4}}>
-              {/* <Txt
-                label={`최소이수학점 충족까지: ${remainingCredits}학점`}
-                color="grey130"
-                typograph="bodyMedium"
-              /> */}
               <Txt
-                label={`남은 수강 가능 학점: ${remainingCredits}학점`}
+                label={`최소이수학점 충족까지: ${remainingCredits}학점`}
                 color="grey130"
                 typograph="bodyMedium"
               />
