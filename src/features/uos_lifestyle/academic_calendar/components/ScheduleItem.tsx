@@ -66,12 +66,22 @@ const ScheduleItem = ({
     const standardDateStr = schedule.startDate;
     const formattedStandardDateStr = standardDateStr.split('.').join('-');
     const standardDate = new Date(formattedStandardDateStr); // KST
+    const scheduleReflectTime =
+      standardDate.getTime() -
+      standardDate.getTimezoneOffset() * 60 * 1000 +
+      9 * 60 * 60 * 1000;
     const today = new Date();
-    const result = today.getTime() - standardDate.getTime();
+    const utcToday = today.getTime() - today.getTimezoneOffset() * 60 * 1000;
+    // UTC 기준으로 설정된 시간을 확인
+    const utcDate = new Date(utcToday);
+    const scDate = new Date(scheduleReflectTime);
+    const result = scDate.getTime() - utcDate.getTime();
     const flag = result / 1000 / 60 / 60;
-    if (flag >= 0) setIsNotiInactive(true);
+    if (flag <= 9) setIsNotiInactive(true);
     else setIsNotiInactive(false);
   }, [schedule, tabType]);
+
+  // 타임존에서 31시간 지나면,
 
   useEffect(() => {});
 
@@ -175,15 +185,24 @@ const ScheduleItem = ({
                     if (!notificationHandler) return;
                     if (schedule.setNotification === undefined) return;
 
-                    const standardDateStr = schedule.endDate;
+                    const standardDateStr = schedule.startDate;
                     const formattedStandardDateStr = standardDateStr
                       .split('.')
                       .join('-');
                     const standardDate = new Date(formattedStandardDateStr); // KST
+                    const scheduleReflectTime =
+                      standardDate.getTime() -
+                      standardDate.getTimezoneOffset() * 60 * 1000 +
+                      9 * 60 * 60 * 1000;
                     const today = new Date();
-                    const result = today.getTime() - standardDate.getTime();
+                    const utcToday =
+                      today.getTime() - today.getTimezoneOffset() * 60 * 1000;
+
+                    const utcDate = new Date(utcToday);
+                    const scDate = new Date(scheduleReflectTime);
+                    const result = scDate.getTime() - utcDate.getTime();
                     const flag = result / 1000 / 60 / 60;
-                    if (flag >= 24) return;
+                    if (flag <= 9) return;
                     setIsNotificated(!isNotificated);
                     notificationHandler(
                       schedule.scheduleId,
