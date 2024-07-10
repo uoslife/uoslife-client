@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Txt, Icon, colors, Button} from '@uoslife/design-system';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
@@ -35,7 +35,7 @@ const PortalUnauthorizedComponent = () => {
           typograph="headlineMedium"
         />
         <Txt
-          label="숨겨진 학점을 보려면 포털 연동을 해주세요!"
+          label="이수 학점을 보려면 포털 연동을 해주세요!"
           color="grey130"
           typograph="titleSmall"
         />
@@ -50,6 +50,7 @@ const PortalUnauthorizedComponent = () => {
 };
 
 const GraduateCreditScreen = () => {
+  const queryClient = useQueryClient();
   const navigation = useNavigation<GraduateCreditNavigationProp>();
   const inset = useSafeAreaInsets();
   const {user} = useUserState();
@@ -82,14 +83,16 @@ const GraduateCreditScreen = () => {
   });
 
   useEffect(() => {
+    console.log(graduateCreditData);
     // 포탈 미인증
     if (!user?.isVerified) return;
     // 졸업 이수학점 post 요청
     if (isErrorForGetCredit && !isSuccessForCreateCredit) {
       mutateGraduateCredit();
     }
-  }, [isSuccessForCreateCredit, isErrorForGetCredit]);
+  }, [graduateCreditData, isSuccessForCreateCredit, isErrorForGetCredit]);
 
+  // 변경
   const parsedResponse =
     graduateCreditData && new BusinessLogic(graduateCreditData);
 
@@ -184,7 +187,7 @@ const GraduateCreditScreen = () => {
                 ?.getRemainingSubect()
                 .map(field => (
                   <SubjectDetailButton
-                    key={`${field.label} 부족한 이수학점`}
+                    key={`${field.label} 미이수학점`}
                     label={`${
                       field.label as keyof typeof SUBJECT_BUTTON_LABEL
                     }`}

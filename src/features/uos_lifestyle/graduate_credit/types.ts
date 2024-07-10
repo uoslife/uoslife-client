@@ -3,6 +3,11 @@ export interface CreditDetails {
   total: number | null;
 }
 
+export interface MinMax {
+  min: number;
+  max: number;
+}
+
 export interface ApiResponse {
   allCredit: CreditDetails;
   commonElective: number;
@@ -13,6 +18,7 @@ export interface ApiResponse {
   generalEducation: {
     requirement: CreditDetails;
     elective: CreditDetails;
+    minmax: MinMax;
   };
   doubleMajor: {
     requirement: CreditDetails;

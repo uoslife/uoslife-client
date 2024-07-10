@@ -46,6 +46,11 @@ class BusinessLogic {
           current: this.apiResponse.generalEducation.elective.current ?? 0,
           total: this.apiResponse.generalEducation.elective.total ?? 0,
         };
+      case 'generalEducation.minmax':
+        return {
+          current: 0,
+          total: this.apiResponse.generalEducation.minmax.max,
+        };
       case 'doubleMajor.requirement':
         return {
           current: this.apiResponse.doubleMajor.requirement.current ?? 0,
@@ -89,11 +94,18 @@ class BusinessLogic {
       const {current, total} = this.calculateSum(fields);
       const baseLabel = fields[0].split('.')[0];
       const label = this.labelsMap[baseLabel];
+
+      // generalEducation의 경우 minmax.max를 total로 설정
+      const adjustedTotal =
+        baseLabel === 'generalEducation'
+          ? this.apiResponse.generalEducation.minmax.max
+          : total;
+
       return {
         label,
         current,
-        total,
-        status: current >= total,
+        total: adjustedTotal,
+        status: current >= adjustedTotal,
       };
     });
   }
@@ -118,7 +130,6 @@ class BusinessLogic {
         }
       });
     });
-    console.log('result: ', result);
     return result;
   }
 }

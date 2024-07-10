@@ -1,6 +1,6 @@
 // 전공필수/선택, 교양필수/선택 등 field 그룹화 위한 배열
 import {ButtonConfig} from '../types';
-
+import {GraduateCreditRes} from '../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 export const LABEL_MAPS: {[key: string]: string} = {
   major: '전공',
   generalEducation: '교양',
@@ -43,57 +43,4 @@ export const SUBJECT_BUTTON_LABEL = {
   '부전공 필수': '부전공',
   '부전공 선택': '부전공',
   '일반 선택': '부전공',
-};
-
-export const testResponse = {
-  allCredit: {
-    current: 70,
-    total: 130,
-  },
-  major: {
-    requirement: {
-      current: 18,
-      total: 24,
-    },
-    elective: {
-      current: 18,
-      total: 48,
-    },
-  },
-  generalEducation: {
-    minmax: {
-      min: 36,
-      max: 48,
-    },
-    requirement: {
-      current: 14,
-      total: 14,
-    },
-    elective: {
-      current: 20,
-      total: 20,
-    },
-  },
-  doubleMajor: {
-    requirement: {
-      current: null,
-      total: null,
-    },
-    elective: {
-      current: null,
-      total: null,
-    },
-  },
-  minor: {
-    requirement: {
-      current: null,
-      total: null,
-    },
-    elective: {
-      current: null,
-      total: null,
-    },
-  },
-  commonElective: 0,
-  updatedAt: '2024-07-05T23:11:59.153451',
 };
