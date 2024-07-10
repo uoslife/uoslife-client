@@ -10,10 +10,49 @@ export type FoodCategoryType = keyof typeof foodCategoryList;
 export type ReversedFoodCategoryType = keyof typeof reversedFoodCategoryList;
 export type ReversedLocationListType = keyof typeof reversedLocationList;
 
+// export interface RestaurantListResponse {
+//   page: number;
+//   size: number;
+//   data: RestaurantItemType[];
+// }
+
 export interface RestaurantListResponse {
-  page: number;
+  totalPages: number;
+  totalElements: number;
   size: number;
-  data: RestaurantItemType[];
+  content: [
+    {
+      id: number;
+      name: 'string';
+      location: 'TOTAL';
+      restaurantType: 'TOTAL';
+      clickCount: number;
+      likeCount: number;
+      isLike: true;
+    },
+  ];
+  number: number;
+  sort: {
+    empty: true;
+    unsorted: true;
+    sorted: true;
+  };
+  first: true;
+  last: true;
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: true;
+      unsorted: true;
+      sorted: true;
+    };
+    unpaged: true;
+    paged: true;
+    pageNumber: number;
+    pageSize: number;
+  };
+  empty: true;
 }
 
 export interface TopRestaurantListResponse {
@@ -37,5 +76,5 @@ export type RestaurantItemType = {
   restaurantType: FoodCategoryType;
   likeCount: number;
   clickCount: number;
-  like: boolean;
+  isLike: boolean;
 };

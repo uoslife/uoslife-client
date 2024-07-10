@@ -5,7 +5,6 @@ import {
   UseInfiniteQueryResult,
   useMutation,
   useQueryClient,
-  UseMutationResult,
 } from '@tanstack/react-query';
 import {
   RestaurantItemType,
@@ -19,6 +18,7 @@ import {get, post, del} from '../../../../api/core/methods';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
 
 const useRestaurantItem = () => {
+  const queryClient = useQueryClient();
   const useRestaurantQuery = ({
     isLike,
     location,
@@ -34,15 +34,20 @@ const useRestaurantItem = () => {
         return await get(
           `core/restaurant?${generateQueryString({
             page: pageParam,
-            size: 10,
+            pagable: {
+              page: pageParam,
+              size: 10,
+              sort: 'sorted',
+            },
             isLike,
             location,
             'restaurant-type': foodCategory,
           })}`,
         );
       },
-      getNextPageParam: (lastPage, allPages, lastPageParam) =>
-        (lastPageParam as number) + 1,
+      getNextPageParam: (lastPage: RestaurantListResponse) => {
+        return lastPage.pageable.pageNumber + 1;
+      },
       initialPageParam: 0,
     });
   };
@@ -52,6 +57,7 @@ const useRestaurantItem = () => {
     queryFn: () => get(`core/restaurant/top`),
     refetchOnWindowFocus: true,
   });
+
   const useRestaurantLikeMutation = ({
     isLike,
     location,
@@ -65,27 +71,30 @@ const useRestaurantItem = () => {
       mutationFn: (
         item: RestaurantItemType,
       ): Promise<RestaurantClickResponse> => {
-        if (item.like) {
-          return del(`core/restaurant/like/${item.id}`);
+        if (item.isLike) {
+          return del(`core/restaurant/${item.id}/like`);
         }
-        return post(`core/restaurant/like/${item.id}`);
+        return post(`core/restaurant/${item.id}/like`);
       },
       onMutate: async (clickedRestaurant: RestaurantItemType) => {
         queryClient.setQueryData(
           ['getRestaurantData', isLike, location, foodCategory],
           (prev: InfiniteData<RestaurantListResponse>) => {
-            prev.pages.map((page: RestaurantListResponse) => {
-              return page.data.map(prevRestaurant => {
-                if (prevRestaurant.id === clickedRestaurant.id) {
-                  return {
-                    ...prevRestaurant,
-                    like: !prevRestaurant.like,
-                  };
-                }
-                return prevRestaurant;
-              });
-            });
-            return prev;
+            return {
+              ...prev,
+              pages: prev.pages.map((page: RestaurantListResponse) => ({
+                ...page,
+                content: page.content.map(prevRestaurant => {
+                  if (prevRestaurant.id === clickedRestaurant.id) {
+                    return {
+                      ...prevRestaurant,
+                      isLike: !prevRestaurant.isLike,
+                    };
+                  }
+                  return prevRestaurant;
+                }),
+              })),
+            };
           },
         );
         queryClient.setQueryData(
@@ -96,9 +105,10 @@ const useRestaurantItem = () => {
                 if (prevRestaurant.id === clickedRestaurant.id) {
                   return {
                     ...prevRestaurant,
-                    likeCount: prevRestaurant.like
+                    likeCount: prevRestaurant.isLike
                       ? prevRestaurant.likeCount - 1
                       : prevRestaurant.likeCount + 1,
+                    isLike: !prevRestaurant.isLike,
                   };
                 }
                 return prevRestaurant;
@@ -109,6 +119,9 @@ const useRestaurantItem = () => {
       },
       onSettled: () => {
         queryClient.invalidateQueries({
+          queryKey: ['getRestaurantData', true, location, foodCategory],
+        });
+        queryClient.invalidateQueries({
           queryKey: ['getRestaurantData', isLike, location, foodCategory],
         });
         queryClient.invalidateQueries({
@@ -118,12 +131,11 @@ const useRestaurantItem = () => {
     });
   };
 
-  const queryClient = useQueryClient();
   const handleClickItem = useMutation({
     mutationFn: (
       item: RestaurantItemType,
     ): Promise<RestaurantClickResponse> => {
-      return get(`core/restaurant/click/${item.id}`);
+      return get(`core/restaurant/${item.id}/click`);
     },
     onMutate: async (restaurant: RestaurantClickResponse) => {
       queryClient.setQueryData(

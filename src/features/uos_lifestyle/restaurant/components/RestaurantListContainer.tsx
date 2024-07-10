@@ -52,7 +52,6 @@ const RestaurantListContainer = ({
       location,
       foodCategory,
     });
-
   const likeMutation = useRestaurantLikeMutation({
     isLike,
     location,
@@ -61,7 +60,7 @@ const RestaurantListContainer = ({
 
   const items = useMemo(() => {
     return data?.pages.reduce(
-      (accumulator, page) => accumulator.concat(page.data),
+      (accumulator, page) => accumulator.concat(page.content),
       [] as RestaurantItemType[],
     );
   }, [data?.pages]);

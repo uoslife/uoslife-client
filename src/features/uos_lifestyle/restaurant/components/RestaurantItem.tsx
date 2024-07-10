@@ -67,7 +67,7 @@ const RestaurantItem = ({
       </View>
       <Pressable onPress={() => likeMutation.mutate(item)}>
         <Icon
-          color={item.like ? 'primaryBrand' : 'grey90'}
+          color={item.isLike ? 'primaryBrand' : 'grey90'}
           name="heart"
           width={28}
           height={28}
