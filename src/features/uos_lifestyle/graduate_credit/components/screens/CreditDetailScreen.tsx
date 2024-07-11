@@ -1,5 +1,4 @@
 import React, {Suspense, useState} from 'react';
-import {useSuspenseQuery, UseSuspenseQueryResult} from '@tanstack/react-query';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {ScrollView, View, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -7,7 +6,6 @@ import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
 import ProgressBar from '../ProgressBar';
 import {GraduateCreditStackParamList} from '../../navigators/types/graduateCredit';
-import {CoreAPI} from '../../../../../api/services';
 import {ApiResponse, CreditDetail} from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 import Header from '../../../../../components/molecules/common/header/Header';
@@ -22,7 +20,7 @@ type DetailInformationComponentProps = {
   electiveCreditTotal: number;
   electiveCreditCurrent: number;
   creditData: ApiResponse;
-  generalEducationDetail: UseSuspenseQueryResult<SubjectCreditListRes, Error>;
+  generalEducationDetail: SubjectCreditListRes;
   generalElectiveDetailCredit: GeneralEducationDetailList;
   generalRequirementDetailCredit: GeneralEducationDetailList;
   generalMaxCredit: number;
@@ -267,7 +265,7 @@ const SubjectDetailComponent = ({
           <Txt label="세부 정보" color="grey190" typograph="titleLarge" />
           <Suspense fallback={<LoadingIndicator />}>
             <S.DetailInfoContainer>
-              {generalEducationDetail.data
+              {generalEducationDetail
                 ?.filter(item => item.courseType === 'Requirement')
                 .map((item, index) => (
                   <View key={`${item.courseName} 교양필수`}>
@@ -291,7 +289,7 @@ const SubjectDetailComponent = ({
                       </S.TextWrapper>
                     </S.DetailInfoBox>
                     {index <
-                      generalEducationDetail.data.filter(
+                      generalEducationDetail.filter(
                         item => item.courseType === 'Requirement',
                       ).length -
                         1 && <S.HorizontalDividerThin />}
@@ -391,7 +389,7 @@ const SubjectDetailComponent = ({
                       </S.TextWrapper>
                     </S.DetailInfoBox>
                     {index <
-                      generalEducationDetail.data.filter(
+                      generalEducationDetail.filter(
                         item => item.courseType === 'Elective',
                       ).length -
                         1 && <S.HorizontalDividerThin />}
@@ -456,13 +454,17 @@ const CreditDetailScreen = () => {
     useRoute<
       RouteProp<GraduateCreditStackParamList, 'graduate_credit_detail'>
     >();
-  const {Props: creditData, type} = route.params;
+  const {
+    allCreditInfo: creditData,
+    generalCreditInfo: generalEducationDetail,
+    type,
+  } = route.params;
   const navigation = useNavigation();
   const inset = useSafeAreaInsets();
-  const generalEducationDetail = useSuspenseQuery<SubjectCreditListRes>({
-    queryKey: ['getNecessarySubjectCredit'],
-    queryFn: () => CoreAPI.getNecessarySubjectCredit(),
-  });
+  // const generalEducationDetail = useSuspenseQuery<SubjectCreditListRes>({
+  //   queryKey: ['getNecessarySubjectCredit'],
+  //   queryFn: () => CoreAPI.getNecessarySubjectCredit(),
+  // });
 
   const getDetailSubjectType = (
     type: string,
@@ -483,12 +485,12 @@ const CreditDetailScreen = () => {
   // 전공 | 복전 | 부전 | 교양 type 따라 필수,선택 학점
   const detailSubjectType = getDetailSubjectType(type, creditData);
 
-  // 전공, 복전, 부전 필수, 선택
+  // 전공, 복전, 부전 필수 학점, 이수 학점
   const requirementCreditTotal: number =
     detailSubjectType.requirement.total ?? 0;
   const requirementCreditCurrent: number =
     detailSubjectType.requirement.current ?? 0;
-  // 교양 필수 선택
+  // 교양 필수 이수, 현재
   const electiveCreditTotal: number = detailSubjectType.elective.total ?? 0;
   const electiveCreditCurrent: number = detailSubjectType.elective.current ?? 0;
   // 교양 최대 최소 학점
@@ -506,11 +508,9 @@ const CreditDetailScreen = () => {
     currentCredits >= totalCredit ? 0 : totalCredit - currentCredits;
   // 교양 선택 filter
   const generalElectiveDetailCredit: SubjectCreditListRes =
-    generalEducationDetail.data?.filter(item => item.courseType === 'Elective');
+    generalEducationDetail?.filter(item => item.courseType === 'Elective');
   const generalRequirementDetailCredit: SubjectCreditListRes =
-    generalEducationDetail.data?.filter(
-      item => item.courseType === 'Requirement',
-    );
+    generalEducationDetail?.filter(item => item.courseType === 'Requirement');
   return (
     <ScrollView bounces={false}>
       <Header
@@ -568,7 +568,11 @@ const CreditDetailScreen = () => {
             </S.TextWrapper>
             <View style={{paddingVertical: 4}}>
               <Txt
-                label={`최소이수학점 충족까지: ${remainingCredits}학점`}
+                label={`최소이수학점 충족까지: ${
+                  remainingCredits === 0
+                    ? requirementCreditTotal - requirementCreditCurrent
+                    : remainingCredits
+                }학점`}
                 color="grey130"
                 typograph="bodyMedium"
               />

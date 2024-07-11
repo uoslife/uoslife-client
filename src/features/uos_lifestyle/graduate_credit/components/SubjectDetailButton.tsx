@@ -4,21 +4,28 @@ import {useNavigation} from '@react-navigation/native';
 import {ApiResponse} from '../types';
 import {SUBJECT_BUTTON_LABEL} from '../configs/constants';
 import {GraduateCreditNavigationProp} from '../navigators/types/graduateCredit';
-
+import {SubjectCreditListRes} from '../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 type SubjectProps = {
   label: keyof typeof SUBJECT_BUTTON_LABEL | string;
   // 학과 | 과목 | 교양 세부
   type: 'major' | 'subject' | 'elective';
-  data?: ApiResponse;
+  allCreditData?: ApiResponse;
+  generalDetailData?: SubjectCreditListRes;
 };
 
-const SubjectDetailButton = ({label, type, data}: SubjectProps) => {
+const SubjectDetailButton = ({
+  label,
+  type,
+  allCreditData,
+  generalDetailData,
+}: SubjectProps) => {
   const navigation = useNavigation<GraduateCreditNavigationProp>();
 
   const handlePressButton = () => {
     navigation.navigate('graduate_credit_detail', {
-      Props: data as ApiResponse,
+      allCreditInfo: allCreditData as ApiResponse,
       type: SUBJECT_BUTTON_LABEL[label as keyof typeof SUBJECT_BUTTON_LABEL],
+      generalCreditInfo: generalDetailData as SubjectCreditListRes,
     });
   };
   return (
