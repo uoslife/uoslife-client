@@ -130,7 +130,7 @@ const GraduateCreditScreen = () => {
   if (
     !graduateCreditData ||
     isPendingForGetCredit ||
-    isPendingForCreateCredit ||
+    (isErrorForGetCredit && isPendingForCreateCredit) ||
     isPendingForGetNecessaryCredit ||
     isErrorForGetNecessaryCredit
   ) {
