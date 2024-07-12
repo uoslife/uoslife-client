@@ -11,7 +11,6 @@ import {
   FoodCategoryType,
   LocationType,
   RestaurantListResponse,
-  TopRestaurantListResponse,
   RestaurantClickResponse,
 } from '../types/restaurant.type';
 import {get, post, del} from '../../../../api/core/methods';
@@ -52,7 +51,7 @@ const useRestaurantItem = () => {
     });
   };
 
-  const getTopRestaurantItem = useQuery<TopRestaurantListResponse>({
+  const getTopRestaurantItem = useQuery<RestaurantItemType[]>({
     queryKey: ['getRestaurantData', 'top'],
     queryFn: () => get(`core/restaurant/top`),
     refetchOnWindowFocus: true,
@@ -99,30 +98,25 @@ const useRestaurantItem = () => {
         );
         queryClient.setQueryData(
           ['getRestaurantData', 'top'],
-          (prev: TopRestaurantListResponse) => {
-            return {
-              restaurants: prev.restaurants.map(prevRestaurant => {
-                if (prevRestaurant.id === clickedRestaurant.id) {
-                  return {
-                    ...prevRestaurant,
-                    likeCount: prevRestaurant.isLike
-                      ? prevRestaurant.likeCount - 1
-                      : prevRestaurant.likeCount + 1,
-                    isLike: !prevRestaurant.isLike,
-                  };
-                }
-                return prevRestaurant;
-              }),
-            };
+          (prev: RestaurantItemType[]) => {
+            return prev.map(prevRestaurant => {
+              if (prevRestaurant.id === clickedRestaurant.id) {
+                return {
+                  ...prevRestaurant,
+                  likeCount: prevRestaurant.isLike
+                    ? prevRestaurant.likeCount - 1
+                    : prevRestaurant.likeCount + 1,
+                  isLike: !prevRestaurant.isLike,
+                };
+              }
+              return prevRestaurant;
+            });
           },
         );
       },
       onSettled: () => {
         queryClient.invalidateQueries({
-          queryKey: ['getRestaurantData', true, location, foodCategory],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ['getRestaurantData', isLike, location, foodCategory],
+          queryKey: ['getRestaurantData', true],
         });
         queryClient.invalidateQueries({
           queryKey: ['getRestaurantData', 'top'],
@@ -140,18 +134,16 @@ const useRestaurantItem = () => {
     onMutate: async (restaurant: RestaurantClickResponse) => {
       queryClient.setQueryData(
         ['getRestaurantData', 'top'],
-        (prev: TopRestaurantListResponse) => {
-          return {
-            restaurants: prev.restaurants.map(prevRestaurant => {
-              if (prevRestaurant.id === restaurant.id) {
-                return {
-                  ...prevRestaurant,
-                  clickCount: prevRestaurant.clickCount + 1,
-                };
-              }
-              return prevRestaurant;
-            }),
-          };
+        (prev: RestaurantItemType[]) => {
+          return prev.map(prevRestaurant => {
+            if (prevRestaurant.id === restaurant.id) {
+              return {
+                ...prevRestaurant,
+                clickCount: prevRestaurant.clickCount + 1,
+              };
+            }
+            return prevRestaurant;
+          });
         },
       );
     },

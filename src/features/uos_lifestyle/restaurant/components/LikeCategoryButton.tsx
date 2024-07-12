@@ -1,13 +1,22 @@
 import {Txt, colors, Icon} from '@uoslife/design-system';
 import styled from '@emotion/native';
+import {useQueryClient} from '@tanstack/react-query';
 
 type LikeCategoryButtonType = {
   isLike: boolean;
   setIsLike: (isLike: boolean) => void;
 };
+
 const LikeCategoryButton = ({isLike, setIsLike}: LikeCategoryButtonType) => {
+  const queryClient = useQueryClient();
+  const handleClickLikeCategoryButton = () => {
+    queryClient.removeQueries({
+      queryKey: ['getRestaurantData', true],
+    });
+    setIsLike(!isLike);
+  };
   return (
-    <S.LikeContainer onPress={() => setIsLike(!isLike)} isClick={isLike}>
+    <S.LikeContainer onPress={handleClickLikeCategoryButton} isClick={isLike}>
       <Txt
         label="좋아요"
         color={isLike ? 'primaryBrand' : 'grey190'}

@@ -37,7 +37,7 @@ const RankingContainer = ({
           />
         </View>
         <View>
-          {data?.restaurants.map((item, idx) => {
+          {data?.map((item, idx) => {
             return (
               <View key={item.id}>
                 <S.RankingItem onPress={() => handleClickRestaurantItem(item)}>
@@ -117,9 +117,7 @@ const RankingContainer = ({
                     </S.IconWrapper>
                   </View>
                 </S.RankingItem>
-                {idx !== data.restaurants.length - 1 && (
-                  <View style={styles.lineStyle} />
-                )}
+                {idx !== data.length - 1 && <View style={styles.lineStyle} />}
               </View>
             );
           })}

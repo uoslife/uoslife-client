@@ -102,7 +102,7 @@ const RestaurantListContainer = ({
         <LikeCategoryButton isLike={isLike} setIsLike={setIsLike} />
       </View>
       <View style={{gap: 12}}>
-        {items ? (
+        {items && items?.length !== 0 ? (
           <FlatList
             style={{height: windowHeight - 500}}
             renderItem={renderRestaurantList}
