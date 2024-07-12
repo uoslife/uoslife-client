@@ -35,7 +35,7 @@ const useRestaurantItem = () => {
             page: pageParam,
             pagable: {
               page: pageParam,
-              size: 10,
+              size: 6,
               sort: 'sorted',
             },
             isLike,
