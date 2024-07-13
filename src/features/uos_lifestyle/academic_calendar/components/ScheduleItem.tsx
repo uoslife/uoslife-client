@@ -81,10 +81,6 @@ const ScheduleItem = ({
     else setIsNotiInactive(false);
   }, [schedule, tabType]);
 
-  // 타임존에서 31시간 지나면,
-
-  useEffect(() => {});
-
   useEffect(() => {
     if (isChecked) return;
     setChecked(isChecked);
