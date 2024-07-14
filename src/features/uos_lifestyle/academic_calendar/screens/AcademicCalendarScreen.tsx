@@ -21,9 +21,12 @@ import {getNotiTime} from '../utils';
 import FilterButtonGroup from '../components/FilterButtonGroup';
 import MonthlyFilter from '../components/MonthlyFilter';
 import useModal from '../../../../hooks/useModal';
+import AnalyticsService from '../../../../services/analytics';
+import useUserState from '../../../../hooks/useUserState';
 
 const AcademicCalendarScreen = () => {
   const queryClient = useQueryClient();
+  const {user} = useUserState();
   const navigation = useNavigation<AcademicCalendarNavigationProp>();
   const date = new Date();
   const week = ['일', '월', '화', '수', '목', '금', '토'];
@@ -83,6 +86,9 @@ const AcademicCalendarScreen = () => {
       return CalendarAPI.setNotification(params);
     },
     onSuccess: async () => {
+      await AnalyticsService.logAnalyticsEvent('notification_success', {
+        userId: user?.id as number,
+      });
       await queryClient.invalidateQueries({
         queryKey: ['myScheduleItems'],
       });
@@ -107,7 +113,13 @@ const AcademicCalendarScreen = () => {
   const bookmarkMutation = useMutation({
     mutationKey: ['myScheduleItems', 'allScheduleItems'],
     mutationFn: (params: SetBookmarkParams) => CalendarAPI.setBookmark(params),
-    onSuccess: async () => {
+    onSuccess: async (data, variables) => {
+      const {isBookmarked} = variables;
+      if (isBookmarked) {
+        await AnalyticsService.logAnalyticsEvent('bookmark_success', {
+          userId: user?.id as number,
+        });
+      }
       await queryClient.invalidateQueries({
         queryKey: ['myScheduleItems'],
       });
@@ -187,7 +199,7 @@ const AcademicCalendarScreen = () => {
       if (startDate <= today && today <= endDate) return item;
     }
   };
-  // eslint-disable-next-line consistent-return
+
   const messageOnFilter = (filterType: string, item: ISchedule[]) => {
     if (filterType === 'ALL') {
       if (item.length === 0) return '담은 학사일정을 확인할 수 있어요.';
