@@ -1,5 +1,4 @@
 import styled from '@emotion/native';
-
 import {Icon, Txt, colors} from '@uoslife/design-system';
 import HeaderProps from './Header.type';
 import AnimatePress from '../../../animations/pressable_icon/AnimatePress';

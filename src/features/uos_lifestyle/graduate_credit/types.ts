@@ -1,9 +1,14 @@
-export interface CreditDetails {
+export type CreditDetails = {
   current: number | null;
   total: number | null;
-}
+};
 
-export interface ApiResponse {
+export type MinMax = {
+  min: number;
+  max: number;
+};
+
+export type ApiResponse = {
   allCredit: CreditDetails;
   commonElective: number;
   major: {
@@ -13,6 +18,7 @@ export interface ApiResponse {
   generalEducation: {
     requirement: CreditDetails;
     elective: CreditDetails;
+    minmax: MinMax;
   };
   doubleMajor: {
     requirement: CreditDetails;
@@ -23,7 +29,7 @@ export interface ApiResponse {
     elective: CreditDetails;
   };
   updatedAt: string | null;
-}
+};
 
 export type FieldData = {
   label: string;
@@ -31,9 +37,9 @@ export type FieldData = {
   total: number | null;
 };
 
-export type GroupedFields = string[]; // 예시 타입, 실제 타입에 맞게 조정 필요
+export type GroupedFields = string[];
 
-export type LabelsMap = {[key: string]: string}; // 예시 타입, 실제 타입에 맞게 조정 필요
+export type LabelsMap = {[key: string]: string};
 
 export type ErrorResponseType = {
   code: string;
@@ -46,7 +52,6 @@ export type ButtonConfig = {
   key: string;
 };
 
-// 변수명 고치자
 export type CreditDetail = {
   requirement: CreditDetails;
   elective: CreditDetails;
@@ -56,3 +61,12 @@ export type SubjectCredit = {
   requirement: CreditDetails;
   elective: CreditDetails;
 };
+
+export type GeneralEducationDetail = {
+  courseName: string;
+  courseType: 'Requirement' | 'Elective';
+  courseTotal: number;
+  courseRequirement: number;
+};
+
+export type GeneralEducationDetailList = Array<GeneralEducationDetail>;

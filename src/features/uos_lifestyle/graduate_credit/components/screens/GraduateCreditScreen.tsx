@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from '@emotion/native';
 import {Txt, Icon, colors, Button} from '@uoslife/design-system';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation, useQueries, useQueryClient} from '@tanstack/react-query';
 import Header from '../../../../../components/molecules/common/header/Header';
 import ProgressBar from '../ProgressBar';
 import SubjectDetailButton from '../SubjectDetailButton';
@@ -13,8 +13,10 @@ import {GraduateCreditNavigationProp} from '../../navigators/types/graduateCredi
 import {CoreAPI} from '../../../../../api/services';
 import {ApiResponse} from '../../types';
 import useUserState from '../../../../../hooks/useUserState';
-import {GraduateCreditRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
-import {SUBJECT_BUTTON_LABEL} from '../../configs/constants';
+import {
+  GraduateCreditRes,
+  SubjectCreditListRes,
+} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 import {RootNavigationProps} from '../../../../../navigators/types/rootStack';
 import AnimatedScrollRefreshComponent from '../AnimatedScrollRefresh';
 import LoadingIndicator from '../LoadingIndicator';
@@ -35,7 +37,7 @@ const PortalUnauthorizedComponent = () => {
           typograph="headlineMedium"
         />
         <Txt
-          label="숨겨진 학점을 보려면 포털 연동을 해주세요!"
+          label="이수 학점을 보려면 포털 연동을 해주세요!"
           color="grey130"
           typograph="titleSmall"
         />
@@ -53,30 +55,54 @@ const GraduateCreditScreen = () => {
   const navigation = useNavigation<GraduateCreditNavigationProp>();
   const inset = useSafeAreaInsets();
   const {user} = useUserState();
+  // 전체 학점 정보
   const [graduateCreditData, setGraduateCreditData] =
     useState<GraduateCreditRes>();
-
+  // 교양 세부 정보
+  const [generalEducationInfo, setGeneralEducationInfo] =
+    useState<SubjectCreditListRes>();
+  const queryClient = useQueryClient();
   const totalCredit = graduateCreditData?.allCredit.total ?? 0;
   const currentCredit = graduateCreditData?.allCredit.current ?? 0;
 
-  const {isPending: isPendingForGetCredit, isError: isErrorForGetCredit} =
-    useQuery<GraduateCreditRes>({
-      queryKey: ['getGraduateCredit'],
-      queryFn: async () => {
-        const data = await CoreAPI.getAllGraduateCredit();
-        setGraduateCreditData(data);
-        return data;
+  // 쿼리 병렬 요청
+  const [graduateAllCreditData, generalDetailCreditData] = useQueries({
+    queries: [
+      {
+        queryKey: ['getGraduateCredit'],
+        queryFn: async () => {
+          const data = await CoreAPI.getAllGraduateCredit();
+          setGraduateCreditData(data);
+          return data;
+        },
       },
-    });
+      {
+        queryKey: ['getNecessaryCredit'],
+        queryFn: async () => {
+          const data = await CoreAPI.getNecessarySubjectCredit();
+          setGeneralEducationInfo(data);
+          return data;
+        },
+      },
+    ],
+  });
+
+  // 전체 학점 정보 api 호출 중 정보
+  const isPendingForGetCredit = graduateAllCreditData.isLoading;
+  const isErrorForGetCredit = graduateAllCreditData.isError;
+  // 교양 세부 정보 api 호출 중 정보
+  const isPendingForGetNecessaryCredit = generalDetailCreditData.isLoading;
+  const isErrorForGetNecessaryCredit = generalDetailCreditData.isError;
+
 
   const {
     isSuccess: isSuccessForCreateCredit,
     isPending: isPendingForCreateCredit,
     mutate: mutateGraduateCredit,
   } = useMutation({
-    mutationKey: ['setGraduateCredit'],
     mutationFn: () => CoreAPI.createGraduateCredit(),
     onSuccess: data => {
+      queryClient.invalidateQueries({queryKey: ['getNecessaryCredit']});
       setGraduateCreditData(data);
     },
   });
@@ -91,19 +117,28 @@ const GraduateCreditScreen = () => {
   }, [isSuccessForCreateCredit, isErrorForGetCredit]);
 
   const parsedResponse =
-    graduateCreditData && new BusinessLogic(graduateCreditData);
+    graduateCreditData &&
+    generalEducationInfo &&
+    new BusinessLogic(graduateCreditData, generalEducationInfo);
 
   // 포탈 미인증 시, 선언적 페이지 처리
   if (!user?.isVerified) {
     return <PortalUnauthorizedComponent />;
   }
 
-  // 이수학점 생성 로딩 페이지 -> 생성된 학점 받아오는중 | 생성된 학점 받기 실패 && 학점 생성하는중
-  if (isPendingForGetCredit || isPendingForCreateCredit) {
+  // 이수학점 생성 로딩 페이지 -> 학점 데이터 빈 배열 | 생성된 학점 받아오는중 | 생성된 학점 받기 실패
+  // 로딩 화면 렌더링
+  if (
+    !graduateCreditData ||
+    isPendingForGetCredit ||
+    (isErrorForGetCredit && isPendingForCreateCredit) ||
+    isPendingForGetNecessaryCredit ||
+    isErrorForGetNecessaryCredit
+  ) {
     return <LoadingIndicator />;
   }
 
-  // 이수학점 페이지 랜더링
+  // 이수학점 페이지 렌더링
   return (
     <View style={{flex: 1}}>
       <Header
@@ -153,43 +188,40 @@ const GraduateCreditScreen = () => {
             </S.ProgressBarLabels>
           </S.ProgressBarContainer>
           <S.MinCreditView>
-            <S.FlexRowLayout>
-              {totalCredit > currentCredit ? (
-                <>
-                  <Icon color="grey130" name="info" width={20} height={20} />
-                  <Txt
-                    label="아직 최소 학점을 채우지 못했어요"
-                    color="grey130"
-                    typograph="bodyMedium"
-                  />
-                </>
-              ) : (
-                <>
-                  <Icon
-                    color="primaryBrand"
-                    name="check"
-                    width={20}
-                    height={20}
-                  />
-                  <Txt
-                    label="졸업 학점을 모두 이수했어요"
-                    color="primaryBrand"
-                    typograph="bodyMedium"
-                  />
-                </>
-              )}
-            </S.FlexRowLayout>
+            {totalCredit > currentCredit ? (
+              <S.FlexRowLayout>
+                <Icon color="grey130" name="info" width={20} height={20} />
+                <Txt
+                  label="아직 최소 학점을 채우지 못했어요"
+                  color="grey130"
+                  typograph="bodyMedium"
+                />
+              </S.FlexRowLayout>
+            ) : (
+              <S.FlexRowLayout>
+                <Icon
+                  color="primaryBrand"
+                  name="check"
+                  width={20}
+                  height={20}
+                />
+                <Txt
+                  label="졸업 학점을 모두 이수했어요"
+                  color="primaryBrand"
+                  typograph="bodyMedium"
+                />
+              </S.FlexRowLayout>
+            )}
             <S.FlexRowLayout>
               {parsedResponse
-                ?.getRemainingSubect()
+                ?.getInCompletedSubjects()
                 .map(field => (
                   <SubjectDetailButton
-                    key={`${field.label} 부족한 이수학점`}
-                    label={`${
-                      field.label as keyof typeof SUBJECT_BUTTON_LABEL
-                    }`}
+                    key={`${field.label} 미이수학점`}
+                    label={`${field.label}`}
                     type="subject"
-                    data={graduateCreditData}
+                    allCreditData={graduateCreditData}
+                    generalDetailData={generalEducationInfo}
                   />
                 ))}
             </S.FlexRowLayout>
@@ -209,7 +241,9 @@ const GraduateCreditScreen = () => {
                       <Pressable
                         onPress={() =>
                           navigation.navigate('graduate_credit_detail', {
-                            Props: graduateCreditData as ApiResponse,
+                            allCreditInfo: graduateCreditData as ApiResponse,
+                            generalCreditInfo:
+                              generalEducationInfo as SubjectCreditListRes,
                             type: tag.label,
                           })
                         }>
@@ -354,7 +388,7 @@ const S = {
     gap: 4px;
   `,
   HorizontalDividerThin: styled.View`
-    margin: 20px 0;
+    margin: 10px 0 20px 0;
     align-self: stretch;
     width: 100%;
     height: 1px;

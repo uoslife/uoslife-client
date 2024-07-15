@@ -1,6 +1,6 @@
 // 전공필수/선택, 교양필수/선택 등 field 그룹화 위한 배열
 import {ButtonConfig} from '../types';
-
+import {GraduateCreditRes} from '../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
 export const LABEL_MAPS: {[key: string]: string} = {
   major: '전공',
   generalEducation: '교양',
