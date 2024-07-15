@@ -1,14 +1,17 @@
 import {useEffect, useState} from 'react';
 import {Linking, View} from 'react-native';
-import styled from '@emotion/native/dist/emotion-native.cjs';
+import styled from '@emotion/native';
 import {Button, Txt} from '@uoslife/design-system';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import {useAtom} from 'jotai';
 import ToggleSwitch from '../../../../components/atoms/toggleSwitch/ToggleSwitch';
 import Header from '../../../../components/molecules/common/header/Header';
 import useTopicState from '../../../../hooks/useTopicState';
 import NotificationService from '../../../../services/notification';
 import DeviceService from '../../../../services/device';
+import {endLibraryStateActivity} from '../../../library/utils/endLibraryStateActivity';
+import {libraryStateActivityAtom} from '../../../../store/app/libraryStateActivity';
 
 const MypageAppSettingScreen = () => {
   const insets = useSafeAreaInsets();
@@ -33,6 +36,15 @@ const MypageAppSettingScreen = () => {
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
+  };
+
+  // 도서관 이용시간 알림
+  const [isLibraryStateActivity, setIsLibraryStateActivity] = useAtom(
+    libraryStateActivityAtom,
+  );
+  const handleDisableLibraryStatusActivity = () => {
+    endLibraryStateActivity();
+    setIsLibraryStateActivity(prev => !prev);
   };
 
   return (
@@ -83,6 +95,24 @@ const MypageAppSettingScreen = () => {
                 </S.notificationSettingContainer>
               ) : null,
             )}
+          </View>
+          <View style={{gap: 12}}>
+            <Txt label="도서관 알림" color="grey150" typograph="labelLarge" />
+            <S.notificationSettingContainer>
+              <Txt
+                label="도서관 이용시간"
+                color="grey190"
+                typograph="bodyLarge"
+              />
+              <ToggleSwitch
+                isOn={isLibraryStateActivity}
+                onToggle={() =>
+                  isLibraryStateActivity
+                    ? handleDisableLibraryStatusActivity()
+                    : setIsLibraryStateActivity(prev => !prev)
+                }
+              />
+            </S.notificationSettingContainer>
           </View>
         </S.mypageAppSettingContainer>
       ) : (

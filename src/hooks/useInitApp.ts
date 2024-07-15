@@ -18,6 +18,7 @@ import customShowToast from '../configs/toast';
 import {SupabaseConfigAtomType} from '../store/app/supabaseConfig';
 import {guideUpdate} from '../utils/app/guideUpdate';
 import {handleFCMTokenBackground} from '../utils/app/handleFCMTokenBackground';
+import {libraryStateActivityAtom} from '../store/app/libraryStateActivity';
 
 type Props = {
   isFetching: boolean;
@@ -29,6 +30,46 @@ const useInitApp = ({configData, isFetching}: Props) => {
   const [isInitLoadingFinish, setInitLoadingFinish] = useAtom(initLoadingAtom);
 
   const {setUserInfo} = useUserState();
+  const setIsLibraryStateActivity = useSetAtom(libraryStateActivityAtom);
+
+  const initApp = async () => {
+    // supabase로부터 최신 버전 여부 확인
+    if (configData && !configData.isLatestVersion) {
+      guideUpdate(configData?.environment);
+      return;
+    }
+    // 알림 권한 요청
+    await NotificationService.requestNotificationPermissions();
+
+    // refresh token이 없는 경우
+    if (!UserService.getHasRefreshToken()) {
+      handleLoadingFinish({isLogin: false});
+      return;
+    }
+    // 로그인 된 유저인지 검증
+    try {
+      await UserService.getAccessTokenByRefreshToken();
+      const userInfo = await UserService.getUserInfoFromServer();
+      setUserInfo(userInfo);
+    } catch (error) {
+      // 에러 발생시 logging 후 logout처리
+      captureException(error);
+      await UserService.logoutByUnknownError();
+      handleLoadingFinish({isLogin: false});
+      return;
+    }
+
+    initializeLibraryStateAtom();
+
+    handleLoadingFinish({isLogin: true});
+  };
+
+  useEffect(() => {
+    if (isInitLoadingFinish) return;
+    if (isFetching) return;
+    initApp();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching, isInitLoadingFinish]);
 
   // codepush
   const setSyncProgress = useSetAtom(syncProgressAtom);
@@ -98,42 +139,12 @@ const useInitApp = ({configData, isFetching}: Props) => {
     await handleFCMTokenBackground();
   };
 
-  const initApp = async () => {
-    // supabase로부터 최신 버전 여부 확인
-    if (configData && !configData.isLatestVersion) {
-      guideUpdate(configData?.environment);
+  /** storage에 `isLibraryStateActivity` key가 없는 경우 `true`로 초기화합니다. */
+  const initializeLibraryStateAtom = () => {
+    if (storage.getAllKeys().some(i => i.match('isLibraryStateActivity')))
       return;
-    }
-    // 알림 권한 요청
-    await NotificationService.requestNotificationPermissions();
-
-    // refresh token이 없는 경우
-    if (!UserService.getHasRefreshToken()) {
-      handleLoadingFinish({isLogin: false});
-      return;
-    }
-    // 로그인 된 유저인지 검증
-    try {
-      await UserService.getAccessTokenByRefreshToken();
-      const userInfo = await UserService.getUserInfoFromServer();
-      setUserInfo(userInfo);
-    } catch (error) {
-      // 에러 발생시 logging 후 logout처리
-      captureException(error);
-      await UserService.logoutByUnknownError();
-      handleLoadingFinish({isLogin: false});
-      return;
-    }
-
-    handleLoadingFinish({isLogin: true});
+    setIsLibraryStateActivity(true);
   };
-
-  useEffect(() => {
-    if (isInitLoadingFinish) return;
-    if (isFetching) return;
-    initApp();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFetching, isInitLoadingFinish]);
 };
 
 export default useInitApp;

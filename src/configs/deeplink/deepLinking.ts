@@ -85,6 +85,7 @@ const deepLinksConfig = {
     library_recap: 'library_recap',
     meeting: 'meeting',
     check_grade: 'check_grade',
+    academic_calendar: 'academic_calendar',
   },
 };
 
@@ -96,7 +97,11 @@ const linking: LinkingOptions<RootStackParamList> = {
     // 딥링크를 이용해서 앱이 오픈되었을 때
     const url = await Linking.getInitialURL();
 
-    if (url != null) return url;
+    if (url != null) {
+      storage.set('openedDeepLinkUrl', url);
+      // await Linking.openURL(url);
+      return null;
+    }
 
     // 백그라운드에서 알림 클릭 시 deepLink가 있는 경우 해당 url을 storage에 저장
     // ref: https://github.com/react-navigation/react-navigation.github.io/issues/97

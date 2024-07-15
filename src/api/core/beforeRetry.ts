@@ -1,11 +1,11 @@
 /* eslint-disable consistent-return */
 import ky, {BeforeRetryHook} from 'ky';
 import UserService from '../../services/user';
-import {ErrorResponseType} from '../services/type';
+import {IErrorResponse} from '../services/type';
 import {DEFAULT_API_RETRY_LIMIT} from '../../configs/api';
 
 const handleToken: BeforeRetryHook = async ({error, retryCount}) => {
-  const customError = error as unknown as ErrorResponseType;
+  const customError = error as IErrorResponse;
   if (customError.status !== 401) return ky.stop; // status code가 401이 아닌 경우 retry를 중지합니다.
 
   if (retryCount === DEFAULT_API_RETRY_LIMIT - 1) {

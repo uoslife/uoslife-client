@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: [
-    '@react-native-community',
+    '@react-native',
     'airbnb',
     'airbnb-typescript',
     'prettier',
@@ -56,7 +56,7 @@ module.exports = {
     ],
     'no-plusplus': ['error', {allowForLoopAfterthoughts: true}],
     '@typescript-eslint/lines-between-class-members': ['error'],
-    // Resource: https://noogoonaa.tistory.com/62
+    //  Resource: https://noogoonaa.tistory.com/62
     'prettier/prettier': [
       'error',
       {
