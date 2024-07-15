@@ -94,6 +94,7 @@ const GraduateCreditScreen = () => {
   const isPendingForGetNecessaryCredit = generalDetailCreditData.isLoading;
   const isErrorForGetNecessaryCredit = generalDetailCreditData.isError;
 
+
   const {
     isSuccess: isSuccessForCreateCredit,
     isPending: isPendingForCreateCredit,
