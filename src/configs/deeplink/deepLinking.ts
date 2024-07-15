@@ -84,9 +84,10 @@ const deepLinksConfig = {
     // uos_lifestyle
     library_recap: 'library_recap',
     meeting: 'meeting',
-    check_grade: 'check_grade',
     restaurant: 'restaurant',
+    graduate_credit: 'graduate_credit',
     academic_calendar: 'academic_calendar',
+    hidden_grade: 'hidden_grade',
   },
 };
 
