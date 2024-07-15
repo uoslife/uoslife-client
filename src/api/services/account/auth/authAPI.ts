@@ -18,7 +18,7 @@ const AuthAPI: AuthService = {
     const res = await accountApiClientForRefresh.post('v1/auth/refresh', {
       json: {refreshToken},
     });
-    return await res.json();
+    return await res.json(); // error
   },
 };
 export default AuthAPI;
