@@ -1,5 +1,6 @@
 app_identifier("com.beyondconnect.uoslife")
-apple_id("support@uoslife.team")
+# apple_id("support@uoslife.team")
+apple_id(ENV["APPLE_ID"]) # Your Apple Developer Portal username
 
 itc_team_id("126124131")
 team_id("P8P4WJP7P4")

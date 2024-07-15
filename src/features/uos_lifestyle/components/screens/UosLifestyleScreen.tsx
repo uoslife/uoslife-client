@@ -37,14 +37,24 @@ const UosLifestyleScreen = () => {
           onPress={() => navigation.navigate('hidden_grade')}
         />
         <NavigationList
-          label="2023 도서관 이용내역"
-          labelIcon="library"
-          onPress={() => navigation.navigate('library_recap')}
-        />
-        <NavigationList
           label="맛집 리스트"
           labelIcon="cafeteria"
           onPress={() => navigation.navigate('restaurant')}
+        />
+        <NavigationList
+          label="이수학점 확인하기"
+          labelIcon="grade"
+          onPress={() => navigation.navigate('graduate_credit')}
+        />
+        <NavigationList
+          label="학사 일정"
+          labelIcon="calendar"
+          onPress={() => navigation.navigate('academic_calendar')}
+        />
+        <NavigationList
+          label="2023 도서관 이용내역"
+          labelIcon="library"
+          onPress={() => navigation.navigate('library_recap')}
         />
       </S.NavigationListContainer>
     </S.Container>

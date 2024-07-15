@@ -86,6 +86,7 @@ const deepLinksConfig = {
     meeting: 'meeting',
     check_grade: 'check_grade',
     restaurant: 'restaurant',
+    academic_calendar: 'academic_calendar',
   },
 };
 

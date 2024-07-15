@@ -75,6 +75,24 @@ export const patch = async <T extends unknown>(
   }
 };
 
+export const put = async <T extends unknown>(
+  url: string,
+  body: unknown,
+  clientType: ClientType = 'DEFAULT',
+): KyJsonResponse<T> => {
+  const client = changeClient(clientType);
+  try {
+    return body
+      ? await client.put(url, {json: body}).json()
+      : await client.put(url).json();
+  } catch (error) {
+    const errorJson = await (error as any).response.json();
+    const {message, status, code} = errorJson;
+
+    throw new CustomError(status, code, message);
+  }
+};
+
 export const del = async <T extends unknown>(
   url: string,
   body?: unknown,

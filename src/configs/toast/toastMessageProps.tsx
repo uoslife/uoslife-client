@@ -57,6 +57,13 @@ const toastMessage = {
 
   // alpha environment
   alphaEnvironmentInfo: 'Alpha 환경에서 앱이 실행되었어요.',
+
+  // 학사일정 TF
+  clipboardCopy: '일정과 날짜를 클립보드에 저장했습니다.',
+  addBookmark: '일정을 담았습니다.',
+  deleteBookmark: '일정 담기를 취소하였습니다.',
+  addNotification: '1일 전 18시와 당일 9시에 알림이 설정되었습니다.',
+  deleteNotification: '알림이 취소되었습니다.',
 };
 const toastMessageSubTitle = {
   waitForRestart: '잠시후 다시 시도해주세요.',
@@ -227,6 +234,28 @@ const toastMessageProps: {[T in ToastMessageType]: ShowToastProps} = {
     type: 'info',
     visibilityTime: 6000,
     title: toastMessage.alphaEnvironmentInfo,
+  },
+
+  // 학사일정 TF
+  clipboardCopy: {
+    visibilityTime: 1500,
+    title: toastMessage.clipboardCopy,
+  },
+  addBookmark: {
+    visibilityTime: 1000,
+    title: toastMessage.addBookmark,
+  },
+  deleteBookmark: {
+    visibilityTime: 1000,
+    title: toastMessage.deleteBookmark,
+  },
+  addNotification: {
+    visibilityTime: 2000,
+    title: toastMessage.addNotification,
+  },
+  deleteNotification: {
+    visibilityTime: 1000,
+    title: toastMessage.deleteNotification,
   },
 };
 export default toastMessageProps;
