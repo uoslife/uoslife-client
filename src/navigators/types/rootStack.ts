@@ -23,6 +23,7 @@ export type RootStackParamList = {
   // uos_lifestyle
   library_recap: undefined;
   meeting: undefined;
+  academic_calendar: undefined;
   hidden_grade: undefined;
 
   // account

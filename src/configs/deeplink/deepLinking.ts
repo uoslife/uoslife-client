@@ -85,6 +85,7 @@ const deepLinksConfig = {
     library_recap: 'library_recap',
     meeting: 'meeting',
     check_grade: 'check_grade',
+    academic_calendar: 'academic_calendar',
   },
 };
 

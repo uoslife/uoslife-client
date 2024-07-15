@@ -41,6 +41,11 @@ const UosLifestyleScreen = () => {
           labelIcon="library"
           onPress={() => navigation.navigate('library_recap')}
         />
+        <NavigationList
+          label="학사 일정"
+          labelIcon="calendar"
+          onPress={() => navigation.navigate('academic_calendar')}
+        />
       </S.NavigationListContainer>
     </S.Container>
   );

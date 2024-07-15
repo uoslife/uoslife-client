@@ -38,4 +38,31 @@ platform :ios do
       default_payloads: [:git_branch, :git_author]
     )
   end
+
+  desc "Push a new beta build to TestFlight"
+  lane :release_testflight do
+    increment_build_number(xcodeproj: "uoslife.xcodeproj")
+    build_app(
+      workspace: "uoslife.xcworkspace",
+      scheme: "UOSLIFE-Prod"
+    )
+    upload_to_testflight(app_version: ENV['APP_LATEST_VERSION'])
+
+    commit = last_git_commit
+    
+    slack(
+      slack_url: "https://hooks.slack.com/services/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",
+      icon_url: "https://cdn.uoslife.net/logo/NewAppIconColored.png",
+      username: "[Fastlane] UOSLIFE Prod",
+      message: ":white_check_mark: iOS: testflight 빌드가 업로드되었어요 (" + commit[:message] + ")",
+      success: true,
+      payload: {
+        "Build Number" => get_build_number(xcodeproj: "uoslife.xcodeproj"),
+        "App Version" => ENV['APP_LATEST_VERSION'],
+        "Build Time" => Time.new.to_s,
+        "Commit Message" => commit[:message],
+      },
+      default_payloads: [:git_branch, :git_author]
+    )
+  end
 end
