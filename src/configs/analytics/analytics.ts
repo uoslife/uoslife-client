@@ -11,6 +11,9 @@ export type LogEventNameType =
   | 'library_reservation_success'
   | 'library_return_success'
   | 'library_extend_success'
+  | 'clipboard_copy'
+  | 'bookmark_success'
+  | 'notification_success'
   | typeof DEFAULT_LOG_EVENT_NAME;
 
 type BannerObjectType = ApplyDefaultLogEventName<{

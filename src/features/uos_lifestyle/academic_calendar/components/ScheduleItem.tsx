@@ -8,6 +8,8 @@ import {ScheduleTabEnum} from '../constants';
 import {ISchedule} from '../api/academicCalendarAPI.type';
 import customShowToast from '../../../../configs/toast';
 import useModal from '../../../../hooks/useModal';
+import AnalyticsService from '../../../../services/analytics';
+import useUserState from '../../../../hooks/useUserState';
 
 type ScheduleItemProps = {
   schedule: ISchedule;
@@ -36,6 +38,7 @@ const ScheduleItem = ({
   notificationHandler,
   delNotificationHandler,
 }: ScheduleItemProps) => {
+  const {user} = useUserState();
   const [checked, setChecked] = useState<boolean>(false);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [isNotificated, setIsNotificated] = useState<boolean>(false);
@@ -45,6 +48,9 @@ const ScheduleItem = ({
       `${schedule.title}\n${schedule.startDate}~${schedule.endDate}`,
     );
     customShowToast('clipboardCopy');
+    AnalyticsService.logAnalyticsEvent('clipboard_copy', {
+      userId: user?.id as number,
+    });
   };
   useEffect(() => {
     onCheckboxChange(schedule.scheduleId);
