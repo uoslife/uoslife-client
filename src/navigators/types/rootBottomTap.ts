@@ -22,7 +22,7 @@ export type TabScreenItemType = {
     | 'tab_announcement'
     | 'tab_mypage'
     | 'tab_student_id'
-    | 'tab_uoslife_life'
+    | 'tab_uos_lifestyle'
   >;
   screenName: keyof RootTabParamList;
   component: React.ComponentType<any>;

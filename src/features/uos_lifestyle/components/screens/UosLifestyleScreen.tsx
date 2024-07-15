@@ -43,7 +43,7 @@ const UosLifestyleScreen = () => {
         />
         <NavigationList
           label="이수학점 확인하기"
-          labelIcon="library"
+          labelIcon="grade"
           onPress={() => navigation.navigate('graduate_credit')}
         />
         {/*  TODO:labelIcon 변경 */}
