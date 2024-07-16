@@ -51,10 +51,10 @@ platform :ios do
     commit = last_git_commit
     
     slack(
-      slack_url: "https://hooks.slack.com/services/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",
+      slack_url: "https://hooks.slack.com/services/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",
       icon_url: "https://cdn.uoslife.net/logo/NewAppIconColored.png",
       username: "[Fastlane] UOSLIFE Prod",
-      message: ":white_check_mark: iOS: testflight 빌드가 업로드되었어요 (" + commit[:message] + ")",
+      message: ":white_check_mark: iOS: testflight 빌드가 업로드되었어요.",
       success: true,
       payload: {
         "Build Number" => get_build_number(xcodeproj: "uoslife.xcodeproj"),
