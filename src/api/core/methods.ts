@@ -1,29 +1,6 @@
-import {KyJsonResponse, IErrorResponse, ErrorCode} from '../services/type';
-import {apiClient, accountApiClient} from './client';
-
-class CustomError extends Error implements IErrorResponse {
-  code: ErrorCode;
-
-  date: Date;
-
-  status: number;
-
-  // @ts-expect-error: expected params
-  constructor(status: number, code: ErrorCode, ...params) {
-    // Pass remaining arguments (including vendor specific ones) to parent constructor
-    super(...params);
-
-    // Maintains proper stack trace for where our error was thrown (only available on V8)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, CustomError);
-    }
-
-    // Custom debugging information
-    this.code = code;
-    this.date = new Date();
-    this.status = status;
-  }
-}
+import {KyJsonResponse, ClientType} from '../services/type';
+import {changeClient, isJsonContentType} from '../../utils/api';
+import {CustomError} from './customError';
 
 export const get = async <T extends unknown>(
   url: string,
@@ -32,7 +9,13 @@ export const get = async <T extends unknown>(
   const client = changeClient(clientType);
 
   try {
-    return await client.get(url).json();
+    return await client
+      .get(url)
+      .then(res =>
+        isJsonContentType(res.headers.get('Content-Type'))
+          ? res.json()
+          : res.text(),
+      );
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
@@ -49,8 +32,20 @@ export const post = async <T extends unknown>(
   const client = changeClient(clientType);
   try {
     return body
-      ? await client.post(url, {json: body}).json()
-      : await client.post(url).json();
+      ? await client
+          .post(url, {json: body})
+          .then(res =>
+            isJsonContentType(res.headers.get('Content-Type'))
+              ? res.json()
+              : res.text(),
+          )
+      : await client
+          .post(url)
+          .then(res =>
+            isJsonContentType(res.headers.get('Content-Type'))
+              ? res.json()
+              : res.text(),
+          );
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
@@ -66,7 +61,13 @@ export const patch = async <T extends unknown>(
 ): KyJsonResponse<T> => {
   const client = changeClient(clientType);
   try {
-    return await client.patch(url, {json: body}).json();
+    return await client
+      .patch(url, {json: body})
+      .then(res =>
+        isJsonContentType(res.headers.get('Content-Type'))
+          ? res.json()
+          : res.text(),
+      );
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
@@ -83,8 +84,20 @@ export const put = async <T extends unknown>(
   const client = changeClient(clientType);
   try {
     return body
-      ? await client.put(url, {json: body}).json()
-      : await client.put(url).json();
+      ? await client
+          .put(url, {json: body})
+          .then(res =>
+            isJsonContentType(res.headers.get('Content-Type'))
+              ? res.json()
+              : res.text(),
+          )
+      : await client
+          .put(url)
+          .then(res =>
+            isJsonContentType(res.headers.get('Content-Type'))
+              ? res.json()
+              : res.text(),
+          );
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
@@ -102,23 +115,24 @@ export const del = async <T extends unknown>(
 
   try {
     return body
-      ? await client.delete(url, {json: body}).json()
-      : await client.delete(url).json();
+      ? await client
+          .delete(url, {json: body})
+          .then(res =>
+            isJsonContentType(res.headers.get('Content-Type'))
+              ? res.json()
+              : res.text(),
+          )
+      : await client
+          .delete(url)
+          .then(res =>
+            isJsonContentType(res.headers.get('Content-Type'))
+              ? res.json()
+              : res.text(),
+          );
   } catch (error) {
     const errorJson = await (error as any).response.json();
     const {message, status, code} = errorJson;
 
     throw new CustomError(status, code, message);
-  }
-};
-
-type ClientType = 'DEFAULT' | 'ACCOUNT';
-// eslint-disable-next-line consistent-return
-const changeClient = (client: ClientType) => {
-  switch (client) {
-    case 'DEFAULT':
-      return apiClient;
-    case 'ACCOUNT':
-      return accountApiClient;
   }
 };

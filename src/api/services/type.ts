@@ -1,10 +1,12 @@
-export type KyJsonResponse<T> = Promise<T>;
+export type KyJsonResponse<T> = Promise<string | Awaited<T>>;
 
 export type ServiceFunc<Params = unknown | undefined, Res = unknown> = (
   params: Params,
 ) => KyJsonResponse<Res>;
 
 export type ServiceFuncWithoutParams<Res = unknown> = () => KyJsonResponse<Res>;
+
+export type ClientType = 'DEFAULT' | 'ACCOUNT';
 
 export interface IErrorResponse extends Error {
   code: ErrorCode;
