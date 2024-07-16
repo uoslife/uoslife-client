@@ -1,5 +1,5 @@
 /** you can change alpha / prod api server prefix */
-const ENABLE_ALPHA_API_SERVER = true;
+const ENABLE_ALPHA_API_SERVER = false;
 
 const getApiServerPrefix = () => {
   return ENABLE_ALPHA_API_SERVER ? 'alpha.' : '';
