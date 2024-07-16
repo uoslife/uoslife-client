@@ -23,8 +23,8 @@ android {
         applicationId "com.beyondconnect.uoslife"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20202
-        versionName "2.0.2"
+        versionCode 20300
+        versionName "2.0.3"
     }
 
     flavorDimensions 'uoslife'
