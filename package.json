@@ -42,7 +42,7 @@
     "jotai": "^2.3.1",
     "jotai-cache": "^0.3.0",
     "jotai-tanstack-query": "^0.8.5",
-    "ky": "^0.33.3",
+    "ky": "^1.4.0",
     "moti": "^0.28.1",
     "react": "18.2.0",
     "react-native": "0.74.2",
