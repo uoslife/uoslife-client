@@ -14,3 +14,11 @@ export const changeClient = (client: ClientType) => {
 export const isJsonContentType = (contentType: ReturnType<Headers['get']>) => {
   return contentType && contentType.includes('application/json');
 };
+
+export const getContentLength = (headers: Headers) => {
+  const length = getHeader('Content-Length', headers);
+  return length ? Number(length) : null;
+};
+
+export const getHeader = (header: string, headers: Headers) =>
+  headers.get(header) || headers.get(header.toLowerCase());
