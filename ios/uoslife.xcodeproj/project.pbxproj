@@ -21,14 +21,13 @@
 		3AF55FDB2BEAC827003456A9 /* DynamicIslandWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF55FCC2BEAC825003456A9 /* DynamicIslandWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		52F6A8A4340F983E91DC6A4E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 36762E500F537C0BBD076DE0 /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* BootSplash.storyboard */; };
+		90CB4210B45C7EB4B8A922A1 /* Pods_uoslife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF70DD338895A72CC2C42336 /* Pods_uoslife.framework */; };
 		AB574A322BF746C5001A2084 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		AB833C9F2BB54A3F007DD7D5 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9A2BB54A3C007DD7D5 /* Pretendard-Light.otf */; };
 		AB833CA02BB54A3F007DD7D5 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9B2BB54A3D007DD7D5 /* Pretendard-Regular.otf */; };
 		AB833CA12BB54A3F007DD7D5 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9C2BB54A3E007DD7D5 /* Pretendard-Bold.otf */; };
 		AB833CA22BB54A3F007DD7D5 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9D2BB54A3E007DD7D5 /* Pretendard-SemiBold.otf */; };
 		AB833CA32BB54A3F007DD7D5 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB833C9E2BB54A3F007DD7D5 /* Pretendard-Medium.otf */; };
-		BCA04E662C0CD316007E2C40 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = BCA04E652C0CD316007E2C40 /* main.jsbundle */; };
-		D98294C165E11FD839F42562 /* Pods_uoslife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2032255C221CB68B41EF37 /* Pods_uoslife.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,10 +86,6 @@
 		ABDE44462A39CCD800516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ABDE44492A39CCE900516E94 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/Firebase/Prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		ABF6EC212BF6543B00C6021C /* DynamicIslandWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DynamicIslandWidgetExtension.entitlements; sourceTree = "<group>"; };
-		BC150773201FABBB72F925D3 /* Pods-uoslife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.debug.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.debug.xcconfig"; sourceTree = "<group>"; };
-		BCA04E652C0CD316007E2C40 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
-		D98FBCD4D6DE69C1C4C1E893 /* Pods-uoslife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.release.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.release.xcconfig"; sourceTree = "<group>"; };
-		E0D0D2447651F5174BD97B1E /* Pods-uoslife.alpha.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uoslife.alpha.xcconfig"; path = "Target Support Files/Pods-uoslife/Pods-uoslife.alpha.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EF70DD338895A72CC2C42336 /* Pods_uoslife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uoslife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -101,7 +96,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB574A322BF746C5001A2084 /* JavaScriptCore.framework in Frameworks */,
-				B9F50E198DC6C8B483178285 /* Pods_uoslife.framework in Frameworks */,
+				90CB4210B45C7EB4B8A922A1 /* Pods_uoslife.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +165,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				BCA04E652C0CD316007E2C40 /* main.jsbundle */,
 				AB833C952BB549E9007DD7D5 /* Extensions */,
 				13B07FAE1A68108700A75B9A /* uoslife */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -355,7 +349,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				AB833CA32BB54A3F007DD7D5 /* Pretendard-Medium.otf in Resources */,
 				52F6A8A4340F983E91DC6A4E /* PrivacyInfo.xcprivacy in Resources */,
-				BCA04E662C0CD316007E2C40 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,7 +560,7 @@
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20212;
+				CURRENT_PROJECT_VERSION = 20213;
 				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = uoslife/Info.plist;
@@ -610,7 +603,7 @@
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20212;
+				CURRENT_PROJECT_VERSION = 20213;
 				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생";
@@ -655,7 +648,7 @@
 				CODE_SIGN_ENTITLEMENTS = Extensions/DynamicIslandWidget/DynamicIslandWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20212;
+				CURRENT_PROJECT_VERSION = 20213;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -705,7 +698,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20212;
+				CURRENT_PROJECT_VERSION = 20213;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1023,7 +1016,7 @@
 				CODE_SIGN_ENTITLEMENTS = uoslife/uoslife.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20212;
+				CURRENT_PROJECT_VERSION = 20213;
 				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				INFOPLIST_FILE = uoslife/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "시대생 Alpha";
@@ -1069,7 +1062,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20212;
+				CURRENT_PROJECT_VERSION = 20213;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = P8P4WJP7P4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
