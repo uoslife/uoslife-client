@@ -19,10 +19,7 @@ export type LogEventNameType =
   | 'clipboard_copy'
   | 'bookmark_success'
   | 'notification_success'
-  | 'academic_calendar_approach'
-  | 'graduate_credit_approach'
   | 'restaurant_filter'
-  | 'restaurant_approach'
   | 'restaurant_like'
   | 'restaurant_map_click'
   | typeof DEFAULT_LOG_EVENT_NAME;

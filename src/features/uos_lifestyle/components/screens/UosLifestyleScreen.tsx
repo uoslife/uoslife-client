@@ -8,7 +8,6 @@ import urls from '../../../../configs/urls';
 import useUserState from '../../../../hooks/useUserState';
 import customShowToast from '../../../../configs/toast';
 import {RootNavigationProps} from '../../../../navigators/types/rootStack';
-import AnalyticsService from '../../../../services/analytics';
 
 const UosLifestyleScreen = () => {
   const insets = useSafeAreaInsets();
@@ -40,32 +39,17 @@ const UosLifestyleScreen = () => {
         <NavigationList
           label="맛집 리스트"
           labelIcon="cafeteria"
-          onPress={() => {
-            navigation.navigate('restaurant');
-            AnalyticsService.logAnalyticsEvent('restaurant_approach', {
-              userId: user?.id as number,
-            });
-          }}
+          onPress={() => navigation.navigate('restaurant')}
         />
         <NavigationList
           label="이수학점 확인하기"
           labelIcon="grade"
-          onPress={() => {
-            navigation.navigate('graduate_credit');
-            AnalyticsService.logAnalyticsEvent('graduate_credit_approach', {
-              userId: user?.id as number,
-            });
-          }}
+          onPress={() => navigation.navigate('graduate_credit')}
         />
         <NavigationList
           label="학사 일정"
           labelIcon="calendar"
-          onPress={() => {
-            navigation.navigate('academic_calendar');
-            AnalyticsService.logAnalyticsEvent('academic_calendar_approach', {
-              userId: user?.id as number,
-            });
-          }}
+          onPress={() => navigation.navigate('academic_calendar')}
         />
         <NavigationList
           label="2023 도서관 이용내역"
