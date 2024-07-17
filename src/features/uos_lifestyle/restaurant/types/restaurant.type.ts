@@ -56,7 +56,7 @@ export interface RestaurantListResponse {
 export interface RestaurantClickResponse {
   id: number;
   name: string;
-  clickCount: number;
+  likeCount: number;
 }
 
 export type RestaurantItemType = {

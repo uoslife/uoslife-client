@@ -15,9 +15,12 @@ import {
 } from '../types/restaurant.type';
 import {get, post, del} from '../../../../api/core/methods';
 import {generateQueryString} from '../../../announcement/utils/getQueryStringFromParams';
+import AnalyticsService from '../../../../services/analytics';
+import useUserState from '../../../../hooks/useUserState';
 
 const useRestaurantItem = () => {
   const queryClient = useQueryClient();
+  const {user} = useUserState();
   const useRestaurantQuery = ({
     isLike,
     location,
@@ -113,6 +116,11 @@ const useRestaurantItem = () => {
             });
           },
         );
+      },
+      onSuccess: async () => {
+        await AnalyticsService.logAnalyticsEvent('restaurant_like', {
+          userId: user?.id as number,
+        });
       },
       onSettled: () => {
         queryClient.invalidateQueries({
