@@ -1,5 +1,5 @@
 import {View, FlatList, ListRenderItem, Dimensions} from 'react-native';
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import {Txt} from '@uoslife/design-system';
 import BorderSelect from '../../../../components/molecules/common/select/BorderSelect';
 import LikeCategoryButton from './LikeCategoryButton';
@@ -18,6 +18,8 @@ import {
   reversedLocationList,
 } from '../constants/restaurant';
 import useRestaurantItem from '../hooks/useRestaurantItem';
+import AnalyticsService from '../../../../services/analytics';
+import useUserState from '../../../../hooks/useUserState';
 
 export interface RestaurantListResponse {
   page: number;
@@ -33,6 +35,7 @@ const RestaurantListContainer = ({
   setBottomSheetItem: (item: RestaurantItemType) => void;
   openBottomSheet: () => void;
 }) => {
+  const {user} = useUserState();
   const [location, setLocation] = useState<LocationType>('TOTAL');
   const [foodCategory, setFoodCategory] = useState<FoodCategoryType>('TOTAL');
   const [isLike, setIsLike] = useState<boolean>(false);
@@ -77,6 +80,12 @@ const RestaurantListContainer = ({
     );
   };
 
+  useEffect(() => {
+    AnalyticsService.logAnalyticsEvent('restaurant_filter', {
+      location,
+      foodCategory,
+    });
+  }, [location, foodCategory]);
   return (
     <View style={{gap: 12}}>
       <View style={{gap: 12}}>

@@ -12,10 +12,13 @@ import RestaurantListContainer from './components/RestaurantListContainer';
 import GuidePopup from '../../../components/molecules/common/GuidePopup/GuidePopup';
 import storage from '../../../storage';
 import {RestaurantItemType} from './types/restaurant.type';
+import AnalyticsService from '../../../services/analytics';
+import useUserState from '../../../hooks/useUserState';
 
 const RestaurantScreen = () => {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<RootNavigationProps>();
+  const {user} = useUserState();
   const [bottomSheetItem, setBottomSheetItem] =
     useState<RestaurantItemType | null>();
   const [openBottomSheet, closeBottomSheet, BottomSheet] =
@@ -23,9 +26,12 @@ const RestaurantScreen = () => {
   const [isGuidePopupOpen, setIsGuidePopupOpen] = useState(true);
 
   const handleClickBottomSheetButton = (mapLink: string) => {
-    Linking.openURL(mapLink).catch(err =>
-      console.error("Couldn't load page", err),
-    );
+    Linking.openURL(mapLink).catch(err => {
+      console.error("Couldn't load page", err);
+    });
+    AnalyticsService.logAnalyticsEvent('restaurant_map_click', {
+      userId: user?.id as number,
+    });
   };
 
   const closeGuidePopup = () => {
