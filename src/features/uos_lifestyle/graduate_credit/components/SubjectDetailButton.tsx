@@ -5,6 +5,7 @@ import {ApiResponse} from '../types';
 import {SUBJECT_BUTTON_LABEL} from '../configs/constants';
 import {GraduateCreditNavigationProp} from '../navigators/types/graduateCredit';
 import {SubjectCreditListRes} from '../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
+
 type SubjectProps = {
   label: keyof typeof SUBJECT_BUTTON_LABEL | string;
   // 학과 | 과목 | 교양 세부
@@ -31,7 +32,7 @@ const SubjectDetailButton = ({
   return (
     <S.SubjectButton
       type={type}
-      disabled={type === 'major' || type == 'elective'}
+      disabled={type === 'major' || type === 'elective'}
       onPress={handlePressButton}>
       <S.ButtonText type={type}>{label}</S.ButtonText>
     </S.SubjectButton>

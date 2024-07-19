@@ -6,11 +6,25 @@ import {
 } from '../types';
 import {GROUP_FIELDS, LABEL_MAPS, BUTTONS_LABEL} from '../configs/constants';
 
+const isCompletedCreditStatus = (
+  label: string,
+  inCompletedSubject: {
+    label: string;
+    current: number | null;
+    total: number | null;
+  }[],
+): boolean => {
+  return inCompletedSubject.some(subject => subject.label === label);
+};
+
 class BusinessLogic {
   private apiResponse: ApiResponse;
+
   // 교양 세부정보
   private necessarySubjectCredit: GeneralEducationDetailList;
+
   private groupedFields: GroupedFields[];
+
   private labelsMap: LabelsMap;
 
   constructor(
@@ -101,16 +115,6 @@ class BusinessLogic {
   }
 
   // label이 미이수 과목 포함되었는지 확인
-  private isCompletedCreditStatus(
-    label: string,
-    inCompletedSubject: {
-      label: string;
-      current: number | null;
-      total: number | null;
-    }[],
-  ): boolean {
-    return inCompletedSubject.some(subject => subject.label === label);
-  }
 
   public tags() {
     const inCompletedSubject = this.getInCompletedSubjects();
@@ -131,26 +135,23 @@ class BusinessLogic {
       switch (baseLabel) {
         case 'major':
           status =
-            !this.isCompletedCreditStatus('전공 필수', inCompletedSubject) &&
-            !this.isCompletedCreditStatus('전공 선택', inCompletedSubject);
+            !isCompletedCreditStatus('전공 필수', inCompletedSubject) &&
+            !isCompletedCreditStatus('전공 선택', inCompletedSubject);
           break;
         case 'doubleMajor':
           status =
-            !this.isCompletedCreditStatus(
-              '복수전공 필수',
-              inCompletedSubject,
-            ) &&
-            !this.isCompletedCreditStatus('복수전공 선택', inCompletedSubject);
+            !isCompletedCreditStatus('복수전공 필수', inCompletedSubject) &&
+            !isCompletedCreditStatus('복수전공 선택', inCompletedSubject);
           break;
         case 'minor':
           status =
-            !this.isCompletedCreditStatus('부전공 필수', inCompletedSubject) &&
-            !this.isCompletedCreditStatus('부전공 선택', inCompletedSubject);
+            !isCompletedCreditStatus('부전공 필수', inCompletedSubject) &&
+            !isCompletedCreditStatus('부전공 선택', inCompletedSubject);
           break;
         case 'generalEducation':
           status =
-            !this.isCompletedCreditStatus('교양 필수', inCompletedSubject) &&
-            !this.isCompletedCreditStatus('교양 선택', inCompletedSubject);
+            !isCompletedCreditStatus('교양 필수', inCompletedSubject) &&
+            !isCompletedCreditStatus('교양 선택', inCompletedSubject);
           break;
         default:
           status = true;
