@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import {colors} from '@uoslife/design-system';
 import styled from '@emotion/native';
 

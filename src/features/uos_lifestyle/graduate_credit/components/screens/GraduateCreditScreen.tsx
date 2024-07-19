@@ -72,7 +72,7 @@ const GraduateCreditScreen = () => {
         queryKey: ['getGraduateCredit'],
         queryFn: async () => {
           const data = await CoreAPI.getAllGraduateCredit();
-          setGraduateCreditData(data);
+          setGraduateCreditData(data as GraduateCreditRes);
           return data;
         },
       },
@@ -80,7 +80,7 @@ const GraduateCreditScreen = () => {
         queryKey: ['getNecessaryCredit'],
         queryFn: async () => {
           const data = await CoreAPI.getNecessarySubjectCredit();
-          setGeneralEducationInfo(data);
+          setGeneralEducationInfo(data as SubjectCreditListRes);
           return data;
         },
       },
@@ -94,7 +94,6 @@ const GraduateCreditScreen = () => {
   const isPendingForGetNecessaryCredit = generalDetailCreditData.isLoading;
   const isErrorForGetNecessaryCredit = generalDetailCreditData.isError;
 
-
   const {
     isSuccess: isSuccessForCreateCredit,
     isPending: isPendingForCreateCredit,
@@ -103,7 +102,7 @@ const GraduateCreditScreen = () => {
     mutationFn: () => CoreAPI.createGraduateCredit(),
     onSuccess: data => {
       queryClient.invalidateQueries({queryKey: ['getNecessaryCredit']});
-      setGraduateCreditData(data);
+      setGraduateCreditData(data as GraduateCreditRes);
     },
   });
 
