@@ -82,6 +82,18 @@ const MainScreen = () => {
           logEventName="banner"
           autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
         />
+        <S.NotificationWrapper>
+          <Txt
+            label="캬 ㅋㅋ 시대생 점검 폼 뭐냐??"
+            color="primaryDark"
+            typograph="titleLarge"
+          />
+          <Txt
+            label="시대팅 커밍쑨"
+            color="primaryDark"
+            typograph="headlineLarge"
+          />
+        </S.NotificationWrapper>
         <MainServiceBox
           label="오늘의 학식"
           iconName="cafeteria"
@@ -145,5 +157,10 @@ const S = {
     position: absolute;
     top: -6px;
     right: 0;
+  `,
+  NotificationWrapper: styled.View`
+    background-color: ${colors.primaryLighterAlt};
+    border-radius: 8px;
+    padding: 8px 16px;
   `,
 };
