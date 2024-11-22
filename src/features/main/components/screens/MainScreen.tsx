@@ -90,20 +90,20 @@ const MainScreen = () => {
             <CafeteriaContents />
           </Suspense>
         </MainServiceBox>
-        <MainServiceBox
+        {/* <MainServiceBox
           label="도서관"
           iconName="library"
           iconColor="primaryDarker">
           <Suspense fallback={<Skeleton variant="card" />}>
             <LibraryContents />
           </Suspense>
-        </MainServiceBox>
-        <MainServiceBox
+        </MainServiceBox> */}
+        {/* <MainServiceBox
           label="공지사항"
           iconName="campaign"
           iconColor="primaryDarker">
           <AnnounceContents />
-        </MainServiceBox>
+        </MainServiceBox> */}
       </S.MainWrapper>
     </S.MainContainer>
   );
