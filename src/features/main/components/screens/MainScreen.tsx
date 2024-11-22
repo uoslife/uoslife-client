@@ -87,11 +87,13 @@ const MainScreen = () => {
             label="캬 ㅋㅋ 시대생 점검 폼 뭐냐??"
             color="primaryDark"
             typograph="titleLarge"
+            style={{textAlign: 'right'}}
           />
           <Txt
             label="시대팅 커밍쑨"
-            color="primaryDark"
+            color="red"
             typograph="headlineLarge"
+            style={{textAlign: 'left'}}
           />
         </S.NotificationWrapper>
         <MainServiceBox
@@ -159,8 +161,16 @@ const S = {
     right: 0;
   `,
   NotificationWrapper: styled.View`
+    display: flex;
     background-color: ${colors.primaryLighterAlt};
-    border-radius: 8px;
-    padding: 8px 16px;
+    border-radius: 16px;
+    padding: 30px 30px;
+    border-width: 10px;
+    border-color: hsl(45, 100%, 50%);
+    shadow-color: hsl(300, 100%, 50%);
+    shadow-offset: 15px 15px;
+    shadow-opacity: 0.9;
+    shadow-radius: 20px;
+    transform: rotate(5deg);
   `,
 };
