@@ -13,6 +13,7 @@ import CafeteriaContents from '../contents/CafeteriaContents';
 import LibraryContents from '../contents/LibraryContents';
 import MainServiceBox from '../mainServiceBox/MainServiceBox';
 import Skeleton from '../../../../components/molecules/common/skeleton/Skeleton';
+import {Linking} from 'react-native';
 
 const {width} = Dimensions.get('window');
 
@@ -80,7 +81,8 @@ const MainScreen = () => {
             }}
           />
         </S.NotificationWrapper>
-        <S.ButtonWrapper>
+        <S.ButtonWrapper
+          onPress={() => Linking.openURL('https://www.uoslife.team/notices')}>
           <Txt
             label="자세히 보기"
             color="black"
@@ -92,7 +94,8 @@ const MainScreen = () => {
             }}
           />
         </S.ButtonWrapper>
-        <S.ButtonWrapperSecond>
+        <S.ButtonWrapperSecond
+          onPress={() => Linking.openURL('https://meeting.uoslife.com')}>
           <Txt
             label="시대팅 시즌5"
             color="black"
@@ -220,14 +223,14 @@ const S = {
   NotificationWrapper: styled.View`
     display: flex;
   `,
-  ButtonWrapper: styled.View`
+  ButtonWrapper: styled.Pressable`
     position: relative;
     background-color: ${colors.primaryLighter};
     padding: 12px 12px;
     margin: 0 35%;
     border-radius: 24px;
   `,
-  ButtonWrapperSecond: styled.View`
+  ButtonWrapperSecond: styled.Pressable`
     position: relative;
     background-color: #f7ced4;
     padding: 12px 12px;
