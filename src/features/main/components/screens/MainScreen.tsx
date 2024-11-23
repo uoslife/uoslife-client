@@ -29,25 +29,86 @@ const MainScreen = () => {
   const {user} = useUserState();
 
   const {id, nickname} = user || {};
+
   return (
     <S.MainContainer bounces={false}>
       <View
         style={{
           height: insets.top + 20,
-          backgroundColor: colors.primaryBrand,
+          backgroundColor: colors.grey20,
         }}
       />
-      <View>
+      {/* <View>
         <S.MainWaveBg
           source={require('../../../../assets/images/main_wave_bg.png')}
         />
-      </View>
+      </View> */}
+
       <S.MainWrapper>
         <View
+          style={{
+            marginTop: '20%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <S.AlertIcon
+            source={require('../../../../assets/images/alertIcon.png')}
+          />
+        </View>
+        <S.NotificationWrapper>
+          <Txt
+            label="서비스 점검중"
+            color="black"
+            typograph="headlineMedium"
+            style={{textAlign: 'center'}}
+          />
+          <Txt
+            label="이용에 불편을 드려 대단히 죄송합니다."
+            color="black"
+            typograph="titleSmall"
+            style={{textAlign: 'center', justifyContent: 'center'}}
+          />
+          <Txt
+            label="더 나은 서비스를 위해 시대생은 잠시 쉬어가고자 합니다."
+            color="black"
+            typograph="bodyMedium"
+            style={{
+              marginTop: '50%',
+              marginBottom: '5%',
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}
+          />
+        </S.NotificationWrapper>
+        <S.ButtonWrapper>
+          <Txt
+            label="자세히 보기"
+            color="black"
+            typograph="bodyMedium"
+            style={{
+              textAlign: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+          />
+        </S.ButtonWrapper>
+        <S.ButtonWrapperSecond>
+          <Txt
+            label="시대팅 시즌5"
+            color="black"
+            typograph="bodyMedium"
+            style={{
+              textAlign: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+          />
+        </S.ButtonWrapperSecond>
+        {/* <View
           style={css`
-            margin-top: 6px;
-            gap: 4px;
-            padding-left: 16px;
+          margin-top: 6px;
+          gap: 4px;
+          padding-left: 16px;
           `}>
           <S.WaveInfoWrapper>
             <Txt
@@ -73,37 +134,23 @@ const MainScreen = () => {
             color="white"
             typograph="headlineSmall"
           />
-        </View>
-        <Carousel
+        </View> */}
+        {/* <Carousel
           imageWidth={BANNER_WIDTH}
           imageHeight={BANNER_HEIGHT}
           carouselData={[{uri: BANNER_1, link: BANNER_1_LINK, id: 0}]}
           indicator="TOPRIGHT"
           logEventName="banner"
           autoPlayIntervalTime={MAIN_AUTOPLAY_INTERVAL_TIME}
-        />
-        <S.NotificationWrapper>
-          <Txt
-            label="캬 ㅋㅋ 시대생 점검 폼 뭐냐??"
-            color="primaryDark"
-            typograph="titleLarge"
-            style={{textAlign: 'right'}}
-          />
-          <Txt
-            label="시대팅 커밍쑨"
-            color="red"
-            typograph="headlineLarge"
-            style={{textAlign: 'left'}}
-          />
-        </S.NotificationWrapper>
-        <MainServiceBox
+        /> */}
+        {/* <MainServiceBox
           label="오늘의 학식"
           iconName="cafeteria"
           iconColor="primaryDarker">
           <Suspense fallback={<Skeleton variant="card" />}>
             <CafeteriaContents />
           </Suspense>
-        </MainServiceBox>
+        </MainServiceBox> */}
         {/* <MainServiceBox
           label="도서관"
           iconName="library"
@@ -128,6 +175,7 @@ export default MainScreen;
 const S = {
   MainContainer: styled.ScrollView`
     position: relative;
+    background-color: ${colors.grey20};
   `,
   MainWaveBg: styled.Image`
     position: absolute;
@@ -135,6 +183,7 @@ const S = {
     left: 0;
     width: 100%;
     height: 223px;
+    background-color: ${colors.grey20};
   `,
   MainWrapper: styled.View`
     position: relative;
@@ -142,7 +191,15 @@ const S = {
     margin-bottom: 18px;
     display: flex;
     flex-direction: column;
-    gap: 42px;
+    gap: 12px;
+    background-color: ${colors.grey20};
+  `,
+  AlertIcon: styled.Image`
+    position: relative;
+    margin-top: 30%;
+    background-color: ${colors.grey20};
+    width: 100px; /* 가로 크기 */
+    height: 90px; /* 세로 크기 */
   `,
   WelcomeMessage: styled.View`
     flex-direction: row;
@@ -162,15 +219,19 @@ const S = {
   `,
   NotificationWrapper: styled.View`
     display: flex;
-    background-color: ${colors.primaryLighterAlt};
-    border-radius: 16px;
-    padding: 30px 30px;
-    border-width: 10px;
-    border-color: hsl(45, 100%, 50%);
-    shadow-color: hsl(300, 100%, 50%);
-    shadow-offset: 15px 15px;
-    shadow-opacity: 0.9;
-    shadow-radius: 20px;
-    transform: rotate(5deg);
+  `,
+  ButtonWrapper: styled.View`
+    position: relative;
+    background-color: ${colors.primaryLighter};
+    padding: 12px 12px;
+    margin: 0 35%;
+    border-radius: 24px;
+  `,
+  ButtonWrapperSecond: styled.View`
+    position: relative;
+    background-color: #f7ced4;
+    padding: 12px 12px;
+    margin: 0 35%;
+    border-radius: 24px;
   `,
 };
