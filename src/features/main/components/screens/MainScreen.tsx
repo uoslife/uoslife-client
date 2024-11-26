@@ -48,9 +48,9 @@ const MainScreen = () => {
       <S.MainWrapper>
         <View
           style={{
-            marginTop: '20%',
             justifyContent: 'center',
             alignItems: 'center',
+            marginTop: '10%',
           }}>
           <S.AlertIcon
             source={require('../../../../assets/images/alertIcon.png')}
@@ -58,35 +58,22 @@ const MainScreen = () => {
         </View>
         <S.NotificationWrapper>
           <Txt
-            label="서비스 점검중"
-            color="black"
-            typograph="headlineMedium"
-            style={{textAlign: 'center'}}
+            label="서비스 점검중..."
+            color="grey190"
+            typograph="headlineLarge"
+            style={{textAlign: 'center', marginTop: 20}}
           />
           <Txt
             label="이용에 불편을 드려 대단히 죄송합니다."
-            color="black"
-            typograph="titleSmall"
+            color="grey130"
+            typograph="bodyMedium"
             style={{textAlign: 'center', justifyContent: 'center'}}
           />
           <Txt
             label="서비스 점검 기간 : 24. 11. 26 - 25. 02. 03"
-            color="black"
-            typograph="bodySmall"
+            color="grey90"
+            typograph="labelMedium"
             style={{
-              marginTop: '5%',
-              marginBottom: '5%',
-              textAlign: 'center',
-              justifyContent: 'center',
-            }}
-          />
-          <Txt
-            label="더 나은 서비스를 위해 시대생은 잠시 쉬어가고자 합니다."
-            color="black"
-            typograph="bodyMedium"
-            style={{
-              marginTop: '25%',
-              marginBottom: '5%',
               textAlign: 'center',
               justifyContent: 'center',
             }}
@@ -99,26 +86,30 @@ const MainScreen = () => {
             )
           }>
           <Txt
-            label="자세히 보기"
-            color="black"
+            label="인스타그램 공지 바로가기"
+            color="primaryBrand"
             typograph="bodyMedium"
             style={{
-              textAlign: 'center',
-              justifyContent: 'center',
-              alignContent: 'center',
+              lineHeight: 20,
+              fontSize: 14,
+              fontStyle: 'normal',
+              fontWeight: 500,
+              letterSpacing: -0.35,
             }}
           />
         </S.ButtonWrapper>
         <S.ButtonWrapperSecond
           onPress={() => Linking.openURL('https://meeting5.uoslife.net')}>
           <Txt
-            label="시대팅 시즌5"
-            color="black"
+            label="시대팅 시즌5 (준비 중)"
+            color="grey60"
             typograph="bodyMedium"
             style={{
-              textAlign: 'center',
-              justifyContent: 'center',
-              alignContent: 'center',
+              lineHeight: 20,
+              fontSize: 14,
+              fontStyle: 'normal',
+              fontWeight: 500,
+              letterSpacing: -0.35,
             }}
           />
         </S.ButtonWrapperSecond>
@@ -237,19 +228,30 @@ const S = {
   `,
   NotificationWrapper: styled.View`
     display: flex;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
   `,
   ButtonWrapper: styled.Pressable`
     position: relative;
-    background-color: ${colors.primaryLighter};
-    padding: 12px 12px;
-    margin: 0 35%;
-    border-radius: 24px;
+    display: flex;
+    height: 48px;
+    padding: 10px 0px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid ${colors.primaryBrand};
+    border-radius: 10px;
+    margin: 48px 10px 0px 10px;
   `,
   ButtonWrapperSecond: styled.Pressable`
     position: relative;
-    background-color: #f7ced4;
-    padding: 12px 12px;
-    margin: 0 35%;
-    border-radius: 24px;
+    display: flex;
+    height: 48px;
+    padding: 10px 0px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid ${colors.grey40};
+    border-radius: 10px;
+    margin: 0px 10px;
   `,
 };
