@@ -70,11 +70,22 @@ const MainScreen = () => {
             style={{textAlign: 'center', justifyContent: 'center'}}
           />
           <Txt
+            label="서비스 점검 기간 : 24. 11. 26 - 25. 02. 03"
+            color="black"
+            typograph="bodySmall"
+            style={{
+              marginTop: '5%',
+              marginBottom: '5%',
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}
+          />
+          <Txt
             label="더 나은 서비스를 위해 시대생은 잠시 쉬어가고자 합니다."
             color="black"
             typograph="bodyMedium"
             style={{
-              marginTop: '50%',
+              marginTop: '25%',
               marginBottom: '5%',
               textAlign: 'center',
               justifyContent: 'center',
@@ -82,7 +93,11 @@ const MainScreen = () => {
           />
         </S.NotificationWrapper>
         <S.ButtonWrapper
-          onPress={() => Linking.openURL('https://www.uoslife.team/notices')}>
+          onPress={() =>
+            Linking.openURL(
+              'https://www.instagram.com/p/DC1Tw-kyUAZ/?igsh=MTd6eW82OWdyeDExcA==',
+            )
+          }>
           <Txt
             label="자세히 보기"
             color="black"
@@ -95,7 +110,7 @@ const MainScreen = () => {
           />
         </S.ButtonWrapper>
         <S.ButtonWrapperSecond
-          onPress={() => Linking.openURL('https://meeting.uoslife.com')}>
+          onPress={() => Linking.openURL('https://meeting5.uoslife.net')}>
           <Txt
             label="시대팅 시즌5"
             color="black"
