@@ -98,8 +98,7 @@ const MainScreen = () => {
             }}
           />
         </S.ButtonWrapper>
-        <S.ButtonWrapperSecond
-          onPress={() => Linking.openURL('https://meeting5.uoslife.net')}>
+        <S.ButtonWrapperSecond>
           <Txt
             label="시대팅 시즌5 (준비 중)"
             color="grey60"
