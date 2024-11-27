@@ -101,4 +101,5 @@ const BottomTabWrapper = styled.View`
   border-top-width: 1px;
   border-left-width: 1px;
   border-right-width: 1px;
+  display: none;
 `;
