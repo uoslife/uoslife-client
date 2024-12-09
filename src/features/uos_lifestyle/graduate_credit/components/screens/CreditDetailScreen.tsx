@@ -6,11 +6,15 @@ import styled from '@emotion/native';
 import {Txt, colors, Icon} from '@uoslife/design-system';
 import ProgressBar from '../ProgressBar';
 import {GraduateCreditStackParamList} from '../../navigators/types/graduateCredit';
-import {ApiResponse, CreditDetail} from '../../types';
+import {
+  ApiResponse,
+  CreditDetail,
+  GeneralEducationDetailList,
+  GeneralEducationDetail,
+} from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 import Header from '../../../../../components/molecules/common/header/Header';
 import {SubjectCreditListRes} from '../../../../../api/services/core/graduateCredit/graduateCreditAPI.type';
-import {GeneralEducationDetailList, GeneralEducationDetail} from '../../types';
 import SubjectDetailButton from '../SubjectDetailButton';
 
 type DetailInformationComponentProps = {
@@ -46,7 +50,7 @@ const MainMajorDetailComponent = ({
     <View>
       <S.CreditInfoContainer>
         <S.CreditInfoBox>
-          <Txt label={`전공필수`} color="grey130" typograph="titleMedium" />
+          <Txt label="전공필수" color="grey130" typograph="titleMedium" />
           <S.TextWrapper>
             <Txt
               label={`${requirementCreditCurrent}`}
@@ -62,7 +66,7 @@ const MainMajorDetailComponent = ({
         </S.CreditInfoBox>
         <S.VerticalDivider />
         <S.CreditInfoBox>
-          <Txt label={`전공선택`} color="grey130" typograph="titleMedium" />
+          <Txt label="전공선택" color="grey130" typograph="titleMedium" />
           <S.TextWrapper>
             <Txt
               label={`${electiveCreditCurrent}`}
@@ -230,7 +234,7 @@ const SubjectDetailComponent = ({
                 </S.TextWrapper>
                 <S.ButtonRowLayout>
                   {generalRequirementDetailCredit.map(
-                    (item: GeneralEducationDetail, index: number) => {
+                    (item: GeneralEducationDetail) => {
                       if (item.courseTotal < item.courseRequirement) {
                         return (
                           <SubjectDetailButton
@@ -239,9 +243,8 @@ const SubjectDetailComponent = ({
                             type="elective"
                           />
                         );
-                      } else {
-                        return null;
                       }
+                      return null;
                     },
                   )}
                 </S.ButtonRowLayout>
@@ -331,7 +334,7 @@ const SubjectDetailComponent = ({
                 </S.TextWrapper>
                 <S.ButtonRowLayout>
                   {generalElectiveDetailCredit.map(
-                    (item: GeneralEducationDetail, index: number) => {
+                    (item: GeneralEducationDetail) => {
                       if (item.courseTotal < item.courseRequirement) {
                         return (
                           <SubjectDetailButton
@@ -340,9 +343,8 @@ const SubjectDetailComponent = ({
                             type="elective"
                           />
                         );
-                      } else {
-                        return null;
                       }
+                      return null;
                     },
                   )}
                 </S.ButtonRowLayout>
