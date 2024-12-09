@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import supabase from '../../configs/supabase';
 
 import handleToken from './beforeRetry';
-import setAuthorizationHeader from './beforeRequest';
+import {setAuthorizationHeader, startFirebasePerf} from './beforeRequest';
 import beforeError from './beforeError';
 import {
   BASE_API_URL,
@@ -16,12 +16,15 @@ import {
   DEFAULT_API_RETRY_LIMIT,
   DEFAULT_API_TIMEOUT,
 } from '../../configs/api';
+import {terminateFirebasePerf} from './afterResponse';
 
 export const baseApiClient = ky.create({
   prefixUrl: BASE_API_URL,
 
   hooks: {
     beforeError: [beforeError],
+    beforeRequest: [startFirebasePerf],
+    afterResponse: [terminateFirebasePerf],
   },
 });
 

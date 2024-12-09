@@ -3,6 +3,7 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
+apply plugin: 'com.google.firebase.firebase-perf'
 
 react {}
 
@@ -23,8 +24,8 @@ android {
         applicationId "com.beyondconnect.uoslife"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20202
-        versionName "2.0.2"
+        versionCode 20300
+        versionName "2.0.3"
     }
 
     flavorDimensions 'uoslife'

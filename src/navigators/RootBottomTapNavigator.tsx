@@ -17,18 +17,18 @@ const tabs: TabScreenItemType[] = [
     label: '홈',
     icon: 'tab_home',
   },
-  {
-    component: AnnouncementStackNavigator,
-    screenName: 'announcement_tab',
-    label: '공지사항',
-    icon: 'tab_announcement',
-  },
-  {
-    component: StudentIdScreen,
-    screenName: 'student_id_tab',
-    label: '학생증',
-    icon: 'tab_student_id',
-  },
+  // {
+  //   component: AnnouncementStackNavigator,
+  //   screenName: 'announcement_tab',
+  //   label: '공지사항',
+  //   icon: 'tab_announcement',
+  // },
+  // {
+  //   component: StudentIdScreen,
+  //   screenName: 'student_id_tab',
+  //   label: '학생증',
+  //   icon: 'tab_student_id',
+  // },
   {
     component: UosLifestyleScreen,
     screenName: 'uos_lifestyle_tab',

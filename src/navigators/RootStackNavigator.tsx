@@ -15,17 +15,19 @@ import PortalAuthenticationScreen from '../features/account/components/screens/p
 import AnnouncementDetailScreen from '../features/announcement/components/screens/AnnouncementDetailScreen';
 import CafeteriaScreen from '../features/cafeteria/components/screens/CafeteriaScreen';
 import LibraryStackNavigator from '../features/library/navigators/LibraryStackNavigator';
+import RouletteScreen from '../screens/RouletteScreen';
+import HiddenGradeScreen from '../features/uos_lifestyle/hidden_grade/HiddenGradeScreen';
+import RestaurantScreen from '../features/uos_lifestyle/restaurant/RestaurantScreen';
 import LibraryRecapScreen from '../features/uos_lifestyle/library_recap/LibraryRecapScreen';
 import MeetingScreen from '../features/uos_lifestyle/meeting/MeetingScreen';
+import GraduateCreditStackNavigator from '../features/uos_lifestyle/graduate_credit/navigators/GraduateCreditStackNavigator';
 import useAppStateForeground from '../hooks/useAppStateForeground';
 import useInitApp from '../hooks/useInitApp';
 import useIsLoggedInListner from '../hooks/useIsLoggedInListner';
 import {useOpenDeeplink} from '../hooks/useOpenDeeplink';
-import RouletteScreen from '../screens/RouletteScreen';
 import supabaseConfigAtom from '../store/app/supabaseConfig';
 import {RootStackParamList} from './types/rootStack';
 import AcademicCalendarStackNavigator from '../features/uos_lifestyle/academic_calendar/navigators/AcademicCalendarStackNavigator';
-import HiddenGradeScreen from '../features/uos_lifestyle/hidden_grade/HiddenGradeScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -71,6 +73,11 @@ const RootStackNavigator: React.FC = () => {
           {/* uos_lifestyle */}
           <Stack.Screen name="library_recap" component={LibraryRecapScreen} />
           <Stack.Screen name="meeting" component={MeetingScreen} />
+          <Stack.Screen name="restaurant" component={RestaurantScreen} />
+          <Stack.Screen
+            name="graduate_credit"
+            component={GraduateCreditStackNavigator}
+          />
           <Stack.Screen
             name="academic_calendar"
             component={AcademicCalendarStackNavigator}

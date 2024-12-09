@@ -26,26 +26,36 @@ const UosLifestyleScreen = () => {
     <S.Container bounces={false} style={{paddingTop: insets.top}}>
       <Header isDisableBackButton label="시대생활" />
       <S.NavigationListContainer>
-        <NavigationList
+        {/* <NavigationList
           label="시대팅"
           labelIcon="heart"
           onPress={onPressMeeting}
-        />
-        <NavigationList
+        /> */}
+        {/* <NavigationList
           label="숨은 학점 확인하기"
           labelIcon="search"
           onPress={() => navigation.navigate('hidden_grade')}
-        />
+        /> */}
         <NavigationList
-          label="2023 도서관 이용내역"
-          labelIcon="library"
-          onPress={() => navigation.navigate('library_recap')}
+          label="맛집 리스트"
+          labelIcon="cafeteria"
+          onPress={() => navigation.navigate('restaurant')}
         />
+        {/* <NavigationList
+          label="이수학점 확인하기"
+          labelIcon="grade"
+          onPress={() => navigation.navigate('graduate_credit')}
+        /> */}
         <NavigationList
           label="학사 일정"
           labelIcon="calendar"
           onPress={() => navigation.navigate('academic_calendar')}
         />
+        {/* <NavigationList
+          label="2023 도서관 이용내역"
+          labelIcon="library"
+          onPress={() => navigation.navigate('library_recap')}
+        /> */}
       </S.NavigationListContainer>
     </S.Container>
   );

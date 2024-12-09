@@ -1,3 +1,8 @@
+import {
+  FoodCategoryType,
+  LocationType,
+} from '../../features/uos_lifestyle/restaurant/types/restaurant.type';
+
 export const DEFAULT_LOG_EVENT_NAME = 'unknown';
 
 type ApplyDefaultLogEventName<T> = {
@@ -14,6 +19,9 @@ export type LogEventNameType =
   | 'clipboard_copy'
   | 'bookmark_success'
   | 'notification_success'
+  | 'restaurant_filter'
+  | 'restaurant_like'
+  | 'restaurant_map_click'
   | typeof DEFAULT_LOG_EVENT_NAME;
 
 type BannerObjectType = ApplyDefaultLogEventName<{
@@ -30,8 +38,14 @@ type UnregisterObjectType = ApplyDefaultLogEventName<{
 
 type IncludeUserIdType = ApplyDefaultLogEventName<{userId: number}>;
 
+type RestaurantFilterObject = ApplyDefaultLogEventName<{
+  location: LocationType;
+  foodCategory: FoodCategoryType;
+}>;
+
 export type LogEventObjectType =
   | BannerObjectType
   | LogoutObjectType
   | UnregisterObjectType
-  | IncludeUserIdType;
+  | IncludeUserIdType
+  | RestaurantFilterObject;

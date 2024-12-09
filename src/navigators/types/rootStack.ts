@@ -23,6 +23,8 @@ export type RootStackParamList = {
   // uos_lifestyle
   library_recap: undefined;
   meeting: undefined;
+  restaurant: undefined;
+  graduate_credit: undefined;
   academic_calendar: undefined;
   hidden_grade: undefined;
 
